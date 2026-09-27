@@ -1,0 +1,78 @@
+"use client";
+
+import Link from "next/link";
+import { Menu, Search, ChevronDown } from "lucide-react";
+import { NAVIGATION } from "@/lib/constants";
+import { MobileMenu } from "./MobileMenu";
+
+export function Header() {
+  return (
+    <header className="sticky top-0 z-50 border-b border-[#dce8e1] bg-white/95 backdrop-blur">
+      <div className="sane-container flex h-[72px] items-center justify-between gap-6">
+        {/* Logo */}
+        <Link href="/" className="shrink-0">
+          <div className="flex items-center gap-2">
+            <div className="flex h-11 w-16 items-center justify-center rounded-full border-[3px] border-[#E57617]">
+              <span className="text-2xl font-black tracking-tight text-[#10632D]">
+                SANE
+              </span>
+            </div>
+          </div>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden items-center gap-5 lg:flex">
+          {NAVIGATION.map((item) => {
+            const hasDropdown = item.label === "Emploi";
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group flex items-center gap-1 text-[12px] font-semibold text-[#17352A] transition-colors hover:text-[#10632D]"
+              >
+                {item.label}
+
+                {hasDropdown && (
+                  <ChevronDown
+                    size={13}
+                    strokeWidth={2}
+                    className="transition-transform group-hover:rotate-180"
+                  />
+                )}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Actions */}
+        <div className="hidden items-center gap-2 lg:flex">
+          <button
+            type="button"
+            aria-label="Rechercher"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-[#10632D] transition-colors hover:bg-[#eaf5ee]"
+          >
+            <Search size={18} />
+          </button>
+
+          <Link
+            href="/connexion"
+            className="rounded-lg border border-[#10632D] px-4 py-2.5 text-xs font-bold text-[#10632D] transition-colors hover:bg-[#10632D] hover:text-white"
+          >
+            Se connecter
+          </Link>
+
+          <Link
+            href="/inscription"
+            className="rounded-lg bg-[#E57617] px-4 py-2.5 text-xs font-bold text-white transition-colors hover:bg-[#cf6812]"
+          >
+            S'inscrire
+          </Link>
+        </div>
+
+        {/* Mobile menu */}
+        <MobileMenu />
+      </div>
+    </header>
+  );
+}

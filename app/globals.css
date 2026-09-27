@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+:root {
+  --sane-green: #10632d;
+  --sane-green-dark: #084a21;
+  --sane-green-light: #eaf5ee;
+
+  --sane-orange: #e57617;
+  --sane-orange-light: #fff1e5;
+
+  --sane-white: #ffffff;
+  --sane-black: #10231a;
+
+  --sane-text: #17352a;
+  --sane-text-light: #61756b;
+
+  --sane-border: #dce8e1;
+  --sane-background: #f8fbf9;
+
+  --container-width: 1240px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--sane-white);
+  color: var(--sane-text);
+  font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background: var(--sane-orange);
+  color: var(--sane-white);
+}
+
+/* Reusable SANE utility classes */
+
+.sane-container {
+  width: min(100% - 40px, var(--container-width));
+  margin-inline: auto;
+}
+
+.sane-section {
+  padding-block: 80px;
+}
+
+.sane-orange-dot {
+  color: var(--sane-orange);
+}
+
+.sane-green-text {
+  color: var(--sane-green);
+}
+
+.sane-orange-text {
+  color: var(--sane-orange);
+}
+
+@media (max-width: 768px) {
+  .sane-container {
+    width: min(100% - 32px, var(--container-width));
+  }
+
+  .sane-section {
+    padding-block: 56px;
+  }
+}
