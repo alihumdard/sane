@@ -9,32 +9,28 @@ const links = [
     description: "Découvrez le programme complet de l'événement.",
     action: "Voir le programme",
     href: "/programme",
-    image:
-      "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=500&q=85",
+    image: "/Programme.png",
   },
   {
     title: "Intervenants",
     description: "Rencontrez nos experts et leaders.",
     action: "Voir les intervenants",
     href: "/intervenants",
-    image:
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&q=85",
+    image: "/Intervenants.png",
   },
   {
     title: "Partenaires",
     description: "Ils nous accompagnent pour l'emploi.",
-    action: "Voir les partenaires",
+    action: "Voir nos partenaires",
     href: "/partenaires",
-    image:
-      "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=500&q=85",
+    image: "/Partenaires.png",
   },
   {
     title: "Actualités",
     description: "Restez informé des dernières nouvelles du SANE.",
     action: "Lire les actualités",
     href: "/actualites",
-    image:
-      "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=500&q=85",
+    image: "/Actualités.png",
   },
 ];
 
@@ -47,38 +43,36 @@ export function FeatureLinksSection() {
             <Link
               key={item.title}
               href={item.href}
-              className="group flex min-h-[118px] gap-3 rounded-xl border border-[#DDE8E0] bg-white p-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+              className="group flex gap-3 rounded-xl border border-[#DCE8E1] bg-white p-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
             >
               {/* IMAGE */}
-              <div className="relative h-[92px] w-[82px] shrink-0 overflow-hidden rounded-lg">
+              <div className="relative h-[80px] w-[80px] shrink-0 overflow-hidden rounded-lg">
                 <Image
                   src={item.image}
                   alt={item.title}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="82px"
+                  sizes="80px"
                 />
-
-                <div className="absolute inset-0 bg-[#10632D]/10" />
               </div>
 
               {/* CONTENT */}
               <div className="flex min-w-0 flex-1 flex-col">
-                <h3 className="text-[13px] font-extrabold leading-4 text-[#17352A]">
+                <h3 className="text-[14px] font-extrabold leading-4 text-[#10632D]">
                   {item.title}
                 </h3>
 
-                <div className="mt-1 h-[2px] w-5 rounded-full bg-[#E57617]" />
+                <div className="mt-1 h-[2px] w-6 rounded-full bg-[#E57617]" />
 
-                <p className="mt-1.5 line-clamp-2 text-[10px] leading-4 text-[#718178]">
+                <p className="mt-1.5 line-clamp-2 text-[11px] leading-4 text-[#718178]">
                   {item.description}
                 </p>
 
-                <span className="mt-auto inline-flex items-center gap-1 text-[10px] font-bold text-[#10632D]">
+                <span className="mt-auto inline-flex items-center gap-1 text-[11px] font-bold text-[#10632D]">
                   {item.action}
 
                   <ArrowRight
-                    size={12}
+                    size={13}
                     className="transition-transform duration-300 group-hover:translate-x-1"
                   />
                 </span>

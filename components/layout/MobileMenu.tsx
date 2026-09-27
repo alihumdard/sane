@@ -45,9 +45,9 @@ export function MobileMenu() {
               <Link
                 href="/inscription"
                 onClick={() => setOpen(false)}
-                className="rounded-lg bg-[#E57617] px-4 py-3 text-center text-sm font-bold text-white"
+                className="rounded-lg bg-[#E57617] px-4 py-3 text-center text-sm font-bold text-white !text-white"
               >
-                S'inscrire
+                S&apos;inscrire
               </Link>
             </div>
           </nav>

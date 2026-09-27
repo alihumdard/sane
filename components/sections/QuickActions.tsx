@@ -51,15 +51,25 @@ export function QuickActions() {
               <Link
                 key={action.title}
                 href={action.href}
-                className="group rounded-xl border border-[#E0E9E3] bg-white p-5 shadow-[0_8px_30px_rgba(16,99,45,0.08)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_14px_35px_rgba(16,99,45,0.13)]"
+                className="group flex flex-col justify-between rounded-xl border border-[#E0E9E3] bg-white p-5 shadow-[0_8px_30px_rgba(16,99,45,0.08)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_14px_35px_rgba(16,99,45,0.13)]"
               >
-                <div className="flex items-start justify-between gap-4">
+                <div>
                   <div
                     className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${action.iconStyle}`}
                   >
                     <Icon size={20} strokeWidth={2} />
                   </div>
 
+                  <h3 className="mt-5 text-base font-extrabold text-[#17352A]">
+                    {action.title}
+                  </h3>
+
+                  <p className="mt-2 text-sm leading-5 text-[#61756B]">
+                    {action.description}
+                  </p>
+                </div>
+
+                <div className="mt-5 flex justify-end">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D7E5DB] text-[#10632D] transition-all group-hover:border-[#10632D] group-hover:bg-[#10632D] group-hover:text-white">
                     <ArrowRight
                       size={16}
@@ -67,14 +77,6 @@ export function QuickActions() {
                     />
                   </div>
                 </div>
-
-                <h3 className="mt-5 text-base font-extrabold text-[#17352A]">
-                  {action.title}
-                </h3>
-
-                <p className="mt-2 text-sm leading-5 text-[#61756B]">
-                  {action.description}
-                </p>
               </Link>
             );
           })}

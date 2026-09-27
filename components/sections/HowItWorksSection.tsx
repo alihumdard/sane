@@ -69,13 +69,13 @@ export function HowItWorksSection() {
               >
                 {/* ICON */}
                 <div
-                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${
+                  className={`flex h-[50px] w-[50px] shrink-0 items-center justify-center rounded-full text-white ${
                     step.orange
-                      ? "bg-[#E57617] text-white"
-                      : "bg-[#10632D] text-white"
+                      ? "bg-[#E57617]"
+                      : "bg-[#10632D]"
                   }`}
                 >
-                  <Icon size={21} strokeWidth={2} />
+                  <Icon size={22} strokeWidth={2} />
                 </div>
 
                 {/* CONTENT */}

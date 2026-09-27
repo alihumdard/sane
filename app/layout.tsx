@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   },
   description:
     "Salon National de l'Emploi — Connectons les talents aux opportunités.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({

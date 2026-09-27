@@ -12,22 +12,19 @@ const trainings = [
     title: "Leadership & Management",
     duration: "2 jours",
     seats: "Places limitées",
-    image:
-      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=600&q=85",
+    image: "/Leadership.png",
   },
   {
     title: "Transformation Digitale",
     duration: "1 jour",
     seats: "Places limitées",
-    image:
-      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=85",
+    image: "/Transformation.png",
   },
   {
     title: "Entrepreneuriat des Jeunes",
     duration: "2 jours",
     seats: "Places limitées",
-    image:
-      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=85",
+    image: "/Entrepreneuriat.png",
   },
 ];
 
@@ -75,40 +72,37 @@ export function TrainingSection() {
           {trainings.map((training) => (
             <article
               key={training.title}
-              className="flex gap-4 rounded-xl border border-[#DCE8DF] bg-[#F8FBF9] p-4 transition hover:-translate-y-1 hover:shadow-md"
+              className="flex gap-4 rounded-xl border border-[#DCE8DF] bg-white p-4 transition hover:-translate-y-1 hover:shadow-md"
             >
               {/* IMAGE */}
-              <div className="relative h-[120px] w-[120px] shrink-0 overflow-hidden rounded-lg">
+              <div className="relative h-[115px] w-[115px] shrink-0 overflow-hidden rounded-lg">
                 <Image
                   src={training.image}
                   alt={training.title}
                   fill
                   className="object-cover transition-transform duration-500 hover:scale-105"
-                  sizes="120px"
+                  sizes="115px"
                 />
-
-                {/* Image overlay */}
-                <div className="absolute inset-0 bg-[#10632D]/10" />
               </div>
 
               {/* CONTENT */}
               <div className="flex min-w-0 flex-1 flex-col">
-                <h3 className="text-sm font-extrabold leading-5 text-[#17352A]">
+                <h3 className="text-sm font-extrabold leading-5 text-[#10632D]">
                   {training.title}
                 </h3>
 
-                <div className="mt-3 space-y-2">
-                  <div className="flex items-center gap-2 text-xs text-[#718178]">
+                <div className="mt-2 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-xs text-[#718178]">
                     <Clock3
-                      size={14}
+                      size={13}
                       className="shrink-0 text-[#E57617]"
                     />
                     {training.duration}
                   </div>
 
-                  <div className="flex items-center gap-2 text-xs text-[#718178]">
+                  <div className="flex items-center gap-1.5 text-xs text-[#718178]">
                     <CalendarDays
-                      size={14}
+                      size={13}
                       className="shrink-0 text-[#E57617]"
                     />
                     {training.seats}
@@ -117,12 +111,12 @@ export function TrainingSection() {
 
                 <Link
                   href="/formations"
-                  className="group mt-auto inline-flex w-fit items-center gap-2 pt-4 text-xs font-bold text-[#10632D]"
+                  className="group mt-auto inline-flex w-fit items-center gap-1.5 pt-2 text-xs font-bold text-[#10632D]"
                 >
                   Voir la formation
 
                   <ArrowRight
-                    size={14}
+                    size={13}
                     className="transition-transform group-hover:translate-x-1"
                   />
                 </Link>

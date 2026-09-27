@@ -23,7 +23,7 @@ const countdownItems = [
 
 export function CountdownSection() {
   return (
-    <section className="bg-[#006B3C] py-7 md:py-8">
+    <section className="bg-[#10632D] py-7 md:py-8">
       <Container>
         <div className="flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
 
@@ -43,53 +43,52 @@ export function CountdownSection() {
             </p>
           </div>
 
-          {/* COUNTDOWN */}
-          <div className="grid grid-cols-4 gap-2 sm:gap-3">
-            {countdownItems.map((item) => (
-              <div
-                key={item.label}
-                className="flex min-w-[65px] flex-col items-center justify-center rounded-lg bg-[#087A48] px-3 py-3 sm:min-w-[78px]"
-              >
-                <span className="text-2xl font-extrabold leading-none text-white md:text-3xl">
-                  {item.value}
-                </span>
+          {/* MIDDLE: COUNTDOWN + LOCATION/DATE UNDERNEATH */}
+          <div className="flex flex-col gap-3">
+            {/* COUNTDOWN */}
+            <div className="grid grid-cols-4 gap-1.5 sm:gap-3">
+              {countdownItems.map((item) => (
+                <div
+                  key={item.label}
+                  className="flex w-full min-w-[56px] flex-col items-center justify-center rounded-lg bg-white/10 px-2 py-3 sm:px-3 sm:min-w-[78px]"
+                >
+                  <span className="text-xl font-extrabold leading-none text-white sm:text-2xl md:text-3xl">
+                    {item.value}
+                  </span>
 
-                <span className="mt-1 text-[9px] font-bold tracking-wide text-white/70">
-                  {item.label}
-                </span>
+                  <span className="mt-1 text-[8px] font-bold tracking-wide text-white/70 sm:text-[9px]">
+                    {item.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* LOCATION / DATE */}
+            <div className="flex flex-wrap items-center gap-5 text-xs text-white/80">
+              <div className="flex items-center gap-1.5">
+                <MapPin size={14} className="text-[#E57617]" />
+                <span>Niamey, Niger</span>
               </div>
-            ))}
+
+              <div className="flex items-center gap-1.5">
+                <CalendarDays size={14} className="text-[#E57617]" />
+                <span>Date de l&apos;événement à confirmer</span>
+              </div>
+            </div>
           </div>
 
           {/* CTA */}
           <Link
             href="/programme"
-            className="group inline-flex shrink-0 items-center justify-center gap-3 rounded-lg bg-[#E57617] px-5 py-3 text-sm font-bold text-white transition-all hover:bg-[#CF6812]"
+            className="group inline-flex shrink-0 items-center justify-center gap-3 rounded-lg bg-[#E57617] px-5 py-3 text-sm font-bold text-white transition-all hover:!bg-[#CF6812] hover:!text-white"
           >
-            Voir le programme
+            <span className="text-white hover:!text-white">Voir le programme</span>
 
             <ArrowRight
               size={17}
-              className="transition-transform group-hover:translate-x-1"
+              className="text-white transition-transform group-hover:translate-x-1 group-hover:!text-white"
             />
           </Link>
-        </div>
-
-        {/* LOCATION / DATE */}
-        <div className="mt-6 flex flex-col gap-3 border-t border-white/15 pt-5 text-sm text-white/80 sm:flex-row sm:items-center sm:gap-7">
-
-          <div className="flex items-center gap-2">
-            <MapPin size={16} className="text-[#E57617]" />
-
-            <span>Niamey, Niger</span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <CalendarDays size={16} className="text-[#E57617]" />
-
-            <span>Date de l&apos;événement à confirmer</span>
-          </div>
-
         </div>
       </Container>
     </section>

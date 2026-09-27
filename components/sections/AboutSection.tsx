@@ -35,122 +35,104 @@ const stats = [
 
 export function AboutSection() {
   return (
-    <section className="bg-white py-16 md:py-20">
+    <section className="bg-white py-12 md:py-16">
       <Container>
-        <div className="grid items-center gap-10 lg:grid-cols-[42%_58%] lg:gap-14">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
 
           {/* ================= IMAGE GALLERY ================= */}
-          <div className="grid grid-cols-[1.35fr_0.85fr] gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-[1.35fr_0.85fr] gap-3 items-center">
 
-            {/* Main Image */}
-            <div className="relative h-[390px] overflow-hidden rounded-xl">
+            {/* Main Large Left Image (/sane_deal.png) */}
+            <div className="relative h-[420px] overflow-hidden rounded-xl">
               <Image
-                src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=85"
-                alt="Professionnels en réunion"
+                src="/sane_deal.png"
+                alt="SANE Deal"
                 fill
                 priority
                 className="object-cover"
-                sizes="(max-width: 1024px) 70vw, 42vw"
+                sizes="(max-width: 1024px) 100vw, 48vw"
               />
-
-              {/* Soft overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#10632D]/35 via-transparent to-transparent" />
-
-              {/* SANE Badge */}
-              <div className="absolute left-4 top-4 rounded-full border-2 border-[#E57617] bg-white px-4 py-2 shadow-md">
-                <span className="text-lg font-black tracking-tight text-[#10632D]">
-                  SANE
-                </span>
-              </div>
-
-              {/* Bottom Label */}
-              <div className="absolute bottom-5 left-4 rounded-lg bg-white/95 px-4 py-3 shadow-md">
-                <p className="text-xs font-bold text-[#10632D]">
-                  Salon National de l&apos;Emploi
-                </p>
-              </div>
             </div>
 
-            {/* Right Images */}
-            <div className="grid h-[390px] grid-rows-2 gap-3">
+            {/* Right Stacked Images (/sane_company.png & /sane_cv.png) */}
+            <div className="grid h-[420px] grid-rows-2 gap-3">
 
-              {/* Small Image 1 */}
               <div className="relative overflow-hidden rounded-xl">
                 <Image
-                  src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=600&q=85"
-                  alt="Talents et professionnels"
+                  src="/sane_company.png"
+                  alt="SANE Company"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 1024px) 30vw, 20vw"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
                 />
-
-                <div className="absolute inset-0 bg-[#10632D]/10" />
               </div>
 
-              {/* Small Image 2 */}
               <div className="relative overflow-hidden rounded-xl">
                 <Image
-                  src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=600&q=85"
-                  alt="Professionnels en collaboration"
+                  src="/sane_cv.png"
+                  alt="SANE CV"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 1024px) 30vw, 20vw"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
                 />
-
-                <div className="absolute inset-0 bg-[#E57617]/10" />
               </div>
 
             </div>
           </div>
 
           {/* ================= CONTENT ================= */}
-          <div>
+          <div className="relative">
 
-            {/* Label */}
-            <div className="mb-3 flex items-center gap-2">
-              <span className="h-[3px] w-7 rounded-full bg-[#E57617]" />
+            {/* Unified Content Wrapper */}
+            <div>
 
-              <span className="text-xs font-bold uppercase tracking-wide text-[#10632D]">
-                À propos
-              </span>
+              {/* Label */}
+              <div className="mb-2.5 flex items-center gap-2">
+                <span className="h-[2px] w-6 bg-[#E57617]" />
+
+                <span className="text-xs font-bold uppercase tracking-wide text-[#10632D]">
+                  À PROPOS
+                </span>
+              </div>
+
+              {/* Heading */}
+              <h2 className="text-3xl font-extrabold leading-[1.12] tracking-tight text-[#10632D] md:text-4xl">
+                Le SANE, un engagement
+                <br />
+                pour l&apos;avenir professionnel
+              </h2>
+
+              {/* Description */}
+              <p className="mt-4 text-base leading-7 text-[#61756B]">
+                Le Salon National de l&apos;Emploi est un espace de rencontre
+                entre les talents, les entreprises et les opportunités
+                professionnelles.
+              </p>
+
+              <p className="mt-3 text-base leading-7 text-[#61756B]">
+                Le SANE vise à favoriser l&apos;insertion professionnelle,
+                renforcer les compétences et promouvoir l&apos;emploi au Niger à
+                travers des rencontres, des formations et un accompagnement
+                personnalisé.
+              </p>
+
+              {/* CTA */}
+              <Link
+                href="/a-propos"
+                className="group mt-5 inline-flex items-center gap-3 rounded-lg bg-[#10632D] px-5 py-3 text-sm font-bold text-white !text-white transition-all duration-300 hover:bg-[#0B5124] hover:!text-white"
+              >
+                <span className="text-white !text-white hover:!text-white">En savoir plus</span>
+
+                <ArrowRight
+                  size={17}
+                  className="text-white !text-white transition-transform duration-300 group-hover:translate-x-1 group-hover:!text-white"
+                />
+              </Link>
+
             </div>
 
-            {/* Heading */}
-            <h2 className="max-w-[650px] text-3xl font-extrabold leading-tight tracking-tight text-[#10632D] md:text-4xl">
-              Le SANE, un engagement
-              <br />
-              pour l&apos;avenir professionnel
-            </h2>
-
-            {/* Description */}
-            <p className="mt-5 max-w-[620px] text-base leading-7 text-[#61756B]">
-              Le Salon National de l&apos;Emploi est un espace de rencontre
-              entre les talents, les entreprises et les opportunités
-              professionnelles.
-            </p>
-
-            <p className="mt-3 max-w-[620px] text-base leading-7 text-[#61756B]">
-              Le SANE vise à favoriser l&apos;insertion professionnelle,
-              renforcer les compétences et promouvoir l&apos;emploi au Niger à
-              travers des rencontres, des formations et un accompagnement
-              personnalisé.
-            </p>
-
-            {/* CTA */}
-            <Link
-              href="/a-propos"
-              className="group mt-6 inline-flex items-center gap-3 rounded-lg bg-[#10632D] px-5 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-[#0B5124]"
-            >
-              En savoir plus
-
-              <ArrowRight
-                size={17}
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </Link>
-
             {/* Stats */}
-            <div className="mt-9 grid grid-cols-2 gap-y-6 border-t border-[#DDE8E0] pt-6 sm:grid-cols-4">
+            <div className="mt-8 grid grid-cols-2 gap-y-6 pt-2 sm:grid-cols-4">
               {stats.map((stat, index) => {
                 const Icon = stat.icon;
 
@@ -166,7 +148,7 @@ export function AboutSection() {
                   >
                     <div className="flex items-center gap-2">
                       <Icon
-                        size={15}
+                        size={16}
                         strokeWidth={2}
                         className="text-[#E57617]"
                       />

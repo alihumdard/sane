@@ -129,10 +129,6 @@ export function JobsSection() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#EAF4ED] text-[#10632D]">
                     <BriefcaseBusiness size={19} />
                   </div>
-
-                  <span className="rounded-md bg-[#EEF6F0] px-2 py-1 text-[10px] font-bold text-[#10632D]">
-                    {job.type}
-                  </span>
                 </div>
 
                 <h3 className="mt-5 text-base font-extrabold text-[#17352A]">
@@ -143,20 +139,26 @@ export function JobsSection() {
                   {job.company}
                 </p>
 
-                <div className="mt-4 flex items-center gap-1.5 text-xs text-[#718178]">
-                  <MapPin size={14} className="text-[#E57617]" />
-                  {job.location}
+                <div className="mt-4 flex items-center justify-between gap-1.5 text-xs text-[#718178]">
+                  <div className="flex items-center gap-1.5">
+                    <MapPin size={14} className="text-[#E57617]" />
+                    {job.location}
+                  </div>
+
+                  <span className="rounded-md bg-[#EEF6F0] px-2.5 py-1 text-[10px] font-bold text-[#10632D]">
+                    {job.type}
+                  </span>
                 </div>
 
                 <Link
                   href="/emploi"
-                  className="group mt-5 inline-flex items-center gap-2 rounded-md border border-[#10632D] px-3 py-2 text-xs font-bold text-[#10632D] transition hover:bg-[#10632D] hover:text-white"
+                  className="group mt-5 inline-flex items-center gap-2 rounded-md border border-[#10632D] px-3 py-2 text-xs font-bold text-[#10632D] transition hover:bg-[#10632D] hover:!text-white"
                 >
-                  Voir l&apos;offre
+                  <span className="text-[#10632D] group-hover:!text-white">Voir l&apos;offre</span>
 
                   <ArrowRight
                     size={14}
-                    className="transition-transform group-hover:translate-x-1"
+                    className="text-[#10632D] transition-transform group-hover:translate-x-1 group-hover:!text-white"
                   />
                 </Link>
               </article>
