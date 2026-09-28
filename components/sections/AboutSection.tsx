@@ -43,7 +43,7 @@ export function AboutSection() {
           <div className="grid grid-cols-1 sm:grid-cols-[1.35fr_0.85fr] gap-3 items-center">
 
             {/* Main Large Left Image (/sane_deal.png) */}
-            <div className="relative h-[420px] overflow-hidden rounded-xl">
+            <div className="relative h-[280px] overflow-hidden rounded-xl sm:h-[420px]">
               <Image
                 src="/sane_deal.png"
                 alt="SANE Deal"
@@ -55,7 +55,7 @@ export function AboutSection() {
             </div>
 
             {/* Right Stacked Images (/sane_company.png & /sane_cv.png) */}
-            <div className="grid h-[420px] grid-rows-2 gap-3">
+            <div className="grid h-[280px] grid-rows-2 gap-3 sm:h-[420px]">
 
               <div className="relative overflow-hidden rounded-xl">
                 <Image

@@ -39,7 +39,7 @@ export function CTASection() {
             <div className="mt-4 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/inscription"
-                className="group inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#E57617] px-5 text-xs font-bold text-white !text-white transition-all hover:bg-[#CF6812] hover:!text-white"
+                className="group inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#E57617] px-5 text-xs font-bold text-white !text-white transition-all hover:bg-[#CF6812] hover:!text-white"
               >
                 <span className="text-white !text-white group-hover:!text-white">Participer au SANE</span>
                 <ArrowRight
@@ -50,7 +50,7 @@ export function CTASection() {
 
               <Link
                 href="/emploi"
-                className="group inline-flex h-10 items-center justify-center gap-2 rounded-md border border-white/80 bg-transparent px-5 text-xs font-bold text-white !text-white transition-all hover:bg-white/10 hover:!text-white"
+                className="group inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/80 bg-transparent px-5 text-xs font-bold text-white !text-white transition-all hover:bg-white/10 hover:!text-white"
               >
                 <span className="text-white !text-white group-hover:!text-white">Découvrir les offres</span>
                 <ArrowRight

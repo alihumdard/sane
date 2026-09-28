@@ -28,14 +28,6 @@ export const NAVIGATION = [
     href: "/emploi",
   },
   {
-    label: "Intervenants",
-    href: "/intervenants",
-  },
-  {
-    label: "Partenaires",
-    href: "/partenaires",
-  },
-  {
     label: "Actualités",
     href: "/actualites",
   },

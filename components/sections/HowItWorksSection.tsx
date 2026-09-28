@@ -3,6 +3,7 @@ import {
   UsersRound,
   CalendarCheck2,
   MapPinned,
+  ArrowRight,
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
@@ -39,14 +40,13 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section className="bg-white py-12 md:py-14">
+    <section className="bg-[#F8FBF9] py-14 md:py-16">
       <Container>
 
         {/* HEADING */}
-        <div className="mb-8">
+        <div className="mb-10">
           <div className="mb-2 flex items-center gap-2">
             <span className="h-[3px] w-6 rounded-full bg-[#E57617]" />
-
             <span className="text-xs font-bold uppercase tracking-wide text-[#10632D]">
               Comment ça marche ?
             </span>
@@ -58,45 +58,45 @@ export function HowItWorksSection() {
         </div>
 
         {/* STEPS */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step) => {
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step, index) => {
             const Icon = step.icon;
 
             return (
-              <div
-                key={step.number}
-                className="flex items-start gap-4"
-              >
-                {/* ICON */}
-                <div
-                  className={`flex h-[50px] w-[50px] shrink-0 items-center justify-center rounded-full text-white ${
-                    step.orange
-                      ? "bg-[#E57617]"
-                      : "bg-[#10632D]"
-                  }`}
-                >
-                  <Icon size={22} strokeWidth={2} />
-                </div>
+              <div key={step.number} className="relative flex flex-col items-start">
+                {/* Arrow connector — hidden on last item and on mobile */}
+                {index < steps.length - 1 && (
+                  <div className="absolute right-0 top-6 hidden translate-x-1/2 text-[#D4E1D8] lg:block">
+                    <ArrowRight size={20} />
+                  </div>
+                )}
 
-                {/* CONTENT */}
-                <div className="min-w-0">
-
-                  {/* NUMBER */}
-                  <div className="text-base font-bold text-[#9BB0A3]">
-                    {step.number}
+                {/* Icon + Number row */}
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full text-white ${
+                      step.orange ? "bg-[#E57617]" : "bg-[#10632D]"
+                    }`}
+                  >
+                    <Icon size={22} strokeWidth={2} />
                   </div>
 
-                  {/* TITLE */}
-                  <h3 className="mt-1 text-sm font-extrabold leading-5 text-[#17352A]">
-                    {step.title}
-                  </h3>
-
-                  {/* DESCRIPTION */}
-                  <p className="mt-1.5 max-w-[190px] text-xs leading-5 text-[#718178]">
-                    {step.description}
-                  </p>
-
+                  <span className={`text-[22px] font-extrabold ${
+                    step.orange ? "text-[#E57617]" : "text-[#10632D]"
+                  }`}>
+                    {step.number}
+                  </span>
                 </div>
+
+                {/* Title */}
+                <h3 className="mt-4 text-[15px] font-extrabold leading-5 text-[#17352A]">
+                  {step.title}
+                </h3>
+
+                {/* Description */}
+                <p className="mt-2 text-[13px] leading-5 text-[#718178]">
+                  {step.description}
+                </p>
               </div>
             );
           })}

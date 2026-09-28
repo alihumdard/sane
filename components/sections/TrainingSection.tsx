@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  CalendarDays,
   Clock3,
+  Users,
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
@@ -38,7 +38,6 @@ export function TrainingSection() {
           <div>
             <div className="mb-2 flex items-center gap-2">
               <span className="h-[3px] w-6 rounded-full bg-[#E57617]" />
-
               <span className="text-xs font-bold uppercase tracking-wide text-[#10632D]">
                 Formations
               </span>
@@ -59,7 +58,6 @@ export function TrainingSection() {
             className="group inline-flex items-center gap-2 text-sm font-bold text-[#10632D]"
           >
             Voir toutes les formations
-
             <ArrowRight
               size={16}
               className="transition-transform group-hover:translate-x-1"
@@ -68,56 +66,49 @@ export function TrainingSection() {
         </div>
 
         {/* TRAINING CARDS */}
-        <div className="mt-7 grid gap-4 md:grid-cols-3">
+        <div className="mt-8 grid gap-5 md:grid-cols-3">
           {trainings.map((training) => (
             <article
               key={training.title}
-              className="flex gap-4 rounded-xl border border-[#DCE8DF] bg-white p-4 transition hover:-translate-y-1 hover:shadow-md"
+              className="group overflow-hidden rounded-xl border border-[#DCE8DF] bg-white shadow-[0_4px_20px_rgba(16,99,45,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(16,99,45,0.12)]"
             >
               {/* IMAGE */}
-              <div className="relative h-[115px] w-[115px] shrink-0 overflow-hidden rounded-lg">
+              <div className="relative h-[190px] w-full overflow-hidden">
                 <Image
                   src={training.image}
                   alt={training.title}
                   fill
-                  className="object-cover transition-transform duration-500 hover:scale-105"
-                  sizes="115px"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
 
               {/* CONTENT */}
-              <div className="flex min-w-0 flex-1 flex-col">
-                <h3 className="text-sm font-extrabold leading-5 text-[#10632D]">
+              <div className="p-5">
+                <h3 className="text-[15px] font-bold text-[#17352A]">
                   {training.title}
                 </h3>
 
-                <div className="mt-2 space-y-1.5">
-                  <div className="flex items-center gap-1.5 text-xs text-[#718178]">
-                    <Clock3
-                      size={13}
-                      className="shrink-0 text-[#E57617]"
-                    />
+                <div className="mt-3 flex items-center gap-4">
+                  <div className="flex items-center gap-1.5 text-[12px] text-[#718178]">
+                    <Clock3 size={13} className="text-[#E57617]" />
                     {training.duration}
                   </div>
 
-                  <div className="flex items-center gap-1.5 text-xs text-[#718178]">
-                    <CalendarDays
-                      size={13}
-                      className="shrink-0 text-[#E57617]"
-                    />
+                  <div className="flex items-center gap-1.5 text-[12px] text-[#718178]">
+                    <Users size={13} className="text-[#E57617]" />
                     {training.seats}
                   </div>
                 </div>
 
                 <Link
                   href="/formations"
-                  className="group mt-auto inline-flex w-fit items-center gap-1.5 pt-2 text-xs font-bold text-[#10632D]"
+                  className="group/btn mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#10632D]/30 px-4 py-2 text-xs font-bold text-[#10632D] transition-all hover:border-[#10632D] hover:bg-[#10632D] hover:!text-white"
                 >
-                  Voir la formation
-
+                  <span className="group-hover/btn:!text-white">Voir la formation</span>
                   <ArrowRight
                     size={13}
-                    className="transition-transform group-hover:translate-x-1"
+                    className="transition-transform group-hover/btn:translate-x-1 group-hover/btn:!text-white"
                   />
                 </Link>
               </div>

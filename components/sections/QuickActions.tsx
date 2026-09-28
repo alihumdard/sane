@@ -41,7 +41,7 @@ const actions = [
 
 export function QuickActions() {
   return (
-    <section className="relative z-10 -mt-8 pb-10">
+    <section className="relative z-10 -mt-6 pb-10">
       <Container>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {actions.map((action) => {
