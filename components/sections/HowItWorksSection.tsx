@@ -52,13 +52,13 @@ export function HowItWorksSection() {
             </span>
           </div>
 
-          <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-[#10632D] md:text-4xl">
+          <h2 className="text-2xl font-extrabold leading-tight tracking-tight text-[#10632D] md:text-4xl">
             Un processus simple pour plus d&apos;opportunités
           </h2>
         </div>
 
         {/* STEPS */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
           {steps.map((step, index) => {
             const Icon = step.icon;
 
@@ -74,14 +74,14 @@ export function HowItWorksSection() {
                 {/* Icon + Number row */}
                 <div className="flex items-center gap-3">
                   <div
-                    className={`flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full text-white ${
+                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white sm:h-[52px] sm:w-[52px] ${
                       step.orange ? "bg-[#E57617]" : "bg-[#10632D]"
                     }`}
                   >
-                    <Icon size={22} strokeWidth={2} />
+                    <Icon size={18} strokeWidth={2} className="sm:!h-[22px] sm:!w-[22px]" />
                   </div>
 
-                  <span className={`text-[22px] font-extrabold ${
+                  <span className={`text-[18px] font-extrabold sm:text-[22px] ${
                     step.orange ? "text-[#E57617]" : "text-[#10632D]"
                   }`}>
                     {step.number}

@@ -70,7 +70,7 @@ export function JobsSection() {
               </span>
             </div>
 
-            <h2 className="text-3xl font-extrabold leading-tight text-[#10632D] md:text-4xl">
+            <h2 className="text-2xl font-extrabold leading-tight text-[#10632D] md:text-4xl">
               Trouvez une opportunité
             </h2>
           </div>

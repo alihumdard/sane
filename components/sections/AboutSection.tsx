@@ -96,20 +96,20 @@ export function AboutSection() {
               </div>
 
               {/* Heading */}
-              <h2 className="text-3xl font-extrabold leading-[1.12] tracking-tight text-[#10632D] md:text-4xl">
+              <h2 className="text-2xl font-extrabold leading-[1.12] tracking-tight text-[#10632D] md:text-4xl">
                 Le SANE, un engagement
                 <br />
                 pour l&apos;avenir professionnel
               </h2>
 
               {/* Description */}
-              <p className="mt-4 text-base leading-7 text-[#61756B]">
+              <p className="mt-3 text-sm leading-6 text-[#61756B] md:mt-4 md:text-base md:leading-7">
                 Le Salon National de l&apos;Emploi est un espace de rencontre
                 entre les talents, les entreprises et les opportunités
                 professionnelles.
               </p>
 
-              <p className="mt-3 text-base leading-7 text-[#61756B]">
+              <p className="mt-2 text-sm leading-6 text-[#61756B] md:mt-3 md:text-base md:leading-7">
                 Le SANE vise à favoriser l&apos;insertion professionnelle,
                 renforcer les compétences et promouvoir l&apos;emploi au Niger à
                 travers des rencontres, des formations et un accompagnement

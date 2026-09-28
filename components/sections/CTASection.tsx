@@ -18,10 +18,10 @@ export function CTASection() {
             CONTENT (Left/Center)
         ========================== */}
         <div className="relative z-20 flex h-full items-center py-2 md:py-0">
-          <div className="w-full px-4 md:pl-64 lg:pl-72 md:pr-16">
+          <div className="w-full px-0 md:pl-64 lg:pl-72 md:pr-16">
 
             {/* Heading */}
-            <h2 className="max-w-[430px] text-[34px] font-extrabold leading-[1.02] tracking-[-0.02em] text-white md:text-[38px]">
+            <h2 className="max-w-[430px] text-[26px] font-extrabold leading-[1.08] tracking-[-0.02em] text-white sm:text-[34px] md:text-[38px]">
               Votre prochaine
               <br />
               opportunité
