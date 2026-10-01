@@ -11,6 +11,7 @@ interface Props {
   centerValue: string;
   centerLabel: string;
   showValues?: boolean;
+  showViewAll?: boolean;
 }
 
 function buildConic(segs: { pct: number; color: string }[]) {
@@ -22,12 +23,15 @@ function buildConic(segs: { pct: number; color: string }[]) {
   }).join(", ");
 }
 
-export default function DonutChart({ title, segments, centerValue, centerLabel, showValues = true }: Props) {
+export default function DonutChart({ title, segments, centerValue, centerLabel, showValues = true, showViewAll = false }: Props) {
   return (
     <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
-      <div className="mb-2 flex items-center gap-1.5">
-        <span className="h-[3px] w-4 shrink-0 rounded-full bg-[#E57617]" />
-        <span className="text-[11px] font-bold text-[#0a2e16]">{title}</span>
+      <div className="mb-2 flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          <span className="h-[3px] w-4 shrink-0 rounded-full bg-[#E57617]" />
+          <span className="text-[11px] font-bold text-[#0a2e16]">{title}</span>
+        </div>
+        {showViewAll && <button className="shrink-0 ml-1 text-[9px] font-semibold text-[#E57617]">Voir tout</button>}
       </div>
       <div className="flex items-center gap-2">
         <div className="relative shrink-0">
