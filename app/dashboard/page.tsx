@@ -74,8 +74,8 @@ const topOffers = [
 ];
 
 const interviews = [
-  { day: "15", month: "Mar", title: "Entretien - Assistant administratif", person: "Aminata Diallo", time: "10:00 - 10:30", type: "video" },
-  { day: "18", month: "Mar", title: "Entretien - Technicien informatique", person: "Moussa Adamou", time: "14:00 - 14:30", type: "in-person" },
+  { day: "15", month: "Mar", title: "Entretien - Assistant administratif", person: "Aminata Diallo", time: "10:00 - 10:30", type: "video", avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
+  { day: "18", month: "Mar", title: "Entretien - Technicien informatique", person: "Moussa Adamou", time: "14:00 - 14:30", type: "in-person", avatar: "https://randomuser.me/api/portraits/men/45.jpg" },
 ];
 
 const messages = [
@@ -170,37 +170,32 @@ export default function DashboardPage() {
         {/* SCROLLABLE CONTENT */}
         <main className="flex-1 overflow-y-auto p-6">
           {/* ═══════════ WELCOME BANNER ═══════════ */}
-          <div className="relative mb-6 overflow-hidden rounded-2xl bg-[#0a4a22] p-6">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0a4a22] via-[#0a4a22]/80 to-transparent z-10" />
-            <div className="absolute right-0 top-0 h-full w-[50%]">
+          <div className="relative mb-6 overflow-hidden rounded-2xl bg-white border border-[#DDE8E0]">
+            <div className="absolute right-0 top-0 h-full w-[55%]">
               <Image src="/sane_deal.png" alt="Dashboard" fill className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/60 to-transparent" />
             </div>
-            <div className="absolute right-4 top-3 z-20 rounded border border-white/20 bg-white/10 px-3 py-2 backdrop-blur-sm">
-              <p className="text-[8px] font-bold uppercase leading-relaxed tracking-wider text-white">EMPLOI<br/>FORMATION<br/>OPPORTUNITÉS<br/>AVENIR</p>
-            </div>
-            <p className="absolute bottom-3 right-4 z-20 text-sm italic text-white/60" style={{ fontFamily: "serif" }}>Un Niger<br/>de Talents</p>
-            <div className="relative z-20">
-              <h1 className="mb-1 text-2xl font-extrabold text-white">Bienvenue, MTN Niger !</h1>
-              <p className="max-w-md text-[13px] text-white/70">Trouvez les meilleurs talents et contribuez au développement des compétences au Niger avec le SANE.</p>
+            <p className="absolute bottom-4 right-6 z-20 text-[15px] italic text-[#E57617]" style={{ fontFamily: "serif" }}>Un Niger<br/>de Talents</p>
+            <div className="relative z-20 p-6">
+              <h1 className="mb-1 text-2xl font-extrabold text-[#0a2e16]">Bienvenue, MTN Niger !</h1>
+              <p className="max-w-md text-[13px] text-[#61756B]">Trouvez les meilleurs talents et contribuez au développement des compétences au Niger avec le SANE.</p>
             </div>
           </div>
 
           {/* ═══════════ STATS ROW ═══════════ */}
-          <div className="mb-6 grid grid-cols-5 gap-4">
+          <div className="mb-6 flex items-center gap-6 border-b border-[#DDE8E0] bg-white rounded-xl px-4 py-3">
             {statsData.map((s, i) => (
-              <div key={i} className="flex items-center gap-3 rounded-xl border border-[#DDE8E0] bg-white p-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white" style={{ backgroundColor: s.bg }}>
-                  {s.icon}
-                </div>
+              <div key={i} className="flex flex-1 items-center gap-2.5">
+                <span style={{ color: s.color }}>{s.icon}</span>
                 <div className="min-w-0">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-baseline gap-2">
                     <span className="text-xl font-extrabold text-[#0a2e16]">{s.value}</span>
                     <span className="flex items-center gap-0.5 text-[10px] font-semibold text-[#10632D]">
                       <TrendingUp size={10} /> {s.trend}
                     </span>
+                    <span className="text-[9px] text-[#61756B]/60">{s.trendLabel}</span>
                   </div>
                   <p className="text-[10px] text-[#61756B] truncate">{s.label}</p>
-                  <p className="text-[9px] text-[#61756B]/60">{s.trendLabel}</p>
                 </div>
               </div>
             ))}
@@ -210,62 +205,72 @@ export default function DashboardPage() {
           <div className="mb-6 grid grid-cols-[1fr_280px_260px] gap-4">
             {/* Bar Chart */}
             <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
-              <div className="mb-4 flex items-center justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-[11px] font-semibold text-[#E57617]"><span className="h-px w-4 bg-[#E57617]" /></div>
+              <div className="mb-1 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-4 bg-[#E57617]" />
                   <h3 className="text-[14px] font-bold text-[#0a2e16]">Candidatures par mois</h3>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-4 text-[10px] text-[#61756B]">
-                    <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[#10632D]" /> Candidatures</span>
-                    <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[#E57617]" /> Entretiens</span>
-                  </div>
-                  <select className="rounded border border-[#DDE8E0] px-2 py-1 text-[10px] text-[#61756B] outline-none">
-                    <option>Cette année</option>
-                  </select>
-                </div>
+                <select className="rounded border border-[#DDE8E0] px-2 py-1 text-[10px] text-[#61756B] outline-none">
+                  <option>Cette année</option>
+                </select>
               </div>
-              {/* Y-axis labels + bars */}
+              <div className="mb-3 flex items-center gap-4 text-[10px] text-[#61756B]">
+                <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[#10632D]" /> Candidatures</span>
+                <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[#E57617]" /> Entretiens</span>
+              </div>
               <div className="flex gap-2">
                 <div className="flex flex-col justify-between text-[9px] text-[#61756B] pb-5">
                   <span>200</span><span>150</span><span>100</span><span>50</span><span>0</span>
                 </div>
-                <div className="flex flex-1 items-end gap-1">
+                <div className="relative flex flex-1 items-end gap-1">
                   {chartData.map((d, i) => (
                     <div key={i} className="flex flex-1 flex-col items-center gap-1">
-                      <div className="flex w-full items-end justify-center gap-0.5" style={{ height: 120 }}>
-                        <div className="w-[40%] rounded-t bg-[#10632D]" style={{ height: `${(d.cand / 200) * 100}%` }} />
-                        <div className="w-[40%] rounded-t bg-[#E57617]" style={{ height: `${(d.ent / 200) * 100}%` }} />
+                      <div className="flex w-full items-end justify-center" style={{ height: 120 }}>
+                        <div className="w-[65%] rounded-t bg-gradient-to-t from-[#0a4a22] to-[#10632D]/60" style={{ height: `${(d.cand / 200) * 100}%` }} />
                       </div>
                       <span className="text-[9px] text-[#61756B]">{d.month}</span>
                     </div>
                   ))}
+                  <svg className="pointer-events-none absolute inset-0 mb-5" viewBox={`0 0 ${chartData.length * 40} 120`} preserveAspectRatio="none" fill="none">
+                    <polyline
+                      points={chartData.map((d, i) => `${i * 40 + 20},${120 - (d.ent / 200) * 120}`).join(" ")}
+                      stroke="#E57617"
+                      strokeWidth="2"
+                      fill="none"
+                    />
+                    {chartData.map((d, i) => (
+                      <circle key={i} cx={i * 40 + 20} cy={120 - (d.ent / 200) * 120} r="4" fill="white" stroke="#E57617" strokeWidth="2" />
+                    ))}
+                  </svg>
                 </div>
               </div>
             </div>
 
             {/* Donut Chart */}
             <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
-              <h3 className="mb-4 text-[14px] font-bold text-[#0a2e16]">Répartition des candidatures</h3>
-              <div className="flex flex-col items-center">
-                <div className="relative mb-4">
+              <div className="mb-3 flex items-center gap-2">
+                <span className="h-px w-4 bg-[#E57617]" />
+                <h3 className="text-[14px] font-bold text-[#0a2e16]">Répartition des candidatures</h3>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="relative shrink-0">
                   <div
-                    className="h-[140px] w-[140px] rounded-full"
+                    className="h-[100px] w-[100px] rounded-full"
                     style={{ background: `conic-gradient(${conicGradient})` }}
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="flex h-[90px] w-[90px] flex-col items-center justify-center rounded-full bg-white">
-                      <span className="text-xl font-extrabold text-[#0a2e16]">348</span>
-                      <span className="text-[9px] text-[#61756B]">Candidatures</span>
+                    <div className="flex h-[62px] w-[62px] flex-col items-center justify-center rounded-full bg-white">
+                      <span className="text-[15px] font-extrabold text-[#0a2e16]">348</span>
+                      <span className="text-[7px] text-[#61756B]">Candidatures</span>
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col gap-1.5 self-start">
+                <div className="flex flex-col gap-1">
                   {donutData.map((d, i) => (
-                    <div key={i} className="flex items-center gap-2 text-[10px]">
-                      <span className="h-2 w-2 shrink-0 rounded-sm" style={{ backgroundColor: d.color }} />
+                    <div key={i} className="flex items-center gap-1.5 text-[9px]">
+                      <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: d.color }} />
                       <span className="text-[#61756B]">{d.label}</span>
-                      <span className="ml-auto font-semibold text-[#0a2e16]">{d.pct}%</span>
+                      <span className="ml-1 font-semibold text-[#0a2e16]">{d.pct}%</span>
                     </div>
                   ))}
                 </div>
@@ -273,39 +278,42 @@ export default function DashboardPage() {
             </div>
 
             {/* Mon entreprise */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
-              <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-[14px] font-bold text-[#0a2e16]">Mon entreprise</h3>
-                <Link href="#" className="text-[11px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir le profil <ArrowRight size={11} /></Link>
+            <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+              <div className="mb-3 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-4 bg-[#E57617]" />
+                  <h3 className="text-[13px] font-bold text-[#0a2e16]">Mon entreprise</h3>
+                </div>
+                <Link href="#" className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir le profil <ArrowRight size={10} /></Link>
               </div>
-              <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#f59e0b]">
-                  <span className="text-[10px] font-extrabold text-white">MTN</span>
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-[#f59e0b] bg-[#f59e0b]">
+                  <span className="text-[9px] font-extrabold text-white">MTN</span>
                 </div>
                 <div>
-                  <p className="text-[13px] font-bold text-[#0a2e16]">MTN Niger</p>
-                  <p className="text-[10px] text-[#61756B]">Télécommunications</p>
-                  <div className="flex items-center gap-2 mt-0.5 text-[10px] text-[#61756B]">
-                    <span className="flex items-center gap-0.5"><MapPin size={9} /> Niamey, Niger</span>
-                    <span className="flex items-center gap-0.5"><Globe size={9} /> www.mtn.ne</span>
+                  <p className="text-[12px] font-bold text-[#0a2e16]">MTN Niger</p>
+                  <p className="text-[9px] text-[#61756B]">Télécommunications</p>
+                  <div className="flex items-center gap-2 text-[9px] text-[#61756B]">
+                    <span className="flex items-center gap-0.5"><MapPin size={8} /> Niamey, Niger</span>
+                    <span className="flex items-center gap-0.5"><Globe size={8} /> www.mtn.ne</span>
                   </div>
                 </div>
               </div>
-              <div className="mb-4 grid grid-cols-3 gap-2 text-center">
+              <div className="mb-3 grid grid-cols-3 gap-1 text-center">
                 <div>
-                  <p className="text-[15px] font-extrabold text-[#0a2e16]">124K</p>
-                  <p className="text-[9px] text-[#61756B]">Vues du profil</p>
+                  <p className="text-[14px] font-extrabold text-[#0a2e16]">124K</p>
+                  <p className="text-[8px] text-[#61756B]">Vues du profil</p>
                 </div>
                 <div>
-                  <p className="text-[15px] font-extrabold text-[#0a2e16]">2.8K</p>
-                  <p className="text-[9px] text-[#61756B]">Candidats intéressés</p>
+                  <p className="text-[14px] font-extrabold text-[#0a2e16]">2.8K</p>
+                  <p className="text-[8px] text-[#61756B]">Candidats intéressés</p>
                 </div>
                 <div className="flex flex-col items-center">
-                  <p className="flex items-center gap-1 text-[15px] font-extrabold text-[#0a2e16]"><Star size={12} className="fill-[#f59e0b] text-[#f59e0b]" /> 4.7</p>
-                  <p className="text-[9px] text-[#61756B]">Note moyenne</p>
+                  <p className="flex items-center gap-1 text-[14px] font-extrabold text-[#0a2e16]"><Star size={11} className="fill-[#f59e0b] text-[#f59e0b]" /> 4.7</p>
+                  <p className="text-[8px] text-[#61756B]">Note moyenne</p>
                 </div>
               </div>
-              <button className="flex w-full items-center justify-center gap-2 rounded-lg border border-[#DDE8E0] py-2 text-[11px] font-semibold text-[#0a2e16] hover:bg-[#F5F9F6]">
+              <button className="flex w-full items-center justify-center gap-2 rounded-lg border border-[#10632D] py-2 text-[11px] font-semibold text-[#10632D] hover:bg-[#F5F9F6]">
                 <Edit size={12} /> Modifier le profil de l'entreprise
               </button>
             </div>
@@ -316,7 +324,10 @@ export default function DashboardPage() {
             {/* Table */}
             <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
               <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-[14px] font-bold text-[#0a2e16]">Dernières candidatures</h3>
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-4 bg-[#E57617]" />
+                  <h3 className="text-[14px] font-bold text-[#0a2e16]">Dernières candidatures</h3>
+                </div>
                 <Link href="#" className="text-[11px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={11} /></Link>
               </div>
               <table className="w-full text-left">
@@ -346,7 +357,7 @@ export default function DashboardPage() {
                       <td className="py-2.5 text-[11px] text-[#61756B]">{c.poste}</td>
                       <td className="py-2.5 text-[11px] text-[#61756B]">{c.date}</td>
                       <td className="py-2.5">
-                        <span className="rounded-full px-2.5 py-0.5 text-[10px] font-semibold text-white" style={{ backgroundColor: c.statutColor }}>
+                        <span className="rounded-full border px-2.5 py-0.5 text-[10px] font-semibold" style={{ borderColor: c.statutColor, color: c.statutColor }}>
                           {c.statut}
                         </span>
                       </td>
@@ -366,25 +377,27 @@ export default function DashboardPage() {
             {/* Top Offers */}
             <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
               <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-[13px] font-bold text-[#0a2e16]">Offres d'emploi les plus performantes</h3>
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-4 bg-[#E57617]" />
+                  <h3 className="text-[13px] font-bold text-[#0a2e16]">Offres d'emploi les plus performantes</h3>
+                </div>
                 <Link href="#" className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
               </div>
               <div className="flex flex-col gap-3">
                 {topOffers.map((o, i) => (
-                  <div key={i} className="rounded-lg border border-[#DDE8E0] p-3">
-                    <div className="flex items-start gap-3">
-                      <div className="flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-lg text-white" style={{ backgroundColor: o.color }}>
-                        <span className="text-[14px] font-extrabold">{o.count}</span>
-                        <span className="text-[7px]">candidatures</span>
-                      </div>
-                      <div>
-                        <p className="text-[12px] font-bold text-[#0a2e16]">{o.title}</p>
-                        <div className="flex items-center gap-2 text-[10px] text-[#61756B]">
-                          <span className="flex items-center gap-0.5"><Eye size={9} /> {o.views}</span>
-                          <span className="flex items-center gap-0.5"><Clock size={9} /> {o.time}</span>
-                        </div>
+                  <div key={i} className="flex items-center gap-3 rounded-lg bg-[#F5F9F6] p-3">
+                    <div className="flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-xl bg-[#10632D] text-white">
+                      <span className="text-[14px] font-extrabold leading-none">{o.count}</span>
+                      <span className="text-[6px]">candidatures</span>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-[12px] font-bold text-[#0a2e16]">{o.title}</p>
+                      <div className="flex items-center gap-2 text-[10px] text-[#61756B]">
+                        <span className="flex items-center gap-0.5"><Eye size={9} /> {o.views}</span>
+                        <span className="flex items-center gap-0.5"><Clock size={9} /> {o.time}</span>
                       </div>
                     </div>
+                    <ChevronDown size={14} className="rotate-[-90deg] text-[#61756B]" />
                   </div>
                 ))}
               </div>
@@ -401,25 +414,33 @@ export default function DashboardPage() {
             {/* Prochains entretiens */}
             <div className="relative z-10 rounded-xl border border-[#DDE8E0] bg-white p-5">
               <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-[13px] font-bold text-[#0a2e16]">Prochains entretiens</h3>
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-4 bg-[#E57617]" />
+                  <h3 className="text-[13px] font-bold text-[#0a2e16]">Prochains entretiens</h3>
+                </div>
                 <Link href="#" className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
               </div>
               <div className="flex flex-col gap-3">
                 {interviews.map((itv, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <div className="flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-[#E57617]/10">
-                      <span className="text-[14px] font-extrabold text-[#E57617]">{itv.day}</span>
-                      <span className="text-[8px] font-semibold text-[#E57617]">{itv.month}</span>
+                    <div className="flex shrink-0 flex-col items-center">
+                      <span className="text-[16px] font-extrabold leading-none text-[#E57617]">{itv.day}</span>
+                      <span className="text-[9px] font-semibold text-[#E57617]">{itv.month}</span>
+                    </div>
+                    <div className="shrink-0" style={{ width: 32, height: 32, minWidth: 32, minHeight: 32, borderRadius: "50%", overflow: "hidden", position: "relative" }}>
+                      <Image src={itv.avatar} alt={itv.person} fill sizes="32px" className="object-cover" />
                     </div>
                     <div className="flex-1">
                       <p className="text-[11px] font-bold text-[#0a2e16]">{itv.title}</p>
-                      <p className="text-[10px] text-[#61756B] flex items-center gap-1"><MapPin size={9} /> {itv.person}</p>
-                      <p className="text-[10px] text-[#61756B] flex items-center gap-1"><Clock size={9} /> {itv.time}</p>
+                      <div className="flex items-center gap-3 text-[10px] text-[#61756B]">
+                        <span className="flex items-center gap-0.5"><MapPin size={9} /> {itv.person}</span>
+                        <span className="flex items-center gap-0.5"><Clock size={9} /> {itv.time}</span>
+                      </div>
                     </div>
                     {itv.type === "video" ? (
-                      <Video size={16} className="text-[#3b82f6] mt-1" />
+                      <Video size={18} className="text-[#3b82f6] mt-1" />
                     ) : (
-                      <MapPin size={16} className="text-[#E57617] mt-1" />
+                      <MapPin size={18} className="text-[#ef4444] mt-1" />
                     )}
                   </div>
                 ))}
@@ -429,18 +450,22 @@ export default function DashboardPage() {
             {/* Messages récents */}
             <div className="relative z-10 rounded-xl border border-[#DDE8E0] bg-white p-5">
               <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-[13px] font-bold text-[#0a2e16]">Messages récents</h3>
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-4 bg-[#E57617]" />
+                  <h3 className="text-[13px] font-bold text-[#0a2e16]">Messages récents</h3>
+                </div>
                 <Link href="#" className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-4">
                 {messages.map((m, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <Image src={m.avatar} alt={m.name} width={32} height={32} className="rounded-full object-cover shrink-0" />
-                    <div className="min-w-0">
+                    <Image src={m.avatar} alt={m.name} width={36} height={36} className="rounded-full object-cover shrink-0" />
+                    <div className="min-w-0 flex-1">
                       <p className="text-[12px] font-bold text-[#0a2e16]">{m.name}</p>
                       <p className="text-[10px] text-[#61756B] truncate">{m.preview}</p>
                       <p className="text-[9px] text-[#61756B]/60 mt-0.5">{m.time}</p>
                     </div>
+                    <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#10632D]" />
                   </div>
                 ))}
               </div>
@@ -449,19 +474,22 @@ export default function DashboardPage() {
             {/* Notifications récentes */}
             <div className="relative z-10 rounded-xl border border-[#DDE8E0] bg-white p-5">
               <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-[13px] font-bold text-[#0a2e16]">Notifications récentes</h3>
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-4 bg-[#E57617]" />
+                  <h3 className="text-[13px] font-bold text-[#0a2e16]">Notifications récentes</h3>
+                </div>
                 <Link href="#" className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
               </div>
               <div className="flex flex-col gap-3">
                 {notifications.map((n, i) => (
                   <div key={i} className="flex items-start gap-2.5">
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-white" style={{ backgroundColor: n.iconBg }}>
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-white" style={{ backgroundColor: n.iconBg }}>
                       {n.icon}
                     </div>
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <p className="text-[11px] font-bold text-[#0a2e16]">{n.title}</p>
                       <p className="text-[10px] text-[#61756B] truncate">{n.desc}</p>
-                      <p className="text-[9px] text-[#61756B]/60 mt-0.5">{n.time}</p>
+                      <p className="text-[9px] text-[#E57617] mt-0.5">{n.time}</p>
                     </div>
                   </div>
                 ))}
