@@ -1,404 +1,239 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import {
-  Home, User, BookOpen, Briefcase, ClipboardList, Calendar,
-  Heart, MessageSquare, Bell, Settings, Search, ChevronDown,
-  ChevronRight, ArrowRight, MapPin, Phone, Mail, Bookmark,
-  Edit3, Video, TrendingUp
+  Home, User, ClipboardList, BookOpen, Star, Briefcase,
+  FileText, Calendar, Heart, MessageSquare, Bell,
+  Settings, HelpCircle, LogOut, ChevronRight, Monitor, Video,
 } from "lucide-react";
 
-/* ─────────────────────────────── DATA ─────────────────────────────── */
+import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
+import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import HeroBanner from "@/components/dashboard/HeroBanner";
+import EnterpriseLogo from "@/components/dashboard/EnterpriseLogo";
+import ParticipantStatsCard from "@/components/dashboard/ParticipantStatsCard";
+import BarChart from "@/components/dashboard/BarChart";
+import MiniCalendar from "@/components/dashboard/MiniCalendar";
+import SectionCard from "@/components/dashboard/SectionCard";
 
-const sidebarItems = [
+/* ─── Sidebar ─── */
+const sidebarItems: SidebarItem[] = [
   { icon: <Home size={18} />, label: "Tableau de bord", active: true },
   { icon: <User size={18} />, label: "Mon profil" },
+  { icon: <ClipboardList size={18} />, label: "Mes inscriptions" },
   { icon: <BookOpen size={18} />, label: "Mes formations" },
   { icon: <Briefcase size={18} />, label: "Mes opportunités" },
-  { icon: <ClipboardList size={18} />, label: "Mes candidatures" },
-  { icon: <Calendar size={18} />, label: "Mes entretiens" },
+  { icon: <FileText size={18} />, label: "Mes candidatures" },
+  { icon: <Calendar size={18} />, label: "Mes rendez-vous" },
   { icon: <Heart size={18} />, label: "Mes favoris" },
-  { icon: <MessageSquare size={18} />, label: "Mes messages", badge: 3 },
-  { icon: <Bell size={18} />, label: "Mes notifications", badge: 5 },
+  { icon: <MessageSquare size={18} />, label: "Messages", badge: 3 },
+  { icon: <Bell size={18} />, label: "Notifications", badge: 5 },
   { icon: <Settings size={18} />, label: "Paramètres" },
+  { icon: <HelpCircle size={18} />, label: "Aide & FAQ" },
+  { icon: <LogOut size={18} />, label: "Déconnexion", dividerBefore: true },
 ];
 
+/* ─── Stats ─── */
 const statsData = [
-  {
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>,
-    value: "3", label: "Formations en cours", bg: "#F0E8F5", color: "#6B21A8",
-  },
-  {
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>,
-    value: "12", label: "Candidatures envoyées", bg: "#E0F0FF", color: "#2563EB",
-  },
-  {
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" fill="#10632D"/><path d="M3 10h18" stroke="white" strokeWidth="1.5"/><path d="M8 2v4M16 2v4" stroke="#10632D" strokeWidth="2" strokeLinecap="round"/><rect x="7" y="13" width="3" height="3" rx=".5" fill="white"/><rect x="14" y="13" width="3" height="3" rx=".5" fill="white"/></svg>,
-    value: "4", label: "Entretiens planifiés", bg: "#E8F5ED", color: "#10632D",
-  },
-  {
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>,
-    value: "2", label: "Offres sauvegardées", bg: "#FFF3E8", color: "#E57617",
-  },
-  {
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>,
-    value: "5", label: "Nouveaux messages", bg: "#F0E8F5", color: "#6B21A8",
-  },
+  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1 3 3 6 3s6-2 6-3v-5"/></svg>, value: "3", label: "Formations inscrites", link: "Voir mes formations", bg: "#E8F5ED", color: "#10632D" },
+  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M12 12v3"/><path d="M2 12h20"/></svg>, value: "5", label: "Candidatures envoyées", link: "Voir mes candidatures", bg: "#FFF3E8", color: "#E57617" },
+  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><rect x="7" y="14" width="3" height="3" rx="0.5"/><rect x="14" y="14" width="3" height="3" rx="0.5"/></svg>, value: "2", label: "Rendez-vous à venir", link: "Voir mon calendrier", bg: "#E0F0FF", color: "#2563EB" },
+  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 11h6"/></svg>, value: "12", label: "Nouvelles opportunités", link: "Voir les opportunités", bg: "#FFFBE8", color: "#D97706" },
 ];
 
-const formations = [
-  {
-    image: "/sane_company.png",
-    tag: "Formation",
-    title: "Compétences numériques pour l'emploi",
-    org: "SANE",
-    location: "En ligne",
-    duration: "6 semaines",
-    cert: "Certificat",
-  },
-  {
-    image: "/Entrepreneuriat.png",
-    tag: "Formation",
-    title: "Gestion de projet",
-    org: "IFAD",
-    location: "Niamey",
-    duration: "4 semaines",
-    cert: "Certificat",
-  },
-  {
-    image: "/Transformation.png",
-    tag: "Formation",
-    title: "Entrepreneuriat des jeunes",
-    org: "PNUD",
-    location: "Niamey",
-    duration: "8 semaines",
-    cert: "Certificat",
-  },
+/* ─── Mes formations ─── */
+const mesFormations = [
+  { img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=120&h=80&fit=crop", titre: "Développement Web pour l'emploi", details: "En ligne · 12 - 16 Mars 2024", statut: "Inscrit", statutColor: "#10632D", statutBg: "#E8F5ED" },
+  { img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=120&h=80&fit=crop", titre: "Gestion de projet digital", details: "Niamey · 25 - 28 Mars 2024", statut: "En attente", statutColor: "#E57617", statutBg: "#FFF3E8" },
+  { img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=120&h=80&fit=crop", titre: "Compétences numériques", details: "Niamey · 10 - 12 Avril 2024", statut: "Disponible", statutColor: "#2563EB", statutBg: "#E0F0FF" },
 ];
 
-const companyLogos: Record<string, React.ReactNode> = {
-  pnud: <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#1e3a5f"/><text x="14" y="18" textAnchor="middle" fill="white" fontSize="7" fontWeight="700" fontFamily="sans-serif">PNUD</text></svg>,
-  unicef: <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#00AEEF"/><text x="14" y="18" textAnchor="middle" fill="white" fontSize="5.5" fontWeight="700" fontFamily="sans-serif">UNICEF</text></svg>,
-  sn: <svg width="28" height="28" viewBox="0 0 28 28"><polygon points="14,2 26,24 2,24" fill="#DC2626"/><text x="14" y="20" textAnchor="middle" fill="white" fontSize="6" fontWeight="700" fontFamily="sans-serif">SN</text></svg>,
-  ong: <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#E57617"/><text x="14" y="18" textAnchor="middle" fill="white" fontSize="6" fontWeight="700" fontFamily="sans-serif">ONG</text></svg>,
-  giz: <span className="text-[14px] font-extrabold text-[#1e3a5f]">giz</span>,
-};
-
-const tagColors: Record<string, string> = {
-  "Temps plein": "bg-[#E8F5ED] text-[#10632D]",
-  "CDD": "bg-[#FEE2E2] text-[#DC2626]",
-  "Stage": "bg-[#FFF3E8] text-[#E57617]",
-  "Administration": "bg-[#EDE9FE] text-[#6B21A8]",
-  "Communication": "bg-[#EDE9FE] text-[#6B21A8]",
-  "Informatique": "bg-[#EDE9FE] text-[#6B21A8]",
-  "Suivi & Evaluation": "bg-[#EDE9FE] text-[#6B21A8]",
-  "Gestion de projet": "bg-[#EDE9FE] text-[#6B21A8]",
-};
-
-const jobOffers = [
-  { logoKey: "pnud", title: "Assistant administratif", company: "PNUD · Niamey", tags: ["Temps plein", "Administration"], time: "Il y a 2 jours" },
-  { logoKey: "unicef", title: "Chargé de communication", company: "UNICEF · Niamey", tags: ["CDD", "Communication"], time: "Il y a 3 jours" },
-  { logoKey: "sn", title: "Technicien informatique", company: "Société Nationale · Niamey", tags: ["Temps plein", "Informatique"], time: "Il y a 5 jours" },
-  { logoKey: "ong", title: "Chargé de suivi-évaluation", company: "ONG Locale · Niamey", tags: ["CDD", "Suivi & Evaluation"], time: "Il y a 1 semaine" },
-  { logoKey: "giz", title: "Assistant projet", company: "GIZ · Niamey", tags: ["Stage", "Gestion de projet"], time: "Il y a 1 semaine" },
+/* ─── Mes candidatures ─── */
+const mesCandidatures = [
+  { logo: "enabel", poste: "Assistant Communication", entreprise: "Enabel Niger", date: "12 Mars 2024", statut: "En cours", statutColor: "#10632D", statutBg: "#E8F5ED" },
+  { logo: "giz", poste: "Développeur Web", entreprise: "GIZ Niger", date: "08 Mars 2024", statut: "En revue", statutColor: "#E57617", statutBg: "#FFF3E8" },
+  { logo: "pnud", poste: "Spécialiste Suivi & Évaluation", entreprise: "PNUD Niger", date: "05 Mars 2024", statut: "En cours", statutColor: "#10632D", statutBg: "#E8F5ED" },
 ];
 
-const interviews = [
-  { day: "15", month: "Mar", title: "Entretien - Assistant administratif", org: "PNUD · En ligne", time: "10:00 - 10:30", type: "video", accent: "#10632D" },
-  { day: "18", month: "Mar", title: "Entretien - Technicien informatique", org: "Société Nationale · Niamey", time: "14:00 - 14:30", type: "location", accent: "#E57617" },
-  { day: "22", month: "Mar", title: "Entretien - Chargé de communication", org: "UNICEF · En ligne", time: "11:00 - 11:30", type: "video", accent: "#10632D" },
+/* ─── Prochains rendez-vous ─── */
+const rdvs = [
+  { day: "15", month: "Mars", titre: "Entretien - Assistant Communication", lieu: "Enabel Niger", heure: "10h00 - 11h00", mode: "En ligne", modeIcon: <Monitor size={10} /> },
+  { day: "22", month: "Mars", titre: "Webinaire : Préparation à l'emploi", lieu: "SANE", heure: "14h00 - 16h00", mode: "En ligne", modeIcon: <Video size={10} /> },
 ];
 
-const notifications = [
-  { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" fill="#10632D"/><path d="M8 8h8M8 12h5M8 16h6" stroke="white" strokeWidth="1.5" strokeLinecap="round"/></svg>, title: "Votre candidature a été présélectionnée", time: "il y a 2 heures", dot: "#10632D" },
-  { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="3" fill="#7C3AED"/><path d="M2 7l10 6 10-6" stroke="white" strokeWidth="1.5" strokeLinejoin="round"/></svg>, title: "Nouveau message de l'employeur UNICEF", time: "il y a 5 heures", dot: "#7C3AED" },
-  { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="3" fill="#E57617"/><path d="M3 10h18" stroke="white" strokeWidth="1.5"/><path d="M8 2v4M16 2v4" stroke="#E57617" strokeWidth="2" strokeLinecap="round"/><rect x="7" y="13" width="3" height="3" rx=".5" fill="white"/><rect x="14" y="13" width="3" height="3" rx=".5" fill="white"/></svg>, title: "Rappel : Entretien demain à 10h", time: "il y a 1 jour", dot: "#E57617" },
+/* ─── Événements à venir ─── */
+const evenements = [
+  { day: "10", month: "Avr", titre: "Atelier : Rédaction de CV", lieu: "SANE · Niamey", badge: "Gratuit", badgeColor: "#10632D", badgeBg: "#E8F5ED" },
+  { day: "15", month: "Avr", titre: "Conférence : Jeunes et emploi", lieu: "Palais des Congrès", badge: "Gratuit", badgeColor: "#10632D", badgeBg: "#E8F5ED" },
+  { day: "22", month: "Avr", titre: "Rencontre avec les recruteurs", lieu: "SANE · Niamey", badge: "Sur invitation", badgeColor: "#E57617", badgeBg: "#FFF3E8" },
 ];
 
-/* ─────────────────────────────── PAGE ─────────────────────────────── */
+/* ─── Bar chart data ─── */
+const barData = [
+  { label: "Formations", value: 3, color: "#10632D" },
+  { label: "Candidatures", value: 5, color: "#E57617" },
+  { label: "Rendez-vous", value: 2, color: "#2563EB" },
+  { label: "Favoris", value: 7, color: "#0a2e16" },
+];
 
-export default function DashboardParticipantPage() {
+/* ─── Calendar ─── */
+const calWeeks = [
+  [26, 27, 28, 29, 1, 2, 3],
+  [4, 5, 6, 7, 8, 9, 10],
+  [11, 12, 13, 14, 15, 16, 17],
+  [18, 19, 20, 21, 22, 23, 24],
+  [25, 26, 27, 28, 29, 30, 31],
+];
+
+/* ─── Recommendations ─── */
+const recommendations = [
+  { img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=200&fit=crop", category: "Formation", catColor: "#10632D", catBg: "#E8F5ED", titre: "Leadership et gestion d'équipe", lieu: "SANE · Niamey", date: "18 - 20 Avril 2024" },
+  { img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=200&fit=crop", category: "Événement", catColor: "#E57617", catBg: "#FFF3E8", titre: "Salon National de l'Emploi 2024", lieu: "Palais des Congrès · Niamey", date: "12 - 14 Mai 2024" },
+  { img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=200&fit=crop", category: "Opportunité", catColor: "#2563EB", catBg: "#E0F0FF", titre: "Stagiaire en Communication", lieu: "UNICEF Niger", date: "Date limite : 25 Mars 2024" },
+];
+
+export default function ParticipantDashboard() {
   return (
-    <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
-      {/* ═══════════ SIDEBAR ═══════════ */}
-      <aside className="flex w-[220px] shrink-0 flex-col border-r border-[#DDE8E0] bg-white">
-        <div className="flex flex-col items-center px-5 pt-5 pb-2">
-          <div className="flex items-center gap-1">
-            <svg width="36" height="36" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
-            <span className="text-[18px] font-extrabold text-[#1e3a5f]">SANE</span>
-          </div>
-          <span className="text-[7px] font-semibold tracking-[0.15em] text-[#61756B] uppercase">Salon National de l&apos;Emploi</span>
-          <svg className="mt-2" width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 10,5 5,10 0,5" fill="#E57617"/></svg>
-        </div>
-        <nav className="flex-1 overflow-y-auto px-3 py-2">
-          {sidebarItems.map((item, i) => (
-            <button
-              key={i}
-              className={`flex w-full items-center gap-2.5 px-3 py-2 mb-0.5 text-left transition-all ${
-                item.active
-                  ? "text-[#0a2e16] font-bold"
-                  : "text-[#61756B] hover:bg-[#F5F9F6] rounded-lg"
-              }`}
-            >
-              {item.active ? (
-                <span className="flex h-7 w-7 items-center justify-center rounded-md bg-[#10632D] text-white shrink-0">
-                  {item.icon}
-                </span>
-              ) : (
-                <span>{item.icon}</span>
-              )}
-              <span className="flex-1 text-[13px]">{item.label}</span>
-              {item.badge && (
-                <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#E57617] text-white px-1.5 text-[10px] font-bold">
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          ))}
-        </nav>
-        <div className="shrink-0 px-5 pb-6 pt-4">
-          <div className="relative">
-            <svg className="absolute right-2 top-0 w-24 opacity-[0.12]" viewBox="0 0 200 150" fill="#10632D"><path d="M60,20 Q80,10 120,15 Q160,20 180,50 Q190,80 170,110 Q150,140 110,145 Q70,148 40,130 Q15,110 20,80 Q25,50 50,30 Z"/></svg>
-            <p className="relative text-[20px] italic text-[#10632D] leading-snug font-semibold" style={{ fontFamily: "Georgia, serif" }}>
-              Des talents<br/>pour un Niger<br/>plus fort
-            </p>
-            <div className="relative mt-2 h-[3px] w-14 rounded-full bg-[#E57617]" />
-          </div>
-        </div>
-      </aside>
+    <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
+      <DashboardSidebar items={sidebarItems} hideBottomInfo />
 
-      {/* ═══════════ MAIN ═══════════ */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        {/* TOP NAVBAR */}
-        <header className="flex items-center gap-4 border-b border-[#DDE8E0] bg-white px-6 py-3">
-          <div className="flex flex-1 items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-3 py-2">
-            <Search size={16} className="text-[#61756B]" />
-            <input type="text" placeholder="Rechercher une formation, une offre, un événement..." className="flex-1 bg-transparent text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
-          </div>
-          <button className="relative rounded-lg p-2 text-[#61756B] hover:bg-[#F5F9F6]">
-            <Bell size={18} />
-            <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E57617] text-[9px] font-bold text-white">5</span>
-          </button>
-          <button className="flex items-center gap-1 rounded-lg px-2 py-1 text-[12px] font-medium text-[#61756B] hover:bg-[#F5F9F6]">
-            FR <ChevronDown size={12} />
-          </button>
-          <div className="flex items-center gap-2.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5">
-            <Image src="https://randomuser.me/api/portraits/men/32.jpg" alt="Moussa" width={32} height={32} className="rounded-full object-cover" />
-            <div>
-              <p className="text-[12px] font-bold text-[#0a2e16]">Moussa Idrissa</p>
-              <p className="text-[10px] text-[#61756B]">Participant</p>
-            </div>
-            <ChevronDown size={14} className="text-[#61756B]" />
-          </div>
-        </header>
+        <DashboardNavbar
+          searchPlaceholder="Rechercher une formation, un événement, une opportunité..."
+          notificationCount={5}
+          userName="Aicha Mohamed"
+          userRole="Participant"
+        />
 
-        {/* SCROLLABLE CONTENT */}
-        <main className="flex-1 overflow-y-auto p-6">
-          {/* ═══════════ WELCOME BANNER ═══════════ */}
-          <div className="relative mb-6 overflow-hidden rounded-2xl h-[140px]">
-            <Image src="/sane_deal.png" alt="Dashboard" fill className="object-cover" style={{ objectPosition: "center 30%" }} />
-            <div className="absolute inset-0 bg-gradient-to-r from-white from-32% via-white/60 via-48% to-transparent" />
-            <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 flex items-center gap-3">
-              <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
-              <p className="text-[16px] italic text-[#E57617] leading-tight font-semibold" style={{ fontFamily: "Georgia, serif" }}>Un Niger<br/>de Talents</p>
-            </div>
-            <div className="relative z-20 p-6">
-              <h1 className="mb-1 text-2xl font-extrabold text-[#0a2e16]">Bienvenue Moussa !</h1>
-              <p className="max-w-lg text-[13px] text-[#61756B]">Découvrez de nouvelles opportunités, développez vos compétences et construisez votre avenir avec le SANE.</p>
-            </div>
-          </div>
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4">
+          <HeroBanner
+            title="Bienvenue Aicha !"
+            description="Accédez à vos formations, opportunités et événements depuis votre espace personnel."
+            imageSrc="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1200&h=600&fit=crop&q=90"
+          />
 
-          {/* ═══════════ STATS ROW ═══════════ */}
-          <div className="mb-6 grid grid-cols-5 gap-3">
+          {/* Stats */}
+          <div className="mb-4 grid grid-cols-4 gap-3">
             {statsData.map((s, i) => (
-              <div key={i} className="flex items-center gap-3 rounded-xl border border-[#DDE8E0] bg-white px-4 py-3">
-                <span className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0" style={{ backgroundColor: s.bg, color: s.color }}>{s.icon}</span>
-                <div className="min-w-0 flex-1">
-                  <span className="text-xl font-extrabold text-[#0a2e16]">{s.value}</span>
-                  <p className="text-[10px] text-[#61756B] truncate">{s.label}</p>
-                </div>
-                <ArrowRight size={14} className="text-[#61756B] shrink-0" />
-              </div>
+              <ParticipantStatsCard key={i} {...s} />
             ))}
           </div>
 
-          {/* ═══════════ FORMATIONS + PROFILE ═══════════ */}
-          <div className="mb-6 grid grid-cols-[1fr_320px] gap-4">
-            {/* Formations recommandées */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="h-px w-4 bg-[#E57617]" />
-                  <h3 className="text-[15px] font-bold text-[#0a2e16]">Formations recommandées</h3>
-                </div>
-                <Link href="#" className="text-[11px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
-              </div>
-              <div className="grid grid-cols-3 gap-4">
-                {formations.map((f, i) => (
-                  <div key={i} className="rounded-2xl bg-white shadow-sm border border-[#EEF2EF] overflow-hidden flex flex-col">
-                    <div className="relative h-[130px]">
-                      <Image src={f.image} alt={f.title} fill className="object-cover" />
-                      <span className="absolute bottom-2 left-2 rounded-md bg-white/80 backdrop-blur-sm px-2.5 py-1 text-[9px] font-bold text-[#10632D] border border-[#10632D]/20">{f.tag}</span>
+          {/* Row 1: 3 columns */}
+          <div className="mb-4 grid grid-cols-3 gap-3">
+            <SectionCard icon={<BookOpen size={14} className="text-[#10632D]" />} title="Mes formations" viewAllText="Voir toutes">
+              <div className="flex flex-col gap-2.5">
+                {mesFormations.map((f, i) => (
+                  <div key={i} className="flex items-center gap-2.5">
+                    <div className="relative h-11 w-16 shrink-0 overflow-hidden rounded-lg border border-[#DDE8E0]">
+                      <Image src={f.img} alt={f.titre} fill className="object-cover" />
                     </div>
-                    <div className="p-3.5 flex-1 flex flex-col">
-                      <h4 className="text-[12px] font-bold text-[#0a2e16] mb-2 leading-tight">{f.title}</h4>
-                      <div className="flex items-center gap-1 text-[10px] text-[#10632D] mb-1">
-                        <MapPin size={10} />
-                        <span>{f.org} · {f.location}</span>
-                      </div>
-                      <div className="flex items-center gap-3 text-[10px] text-[#61756B] mb-3">
-                        <span className="flex items-center gap-1"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> {f.duration}</span>
-                        <span className="flex items-center gap-1"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg> {f.cert}</span>
-                      </div>
-                      <button className="mt-auto w-full rounded-xl bg-[#10632D] py-2.5 text-[11px] font-bold text-white hover:bg-[#0a4a22] transition-colors">
-                        Voir les détails
-                      </button>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight truncate">{f.titre}</p>
+                      <p className="text-[9px] text-[#61756B]">{f.details}</p>
                     </div>
+                    <span className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-semibold" style={{ backgroundColor: f.statutBg, color: f.statutColor }}>{f.statut}</span>
                   </div>
                 ))}
               </div>
-            </div>
+            </SectionCard>
 
-            {/* Mon profil */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="h-px w-4 bg-[#E57617]" />
-                  <h3 className="text-[15px] font-bold text-[#0a2e16]">Mon profil</h3>
-                </div>
-                <Link href="#" className="text-[11px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir mon profil <ArrowRight size={10} /></Link>
-              </div>
-              <div className="flex flex-col items-center text-center mb-4">
-                <Image src="https://randomuser.me/api/portraits/men/32.jpg" alt="Moussa" width={72} height={72} className="rounded-full object-cover mb-2" />
-                <h4 className="text-[14px] font-bold text-[#0a2e16]">Moussa Idrissa</h4>
-                <p className="text-[11px] text-[#61756B] mb-3">Participant</p>
-                <div className="flex flex-col gap-1.5 w-full text-left">
-                  <div className="flex items-center gap-2 text-[11px] text-[#61756B]">
-                    <Mail size={12} className="text-[#10632D]" />
-                    <span>moussa.idrissa@example.com</span>
+            <SectionCard icon={<FileText size={14} className="text-[#10632D]" />} title="Mes candidatures" viewAllText="Voir toutes">
+              <div className="flex flex-col gap-2.5">
+                {mesCandidatures.map((c, i) => (
+                  <div key={i} className="flex items-center gap-2.5">
+                    <EnterpriseLogo code={c.logo} size={36} />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight truncate">{c.poste}</p>
+                      <p className="text-[9px] text-[#61756B]">{c.entreprise}</p>
+                      <p className="text-[9px] text-[#61756B]">{c.date}</p>
+                    </div>
+                    <span className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-semibold" style={{ backgroundColor: c.statutBg, color: c.statutColor }}>{c.statut}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-[11px] text-[#61756B]">
-                    <Phone size={12} className="text-[#10632D]" />
-                    <span>+227 90 12 34 56</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-[11px] text-[#61756B]">
-                    <MapPin size={12} className="text-[#10632D]" />
-                    <span>Niamey, Niger</span>
-                  </div>
-                </div>
+                ))}
               </div>
-              <div className="mb-3">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-[11px] font-semibold text-[#0a2e16]">Profil complété</span>
-                  <span className="text-[11px] font-bold text-[#10632D]">80%</span>
-                </div>
-                <div className="h-2.5 rounded-full bg-[#DDE8E0] overflow-hidden">
-                  <div className="h-full rounded-full bg-[#10632D]" style={{ width: "80%" }} />
-                </div>
+            </SectionCard>
+
+            <SectionCard icon={<Calendar size={14} className="text-[#10632D]" />} title="Prochains rendez-vous" viewAllText="Voir tous">
+              <div className="flex flex-col gap-3">
+                {rdvs.map((r, i) => (
+                  <div key={i} className="flex items-start gap-2.5">
+                    <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-[#E8F5ED]">
+                      <span className="text-[14px] font-extrabold text-[#10632D] leading-none">{r.day}</span>
+                      <span className="text-[8px] font-semibold text-[#10632D]">{r.month}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight">{r.titre}</p>
+                      <p className="text-[9px] text-[#61756B]">{r.lieu}</p>
+                      <div className="mt-0.5 flex items-center gap-2">
+                        <span className="text-[9px] text-[#61756B]">{r.heure}</span>
+                        <span className="flex items-center gap-0.5 rounded-full bg-[#E0F0FF] px-1.5 py-0.5 text-[8px] font-semibold text-[#2563EB]">
+                          {r.modeIcon} {r.mode}
+                        </span>
+                      </div>
+                    </div>
+                    <button className="shrink-0 mt-2 flex h-6 w-6 items-center justify-center rounded-full border border-[#DDE8E0]">
+                      <ChevronRight size={12} className="text-[#61756B]" />
+                    </button>
+                  </div>
+                ))}
               </div>
-              <button className="w-full flex items-center justify-center gap-2 rounded-lg border border-[#DDE8E0] py-2.5 text-[11px] font-semibold text-[#0a2e16] hover:bg-[#F5F9F6] transition-colors">
-                <Edit3 size={13} />
-                Compléter mon profil
-              </button>
-            </div>
+            </SectionCard>
           </div>
 
-          {/* ═══════════ OFFERS + INTERVIEWS + NOTIFICATIONS ═══════════ */}
-          <div className="grid grid-cols-[1fr_360px] gap-4">
-            {/* Dernières offres d'emploi */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="h-px w-4 bg-[#E57617]" />
-                  <h3 className="text-[15px] font-bold text-[#0a2e16]">Dernières offres d&apos;emploi</h3>
-                </div>
-                <Link href="#" className="text-[11px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
-              </div>
-              <div className="flex flex-col">
-                {jobOffers.map((j, i) => (
-                  <div key={i} className="flex items-center gap-3 py-1.5 border-b border-[#DDE8E0]/50 last:border-b-0">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center">
-                      {companyLogos[j.logoKey]}
+          {/* Row 2: 3 columns */}
+          <div className="mb-4 grid grid-cols-3 gap-3">
+            <SectionCard icon={<Calendar size={14} className="text-[#10632D]" />} title="Événements à venir" viewAllText="Voir tous">
+              <div className="flex flex-col gap-2.5">
+                {evenements.map((e, i) => (
+                  <div key={i} className="flex items-center gap-2.5">
+                    <div className="flex h-11 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-[#E8F5ED]">
+                      <span className="text-[13px] font-extrabold text-[#10632D] leading-none">{e.day}</span>
+                      <span className="text-[8px] font-semibold text-[#10632D]">{e.month}</span>
                     </div>
-                    <div className="min-w-0 w-[170px] shrink-0">
-                      <p className="text-[12px] font-bold text-[#0a2e16] truncate">{j.title}</p>
-                      <p className="text-[10px] text-[#61756B]">{j.company}</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight truncate">{e.titre}</p>
+                      <p className="text-[9px] text-[#61756B]">{e.lieu}</p>
                     </div>
-                    <div className="flex items-center gap-1.5">
-                      {j.tags.map((t, ti) => (
-                        <span key={ti} className={`rounded-md px-2.5 py-1 text-[9px] font-semibold ${tagColors[t] || "bg-[#F5F9F6] text-[#10632D]"}`}>{t}</span>
-                      ))}
-                    </div>
-                    <span className="text-[10px] text-[#61756B] whitespace-nowrap ml-auto mr-3">{j.time}</span>
-                    <button className="rounded-lg bg-[#10632D] px-5 py-1.5 text-[10px] font-bold text-white hover:bg-[#0a4a22] transition-colors shrink-0 mr-2">
-                      Postuler
-                    </button>
-                    <button className="text-[#10632D] hover:text-[#E57617] shrink-0">
-                      <Bookmark size={16} />
-                    </button>
+                    <span className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-semibold" style={{ backgroundColor: e.badgeBg, color: e.badgeColor }}>{e.badge}</span>
                   </div>
                 ))}
               </div>
+            </SectionCard>
+
+            <BarChart title="Statistiques de mon activité" bars={barData} maxValue={10} />
+
+            <MiniCalendar month="Mars" year={2024} weeks={calWeeks} highlightDays={[8, 15, 22]} today={10} />
+          </div>
+
+          {/* Recommendations */}
+          <div className="mb-4">
+            <div className="mb-3 flex items-center gap-1.5">
+              <Star size={14} className="text-[#E57617]" />
+              <span className="text-[14px] font-bold text-[#0a2e16]">Recommendations pour vous</span>
             </div>
-
-            {/* Right column: Interviews + Notifications */}
-            <div className="flex flex-col gap-4">
-              {/* Mes prochains entretiens */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="h-px w-4 bg-[#E57617]" />
-                    <h3 className="text-[13px] font-bold text-[#0a2e16]">Mes prochains entretiens</h3>
+            <div className="grid grid-cols-3 gap-3">
+              {recommendations.map((r, i) => (
+                <div key={i} className="flex overflow-hidden rounded-xl border border-[#DDE8E0] bg-white">
+                  <div className="relative w-[120px] shrink-0">
+                    <Image src={r.img} alt={r.titre} fill className="object-cover" />
                   </div>
-                  <Link href="#" className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
-                </div>
-                <div className="flex flex-col gap-3">
-                  {interviews.map((itv, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-full" style={{ backgroundColor: `${itv.accent}15` }}>
-                        <span className="text-[14px] font-extrabold leading-none" style={{ color: itv.accent }}>{itv.day}</span>
-                        <span className="text-[9px] font-semibold" style={{ color: itv.accent }}>{itv.month}</span>
+                  <div className="flex flex-1 items-center gap-2 p-3">
+                    <div className="flex-1 min-w-0">
+                      <span className="inline-block rounded-full px-2 py-0.5 text-[8px] font-semibold mb-1" style={{ backgroundColor: r.catBg, color: r.catColor }}>{r.category}</span>
+                      <p className="text-[11px] font-semibold text-[#0a2e16] leading-tight">{r.titre}</p>
+                      <p className="text-[9px] text-[#61756B] mt-0.5">{r.lieu}</p>
+                      <div className="mt-1 flex items-center gap-1 text-[9px] text-[#61756B]">
+                        <Calendar size={9} />
+                        <span>{r.date}</span>
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[11px] font-bold text-[#0a2e16]">{itv.title}</p>
-                        <p className="text-[9px] text-[#61756B]">{itv.org}</p>
-                        <p className="text-[9px] text-[#61756B]">{itv.time}</p>
-                      </div>
-                      {itv.type === "video" ? (
-                        <Video size={16} className="text-[#3b82f6] shrink-0" />
-                      ) : (
-                        <MapPin size={16} className="text-[#ef4444] shrink-0" />
-                      )}
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Notifications récentes */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="h-px w-4 bg-[#E57617]" />
-                    <h3 className="text-[13px] font-bold text-[#0a2e16]">Notifications récentes</h3>
+                    <button className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full border border-[#DDE8E0]">
+                      <ChevronRight size={13} className="text-[#61756B]" />
+                    </button>
                   </div>
-                  <Link href="#" className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
                 </div>
-                <div className="flex flex-col gap-3">
-                  {notifications.map((n, i) => (
-                    <div key={i} className="flex items-start gap-2.5">
-                      <div className="shrink-0">
-                        {n.icon}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[11px] font-bold text-[#0a2e16] leading-tight">{n.title}</p>
-                        <p className="text-[9px] text-[#61756B] mt-0.5">{n.time}</p>
-                      </div>
-                      <span className="mt-1 h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: n.dot }} />
-                    </div>
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </main>

@@ -11,13 +11,16 @@ export interface SidebarItem {
   expanded?: boolean;
   subItems?: string[];
   activeSubIndex?: number;
+  badge?: number;
+  dividerBefore?: boolean;
 }
 
 interface Props {
   items: SidebarItem[];
+  hideBottomInfo?: boolean;
 }
 
-export default function DashboardSidebar({ items }: Props) {
+export default function DashboardSidebar({ items, hideBottomInfo }: Props) {
   return (
     <aside className="flex w-[250px] shrink-0 flex-col border-r border-[#DDE8E0] bg-white">
       {/* Logo */}
@@ -40,6 +43,7 @@ export default function DashboardSidebar({ items }: Props) {
       <nav className="flex-1 overflow-y-auto px-3 py-2">
         {items.map((item, i) => (
           <div key={i}>
+            {item.dividerBefore && <div className="my-2 border-t border-[#DDE8E0]" />}
             <button className={`flex w-full items-center gap-2.5 py-2 mb-0.5 text-left transition-all ${
               item.active
                 ? "text-[#10632D] font-bold pl-3 pr-3 border-l-[3px] border-[#10632D] bg-[#F5F9F6]"
@@ -47,6 +51,9 @@ export default function DashboardSidebar({ items }: Props) {
             }`}>
               <span className="text-[#10632D]">{item.icon}</span>
               <span className="flex-1 text-[12px]">{item.label}</span>
+              {item.badge && (
+                <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-[#E57617] px-1 text-[9px] font-bold text-white">{item.badge}</span>
+              )}
               {item.chevron && (item.expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
             </button>
             {item.expanded && item.subItems && (
@@ -79,16 +86,18 @@ export default function DashboardSidebar({ items }: Props) {
           </p>
           <div className="relative mt-2 h-[3px] w-14 rounded-full bg-[#E57617]" />
         </div>
-        <div className="mt-4 flex items-center justify-between">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1e3a5f] text-[13px] font-bold text-white">N</div>
-          <div className="flex items-center gap-1">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#E57617">
-              <circle cx="12" cy="12" r="5"/>
-              <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#E57617" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-            <span className="text-[11px] font-semibold text-[#61756B]">30°C</span>
+        {!hideBottomInfo && (
+          <div className="mt-4 flex items-center justify-between">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1e3a5f] text-[13px] font-bold text-white">N</div>
+            <div className="flex items-center gap-1">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#E57617">
+                <circle cx="12" cy="12" r="5"/>
+                <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#E57617" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+              <span className="text-[11px] font-semibold text-[#61756B]">30°C</span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </aside>
   );
