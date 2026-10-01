@@ -3,13 +3,18 @@
 import Image from "next/image";
 import {
   Home, Users, Briefcase, BookOpen, Calendar, Mic,
-  Handshake, Newspaper, HelpCircle, Search, Eye, Pencil, Copy, Trash2, MoreVertical,
-  MessageSquare, FolderOpen, BarChart3, Settings, FileText, Share2, Star,
+  Handshake, Newspaper, HelpCircle, Eye, Pencil, Copy, Trash2, MoreVertical,
+  BarChart3, Settings, FileText, Share2,
 } from "lucide-react";
 
 import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import StatsCard from "@/components/dashboard/StatsCard";
+import FilterBar from "@/components/dashboard/FilterBar";
+import Pagination from "@/components/dashboard/Pagination";
+import DonutChart from "@/components/dashboard/DonutChart";
+import RankedList from "@/components/dashboard/RankedList";
+import DateBadgeList from "@/components/dashboard/DateBadgeList";
 
 /* ─── Sidebar ─── */
 const sidebarItems: SidebarItem[] = [
@@ -35,23 +40,23 @@ const sidebarItems: SidebarItem[] = [
 /* ─── Stats ─── */
 const statsData = [
   {
-    icon: <MessageSquare size={22} />,
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>,
     value: "48", label: "Questions totales", trend: "+20%", bg: "#E8F5ED", color: "#10632D",
   },
   {
-    icon: <FolderOpen size={22} />,
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>,
     value: "8", label: "Catégories", trend: "+14%", bg: "#FFF3E8", color: "#E57617",
   },
   {
-    icon: <Eye size={22} />,
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>,
     value: "12.4K", label: "Vues totales", trend: "+35%", bg: "#E0F0FF", color: "#2563EB",
   },
   {
-    icon: <Users size={22} />,
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="9" r="3"/><path d="M2 21v-2c0-2.2 3.1-4 7-4s7 1.8 7 4v2H2z"/><path d="M22 21v-2c0-1.5-1.4-2.8-3.5-3.4.9.7 1.5 1.7 1.5 3.4v2h2z"/></svg>,
     value: "3.8K", label: "Utilisateurs uniques", trend: "+28%", bg: "#F3E8FF", color: "#7C3AED",
   },
   {
-    icon: <Star size={22} />,
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>,
     value: "4.7", label: "Note moyenne", trend: "+12%", bg: "#FFFBE8", color: "#D97706",
   },
 ];
@@ -71,45 +76,34 @@ const questions = [
 ];
 
 /* ─── Donut chart segments ─── */
-const categories = [
-  { label: "Inscription", pct: 22, color: "#10632D" },
-  { label: "Emploi", pct: 18, color: "#E57617" },
-  { label: "Formation", pct: 15, color: "#0891B2" },
-  { label: "Partenariat", pct: 12, color: "#2563EB" },
-  { label: "Événements", pct: 10, color: "#DB2777" },
-  { label: "Documents", pct: 8, color: "#7C3AED" },
-  { label: "Général", pct: 8, color: "#61756B" },
-  { label: "Autres", pct: 7, color: "#94A3B8" },
+const donutSegments = [
+  { label: "Inscription", value: 11, pct: 22, color: "#10632D" },
+  { label: "Emploi", value: 9, pct: 18, color: "#E57617" },
+  { label: "Formation", value: 7, pct: 15, color: "#0891B2" },
+  { label: "Partenariat", value: 6, pct: 12, color: "#2563EB" },
+  { label: "Événements", value: 5, pct: 10, color: "#DB2777" },
+  { label: "Documents", value: 4, pct: 8, color: "#7C3AED" },
+  { label: "Général", value: 4, pct: 8, color: "#61756B" },
+  { label: "Autres", value: 2, pct: 7, color: "#94A3B8" },
 ];
 
-function buildConic(segs: { pct: number; color: string }[]) {
-  let acc = 0;
-  return segs.map(s => {
-    const start = acc;
-    acc += s.pct;
-    return `${s.color} ${start}% ${acc}%`;
-  }).join(", ");
-}
-
 /* ─── Top questions ─── */
-const topQuestions = [
-  { rank: 1, titre: "Comment puis-je m'inscrire au SANE ?", vues: "2,540 vues" },
-  { rank: 2, titre: "La participation est-elle gratuite ?", vues: "1,980 vues" },
-  { rank: 3, titre: "Quels sont les documents nécessaires ?", vues: "1,760 vues" },
-  { rank: 4, titre: "Comment postuler aux offres d'emploi ?", vues: "1,520 vues" },
-  { rank: 5, titre: "Comment devenir partenaire ?", vues: "1,340 vues" },
+const topQuestionsData = [
+  { rank: 1, title: "Comment puis-je m'inscrire au SANE ?", subtitle: "2,540 vues" },
+  { rank: 2, title: "La participation est-elle gratuite ?", subtitle: "1,980 vues" },
+  { rank: 3, title: "Quels sont les documents nécessaires ?", subtitle: "1,760 vues" },
+  { rank: 4, title: "Comment postuler aux offres d'emploi ?", subtitle: "1,520 vues" },
+  { rank: 5, title: "Comment devenir partenaire ?", subtitle: "1,340 vues" },
 ];
 
 /* ─── Questions récentes ─── */
-const questionsRecentes = [
-  { day: "12", month: "Mar", titre: "Comment s'inscrire au SANE ?", statut: "Publié" },
-  { day: "10", month: "Mar", titre: "La participation est-elle gratuite ?", statut: "Publié" },
-  { day: "08", month: "Mar", titre: "Quels sont les documents ?", statut: "Publié" },
-  { day: "05", month: "Mar", titre: "Comment postuler aux offres ?", statut: "Publié" },
-  { day: "02", month: "Mar", titre: "Devenir exposant ou partenaire ?", statut: "Brouillon" },
+const recentQuestions = [
+  { day: "12", month: "Mar", title: "Comment s'inscrire au SANE ?", subtitle: "Publié" },
+  { day: "10", month: "Mar", title: "La participation est-elle gratuite ?", subtitle: "Publié" },
+  { day: "08", month: "Mar", title: "Quels sont les documents ?", subtitle: "Publié" },
+  { day: "05", month: "Mar", title: "Comment postuler aux offres ?", subtitle: "Publié" },
+  { day: "02", month: "Mar", title: "Devenir exposant ou partenaire ?", subtitle: "Brouillon" },
 ];
-
-const rankColors = ["#E57617", "#10632D", "#2563EB", "#DB2777", "#7C3AED"];
 
 export default function FaqPage() {
   return (
@@ -125,10 +119,10 @@ export default function FaqPage() {
         />
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
-          {/* Hero Banner - dark variant with breadcrumb inside */}
+          {/* Hero Banner */}
           <div className="relative mb-4 h-[170px] overflow-hidden rounded-2xl bg-[#0a2e16]">
             <div className="absolute right-0 top-0 h-full w-[60%]">
-              <Image src="https://images.unsplash.com/photo-1613005341945-35e159e522f1?w=800&h=400&fit=crop&crop=faces&facepad=3" alt="faq" fill className="object-cover object-center" />
+              <Image src="https://images.unsplash.com/photo-1664575602554-2087b04935a5?w=800&h=400&fit=crop" alt="faq" fill className="object-cover object-top" />
               <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e16] via-[#0a2e16]/30 to-transparent" />
             </div>
             <div className="absolute right-32 top-1/2 -translate-y-1/2 opacity-30">
@@ -146,10 +140,7 @@ export default function FaqPage() {
             </div>
             <div className="absolute inset-0 flex flex-col justify-center px-8">
               <div className="mb-2 flex items-center gap-1.5 text-[11px] text-white/70">
-                <span>Accueil</span>
-                <span>&rsaquo;</span>
-                <span>FAQ</span>
-                <span>&rsaquo;</span>
+                <span>Accueil</span><span>&rsaquo;</span><span>FAQ</span><span>&rsaquo;</span>
                 <span className="font-semibold text-white">Toutes les questions</span>
               </div>
               <h1 className="text-[26px] font-extrabold text-white leading-tight">Gestion des FAQ</h1>
@@ -175,22 +166,8 @@ export default function FaqPage() {
           <div className="grid gap-3 overflow-hidden" style={{ gridTemplateColumns: "minmax(0,1fr) 260px" }}>
             {/* Left: filter + table */}
             <div className="flex flex-col gap-3">
-              {/* Filter bar */}
-              <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white p-3">
-                <div className="flex w-[180px] items-center gap-1.5 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2.5 py-1.5">
-                  <Search size={13} className="shrink-0 text-[#61756B]" />
-                  <input type="text" placeholder="Rechercher une question..." className="w-full bg-transparent text-[11px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
-                </div>
-                {["Catégorie", "Statut", "Popularité"].map(f => (
-                  <select key={f} className="rounded-lg border border-[#DDE8E0] bg-white px-2 py-1.5 text-[11px] text-[#0a2e16] outline-none">
-                    <option>{f}</option>
-                  </select>
-                ))}
-                <button className="shrink-0 rounded-lg bg-[#10632D] px-4 py-1.5 text-[11px] font-semibold text-white">Rechercher</button>
-                <button className="shrink-0 rounded-lg border border-[#DDE8E0] bg-white px-3 py-1.5 text-[11px] text-[#61756B]">Réinitialiser</button>
-              </div>
+              <FilterBar searchPlaceholder="Rechercher une question..." filters={["Catégorie", "Statut", "Popularité"]} />
 
-              {/* Table */}
               <div className="overflow-hidden rounded-xl border border-[#DDE8E0] bg-white">
                 <table className="w-full">
                   <thead>
@@ -245,111 +222,30 @@ export default function FaqPage() {
                     ))}
                   </tbody>
                 </table>
-
-                {/* Pagination */}
-                <div className="flex items-center justify-between border-t border-[#DDE8E0] px-4 py-2.5">
-                  <span className="text-[10px] text-[#61756B]">Affichage de 1 à 10 sur 48 questions</span>
-                  <div className="flex items-center gap-2">
-                    <select className="rounded border border-[#DDE8E0] px-1.5 py-0.5 text-[10px] text-[#0a2e16] outline-none">
-                      <option>10 par page</option>
-                    </select>
-                    <div className="flex items-center gap-1">
-                      <button className="rounded px-1.5 py-0.5 text-[10px] text-[#61756B]">&lsaquo;</button>
-                      {[1, 2, 3, 4, 5].map(p => (
-                        <button key={p} className={`h-6 w-6 rounded text-[10px] font-semibold ${p === 1 ? "bg-[#10632D] text-white" : "text-[#61756B] hover:bg-[#F5F9F6]"}`}>{p}</button>
-                      ))}
-                      <span className="text-[10px] text-[#61756B]">...</span>
-                      <button className="rounded px-1.5 py-0.5 text-[10px] text-[#61756B]">&rsaquo;</button>
-                    </div>
-                  </div>
-                </div>
+                <Pagination current={1} totalPages={5} totalItems={48} itemLabel="questions" />
               </div>
             </div>
 
             {/* Right sidebar */}
             <div className="flex flex-col gap-3 overflow-hidden w-full">
-              {/* Donut chart */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
-                <div className="mb-2 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[#E57617]" />
-                    <span className="text-[11px] font-bold text-[#0a2e16]">Répartition par catégorie</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="relative shrink-0">
-                    <div className="h-[85px] w-[85px] rounded-full" style={{ background: `conic-gradient(${buildConic(categories)})` }} />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="flex h-[57px] w-[57px] flex-col items-center justify-center rounded-full bg-white">
-                        <span className="text-[14px] font-extrabold text-[#0a2e16] leading-none">48</span>
-                        <span className="text-[7px] text-[#61756B]">Questions</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-[3px] flex-1 min-w-0">
-                    {categories.map((c, i) => (
-                      <div key={i} className="flex items-center justify-between gap-1">
-                        <div className="flex items-center gap-1 min-w-0">
-                          <span className="h-1.5 w-1.5 shrink-0 rounded-sm" style={{ backgroundColor: c.color }} />
-                          <span className="text-[9px] text-[#61756B] truncate">{c.label}</span>
-                        </div>
-                        <span className="text-[9px] font-semibold text-[#0a2e16] shrink-0 ml-1">{c.pct}%</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Top questions (vues) */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
-                <div className="mb-2 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[#E57617]" />
-                    <span className="text-[11px] font-bold text-[#0a2e16]">Top questions (vues)</span>
-                  </div>
-                  <button className="shrink-0 ml-1 text-[9px] font-semibold text-[#E57617]">Voir tout</button>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {topQuestions.map((t, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold" style={{ backgroundColor: `${rankColors[i]}18`, color: rankColors[i] }}>
-                        {t.rank}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight truncate">{t.titre}</p>
-                        <p className="text-[9px] text-[#61756B]">{t.vues}</p>
-                      </div>
-                      <svg className="shrink-0" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="#61756B" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Questions récentes */}
-              <div className="flex-1 rounded-xl border border-[#DDE8E0] bg-white p-3">
-                <div className="mb-2 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[#E57617]" />
-                    <span className="text-[11px] font-bold text-[#0a2e16]">Questions récentes</span>
-                  </div>
-                  <button className="shrink-0 ml-1 text-[9px] font-semibold text-[#E57617]">Voir tout</button>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {questionsRecentes.map((q, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <div className="flex h-9 w-8 shrink-0 flex-col items-center justify-center rounded-lg bg-[#FFF3E8]">
-                        <span className="text-[12px] font-extrabold text-[#E57617] leading-none">{q.day}</span>
-                        <span className="text-[7px] font-semibold text-[#E57617]">{q.month}</span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight truncate">{q.titre}</p>
-                        <span className="text-[9px] text-[#61756B]">{q.statut}</span>
-                      </div>
-                      <svg className="shrink-0 mt-1" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="#61756B" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <DonutChart
+                title="Répartition par catégorie"
+                segments={donutSegments}
+                centerValue="48"
+                centerLabel="Questions"
+                showValues={false}
+              />
+              <RankedList
+                heading="Top questions (vues)"
+                items={topQuestionsData}
+                showViewAll
+              />
+              <DateBadgeList
+                heading="Questions récentes"
+                items={recentQuestions}
+                showViewAll
+                className="flex-1"
+              />
             </div>
           </div>
         </main>

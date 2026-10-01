@@ -2,14 +2,19 @@
 
 import Image from "next/image";
 import {
-  Home, Users, Briefcase, BookOpen, Calendar, Mic,
-  Handshake, Newspaper, HelpCircle, Bell, BarChart3,
-  Settings, FileText, Share2, Search, Eye, Pencil, Link2, Trash2, MoreVertical,
+  Home, Users, Briefcase, BookOpen, Calendar,
+  Newspaper, BarChart3, Settings, Share2,
+  Eye, Pencil, Link2, Trash2, MoreVertical,
 } from "lucide-react";
 
 import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import StatsCard from "@/components/dashboard/StatsCard";
+import FilterBar from "@/components/dashboard/FilterBar";
+import Pagination from "@/components/dashboard/Pagination";
+import DonutChart from "@/components/dashboard/DonutChart";
+import RankedList from "@/components/dashboard/RankedList";
+import DateBadgeList from "@/components/dashboard/DateBadgeList";
 
 /* ─── Sidebar ─── */
 const sidebarItems: SidebarItem[] = [
@@ -127,43 +132,32 @@ const evenements = [
 ];
 
 /* ─── Donut chart segments ─── */
-const categories = [
-  { label: "Salon", pct: 25, color: "#10632D" },
-  { label: "Conférence", pct: 20, color: "#2563EB" },
-  { label: "Atelier", pct: 15, color: "#7C3AED" },
-  { label: "Forum", pct: 15, color: "#E57617" },
-  { label: "Rencontre", pct: 10, color: "#0891B2" },
-  { label: "Sommet", pct: 8, color: "#059669" },
-  { label: "Cérémonie", pct: 7, color: "#DB2777" },
+const donutSegments = [
+  { label: "Salon", value: 3, pct: 25, color: "#10632D" },
+  { label: "Conférence", value: 2, pct: 20, color: "#2563EB" },
+  { label: "Atelier", value: 2, pct: 15, color: "#7C3AED" },
+  { label: "Forum", value: 2, pct: 15, color: "#E57617" },
+  { label: "Rencontre", value: 1, pct: 10, color: "#0891B2" },
+  { label: "Sommet", value: 1, pct: 8, color: "#059669" },
+  { label: "Cérémonie", value: 1, pct: 7, color: "#DB2777" },
 ];
 
-function buildConic(segs: { pct: number; color: string }[]) {
-  let acc = 0;
-  return segs.map(s => {
-    const start = acc;
-    acc += s.pct;
-    return `${s.color} ${start}% ${acc}%`;
-  }).join(", ");
-}
-
 /* ─── Prochains événements ─── */
-const prochains = [
-  { day: "12", month: "Mai", titre: "Salon National de l'Emploi 2024", lieu: "Palais des Congrès · Niamey", inscrits: "2,860 inscrits" },
-  { day: "22", month: "Mar", titre: "Forum sur l'Entrepreneuriat", lieu: "Centre de Conférences · Niamey", inscrits: "420 inscrits" },
-  { day: "18", month: "Avr", titre: "Conférence : Jeunes et Emploi", lieu: "Université de Niamey", inscrits: "320 inscrits" },
-  { day: "05", month: "Mai", titre: "Atelier : Compétences Numériques", lieu: "Maison des Jeunes · Niamey", inscrits: "180 inscrits" },
+const prochainsData = [
+  { day: "12", month: "Mai", title: "Salon National de l'Emploi 2024", subtitle: "Palais des Congrès · Niamey\n2,860 inscrits" },
+  { day: "22", month: "Mar", title: "Forum sur l'Entrepreneuriat", subtitle: "Centre de Conférences · Niamey\n420 inscrits" },
+  { day: "18", month: "Avr", title: "Conférence : Jeunes et Emploi", subtitle: "Université de Niamey\n320 inscrits" },
+  { day: "05", month: "Mai", title: "Atelier : Compétences Numériques", subtitle: "Maison des Jeunes · Niamey\n180 inscrits" },
 ];
 
 /* ─── Top événements ─── */
-const topEvenements = [
-  { rank: 1, titre: "Salon National de l'Emploi 2024", inscrits: "2,860 inscrits" },
-  { rank: 2, titre: "Cérémonie de Clôture", inscrits: "980 inscrits" },
-  { rank: 3, titre: "Rencontre avec les Recruteurs", inscrits: "610 inscrits" },
-  { rank: 4, titre: "Forum sur l'Entrepreneuriat", inscrits: "420 inscrits" },
-  { rank: 5, titre: "Conférence : Jeunes et Emploi", inscrits: "320 inscrits" },
+const topEvenementsData = [
+  { rank: 1, title: "Salon National de l'Emploi 2024", subtitle: "2,860 inscrits" },
+  { rank: 2, title: "Cérémonie de Clôture", subtitle: "980 inscrits" },
+  { rank: 3, title: "Rencontre avec les Recruteurs", subtitle: "610 inscrits" },
+  { rank: 4, title: "Forum sur l'Entrepreneuriat", subtitle: "420 inscrits" },
+  { rank: 5, title: "Conférence : Jeunes et Emploi", subtitle: "320 inscrits" },
 ];
-
-const rankColors = ["#E57617", "#10632D", "#2563EB", "#DB2777", "#7C3AED"];
 
 export default function EvenementsPage() {
   return (
@@ -231,20 +225,7 @@ export default function EvenementsPage() {
           <div className="grid gap-3 overflow-hidden" style={{ gridTemplateColumns: "minmax(0,1fr) 260px" }}>
             {/* Left: filter + table */}
             <div className="flex flex-col gap-3">
-              {/* Filter bar */}
-              <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white p-3">
-                <div className="flex w-[180px] items-center gap-1.5 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2.5 py-1.5">
-                  <Search size={13} className="shrink-0 text-[#61756B]" />
-                  <input type="text" placeholder="Rechercher un événement..." className="w-full bg-transparent text-[11px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
-                </div>
-                {["Catégorie", "Statut", "Lieu", "Date"].map(f => (
-                  <select key={f} className="rounded-lg border border-[#DDE8E0] bg-white px-2 py-1.5 text-[11px] text-[#0a2e16] outline-none">
-                    <option>{f}</option>
-                  </select>
-                ))}
-                <button className="shrink-0 rounded-lg bg-[#10632D] px-4 py-1.5 text-[11px] font-semibold text-white">Rechercher</button>
-                <button className="shrink-0 rounded-lg border border-[#DDE8E0] bg-white px-3 py-1.5 text-[11px] text-[#61756B]">Réinitialiser</button>
-              </div>
+              <FilterBar searchPlaceholder="Rechercher un événement..." filters={["Catégorie", "Statut", "Lieu", "Date"]} />
 
               {/* Table */}
               <div className="overflow-hidden rounded-xl border border-[#DDE8E0] bg-white">
@@ -325,111 +306,15 @@ export default function EvenementsPage() {
                   </tbody>
                 </table>
 
-                {/* Pagination */}
-                <div className="flex items-center justify-between border-t border-[#DDE8E0] px-4 py-2.5">
-                  <span className="text-[10px] text-[#61756B]">Affichage de 1 à 10 sur 12 événements</span>
-                  <div className="flex items-center gap-2">
-                    <select className="rounded border border-[#DDE8E0] px-1.5 py-0.5 text-[10px] text-[#0a2e16] outline-none">
-                      <option>10 par page</option>
-                    </select>
-                    <div className="flex items-center gap-1">
-                      <button className="rounded px-1.5 py-0.5 text-[10px] text-[#61756B]">&lsaquo;</button>
-                      {[1, 2].map(p => (
-                        <button key={p} className={`h-6 w-6 rounded text-[10px] font-semibold ${p === 1 ? "bg-[#10632D] text-white" : "text-[#61756B] hover:bg-[#F5F9F6]"}`}>{p}</button>
-                      ))}
-                      <span className="text-[10px] text-[#61756B]">...</span>
-                      <button className="rounded px-1.5 py-0.5 text-[10px] text-[#61756B]">&rsaquo;</button>
-                    </div>
-                  </div>
-                </div>
+                <Pagination current={1} totalPages={2} totalItems={12} itemLabel="événements" />
               </div>
             </div>
 
             {/* Right sidebar */}
             <div className="flex flex-col gap-3 overflow-hidden w-full">
-              {/* Donut chart - Répartition par catégorie */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
-                <div className="mb-2 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[#E57617]" />
-                    <span className="text-[11px] font-bold text-[#0a2e16]">Répartition par catégorie</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="relative shrink-0">
-                    <div className="h-[85px] w-[85px] rounded-full" style={{ background: `conic-gradient(${buildConic(categories)})` }} />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="flex h-[57px] w-[57px] flex-col items-center justify-center rounded-full bg-white">
-                        <span className="text-[14px] font-extrabold text-[#0a2e16] leading-none">12</span>
-                        <span className="text-[7px] text-[#61756B]">Événements</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-[3px] flex-1 min-w-0">
-                    {categories.map((c, i) => (
-                      <div key={i} className="flex items-center justify-between gap-1">
-                        <div className="flex items-center gap-1 min-w-0">
-                          <span className="h-1.5 w-1.5 shrink-0 rounded-sm" style={{ backgroundColor: c.color }} />
-                          <span className="text-[9px] text-[#61756B] truncate">{c.label}</span>
-                        </div>
-                        <span className="text-[9px] font-semibold text-[#0a2e16] shrink-0 ml-1">{c.pct}%</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Prochains événements */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
-                <div className="mb-2 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[#E57617]" />
-                    <span className="text-[11px] font-bold text-[#0a2e16]">Prochains événements</span>
-                  </div>
-                  <button className="shrink-0 ml-1 text-[9px] font-semibold text-[#E57617]">Voir tout</button>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {prochains.map((p, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <div className="flex h-9 w-8 shrink-0 flex-col items-center justify-center rounded-lg bg-[#FFF3E8]">
-                        <span className="text-[12px] font-extrabold text-[#E57617] leading-none">{p.day}</span>
-                        <span className="text-[7px] font-semibold text-[#E57617]">{p.month}</span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight truncate">{p.titre}</p>
-                        <p className="text-[9px] text-[#61756B] truncate">{p.lieu}</p>
-                        <p className="text-[9px] text-[#61756B]">{p.inscrits}</p>
-                      </div>
-                      <svg className="shrink-0 mt-1" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="#61756B" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Top événements par inscriptions */}
-              <div className="flex-1 rounded-xl border border-[#DDE8E0] bg-white p-3">
-                <div className="mb-2 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[#E57617]" />
-                    <span className="text-[11px] font-bold text-[#0a2e16]">Top événements par inscriptions</span>
-                  </div>
-                  <button className="shrink-0 ml-1 text-[9px] font-semibold text-[#E57617]">Voir tout</button>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {topEvenements.map((t, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold" style={{ backgroundColor: `${rankColors[i]}18`, color: rankColors[i] }}>
-                        {t.rank}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight truncate">{t.titre}</p>
-                        <p className="text-[9px] text-[#61756B]">{t.inscrits}</p>
-                      </div>
-                      <svg className="shrink-0" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="#61756B" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <DonutChart title="Répartition par catégorie" segments={donutSegments} centerValue="12" centerLabel="Événements" />
+              <DateBadgeList heading="Prochains événements" items={prochainsData} showViewAll />
+              <RankedList heading="Top événements par inscriptions" items={topEvenementsData} showViewAll className="flex-1" />
             </div>
           </div>
         </main>
