@@ -140,6 +140,7 @@ const recentReports = [
 /* ─────────────────────────────── PAGE ─────────────────────────────── */
 
 export default function AdminRapportsPage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const maxLine = 1800;
   const maxBar = 40;
 
@@ -160,8 +161,10 @@ export default function AdminRapportsPage() {
 
   return (
     <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
+      {/* Mobile overlay */}
+      {sidebarOpen && <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
       {/* ═══════════ SIDEBAR ═══════════ */}
-      <aside className="flex w-[260px] shrink-0 flex-col border-r border-[#DDE8E0] bg-white">
+      <aside className={`fixed inset-y-0 left-0 z-40 flex w-[260px] shrink-0 flex-col border-r border-[#DDE8E0] bg-white transition-transform duration-300 lg:static lg:translate-x-0 lg:z-auto ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex flex-col items-center px-5 pt-5 pb-2">
           <div className="flex items-center gap-1">
             <svg width="36" height="36" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
@@ -218,23 +221,26 @@ export default function AdminRapportsPage() {
       </aside>
 
       {/* ═══════════ MAIN ═══════════ */}
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         {/* TOP NAVBAR */}
-        <header className="flex items-center gap-4 border-b border-[#DDE8E0] bg-white px-6 py-3">
+        <header className="flex items-center gap-2 border-b border-[#DDE8E0] bg-white px-3 sm:px-6 py-3">
+          <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#DDE8E0] text-[#61756B] hover:bg-[#F5F9F6] lg:hidden shrink-0" onClick={() => setSidebarOpen(true)}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
           <div className="flex flex-1 items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-3 py-2">
             <Search size={16} className="text-[#61756B]" />
-            <input type="text" placeholder="Rechercher un rapport, une période, une catégorie..." className="flex-1 bg-transparent text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
+            <input type="text" placeholder="Rechercher un rapport..." className="flex-1 bg-transparent text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
           </div>
           <button className="relative rounded-lg p-2 text-[#61756B] hover:bg-[#F5F9F6]">
             <Bell size={18} />
             <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E57617] text-[9px] font-bold text-white">5</span>
           </button>
-          <button className="flex items-center gap-1 rounded-lg px-2 py-1 text-[12px] font-medium text-[#61756B] hover:bg-[#F5F9F6]">
+          <button className="hidden sm:flex items-center gap-1 rounded-lg px-2 py-1 text-[12px] font-medium text-[#61756B] hover:bg-[#F5F9F6]">
             FR <ChevronDown size={12} />
           </button>
-          <div className="flex items-center gap-2.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5">
+          <div className="hidden sm:flex items-center gap-2.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5">
             <Image src="https://randomuser.me/api/portraits/men/75.jpg" alt="Admin" width={32} height={32} className="rounded-full object-cover" />
-            <div>
+            <div className="hidden sm:block">
               <p className="text-[12px] font-bold text-[#0a2e16]">Admin</p>
               <p className="text-[10px] text-[#61756B]">Administrateur</p>
             </div>
@@ -243,31 +249,34 @@ export default function AdminRapportsPage() {
         </header>
 
         {/* SCROLLABLE CONTENT */}
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-6">
           {/* ═══════════ WELCOME BANNER ═══════════ */}
-          <div className="relative mb-6 overflow-hidden rounded-2xl h-[140px]">
+          <div className="relative mb-6 overflow-hidden rounded-2xl min-h-[110px] sm:h-[140px]">
             <Image src="/sane_deal.png" alt="Rapports" fill className="object-cover" style={{ objectPosition: "center 30%" }} />
             <div className="absolute inset-0 bg-gradient-to-r from-white from-35% via-white/60 via-50% to-transparent" />
-            <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 flex items-center gap-3">
+            <div className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-20 hidden sm:flex items-center gap-3">
               <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
               <p className="text-[16px] italic text-[#E57617] leading-tight font-semibold" style={{ fontFamily: "Georgia, serif" }}>Un Niger<br/>de Talents</p>
             </div>
-            <div className="relative z-20 p-6 flex items-start justify-between">
+            <div className="relative z-20 p-4 sm:p-6 flex items-start justify-between">
               <div>
                 <nav className="mb-2 flex items-center gap-1.5 text-[11px] text-[#61756B]">
                   <span>Accueil</span><ChevronRight size={11} /><span>Rapports</span><ChevronRight size={11} /><span className="font-medium text-[#0a2e16]">Tous les rapports</span>
                 </nav>
-                <h1 className="mb-1 text-2xl font-extrabold text-[#0a2e16]">Gestion des rapports</h1>
-                <p className="max-w-lg text-[12px] text-[#61756B]">Consultez et générez tous les rapports du SANE. Suivez les statistiques, les inscriptions, la participation et l&apos;impact de vos événements.</p>
+                <h1 className="mb-1 text-[18px] sm:text-2xl font-extrabold text-[#0a2e16]">Gestion des rapports</h1>
+                <p className="max-w-lg text-[11px] sm:text-[12px] text-[#61756B] hidden sm:block">Consultez et générez tous les rapports du SANE. Suivez les statistiques, les inscriptions, la participation et l&apos;impact de vos événements.</p>
+                <button className="mt-2 flex items-center gap-1 rounded-lg bg-[#10632D] px-3 py-1.5 text-[10px] font-bold text-white sm:hidden">
+                  <Plus size={11} /> Générer
+                </button>
               </div>
-              <button className="shrink-0 flex items-center gap-2 rounded-lg bg-[#10632D] px-4 py-2.5 text-[12px] font-bold text-white hover:bg-[#0a4a22] mt-4">
+              <button className="hidden sm:flex shrink-0 items-center gap-2 rounded-lg bg-[#10632D] px-4 py-2.5 text-[12px] font-bold text-white hover:bg-[#0a4a22] mt-4">
                 <Plus size={14} /> Générer un rapport
               </button>
             </div>
           </div>
 
           {/* ═══════════ STATS ROW ═══════════ */}
-          <div className="mb-6 grid grid-cols-5 gap-3">
+          <div className="mb-6 grid grid-cols-2 lg:grid-cols-5 gap-3">
             {statsData.map((s, i) => (
               <div key={i} className="flex items-center gap-3 rounded-xl border border-[#DDE8E0] bg-white px-4 py-3">
                 <span className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0" style={{ backgroundColor: s.bg, color: s.color }}>{s.icon}</span>
@@ -288,7 +297,7 @@ export default function AdminRapportsPage() {
           {/* ═══════════ CHARTS ═══════════ */}
           <div className="mb-6 flex flex-col gap-4">
               {/* Charts row */}
-              <div className="grid grid-cols-[2fr_2fr_1.5fr] gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-[2fr_2fr_1.5fr] gap-4">
                 {/* Line chart */}
                 <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
                   <div className="flex items-center justify-between mb-3">
@@ -384,26 +393,30 @@ export default function AdminRapportsPage() {
               </div>
 
               {/* ═══════════ FILTER + TABLE + RIGHT SIDEBAR ═══════════ */}
-              <div className="grid grid-cols-[1fr_260px] gap-4">
-              <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px] gap-4">
+              <div className="flex flex-col gap-4 min-w-0">
               {/* ═══════════ FILTER BAR ═══════════ */}
-              <div className="flex items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white px-4 py-2.5">
-                <div className="flex items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2 py-1.5 flex-1">
+              <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white px-3 py-2.5">
+                <div className="flex flex-1 min-w-[140px] items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2 py-1.5">
                   <Search size={14} className="text-[#61756B]" />
                   <input type="text" placeholder="Rechercher un rapport..." className="flex-1 bg-transparent text-[11px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
                 </div>
-                {["Catégorie", "Période", "Format", "Statut"].map((f) => (
-                  <select key={f} className="text-[10px] border border-[#DDE8E0] rounded-lg px-3 py-1.5 text-[#61756B] outline-none bg-white">
-                    <option>{f}</option>
-                  </select>
-                ))}
-                <button className="rounded-lg bg-[#10632D] px-4 py-1.5 text-[10px] font-bold text-white">Rechercher</button>
-                <button className="rounded-lg border border-[#DDE8E0] px-3 py-1.5 text-[10px] font-medium text-[#61756B] flex items-center gap-1"><RefreshCw size={10} /> Réinitialiser</button>
+                <div className="flex flex-wrap gap-2 flex-1">
+                  {["Catégorie", "Période", "Format", "Statut"].map((f) => (
+                    <select key={f} className="flex-1 min-w-[90px] text-[10px] border border-[#DDE8E0] rounded-lg px-2 py-1.5 text-[#61756B] outline-none bg-white">
+                      <option>{f}</option>
+                    </select>
+                  ))}
+                </div>
+                <div className="flex gap-2 w-full sm:w-auto">
+                  <button className="flex-1 sm:flex-none rounded-lg bg-[#10632D] px-4 py-1.5 text-[10px] font-bold text-white">Rechercher</button>
+                  <button className="flex-1 sm:flex-none rounded-lg border border-[#DDE8E0] px-3 py-1.5 text-[10px] font-medium text-[#61756B] flex items-center justify-center gap-1"><RefreshCw size={10} /> Réinitialiser</button>
+                </div>
               </div>
 
               {/* ═══════════ TABLE ═══════════ */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white overflow-hidden">
-                <table className="w-full text-left">
+              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+                <table className="w-full min-w-[700px] text-left">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
                       <th className="px-3 py-2 w-8"><input type="checkbox" className="accent-[#10632D]" /></th>
@@ -476,7 +489,7 @@ export default function AdminRapportsPage() {
 
             </div>
             {/* ═══════════ RIGHT SIDEBAR ═══════════ */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 min-w-0">
               {/* Top rapports téléchargés */}
               <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
                 <div className="flex items-center justify-between mb-3">

@@ -91,20 +91,22 @@ const quickConfig = [
 /* ─── Page ─── */
 export default function AdminParametresPage() {
   const [activeTab, setActiveTab] = useState(0);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
-      <DashboardSidebar items={sidebarItems} />
+      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         <DashboardNavbar
           searchPlaceholder="Rechercher un paramètre, une section, une configuration..."
           notificationCount={5}
           userName="Admin"
           userRole="Administrateur"
+          onMenuClick={() => setSidebarOpen(true)}
         />
 
-        <main className="flex-1 overflow-y-auto px-6 py-4">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:px-6 sm:py-4">
           {/* Breadcrumb */}
           <div className="mb-3 flex items-center gap-1 text-[11px] text-[#61756B]">
             <span className="hover:text-[#10632D] cursor-pointer">Accueil</span>
@@ -115,18 +117,18 @@ export default function AdminParametresPage() {
           </div>
 
           {/* Welcome Banner */}
-          <div className="relative mb-5 h-[150px] overflow-hidden rounded-2xl">
+          <div className="relative mb-5 min-h-[110px] sm:h-[150px] overflow-hidden rounded-2xl">
             <Image src="/sane_deal.png" alt="Banner" fill className="object-cover object-center" />
             <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
-            <div className="absolute inset-0 flex items-center px-8">
-              <div className="max-w-[55%]">
-                <h1 className="text-[22px] font-extrabold text-[#0a2e16] leading-tight">Paramètres du système</h1>
-                <p className="mt-1 text-[11px] text-[#61756B] leading-relaxed">
+            <div className="absolute inset-0 flex items-center px-4 sm:px-8">
+              <div className="max-w-[65%] sm:max-w-[55%]">
+                <h1 className="text-[16px] sm:text-[22px] font-extrabold text-[#0a2e16] leading-tight">Paramètres du système</h1>
+                <p className="mt-1 text-[10px] sm:text-[11px] text-[#61756B] leading-relaxed hidden sm:block">
                   Configurez votre plateforme SANE selon vos besoins. Gérez les informations générales,<br/>
                   la sécurité, les notifications et les préférences de votre organisation.
                 </p>
               </div>
-              <div className="absolute right-8 flex flex-col items-end gap-1">
+              <div className="absolute right-4 sm:right-8 hidden sm:flex flex-col items-end gap-1">
                 <div className="flex items-center gap-2">
                   <svg width="44" height="44" viewBox="0 0 40 40">
                     <circle cx="20" cy="20" r="18" fill="#10632D"/>
@@ -145,7 +147,7 @@ export default function AdminParametresPage() {
           </div>
 
           {/* Stats Row */}
-          <div className="mb-5 grid grid-cols-5 gap-3">
+          <div className="mb-5 grid grid-cols-2 lg:grid-cols-5 gap-3">
             {statsData.map((s, i) => (
               <StatsCard key={i} {...s} />
             ))}
@@ -167,24 +169,24 @@ export default function AdminParametresPage() {
           </div>
 
           {/* Main Content + Right Sidebar */}
-          <div className="grid grid-cols-[1fr_280px] gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-4">
             {/* Form Card */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
-              <div className="flex items-start justify-between mb-5">
+            <div className="rounded-xl border border-[#DDE8E0] bg-white p-4 sm:p-5 min-w-0">
+              <div className="flex flex-wrap items-start justify-between gap-2 mb-5">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="h-px w-4 bg-[#E57617]" />
-                    <h2 className="text-[15px] font-bold text-[#0a2e16]">Informations de l&apos;organisation</h2>
+                    <h2 className="text-[14px] sm:text-[15px] font-bold text-[#0a2e16]">Informations de l&apos;organisation</h2>
                   </div>
                   <p className="text-[11px] text-[#61756B] ml-6">Configurez les informations générales de votre plateforme.</p>
                 </div>
-                <button className="flex items-center gap-2 rounded-lg bg-[#10632D] px-4 py-2 text-[11px] font-bold text-white hover:bg-[#0a4a22]">
+                <button className="flex items-center gap-2 rounded-lg bg-[#10632D] px-3 sm:px-4 py-2 text-[11px] font-bold text-white hover:bg-[#0a4a22]">
                   <Save size={12} />
                   Enregistrer les modifications
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 gap-x-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                 {/* Left fields */}
                 <div className="flex flex-col gap-3.5">
                   <div>
@@ -280,7 +282,7 @@ export default function AdminParametresPage() {
             </div>
 
             {/* Right Sidebar */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 min-w-0">
               {/* Statut du système */}
               <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
                 <div className="flex items-center gap-2 mb-3">

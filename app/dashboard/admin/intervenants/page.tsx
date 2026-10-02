@@ -147,20 +147,22 @@ function DonutChart() {
 /* ─── Page ─── */
 export default function IntervenantsPage() {
   const [checked, setChecked] = useState<number[]>([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
-      <DashboardSidebar items={sidebarItems} />
+      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         <DashboardNavbar
           searchPlaceholder="Rechercher un intervenant, un domaine, une entreprise..."
           notificationCount={5}
           userName="Admin"
           userRole="Administrateur"
+          onMenuClick={() => setSidebarOpen(true)}
         />
 
-        <main className="flex-1 overflow-y-auto px-6 py-4">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
           {/* Breadcrumb */}
           <div className="mb-3 flex items-center gap-1 text-[11px] text-[#61756B]">
             <span className="cursor-pointer hover:text-[#10632D]">Accueil</span>
@@ -171,18 +173,21 @@ export default function IntervenantsPage() {
           </div>
 
           {/* Welcome Banner */}
-          <div className="relative mb-5 h-[150px] overflow-hidden rounded-2xl">
+          <div className="relative mb-5 h-[110px] sm:h-[150px] overflow-hidden rounded-2xl">
             <Image src="/sane_deal.png" alt="Banner" fill className="object-cover object-center" />
             <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/60 to-transparent" />
-            <div className="absolute inset-0 flex items-center px-8">
-              <div className="max-w-[50%]">
-                <h1 className="text-[22px] font-extrabold text-[#0a2e16] leading-tight">Gestion des intervenants</h1>
-                <p className="mt-1 text-[11px] text-[#61756B] leading-relaxed">
+            <div className="absolute inset-0 flex items-center px-4 sm:px-8">
+              <div className="max-w-[60%] sm:max-w-[50%]">
+                <h1 className="text-[16px] sm:text-[22px] font-extrabold text-[#0a2e16] leading-tight">Gestion des intervenants</h1>
+                <p className="mt-1 text-[10px] sm:text-[11px] text-[#61756B] leading-relaxed hidden sm:block">
                   Gérez tous les intervenants du SANE. Ajoutez de nouveaux intervenants,<br/>
                   assignez-les aux sessions et suivez leur participation.
                 </p>
+                <button className="mt-2 flex items-center gap-1 rounded-lg bg-[#E57617] px-3 py-1.5 text-[10px] font-bold text-white sm:hidden">
+                  <Plus size={11} /> Ajouter
+                </button>
               </div>
-              <div className="absolute right-8 top-4 flex flex-col items-end gap-1">
+              <div className="absolute right-4 sm:right-8 top-3 sm:top-4 flex flex-col items-end gap-1 hidden sm:flex">
                 <button className="flex items-center gap-2 rounded-lg bg-[#E57617] px-4 py-2 text-[11px] font-bold text-white hover:bg-[#c45e0e]">
                   <Plus size={13} /> Ajouter un intervenant
                 </button>
@@ -193,34 +198,38 @@ export default function IntervenantsPage() {
           </div>
 
           {/* Stats Row */}
-          <div className="mb-5 grid grid-cols-5 gap-3">
+          <div className="mb-5 grid grid-cols-2 lg:grid-cols-5 gap-3">
             {statsData.map((s, i) => <StatsCard key={i} {...s} />)}
           </div>
 
           {/* Main + Right Sidebar */}
-          <div className="grid grid-cols-[1fr_270px] gap-4">
-            <div className="flex flex-col gap-3">
+          <div className="grid gap-4 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_270px]">
+            <div className="flex flex-col gap-3 min-w-0">
 
               {/* Filter Bar */}
-              <div className="flex items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white px-4 py-2.5">
-                <div className="flex flex-1 items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2 py-1.5">
+              <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white px-3 py-2.5">
+                <div className="flex flex-1 min-w-[140px] items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2 py-1.5">
                   <Search size={13} className="text-[#61756B]" />
                   <input type="text" placeholder="Rechercher un intervenant..." className="flex-1 bg-transparent text-[11px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
                 </div>
-                {["Catégorie", "Pays", "Statut", "Événement"].map(f => (
-                  <select key={f} className="rounded-lg border border-[#DDE8E0] px-2 py-1.5 text-[10px] text-[#61756B] outline-none bg-white">
-                    <option>{f}</option>
-                  </select>
-                ))}
-                <button className="rounded-lg bg-[#10632D] px-3 py-1.5 text-[10px] font-bold text-white">Rechercher</button>
-                <button className="flex items-center gap-1 rounded-lg border border-[#DDE8E0] px-2 py-1.5 text-[10px] text-[#61756B]">
-                  <RefreshCw size={10} /> Réinitialiser
-                </button>
+                <div className="flex flex-wrap gap-2 flex-1">
+                  {["Catégorie", "Pays", "Statut", "Événement"].map(f => (
+                    <select key={f} className="flex-1 min-w-[90px] rounded-lg border border-[#DDE8E0] px-2 py-1.5 text-[10px] text-[#61756B] outline-none bg-white">
+                      <option>{f}</option>
+                    </select>
+                  ))}
+                </div>
+                <div className="flex gap-2 w-full sm:w-auto">
+                  <button className="flex-1 sm:flex-none rounded-lg bg-[#10632D] px-3 py-1.5 text-[10px] font-bold text-white">Rechercher</button>
+                  <button className="flex-1 sm:flex-none flex items-center justify-center gap-1 rounded-lg border border-[#DDE8E0] px-2 py-1.5 text-[10px] text-[#61756B]">
+                    <RefreshCw size={10} /> Réinitialiser
+                  </button>
+                </div>
               </div>
 
               {/* Table */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white overflow-hidden">
-                <table className="w-full text-left">
+              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+                <table className="w-full min-w-[700px] text-left">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
                       <th className="px-3 py-2 w-8"><input type="checkbox" className="accent-[#10632D]" /></th>
@@ -304,7 +313,7 @@ export default function IntervenantsPage() {
             </div>
 
             {/* Right Sidebar */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 min-w-0">
               {/* Répartition par catégorie */}
               <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
                 <div className="flex items-center gap-2 mb-3">

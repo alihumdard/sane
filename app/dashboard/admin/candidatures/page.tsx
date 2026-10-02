@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import {
   Home, Users, Briefcase, BookOpen, Calendar, Mic,
@@ -113,16 +114,18 @@ function DocIcon({ filled }: { filled?: boolean }) {
 }
 
 export default function CandidaturesPage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
-      <DashboardSidebar items={sidebarItems} />
+      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         <DashboardNavbar
           searchPlaceholder="Rechercher une candidature, un candidat, un poste, une entreprise..."
           notificationCount={5}
           userName="Admin"
           userRole="Administrateur"
+          onMenuClick={() => setSidebarOpen(true)}
         />
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
@@ -142,24 +145,24 @@ export default function CandidaturesPage() {
           />
 
           {/* Stats */}
-          <div className="mb-4 grid grid-cols-5 gap-3">
+          <div className="mb-4 grid grid-cols-2 lg:grid-cols-5 gap-3">
             {statsData.map((s, i) => (
               <StatsCard key={i} icon={s.icon} value={s.value} label={s.label} trend={s.trend} bg={s.bg} color={s.color} />
             ))}
           </div>
 
           {/* Main content grid */}
-          <div className="grid gap-3 overflow-hidden" style={{ gridTemplateColumns: "minmax(0,1fr) 260px" }}>
+          <div className="grid gap-3 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px]">
             {/* Left: filter + table */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 min-w-0">
               <FilterBar
                 searchPlaceholder="Rechercher un candidat..."
                 filters={["Tous les postes", "Tous les statuts", "Toutes les entreprises", "Date de candidature"]}
               />
 
               {/* Table */}
-              <div className="overflow-hidden rounded-xl border border-[#DDE8E0] bg-white">
-                <table className="w-full">
+              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+                <table className="w-full min-w-[700px]">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" /></th>
@@ -232,7 +235,7 @@ export default function CandidaturesPage() {
             </div>
 
             {/* Right sidebar */}
-            <div className="flex flex-col gap-3 overflow-hidden w-full">
+            <div className="flex flex-col gap-3 min-w-0">
               <DonutChart
                 title="Statut des candidatures"
                 segments={statuses}
