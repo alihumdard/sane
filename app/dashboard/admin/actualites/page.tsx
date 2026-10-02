@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import {
   Home, Users, Briefcase, BookOpen, Calendar,
@@ -154,26 +155,28 @@ const recentesData = [
 ];
 
 export default function ActualitesPage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
-      <DashboardSidebar items={sidebarItems} />
+      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         <DashboardNavbar
           searchPlaceholder="Rechercher une actualité, un mot-clé, une catégorie..."
           notificationCount={5}
           userName="Admin"
           userRole="Administrateur"
+          onMenuClick={() => setSidebarOpen(true)}
         />
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
           {/* Hero Banner - dark variant */}
-          <div className="relative mb-4 h-[160px] overflow-hidden rounded-2xl bg-[#0a2e16]">
-            <div className="absolute right-0 top-0 h-full w-[55%]">
+          <div className="relative mb-4 min-h-[120px] sm:h-[160px] overflow-hidden rounded-2xl bg-[#0a2e16]">
+            <div className="absolute right-0 top-0 h-full w-full sm:w-[55%]">
               <Image src="https://images.unsplash.com/photo-1611432579699-484f7990b127?w=800&h=400&fit=crop" alt="actualités" fill className="object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e16] via-[#0a2e16]/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e16] via-[#0a2e16]/60 to-[#0a2e16]/20 sm:via-[#0a2e16]/40 sm:to-transparent" />
             </div>
-            <div className="absolute right-[110px] top-1/2 -translate-y-1/2 opacity-60">
+            <div className="absolute right-[110px] top-1/2 -translate-y-1/2 opacity-60 hidden sm:block">
               <svg width="100" height="100" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="45" fill="white" opacity="0.08" />
                 <circle cx="50" cy="50" r="45" stroke="#E57617" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
@@ -181,47 +184,47 @@ export default function ActualitesPage() {
                 <text x="50" y="60" textAnchor="middle" fill="white" fontSize="5" fontWeight="600" letterSpacing="0.5">SALON NATIONAL DE L&apos;EMPLOI</text>
               </svg>
             </div>
-            <div className="absolute right-5 bottom-3 text-right">
+            <div className="absolute right-5 bottom-3 text-right hidden sm:block">
               <p className="text-[18px] italic font-bold text-white leading-snug" style={{ fontFamily: "Georgia, serif" }}>
                 Un Niger<br />de Talents
               </p>
             </div>
-            <div className="absolute inset-0 flex flex-col justify-center px-8">
+            <div className="absolute inset-0 flex flex-col justify-center px-5 sm:px-8">
               <div className="mb-2 flex items-center gap-1.5 text-[11px] text-white/70">
-                <span>Accueil</span>
-                <span>&rsaquo;</span>
-                <span>Actualités</span>
-                <span>&rsaquo;</span>
+                <span>Accueil</span><span>&rsaquo;</span><span>Actualités</span><span>&rsaquo;</span>
                 <span className="font-semibold text-white">Toutes les actualités</span>
               </div>
-              <h1 className="text-[26px] font-extrabold text-white leading-tight">Gestion des actualités</h1>
-              <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed">
-                Créez, publiez et gérez toutes les actualités du SANE. Informez votre communauté<br />
-                sur les événements, les annonces, les partenariats et les initiatives.
+              <h1 className="text-[20px] sm:text-[26px] font-extrabold text-white leading-tight">Gestion des actualités</h1>
+              <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
+                Créez, publiez et gérez toutes les actualités du SANE. Informez votre communauté sur les événements, les annonces, les partenariats et les initiatives.
               </p>
+              <button className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                Ajouter une actualité
+              </button>
             </div>
-            <button className="absolute right-10 top-5 z-10 flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter une actualité
             </button>
           </div>
 
           {/* Stats */}
-          <div className="mb-4 grid grid-cols-5 gap-3">
+          <div className="mb-4 grid grid-cols-2 lg:grid-cols-5 gap-3">
             {statsData.map((s, i) => (
               <StatsCard key={i} icon={s.icon} value={s.value} label={s.label} trend={s.trend} bg={s.bg} color={s.color} />
             ))}
           </div>
 
           {/* Main content grid */}
-          <div className="grid gap-3 overflow-hidden" style={{ gridTemplateColumns: "minmax(0,1fr) 260px" }}>
+          <div className="grid gap-3 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px]">
             {/* Left: filter + table */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 min-w-0">
               <FilterBar searchPlaceholder="Rechercher une actualité..." filters={["Catégorie", "Statut", "Auteur", "Date de publication"]} />
 
               {/* Table */}
-              <div className="overflow-hidden rounded-xl border border-[#DDE8E0] bg-white">
-                <table className="w-full">
+              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+                <table className="w-full min-w-[750px]">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" /></th>
@@ -306,7 +309,7 @@ export default function ActualitesPage() {
             </div>
 
             {/* Right sidebar */}
-            <div className="flex flex-col gap-3 overflow-hidden w-full">
+            <div className="flex flex-col gap-3 min-w-0">
               <DonutChart title="Répartition par catégorie" segments={donutSegments} centerValue="86" centerLabel="Actualités" showValues={false} />
               <RankedList heading="Top actualités (vues)" items={topActualitesData} showViewAll />
               <DateBadgeList heading="Actualités récentes" items={recentesData} showViewAll />

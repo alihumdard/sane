@@ -11,8 +11,10 @@ export default function Pagination({ current, totalPages, totalItems, itemLabel,
   for (let i = 1; i <= Math.min(5, totalPages); i++) pages.push(i);
 
   return (
-    <div className="flex items-center justify-between border-t border-[#DDE8E0] px-4 py-2.5">
-      <span className="text-[10px] text-[#61756B]">Affichage de 1 à {pageSize} sur {totalItems.toLocaleString()} {itemLabel}</span>
+    <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[#DDE8E0] px-4 py-2.5">
+      <span className="text-[10px] text-[#61756B]">
+        Affichage de 1 à {pageSize} sur {totalItems.toLocaleString()} {itemLabel}
+      </span>
       <div className="flex items-center gap-2">
         <select className="rounded border border-[#DDE8E0] px-1.5 py-0.5 text-[10px] text-[#0a2e16] outline-none">
           <option>{pageSize} par page</option>
