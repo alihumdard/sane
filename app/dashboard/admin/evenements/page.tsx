@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import {
   Home, Users, Briefcase, BookOpen, Calendar,
@@ -160,40 +161,42 @@ const topEvenementsData = [
 ];
 
 export default function EvenementsPage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
-      <DashboardSidebar items={sidebarItems} />
+      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         <DashboardNavbar
           searchPlaceholder="Rechercher un événement, une session, un intervenant..."
           notificationCount={5}
           userName="Admin"
           userRole="Administrateur"
+          onMenuClick={() => setSidebarOpen(true)}
         />
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
-          {/* Hero Banner - light variant with breadcrumb inside */}
+          {/* Hero Banner - light variant */}
           <div className="relative mb-4 overflow-hidden rounded-2xl bg-white border border-[#DDE8E0]">
-            <div className="flex">
-              <div className="flex flex-col justify-center px-8 py-5 relative z-10" style={{ minWidth: "45%" }}>
+            <div className="flex flex-col sm:flex-row">
+              <div className="flex flex-col justify-center px-5 sm:px-8 py-5 relative z-10 sm:min-w-[45%]">
                 <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[#61756B]">
-                  <span>Accueil</span>
-                  <span>&rsaquo;</span>
-                  <span>Événements</span>
-                  <span>&rsaquo;</span>
+                  <span>Accueil</span><span>&rsaquo;</span><span>Événements</span><span>&rsaquo;</span>
                   <span className="font-semibold text-[#0a2e16]">Tous les événements</span>
                 </div>
-                <h1 className="text-[28px] font-extrabold text-[#0a2e16] leading-tight">Gestion des événements</h1>
-                <p className="mt-1.5 max-w-[420px] text-[11px] text-[#61756B] leading-relaxed">
-                  Créez, organisez et gérez tous les événements du SANE. Suivez les inscriptions,<br />
-                  les sessions, les intervenants et évaluez l&apos;impact de chaque événement.
+                <h1 className="text-[22px] sm:text-[28px] font-extrabold text-[#0a2e16] leading-tight">Gestion des événements</h1>
+                <p className="mt-1.5 max-w-[420px] text-[11px] text-[#61756B] leading-relaxed hidden sm:block">
+                  Créez, organisez et gérez tous les événements du SANE. Suivez les inscriptions, les sessions, les intervenants et évaluez l&apos;impact de chaque événement.
                 </p>
+                <button className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  Ajouter un événement
+                </button>
               </div>
-              <div className="relative flex-1 min-h-[160px]">
+              <div className="relative h-[110px] sm:h-auto sm:flex-1 sm:min-h-[160px]">
                 <Image src="https://images.unsplash.com/photo-1613005341945-35e159e522f1?w=800&h=400&fit=crop&crop=faces&facepad=3" alt="événements" fill className="object-cover object-center" />
                 <div className="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent" />
-                <div className="absolute right-[110px] top-1/2 -translate-y-1/2 opacity-60">
+                <div className="absolute right-[110px] top-1/2 -translate-y-1/2 opacity-60 hidden sm:block">
                   <svg width="100" height="100" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="45" fill="#10632D" opacity="0.08" />
                     <circle cx="50" cy="50" r="45" stroke="#E57617" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
@@ -201,35 +204,35 @@ export default function EvenementsPage() {
                     <text x="50" y="60" textAnchor="middle" fill="#10632D" fontSize="5" fontWeight="600" letterSpacing="0.5">SALON NATIONAL DE L&apos;EMPLOI</text>
                   </svg>
                 </div>
-                <div className="absolute right-5 bottom-3 text-right">
+                <div className="absolute right-5 bottom-3 text-right hidden sm:block">
                   <p className="text-[18px] italic font-bold text-[#10632D] leading-snug" style={{ fontFamily: "Georgia, serif" }}>
                     Un Niger<br />de Talents
                   </p>
                 </div>
               </div>
             </div>
-            <button className="absolute right-10 top-5 z-10 flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter un événement
             </button>
           </div>
 
           {/* Stats */}
-          <div className="mb-4 grid grid-cols-5 gap-3">
+          <div className="mb-4 grid grid-cols-2 lg:grid-cols-5 gap-3">
             {statsData.map((s, i) => (
               <StatsCard key={i} icon={s.icon} value={s.value} label={s.label} trend={s.trend} trendLabel="vs. année dernière" bg={s.bg} color={s.color} />
             ))}
           </div>
 
           {/* Main content grid */}
-          <div className="grid gap-3 overflow-hidden" style={{ gridTemplateColumns: "minmax(0,1fr) 260px" }}>
+          <div className="grid gap-3 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px]">
             {/* Left: filter + table */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 min-w-0">
               <FilterBar searchPlaceholder="Rechercher un événement..." filters={["Catégorie", "Statut", "Lieu", "Date"]} />
 
               {/* Table */}
-              <div className="overflow-hidden rounded-xl border border-[#DDE8E0] bg-white">
-                <table className="w-full">
+              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+                <table className="w-full min-w-[700px]">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" /></th>
@@ -311,7 +314,7 @@ export default function EvenementsPage() {
             </div>
 
             {/* Right sidebar */}
-            <div className="flex flex-col gap-3 overflow-hidden w-full">
+            <div className="flex flex-col gap-3 min-w-0">
               <DonutChart title="Répartition par catégorie" segments={donutSegments} centerValue="12" centerLabel="Événements" />
               <DateBadgeList heading="Prochains événements" items={prochainsData} showViewAll />
               <RankedList heading="Top événements par inscriptions" items={topEvenementsData} showViewAll className="flex-1" />

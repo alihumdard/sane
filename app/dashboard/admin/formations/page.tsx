@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import {
   Home, Users, Briefcase, BookOpen, Calendar, Mic,
@@ -182,16 +183,18 @@ const topFormations = [
 const rankColors = ["#E57617", "#10632D", "#2563EB", "#DB2777", "#7C3AED"];
 
 export default function FormationsPage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
-      <DashboardSidebar items={sidebarItems} />
+      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         <DashboardNavbar
           searchPlaceholder="Rechercher une formation, un formateur, une catégorie..."
           notificationCount={5}
           userName="Admin"
           userRole="Administrateur"
+          onMenuClick={() => setSidebarOpen(true)}
         />
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
@@ -205,54 +208,49 @@ export default function FormationsPage() {
           </div>
 
           {/* Hero Banner */}
-          <div className="relative mb-4 h-[160px] overflow-hidden rounded-2xl bg-[#0a2e16]">
+          <div className="relative mb-4 min-h-[110px] sm:h-[160px] overflow-hidden rounded-2xl bg-[#0a2e16]">
             <div className="absolute inset-0">
-              <Image
-                src="https://randomuser.me/api/portraits/women/68.jpg"
-                alt="formations"
-                fill
-                className="object-cover opacity-40"
-              />
+              <Image src="https://randomuser.me/api/portraits/women/68.jpg" alt="formations" fill className="object-cover opacity-40" />
             </div>
             <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e16]/90 via-[#0a2e16]/60 to-transparent" />
-            {/* SANE logo watermark right */}
-            <div className="absolute right-32 top-1/2 -translate-y-1/2 opacity-30">
+            <div className="absolute right-32 top-1/2 -translate-y-1/2 opacity-30 hidden sm:block">
               <svg width="80" height="80" viewBox="0 0 80 80">
                 <circle cx="40" cy="40" r="36" fill="white" opacity="0.2"/>
                 <text x="40" y="46" textAnchor="middle" fill="white" fontSize="14" fontWeight="800">SANE</text>
               </svg>
             </div>
-            {/* "Un Niger de Talents" */}
-            <div className="absolute right-10 top-1/2 -translate-y-1/2 text-right">
+            <div className="absolute right-10 top-1/2 -translate-y-1/2 text-right hidden sm:block">
               <p className="text-[22px] italic font-bold text-white leading-snug" style={{ fontFamily: "Georgia, serif" }}>
                 Un Niger<br />de Talents
               </p>
             </div>
-            <div className="absolute inset-0 flex flex-col justify-center px-8">
-              <h1 className="text-[26px] font-extrabold text-white leading-tight">Gestion des formations</h1>
-              <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed">
-                Créez, organisez et gérez toutes les formations du SANE. Suivez les inscriptions,<br />
-                les sessions et évaluez l'impact de chaque formation.
+            <div className="absolute inset-0 flex flex-col justify-center px-5 sm:px-8">
+              <h1 className="text-[20px] sm:text-[26px] font-extrabold text-white leading-tight">Gestion des formations</h1>
+              <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
+                Créez, organisez et gérez toutes les formations du SANE. Suivez les inscriptions, les sessions et évaluez l&apos;impact de chaque formation.
               </p>
+              <button className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                Ajouter une formation
+              </button>
             </div>
-            {/* Add button */}
-            <button className="absolute right-10 bottom-6 flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button className="absolute right-10 bottom-6 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter une formation
             </button>
           </div>
 
           {/* Stats */}
-          <div className="mb-4 grid grid-cols-5 gap-3">
+          <div className="mb-4 grid grid-cols-2 lg:grid-cols-5 gap-3">
             {statsData.map((s, i) => (
               <StatsCard key={i} icon={s.icon} value={s.value} label={s.label} trend={s.trend} bg={s.bg} color={s.color} />
             ))}
           </div>
 
           {/* Main content grid */}
-          <div className="grid gap-3 overflow-hidden" style={{gridTemplateColumns: "minmax(0,1fr) 260px"}}>
+          <div className="grid gap-3 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px]">
             {/* Left: filter + table */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 min-w-0">
               {/* Filter bar */}
               <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white p-3">
                 <div className="flex w-[180px] items-center gap-1.5 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2.5 py-1.5">
@@ -269,8 +267,8 @@ export default function FormationsPage() {
               </div>
 
               {/* Table */}
-              <div className="overflow-hidden rounded-xl border border-[#DDE8E0] bg-white">
-                <table className="w-full">
+              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+                <table className="w-full min-w-[700px]">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" /></th>
@@ -376,7 +374,7 @@ export default function FormationsPage() {
             </div>
 
             {/* Right sidebar */}
-            <div className="flex flex-col gap-3 overflow-hidden w-full">
+            <div className="flex flex-col gap-3 min-w-0">
               {/* Donut chart */}
               <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
                 <div className="mb-2 flex items-center justify-between">

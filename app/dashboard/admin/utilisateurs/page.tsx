@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import {
   Home, Users, Briefcase, BookOpen, Calendar, Mic,
@@ -88,16 +89,18 @@ const utilisateurs = [
 ];
 
 export default function UtilisateursPage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
-      <DashboardSidebar items={sidebarItems} />
+      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         <DashboardNavbar
           searchPlaceholder="Rechercher un utilisateur, une entreprise, une formation..."
           notificationCount={5}
           userName="Admin"
           userRole="Administrateur"
+          onMenuClick={() => setSidebarOpen(true)}
         />
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
@@ -109,27 +112,26 @@ export default function UtilisateursPage() {
           </div>
 
           {/* Hero Banner */}
-          <div className="relative mb-4 h-[150px] overflow-hidden rounded-2xl bg-[#0a2e16]">
+          <div className="relative mb-4 min-h-[110px] sm:h-[150px] overflow-hidden rounded-2xl bg-[#0a2e16]">
             <div className="absolute inset-0">
-              <Image
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=300&fit=crop&crop=center"
-                alt="hero"
-                fill
-                className="object-cover object-center opacity-60"
-              />
+              <Image src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=300&fit=crop&crop=center" alt="hero" fill className="object-cover object-center opacity-60" />
             </div>
             <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e16]/95 via-[#0a2e16]/70 to-[#0a2e16]/30" />
-            <div className="absolute inset-0 flex flex-col justify-center px-8">
-              <h1 className="text-[24px] font-extrabold text-white leading-tight">Gestion des utilisateurs</h1>
-              <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed">
+            <div className="absolute inset-0 flex flex-col justify-center px-5 sm:px-8">
+              <h1 className="text-[20px] sm:text-[24px] font-extrabold text-white leading-tight">Gestion des utilisateurs</h1>
+              <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
                 Gérez tous les utilisateurs de la plateforme SANE. Consultez, ajoutez, modifiez et attribuez des rôles selon les besoins.
               </p>
+              <button className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                Ajouter un utilisateur
+              </button>
             </div>
-            <button className="absolute right-6 top-5 flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button className="absolute right-6 top-5 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter un utilisateur
             </button>
-            <div className="absolute right-8 bottom-4 text-right">
+            <div className="absolute right-8 bottom-4 text-right hidden sm:block">
               <p className="text-[17px] italic font-bold text-white leading-snug" style={{ fontFamily: "Georgia, serif" }}>
                 Un Niger<br />de Talents
               </p>
@@ -138,30 +140,34 @@ export default function UtilisateursPage() {
           </div>
 
           {/* Stats */}
-          <div className="mb-4 grid grid-cols-5 gap-3">
+          <div className="mb-4 grid grid-cols-2 lg:grid-cols-5 gap-3">
             {statsData.map((s, i) => (
               <StatsCard key={i} icon={s.icon} value={s.value} label={s.label} trend={s.trend} bg={s.bg} color={s.color} />
             ))}
           </div>
 
           {/* Filter bar */}
-          <div className="mb-3 flex items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white p-3">
-            <div className="flex w-[200px] items-center gap-1.5 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2.5 py-1.5">
+          <div className="mb-3 flex flex-wrap items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white p-3">
+            <div className="flex w-full sm:w-[200px] items-center gap-1.5 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2.5 py-1.5">
               <Search size={13} className="shrink-0 text-[#61756B]" />
               <input type="text" placeholder="Rechercher un utilisateur..." className="w-full bg-transparent text-[11px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
             </div>
-            {["Tous les rôles", "Statut", "Date d'inscription"].map(f => (
-              <select key={f} className="rounded-lg border border-[#DDE8E0] bg-white px-2 py-1.5 text-[11px] text-[#0a2e16] outline-none">
-                <option>{f}</option>
-              </select>
-            ))}
-            <button className="shrink-0 rounded-lg bg-[#10632D] px-4 py-1.5 text-[11px] font-semibold text-white">Rechercher</button>
-            <button className="shrink-0 rounded-lg border border-[#DDE8E0] bg-white px-3 py-1.5 text-[11px] text-[#61756B]">Réinitialiser</button>
+            <div className="flex flex-wrap gap-2 flex-1">
+              {["Tous les rôles", "Statut", "Date d'inscription"].map(f => (
+                <select key={f} className="flex-1 min-w-[100px] rounded-lg border border-[#DDE8E0] bg-white px-2 py-1.5 text-[11px] text-[#0a2e16] outline-none">
+                  <option>{f}</option>
+                </select>
+              ))}
+            </div>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <button className="flex-1 sm:flex-none shrink-0 rounded-lg bg-[#10632D] px-4 py-1.5 text-[11px] font-semibold text-white">Rechercher</button>
+              <button className="flex-1 sm:flex-none shrink-0 rounded-lg border border-[#DDE8E0] bg-white px-3 py-1.5 text-[11px] text-[#61756B]">Réinitialiser</button>
+            </div>
           </div>
 
           {/* Table */}
-          <div className="overflow-hidden rounded-xl border border-[#DDE8E0] bg-white">
-            <table className="w-full">
+          <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+            <table className="w-full min-w-[700px]">
               <thead>
                 <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
                   <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" /></th>

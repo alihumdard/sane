@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import {
   Home, Users, Briefcase, BookOpen, Calendar, Mic,
@@ -106,26 +107,28 @@ const recentQuestions = [
 ];
 
 export default function FaqPage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
-      <DashboardSidebar items={sidebarItems} />
+      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         <DashboardNavbar
           searchPlaceholder="Rechercher une question, une catégorie..."
           notificationCount={5}
           userName="Admin"
           userRole="Administrateur"
+          onMenuClick={() => setSidebarOpen(true)}
         />
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
           {/* Hero Banner */}
-          <div className="relative mb-4 h-[170px] overflow-hidden rounded-2xl bg-[#0a2e16]">
-            <div className="absolute right-0 top-0 h-full w-[60%]">
+          <div className="relative mb-4 min-h-[120px] sm:h-[170px] overflow-hidden rounded-2xl bg-[#0a2e16]">
+            <div className="absolute right-0 top-0 h-full w-full sm:w-[60%]">
               <Image src="https://images.unsplash.com/photo-1664575602554-2087b04935a5?w=800&h=400&fit=crop" alt="faq" fill className="object-cover object-top" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e16] via-[#0a2e16]/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e16] via-[#0a2e16]/60 to-[#0a2e16]/20 sm:via-[#0a2e16]/30 sm:to-transparent" />
             </div>
-            <div className="absolute right-32 top-1/2 -translate-y-1/2 opacity-30">
+            <div className="absolute right-32 top-1/2 -translate-y-1/2 opacity-30 hidden sm:block">
               <svg width="90" height="90" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="45" fill="white" opacity="0.15"/>
                 <circle cx="50" cy="50" r="45" stroke="#E57617" strokeWidth="2.5" fill="none" opacity="0.4" strokeDasharray="6 3"/>
@@ -133,43 +136,46 @@ export default function FaqPage() {
                 <text x="50" y="58" textAnchor="middle" fill="white" fontSize="5" fontWeight="600">SALON NATIONAL DE L&apos;EMPLOI</text>
               </svg>
             </div>
-            <div className="absolute right-10 top-1/2 -translate-y-1/2 text-right">
+            <div className="absolute right-10 top-1/2 -translate-y-1/2 text-right hidden sm:block">
               <p className="text-[22px] italic font-bold text-white leading-snug" style={{ fontFamily: "Georgia, serif" }}>
                 Un Niger<br />de Talents
               </p>
             </div>
-            <div className="absolute inset-0 flex flex-col justify-center px-8">
+            <div className="absolute inset-0 flex flex-col justify-center px-5 sm:px-8">
               <div className="mb-2 flex items-center gap-1.5 text-[11px] text-white/70">
                 <span>Accueil</span><span>&rsaquo;</span><span>FAQ</span><span>&rsaquo;</span>
                 <span className="font-semibold text-white">Toutes les questions</span>
               </div>
-              <h1 className="text-[26px] font-extrabold text-white leading-tight">Gestion des FAQ</h1>
-              <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed">
-                Gérez toutes les questions fréquentes du SANE. Organisez-les par catégories,<br />
-                mettez à jour les réponses et suivez les questions les plus consultées.
+              <h1 className="text-[20px] sm:text-[26px] font-extrabold text-white leading-tight">Gestion des FAQ</h1>
+              <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
+                Gérez toutes les questions fréquentes du SANE. Organisez-les par catégories, mettez à jour les réponses et suivez les questions les plus consultées.
               </p>
+              <button className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                Ajouter une question
+              </button>
             </div>
-            <button className="absolute right-10 top-6 flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button className="absolute right-10 top-6 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter une question
             </button>
           </div>
 
           {/* Stats */}
-          <div className="mb-4 grid grid-cols-5 gap-3">
+          <div className="mb-4 grid grid-cols-2 lg:grid-cols-5 gap-3">
             {statsData.map((s, i) => (
               <StatsCard key={i} icon={s.icon} value={s.value} label={s.label} trend={s.trend} bg={s.bg} color={s.color} />
             ))}
           </div>
 
           {/* Main content grid */}
-          <div className="grid gap-3 overflow-hidden" style={{ gridTemplateColumns: "minmax(0,1fr) 260px" }}>
+          <div className="grid gap-3 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px]">
             {/* Left: filter + table */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 min-w-0">
               <FilterBar searchPlaceholder="Rechercher une question..." filters={["Catégorie", "Statut", "Popularité"]} />
 
-              <div className="overflow-hidden rounded-xl border border-[#DDE8E0] bg-white">
-                <table className="w-full">
+              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+                <table className="w-full min-w-[600px]">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" /></th>
@@ -227,7 +233,7 @@ export default function FaqPage() {
             </div>
 
             {/* Right sidebar */}
-            <div className="flex flex-col gap-3 overflow-hidden w-full">
+            <div className="flex flex-col gap-3 min-w-0">
               <DonutChart
                 title="Répartition par catégorie"
                 segments={donutSegments}
