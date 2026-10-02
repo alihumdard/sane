@@ -103,7 +103,7 @@ export default function ConnexionPage() {
                 <p className="mb-3 text-[12px] text-[#61756B]">Accédez à votre espace SANE</p>
 
                 {/* Role tabs */}
-                <div className="mb-4 grid grid-cols-4 gap-1.5">
+                <div className="mb-4 grid grid-cols-2 sm:grid-cols-4 gap-1.5">
                   {roles.map((r) => (
                     <button
                       key={r.key}

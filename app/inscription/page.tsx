@@ -139,7 +139,7 @@ export default function InscriptionPage() {
 
         {/* ═══════════════════ 2. STATS BAR ═══════════════════ */}
         <section className="border-b border-[#DDE8E0] bg-white">
-          <div className="sane-container grid grid-cols-4 divide-x divide-[#DDE8E0]">
+          <div className="sane-container grid grid-cols-2 sm:grid-cols-4 divide-x divide-[#DDE8E0]">
             {stats.map((s, i) => (
               <div key={i} className="flex items-center gap-3 py-5 px-6">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white" style={{ backgroundColor: s.color }}>
@@ -191,7 +191,7 @@ export default function InscriptionPage() {
                   <p className="mb-5 text-[12px] text-[#61756B]">Veuillez renseigner vos informations personnelles.</p>
 
                   <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-4">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Nom complet */}
                       <div>
                         <label className="mb-1.5 block text-[12px] font-semibold text-[#0a2e16]">Nom complet <span className="text-[#E57617]">*</span></label>
@@ -210,7 +210,7 @@ export default function InscriptionPage() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Email */}
                       <div>
                         <label className="mb-1.5 block text-[12px] font-semibold text-[#0a2e16]">Email <span className="text-[#E57617]">*</span></label>
@@ -232,7 +232,7 @@ export default function InscriptionPage() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Genre */}
                       <div>
                         <label className="mb-1.5 block text-[12px] font-semibold text-[#0a2e16]">Genre <span className="text-[#E57617]">*</span></label>
@@ -255,7 +255,7 @@ export default function InscriptionPage() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Ville */}
                       <div>
                         <label className="mb-1.5 block text-[12px] font-semibold text-[#0a2e16]">Ville de résidence <span className="text-[#E57617]">*</span></label>
@@ -375,7 +375,7 @@ export default function InscriptionPage() {
               </div>
             </div>
 
-            <div className="mt-6 grid grid-cols-4 gap-4">
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {documents.map((d, i) => (
                 <div key={i} className="rounded-2xl border border-[#DDE8E0] bg-[#F5F9F6] p-5">
                   <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl text-white" style={{ backgroundColor: d.color }}>
@@ -406,7 +406,7 @@ export default function InscriptionPage() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 gap-x-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8">
               <div>
                 {faqs.slice(0, 3).map((f, i) => (
                   <AccordionItem key={i} q={f.q} a={f.a} />

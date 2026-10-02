@@ -245,7 +245,7 @@ export default function PressePage() {
           onMenuClick={() => setSidebarOpen(true)}
         />
 
-        <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
+        <main className="flex-1 overflow-y-auto p-3">
           {/* Hero Banner - light variant */}
           <div className="relative mb-4 overflow-hidden rounded-2xl bg-white border border-[#DDE8E0]">
             <div className="flex flex-col sm:flex-row">

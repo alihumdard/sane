@@ -154,7 +154,7 @@ export default function AProposPage() {
             <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
 
               {/* Left: Image grid */}
-              <div className="grid grid-cols-[1.3fr_0.9fr] gap-3">
+              <div className="grid grid-cols-[1.3fr_0.9fr] gap-3 max-w-full">
                 {/* Tall left image */}
                 <div className="relative h-[360px] overflow-hidden rounded-xl sm:h-[440px]">
                   <Image
