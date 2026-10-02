@@ -20,19 +20,19 @@ export default function AProposPage() {
 
       <main>
         {/* ===== HERO BANNER ===== */}
-        <section className="relative overflow-hidden bg-[#f0f7f2]">
-          {/* Right side image - visible, no overlay */}
-          <div className="absolute inset-y-0 right-0 w-full lg:w-[58%]">
+        <section className="relative overflow-hidden bg-white">
+          {/* Right side image - pure, no color overlay */}
+          <div className="absolute inset-y-0 right-0 w-[55%] hidden lg:block">
             <Image
               src="/hero-about.png"
               alt=""
               fill
               priority
               className="object-cover object-center"
-              sizes="(max-width: 1024px) 100vw, 58vw"
+              sizes="55vw"
             />
-            {/* Left fade so text stays readable on mobile */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#f0f7f2] via-[#f0f7f2]/80 to-transparent lg:via-[#f0f7f2]/60" />
+            {/* Very subtle left fade — white only, no tint */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/30 to-transparent" />
           </div>
 
           <Container>
@@ -41,66 +41,82 @@ export default function AProposPage() {
               <Link href="/" className="hover:text-[#10632D] transition-colors">
                 Accueil
               </Link>
-              <span>/</span>
+              <span className="text-[#61756B]">/</span>
               <span className="text-[#0a2e16] font-medium">À propos</span>
             </div>
 
-            <div className="relative flex min-h-[420px] flex-col items-start justify-center gap-5 py-14 sm:min-h-[480px] lg:max-w-[55%]">
+            <div className="relative grid min-h-[460px] grid-cols-1 items-center gap-8 py-12 lg:grid-cols-2 lg:min-h-[520px]">
 
-              {/* Label */}
-              <div className="flex items-center gap-2">
-                <span className="h-[2px] w-6 bg-[#E57617]" />
-                <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#E57617]">
-                  Salon National de l&apos;Emploi
-                </span>
+              {/* LEFT CONTENT */}
+              <div className="flex flex-col gap-5">
+                {/* Label */}
+                <div className="flex items-center gap-2">
+                  <span className="h-[2px] w-6 bg-[#E57617]" />
+                  <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#E57617]">
+                    Salon National de l&apos;Emploi
+                  </span>
+                </div>
+
+                {/* Heading */}
+                <h1 className="text-[34px] font-extrabold leading-[1.1] tracking-tight text-[#0a2e16] sm:text-[44px] md:text-[52px]">
+                  À propos du <br className="hidden sm:block" />
+                  <span className="text-[#10632D]">SANE</span>
+                </h1>
+
+                {/* Description */}
+                <div className="flex flex-col gap-2 max-w-[500px]">
+                  <p className="text-[15px] leading-7 text-[#0a2e16] font-semibold">
+                    Un engagement national pour l&apos;emploi, les compétences et un Niger plus fort.
+                  </p>
+                  <p className="text-[13px] leading-6 text-[#61756B]">
+                    Le Salon National de l&apos;Emploi (SANE) est un espace de rencontre entre
+                    les talents, les entreprises, les institutions et les opportunités, au service du
+                    développement socio-économique du Niger.
+                  </p>
+                </div>
+
+                {/* Buttons */}
+                <div className="flex flex-wrap gap-3">
+                  <Link
+                    href="/inscription"
+                    className="group inline-flex h-[44px] items-center justify-center gap-2 rounded-full bg-[#E57617] px-7 text-[13px] font-bold text-white transition-colors hover:bg-[#CF6812]"
+                  >
+                    Participer au SANE
+                    <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-1" />
+                  </Link>
+                  <Link
+                    href="/programme"
+                    className="inline-flex h-[44px] items-center justify-center rounded-full border border-[#DDE8E0] px-7 text-[13px] font-bold text-[#0a2e16] transition-colors hover:border-[#10632D] hover:text-[#10632D]"
+                  >
+                    Découvrir le programme <ArrowRight size={13} className="ml-1" />
+                  </Link>
+                </div>
+
+                {/* Stats pills */}
+                <div className="flex flex-wrap gap-3 pt-1">
+                  {[
+                    { value: "+500", label: "Opportunités" },
+                    { value: "+100", label: "Entreprises" },
+                    { value: "+1000", label: "Participants" },
+                  ].map((s) => (
+                    <div key={s.label} className="flex items-center gap-2 rounded-full bg-[#F5F9F6] border border-[#DDE8E0] px-4 py-2">
+                      <span className="text-[13px] font-extrabold text-[#E57617]">{s.value}</span>
+                      <span className="text-[12px] text-[#61756B]">{s.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              {/* Heading */}
-              <h1 className="text-[32px] font-extrabold leading-[1.1] tracking-tight text-[#0a2e16] sm:text-[42px] md:text-[52px]">
-                À propos du <span className="text-[#10632D]">SANE</span>
-              </h1>
-
-              {/* Description */}
-              <div className="flex flex-col gap-2 max-w-[520px]">
-                <p className="text-[15px] leading-7 text-[#0a2e16] font-semibold">
-                  Un engagement national pour l&apos;emploi, les compétences et un Niger plus fort.
-                </p>
-                <p className="text-[13px] leading-6 text-[#61756B]">
-                  Le Salon National de l&apos;Emploi (SANE) est un espace de rencontre entre
-                  les talents, les entreprises, les institutions et les opportunités, au service du
-                  développement socio-économique du Niger.
-                </p>
-              </div>
-
-              {/* Buttons */}
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/inscription"
-                  className="group inline-flex h-[44px] items-center justify-center gap-2 rounded-full bg-[#E57617] px-7 text-[13px] font-bold text-white transition-colors hover:bg-[#CF6812]"
-                >
-                  Participer au SANE
-                  <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-1" />
-                </Link>
-                <Link
-                  href="/programme"
-                  className="inline-flex h-[44px] items-center justify-center rounded-full border-2 border-[#10632D] px-7 text-[13px] font-bold text-[#10632D] transition-colors hover:bg-[#10632D] hover:text-white"
-                >
-                  Découvrir le programme
-                </Link>
-              </div>
-
-              {/* Stats pills */}
-              <div className="flex flex-wrap gap-3 pt-1">
-                {[
-                  { value: "+500", label: "Opportunités" },
-                  { value: "+100", label: "Entreprises" },
-                  { value: "+1000", label: "Participants" },
-                ].map((s) => (
-                  <div key={s.label} className="flex items-center gap-2 rounded-full bg-white border border-[#DDE8E0] px-4 py-2 shadow-sm">
-                    <span className="text-[13px] font-extrabold text-[#E57617]">{s.value}</span>
-                    <span className="text-[12px] text-[#61756B]">{s.label}</span>
-                  </div>
-                ))}
+              {/* RIGHT — image shown on mobile as block below */}
+              <div className="relative h-[260px] overflow-hidden rounded-2xl lg:hidden">
+                <Image
+                  src="/hero-about.png"
+                  alt="SANE événement"
+                  fill
+                  priority
+                  className="object-cover object-center"
+                  sizes="100vw"
+                />
               </div>
 
             </div>
