@@ -8,7 +8,7 @@ import {
   ClipboardList, Layout, Monitor, MessageSquare, Bell,
   BarChart3, Handshake, Settings, Search, ChevronDown,
   ChevronRight, Eye, Mail, MoreVertical, MapPin, Clock,
-  ArrowRight, TrendingUp, Mic
+  ArrowRight, TrendingUp, Mic, Menu
 } from "lucide-react";
 
 /* ─────────────────────────────── DATA ─────────────────────────────── */
@@ -134,6 +134,7 @@ const recentNotifs = [
 /* ─────────────────────────────── PAGE ─────────────────────────────── */
 
 export default function DashboardOrganisateurPage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const maxVal = 450;
 
   const conicGradient = (() => {
@@ -147,8 +148,13 @@ export default function DashboardOrganisateurPage() {
 
   return (
     <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />
+      )}
+
       {/* ═══════════ SIDEBAR ═══════════ */}
-      <aside className="flex w-[220px] shrink-0 flex-col border-r border-[#DDE8E0] bg-white">
+      <aside className={`fixed inset-y-0 left-0 z-40 flex w-[220px] shrink-0 flex-col border-r border-[#DDE8E0] bg-white transition-transform duration-300 lg:static lg:translate-x-0 lg:z-auto ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         {/* Logo */}
         <div className="flex flex-col items-center px-5 pt-5 pb-2">
           <div className="flex items-center gap-1">
@@ -197,21 +203,24 @@ export default function DashboardOrganisateurPage() {
       </aside>
 
       {/* ═══════════ MAIN ═══════════ */}
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         {/* TOP NAVBAR */}
-        <header className="flex items-center gap-4 border-b border-[#DDE8E0] bg-white px-6 py-3">
+        <header className="flex items-center gap-2 border-b border-[#DDE8E0] bg-white px-3 sm:px-6 py-3">
+          <button className="lg:hidden mr-1 rounded-lg p-2 text-[#61756B] hover:bg-[#F5F9F6]" onClick={() => setSidebarOpen(true)}>
+            <Menu size={20} />
+          </button>
           <div className="flex flex-1 items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-3 py-2">
             <Search size={16} className="text-[#61756B]" />
-            <input type="text" placeholder="Rechercher un événement, un intervenant, une formation..." className="flex-1 bg-transparent text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
+            <input type="text" placeholder="Rechercher un événement..." className="flex-1 bg-transparent text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
           </div>
           <button className="relative rounded-lg p-2 text-[#61756B] hover:bg-[#F5F9F6]">
             <Bell size={18} />
             <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E57617] text-[9px] font-bold text-white">5</span>
           </button>
-          <button className="flex items-center gap-1 rounded-lg px-2 py-1 text-[12px] font-medium text-[#61756B] hover:bg-[#F5F9F6]">
+          <button className="hidden sm:flex items-center gap-1 rounded-lg px-2 py-1 text-[12px] font-medium text-[#61756B] hover:bg-[#F5F9F6]">
             FR <ChevronDown size={12} />
           </button>
-          <div className="flex items-center gap-2.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5">
+          <div className="hidden sm:flex items-center gap-2.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5">
             <Image src="https://randomuser.me/api/portraits/women/55.jpg" alt="Aïssatou" width={32} height={32} className="rounded-full object-cover" />
             <div>
               <p className="text-[12px] font-bold text-[#0a2e16]">Aïssatou Bello</p>
@@ -221,12 +230,12 @@ export default function DashboardOrganisateurPage() {
         </header>
 
         {/* SCROLLABLE CONTENT */}
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-6">
           {/* ═══════════ WELCOME BANNER ═══════════ */}
-          <div className="relative mb-6 overflow-hidden rounded-2xl h-[140px]">
+          <div className="relative mb-6 overflow-hidden rounded-2xl min-h-[110px] sm:h-[140px]">
             <Image src="/sane_deal.png" alt="Dashboard" fill className="object-cover" style={{ objectPosition: "center 30%" }} />
             <div className="absolute inset-0 bg-gradient-to-r from-white from-32% via-white/40 via-48% to-transparent" />
-            <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 flex items-center gap-3">
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 hidden sm:flex items-center gap-3">
               <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
               <p className="text-[16px] italic text-[#E57617] leading-tight font-semibold" style={{ fontFamily: "Georgia, serif" }}>Un Niger<br/>de Talents</p>
             </div>
@@ -244,9 +253,9 @@ export default function DashboardOrganisateurPage() {
           </div>
 
           {/* ═══════════ STATS ROW ═══════════ */}
-          <div className="mb-6 flex items-center gap-6 rounded-xl border border-[#DDE8E0] bg-white px-4 py-3">
+          <div className="mb-6 grid grid-cols-2 lg:grid-cols-5 gap-3 rounded-xl border border-[#DDE8E0] bg-white px-4 py-3">
             {statsData.map((s, i) => (
-              <div key={i} className="flex flex-1 items-center gap-2.5">
+              <div key={i} className="flex items-center gap-2.5">
                 <span className="flex items-center justify-center w-10 h-10 rounded-full shrink-0" style={{ backgroundColor: s.bg, color: s.color }}>{s.icon}</span>
                 <div className="min-w-0">
                   <div className="flex items-baseline gap-2">
@@ -263,7 +272,7 @@ export default function DashboardOrganisateurPage() {
           </div>
 
           {/* ═══════════ CHARTS ROW ═══════════ */}
-          <div className="mb-6 grid grid-cols-[1fr_280px_280px] gap-4">
+          <div className="mb-6 grid grid-cols-1 lg:grid-cols-[1fr_280px_280px] gap-4">
             {/* Line Chart */}
             <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
               <div className="mb-1 flex items-center justify-between">
@@ -376,9 +385,9 @@ export default function DashboardOrganisateurPage() {
           </div>
 
           {/* ═══════════ TABLE + CATEGORIES ═══════════ */}
-          <div className="mb-6 grid grid-cols-[1fr_300px] gap-4">
+          <div className="mb-6 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
             {/* Inscriptions Table */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
+            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5 min-w-0">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="h-px w-4 bg-[#E57617]" />
@@ -386,7 +395,8 @@ export default function DashboardOrganisateurPage() {
                 </div>
                 <Link href="#" className="text-[11px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={11} /></Link>
               </div>
-              <table className="w-full text-left">
+              <div className="overflow-x-auto">
+              <table className="w-full min-w-[650px] text-left">
                 <thead>
                   <tr className="border-b border-[#DDE8E0] text-[10px] font-semibold text-[#61756B]">
                     <th className="pb-2 pr-2 w-6"><input type="checkbox" className="h-3 w-3 accent-[#10632D]" /></th>
@@ -431,6 +441,7 @@ export default function DashboardOrganisateurPage() {
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
 
             {/* Participants par catégorie */}
@@ -461,7 +472,7 @@ export default function DashboardOrganisateurPage() {
           </div>
 
           {/* ═══════════ BOTTOM ROW ═══════════ */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Activités récentes */}
             <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
               <div className="mb-4 flex items-center justify-between">

@@ -7,7 +7,7 @@ import {
   Home, Building2, Briefcase, FileText, Users, UserCheck,
   Calendar, MessageSquare, Bell, BarChart3, Settings,
   Search, ChevronDown, Eye, Mail, MoreVertical, MapPin,
-  Clock, Video, Edit, Globe, Star, ArrowRight, TrendingUp
+  Clock, Video, Edit, Globe, Star, ArrowRight, TrendingUp, Menu, X
 } from "lucide-react";
 
 /* ─────────────────────────────── DATA ─────────────────────────────── */
@@ -92,6 +92,7 @@ const notifications = [
 /* ─────────────────────────────── PAGE ─────────────────────────────── */
 
 export default function DashboardPage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const maxCand = Math.max(...chartData.map((d) => d.cand));
 
   const conicGradient = (() => {
@@ -105,8 +106,13 @@ export default function DashboardPage() {
 
   return (
     <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />
+      )}
+
       {/* ═══════════════════ SIDEBAR ═══════════════════ */}
-      <aside className="flex w-[220px] shrink-0 flex-col border-r border-[#DDE8E0] bg-white">
+      <aside className={`fixed inset-y-0 left-0 z-40 flex w-[220px] shrink-0 flex-col border-r border-[#DDE8E0] bg-white transition-transform duration-300 lg:static lg:translate-x-0 lg:z-auto ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex items-center gap-2 px-5 py-4 border-b border-[#DDE8E0]">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#10632D]">
             <span className="text-[11px] font-extrabold text-white">SANE</span>
@@ -138,14 +144,17 @@ export default function DashboardPage() {
       </aside>
 
       {/* ═══════════════════ MAIN ═══════════════════ */}
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         {/* TOP NAVBAR */}
-        <header className="flex items-center gap-4 border-b border-[#DDE8E0] bg-white px-6 py-3">
+        <header className="flex items-center gap-2 border-b border-[#DDE8E0] bg-white px-3 sm:px-6 py-3">
+          <button className="lg:hidden mr-1 rounded-lg p-2 text-[#61756B] hover:bg-[#F5F9F6]" onClick={() => setSidebarOpen(true)}>
+            <Menu size={20} />
+          </button>
           <div className="flex flex-1 items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-3 py-2">
             <Search size={16} className="text-[#61756B]" />
             <input
               type="text"
-              placeholder="Rechercher un candidat, une offre, une formation..."
+              placeholder="Rechercher un candidat, une offre..."
               className="flex-1 bg-transparent text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none"
             />
           </div>
@@ -153,10 +162,10 @@ export default function DashboardPage() {
             <Bell size={18} />
             <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E57617] text-[9px] font-bold text-white">3</span>
           </button>
-          <button className="flex items-center gap-1 rounded-lg px-2 py-1 text-[12px] font-medium text-[#61756B] hover:bg-[#F5F9F6]">
+          <button className="hidden sm:flex items-center gap-1 rounded-lg px-2 py-1 text-[12px] font-medium text-[#61756B] hover:bg-[#F5F9F6]">
             FR <ChevronDown size={12} />
           </button>
-          <div className="flex items-center gap-2.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5">
+          <div className="hidden sm:flex items-center gap-2.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f59e0b]">
               <span className="text-[9px] font-extrabold text-white">MTN</span>
             </div>
@@ -168,7 +177,7 @@ export default function DashboardPage() {
         </header>
 
         {/* SCROLLABLE CONTENT */}
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-6">
           {/* ═══════════ WELCOME BANNER ═══════════ */}
           <div className="relative mb-6 overflow-hidden rounded-2xl bg-white border border-[#DDE8E0]">
             <div className="absolute right-0 top-0 h-full w-[55%]">
@@ -183,9 +192,9 @@ export default function DashboardPage() {
           </div>
 
           {/* ═══════════ STATS ROW ═══════════ */}
-          <div className="mb-6 flex items-center gap-6 border-b border-[#DDE8E0] bg-white rounded-xl px-4 py-3">
+          <div className="mb-6 grid grid-cols-2 lg:grid-cols-5 gap-3 border-b border-[#DDE8E0] bg-white rounded-xl px-4 py-3">
             {statsData.map((s, i) => (
-              <div key={i} className="flex flex-1 items-center gap-2.5">
+              <div key={i} className="flex items-center gap-2.5">
                 <span style={{ color: s.color }}>{s.icon}</span>
                 <div className="min-w-0">
                   <div className="flex items-baseline gap-2">
@@ -202,7 +211,7 @@ export default function DashboardPage() {
           </div>
 
           {/* ═══════════ CHARTS ROW ═══════════ */}
-          <div className="mb-6 grid grid-cols-[1fr_280px_260px] gap-4">
+          <div className="mb-6 grid grid-cols-1 lg:grid-cols-[1fr_280px_260px] gap-4">
             {/* Bar Chart */}
             <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
               <div className="mb-1 flex items-center justify-between">
@@ -320,9 +329,9 @@ export default function DashboardPage() {
           </div>
 
           {/* ═══════════ CANDIDATES TABLE + TOP OFFERS ═══════════ */}
-          <div className="mb-6 grid grid-cols-[1fr_300px] gap-4">
+          <div className="mb-6 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
             {/* Table */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
+            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5 min-w-0">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="h-px w-4 bg-[#E57617]" />
@@ -330,7 +339,8 @@ export default function DashboardPage() {
                 </div>
                 <Link href="#" className="text-[11px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={11} /></Link>
               </div>
-              <table className="w-full text-left">
+              <div className="overflow-x-auto">
+              <table className="w-full min-w-[600px] text-left">
                 <thead>
                   <tr className="border-b border-[#DDE8E0] text-[10px] font-semibold text-[#61756B]">
                     <th className="pb-2 pr-2 w-6"><input type="checkbox" className="h-3 w-3 accent-[#10632D]" /></th>
@@ -372,6 +382,7 @@ export default function DashboardPage() {
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
 
             {/* Top Offers */}
@@ -405,7 +416,7 @@ export default function DashboardPage() {
           </div>
 
           {/* ═══════════ BOTTOM ROW ═══════════ */}
-          <div className="relative grid grid-cols-[1fr_1fr_300px] gap-4">
+          <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_1fr_300px] gap-4">
             {/* Italic text */}
             <p className="absolute -left-2 -bottom-2 text-lg italic text-[#10632D]/20 z-0" style={{ fontFamily: "serif" }}>
               Des talents<br/>pour un Niger<br/>plus fort

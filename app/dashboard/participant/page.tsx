@@ -1,5 +1,8 @@
 "use client";
 
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import {
   Home, User, ClipboardList, BookOpen, Star, Briefcase,
@@ -93,16 +96,19 @@ const recommendations = [
 ];
 
 export default function ParticipantDashboard() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
-      <DashboardSidebar items={sidebarItems} hideBottomInfo />
+      <DashboardSidebar items={sidebarItems} hideBottomInfo open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         <DashboardNavbar
-          searchPlaceholder="Rechercher une formation, un événement, une opportunité..."
+          searchPlaceholder="Rechercher une formation, un événement..."
           notificationCount={5}
           userName="Aicha Mohamed"
           userRole="Participant"
+          onMenuClick={() => setSidebarOpen(true)}
         />
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-4">
@@ -113,14 +119,14 @@ export default function ParticipantDashboard() {
           />
 
           {/* Stats */}
-          <div className="mb-4 grid grid-cols-4 gap-3">
+          <div className="mb-4 grid grid-cols-2 lg:grid-cols-4 gap-3">
             {statsData.map((s, i) => (
               <ParticipantStatsCard key={i} {...s} />
             ))}
           </div>
 
           {/* Row 1: 3 columns */}
-          <div className="mb-4 grid grid-cols-3 gap-3">
+          <div className="mb-4 grid grid-cols-1 lg:grid-cols-3 gap-3">
             <SectionCard icon={<BookOpen size={14} className="text-[#10632D]" />} title="Mes formations" viewAllText="Voir toutes">
               <div className="flex flex-col gap-2.5">
                 {mesFormations.map((f, i) => (
@@ -182,7 +188,7 @@ export default function ParticipantDashboard() {
           </div>
 
           {/* Row 2: 3 columns */}
-          <div className="mb-4 grid grid-cols-3 gap-3">
+          <div className="mb-4 grid grid-cols-1 lg:grid-cols-3 gap-3">
             <SectionCard icon={<Calendar size={14} className="text-[#10632D]" />} title="Événements à venir" viewAllText="Voir tous">
               <div className="flex flex-col gap-2.5">
                 {evenements.map((e, i) => (
@@ -212,7 +218,7 @@ export default function ParticipantDashboard() {
               <Star size={14} className="text-[#E57617]" />
               <span className="text-[14px] font-bold text-[#0a2e16]">Recommendations pour vous</span>
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {recommendations.map((r, i) => (
                 <div key={i} className="flex overflow-hidden rounded-xl border border-[#DDE8E0] bg-white">
                   <div className="relative w-[120px] shrink-0">
