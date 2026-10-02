@@ -21,35 +21,18 @@ export default function AProposPage() {
       <main>
         {/* ===== HERO BANNER ===== */}
         <section className="relative overflow-hidden bg-white">
-          {/* Right side image - pure, no color overlay */}
-          <div className="absolute inset-y-0 right-0 w-[55%] hidden lg:block">
-            <Image
-              src="/hero-about.png"
-              alt=""
-              fill
-              priority
-              className="object-cover object-center"
-              sizes="55vw"
-            />
-            {/* Very subtle left fade — white only, no tint */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/30 to-transparent" />
-          </div>
-
           <Container>
             {/* Breadcrumb */}
-            <div className="relative flex items-center gap-2 pt-5 text-[12px] text-[#61756B]">
-              <Link href="/" className="hover:text-[#10632D] transition-colors">
-                Accueil
-              </Link>
-              <span className="text-[#61756B]">/</span>
+            <div className="flex items-center gap-2 pt-5 text-[12px] text-[#61756B]">
+              <Link href="/" className="hover:text-[#10632D] transition-colors">Accueil</Link>
+              <span>/</span>
               <span className="text-[#0a2e16] font-medium">À propos</span>
             </div>
 
-            <div className="relative grid min-h-[460px] grid-cols-1 items-center gap-8 py-12 lg:grid-cols-2 lg:min-h-[520px]">
+            <div className="grid min-h-[460px] grid-cols-1 items-center gap-8 py-10 lg:grid-cols-2 lg:min-h-[520px] lg:gap-12">
 
               {/* LEFT CONTENT */}
               <div className="flex flex-col gap-5">
-                {/* Label */}
                 <div className="flex items-center gap-2">
                   <span className="h-[2px] w-6 bg-[#E57617]" />
                   <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#E57617]">
@@ -57,13 +40,11 @@ export default function AProposPage() {
                   </span>
                 </div>
 
-                {/* Heading */}
                 <h1 className="text-[34px] font-extrabold leading-[1.1] tracking-tight text-[#0a2e16] sm:text-[44px] md:text-[52px]">
-                  À propos du <br className="hidden sm:block" />
+                  À propos du{" "}
                   <span className="text-[#10632D]">SANE</span>
                 </h1>
 
-                {/* Description */}
                 <div className="flex flex-col gap-2 max-w-[500px]">
                   <p className="text-[15px] leading-7 text-[#0a2e16] font-semibold">
                     Un engagement national pour l&apos;emploi, les compétences et un Niger plus fort.
@@ -75,25 +56,23 @@ export default function AProposPage() {
                   </p>
                 </div>
 
-                {/* Buttons */}
                 <div className="flex flex-wrap gap-3">
                   <Link
                     href="/inscription"
-                    className="group inline-flex h-[44px] items-center justify-center gap-2 rounded-full bg-[#E57617] px-7 text-[13px] font-bold text-white transition-colors hover:bg-[#CF6812]"
+                    className="group inline-flex h-[44px] items-center gap-2 rounded-full bg-[#E57617] px-7 text-[13px] font-bold text-white transition-colors hover:bg-[#CF6812]"
                   >
                     Participer au SANE
                     <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-1" />
                   </Link>
                   <Link
                     href="/programme"
-                    className="inline-flex h-[44px] items-center justify-center rounded-full border border-[#DDE8E0] px-7 text-[13px] font-bold text-[#0a2e16] transition-colors hover:border-[#10632D] hover:text-[#10632D]"
+                    className="inline-flex h-[44px] items-center gap-2 rounded-full border border-[#DDE8E0] px-7 text-[13px] font-bold text-[#0a2e16] transition-colors hover:border-[#10632D] hover:text-[#10632D]"
                   >
-                    Découvrir le programme <ArrowRight size={13} className="ml-1" />
+                    Découvrir le programme <ArrowRight size={13} />
                   </Link>
                 </div>
 
-                {/* Stats pills */}
-                <div className="flex flex-wrap gap-3 pt-1">
+                <div className="flex flex-wrap gap-3">
                   {[
                     { value: "+500", label: "Opportunités" },
                     { value: "+100", label: "Entreprises" },
@@ -107,15 +86,15 @@ export default function AProposPage() {
                 </div>
               </div>
 
-              {/* RIGHT — image shown on mobile as block below */}
-              <div className="relative h-[260px] overflow-hidden rounded-2xl lg:hidden">
+              {/* RIGHT IMAGE — no overlay, no tint, pure image */}
+              <div className="relative h-[280px] overflow-hidden rounded-2xl shadow-lg lg:h-[420px]">
                 <Image
                   src="/hero-about.png"
                   alt="SANE événement"
                   fill
                   priority
                   className="object-cover object-center"
-                  sizes="100vw"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
 
