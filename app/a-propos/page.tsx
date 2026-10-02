@@ -21,21 +21,20 @@ export default function AProposPage() {
       <main>
         {/* ===== HERO BANNER ===== */}
         <section className="relative overflow-hidden">
-          {/* Gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0a4a22] via-[#0f6b35] to-[#1a9e5c]" />
-
-          {/* Right side: hero-bg image full bleed */}
-          <div className="absolute inset-y-0 right-0 w-[55%] overflow-hidden">
+          {/* Full bleed background image */}
+          <div className="absolute inset-0">
             <Image
-              src="/hero-bg.png"
+              src="/hero-about.png"
               alt=""
               fill
               priority
-              className="object-cover object-right"
-              sizes="55vw"
+              className="object-cover object-center"
+              sizes="100vw"
             />
-            {/* Left fade to blend with green */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0a4a22] via-[#0a4a22]/40 to-transparent" />
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-[#0a2e16]/70" />
+            {/* Subtle bottom fade */}
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0a2e16]/60 to-transparent" />
           </div>
 
           <Container>
@@ -48,77 +47,62 @@ export default function AProposPage() {
               <span className="text-white/90 font-medium">À propos</span>
             </div>
 
-            <div className="relative grid min-h-[460px] grid-cols-1 items-center gap-8 pb-10 pt-6 lg:grid-cols-2 lg:gap-10">
+            <div className="relative flex min-h-[420px] flex-col items-start justify-center gap-6 py-14 sm:min-h-[480px] lg:max-w-[65%]">
 
-              {/* ===== LEFT CONTENT ===== */}
-              <div>
-                {/* Label */}
-                <div className="mb-3 flex items-center gap-2">
-                  <span className="h-[2px] w-6 bg-[#E57617]" />
-                  <span className="text-[11px] font-extrabold uppercase tracking-widest text-white/80">
-                    Salon National de l&apos;Emploi
-                  </span>
-                </div>
+              {/* Label */}
+              <div className="flex items-center gap-2">
+                <span className="h-[2px] w-6 bg-[#E57617]" />
+                <span className="text-[11px] font-extrabold uppercase tracking-widest text-white/80">
+                  Salon National de l&apos;Emploi
+                </span>
+              </div>
 
-                {/* Heading */}
-                <h1 className="text-[36px] font-extrabold leading-[1.08] tracking-tight text-white sm:text-[44px] md:text-[52px]">
-                  À propos du SANE
-                </h1>
+              {/* Heading */}
+              <h1 className="text-[32px] font-extrabold leading-[1.1] tracking-tight text-white sm:text-[42px] md:text-[54px]">
+                À propos du <span className="text-[#E57617]">SANE</span>
+              </h1>
 
-                {/* Description */}
-                <p className="mt-4 max-w-[500px] text-[15px] leading-7 text-white/85">
+              {/* Description */}
+              <div className="flex flex-col gap-2 max-w-[580px]">
+                <p className="text-[15px] leading-7 text-white/90 font-medium">
                   Un engagement national pour l&apos;emploi, les compétences et un Niger plus fort.
                 </p>
-                <p className="mt-3 max-w-[500px] text-[13px] leading-6 text-white/65">
+                <p className="text-[13px] leading-6 text-white/65">
                   Le Salon National de l&apos;Emploi (SANE) est un espace de rencontre entre
                   les talents, les entreprises, les institutions et les opportunités, au service du
                   développement socio-économique du Niger.
                 </p>
-
-                {/* Buttons */}
-                <div className="mt-7 flex flex-wrap gap-3">
-                  <Link
-                    href="/inscription"
-                    className="group inline-flex h-[44px] items-center justify-center gap-2 rounded-full bg-[#E57617] px-7 text-[13px] font-bold text-white !text-white transition-colors hover:bg-[#CF6812] hover:!text-white"
-                  >
-                    Participer au SANE
-                    <ArrowRight size={15} className="text-white !text-white transition-transform duration-200 group-hover:translate-x-1" />
-                  </Link>
-                  <Link
-                    href="/programme"
-                    className="inline-flex h-[44px] items-center justify-center rounded-full border-2 border-white px-7 text-[13px] font-bold text-white !text-white transition-colors hover:bg-white hover:!text-[#10632D]"
-                  >
-                    Découvrir le programme
-                  </Link>
-                </div>
-
               </div>
 
-              {/* ===== RIGHT IMAGE ===== */}
-              <div className="relative hidden lg:block">
-                {/* Floating card top-right */}
-                <div className="absolute -top-2 right-0 z-10 w-[145px] rounded-xl bg-white px-4 py-4 shadow-xl">
-                  <p className="text-[11px] font-extrabold uppercase leading-[1.7] text-[#10632D]">
-                    Emploi
-                    <br />
-                    Formation
-                    <br />
-                    Opportunités
-                    <br />
-                    Avenir
-                  </p>
-                  <div className="mt-3 h-[3px] w-8 rounded-full bg-[#E57617]" />
-                </div>
+              {/* Buttons */}
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/inscription"
+                  className="group inline-flex h-[44px] items-center justify-center gap-2 rounded-full bg-[#E57617] px-7 text-[13px] font-bold text-white transition-colors hover:bg-[#CF6812]"
+                >
+                  Participer au SANE
+                  <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-1" />
+                </Link>
+                <Link
+                  href="/programme"
+                  className="inline-flex h-[44px] items-center justify-center rounded-full border-2 border-white/70 px-7 text-[13px] font-bold text-white backdrop-blur-sm transition-colors hover:bg-white hover:text-[#10632D]"
+                >
+                  Découvrir le programme
+                </Link>
+              </div>
 
-                {/* Script text overlay — positioned over background image */}
-                <div className="absolute bottom-10 right-6 z-10 text-right">
-                  <p className="font-serif text-[22px] italic leading-7 text-white drop-shadow-lg">
-                    Un Niger
-                    <br />
-                    de Talents
-                  </p>
-                  <div className="ml-auto mt-2 h-[3px] w-12 bg-[#E57617]" />
-                </div>
+              {/* Floating stats pills */}
+              <div className="flex flex-wrap gap-3 pt-2">
+                {[
+                  { value: "+500", label: "Opportunités" },
+                  { value: "+100", label: "Entreprises" },
+                  { value: "+1000", label: "Participants" },
+                ].map((s) => (
+                  <div key={s.label} className="flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2">
+                    <span className="text-[13px] font-extrabold text-[#E57617]">{s.value}</span>
+                    <span className="text-[12px] text-white/75">{s.label}</span>
+                  </div>
+                ))}
               </div>
 
             </div>
