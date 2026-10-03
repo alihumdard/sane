@@ -15,8 +15,11 @@ export default function EmploiPage() {
           title="Trouvez une opportunité d'emploi"
           lead="Des offres d'emploi réelles pour les talents nigériens."
           description="Connectez-vous aux entreprises, institutions et organisations qui recrutent au Niger. Parcourez les offres et postulez en quelques clics."
-          image="/sane_deal.png"
-          tone="dark"
+          image="/emploi-bg.png"
+          tone="light"
+          imagePosition="center center"
+          floatingCardText={"EMPLOI\nFORMATION\nOPPORTUNITÉS\nAVENIR"}
+          tagline="Un Niger de Talents"
           actions={[
             { href: "/programme", label: "Voir le programme" },
             { href: "/inscription", label: "Créer mon profil", variant: "secondary" },

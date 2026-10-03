@@ -27,6 +27,8 @@ interface PageHeroProps {
   imagePosition?: string;
   actions?: HeroAction[];
   stats?: HeroStat[];
+  floatingCardText?: string;
+  tagline?: string;
 }
 
 export function PageHero({
@@ -40,6 +42,8 @@ export function PageHero({
   imagePosition = "center",
   actions = [],
   stats = [],
+  floatingCardText,
+  tagline,
 }: PageHeroProps) {
   const isDark = tone === "dark";
 
@@ -69,13 +73,20 @@ export function PageHero({
         )}
 
         <div className={`relative grid grid-cols-1 items-center gap-8 lg:grid-cols-2 ${isDark ? "min-h-[380px] pb-8 pt-4 sm:pb-10 sm:pt-6" : "min-h-[260px] pb-6 pt-3 sm:pb-8 sm:pt-4"}`}>
-          {/* Floating card — light tone only */}
+          {/* Floating card — top right, light tone only */}
           {!isDark && (
-            <div className="absolute right-0 top-4 hidden w-[140px] rounded-xl bg-white px-4 py-4 shadow-lg ring-1 ring-[var(--sane-border)] lg:block">
-              <p className="text-[11px] font-extrabold leading-[1.6] text-[var(--sane-green)]">
-                Des compétences<br />pour un Niger<br />plus fort
+            <div className="absolute right-0 top-0 hidden w-[130px] rounded-xl bg-white/95 px-3.5 py-3.5 shadow-lg ring-1 ring-[var(--sane-border)] backdrop-blur-sm lg:block">
+              <p className="whitespace-pre-line text-[9px] font-extrabold uppercase leading-[1.7] tracking-wide text-[var(--sane-green)]">
+                {floatingCardText ?? "Des compétences\npour un Niger\nplus fort"}
               </p>
-              <div className="mt-2 h-[2.5px] w-7 rounded-full bg-[var(--sane-orange)]" />
+              <div className="mt-2 h-[2.5px] w-6 rounded-full bg-[var(--sane-orange)]" />
+            </div>
+          )}
+          {/* Tagline — bottom right, light tone only */}
+          {!isDark && tagline && (
+            <div className="absolute bottom-6 right-0 hidden text-right lg:block">
+              <p className="font-serif text-[15px] italic leading-[1.2] text-[var(--sane-orange)]">{tagline}</p>
+              <div className="ml-auto mt-1.5 h-[2.5px] w-10 rounded-full bg-[var(--sane-orange)]" />
             </div>
           )}
           <div className="min-w-0">
@@ -135,7 +146,7 @@ export function PageHero({
                         ? "bg-[var(--sane-orange)] text-white shadow-orange-900/20 hover:bg-[#CF6812]"
                         : isDark
                           ? "bg-white/95 text-[var(--sane-green)] backdrop-blur-sm hover:bg-white"
-                          : "border border-[var(--sane-green)] bg-white text-[var(--sane-green)] hover:bg-[var(--sane-green)] hover:text-white"
+                          : "border border-[var(--sane-green)] bg-white text-[var(--sane-green)] hover:bg-[#f0faf4]"
                     }`}
                   >
                     {action.label}
