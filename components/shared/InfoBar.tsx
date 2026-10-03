@@ -27,7 +27,7 @@ export function InfoBar({ items }: { items: InfoItem[] }) {
                   <p className="text-[16px] font-extrabold leading-tight text-[var(--sane-green)] sm:text-[18px] md:text-[20px]">
                     {item.description}
                   </p>
-                  <p className="text-[11px] leading-snug text-[var(--sane-text-light)] sm:text-[12px] md:text-[13px]">
+                  <p className="text-[12px] leading-snug text-[var(--sane-green)] sm:text-[13px]">
                     {item.title}
                   </p>
                 </div>

@@ -38,10 +38,10 @@ export const tagColors: Record<string, string> = {
 };
 
 export const formationInfo: InfoItem[] = [
-  { icon: GraduationCap, title: "Formations", description: "+20 disponibles" },
-  { icon: Users, title: "Participants", description: "+1000 attendus" },
-  { icon: BookOpen, title: "Formateurs", description: "+50 experts" },
-  { icon: Award, title: "Certificats", description: "reconnus" },
+  { icon: GraduationCap, title: "Formations", description: "+20" },
+  { icon: Users, title: "Participants", description: "+1000" },
+  { icon: BookOpen, title: "Experts formateurs", description: "+50" },
+  { icon: Award, title: "reconnus", description: "Certificats" },
 ];
 
 export const formations: Formation[] = [

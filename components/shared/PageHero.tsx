@@ -49,7 +49,7 @@ export function PageHero({
       {isDark ? (
         <div className="absolute inset-0 bg-[#0a4a22]/70 lg:bg-gradient-to-r lg:from-[#0a4a22]/90 lg:via-[#0a4a22]/40 lg:to-transparent lg:to-[55%]" />
       ) : (
-        <div className="absolute inset-0 bg-white/70 lg:bg-gradient-to-r lg:from-white/85 lg:via-white/60 lg:to-transparent lg:to-[55%]" />
+        <div className="absolute inset-0 bg-white/25 lg:bg-white/15" />
       )}
 
       <Container className="relative z-10">
@@ -78,7 +78,7 @@ export function PageHero({
               <div className="mt-2 h-[2.5px] w-7 rounded-full bg-[var(--sane-orange)]" />
             </div>
           )}
-          <div>
+          <div className="min-w-0">
             <div className="mb-2 flex items-center gap-2">
               <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
               <span
@@ -94,7 +94,7 @@ export function PageHero({
               className={`font-extrabold leading-[1.08] tracking-tight ${
                 isDark
                   ? "text-[26px] sm:text-[36px] md:text-[42px] lg:text-[48px] text-white"
-                  : "text-[24px] sm:text-[30px] md:text-[36px] lg:text-[38px] text-[var(--sane-text)]"
+                  : "text-[24px] sm:text-[30px] md:text-[36px] lg:text-[38px] text-[var(--sane-green)]"
               }`}
             >
               {title}
@@ -104,7 +104,7 @@ export function PageHero({
               className={`max-w-[500px] font-semibold leading-7 ${
                 isDark
                   ? "mt-4 text-[14px] sm:text-[15px] text-white/90"
-                  : "mt-2 text-[13px] sm:text-[14px] text-[var(--sane-text)]"
+                  : "mt-2 text-[13px] sm:text-[14px] text-[var(--sane-green)]"
               }`}
             >
               {lead}
