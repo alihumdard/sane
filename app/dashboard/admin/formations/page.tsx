@@ -8,31 +8,18 @@ import {
   Settings, FileText, Share2, Search, Eye, Pencil, Trash2, MoreVertical,
 } from "lucide-react";
 
-import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import { adminNav } from "@/lib/adminNav";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import FilterBar from "@/components/dashboard/FilterBar";
+import Pagination from "@/components/dashboard/Pagination";
+import { useTable } from "@/components/dashboard/useTable";
+import RowActions from "@/components/dashboard/RowActions";
+import TableDialogs from "@/components/dashboard/TableDialogs";
 import StatsCard from "@/components/dashboard/StatsCard";
 
 /* ─── Sidebar ─── */
-const sidebarItems: SidebarItem[] = [
-  { icon: <Home size={18} />, label: "Tableau de bord" },
-  { icon: <Users size={18} />, label: "Utilisateurs", chevron: true },
-  { icon: <Briefcase size={18} />, label: "Emploi", chevron: true },
-  {
-    icon: <BookOpen size={18} />, label: "Formations", active: true, chevron: true, expanded: true,
-    subItems: ["Toutes les formations", "Ajouter une formation", "Catégories", "Sessions", "Formateurs", "Inscriptions", "Évaluations", "Certificats", "Statistiques"],
-    activeSubIndex: 0,
-  },
-  { icon: <Calendar size={18} />, label: "Événements", chevron: true },
-  { icon: <Mic size={18} />, label: "Intervenants", chevron: true },
-  { icon: <Handshake size={18} />, label: "Partenaires", chevron: true },
-  { icon: <Newspaper size={18} />, label: "Presse", chevron: true },
-  { icon: <HelpCircle size={18} />, label: "FAQ", chevron: true },
-  { icon: <Bell size={18} />, label: "Notifications", chevron: true },
-  { icon: <BarChart3 size={18} />, label: "Rapports", chevron: true },
-  { icon: <Settings size={18} />, label: "Paramètres", chevron: true },
-  { icon: <FileText size={18} />, label: "Contenus", chevron: true },
-  { icon: <Share2 size={18} />, label: "Communication", chevron: true },
-];
+const sidebarItems = adminNav("Formations", 0);
 
 /* ─── Stats ─── */
 const statsData = [
@@ -184,6 +171,7 @@ const rankColors = ["#E57617", "#10632D", "#2563EB", "#DB2777", "#7C3AED"];
 
 export default function FormationsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const tbl = useTable(formations, { filterKeys: {"Catégorie":"categorie","Statut":"statut"} });
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -213,13 +201,13 @@ export default function FormationsPage() {
               <Image src="https://randomuser.me/api/portraits/women/68.jpg" alt="formations" fill className="object-cover opacity-40" />
             </div>
             <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e16]/90 via-[#0a2e16]/60 to-transparent" />
-            <div className="absolute right-32 top-1/2 -translate-y-1/2 opacity-30 hidden sm:block">
+            <div className="absolute right-32 top-4 opacity-30 hidden sm:block">
               <svg width="80" height="80" viewBox="0 0 80 80">
                 <circle cx="40" cy="40" r="36" fill="white" opacity="0.2"/>
                 <text x="40" y="46" textAnchor="middle" fill="white" fontSize="14" fontWeight="800">SANE</text>
               </svg>
             </div>
-            <div className="absolute right-10 top-1/2 -translate-y-1/2 text-right hidden sm:block">
+            <div className="absolute right-10 top-5 text-right hidden sm:block">
               <p className="text-[22px] italic font-bold text-white leading-snug" style={{ fontFamily: "Georgia, serif" }}>
                 Un Niger<br />de Talents
               </p>
@@ -229,12 +217,12 @@ export default function FormationsPage() {
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
                 Créez, organisez et gérez toutes les formations du SANE. Suivez les inscriptions, les sessions et évaluez l&apos;impact de chaque formation.
               </p>
-              <button className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                 Ajouter une formation
               </button>
             </div>
-            <button className="absolute right-10 bottom-6 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-10 bottom-6 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter une formation
             </button>
@@ -248,30 +236,17 @@ export default function FormationsPage() {
           </div>
 
           {/* Main content grid */}
-          <div className="grid gap-3 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px]">
+          <div className="grid gap-3 grid-cols-1 2xl:grid-cols-[minmax(0,1fr)_280px]">
             {/* Left: filter + table */}
             <div className="flex flex-col gap-3 min-w-0">
-              {/* Filter bar */}
-              <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white p-3">
-                <div className="flex w-[180px] items-center gap-1.5 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2.5 py-1.5">
-                  <Search size={13} className="shrink-0 text-[#61756B]" />
-                  <input type="text" placeholder="Rechercher une formation..." className="w-full bg-transparent text-[11px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
-                </div>
-                {["Catégorie", "Statut", "Mode (Présentiel/En ligne)", "Date"].map(f => (
-                  <select key={f} className="rounded-lg border border-[#DDE8E0] bg-white px-2 py-1.5 text-[11px] text-[#0a2e16] outline-none">
-                    <option>{f}</option>
-                  </select>
-                ))}
-                <button className="shrink-0 rounded-lg bg-[#10632D] px-4 py-1.5 text-[11px] font-semibold text-white">Rechercher</button>
-                <button className="shrink-0 rounded-lg border border-[#DDE8E0] bg-white px-3 py-1.5 text-[11px] text-[#61756B]">Réinitialiser</button>
-              </div>
+              <FilterBar searchPlaceholder="Rechercher une formation..." filters={["Catégorie", "Statut"]} table={tbl} />
 
               {/* Table */}
               <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
-                <table className="w-full min-w-[700px]">
+                <table className="w-full min-w-[1050px]">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
-                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" /></th>
+                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Image</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Titre de la formation <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
@@ -294,20 +269,20 @@ export default function FormationsPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {formations.map((f, i) => (
+                    {tbl.pageRows.map((f, i) => (
                       <tr key={i} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
-                        <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" /></td>
+                        <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(f._uid)} onChange={() => tbl.toggle(f._uid)} /></td>
                         <td className="px-2 py-1.5">
                           <div className="relative h-9 w-[72px] overflow-hidden rounded-md border border-[#DDE8E0]">
                             <Image src={f.img} alt={f.titre} fill className="object-cover object-center" />
                           </div>
                         </td>
-                        <td className="px-2 py-2 max-w-[160px]">
-                          <p className="text-[11px] font-semibold text-[#0a2e16] leading-tight">{f.titre}</p>
+                        <td className="px-2 py-2.5 min-w-[200px] max-w-[260px]">
+                          <p className="text-[12px] font-semibold text-[#0a2e16] leading-snug">{f.titre}</p>
                           <p className="text-[9px] text-[#61756B]">{f.id}</p>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: `${f.catColor}18`, color: f.catColor }}>
+                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${f.catColor}18`, color: f.catColor }}>
                             {f.categorie}
                           </span>
                         </td>
@@ -316,37 +291,32 @@ export default function FormationsPage() {
                             <div className="h-6 w-6 overflow-hidden rounded-full border border-[#DDE8E0] shrink-0">
                               <Image src={f.fPhoto} alt={f.formateur} width={24} height={24} className="object-cover" />
                             </div>
-                            <span className="text-[10px] text-[#0a2e16]">{f.formateur}</span>
+                            <span className="whitespace-nowrap text-[11px] text-[#0a2e16]">{f.formateur}</span>
                           </div>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: `${f.modeColor}18`, color: f.modeColor }}>
+                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${f.modeColor}18`, color: f.modeColor }}>
                             {f.mode}
                           </span>
                         </td>
                         <td className="px-2 py-2">
                           {f.dates.split("\n").map((line, li) => (
-                            <p key={li} className={`text-[10px] ${li === 0 ? "text-[#0a2e16] font-medium" : "text-[#61756B]"}`}>{line}</p>
+                            <p key={li} className={`whitespace-nowrap text-[11px] ${li === 0 ? "text-[#0a2e16] font-medium" : "text-[#61756B]"}`}>{line}</p>
                           ))}
                         </td>
                         <td className="px-2 py-2">
-                          <p className="text-[10px] font-semibold text-[#0a2e16]">{f.inscriptions} / {f.maxInscriptions}</p>
+                          <p className="whitespace-nowrap text-[11px] font-semibold text-[#0a2e16]">{f.inscriptions} / {f.maxInscriptions}</p>
                           <div className="mt-0.5 h-1.5 w-16 overflow-hidden rounded-full bg-[#DDE8E0]">
                             <div className="h-full rounded-full bg-[#10632D]" style={{ width: `${f.inscPct}%` }} />
                           </div>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: f.statutBg, color: f.statutColor }}>
+                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: f.statutBg, color: f.statutColor }}>
                             {f.statut}
                           </span>
                         </td>
                         <td className="px-2 py-2">
-                          <div className="flex items-center justify-center gap-1.5">
-                            <button className="text-[#2563EB] hover:opacity-80"><Eye size={13} /></button>
-                            <button className="text-[#10632D] hover:opacity-80"><Pencil size={13} /></button>
-                            <button className="text-[#DC2626] hover:opacity-80"><Trash2 size={13} /></button>
-                            <button className="text-[#61756B] hover:opacity-80"><MoreVertical size={13} /></button>
-                          </div>
+                          <RowActions table={tbl} row={f} />
                         </td>
                       </tr>
                     ))}
@@ -354,27 +324,12 @@ export default function FormationsPage() {
                 </table>
 
                 {/* Pagination */}
-                <div className="flex items-center justify-between border-t border-[#DDE8E0] px-4 py-2.5">
-                  <span className="text-[10px] text-[#61756B]">Affichage 1 à 10 sur 48 formations</span>
-                  <div className="flex items-center gap-2">
-                    <select className="rounded border border-[#DDE8E0] px-1.5 py-0.5 text-[10px] text-[#0a2e16] outline-none">
-                      <option>10 par page</option>
-                    </select>
-                    <div className="flex items-center gap-1">
-                      <button className="rounded px-1.5 py-0.5 text-[10px] text-[#61756B]">‹</button>
-                      {[1, 2, 3, 4, 5].map(p => (
-                        <button key={p} className={`h-6 w-6 rounded text-[10px] font-semibold ${p === 1 ? "bg-[#10632D] text-white" : "text-[#61756B] hover:bg-[#F5F9F6]"}`}>{p}</button>
-                      ))}
-                      <span className="text-[10px] text-[#61756B]">...</span>
-                      <button className="rounded px-1.5 py-0.5 text-[10px] text-[#61756B]">›</button>
-                    </div>
-                  </div>
-                </div>
+                <Pagination current={tbl.page} totalPages={tbl.totalPages} totalItems={tbl.total} pageSize={tbl.pageSize} itemLabel="formations" onPageChange={tbl.setPage} onPageSizeChange={tbl.setPageSize} />
               </div>
             </div>
 
             {/* Right sidebar */}
-            <div className="flex flex-col gap-3 min-w-0">
+            <div className="grid grid-cols-1 md:grid-cols-3 2xl:flex 2xl:flex-col gap-3 min-w-0">
               {/* Donut chart */}
               <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
                 <div className="mb-2 flex items-center justify-between">
@@ -465,6 +420,7 @@ export default function FormationsPage() {
           </div>
         </main>
       </div>
+      <TableDialogs table={tbl} entity="formation" />
     </div>
   );
 }

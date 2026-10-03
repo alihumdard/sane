@@ -10,6 +10,8 @@ import {
   ChevronRight, Eye, Mail, MoreVertical, MapPin, Clock,
   ArrowRight, TrendingUp, Mic, Menu
 } from "lucide-react";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 
 /* ─────────────────────────────── DATA ─────────────────────────────── */
 
@@ -149,85 +151,12 @@ export default function DashboardOrganisateurPage() {
   return (
     <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
       {/* Mobile overlay */}
-      {sidebarOpen && (
-        <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />
-      )}
-
-      {/* ═══════════ SIDEBAR ═══════════ */}
-      <aside className={`fixed inset-y-0 left-0 z-40 flex w-[220px] shrink-0 flex-col border-r border-[#DDE8E0] bg-white transition-transform duration-300 lg:static lg:translate-x-0 lg:z-auto ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        {/* Logo */}
-        <div className="flex flex-col items-center px-5 pt-5 pb-2">
-          <div className="flex items-center gap-1">
-            <svg width="36" height="36" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
-            <span className="text-[18px] font-extrabold text-[#1e3a5f]">SANE</span>
-          </div>
-          <span className="text-[7px] font-semibold tracking-[0.15em] text-[#61756B] uppercase">Salon National de l&apos;Emploi</span>
-          <svg className="mt-2" width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 10,5 5,10 0,5" fill="#E57617"/></svg>
-        </div>
-        <nav className="flex-1 overflow-y-auto px-3 py-2">
-          {sidebarItems.map((item, i) => (
-            <button
-              key={i}
-              className={`flex w-full items-center gap-2.5 px-3 py-2 mb-0.5 text-left transition-all ${
-                item.active
-                  ? "text-[#0a2e16] font-bold"
-                  : "text-[#61756B] hover:bg-[#F5F9F6] rounded-lg"
-              }`}
-            >
-              {item.active ? (
-                <span className="flex h-7 w-7 items-center justify-center rounded-md bg-[#10632D] text-white shrink-0">
-                  {item.icon}
-                </span>
-              ) : (
-                <span>{item.icon}</span>
-              )}
-              <span className="flex-1 text-[13px]">{item.label}</span>
-              {item.badge && (
-                <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#E57617] text-white px-1.5 text-[10px] font-bold">
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          ))}
-        </nav>
-        {/* Bottom decorative */}
-        <div className="shrink-0 px-5 pb-6 pt-4">
-          <div className="relative">
-            <svg className="absolute right-2 top-0 w-24 opacity-[0.12]" viewBox="0 0 200 150" fill="#10632D"><path d="M60,20 Q80,10 120,15 Q160,20 180,50 Q190,80 170,110 Q150,140 110,145 Q70,148 40,130 Q15,110 20,80 Q25,50 50,30 Z"/></svg>
-            <p className="relative text-[20px] italic text-[#10632D] leading-snug font-semibold" style={{ fontFamily: "Georgia, serif" }}>
-              Des talents<br/>pour un Niger<br/>plus fort
-            </p>
-            <div className="relative mt-2 h-[3px] w-14 rounded-full bg-[#E57617]" />
-          </div>
-        </div>
-      </aside>
+      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* ═══════════ MAIN ═══════════ */}
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         {/* TOP NAVBAR */}
-        <header className="flex items-center gap-2 border-b border-[#DDE8E0] bg-white px-3 sm:px-6 py-3">
-          <button className="lg:hidden mr-1 rounded-lg p-2 text-[#61756B] hover:bg-[#F5F9F6]" onClick={() => setSidebarOpen(true)}>
-            <Menu size={20} />
-          </button>
-          <div className="flex flex-1 items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-3 py-2">
-            <Search size={16} className="text-[#61756B]" />
-            <input type="text" placeholder="Rechercher un événement..." className="flex-1 bg-transparent text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
-          </div>
-          <button className="relative rounded-lg p-2 text-[#61756B] hover:bg-[#F5F9F6]">
-            <Bell size={18} />
-            <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E57617] text-[9px] font-bold text-white">5</span>
-          </button>
-          <button className="hidden sm:flex items-center gap-1 rounded-lg px-2 py-1 text-[12px] font-medium text-[#61756B] hover:bg-[#F5F9F6]">
-            FR <ChevronDown size={12} />
-          </button>
-          <div className="hidden sm:flex items-center gap-2.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5">
-            <Image src="https://randomuser.me/api/portraits/women/55.jpg" alt="Aïssatou" width={32} height={32} className="rounded-full object-cover" />
-            <div>
-              <p className="text-[12px] font-bold text-[#0a2e16]">Aïssatou Bello</p>
-              <p className="text-[10px] text-[#61756B]">Organisatrice</p>
-            </div>
-          </div>
-        </header>
+        <DashboardNavbar searchPlaceholder="Rechercher un événement..." notificationCount={5} userName="Aïssatou Bello" userRole="Organisateur" userImage="https://randomuser.me/api/portraits/women/55.jpg" onMenuClick={() => setSidebarOpen(true)} />
 
         {/* SCROLLABLE CONTENT */}
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-6">
@@ -239,7 +168,7 @@ export default function DashboardOrganisateurPage() {
               <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
               <p className="text-[16px] italic text-[#E57617] leading-tight font-semibold" style={{ fontFamily: "Georgia, serif" }}>Un Niger<br/>de Talents</p>
             </div>
-            <div className="relative z-20 p-6">
+            <div className="relative z-20 p-4 sm:p-6">
               <nav className="mb-2 flex items-center gap-1.5 text-[11px] text-[#61756B]">
                 <span>Accueil</span>
                 <ChevronRight size={11} />
@@ -253,7 +182,7 @@ export default function DashboardOrganisateurPage() {
           </div>
 
           {/* ═══════════ STATS ROW ═══════════ */}
-          <div className="mb-6 grid grid-cols-2 lg:grid-cols-5 gap-3 rounded-xl border border-[#DDE8E0] bg-white px-4 py-3">
+          <div className="mb-6 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 rounded-xl border border-[#DDE8E0] bg-white px-4 py-3">
             {statsData.map((s, i) => (
               <div key={i} className="flex items-center gap-2.5">
                 <span className="flex items-center justify-center w-10 h-10 rounded-full shrink-0" style={{ backgroundColor: s.bg, color: s.color }}>{s.icon}</span>
@@ -263,7 +192,7 @@ export default function DashboardOrganisateurPage() {
                     <span className="flex items-center gap-0.5 text-[10px] font-semibold text-[#10632D]">
                       <TrendingUp size={10} /> {s.trend}
                     </span>
-                    <span className="text-[9px] text-[#61756B]/60">vs. mois dernier</span>
+                    <span className="hidden text-[9px] text-[#61756B]/60 min-[420px]:inline">vs. mois dernier</span>
                   </div>
                   <p className="text-[10px] text-[#61756B] truncate">{s.label}</p>
                 </div>
@@ -272,7 +201,7 @@ export default function DashboardOrganisateurPage() {
           </div>
 
           {/* ═══════════ CHARTS ROW ═══════════ */}
-          <div className="mb-6 grid grid-cols-1 lg:grid-cols-[1fr_280px_280px] gap-4">
+          <div className="mb-6 grid grid-cols-1 xl:grid-cols-[1fr_280px_280px] gap-4">
             {/* Line Chart */}
             <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
               <div className="mb-1 flex items-center justify-between">
@@ -385,7 +314,7 @@ export default function DashboardOrganisateurPage() {
           </div>
 
           {/* ═══════════ TABLE + CATEGORIES ═══════════ */}
-          <div className="mb-6 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
+          <div className="mb-6 grid grid-cols-1 xl:grid-cols-[1fr_300px] gap-4">
             {/* Inscriptions Table */}
             <div className="rounded-xl border border-[#DDE8E0] bg-white p-5 min-w-0">
               <div className="mb-4 flex items-center justify-between">
@@ -472,7 +401,7 @@ export default function DashboardOrganisateurPage() {
           </div>
 
           {/* ═══════════ BOTTOM ROW ═══════════ */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {/* Activités récentes */}
             <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
               <div className="mb-4 flex items-center justify-between">

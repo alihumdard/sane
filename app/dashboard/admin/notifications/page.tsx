@@ -8,8 +8,12 @@ import {
   Eye, Pencil, Copy, Trash2, MoreVertical,
 } from "lucide-react";
 
-import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import { adminNav } from "@/lib/adminNav";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import { useTable } from "@/components/dashboard/useTable";
+import RowActions from "@/components/dashboard/RowActions";
+import TableDialogs from "@/components/dashboard/TableDialogs";
 import StatsCard from "@/components/dashboard/StatsCard";
 import FilterBar from "@/components/dashboard/FilterBar";
 import Pagination from "@/components/dashboard/Pagination";
@@ -18,26 +22,7 @@ import RankedList from "@/components/dashboard/RankedList";
 import DateBadgeList from "@/components/dashboard/DateBadgeList";
 
 /* ─── Sidebar ─── */
-const sidebarItems: SidebarItem[] = [
-  { icon: <Home size={18} />, label: "Tableau de bord" },
-  { icon: <Users size={18} />, label: "Utilisateurs", chevron: true },
-  { icon: <Briefcase size={18} />, label: "Emploi", chevron: true },
-  { icon: <BookOpen size={18} />, label: "Formations", chevron: true },
-  { icon: <Calendar size={18} />, label: "Événements", chevron: true },
-  { icon: <Users size={18} />, label: "Intervenants", chevron: true },
-  { icon: <Share2 size={18} />, label: "Partenaires", chevron: true },
-  { icon: <Newspaper size={18} />, label: "Presse", chevron: true },
-  { icon: <BarChart3 size={18} />, label: "FAQ", chevron: true },
-  {
-    icon: <Bell size={18} />, label: "Notifications", active: true, chevron: true, expanded: true,
-    subItems: ["Toutes les notifications", "Créer une notification", "Catégories", "Paramètres", "Statistiques"],
-    activeSubIndex: 0,
-  },
-  { icon: <Newspaper size={18} />, label: "Contenus", chevron: true },
-  { icon: <Share2 size={18} />, label: "Communication", chevron: true },
-  { icon: <BarChart3 size={18} />, label: "Rapports", chevron: true },
-  { icon: <Settings size={18} />, label: "Paramètres", chevron: true },
-];
+const sidebarItems = adminNav("Notifications", 0);
 
 /* ─── Stats ─── */
 const statsData = [
@@ -170,6 +155,7 @@ const recentesData = [
 
 export default function NotificationsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const tbl = useTable(notifications, { filterKeys: {"Catégorie":"categorie","Statut":"statut","Type de destinataire":"destinataire"} });
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -212,12 +198,12 @@ export default function NotificationsPage() {
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
                 Envoyez et gérez toutes les notifications du SANE. Informez les utilisateurs des mises à jour, événements et opportunités importantes.
               </p>
-              <button className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                 Nouvelle notification
               </button>
             </div>
-            <button className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Nouvelle notification
             </button>
@@ -234,14 +220,14 @@ export default function NotificationsPage() {
           <div className="grid gap-3 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px]">
             {/* Left: filter + table */}
             <div className="flex flex-col gap-3 min-w-0">
-              <FilterBar searchPlaceholder="Rechercher une notification..." filters={["Catégorie", "Statut", "Type de destinataire", "Date d'envoi"]} />
+              <FilterBar searchPlaceholder="Rechercher une notification..." filters={["Catégorie", "Statut", "Type de destinataire", "Date d'envoi"]}  table={tbl} />
 
               {/* Table */}
               <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
-                <table className="w-full min-w-[800px]">
+                <table className="w-full min-w-[1000px]">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
-                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" /></th>
+                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Titre de la notification <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
@@ -260,9 +246,9 @@ export default function NotificationsPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {notifications.map((n, i) => (
+                    {tbl.pageRows.map((n, i) => (
                       <tr key={i} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
-                        <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" /></td>
+                        <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(n._uid)} onChange={() => tbl.toggle(n._uid)} /></td>
                         <td className="px-2 py-2 max-w-[220px]">
                           <div className="flex items-start gap-2">
                             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: `${(catConfig[n.categorie]?.color || "#61756B")}15` }}>
@@ -307,20 +293,14 @@ export default function NotificationsPage() {
                           )}
                         </td>
                         <td className="px-2 py-2">
-                          <div className="flex items-center justify-center gap-1.5">
-                            <button className="text-[#2563EB] hover:opacity-80"><Eye size={13} /></button>
-                            <button className="text-[#10632D] hover:opacity-80"><Pencil size={13} /></button>
-                            <button className="text-[#61756B] hover:opacity-80"><Copy size={13} /></button>
-                            <button className="text-[#DC2626] hover:opacity-80"><Trash2 size={13} /></button>
-                            <button className="text-[#61756B] hover:opacity-80"><MoreVertical size={13} /></button>
-                          </div>
+                          <RowActions table={tbl} row={n} extra="duplicate" />
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
 
-                <Pagination current={1} totalPages={13} totalItems={126} itemLabel="notifications" />
+                <Pagination current={tbl.page} totalPages={tbl.totalPages} totalItems={tbl.total} pageSize={tbl.pageSize} itemLabel="notifications" onPageChange={tbl.setPage} onPageSizeChange={tbl.setPageSize} />
               </div>
             </div>
 
@@ -333,6 +313,7 @@ export default function NotificationsPage() {
           </div>
         </main>
       </div>
+      <TableDialogs table={tbl} entity="notification" />
     </div>
   );
 }

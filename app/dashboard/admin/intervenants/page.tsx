@@ -9,31 +9,18 @@ import {
   RefreshCw, Plus, Eye, Pencil, Trash2, MoreVertical, Star,
 } from "lucide-react";
 
-import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import { adminNav } from "@/lib/adminNav";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import FilterBar from "@/components/dashboard/FilterBar";
+import Pagination from "@/components/dashboard/Pagination";
+import { useTable } from "@/components/dashboard/useTable";
+import RowActions from "@/components/dashboard/RowActions";
+import TableDialogs from "@/components/dashboard/TableDialogs";
 import StatsCard from "@/components/dashboard/StatsCard";
 
 /* ─── Sidebar ─── */
-const sidebarItems: SidebarItem[] = [
-  { icon: <Home size={18} />, label: "Tableau de bord" },
-  { icon: <Users size={18} />, label: "Utilisateurs", chevron: true },
-  { icon: <Briefcase size={18} />, label: "Emploi", chevron: true },
-  { icon: <BookOpen size={18} />, label: "Formations", chevron: true },
-  { icon: <Calendar size={18} />, label: "Événements", chevron: true },
-  {
-    icon: <Mic size={18} />, label: "Intervenants", active: true, chevron: true, expanded: true,
-    subItems: ["Tous les intervenants", "Ajouter un intervenant", "Catégories", "Sessions", "Disponibilités", "Evaluations", "Invitations", "Statistiques"],
-    activeSubIndex: 0,
-  },
-  { icon: <Handshake size={18} />, label: "Partenaires", chevron: true },
-  { icon: <Newspaper size={18} />, label: "Presse", chevron: true },
-  { icon: <HelpCircle size={18} />, label: "FAQ", chevron: true },
-  { icon: <Bell size={18} />, label: "Notifications", chevron: true },
-  { icon: <BarChart3 size={18} />, label: "Rapports", chevron: true },
-  { icon: <Settings size={18} />, label: "Paramètres", chevron: true },
-  { icon: <FileText size={18} />, label: "Contenus", chevron: true },
-  { icon: <Share2 size={18} />, label: "Communication", chevron: true },
-];
+const sidebarItems = adminNav("Intervenants", 0);
 
 /* ─── Stats ─── */
 const statsData = [
@@ -146,8 +133,8 @@ function DonutChart() {
 
 /* ─── Page ─── */
 export default function IntervenantsPage() {
-  const [checked, setChecked] = useState<number[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const tbl = useTable(intervenants, { filterKeys: {"Catégorie":"cat","Statut":"statut"} });
 
   return (
     <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
@@ -175,7 +162,7 @@ export default function IntervenantsPage() {
           {/* Welcome Banner */}
           <div className="relative mb-5 h-[110px] sm:h-[150px] overflow-hidden rounded-2xl">
             <Image src="/sane_deal.png" alt="Banner" fill className="object-cover object-center" />
-            <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-transparent" />
             <div className="absolute inset-0 flex items-center px-4 sm:px-8">
               <div className="max-w-[60%] sm:max-w-[50%]">
                 <h1 className="text-[16px] sm:text-[22px] font-extrabold text-[#0a2e16] leading-tight">Gestion des intervenants</h1>
@@ -183,16 +170,14 @@ export default function IntervenantsPage() {
                   Gérez tous les intervenants du SANE. Ajoutez de nouveaux intervenants,<br/>
                   assignez-les aux sessions et suivez leur participation.
                 </p>
-                <button className="mt-2 flex items-center gap-1 rounded-lg bg-[#E57617] px-3 py-1.5 text-[10px] font-bold text-white sm:hidden">
+                <button type="button" onClick={tbl.openAdd} className="mt-2 flex items-center gap-1 rounded-lg bg-[#E57617] px-3 py-1.5 text-[10px] font-bold text-white sm:hidden">
                   <Plus size={11} /> Ajouter
                 </button>
               </div>
               <div className="absolute right-4 sm:right-8 top-3 sm:top-4 flex flex-col items-end gap-1 hidden sm:flex">
-                <button className="flex items-center gap-2 rounded-lg bg-[#E57617] px-4 py-2 text-[11px] font-bold text-white hover:bg-[#c45e0e]">
+                <button type="button" onClick={tbl.openAdd} className="flex items-center gap-2 rounded-lg bg-[#E57617] px-4 py-2 text-[11px] font-bold text-white hover:bg-[#c45e0e]">
                   <Plus size={13} /> Ajouter un intervenant
                 </button>
-                <p className="text-[22px] font-bold italic text-[#0a2e16]" style={{ fontFamily: "Georgia, serif" }}>Un Niger</p>
-                <p className="text-[22px] font-bold italic text-[#E57617]" style={{ fontFamily: "Georgia, serif" }}>de Talents</p>
               </div>
             </div>
           </div>
@@ -203,36 +188,18 @@ export default function IntervenantsPage() {
           </div>
 
           {/* Main + Right Sidebar */}
-          <div className="grid gap-4 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_270px]">
+          <div className="grid gap-4 grid-cols-1 2xl:grid-cols-[minmax(0,1fr)_290px]">
             <div className="flex flex-col gap-3 min-w-0">
 
               {/* Filter Bar */}
-              <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white px-3 py-2.5">
-                <div className="flex flex-1 min-w-[140px] items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2 py-1.5">
-                  <Search size={13} className="text-[#61756B]" />
-                  <input type="text" placeholder="Rechercher un intervenant..." className="flex-1 bg-transparent text-[11px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
-                </div>
-                <div className="flex flex-wrap gap-2 flex-1">
-                  {["Catégorie", "Pays", "Statut", "Événement"].map(f => (
-                    <select key={f} className="flex-1 min-w-[90px] rounded-lg border border-[#DDE8E0] px-2 py-1.5 text-[10px] text-[#61756B] outline-none bg-white">
-                      <option>{f}</option>
-                    </select>
-                  ))}
-                </div>
-                <div className="flex gap-2 w-full sm:w-auto">
-                  <button className="flex-1 sm:flex-none rounded-lg bg-[#10632D] px-3 py-1.5 text-[10px] font-bold text-white">Rechercher</button>
-                  <button className="flex-1 sm:flex-none flex items-center justify-center gap-1 rounded-lg border border-[#DDE8E0] px-2 py-1.5 text-[10px] text-[#61756B]">
-                    <RefreshCw size={10} /> Réinitialiser
-                  </button>
-                </div>
-              </div>
+              <FilterBar searchPlaceholder="Rechercher un intervenant..." filters={["Catégorie", "Statut", "Pays"]} table={tbl} />
 
               {/* Table */}
               <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
-                <table className="w-full min-w-[700px] text-left">
+                <table className="w-full min-w-[1000px] text-left">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
-                      <th className="px-3 py-2 w-8"><input type="checkbox" className="accent-[#10632D]" /></th>
+                      <th className="px-3 py-2 w-8"><input type="checkbox" className="accent-[#10632D]" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
                       <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Intervenant</th>
                       <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Fonction / Entreprise</th>
                       <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Catégorie</th>
@@ -244,36 +211,36 @@ export default function IntervenantsPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {intervenants.map((r, i) => (
+                    {tbl.pageRows.map((r, i) => (
                       <tr key={i} className="border-b border-[#DDE8E0]/50 hover:bg-[#F5F9F6]/50">
-                        <td className="px-3 py-2"><input type="checkbox" className="accent-[#10632D]" checked={checked.includes(i)} onChange={() => setChecked(p => p.includes(i) ? p.filter(x => x !== i) : [...p, i])} /></td>
+                        <td className="px-3 py-2"><input type="checkbox" className="accent-[#10632D]" checked={tbl.selected.includes(r._uid)} onChange={() => tbl.toggle(r._uid)} /></td>
                         <td className="px-2 py-1.5">
                           <div className="flex items-center gap-2">
                             <div className="h-8 w-8 overflow-hidden rounded-full shrink-0 border border-[#DDE8E0]">
                               <Image src={r.photo} alt={r.name} width={32} height={32} className="object-cover" />
                             </div>
                             <div>
-                              <p className="text-[11px] font-semibold text-[#0a2e16]">{r.name}</p>
+                              <p className="whitespace-nowrap text-[12px] font-semibold text-[#0a2e16]">{r.name}</p>
                               <p className="text-[9px] text-[#61756B]">{r.code}</p>
                             </div>
                           </div>
                         </td>
                         <td className="px-2 py-1.5">
-                          <p className="text-[11px] font-medium text-[#0a2e16]">{r.fonction}</p>
+                          <p className="min-w-[200px] text-[12px] font-medium text-[#0a2e16]">{r.fonction}</p>
                           <p className="text-[9px] text-[#61756B]">{r.entreprise}</p>
                         </td>
                         <td className="px-2 py-1.5">
-                          <span className={`rounded-md px-2 py-0.5 text-[9px] font-semibold ${catColors[r.cat] || "bg-gray-100 text-gray-600"}`}>{r.cat}</span>
+                          <span className={`whitespace-nowrap rounded-md px-2 py-1 text-[10px] font-semibold ${catColors[r.cat] || "bg-gray-100 text-gray-600"}`}>{r.cat}</span>
                         </td>
                         <td className="px-2 py-1.5">
-                          <span className="flex items-center gap-1.5 text-[11px] text-[#0a2e16]">
+                          <span className="flex items-center gap-1.5 whitespace-nowrap text-[11px] text-[#0a2e16]">
                             <span className="text-[16px] leading-none">{r.pays.split(" ")[0]}</span>
                             <span>{r.pays.split(" ").slice(1).join(" ")}</span>
                           </span>
                         </td>
                         <td className="px-2 py-1.5 text-center text-[11px] text-[#0a2e16]">{r.sessions}</td>
                         <td className="px-2 py-1.5">
-                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-semibold ${r.statut === "Confirmé" ? "bg-[#E8F5ED] text-[#10632D]" : "bg-[#FFF3E8] text-[#E57617]"}`}>{r.statut}</span>
+                          <span className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold ${r.statut === "Confirmé" ? "bg-[#E8F5ED] text-[#10632D]" : "bg-[#FFF3E8] text-[#E57617]"}`}>{r.statut}</span>
                         </td>
                         <td className="px-2 py-1.5">
                           <div className="flex items-center gap-0.5">
@@ -282,12 +249,7 @@ export default function IntervenantsPage() {
                           </div>
                         </td>
                         <td className="px-2 py-1.5">
-                          <div className="flex items-center gap-1.5">
-                            <button className="text-[#61756B] hover:text-[#10632D]"><Eye size={13} /></button>
-                            <button className="text-[#61756B] hover:text-[#10632D]"><Pencil size={13} /></button>
-                            <button className="text-[#61756B] hover:text-red-500"><Trash2 size={13} /></button>
-                            <button className="text-[#61756B] hover:text-[#10632D]"><MoreVertical size={13} /></button>
-                          </div>
+                          <RowActions table={tbl} row={r} />
                         </td>
                       </tr>
                     ))}
@@ -295,25 +257,12 @@ export default function IntervenantsPage() {
                 </table>
 
                 {/* Pagination */}
-                <div className="flex items-center justify-between px-4 py-3 border-t border-[#DDE8E0]">
-                  <span className="text-[10px] text-[#61756B]">Affichage de 1 à 10 sur 46 intervenants</span>
-                  <div className="flex items-center gap-1">
-                    <select className="rounded border border-[#DDE8E0] px-2 py-1 text-[10px] text-[#61756B] outline-none">
-                      <option>10 par page</option>
-                    </select>
-                    <button className="flex h-7 w-7 items-center justify-center rounded border border-[#DDE8E0] text-[#61756B] hover:bg-[#F5F9F6]"><ChevronRight size={12} className="rotate-180" /></button>
-                    {[1,2,3,4,5].map(n => (
-                      <button key={n} className={`flex h-7 w-7 items-center justify-center rounded text-[11px] ${n === 1 ? "bg-[#10632D] text-white font-bold" : "border border-[#DDE8E0] text-[#61756B] hover:bg-[#F5F9F6]"}`}>{n}</button>
-                    ))}
-                    <span className="text-[11px] text-[#61756B] px-1">...</span>
-                    <button className="flex h-7 w-7 items-center justify-center rounded border border-[#DDE8E0] text-[#61756B] hover:bg-[#F5F9F6]"><ChevronRight size={12} /></button>
-                  </div>
-                </div>
+                <Pagination current={tbl.page} totalPages={tbl.totalPages} totalItems={tbl.total} pageSize={tbl.pageSize} itemLabel="intervenants" onPageChange={tbl.setPage} onPageSizeChange={tbl.setPageSize} />
               </div>
             </div>
 
             {/* Right Sidebar */}
-            <div className="flex flex-col gap-4 min-w-0">
+            <div className="grid grid-cols-1 md:grid-cols-3 2xl:flex 2xl:flex-col gap-4 min-w-0">
               {/* Répartition par catégorie */}
               <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
                 <div className="flex items-center gap-2 mb-3">
@@ -382,6 +331,7 @@ export default function IntervenantsPage() {
           </div>
         </main>
       </div>
+      <TableDialogs table={tbl} entity="intervenant" />
     </div>
   );
 }

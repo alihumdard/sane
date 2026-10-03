@@ -39,9 +39,9 @@ export default function HeroBanner({ title, description, imageSrc, variant = "li
 
   return (
     <div className="relative mb-4 overflow-hidden rounded-2xl bg-white border border-[#DDE8E0]">
-      <div className="flex">
-        <div className="flex flex-col justify-center px-8 py-6 relative z-10" style={{ minWidth: "45%" }}>
-          <h1 className="text-[28px] font-extrabold text-[#0a2e16] leading-tight">{title}</h1>
+      <div className="flex flex-col sm:flex-row">
+        <div className="flex flex-col justify-center px-5 sm:px-8 py-5 sm:py-6 relative z-10 sm:min-w-[45%]">
+          <h1 className="text-[22px] sm:text-[28px] font-extrabold text-[#0a2e16] leading-tight">{title}</h1>
           <p className="mt-2 max-w-[420px] text-[12px] text-[#61756B] leading-relaxed">{description}</p>
         </div>
         <div className="relative flex-1 min-h-[150px]">

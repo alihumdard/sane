@@ -19,12 +19,12 @@ export default function StatsCard({ icon, value, label, trend, trendLabel, bg, c
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-1">
           <span className="text-[20px] font-extrabold text-[#0a2e16] leading-none">{value}</span>
-          <div className="flex flex-col items-end">
+          <div className="hidden flex-col items-end min-[360px]:flex">
             <span className="flex items-center gap-0.5 text-[9px] font-semibold text-[#10632D]">
               <svg width="7" height="7" viewBox="0 0 10 10" fill="#10632D"><path d="M5 1 L9 9 L1 9 Z"/></svg>
               {trend}
             </span>
-            <span className="text-[8px] text-[#61756B]/70 whitespace-nowrap">{trendLabel || "vs. mois dernier"}</span>
+            <span className="hidden text-[8px] text-[#61756B]/70 whitespace-nowrap sm:inline">{trendLabel || "vs. mois dernier"}</span>
           </div>
         </div>
         <p className="text-[10px] text-[#61756B] leading-tight mt-0.5">{label}</p>

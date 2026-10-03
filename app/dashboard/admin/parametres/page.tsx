@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   Home, Users, Briefcase, BookOpen, Calendar, Mic,
   Handshake, Newspaper, HelpCircle, Bell, BarChart3,
@@ -10,31 +11,13 @@ import {
   UserCog, Palette, Lock, Save, Camera,
 } from "lucide-react";
 
-import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import { adminNav } from "@/lib/adminNav";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import StatsCard from "@/components/dashboard/StatsCard";
 
 /* ─── Sidebar config ─── */
-const sidebarItems: SidebarItem[] = [
-  { icon: <Home size={18} />, label: "Tableau de bord" },
-  { icon: <Users size={18} />, label: "Utilisateurs", chevron: true },
-  { icon: <Briefcase size={18} />, label: "Emploi", chevron: true },
-  { icon: <BookOpen size={18} />, label: "Formations", chevron: true },
-  { icon: <Calendar size={18} />, label: "Événements", chevron: true },
-  { icon: <Mic size={18} />, label: "Intervenants", chevron: true },
-  { icon: <Handshake size={18} />, label: "Partenaires", chevron: true },
-  { icon: <Newspaper size={18} />, label: "Presse", chevron: true },
-  { icon: <HelpCircle size={18} />, label: "FAQ", chevron: true },
-  { icon: <Bell size={18} />, label: "Notifications", chevron: true },
-  { icon: <BarChart3 size={18} />, label: "Rapports", chevron: true },
-  {
-    icon: <Settings size={18} />, label: "Paramètres", active: true, chevron: true, expanded: true,
-    subItems: ["Paramètres généraux", "Utilisateurs & accès", "Notifications", "Apparence", "Langue", "Sécurité", "Intégrations", "Sauvegardes"],
-    activeSubIndex: 0,
-  },
-  { icon: <FileText size={18} />, label: "Contenus", chevron: true },
-  { icon: <Share2 size={18} />, label: "Communication", chevron: true },
-];
+const sidebarItems = adminNav("Paramètres", 0);
 
 /* ─── Stats ─── */
 const statsData = [
@@ -88,10 +71,63 @@ const quickConfig = [
   { icon: <Zap size={16} />, bg: "#E0F0FF", color: "#2563EB", title: "Connecter les intégrations", desc: "API, services externes" },
 ];
 
+const DEFAULT_FORM = {
+  nom: "SANE",
+  email: "contact@sane.ne",
+  tel: "20 72 35 10",
+  adresse: "Niamey, Niger",
+  site: "https://www.sane.ne",
+  description: "Le Salon National de l'Emploi (SANE) est une plateforme qui connecte les talents nigériens aux opportunités d'emploi, de formation et de partenariat.",
+};
+
 /* ─── Page ─── */
 export default function AdminParametresPage() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [form, setForm] = useState(DEFAULT_FORM);
+  const [logoUrl, setLogoUrl] = useState("");
+  const [faviconUrl, setFaviconUrl] = useState("");
+  const [toast, setToast] = useState("");
+
+  // restore saved settings
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("sane-admin-settings");
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (saved) setForm({ ...DEFAULT_FORM, ...JSON.parse(saved) });
+    } catch {}
+  }, []);
+
+  const setField = (key: keyof typeof DEFAULT_FORM) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm((f) => ({ ...f, [key]: e.target.value }));
+
+  const flash = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(""), 2500);
+  };
+
+  const save = () => {
+    if (!form.nom.trim() || !form.email.trim()) {
+      flash("Nom et email sont obligatoires");
+      return;
+    }
+    try { localStorage.setItem("sane-admin-settings", JSON.stringify(form)); } catch {}
+    flash("Paramètres enregistrés");
+  };
+
+  const pickImage = (set: (v: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) set(URL.createObjectURL(file));
+  };
+
+  const quickActions = [
+    () => router.push("/dashboard/admin/utilisateurs"),
+    () => router.push("/dashboard/admin/notifications"),
+    () => setActiveTab(3),
+    () => setActiveTab(5),
+    () => setActiveTab(6),
+  ];
 
   return (
     <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
@@ -119,7 +155,7 @@ export default function AdminParametresPage() {
           {/* Welcome Banner */}
           <div className="relative mb-5 min-h-[110px] sm:h-[150px] overflow-hidden rounded-2xl">
             <Image src="/sane_deal.png" alt="Banner" fill className="object-cover object-center" />
-            <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-transparent" />
             <div className="absolute inset-0 flex items-center px-4 sm:px-8">
               <div className="max-w-[65%] sm:max-w-[55%]">
                 <h1 className="text-[16px] sm:text-[22px] font-extrabold text-[#0a2e16] leading-tight">Paramètres du système</h1>
@@ -127,21 +163,6 @@ export default function AdminParametresPage() {
                   Configurez votre plateforme SANE selon vos besoins. Gérez les informations générales,<br/>
                   la sécurité, les notifications et les préférences de votre organisation.
                 </p>
-              </div>
-              <div className="absolute right-4 sm:right-8 hidden sm:flex flex-col items-end gap-1">
-                <div className="flex items-center gap-2">
-                  <svg width="44" height="44" viewBox="0 0 40 40">
-                    <circle cx="20" cy="20" r="18" fill="#10632D"/>
-                    <text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text>
-                    <path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  </svg>
-                  <div>
-                    <p className="text-[9px] font-semibold text-[#61756B] uppercase tracking-widest">SALON</p>
-                    <p className="text-[9px] font-semibold text-[#61756B] uppercase tracking-widest">SALON NATIONAL DE L&apos;EMPLOI</p>
-                  </div>
-                </div>
-                <p className="text-[22px] font-bold italic text-[#0a2e16]" style={{ fontFamily: "Georgia, serif" }}>Un Niger</p>
-                <p className="text-[22px] font-bold italic text-[#E57617]" style={{ fontFamily: "Georgia, serif" }}>de Talents</p>
               </div>
             </div>
           </div>
@@ -170,8 +191,19 @@ export default function AdminParametresPage() {
 
           {/* Main Content + Right Sidebar */}
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-4">
+            {activeTab !== 0 && (
+              <div className="flex min-w-0 flex-col items-center justify-center rounded-xl border border-[#DDE8E0] bg-white p-8 text-center">
+                <p className="text-[14px] font-bold text-[#0a2e16]">{tabs[activeTab].label}</p>
+                <p className="mt-1 max-w-sm text-[12px] text-[#61756B]">
+                  Cette section sera disponible prochainement. Retournez aux paramètres généraux pour modifier les informations de la plateforme.
+                </p>
+                <button type="button" onClick={() => setActiveTab(0)} className="mt-4 rounded-lg bg-[#10632D] px-4 py-2 text-[12px] font-semibold text-white hover:bg-[#0a4a22]">
+                  Paramètres généraux
+                </button>
+              </div>
+            )}
             {/* Form Card */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-4 sm:p-5 min-w-0">
+            <div className={`rounded-xl border border-[#DDE8E0] bg-white p-4 sm:p-5 min-w-0 ${activeTab === 0 ? "" : "hidden"}`}>
               <div className="flex flex-wrap items-start justify-between gap-2 mb-5">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
@@ -180,7 +212,7 @@ export default function AdminParametresPage() {
                   </div>
                   <p className="text-[11px] text-[#61756B] ml-6">Configurez les informations générales de votre plateforme.</p>
                 </div>
-                <button className="flex items-center gap-2 rounded-lg bg-[#10632D] px-3 sm:px-4 py-2 text-[11px] font-bold text-white hover:bg-[#0a4a22]">
+                <button type="button" onClick={save} className="flex items-center gap-2 rounded-lg bg-[#10632D] px-3 sm:px-4 py-2 text-[11px] font-bold text-white hover:bg-[#0a4a22]">
                   <Save size={12} />
                   Enregistrer les modifications
                 </button>
@@ -188,29 +220,29 @@ export default function AdminParametresPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                 {/* Left fields */}
-                <div className="flex flex-col gap-3.5">
+                <div className="flex flex-col gap-4">
                   <div>
-                    <label className="text-[11px] font-semibold text-[#0a2e16] mb-1 block">Nom de la plateforme <span className="text-red-500">*</span></label>
-                    <input defaultValue="SANE" className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2 text-[12px] text-[#0a2e16] outline-none focus:border-[#10632D]" />
+                    <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Nom de la plateforme <span className="text-red-500">*</span></label>
+                    <input value={form.nom} onChange={setField("nom")} className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10" />
                   </div>
                   <div>
-                    <label className="text-[11px] font-semibold text-[#0a2e16] mb-1 block">Email de contact <span className="text-red-500">*</span></label>
-                    <input defaultValue="contact@sane.ne" className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2 text-[12px] text-[#0a2e16] outline-none focus:border-[#10632D]" />
+                    <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Email de contact <span className="text-red-500">*</span></label>
+                    <input type="email" value={form.email} onChange={setField("email")} className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10" />
                   </div>
                   <div>
-                    <label className="text-[11px] font-semibold text-[#0a2e16] mb-1 block">Téléphone</label>
+                    <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Téléphone</label>
                     <div className="flex gap-2">
                       <div className="flex items-center gap-1.5 rounded-lg border border-[#DDE8E0] px-2 py-2 bg-white">
                         <span className="text-[14px]">🇳🇪</span>
                         <span className="text-[11px] text-[#0a2e16]">+227</span>
                         <ChevronRight size={11} className="text-[#61756B] rotate-90" />
                       </div>
-                      <input defaultValue="20 72 35 10" className="flex-1 rounded-lg border border-[#DDE8E0] px-3 py-2 text-[12px] text-[#0a2e16] outline-none focus:border-[#10632D]" />
+                      <input value={form.tel} onChange={setField("tel")} className="flex-1 rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10" />
                     </div>
                   </div>
                   <div>
-                    <label className="text-[11px] font-semibold text-[#0a2e16] mb-1 block">Adresse</label>
-                    <input defaultValue="Niamey, Niger" className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2 text-[12px] text-[#0a2e16] outline-none focus:border-[#10632D]" />
+                    <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Adresse</label>
+                    <input value={form.adresse} onChange={setField("adresse")} className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10" />
                   </div>
                 </div>
 
@@ -220,6 +252,10 @@ export default function AdminParametresPage() {
                     <label className="text-[11px] font-semibold text-[#0a2e16] mb-2 block">Logo</label>
                     <div className="flex items-center gap-3">
                       <div className="flex h-16 w-[140px] items-center justify-center rounded-xl border border-[#DDE8E0] bg-white overflow-hidden px-3">
+                        {logoUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={logoUrl} alt="Logo" className="h-12 w-auto max-w-[140px] object-contain" />
+                        ) : (
                         <svg width="120" height="48" viewBox="0 0 140 48">
                           <circle cx="24" cy="24" r="22" fill="#10632D"/>
                           <text x="24" y="29" textAnchor="middle" fill="white" fontSize="11" fontWeight="800" fontFamily="sans-serif">SANE</text>
@@ -228,11 +264,13 @@ export default function AdminParametresPage() {
                           <text x="52" y="31" fill="#61756B" fontSize="5.5" fontFamily="sans-serif">SALON</text>
                           <text x="52" y="39" fill="#61756B" fontSize="5" fontFamily="sans-serif">SALON NATIONAL DE L&apos;EMPLOI</text>
                         </svg>
+                        )}
                       </div>
                       <div>
-                        <button className="flex items-center gap-1.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5 text-[11px] font-semibold text-[#0a2e16] hover:bg-[#F5F9F6]">
+                        <label className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5 text-[11px] font-semibold text-[#0a2e16] hover:bg-[#F5F9F6]">
                           <Camera size={12} /> Changer le logo
-                        </button>
+                          <input type="file" accept="image/*" className="hidden" onChange={pickImage(setLogoUrl)} />
+                        </label>
                         <p className="mt-1 text-[9px] text-[#61756B]">PNG, JPG ou SVG (max. 2 MB)</p>
                       </div>
                     </div>
@@ -241,25 +279,31 @@ export default function AdminParametresPage() {
                   <div>
                     <label className="text-[11px] font-semibold text-[#0a2e16] mb-2 block">Favicon</label>
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#E57617] bg-white text-[#E57617] font-bold text-[18px]" style={{ fontFamily: "Georgia, serif" }}>S</div>
+                      <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-[#E57617] bg-white text-[#E57617] font-bold text-[18px]" style={{ fontFamily: "Georgia, serif" }}>
+                        {faviconUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={faviconUrl} alt="Favicon" className="h-full w-full object-cover" />
+                        ) : "S"}
+                      </div>
                       <div>
-                        <button className="flex items-center gap-1.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5 text-[11px] font-semibold text-[#0a2e16] hover:bg-[#F5F9F6]">
+                        <label className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5 text-[11px] font-semibold text-[#0a2e16] hover:bg-[#F5F9F6]">
                           <Camera size={12} /> Changer le favicon
-                        </button>
+                          <input type="file" accept="image/*" className="hidden" onChange={pickImage(setFaviconUrl)} />
+                        </label>
                         <p className="mt-1 text-[9px] text-[#61756B]">PNG, ICO (max. 1 MB)</p>
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-semibold text-[#0a2e16] mb-1 block">Site web</label>
-                    <input defaultValue="https://www.sane.ne" className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2 text-[12px] text-[#0a2e16] outline-none focus:border-[#10632D]" />
+                    <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Site web</label>
+                    <input value={form.site} onChange={setField("site")} className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10" />
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-semibold text-[#0a2e16] mb-1 block">Fuseau horaire</label>
+                    <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Fuseau horaire</label>
                     <div className="relative">
-                      <select className="w-full appearance-none rounded-lg border border-[#DDE8E0] px-3 py-2 text-[12px] text-[#0a2e16] outline-none focus:border-[#10632D] bg-white">
+                      <select className="w-full appearance-none rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] bg-white">
                         <option>(GMT+01:00) Niamey</option>
                         <option>(GMT+00:00) UTC</option>
                         <option>(GMT+01:00) Paris</option>
@@ -272,11 +316,12 @@ export default function AdminParametresPage() {
 
               {/* Description full-width */}
               <div className="mt-4">
-                <label className="text-[11px] font-semibold text-[#0a2e16] mb-1 block">Description</label>
+                <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Description</label>
                 <textarea
-                  defaultValue="Le Salon National de l'Emploi (SANE) est une plateforme qui connecte les talents nigériens aux opportunités d'emploi, de formation et de partenariat."
+                  value={form.description}
+                  onChange={setField("description")}
                   rows={3}
-                  className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2 text-[12px] text-[#0a2e16] outline-none focus:border-[#10632D] resize-none"
+                  className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] resize-none"
                 />
               </div>
             </div>
@@ -316,7 +361,7 @@ export default function AdminParametresPage() {
                 <p className="text-[9px] text-[#61756B] mb-3 ml-6">Accès rapide aux paramètres importants.</p>
                 <div className="flex flex-col gap-2">
                   {quickConfig.map((q, i) => (
-                    <button key={i} className="flex items-center gap-2.5 rounded-lg hover:bg-[#F5F9F6] p-1.5 text-left transition-all">
+                    <button key={i} type="button" onClick={quickActions[i]} className="flex items-center gap-2.5 rounded-lg hover:bg-[#F5F9F6] p-1.5 text-left transition-all">
                       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: q.bg, color: q.color }}>{q.icon}</span>
                       <div className="min-w-0 flex-1">
                         <p className="text-[11px] font-semibold text-[#10632D]">{q.title}</p>
@@ -331,6 +376,9 @@ export default function AdminParametresPage() {
           </div>
         </main>
       </div>
+      {toast && (
+        <div className="fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-lg bg-[#0a2e16] px-4 py-2.5 text-[12px] font-semibold text-white shadow-lg">{toast}</div>
+      )}
     </div>
   );
 }

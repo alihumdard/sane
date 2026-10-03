@@ -122,7 +122,7 @@ export default function MoussaDashboard() {
           </div>
 
           {/* ═══ STATS ═══ */}
-          <div className="mb-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          <div className="mb-4 grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3">
             {statsData.map((s, i) => (
               <div key={i} className="flex items-center gap-3 rounded-xl border border-[#DDE8E0] bg-white px-3 py-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: s.bg, color: s.color }}>
@@ -156,7 +156,7 @@ export default function MoussaDashboard() {
                     Voir tout <ChevronRight size={11} />
                   </button>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
                   {formations.map((f, i) => (
                     <div key={i} className="overflow-hidden rounded-xl border border-[#DDE8E0] bg-[#F5F9F6]">
                       <div className="relative h-[120px]">

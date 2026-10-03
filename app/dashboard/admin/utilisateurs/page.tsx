@@ -8,31 +8,18 @@ import {
   Settings, FileText, Share2, Search, Eye, Pencil, Trash2, MoreVertical,
 } from "lucide-react";
 
-import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import { adminNav } from "@/lib/adminNav";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import StatsCard from "@/components/dashboard/StatsCard";
+import FilterBar from "@/components/dashboard/FilterBar";
+import Pagination from "@/components/dashboard/Pagination";
+import { useTable } from "@/components/dashboard/useTable";
+import RowActions from "@/components/dashboard/RowActions";
+import TableDialogs from "@/components/dashboard/TableDialogs";
 
 /* ─── Sidebar ─── */
-const sidebarItems: SidebarItem[] = [
-  { icon: <Home size={18} />, label: "Tableau de bord" },
-  {
-    icon: <Users size={18} />, label: "Utilisateurs", active: true, chevron: true, expanded: true,
-    subItems: ["Tous les utilisateurs", "Participants", "Entreprises", "Recruteurs", "Organisateurs", "Administrateurs", "Rôles et permissions"],
-    activeSubIndex: 0,
-  },
-  { icon: <Briefcase size={18} />, label: "Emploi", chevron: true },
-  { icon: <BookOpen size={18} />, label: "Formations", chevron: true },
-  { icon: <Calendar size={18} />, label: "Événements", chevron: true },
-  { icon: <Mic size={18} />, label: "Intervenants", chevron: true },
-  { icon: <Handshake size={18} />, label: "Partenaires", chevron: true },
-  { icon: <Newspaper size={18} />, label: "Presse", chevron: true },
-  { icon: <HelpCircle size={18} />, label: "FAQ", chevron: true },
-  { icon: <Bell size={18} />, label: "Notifications", chevron: true },
-  { icon: <BarChart3 size={18} />, label: "Rapports", chevron: true },
-  { icon: <Settings size={18} />, label: "Paramètres", chevron: true },
-  { icon: <FileText size={18} />, label: "Contenus", chevron: true },
-  { icon: <Share2 size={18} />, label: "Communication", chevron: true },
-];
+const sidebarItems = adminNav("Utilisateurs", 0);
 
 /* ─── Stats ─── */
 const statsData = [
@@ -90,6 +77,7 @@ const utilisateurs = [
 
 export default function UtilisateursPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const tbl = useTable(utilisateurs, { filterKeys: { "Tous les rôles": "role", "Statut": "statut" } });
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -122,12 +110,12 @@ export default function UtilisateursPage() {
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
                 Gérez tous les utilisateurs de la plateforme SANE. Consultez, ajoutez, modifiez et attribuez des rôles selon les besoins.
               </p>
-              <button className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                 Ajouter un utilisateur
               </button>
             </div>
-            <button className="absolute right-6 top-5 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-6 top-5 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter un utilisateur
             </button>
@@ -147,30 +135,14 @@ export default function UtilisateursPage() {
           </div>
 
           {/* Filter bar */}
-          <div className="mb-3 flex flex-wrap items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white p-3">
-            <div className="flex w-full sm:w-[200px] items-center gap-1.5 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2.5 py-1.5">
-              <Search size={13} className="shrink-0 text-[#61756B]" />
-              <input type="text" placeholder="Rechercher un utilisateur..." className="w-full bg-transparent text-[11px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
-            </div>
-            <div className="flex flex-wrap gap-2 flex-1">
-              {["Tous les rôles", "Statut", "Date d'inscription"].map(f => (
-                <select key={f} className="flex-1 min-w-[100px] rounded-lg border border-[#DDE8E0] bg-white px-2 py-1.5 text-[11px] text-[#0a2e16] outline-none">
-                  <option>{f}</option>
-                </select>
-              ))}
-            </div>
-            <div className="flex gap-2 w-full sm:w-auto">
-              <button className="flex-1 sm:flex-none shrink-0 rounded-lg bg-[#10632D] px-4 py-1.5 text-[11px] font-semibold text-white">Rechercher</button>
-              <button className="flex-1 sm:flex-none shrink-0 rounded-lg border border-[#DDE8E0] bg-white px-3 py-1.5 text-[11px] text-[#61756B]">Réinitialiser</button>
-            </div>
-          </div>
+          <div className="mb-3"><FilterBar searchPlaceholder="Rechercher un utilisateur..." filters={["Tous les rôles", "Statut"]} table={tbl} /></div>
 
           {/* Table */}
           <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
-            <table className="w-full min-w-[700px]">
+            <table className="w-full min-w-[1000px]">
               <thead>
                 <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
-                  <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" /></th>
+                  <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
                   <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Utilisateur</th>
                   <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Rôle</th>
                   <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Organisation</th>
@@ -182,49 +154,44 @@ export default function UtilisateursPage() {
                 </tr>
               </thead>
               <tbody>
-                {utilisateurs.map((u, i) => {
+                {tbl.pageRows.map((u) => {
                   const rs = roleStyle[u.role] ?? { bg: "#F5F9F6", color: "#61756B" };
                   const ss = statutStyle[u.statut] ?? { bg: "#F5F9F6", color: "#61756B" };
                   return (
-                    <tr key={i} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
-                      <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" /></td>
+                    <tr key={u._uid} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
+                      <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(u._uid)} onChange={() => tbl.toggle(u._uid)} /></td>
                       <td className="px-2 py-2">
                         <div className="flex items-center gap-2">
                           <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full border border-[#DDE8E0]">
                             <Image src={u.photo} alt={u.nom} width={32} height={32} className="object-cover" />
                           </div>
                           <div>
-                            <p className="text-[11px] font-semibold text-[#0a2e16]">{u.nom}</p>
+                            <p className="whitespace-nowrap text-[12px] font-semibold text-[#0a2e16]">{u.nom}</p>
                             <p className="text-[9px] text-[#61756B]">{u.id}</p>
                           </div>
                         </div>
                       </td>
                       <td className="px-2 py-2">
-                        <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: rs.bg, color: rs.color }}>
+                        <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: rs.bg, color: rs.color }}>
                           {u.role}
                         </span>
                       </td>
-                      <td className="px-2 py-2 text-[11px] text-[#0a2e16]">{u.org}</td>
-                      <td className="px-2 py-2 text-[11px] text-[#0a2e16]">{u.email}</td>
+                      <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[#0a2e16]">{u.org}</td>
+                      <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[#0a2e16]">{u.email}</td>
                       <td className="px-2 py-2">
-                        <span className="flex items-center gap-1 text-[11px] text-[#0a2e16]">
+                        <span className="flex items-center gap-1 whitespace-nowrap text-[11px] text-[#0a2e16]">
                           <span className="text-[14px] leading-none">🇳🇪</span>
                           {u.tel}
                         </span>
                       </td>
                       <td className="px-2 py-2">
-                        <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: ss.bg, color: ss.color }}>
+                        <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: ss.bg, color: ss.color }}>
                           {u.statut}
                         </span>
                       </td>
-                      <td className="px-2 py-2 text-[11px] text-[#0a2e16]">{u.date}</td>
+                      <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[#0a2e16]">{u.date}</td>
                       <td className="px-2 py-2">
-                        <div className="flex items-center justify-center gap-1.5">
-                          <button className="text-[#2563EB] hover:opacity-80"><Eye size={13} /></button>
-                          <button className="text-[#10632D] hover:opacity-80"><Pencil size={13} /></button>
-                          <button className="text-[#DC2626] hover:opacity-80"><Trash2 size={13} /></button>
-                          <button className="text-[#61756B] hover:opacity-80"><MoreVertical size={13} /></button>
-                        </div>
+                        <RowActions table={tbl} row={u} />
                       </td>
                     </tr>
                   );
@@ -233,26 +200,11 @@ export default function UtilisateursPage() {
             </table>
 
             {/* Pagination */}
-            <div className="flex items-center justify-between border-t border-[#DDE8E0] px-4 py-2.5">
-              <span className="text-[10px] text-[#61756B]">Affichage 1 à 10 sur 1,248 utilisateurs</span>
-              <div className="flex items-center gap-2">
-                <select className="rounded border border-[#DDE8E0] px-1.5 py-0.5 text-[10px] text-[#0a2e16] outline-none">
-                  <option>10 par page</option>
-                </select>
-                <div className="flex items-center gap-1">
-                  <button className="rounded px-1.5 py-0.5 text-[10px] text-[#61756B]">‹</button>
-                  {[1, 2, 3, 4, 5].map(p => (
-                    <button key={p} className={`h-6 w-6 rounded text-[10px] font-semibold ${p === 1 ? "bg-[#10632D] text-white" : "text-[#61756B] hover:bg-[#F5F9F6]"}`}>{p}</button>
-                  ))}
-                  <span className="text-[10px] text-[#61756B]">...</span>
-                  <button className="h-6 w-8 rounded text-[10px] text-[#61756B] hover:bg-[#F5F9F6]">125</button>
-                  <button className="rounded px-1.5 py-0.5 text-[10px] text-[#61756B]">›</button>
-                </div>
-              </div>
-            </div>
+            <Pagination current={tbl.page} totalPages={tbl.totalPages} totalItems={tbl.total} pageSize={tbl.pageSize} itemLabel="utilisateurs" onPageChange={tbl.setPage} onPageSizeChange={tbl.setPageSize} />
           </div>
         </main>
       </div>
+      <TableDialogs table={tbl} entity="utilisateur" />
     </div>
   );
 }

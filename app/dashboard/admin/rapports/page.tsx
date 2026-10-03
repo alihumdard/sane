@@ -11,6 +11,14 @@ import {
   Plus, RefreshCw, ArrowRight, TrendingUp, Star,
   PenTool, Share2
 } from "lucide-react";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import { adminNav } from "@/lib/adminNav";
+import FilterBar from "@/components/dashboard/FilterBar";
+import Pagination from "@/components/dashboard/Pagination";
+import { useTable } from "@/components/dashboard/useTable";
+import RowActions from "@/components/dashboard/RowActions";
+import TableDialogs from "@/components/dashboard/TableDialogs";
+import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 
 /* ─────────────────────────────── ICONS ─────────────────────────────── */
 
@@ -24,22 +32,7 @@ const statIcons = {
 
 /* ─────────────────────────────── DATA ─────────────────────────────── */
 
-const sidebarItems = [
-  { icon: <Home size={18} />, label: "Tableau de bord" },
-  { icon: <Users size={18} />, label: "Utilisateurs", chevron: true },
-  { icon: <Briefcase size={18} />, label: "Emploi", chevron: true },
-  { icon: <BookOpen size={18} />, label: "Formations", chevron: true },
-  { icon: <Calendar size={18} />, label: "Événements", chevron: true },
-  { icon: <Mic size={18} />, label: "Intervenants" },
-  { icon: <Handshake size={18} />, label: "Partenaires" },
-  { icon: <Newspaper size={18} />, label: "Presse" },
-  { icon: <HelpCircle size={18} />, label: "FAQ", chevron: true },
-  { icon: <Bell size={18} />, label: "Notifications", chevron: true },
-  { icon: <BarChart3 size={18} />, label: "Rapports", active: true, chevron: true, expanded: true, subItems: ["Tous les rapports", "Générer un rapport", "Statistiques", "Rapports personnalisés", "Exporter des données"] },
-  { icon: <Settings size={18} />, label: "Paramètres", chevron: true },
-  { icon: <FileText size={18} />, label: "Contenus", chevron: true },
-  { icon: <Share2 size={18} />, label: "Communication", chevron: true },
-];
+const sidebarItems = adminNav("Rapports", 0);
 
 const statsData = [
   { icon: statIcons.chart, value: "12", label: "Rapports générés", trend: "+33%", bg: "#E0F0FF", color: "#2563EB" },
@@ -141,6 +134,7 @@ const recentReports = [
 
 export default function AdminRapportsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const tbl = useTable(reports, { filterKeys: { "Catégorie": "cat", "Période": "period", "Format": "format", "Statut": "status" } });
   const maxLine = 1800;
   const maxBar = 40;
 
@@ -162,91 +156,12 @@ export default function AdminRapportsPage() {
   return (
     <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
       {/* Mobile overlay */}
-      {sidebarOpen && <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
-      {/* ═══════════ SIDEBAR ═══════════ */}
-      <aside className={`fixed inset-y-0 left-0 z-40 flex w-[260px] shrink-0 flex-col border-r border-[#DDE8E0] bg-white transition-transform duration-300 lg:static lg:translate-x-0 lg:z-auto ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        <div className="flex flex-col items-center px-5 pt-5 pb-2">
-          <div className="flex items-center gap-1">
-            <svg width="36" height="36" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
-            <span className="text-[18px] font-extrabold text-[#1e3a5f]">SANE</span>
-          </div>
-          <span className="text-[7px] font-semibold tracking-[0.15em] text-[#61756B] uppercase">Salon National de l&apos;Emploi</span>
-          <svg className="mt-2" width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 10,5 5,10 0,5" fill="#E57617"/></svg>
-        </div>
-        <nav className="flex-1 overflow-y-auto px-3 py-2">
-          {sidebarItems.map((item, i) => (
-            <div key={i}>
-              <button
-                className={`flex w-full items-center gap-2.5 py-2 mb-0.5 text-left transition-all ${
-                  item.active
-                    ? "text-[#10632D] font-bold pl-3 pr-3 border-l-[3px] border-[#10632D] bg-[#F5F9F6]"
-                    : "text-[#10632D] hover:bg-[#F5F9F6] rounded-lg px-3"
-                }`}
-              >
-                <span className="text-[#10632D]">{item.icon}</span>
-                <span className="flex-1 text-[13px]">{item.label}</span>
-                {item.chevron && (
-                  item.expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />
-                )}
-              </button>
-              {item.expanded && item.subItems && (
-                <div className="ml-8 mb-1 border-l border-[#DDE8E0]">
-                  {item.subItems.map((sub, si) => (
-                    <button key={si} className={`flex w-full items-center gap-1.5 pl-3 pr-1 py-1 text-[10px] whitespace-nowrap overflow-hidden ${si === 0 ? "text-[#10632D] font-semibold" : "text-[#61756B] hover:text-[#0a2e16]"}`}>
-                      <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${si === 0 ? "bg-[#10632D]" : "bg-[#61756B]/40"}`} />
-                      {sub}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </nav>
-        <div className="shrink-0 px-5 pb-6 pt-4">
-          <div className="relative">
-            <svg className="absolute right-2 top-0 w-24 opacity-[0.12]" viewBox="0 0 200 150" fill="#10632D"><path d="M60,20 Q80,10 120,15 Q160,20 180,50 Q190,80 170,110 Q150,140 110,145 Q70,148 40,130 Q15,110 20,80 Q25,50 50,30 Z"/></svg>
-            <p className="relative text-[20px] italic text-[#10632D] leading-snug font-semibold" style={{ fontFamily: "Georgia, serif" }}>
-              Des talents<br/>pour un Niger<br/>plus fort
-            </p>
-            <div className="relative mt-2 h-[3px] w-14 rounded-full bg-[#E57617]" />
-          </div>
-          <div className="mt-4 flex items-center justify-between">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1e3a5f] text-[13px] font-bold text-white">N</div>
-            <div className="flex items-center gap-1">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#E57617"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#E57617" strokeWidth="1.5" strokeLinecap="round"/></svg>
-              <span className="text-[11px] font-semibold text-[#61756B]">30°C</span>
-            </div>
-          </div>
-        </div>
-      </aside>
+      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* ═══════════ MAIN ═══════════ */}
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         {/* TOP NAVBAR */}
-        <header className="flex items-center gap-2 border-b border-[#DDE8E0] bg-white px-3 sm:px-6 py-3">
-          <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#DDE8E0] text-[#61756B] hover:bg-[#F5F9F6] lg:hidden shrink-0" onClick={() => setSidebarOpen(true)}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          </button>
-          <div className="flex flex-1 items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-3 py-2">
-            <Search size={16} className="text-[#61756B]" />
-            <input type="text" placeholder="Rechercher un rapport..." className="flex-1 bg-transparent text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
-          </div>
-          <button className="relative rounded-lg p-2 text-[#61756B] hover:bg-[#F5F9F6]">
-            <Bell size={18} />
-            <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E57617] text-[9px] font-bold text-white">5</span>
-          </button>
-          <button className="hidden sm:flex items-center gap-1 rounded-lg px-2 py-1 text-[12px] font-medium text-[#61756B] hover:bg-[#F5F9F6]">
-            FR <ChevronDown size={12} />
-          </button>
-          <div className="hidden sm:flex items-center gap-2.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5">
-            <Image src="https://randomuser.me/api/portraits/men/75.jpg" alt="Admin" width={32} height={32} className="rounded-full object-cover" />
-            <div className="hidden sm:block">
-              <p className="text-[12px] font-bold text-[#0a2e16]">Admin</p>
-              <p className="text-[10px] text-[#61756B]">Administrateur</p>
-            </div>
-            <ChevronDown size={14} className="text-[#61756B]" />
-          </div>
-        </header>
+        <DashboardNavbar searchPlaceholder="Rechercher un rapport..." notificationCount={5} userName="Admin" userRole="Administrateur" onMenuClick={() => setSidebarOpen(true)} />
 
         {/* SCROLLABLE CONTENT */}
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-6">
@@ -265,11 +180,11 @@ export default function AdminRapportsPage() {
                 </nav>
                 <h1 className="mb-1 text-[18px] sm:text-2xl font-extrabold text-[#0a2e16]">Gestion des rapports</h1>
                 <p className="max-w-lg text-[11px] sm:text-[12px] text-[#61756B] hidden sm:block">Consultez et générez tous les rapports du SANE. Suivez les statistiques, les inscriptions, la participation et l&apos;impact de vos événements.</p>
-                <button className="mt-2 flex items-center gap-1 rounded-lg bg-[#10632D] px-3 py-1.5 text-[10px] font-bold text-white sm:hidden">
+                <button type="button" onClick={tbl.openAdd} className="mt-2 flex items-center gap-1 rounded-lg bg-[#10632D] px-3 py-1.5 text-[10px] font-bold text-white sm:hidden">
                   <Plus size={11} /> Générer
                 </button>
               </div>
-              <button className="hidden sm:flex shrink-0 items-center gap-2 rounded-lg bg-[#10632D] px-4 py-2.5 text-[12px] font-bold text-white hover:bg-[#0a4a22] mt-4">
+              <button type="button" onClick={tbl.openAdd} className="hidden sm:flex shrink-0 items-center gap-2 rounded-lg bg-[#10632D] px-4 py-2.5 text-[12px] font-bold text-white hover:bg-[#0a4a22] mt-4">
                 <Plus size={14} /> Générer un rapport
               </button>
             </div>
@@ -278,10 +193,10 @@ export default function AdminRapportsPage() {
           {/* ═══════════ STATS ROW ═══════════ */}
           <div className="mb-6 grid grid-cols-2 lg:grid-cols-5 gap-3">
             {statsData.map((s, i) => (
-              <div key={i} className="flex items-center gap-3 rounded-xl border border-[#DDE8E0] bg-white px-4 py-3">
+              <div key={i} className="flex items-center gap-3 rounded-xl border border-[#DDE8E0] bg-white px-3 py-3 sm:px-4">
                 <span className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0" style={{ backgroundColor: s.bg, color: s.color }}>{s.icon}</span>
                 <div className="min-w-0">
-                  <div className="flex items-baseline gap-1.5">
+                  <div className="flex flex-wrap items-baseline gap-x-1.5">
                     <span className="text-xl font-extrabold text-[#0a2e16]">{s.value}</span>
                     <span className="flex items-center gap-0.5 text-[10px] font-semibold text-[#10632D]">
                       <TrendingUp size={10} /> {s.trend}
@@ -393,33 +308,17 @@ export default function AdminRapportsPage() {
               </div>
 
               {/* ═══════════ FILTER + TABLE + RIGHT SIDEBAR ═══════════ */}
-              <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px] gap-4">
+              <div className="grid grid-cols-1 2xl:grid-cols-[minmax(0,1fr)_280px] gap-4">
               <div className="flex flex-col gap-4 min-w-0">
               {/* ═══════════ FILTER BAR ═══════════ */}
-              <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white px-3 py-2.5">
-                <div className="flex flex-1 min-w-[140px] items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2 py-1.5">
-                  <Search size={14} className="text-[#61756B]" />
-                  <input type="text" placeholder="Rechercher un rapport..." className="flex-1 bg-transparent text-[11px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none" />
-                </div>
-                <div className="flex flex-wrap gap-2 flex-1">
-                  {["Catégorie", "Période", "Format", "Statut"].map((f) => (
-                    <select key={f} className="flex-1 min-w-[90px] text-[10px] border border-[#DDE8E0] rounded-lg px-2 py-1.5 text-[#61756B] outline-none bg-white">
-                      <option>{f}</option>
-                    </select>
-                  ))}
-                </div>
-                <div className="flex gap-2 w-full sm:w-auto">
-                  <button className="flex-1 sm:flex-none rounded-lg bg-[#10632D] px-4 py-1.5 text-[10px] font-bold text-white">Rechercher</button>
-                  <button className="flex-1 sm:flex-none rounded-lg border border-[#DDE8E0] px-3 py-1.5 text-[10px] font-medium text-[#61756B] flex items-center justify-center gap-1"><RefreshCw size={10} /> Réinitialiser</button>
-                </div>
-              </div>
+              <FilterBar searchPlaceholder="Rechercher un rapport..." filters={["Catégorie", "Période", "Format", "Statut"]} table={tbl} />
 
               {/* ═══════════ TABLE ═══════════ */}
               <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
-                <table className="w-full min-w-[700px] text-left">
+                <table className="w-full min-w-[950px] text-left">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
-                      <th className="px-3 py-2 w-8"><input type="checkbox" className="accent-[#10632D]" /></th>
+                      <th className="px-3 py-2 w-8"><input type="checkbox" className="accent-[#10632D]" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
                       <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Titre du rapport</th>
                       <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Catégorie</th>
                       <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Période</th>
@@ -431,60 +330,44 @@ export default function AdminRapportsPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {reports.map((r, i) => (
-                      <tr key={i} className="border-b border-[#DDE8E0]/50 hover:bg-[#F5F9F6]/50">
-                        <td className="px-3 py-2"><input type="checkbox" className="accent-[#10632D]" /></td>
+                    {tbl.pageRows.map((r) => (
+                      <tr key={r._uid} className="border-b border-[#DDE8E0]/50 hover:bg-[#F5F9F6]/50">
+                        <td className="px-3 py-2"><input type="checkbox" className="accent-[#10632D]" checked={tbl.selected.includes(r._uid)} onChange={() => tbl.toggle(r._uid)} /></td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-2">
                             <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[#F5F9F6]">
                               {reportIcons[r.cat]}
                             </span>
-                            <span className="text-[11px] font-semibold text-[#0a2e16]">{r.title}</span>
+                            <span className="min-w-[200px] text-[12px] font-semibold text-[#0a2e16]">{r.title}</span>
                           </div>
                         </td>
                         <td className="px-2 py-2">
-                          <span className={`rounded-md px-2 py-0.5 text-[9px] font-semibold ${catColors[r.cat] || "bg-gray-200 text-gray-700"}`}>{r.cat}</span>
+                          <span className={`whitespace-nowrap rounded-md px-2 py-1 text-[10px] font-semibold ${catColors[r.cat] || "bg-gray-200 text-gray-700"}`}>{r.cat}</span>
                         </td>
-                        <td className="px-2 py-2 text-[10px] text-[#61756B]">{r.period}</td>
+                        <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[#61756B]">{r.period}</td>
                         <td className="px-2 py-2">
                           <span className="flex items-center gap-1 text-[10px] text-[#61756B]">
                             <FileText size={10} /> {r.format}
                           </span>
                         </td>
-                        <td className="px-2 py-2 text-[10px] text-[#61756B]">{r.by}</td>
-                        <td className="px-2 py-2 text-[10px] text-[#61756B]">{r.date}</td>
+                        <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[#61756B]">{r.by}</td>
+                        <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[#61756B]">{r.date}</td>
                         <td className="px-2 py-2">
-                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-semibold ${
+                          <span className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold ${
                             r.status === "Terminé" ? "bg-[#E8F5ED] text-[#10632D]" :
                             r.status === "En cours" ? "bg-[#FFF3E8] text-[#E57617]" :
                             "bg-[#F3F4F6] text-[#61756B]"
                           }`}>{r.status}</span>
                         </td>
                         <td className="px-2 py-2">
-                          <div className="flex items-center gap-1.5">
-                            <button className="text-[#61756B] hover:text-[#10632D]"><Eye size={14} /></button>
-                            <button className="text-[#61756B] hover:text-[#10632D]"><Download size={14} /></button>
-                            <button className="text-[#61756B] hover:text-[#10632D]"><MoreVertical size={14} /></button>
-                          </div>
+                          <RowActions table={tbl} row={r} extra="download" />
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
                 {/* Pagination */}
-                <div className="flex items-center justify-between px-4 py-3 border-t border-[#DDE8E0]">
-                  <span className="text-[10px] text-[#61756B]">Affichage de 1 à 10 sur 12 rapports</span>
-                  <div className="flex items-center gap-1">
-                    <select className="text-[10px] border border-[#DDE8E0] rounded px-2 py-1 text-[#61756B] outline-none">
-                      <option>10 par page</option>
-                    </select>
-                    <button className="flex h-7 w-7 items-center justify-center rounded border border-[#DDE8E0] text-[#61756B] hover:bg-[#F5F9F6]"><ChevronLeft size={12} /></button>
-                    <button className="flex h-7 w-7 items-center justify-center rounded bg-[#10632D] text-white text-[11px] font-bold">1</button>
-                    <button className="flex h-7 w-7 items-center justify-center rounded border border-[#DDE8E0] text-[#61756B] text-[11px] hover:bg-[#F5F9F6]">2</button>
-                    <span className="text-[11px] text-[#61756B] px-1">...</span>
-                    <button className="flex h-7 w-7 items-center justify-center rounded border border-[#DDE8E0] text-[#61756B] hover:bg-[#F5F9F6]"><ChevronRight size={12} /></button>
-                  </div>
-                </div>
+                <Pagination current={tbl.page} totalPages={tbl.totalPages} totalItems={tbl.total} pageSize={tbl.pageSize} itemLabel="rapports" onPageChange={tbl.setPage} onPageSizeChange={tbl.setPageSize} />
               </div>
 
             </div>
@@ -538,6 +421,7 @@ export default function AdminRapportsPage() {
           </div>
         </main>
       </div>
+      <TableDialogs table={tbl} entity="rapport" />
     </div>
   );
 }

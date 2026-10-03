@@ -8,8 +8,12 @@ import {
   BarChart3, Settings, FileText, Share2,
 } from "lucide-react";
 
-import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import { adminNav } from "@/lib/adminNav";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import { useTable } from "@/components/dashboard/useTable";
+import RowActions from "@/components/dashboard/RowActions";
+import TableDialogs from "@/components/dashboard/TableDialogs";
 import StatsCard from "@/components/dashboard/StatsCard";
 import FilterBar from "@/components/dashboard/FilterBar";
 import Pagination from "@/components/dashboard/Pagination";
@@ -18,25 +22,7 @@ import RankedList from "@/components/dashboard/RankedList";
 import DateBadgeList from "@/components/dashboard/DateBadgeList";
 
 /* ─── Sidebar ─── */
-const sidebarItems: SidebarItem[] = [
-  { icon: <Home size={18} />, label: "Tableau de bord" },
-  { icon: <Users size={18} />, label: "Utilisateurs", chevron: true },
-  { icon: <Briefcase size={18} />, label: "Emploi", chevron: true },
-  { icon: <BookOpen size={18} />, label: "Formations", chevron: true },
-  { icon: <Calendar size={18} />, label: "Événements", chevron: true },
-  { icon: <Mic size={18} />, label: "Intervenants", chevron: true },
-  { icon: <Handshake size={18} />, label: "Partenaires", chevron: true },
-  { icon: <Newspaper size={18} />, label: "Presse", chevron: true },
-  {
-    icon: <HelpCircle size={18} />, label: "FAQ", active: true, chevron: true, expanded: true,
-    subItems: ["Toutes les questions", "Ajouter une question", "Catégories", "Pages FAQ", "Statistiques"],
-    activeSubIndex: 0,
-  },
-  { icon: <FileText size={18} />, label: "Contenus", chevron: true },
-  { icon: <Share2 size={18} />, label: "Communication", chevron: true },
-  { icon: <BarChart3 size={18} />, label: "Rapports", chevron: true },
-  { icon: <Settings size={18} />, label: "Paramètres", chevron: true },
-];
+const sidebarItems = adminNav("FAQ", 0);
 
 /* ─── Stats ─── */
 const statsData = [
@@ -108,6 +94,7 @@ const recentQuestions = [
 
 export default function FaqPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const tbl = useTable(questions, { filterKeys: {"Catégorie":"categorie","Statut":"statut"} });
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -150,12 +137,12 @@ export default function FaqPage() {
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
                 Gérez toutes les questions fréquentes du SANE. Organisez-les par catégories, mettez à jour les réponses et suivez les questions les plus consultées.
               </p>
-              <button className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                 Ajouter une question
               </button>
             </div>
-            <button className="absolute right-10 top-6 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-6 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter une question
             </button>
@@ -169,16 +156,16 @@ export default function FaqPage() {
           </div>
 
           {/* Main content grid */}
-          <div className="grid gap-3 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px]">
+          <div className="grid gap-3 grid-cols-1 2xl:grid-cols-[minmax(0,1fr)_280px]">
             {/* Left: filter + table */}
             <div className="flex flex-col gap-3 min-w-0">
-              <FilterBar searchPlaceholder="Rechercher une question..." filters={["Catégorie", "Statut", "Popularité"]} />
+              <FilterBar searchPlaceholder="Rechercher une question..." filters={["Catégorie", "Statut", "Popularité"]}  table={tbl} />
 
               <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
-                <table className="w-full min-w-[600px]">
+                <table className="w-full min-w-[900px]">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
-                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" /></th>
+                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Question</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Catégorie</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
@@ -190,14 +177,14 @@ export default function FaqPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {questions.map((q, i) => (
+                    {tbl.pageRows.map((q, i) => (
                       <tr key={i} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
-                        <td className="px-3 py-2.5"><input type="checkbox" className="h-3 w-3 rounded" /></td>
-                        <td className="px-2 py-2.5 max-w-[280px]">
-                          <p className="text-[11px] font-semibold text-[#0a2e16] leading-tight">{q.question}</p>
+                        <td className="px-3 py-2.5"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(q._uid)} onChange={() => tbl.toggle(q._uid)} /></td>
+                        <td className="px-2 py-3 min-w-[300px] max-w-[420px]">
+                          <p className="text-[12px] font-semibold text-[#0a2e16] leading-snug">{q.question}</p>
                         </td>
                         <td className="px-2 py-2.5">
-                          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: `${q.catColor}18`, color: q.catColor }}>
+                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${q.catColor}18`, color: q.catColor }}>
                             {q.categorie}
                           </span>
                         </td>
@@ -208,32 +195,26 @@ export default function FaqPage() {
                           </div>
                         </td>
                         <td className="px-2 py-2.5">
-                          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: q.statutBg, color: q.statutColor }}>
+                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: q.statutBg, color: q.statutColor }}>
                             {q.statut}
                           </span>
                         </td>
                         <td className="px-2 py-2.5">
-                          <span className="text-[10px] text-[#61756B]">{q.date}</span>
+                          <span className="whitespace-nowrap text-[11px] text-[#61756B]">{q.date}</span>
                         </td>
                         <td className="px-2 py-2.5">
-                          <div className="flex items-center justify-center gap-1.5">
-                            <button className="text-[#2563EB] hover:opacity-80"><Eye size={13} /></button>
-                            <button className="text-[#10632D] hover:opacity-80"><Pencil size={13} /></button>
-                            <button className="text-[#61756B] hover:opacity-80"><Copy size={13} /></button>
-                            <button className="text-[#DC2626] hover:opacity-80"><Trash2 size={13} /></button>
-                            <button className="text-[#61756B] hover:opacity-80"><MoreVertical size={13} /></button>
-                          </div>
+                          <RowActions table={tbl} row={q} extra="duplicate" />
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-                <Pagination current={1} totalPages={5} totalItems={48} itemLabel="questions" />
+                <Pagination current={tbl.page} totalPages={tbl.totalPages} totalItems={tbl.total} pageSize={tbl.pageSize} itemLabel="questions" onPageChange={tbl.setPage} onPageSizeChange={tbl.setPageSize} />
               </div>
             </div>
 
             {/* Right sidebar */}
-            <div className="flex flex-col gap-3 min-w-0">
+            <div className="grid grid-cols-1 md:grid-cols-3 2xl:flex 2xl:flex-col gap-3 min-w-0">
               <DonutChart
                 title="Répartition par catégorie"
                 segments={donutSegments}
@@ -256,6 +237,7 @@ export default function FaqPage() {
           </div>
         </main>
       </div>
+      <TableDialogs table={tbl} entity="question" />
     </div>
   );
 }

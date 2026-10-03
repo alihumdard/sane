@@ -43,7 +43,7 @@ export default function BarChart({ title, icon, bars, maxValue }: Props) {
             {bars.map((b, i) => (
               <div key={i} className="relative z-10 flex flex-col items-center gap-1">
                 <span className="text-[10px] font-bold" style={{ color: b.color }}>{b.value}</span>
-                <div className="w-12 rounded-t-md" style={{ height: `${(b.value / max) * 90}px`, backgroundColor: b.color }} />
+                <div className="w-8 sm:w-12 rounded-t-md" style={{ height: `${(b.value / max) * 90}px`, backgroundColor: b.color }} />
               </div>
             ))}
           </div>

@@ -7,8 +7,12 @@ import {
   Eye, Pencil, Trash2, MoreVertical,
 } from "lucide-react";
 
-import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import { adminNav } from "@/lib/adminNav";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import { useTable } from "@/components/dashboard/useTable";
+import RowActions from "@/components/dashboard/RowActions";
+import TableDialogs from "@/components/dashboard/TableDialogs";
 import StatsCard from "@/components/dashboard/StatsCard";
 import FilterBar from "@/components/dashboard/FilterBar";
 import Pagination from "@/components/dashboard/Pagination";
@@ -18,23 +22,7 @@ import DateBadgeList from "@/components/dashboard/DateBadgeList";
 import PartnerLogo from "@/components/dashboard/PartnerLogo";
 
 /* ─── Sidebar ─── */
-const sidebarItems: SidebarItem[] = [
-  { icon: <Home size={18} />, label: "Tableau de bord" },
-  { icon: <Users size={18} />, label: "Utilisateurs", chevron: true },
-  { icon: <Briefcase size={18} />, label: "Emploi", chevron: true },
-  { icon: <BookOpen size={18} />, label: "Formations", chevron: true },
-  { icon: <Calendar size={18} />, label: "Événements", chevron: true },
-  { icon: <Users size={18} />, label: "Intervenants", chevron: true },
-  {
-    icon: <Handshake size={18} />, label: "Partenaires", active: true, chevron: true, expanded: true,
-    subItems: ["Tous les partenaires", "Ajouter un partenaire", "Catégories", "Types de partenariat", "Conventions", "Documents", "Statistiques"],
-    activeSubIndex: 0,
-  },
-  { icon: <Newspaper size={18} />, label: "Contenus", chevron: true },
-  { icon: <Share2 size={18} />, label: "Communication", chevron: true },
-  { icon: <BarChart3 size={18} />, label: "Rapports", chevron: true },
-  { icon: <Settings size={18} />, label: "Paramètres", chevron: true },
-];
+const sidebarItems = adminNav("Partenaires", 0);
 
 /* ─── Stats ─── */
 const statsData = [
@@ -153,6 +141,7 @@ const renouvellements = [
 
 export default function PartenairesPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const tbl = useTable(partenaires, { filterKeys: {"Catégorie":"categorie","Statut":"statut","Pays":"pays"} });
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -206,7 +195,7 @@ export default function PartenairesPage() {
                 </div>
               </div>
             </div>
-            <button className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter un partenaire
             </button>
@@ -220,17 +209,17 @@ export default function PartenairesPage() {
           </div>
 
           {/* Main content grid */}
-          <div className="grid gap-3 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px]">
+          <div className="grid gap-3 grid-cols-1 2xl:grid-cols-[minmax(0,1fr)_280px]">
             {/* Left: filter + table */}
             <div className="flex flex-col gap-3 min-w-0">
-              <FilterBar searchPlaceholder="Rechercher un partenaire..." filters={["Catégorie", "Type de partenariat", "Pays", "Statut"]} />
+              <FilterBar searchPlaceholder="Rechercher un partenaire..." filters={["Catégorie", "Type de partenariat", "Pays", "Statut"]}  table={tbl} />
 
               {/* Table */}
               <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
-                <table className="w-full min-w-[700px]">
+                <table className="w-full min-w-[1000px]">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
-                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" /></th>
+                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Logo</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Nom du partenaire <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
@@ -252,58 +241,53 @@ export default function PartenairesPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {partenaires.map((p) => (
+                    {tbl.pageRows.map((p) => (
                       <tr key={p.id} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
-                        <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" /></td>
+                        <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(p._uid)} onChange={() => tbl.toggle(p._uid)} /></td>
                         <td className="px-2 py-2">
                           <PartnerLogo nom={p.nom} />
                         </td>
                         <td className="px-2 py-2">
-                          <p className="text-[11px] font-semibold text-[#0a2e16]">{p.nom}</p>
+                          <p className="whitespace-nowrap text-[12px] font-semibold text-[#0a2e16]">{p.nom}</p>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: `${p.catColor}18`, color: p.catColor }}>
+                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${p.catColor}18`, color: p.catColor }}>
                             {p.categorie}
                           </span>
                         </td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-1">
                             <span className="text-[13px]">{p.flag}</span>
-                            <p className="text-[10px] text-[#0a2e16] font-medium whitespace-nowrap">{p.pays}</p>
+                            <p className="text-[11px] text-[#0a2e16] font-medium whitespace-nowrap">{p.pays}</p>
                           </div>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: `${p.typeColor}18`, color: p.typeColor }}>
+                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${p.typeColor}18`, color: p.typeColor }}>
                             {p.type}
                           </span>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: p.statutBg, color: p.statutColor }}>
+                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: p.statutBg, color: p.statutColor }}>
                             {p.statut}
                           </span>
                         </td>
                         <td className="px-2 py-2">
-                          <p className="text-[10px] text-[#0a2e16] font-medium whitespace-nowrap">{p.date}</p>
+                          <p className="text-[11px] text-[#0a2e16] font-medium whitespace-nowrap">{p.date}</p>
                         </td>
                         <td className="px-2 py-2">
-                          <div className="flex items-center justify-center gap-1.5">
-                            <button className="text-[#2563EB] hover:opacity-80"><Eye size={13} /></button>
-                            <button className="text-[#10632D] hover:opacity-80"><Pencil size={13} /></button>
-                            <button className="text-[#DC2626] hover:opacity-80"><Trash2 size={13} /></button>
-                            <button className="text-[#61756B] hover:opacity-80"><MoreVertical size={13} /></button>
-                          </div>
+                          <RowActions table={tbl} row={p} />
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
 
-                <Pagination current={1} totalPages={4} totalItems={36} itemLabel="partenaires" />
+                <Pagination current={tbl.page} totalPages={tbl.totalPages} totalItems={tbl.total} pageSize={tbl.pageSize} itemLabel="partenaires" onPageChange={tbl.setPage} onPageSizeChange={tbl.setPageSize} />
               </div>
             </div>
 
             {/* Right sidebar */}
-            <div className="flex flex-col gap-3 min-w-0">
+            <div className="grid grid-cols-1 md:grid-cols-3 2xl:flex 2xl:flex-col gap-3 min-w-0">
               <DonutChart title="Répartition par catégorie" segments={donutSegments} centerValue="36" centerLabel="Partenaires" showValues={false} />
               <RankedList heading="Top partenaires actifs" items={topPartenairesData} showViewAll />
               <DateBadgeList heading="Prochains renouvellements" items={renouvellements} showViewAll />
@@ -312,6 +296,7 @@ export default function PartenairesPage() {
 
         </main>
       </div>
+      <TableDialogs table={tbl} entity="partenaire" />
     </div>
   );
 }

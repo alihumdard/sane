@@ -9,6 +9,8 @@ import {
   Search, ChevronDown, Eye, Mail, MoreVertical, MapPin,
   Clock, Video, Edit, Globe, Star, ArrowRight, TrendingUp, Menu, X
 } from "lucide-react";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 
 /* ─────────────────────────────── DATA ─────────────────────────────── */
 
@@ -107,92 +109,30 @@ export default function DashboardPage() {
   return (
     <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
       {/* Mobile overlay */}
-      {sidebarOpen && (
-        <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />
-      )}
-
-      {/* ═══════════════════ SIDEBAR ═══════════════════ */}
-      <aside className={`fixed inset-y-0 left-0 z-40 flex w-[220px] shrink-0 flex-col border-r border-[#DDE8E0] bg-white transition-transform duration-300 lg:static lg:translate-x-0 lg:z-auto ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        <div className="flex items-center gap-2 px-5 py-4 border-b border-[#DDE8E0]">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#10632D]">
-            <span className="text-[11px] font-extrabold text-white">SANE</span>
-          </div>
-          <span className="text-[15px] font-extrabold text-[#10632D]">SANE</span>
-        </div>
-        <nav className="flex-1 overflow-y-auto px-3 py-3">
-          {sidebarItems.map((item, i) => (
-            <button
-              key={i}
-              className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 mb-0.5 text-left transition-all ${
-                item.active
-                  ? "bg-[#10632D] text-white font-semibold"
-                  : "text-[#61756B] hover:bg-[#F5F9F6]"
-              }`}
-            >
-              {item.icon}
-              <span className="flex-1 text-[13px]">{item.label}</span>
-              {item.badge && (
-                <span className={`flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-bold ${
-                  item.active ? "bg-white/20 text-white" : "bg-[#E57617] text-white"
-                }`}>
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          ))}
-        </nav>
-      </aside>
+      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* ═══════════════════ MAIN ═══════════════════ */}
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         {/* TOP NAVBAR */}
-        <header className="flex items-center gap-2 border-b border-[#DDE8E0] bg-white px-3 sm:px-6 py-3">
-          <button className="lg:hidden mr-1 rounded-lg p-2 text-[#61756B] hover:bg-[#F5F9F6]" onClick={() => setSidebarOpen(true)}>
-            <Menu size={20} />
-          </button>
-          <div className="flex flex-1 items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-3 py-2">
-            <Search size={16} className="text-[#61756B]" />
-            <input
-              type="text"
-              placeholder="Rechercher un candidat, une offre..."
-              className="flex-1 bg-transparent text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none"
-            />
-          </div>
-          <button className="relative rounded-lg p-2 text-[#61756B] hover:bg-[#F5F9F6]">
-            <Bell size={18} />
-            <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E57617] text-[9px] font-bold text-white">3</span>
-          </button>
-          <button className="hidden sm:flex items-center gap-1 rounded-lg px-2 py-1 text-[12px] font-medium text-[#61756B] hover:bg-[#F5F9F6]">
-            FR <ChevronDown size={12} />
-          </button>
-          <div className="hidden sm:flex items-center gap-2.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f59e0b]">
-              <span className="text-[9px] font-extrabold text-white">MTN</span>
-            </div>
-            <div>
-              <p className="text-[12px] font-bold text-[#0a2e16]">MTN Niger</p>
-              <p className="text-[10px] text-[#61756B]">Recruteur</p>
-            </div>
-          </div>
-        </header>
+        <DashboardNavbar searchPlaceholder="Rechercher un candidat, une offre..." notificationCount={5} userName="MTN Niger" userRole="Entreprise" onMenuClick={() => setSidebarOpen(true)} />
 
         {/* SCROLLABLE CONTENT */}
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-6">
           {/* ═══════════ WELCOME BANNER ═══════════ */}
           <div className="relative mb-6 overflow-hidden rounded-2xl bg-white border border-[#DDE8E0]">
-            <div className="absolute right-0 top-0 h-full w-[55%]">
+            <div className="absolute right-0 top-0 hidden h-full w-[55%] sm:block">
               <Image src="/sane_deal.png" alt="Dashboard" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-r from-white via-white/60 to-transparent" />
             </div>
-            <p className="absolute bottom-4 right-6 z-20 text-[15px] italic text-[#E57617]" style={{ fontFamily: "serif" }}>Un Niger<br/>de Talents</p>
-            <div className="relative z-20 p-6">
+            <p className="absolute bottom-4 right-6 z-20 hidden sm:block text-[15px] italic text-[#E57617]" style={{ fontFamily: "serif" }}>Un Niger<br/>de Talents</p>
+            <div className="relative z-20 p-4 sm:p-6">
               <h1 className="mb-1 text-2xl font-extrabold text-[#0a2e16]">Bienvenue, MTN Niger !</h1>
               <p className="max-w-md text-[13px] text-[#61756B]">Trouvez les meilleurs talents et contribuez au développement des compétences au Niger avec le SANE.</p>
             </div>
           </div>
 
           {/* ═══════════ STATS ROW ═══════════ */}
-          <div className="mb-6 grid grid-cols-2 lg:grid-cols-5 gap-3 border-b border-[#DDE8E0] bg-white rounded-xl px-4 py-3">
+          <div className="mb-6 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 border-b border-[#DDE8E0] bg-white rounded-xl px-4 py-3">
             {statsData.map((s, i) => (
               <div key={i} className="flex items-center gap-2.5">
                 <span style={{ color: s.color }}>{s.icon}</span>
@@ -202,7 +142,7 @@ export default function DashboardPage() {
                     <span className="flex items-center gap-0.5 text-[10px] font-semibold text-[#10632D]">
                       <TrendingUp size={10} /> {s.trend}
                     </span>
-                    <span className="text-[9px] text-[#61756B]/60">{s.trendLabel}</span>
+                    <span className="hidden text-[9px] text-[#61756B]/60 min-[420px]:inline">{s.trendLabel}</span>
                   </div>
                   <p className="text-[10px] text-[#61756B] truncate">{s.label}</p>
                 </div>
@@ -211,7 +151,7 @@ export default function DashboardPage() {
           </div>
 
           {/* ═══════════ CHARTS ROW ═══════════ */}
-          <div className="mb-6 grid grid-cols-1 lg:grid-cols-[1fr_280px_260px] gap-4">
+          <div className="mb-6 grid grid-cols-1 xl:grid-cols-[1fr_280px_260px] gap-4">
             {/* Bar Chart */}
             <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
               <div className="mb-1 flex items-center justify-between">
@@ -329,7 +269,7 @@ export default function DashboardPage() {
           </div>
 
           {/* ═══════════ CANDIDATES TABLE + TOP OFFERS ═══════════ */}
-          <div className="mb-6 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
+          <div className="mb-6 grid grid-cols-1 xl:grid-cols-[1fr_300px] gap-4">
             {/* Table */}
             <div className="rounded-xl border border-[#DDE8E0] bg-white p-5 min-w-0">
               <div className="mb-4 flex items-center justify-between">
@@ -416,7 +356,7 @@ export default function DashboardPage() {
           </div>
 
           {/* ═══════════ BOTTOM ROW ═══════════ */}
-          <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_1fr_300px] gap-4">
+          <div className="relative grid grid-cols-1 xl:grid-cols-[1fr_1fr_300px] gap-4">
             {/* Italic text */}
             <p className="absolute -left-2 -bottom-2 text-lg italic text-[#10632D]/20 z-0" style={{ fontFamily: "serif" }}>
               Des talents<br/>pour un Niger<br/>plus fort

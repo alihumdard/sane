@@ -8,8 +8,12 @@ import {
   Eye, Pencil, Copy, Trash2, MoreVertical, MapPin,
 } from "lucide-react";
 
-import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import { adminNav } from "@/lib/adminNav";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import { useTable } from "@/components/dashboard/useTable";
+import RowActions from "@/components/dashboard/RowActions";
+import TableDialogs from "@/components/dashboard/TableDialogs";
 import StatsCard from "@/components/dashboard/StatsCard";
 import FilterBar from "@/components/dashboard/FilterBar";
 import Pagination from "@/components/dashboard/Pagination";
@@ -17,21 +21,7 @@ import DonutChart from "@/components/dashboard/DonutChart";
 import QuickStatsList from "@/components/dashboard/QuickStatsList";
 
 /* ─── Sidebar ─── */
-const sidebarItems: SidebarItem[] = [
-  { icon: <Home size={18} />, label: "Tableau de bord" },
-  { icon: <Users size={18} />, label: "Utilisateurs", chevron: true },
-  {
-    icon: <Briefcase size={18} />, label: "Emploi", active: true, chevron: true, expanded: true,
-    subItems: ["Toutes les offres", "Ajouter une offre", "Catégories d'emploi", "Candidatures", "Entretiens", "Entreprises", "Statistiques"],
-    activeSubIndex: 0,
-  },
-  { icon: <BookOpen size={18} />, label: "Formations", chevron: true },
-  { icon: <Calendar size={18} />, label: "Événements", chevron: true },
-  { icon: <Newspaper size={18} />, label: "Contenus", chevron: true },
-  { icon: <Share2 size={18} />, label: "Communication", chevron: true },
-  { icon: <BarChart3 size={18} />, label: "Rapports", chevron: true },
-  { icon: <Settings size={18} />, label: "Paramètres", chevron: true },
-];
+const sidebarItems = adminNav("Emploi", 0);
 
 /* ─── Stats ─── */
 const statsData = [
@@ -88,6 +78,7 @@ const quickStats = [
 
 export default function EmploiPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const tbl = useTable(offres, { filterKeys: {"Catégorie":"contrat","Type de contrat":"contrat","Lieu":"lieu","Statut":"statut"} });
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
@@ -115,7 +106,7 @@ export default function EmploiPage() {
                 <p className="mt-1.5 max-w-[420px] text-[11px] text-[#61756B] leading-relaxed hidden sm:block">
                   Publiez, modifiez et gérez toutes les offres d&apos;emploi. Suivez les candidatures et trouvez les meilleurs talents pour le Niger.
                 </p>
-                <button className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+                <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                   Ajouter une offre
                 </button>
@@ -138,7 +129,7 @@ export default function EmploiPage() {
                 </div>
               </div>
             </div>
-            <button className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter une offre
             </button>
@@ -152,15 +143,15 @@ export default function EmploiPage() {
           </div>
 
           {/* Main content grid */}
-          <div className="grid gap-3 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px]">
+          <div className="grid gap-3 grid-cols-1 2xl:grid-cols-[minmax(0,1fr)_280px]">
             {/* Left */}
             <div className="flex flex-col gap-3 min-w-0">
-              <FilterBar searchPlaceholder="Rechercher une offre..." filters={["Catégorie", "Type de contrat", "Lieu", "Statut"]} />
+              <FilterBar searchPlaceholder="Rechercher une offre..." filters={["Catégorie", "Type de contrat", "Lieu", "Statut"]}  table={tbl} />
               <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
-                <table className="w-full min-w-[700px]">
+                <table className="w-full min-w-[950px]">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
-                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" /></th>
+                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide"><span className="flex items-center gap-0.5">Titre du poste <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span></th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide"><span className="flex items-center gap-0.5">Entreprise <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span></th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide"><span className="flex items-center gap-0.5">Lieu <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span></th>
@@ -172,16 +163,16 @@ export default function EmploiPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {offres.map((o, i) => (
+                    {tbl.pageRows.map((o, i) => (
                       <tr key={i} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
-                        <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" /></td>
-                        <td className="px-2 py-2 max-w-[160px]">
+                        <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(o._uid)} onChange={() => tbl.toggle(o._uid)} /></td>
+                        <td className="px-2 py-2.5 min-w-[220px]">
                           <div className="flex items-center gap-2">
                             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#F5F9F6] border border-[#DDE8E0]">
                               <span className="text-[7px] font-bold text-[#10632D]">{o.entreprise.split(" ")[0].substring(0, 5)}</span>
                             </div>
                             <div className="min-w-0">
-                              <p className="text-[11px] font-semibold text-[#0a2e16] leading-tight truncate">{o.titre}</p>
+                              <p className="text-[12px] font-semibold text-[#0a2e16] leading-snug">{o.titre}</p>
                               <p className="text-[9px] text-[#61756B]">{o.id}</p>
                             </div>
                           </div>
@@ -195,27 +186,21 @@ export default function EmploiPage() {
                         </td>
                         <td className="px-2 py-2"><span className="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${o.contratColor}18`, color: o.contratColor }}>{o.contrat}</span></td>
                         <td className="px-2 py-2 text-center"><span className="text-[11px] font-semibold text-[#0a2e16]">{o.candidatures}</span></td>
-                        <td className="px-2 py-2"><span className="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: o.statutBg, color: o.statutColor }}>{o.statut}</span></td>
-                        <td className="px-2 py-2 whitespace-nowrap"><p className="text-[10px] text-[#0a2e16] font-medium">{o.date}</p></td>
+                        <td className="px-2 py-2"><span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: o.statutBg, color: o.statutColor }}>{o.statut}</span></td>
+                        <td className="px-2 py-2 whitespace-nowrap"><p className="text-[11px] text-[#0a2e16] font-medium">{o.date}</p></td>
                         <td className="px-2 py-2">
-                          <div className="flex items-center justify-center gap-1.5">
-                            <button className="text-[#2563EB] hover:opacity-80"><Eye size={13} /></button>
-                            <button className="text-[#10632D] hover:opacity-80"><Pencil size={13} /></button>
-                            <button className="text-[#61756B] hover:opacity-80"><Copy size={13} /></button>
-                            <button className="text-[#DC2626] hover:opacity-80"><Trash2 size={13} /></button>
-                            <button className="text-[#61756B] hover:opacity-80"><MoreVertical size={13} /></button>
-                          </div>
+                          <RowActions table={tbl} row={o} extra="duplicate" />
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-                <Pagination current={1} totalPages={13} totalItems={128} itemLabel="offres" />
+                <Pagination current={tbl.page} totalPages={tbl.totalPages} totalItems={tbl.total} pageSize={tbl.pageSize} itemLabel="offres" onPageChange={tbl.setPage} onPageSizeChange={tbl.setPageSize} />
               </div>
             </div>
 
             {/* Right sidebar */}
-            <div className="flex flex-col gap-3 min-w-0">
+            <div className="grid grid-cols-1 md:grid-cols-3 2xl:flex 2xl:flex-col gap-3 min-w-0">
               <QuickStatsList heading="Statistiques rapides" subtitle="Ce mois" items={quickStats} />
               <DonutChart title="Répartition par secteur" segments={donutSegments} centerValue="128" centerLabel="Offres" showValues={false} showViewAll />
               <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
@@ -245,6 +230,7 @@ export default function EmploiPage() {
           </div>
         </main>
       </div>
+      <TableDialogs table={tbl} entity="offre d'emploi" />
     </div>
   );
 }

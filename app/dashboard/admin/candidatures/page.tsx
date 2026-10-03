@@ -8,8 +8,12 @@ import {
   Settings, FileText, Share2, Eye, Pencil, Trash2, MoreVertical,
 } from "lucide-react";
 
-import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import { adminNav } from "@/lib/adminNav";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import { useTable } from "@/components/dashboard/useTable";
+import RowActions from "@/components/dashboard/RowActions";
+import TableDialogs from "@/components/dashboard/TableDialogs";
 import StatsCard from "@/components/dashboard/StatsCard";
 import HeroBanner from "@/components/dashboard/HeroBanner";
 import FilterBar from "@/components/dashboard/FilterBar";
@@ -19,26 +23,7 @@ import EnterpriseLogo from "@/components/dashboard/EnterpriseLogo";
 import Pagination from "@/components/dashboard/Pagination";
 
 /* ─── Sidebar ─── */
-const sidebarItems: SidebarItem[] = [
-  { icon: <Home size={18} />, label: "Tableau de bord" },
-  { icon: <Users size={18} />, label: "Utilisateurs", chevron: true },
-  {
-    icon: <Briefcase size={18} />, label: "Emploi", active: true, chevron: true, expanded: true,
-    subItems: ["Toutes les offres", "Ajouter une offre", "Catégories d'emploi", "Candidatures", "Entretiens", "Entreprises", "Statistiques"],
-    activeSubIndex: 3,
-  },
-  { icon: <BookOpen size={18} />, label: "Formations", chevron: true },
-  { icon: <Calendar size={18} />, label: "Événements", chevron: true },
-  { icon: <Mic size={18} />, label: "Intervenants", chevron: true },
-  { icon: <Handshake size={18} />, label: "Partenaires", chevron: true },
-  { icon: <Newspaper size={18} />, label: "Presse", chevron: true },
-  { icon: <HelpCircle size={18} />, label: "FAQ", chevron: true },
-  { icon: <Bell size={18} />, label: "Notifications", chevron: true },
-  { icon: <BarChart3 size={18} />, label: "Rapports", chevron: true },
-  { icon: <Settings size={18} />, label: "Paramètres", chevron: true },
-  { icon: <FileText size={18} />, label: "Contenus", chevron: true },
-  { icon: <Share2 size={18} />, label: "Communication", chevron: true },
-];
+const sidebarItems = adminNav("Emploi", 3);
 
 /* ─── Stats ─── */
 const statsData = [
@@ -115,6 +100,7 @@ function DocIcon({ filled }: { filled?: boolean }) {
 
 export default function CandidaturesPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const tbl = useTable(candidatures, { filterKeys: {"Tous les postes":"poste","Tous les statuts":"statut","Toutes les entreprises":"entreprise"} });
   return (
     <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -152,20 +138,20 @@ export default function CandidaturesPage() {
           </div>
 
           {/* Main content grid */}
-          <div className="grid gap-3 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px]">
+          <div className="grid gap-3 grid-cols-1 2xl:grid-cols-[minmax(0,1fr)_280px]">
             {/* Left: filter + table */}
             <div className="flex flex-col gap-3 min-w-0">
               <FilterBar
                 searchPlaceholder="Rechercher un candidat..."
                 filters={["Tous les postes", "Tous les statuts", "Toutes les entreprises", "Date de candidature"]}
-              />
+               table={tbl} />
 
               {/* Table */}
               <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
-                <table className="w-full min-w-[700px]">
+                <table className="w-full min-w-[950px]">
                   <thead>
                     <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
-                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" /></th>
+                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Candidat <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
@@ -183,9 +169,9 @@ export default function CandidaturesPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {candidatures.map((c, i) => (
+                    {tbl.pageRows.map((c, i) => (
                       <tr key={i} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
-                        <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" /></td>
+                        <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(c._uid)} onChange={() => tbl.toggle(c._uid)} /></td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-2">
                             <div className="h-8 w-8 overflow-hidden rounded-full border border-[#DDE8E0] shrink-0">
@@ -197,45 +183,40 @@ export default function CandidaturesPage() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-2 py-2 max-w-[160px]">
-                          <p className="text-[11px] font-medium text-[#0a2e16] leading-tight">{c.poste}</p>
+                        <td className="px-2 py-2.5 min-w-[170px] max-w-[220px]">
+                          <p className="text-[12px] font-semibold text-[#0a2e16] leading-snug">{c.poste}</p>
                           <p className="text-[9px] text-[#61756B]">{c.id}</p>
                         </td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-1.5">
                             <EnterpriseLogo code={c.eLogo} />
-                            <span className="text-[10px] text-[#0a2e16]">{c.entreprise}</span>
+                            <span className="text-[11px] text-[#0a2e16]">{c.entreprise}</span>
                           </div>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="text-[10px] text-[#0a2e16]">{c.date}</span>
+                          <span className="whitespace-nowrap text-[11px] text-[#0a2e16]">{c.date}</span>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: c.statutBg, color: c.statutColor }}>
+                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: c.statutBg, color: c.statutColor }}>
                             {c.statut}
                           </span>
                         </td>
                         <td className="px-2 py-2 text-center"><DocIcon filled /></td>
                         <td className="px-2 py-2 text-center"><DocIcon filled={i % 2 === 0} /></td>
                         <td className="px-2 py-2">
-                          <div className="flex items-center justify-center gap-1.5">
-                            <button className="text-[#2563EB] hover:opacity-80"><Eye size={13} /></button>
-                            <button className="text-[#10632D] hover:opacity-80"><Pencil size={13} /></button>
-                            <button className="text-[#DC2626] hover:opacity-80"><Trash2 size={13} /></button>
-                            <button className="text-[#61756B] hover:opacity-80"><MoreVertical size={13} /></button>
-                          </div>
+                          <RowActions table={tbl} row={c} />
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
 
-                <Pagination current={1} totalPages={29} totalItems={286} itemLabel="candidatures" />
+                <Pagination current={tbl.page} totalPages={tbl.totalPages} totalItems={tbl.total} pageSize={tbl.pageSize} itemLabel="candidatures" onPageChange={tbl.setPage} onPageSizeChange={tbl.setPageSize} />
               </div>
             </div>
 
             {/* Right sidebar */}
-            <div className="flex flex-col gap-3 min-w-0">
+            <div className="grid grid-cols-1 md:grid-cols-3 2xl:flex 2xl:flex-col gap-3 min-w-0">
               <DonutChart
                 title="Statut des candidatures"
                 segments={statuses}
@@ -263,6 +244,7 @@ export default function CandidaturesPage() {
           </div>
         </main>
       </div>
+      <TableDialogs table={tbl} entity="candidature" />
     </div>
   );
 }

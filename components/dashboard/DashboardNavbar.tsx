@@ -1,7 +1,18 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Bell, ChevronDown, Menu, Search } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Bell, ChevronDown, LogOut, Menu, Search, Settings, User } from "lucide-react";
+
+const SAMPLE_NOTIFICATIONS = [
+  { title: "Nouvelle candidature reçue", time: "Il y a 5 min" },
+  { title: "Inscription confirmée au SANE 2024", time: "Il y a 1 h" },
+  { title: "Un entretien a été planifié", time: "Hier" },
+  { title: "Nouveau message de l'équipe SANE", time: "Hier" },
+  { title: "Rappel : complétez votre profil", time: "Il y a 2 jours" },
+];
 
 interface Props {
   searchPlaceholder?: string;
@@ -22,8 +33,22 @@ export default function DashboardNavbar({
   language = "FR",
   onMenuClick,
 }: Props) {
+  const pathname = usePathname() ?? "";
+  const isAdmin = pathname.startsWith("/dashboard/admin");
+  const [count, setCount] = useState(notificationCount);
+  const [menu, setMenu] = useState<"bell" | "user" | null>(null);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const close = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setMenu(null);
+    };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, []);
+
   return (
-    <header className="flex items-center gap-2 sm:gap-4 border-b border-[#DDE8E0] bg-white px-3 sm:px-6 py-3">
+    <header ref={ref} className="relative z-30 flex items-center gap-2 sm:gap-4 border-b border-[#DDE8E0] bg-white px-3 sm:px-6 py-3">
       {/* Hamburger - mobile only */}
       <button
         onClick={onMenuClick}
@@ -44,11 +69,36 @@ export default function DashboardNavbar({
 
       {/* Bell */}
       <div className="relative shrink-0">
-        <Bell size={20} className="text-[#61756B]" />
-        {notificationCount > 0 && (
-          <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E57617] text-[8px] font-bold text-white">
-            {notificationCount}
-          </span>
+        <button type="button" aria-label="Notifications" onClick={() => setMenu(menu === "bell" ? null : "bell")} className="relative block">
+          <Bell size={20} className="text-[#61756B]" />
+          {count > 0 && (
+            <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E57617] text-[8px] font-bold text-white">
+              {count}
+            </span>
+          )}
+        </button>
+        {menu === "bell" && (
+          <div className="absolute right-0 top-9 z-40 w-[290px] rounded-xl border border-[#DDE8E0] bg-white shadow-xl">
+            <div className="flex items-center justify-between border-b border-[#DDE8E0] px-3 py-2.5">
+              <span className="text-[12px] font-bold text-[#0a2e16]">Notifications</span>
+              {count > 0 && (
+                <button type="button" onClick={() => setCount(0)} className="text-[10px] font-semibold text-[#E57617] hover:underline">
+                  Tout marquer comme lu
+                </button>
+              )}
+            </div>
+            <ul className="max-h-[260px] overflow-y-auto">
+              {SAMPLE_NOTIFICATIONS.map((n, i) => (
+                <li key={i} className={`flex gap-2 border-b border-[#DDE8E0]/60 px-3 py-2.5 last:border-0 ${i < count ? "bg-[#F5F9F6]" : ""}`}>
+                  <span className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${i < count ? "bg-[#E57617]" : "bg-transparent"}`} />
+                  <div>
+                    <p className="text-[11px] font-semibold text-[#0a2e16]">{n.title}</p>
+                    <p className="text-[10px] text-[#61756B]">{n.time}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
 
@@ -59,15 +109,36 @@ export default function DashboardNavbar({
       </div>
 
       {/* User */}
-      <div className="flex items-center gap-1.5 shrink-0">
-        <div className="h-8 w-8 overflow-hidden rounded-full border-2 border-[#DDE8E0]">
-          <Image src={userImage} alt={userName} width={32} height={32} className="object-cover" />
-        </div>
-        <div className="hidden sm:block">
-          <p className="text-[12px] font-bold text-[#0a2e16]">{userName}</p>
-          <p className="text-[10px] text-[#61756B]">{userRole}</p>
-        </div>
-        <ChevronDown size={14} className="hidden sm:block text-[#61756B]" />
+      <div className="relative shrink-0">
+        <button type="button" onClick={() => setMenu(menu === "user" ? null : "user")} className="flex items-center gap-1.5">
+          <div className="h-8 w-8 overflow-hidden rounded-full border-2 border-[#DDE8E0]">
+            <Image src={userImage} alt={userName} width={32} height={32} className="object-cover" />
+          </div>
+          <div className="hidden sm:block text-left">
+            <p className="text-[12px] font-bold text-[#0a2e16]">{userName}</p>
+            <p className="text-[10px] text-[#61756B]">{userRole}</p>
+          </div>
+          <ChevronDown size={14} className="hidden sm:block text-[#61756B]" />
+        </button>
+        {menu === "user" && (
+          <div className="absolute right-0 top-10 z-40 w-[200px] rounded-xl border border-[#DDE8E0] bg-white py-1 shadow-xl">
+            <div className="border-b border-[#DDE8E0] px-3 py-2">
+              <p className="text-[12px] font-bold text-[#0a2e16]">{userName}</p>
+              <p className="text-[10px] text-[#61756B]">{userRole}</p>
+            </div>
+            {isAdmin && (
+              <Link href="/dashboard/admin/parametres" onClick={() => setMenu(null)} className="flex items-center gap-2 px-3 py-2 text-[12px] text-[#0a2e16] hover:bg-[#F5F9F6]">
+                <Settings size={13} /> Paramètres
+              </Link>
+            )}
+            <Link href="/" onClick={() => setMenu(null)} className="flex items-center gap-2 px-3 py-2 text-[12px] text-[#0a2e16] hover:bg-[#F5F9F6]">
+              <User size={13} /> Voir le site
+            </Link>
+            <Link href="/connexion" className="flex items-center gap-2 px-3 py-2 text-[12px] font-semibold text-[#DC2626] hover:bg-[#FEF2F2]">
+              <LogOut size={13} /> Se déconnecter
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   );
