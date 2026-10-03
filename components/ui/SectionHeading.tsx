@@ -3,6 +3,8 @@ interface SectionHeadingProps {
   title: string;
   description?: string;
   align?: "left" | "center";
+  tone?: "dark" | "light";
+  className?: string;
 }
 
 export function SectionHeading({
@@ -10,26 +12,40 @@ export function SectionHeading({
   title,
   description,
   align = "left",
+  tone = "dark",
+  className = "",
 }: SectionHeadingProps) {
+  const onLight = tone === "dark";
+
   return (
-    <div
-      className={`max-w-3xl ${
-        align === "center" ? "mx-auto text-center" : ""
-      }`}
-    >
+    <div className={`${align === "center" ? "mx-auto text-center" : ""} ${className}`}>
       {eyebrow && (
-        <div className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[#10632D]">
-          <span className="h-1 w-5 rounded-full bg-[#E57617]" />
-          {eyebrow}
+        <div className={`mb-1.5 flex items-center gap-2 ${align === "center" ? "justify-center" : ""}`}>
+          <span className="h-[3px] w-8 rounded-full bg-[var(--sane-orange)]" />
+          <span
+            className={`text-[10px] font-extrabold uppercase tracking-[0.12em] sm:text-[11px] ${
+              onLight ? "text-[var(--sane-green)]" : "text-white/80"
+            }`}
+          >
+            {eyebrow}
+          </span>
         </div>
       )}
 
-      <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-[#10231A] md:text-4xl">
+      <h2
+        className={`text-[22px] font-extrabold leading-[1.12] tracking-tight sm:text-[26px] md:text-[30px] ${
+          onLight ? "text-[var(--sane-text)]" : "text-white"
+        }`}
+      >
         {title}
       </h2>
 
       {description && (
-        <p className="mt-4 text-base leading-7 text-[#61756B] md:text-lg">
+        <p
+          className={`mt-2 text-[13px] leading-[1.65] sm:text-[14px] ${
+            onLight ? "text-[var(--sane-text)] opacity-60" : "text-white/60"
+          }`}
+        >
           {description}
         </p>
       )}
