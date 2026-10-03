@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
+import TableLabels from "@/components/dashboard/TableLabels";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -29,6 +30,7 @@ export default function RootLayout({
     <html lang="fr">
       <body className={montserrat.variable} suppressHydrationWarning>
         {children}
+        <TableLabels />
       </body>
     </html>
   );
