@@ -1,6 +1,7 @@
 import {
-  Briefcase, Building2, Users, BarChart3,
+  Briefcase, Building2, UserSearch, GraduationCap,
   UserPlus, Search as SearchIcon, Mail, ClipboardCheck,
+  MessageCircle, MonitorSmartphone, HeartPulse, Sprout, LayoutGrid,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { InfoItem } from "@/components/shared";
@@ -19,12 +20,14 @@ export interface Job {
 export interface Sector {
   name: string;
   count: number;
+  icon: LucideIcon;
 }
 
 export interface Partner {
   name: string;
   abbr: string;
   color: string;
+  logo: string;
 }
 
 export interface Step {
@@ -37,8 +40,8 @@ export interface Step {
 export const emploiInfo: InfoItem[] = [
   { icon: Briefcase, title: "Offres d'emploi", description: "+500" },
   { icon: Building2, title: "Entreprises", description: "+200" },
-  { icon: Users, title: "Postes à pourvoir", description: "+1000" },
-  { icon: BarChart3, title: "Secteurs d'activité", description: "+15" },
+  { icon: UserSearch, title: "Postes à pourvoir", description: "+1000" },
+  { icon: GraduationCap, title: "Secteurs d'activité", description: "+15" },
 ];
 
 export const jobs: Job[] = [
@@ -52,22 +55,22 @@ export const jobs: Job[] = [
 export const cities = ["Niamey", "Zinder", "Maradi", "Agadez", "Diffa", "Tahoua"];
 
 export const sectors: Sector[] = [
-  { name: "Administration & Gestion", count: 125 },
-  { name: "Communication", count: 80 },
-  { name: "Informatique & Digital", count: 95 },
-  { name: "Éducation & Formation", count: 70 },
-  { name: "Santé", count: 60 },
-  { name: "Agriculture & Environnement", count: 55 },
-  { name: "Projets & Développement", count: 110 },
-  { name: "Autres secteurs", count: 45 },
+  { name: "Administration & Gestion", count: 125, icon: Building2 },
+  { name: "Communication", count: 80, icon: MessageCircle },
+  { name: "Informatique & Digital", count: 95, icon: MonitorSmartphone },
+  { name: "Éducation & Formation", count: 70, icon: GraduationCap },
+  { name: "Santé", count: 60, icon: HeartPulse },
+  { name: "Agriculture & Environnement", count: 55, icon: Sprout },
+  { name: "Projets & Développement", count: 110, icon: Briefcase },
+  { name: "Autres secteurs", count: 45, icon: LayoutGrid },
 ];
 
 export const recruitingPartners: Partner[] = [
-  { name: "République du Niger", abbr: "RN", color: "#0a4a22" },
-  { name: "Organisation Internationale du Travail", abbr: "OIT", color: "#1a5276" },
-  { name: "Enabel", abbr: "EN", color: "#e30613" },
-  { name: "GIZ", abbr: "GIZ", color: "#007f3e" },
-  { name: "AFD", abbr: "AFD", color: "#e63946" },
+  { name: "République du Niger", abbr: "RN", color: "#0a4a22", logo: "/niger_ministere_emploi.png" },
+  { name: "Organisation Internationale du Travail", abbr: "OIT", color: "#1a5276", logo: "/organisation_internationale_travail.png" },
+  { name: "Enabel", abbr: "EN", color: "#e30613", logo: "/enabel.png" },
+  { name: "GIZ", abbr: "GIZ", color: "#007f3e", logo: "/giz.png" },
+  { name: "AFD", abbr: "AFD", color: "#e63946", logo: "/afd.png" },
 ];
 
 export const secteurOptions = ["Secteur d'activité", "Administration", "Communication", "Informatique", "Formation", "Santé"];

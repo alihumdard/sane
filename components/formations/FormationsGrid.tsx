@@ -133,7 +133,7 @@ export function FormationsGrid() {
                     <div className="mt-auto pt-3">
                       <Link
                         href="#"
-                        className="group/btn inline-flex items-center gap-2 rounded-lg border border-[var(--sane-green)] px-4 py-[7px] text-[12px] font-bold text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green)] hover:text-white"
+                        className="group/btn inline-flex items-center gap-2 rounded-lg border border-[var(--sane-green)] px-4 py-[7px] text-[12px] font-bold text-[var(--sane-green)] transition-colors hover:bg-[#f0faf4]"
                       >
                         Voir la formation
                         <ArrowRight size={12} className="transition-transform group-hover/btn:translate-x-1" />

@@ -16,18 +16,33 @@ export function InfoBar({ items }: { items: InfoItem[] }) {
             const Icon = item.icon;
             const dividers = [
               i !== 0 ? "border-t border-[var(--sane-border)] sm:border-t-0" : "",
-              i === 1 || i === 3 ? "sm:border-l sm:border-[var(--sane-border)] sm:pl-6 md:pl-8" : "",
-              i === 2 ? "lg:border-l lg:border-[var(--sane-border)] lg:pl-8" : "",
+              i % 2 === 1 ? "sm:border-l sm:border-[var(--sane-border)]" : "",
+              i === 2 ? "lg:border-l lg:border-[var(--sane-border)]" : "",
             ].join(" ");
 
             return (
-              <div key={item.title} className={`flex items-center gap-3 px-2 py-4 sm:gap-4 sm:py-5 ${dividers}`}>
-                <Icon size={28} strokeWidth={1.8} className={`shrink-0 sm:h-8 sm:w-8 ${i % 2 === 0 ? "text-[var(--sane-green)]" : "text-[var(--sane-orange)]"}`} />
-                <div>
-                  <p className="text-[16px] font-extrabold leading-tight text-[var(--sane-green)] sm:text-[18px] md:text-[20px]">
+              <div
+                key={item.title}
+                className={`flex items-center justify-start gap-3.5 px-2 py-4 sm:justify-center sm:gap-4 sm:px-4 sm:py-6 ${dividers}`}
+              >
+                <span
+                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl sm:h-12 sm:w-12 ${
+                    i % 2 === 0 ? "bg-[#fdf0e4]" : "bg-[#e8f2ec]"
+                  }`}
+                >
+                  <Icon
+                    size={24}
+                    strokeWidth={2.2}
+                    className={`sm:h-[26px] sm:w-[26px] ${
+                      i % 2 === 0 ? "text-[var(--sane-orange)]" : "text-[var(--sane-green)]"
+                    }`}
+                  />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-[19px] font-extrabold leading-[1.15] tracking-tight text-[var(--sane-green)] sm:text-[21px] md:text-[23px]">
                     {item.description}
                   </p>
-                  <p className="text-[12px] leading-snug text-[var(--sane-green)] sm:text-[13px]">
+                  <p className="mt-0.5 whitespace-nowrap text-[12px] font-medium leading-snug text-[var(--sane-green)] sm:text-[13px]">
                     {item.title}
                   </p>
                 </div>

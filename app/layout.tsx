@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Caveat, Montserrat } from "next/font/google";
 import "./globals.css";
 import TableLabels from "@/components/dashboard/TableLabels";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
+  weight: ["600", "700"],
   display: "swap",
 });
 
@@ -28,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={montserrat.variable} suppressHydrationWarning>
+      <body className={`${montserrat.variable} ${caveat.variable}`} suppressHydrationWarning>
         {children}
         <TableLabels />
       </body>
