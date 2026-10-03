@@ -1,6 +1,7 @@
 import {
   GraduationCap, Users, BookOpen, Award,
   Calendar, MapPin, UserCheck, FileCheck, Briefcase,
+  Mail, ClipboardCheck,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { InfoItem } from "@/components/shared";
@@ -38,10 +39,10 @@ export const tagColors: Record<string, string> = {
 };
 
 export const formationInfo: InfoItem[] = [
-  { icon: GraduationCap, title: "Formations", description: "+20 disponibles" },
-  { icon: Users, title: "Participants", description: "+1000 attendus" },
-  { icon: BookOpen, title: "Formateurs", description: "+50 experts" },
-  { icon: Award, title: "Certificats", description: "reconnus" },
+  { icon: GraduationCap, title: "Formations", description: "+20" },
+  { icon: Users, title: "Participants", description: "+1000" },
+  { icon: BookOpen, title: "Experts formateurs", description: "+50" },
+  { icon: Award, title: "reconnus", description: "Certificats" },
 ];
 
 export const formations: Formation[] = [
@@ -67,10 +68,10 @@ export const whyItems: { icon: LucideIcon; label: string }[] = [
 ];
 
 export const steps: Step[] = [
-  { num: "01", icon: BookOpen, title: "Choisissez votre formation", desc: "Parcourez notre catalogue et sélectionnez la formation qui vous intéresse." },
+  { num: "01", icon: Users, title: "Choisissez votre formation", desc: "Parcourez notre catalogue et sélectionnez la formation qui vous intéresse." },
   { num: "02", icon: UserCheck, title: "Inscrivez-vous en ligne", desc: "Remplissez le formulaire d'inscription et confirmez votre participation." },
-  { num: "03", icon: Users, title: "Participez à la formation", desc: "Suivez les sessions avec nos formateurs experts." },
-  { num: "04", icon: Award, title: "Obtenez votre certificat", desc: "Recevez une attestation de participation à la fin de la formation." },
+  { num: "03", icon: Mail, title: "Participez à la formation", desc: "Suivez les sessions avec nos formateurs experts." },
+  { num: "04", icon: ClipboardCheck, title: "Obtenez votre certificat", desc: "Recevez une attestation de participation à la fin de la formation." },
 ];
 
 export const faqs: Faq[] = [

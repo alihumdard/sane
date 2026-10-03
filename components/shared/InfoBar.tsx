@@ -22,15 +22,13 @@ export function InfoBar({ items }: { items: InfoItem[] }) {
 
             return (
               <div key={item.title} className={`flex items-center gap-3 px-2 py-4 sm:gap-4 sm:py-5 ${dividers}`}>
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-[var(--sane-orange)] text-[var(--sane-orange)] sm:h-11 sm:w-11 md:h-12 md:w-12">
-                  <Icon size={20} strokeWidth={1.8} className="h-[18px] w-[18px] sm:h-5 sm:w-5 md:h-[22px] md:w-[22px]" />
-                </div>
+                <Icon size={28} strokeWidth={1.8} className={`shrink-0 sm:h-8 sm:w-8 ${i % 2 === 0 ? "text-[var(--sane-green)]" : "text-[var(--sane-orange)]"}`} />
                 <div>
-                  <p className="text-[13px] font-bold text-[var(--sane-text)] sm:text-[14px] md:text-[15px] lg:text-[16px]">
-                    {item.title}
-                  </p>
-                  <p className="text-[11px] leading-snug text-[var(--sane-text-light)] sm:text-[12px] md:text-[13px]">
+                  <p className="text-[16px] font-extrabold leading-tight text-[var(--sane-green)] sm:text-[18px] md:text-[20px]">
                     {item.description}
+                  </p>
+                  <p className="text-[12px] leading-snug text-[var(--sane-green)] sm:text-[13px]">
+                    {item.title}
                   </p>
                 </div>
               </div>

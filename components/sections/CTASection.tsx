@@ -39,7 +39,7 @@ export function CTASection() {
               </Link>
               <Link
                 href="/emploi"
-                className="group inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/80 px-5 text-xs font-bold text-white transition-colors hover:bg-white/10"
+                className="group inline-flex h-10 items-center justify-center gap-2 rounded-full border-2 border-white bg-white/10 px-5 text-xs font-bold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
               >
                 Découvrir les offres
                 <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
