@@ -156,7 +156,7 @@ export default function PressePage() {
           <div className="sane-container">
             <div className="grid grid-cols-2 divide-x divide-[#DDE8E0] lg:grid-cols-4">
               {stats.map((s, i) => (
-                <div key={i} className="flex items-center gap-3 py-7 px-5">
+                <div key={i} className="flex items-center gap-2.5 py-5 px-3 sm:gap-3 sm:py-7 sm:px-5">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#F5F9F6] text-xl">
                     {s.icon}
                   </div>

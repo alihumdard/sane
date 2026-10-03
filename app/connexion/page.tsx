@@ -98,23 +98,23 @@ export default function ConnexionPage() {
               </div>
 
               {/* RIGHT — Login Card */}
-              <div className="w-full max-w-[400px] justify-self-end rounded-2xl bg-white px-6 py-5 shadow-xl">
-                <h2 className="mb-0.5 text-xl font-bold text-[#0a2e16]">Connexion</h2>
-                <p className="mb-3 text-[12px] text-[#61756B]">Accédez à votre espace SANE</p>
+              <div className="w-full max-w-[440px] justify-self-end rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
+                <h2 className="mb-1 text-2xl font-bold text-[#0a2e16]">Connexion</h2>
+                <p className="mb-5 text-[13px] text-[#61756B]">Accédez à votre espace SANE</p>
 
                 {/* Role tabs */}
-                <div className="mb-4 grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                <div className="mb-5 grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {roles.map((r) => (
                     <button
                       key={r.key}
                       onClick={() => setActiveRole(r.key)}
-                      className={`flex flex-col items-center gap-1 rounded-lg border px-1 py-2 text-center transition-all ${
+                      className={`flex flex-col items-center gap-1.5 rounded-lg border px-1 py-3 text-center transition-all ${
                         activeRole === r.key
                           ? "border-[#10632D] bg-[#10632D] text-white"
                           : "border-[#DDE8E0] bg-white text-[#61756B] hover:border-[#10632D]/30"
                       }`}
                     >
-                      <span className={`[&>svg]:h-4 [&>svg]:w-4 ${activeRole === r.key ? "text-white" : "text-[#10632D]"}`}>
+                      <span className={`[&>svg]:h-5 [&>svg]:w-5 ${activeRole === r.key ? "text-white" : "text-[#10632D]"}`}>
                         {roleIcons[r.key]}
                       </span>
                       <span className="text-[10px] font-semibold leading-tight">{r.title}</span>
@@ -122,7 +122,7 @@ export default function ConnexionPage() {
                   ))}
                 </div>
 
-                <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-3">
+                <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-4">
                   {/* Email */}
                   <div>
                     <label className="mb-1.5 block text-[13px] font-semibold text-[#0a2e16]">
@@ -137,7 +137,7 @@ export default function ConnexionPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="votre@email.com"
-                        className="flex-1 py-2.5 pr-4 text-[13px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none"
+                        className="flex-1 py-3 pr-4 text-[14px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none"
                       />
                     </div>
                   </div>
@@ -156,7 +156,7 @@ export default function ConnexionPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Votre mot de passe"
-                        className="flex-1 py-2.5 text-[13px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none"
+                        className="flex-1 py-3 text-[14px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none"
                       />
                       <button
                         type="button"
@@ -182,7 +182,7 @@ export default function ConnexionPage() {
                   {/* Submit */}
                   <button
                     type="submit"
-                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#E57617] py-2.5 text-[13px] font-semibold text-white transition-all hover:bg-[#c9600f]"
+                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#E57617] py-3 text-[14px] font-semibold text-white transition-all hover:bg-[#c9600f]"
                   >
                     Se connecter
                     <ArrowRight size={16} />
@@ -190,25 +190,25 @@ export default function ConnexionPage() {
                 </form>
 
                 {/* Divider */}
-                <div className="my-3 flex items-center gap-3">
+                <div className="my-6 flex items-center gap-3">
                   <div className="h-px flex-1 bg-[#DDE8E0]" />
                   <span className="text-[11px] text-[#61756B]">ou continuer avec</span>
                   <div className="h-px flex-1 bg-[#DDE8E0]" />
                 </div>
 
                 {/* Social */}
-                <div className="grid grid-cols-2 gap-2">
-                  <button className="flex items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border border-[#DDE8E0] py-2 text-[11px] font-medium text-[#0a2e16] transition-all hover:bg-[#F5F9F6]">
+                <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-2">
+                  <button className="flex items-center justify-center gap-1.5 rounded-lg border border-[#DDE8E0] px-2 py-2.5 text-[12px] font-medium text-[#0a2e16] transition-all hover:bg-[#F5F9F6]">
                     <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 001 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
                     Continuer avec Google
                   </button>
-                  <button className="flex items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border border-[#DDE8E0] py-2 text-[11px] font-medium text-[#0a2e16] transition-all hover:bg-[#F5F9F6]">
+                  <button className="flex items-center justify-center gap-1.5 rounded-lg border border-[#DDE8E0] px-2 py-2.5 text-[12px] font-medium text-[#0a2e16] transition-all hover:bg-[#F5F9F6]">
                     <svg className="h-3.5 w-3.5 shrink-0 fill-[#0077b5]" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.764 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
                     Continuer avec Linkedin
                   </button>
                 </div>
 
-                <p className="mt-3 text-center text-[11px] text-[#61756B]">
+                <p className="mt-5 text-center text-[12px] text-[#61756B]">
                   Vous n'avez pas encore de compte ?{" "}
                   <Link href="/inscription" className="font-semibold text-[#10632D] hover:text-[#E57617]">
                     S'inscrire maintenant <ArrowRight size={11} className="inline" />

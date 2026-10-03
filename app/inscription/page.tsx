@@ -101,12 +101,12 @@ export default function InscriptionPage() {
             <div className="absolute inset-0 bg-gradient-to-r from-[#0a4a22] via-[#0a4a22]/30 to-transparent" />
           </div>
 
-          <div className="absolute right-6 top-6 z-20 rounded-lg border border-white/20 bg-white/10 px-4 py-3 backdrop-blur-sm">
+          <div className="absolute right-6 top-6 z-20 hidden rounded-lg border lg:block border-white/20 bg-white/10 px-4 py-3 backdrop-blur-sm">
             <p className="text-[10px] font-bold uppercase leading-relaxed tracking-wider text-white">
               EMPLOI<br />FORMATION<br />OPPORTUNITÉS<br />AVENIR
             </p>
           </div>
-          <p className="absolute bottom-8 right-8 z-20 text-lg italic text-white/70" style={{ fontFamily: "serif" }}>
+          <p className="absolute bottom-8 right-8 z-20 hidden text-lg italic lg:block text-white/70" style={{ fontFamily: "serif" }}>
             Un Niger<br />de Talents
           </p>
 
@@ -125,7 +125,7 @@ export default function InscriptionPage() {
               <p className="mb-6 text-[13px] leading-relaxed text-white/65 max-w-[420px]">
                 Inscrivez-vous pour participer au Salon National de l'Emploi et accédez aux conférences, formations, rencontres et opportunités d'emploi.
               </p>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 <Link href="#form" className="flex items-center gap-2 rounded-lg bg-[#E57617] px-5 py-2.5 text-[13px] font-semibold text-white hover:bg-[#c9600f] transition-all">
                   Créer mon compte <ArrowRight size={14} />
                 </Link>
@@ -186,57 +186,57 @@ export default function InscriptionPage() {
                   ))}
                 </div>
 
-                <div className="rounded-2xl bg-white p-6 shadow-sm">
-                  <h3 className="mb-1 text-lg font-bold text-[#0a2e16]">Informations personnelles</h3>
-                  <p className="mb-5 text-[12px] text-[#61756B]">Veuillez renseigner vos informations personnelles.</p>
+                <div className="rounded-2xl bg-white p-6 shadow-md sm:p-8">
+                  <h3 className="mb-1 text-xl font-bold text-[#0a2e16]">Informations personnelles</h3>
+                  <p className="mb-6 text-[13px] text-[#61756B]">Veuillez renseigner vos informations personnelles.</p>
 
-                  <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       {/* Nom complet */}
                       <div>
-                        <label className="mb-1.5 block text-[12px] font-semibold text-[#0a2e16]">Nom complet <span className="text-[#E57617]">*</span></label>
-                        <div className="flex items-center rounded-lg border border-[#DDE8E0] bg-white overflow-hidden">
-                          <div className="px-3 text-[#61756B]"><User size={14} /></div>
-                          <input type="text" placeholder="Votre nom complet" className="flex-1 py-2.5 pr-3 text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none" />
+                        <label className="mb-2 block text-[13px] font-semibold text-[#0a2e16]">Nom complet <span className="text-[#E57617]">*</span></label>
+                        <div className="flex items-center rounded-lg border border-[#DDE8E0] bg-white overflow-hidden transition-colors focus-within:border-[#10632D] focus-within:ring-2 focus-within:ring-[#10632D]/10">
+                          <div className="px-3.5 text-[#61756B]"><User size={16} /></div>
+                          <input type="text" placeholder="Votre nom complet" className="flex-1 py-3 pr-3 text-[14px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none" />
                         </div>
                       </div>
                       {/* Date de naissance */}
                       <div>
-                        <label className="mb-1.5 block text-[12px] font-semibold text-[#0a2e16]">Date de naissance <span className="text-[#E57617]">*</span></label>
-                        <div className="flex items-center rounded-lg border border-[#DDE8E0] bg-white overflow-hidden">
-                          <div className="px-3 text-[#61756B]"><Calendar size={14} /></div>
-                          <input type="text" placeholder="JJ / MM / AAAA" className="flex-1 py-2.5 pr-3 text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none" />
+                        <label className="mb-2 block text-[13px] font-semibold text-[#0a2e16]">Date de naissance <span className="text-[#E57617]">*</span></label>
+                        <div className="flex items-center rounded-lg border border-[#DDE8E0] bg-white overflow-hidden transition-colors focus-within:border-[#10632D] focus-within:ring-2 focus-within:ring-[#10632D]/10">
+                          <div className="px-3.5 text-[#61756B]"><Calendar size={16} /></div>
+                          <input type="text" placeholder="JJ / MM / AAAA" className="flex-1 py-3 pr-3 text-[14px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none" />
                         </div>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       {/* Email */}
                       <div>
-                        <label className="mb-1.5 block text-[12px] font-semibold text-[#0a2e16]">Email <span className="text-[#E57617]">*</span></label>
-                        <div className="flex items-center rounded-lg border border-[#DDE8E0] bg-white overflow-hidden">
-                          <div className="px-3 text-[#61756B]"><Mail size={14} /></div>
-                          <input type="email" placeholder="exemple@domaine.com" className="flex-1 py-2.5 pr-3 text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none" />
+                        <label className="mb-2 block text-[13px] font-semibold text-[#0a2e16]">Email <span className="text-[#E57617]">*</span></label>
+                        <div className="flex items-center rounded-lg border border-[#DDE8E0] bg-white overflow-hidden transition-colors focus-within:border-[#10632D] focus-within:ring-2 focus-within:ring-[#10632D]/10">
+                          <div className="px-3.5 text-[#61756B]"><Mail size={16} /></div>
+                          <input type="email" placeholder="exemple@domaine.com" className="flex-1 py-3 pr-3 text-[14px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none" />
                         </div>
                       </div>
                       {/* Téléphone */}
                       <div>
-                        <label className="mb-1.5 block text-[12px] font-semibold text-[#0a2e16]">Téléphone <span className="text-[#E57617]">*</span></label>
-                        <div className="flex items-center rounded-lg border border-[#DDE8E0] bg-white overflow-hidden">
-                          <div className="flex items-center gap-1.5 border-r border-[#DDE8E0] px-3 py-2.5">
-                            <span className="text-[12px]">🇳🇪</span>
-                            <span className="text-[11px] text-[#61756B]">+227</span>
+                        <label className="mb-2 block text-[13px] font-semibold text-[#0a2e16]">Téléphone <span className="text-[#E57617]">*</span></label>
+                        <div className="flex items-center rounded-lg border border-[#DDE8E0] bg-white overflow-hidden transition-colors focus-within:border-[#10632D] focus-within:ring-2 focus-within:ring-[#10632D]/10">
+                          <div className="flex items-center gap-1.5 border-r border-[#DDE8E0] px-3 py-3">
+                            <span className="text-[14px]">🇳🇪</span>
+                            <span className="text-[13px] text-[#61756B]">+227</span>
                           </div>
-                          <input type="tel" placeholder="XX XX XX XX" className="flex-1 py-2.5 px-3 text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none" />
+                          <input type="tel" placeholder="XX XX XX XX" className="flex-1 py-3 px-3 text-[14px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none" />
                         </div>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       {/* Genre */}
                       <div>
-                        <label className="mb-1.5 block text-[12px] font-semibold text-[#0a2e16]">Genre <span className="text-[#E57617]">*</span></label>
-                        <select className="w-full rounded-lg border border-[#DDE8E0] bg-white px-3 py-2.5 text-[12px] text-[#61756B] outline-none">
+                        <label className="mb-2 block text-[13px] font-semibold text-[#0a2e16]">Genre <span className="text-[#E57617]">*</span></label>
+                        <select className="w-full rounded-lg border border-[#DDE8E0] bg-white px-3 py-3 text-[14px] text-[#0a2e16] outline-none transition-colors focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10">
                           <option>Sélectionnez votre genre</option>
                           <option>Homme</option>
                           <option>Femme</option>
@@ -244,8 +244,8 @@ export default function InscriptionPage() {
                       </div>
                       {/* Nationalité */}
                       <div>
-                        <label className="mb-1.5 block text-[12px] font-semibold text-[#0a2e16]">Nationalité <span className="text-[#E57617]">*</span></label>
-                        <select className="w-full rounded-lg border border-[#DDE8E0] bg-white px-3 py-2.5 text-[12px] text-[#61756B] outline-none">
+                        <label className="mb-2 block text-[13px] font-semibold text-[#0a2e16]">Nationalité <span className="text-[#E57617]">*</span></label>
+                        <select className="w-full rounded-lg border border-[#DDE8E0] bg-white px-3 py-3 text-[14px] text-[#0a2e16] outline-none transition-colors focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10">
                           <option>Niger</option>
                           <option>Nigeria</option>
                           <option>Mali</option>
@@ -255,11 +255,11 @@ export default function InscriptionPage() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       {/* Ville */}
                       <div>
-                        <label className="mb-1.5 block text-[12px] font-semibold text-[#0a2e16]">Ville de résidence <span className="text-[#E57617]">*</span></label>
-                        <select className="w-full rounded-lg border border-[#DDE8E0] bg-white px-3 py-2.5 text-[12px] text-[#61756B] outline-none">
+                        <label className="mb-2 block text-[13px] font-semibold text-[#0a2e16]">Ville de résidence <span className="text-[#E57617]">*</span></label>
+                        <select className="w-full rounded-lg border border-[#DDE8E0] bg-white px-3 py-3 text-[14px] text-[#0a2e16] outline-none transition-colors focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10">
                           <option>Sélectionnez votre ville</option>
                           <option>Niamey</option>
                           <option>Zinder</option>
@@ -270,8 +270,8 @@ export default function InscriptionPage() {
                       </div>
                       {/* Niveau d'études */}
                       <div>
-                        <label className="mb-1.5 block text-[12px] font-semibold text-[#0a2e16]">Niveau d'études <span className="text-[#E57617]">*</span></label>
-                        <select className="w-full rounded-lg border border-[#DDE8E0] bg-white px-3 py-2.5 text-[12px] text-[#61756B] outline-none">
+                        <label className="mb-2 block text-[13px] font-semibold text-[#0a2e16]">Niveau d'études <span className="text-[#E57617]">*</span></label>
+                        <select className="w-full rounded-lg border border-[#DDE8E0] bg-white px-3 py-3 text-[14px] text-[#0a2e16] outline-none transition-colors focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10">
                           <option>Sélectionnez votre niveau d'études</option>
                           <option>Baccalauréat</option>
                           <option>Licence</option>
@@ -281,7 +281,7 @@ export default function InscriptionPage() {
                       </div>
                     </div>
 
-                    <button type="submit" className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#E57617] py-3 text-[14px] font-semibold text-white transition-all hover:bg-[#c9600f]">
+                    <button type="submit" className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#E57617] py-3.5 text-[15px] font-semibold text-white transition-all hover:bg-[#c9600f]">
                       Étape suivante <ArrowRight size={16} />
                     </button>
                   </form>

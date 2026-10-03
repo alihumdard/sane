@@ -115,11 +115,11 @@ export default function ContactPage() {
           <div className="sane-container">
             <div className="grid grid-cols-2 divide-x divide-[#DDE8E0] lg:grid-cols-4">
               {contactStats.map((s, i) => (
-                <div key={i} className="flex items-center gap-3 py-7 px-5">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#E57617]/10 text-[#E57617]">
+                <div key={i} className="flex items-center gap-2.5 py-5 px-3 sm:gap-3 sm:py-7 sm:px-5">
+                  <div className="flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full bg-[#E57617]/10 text-[#E57617]">
                     {s.icon}
                   </div>
-                  <div>
+                  <div className="min-w-0 break-words">
                     <span className="block text-[14px] font-bold text-[#0a2e16]">{s.value}</span>
                     <span className="text-[12px] text-[#61756B]">{s.label}</span>
                   </div>
@@ -323,19 +323,6 @@ export default function ContactPage() {
                         <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24"><path d={social.path} /></svg>
                       </a>
                     ))}
-                  </div>
-                </div>
-
-                {/* Niger map with pin */}
-                <div className="mt-8 flex items-center justify-center">
-                  <div className="relative">
-                    <svg className="h-[120px] w-[160px] text-[#10632D]/15" viewBox="0 0 200 160" fill="currentColor">
-                      <path d="M40 20 C60 10, 100 5, 140 15 C160 20, 180 35, 185 60 C190 85, 175 110, 155 125 C135 140, 105 145, 80 140 C55 135, 35 120, 25 100 C15 80, 20 50, 30 35 C35 25, 38 22, 40 20Z" />
-                    </svg>
-                    <div className="absolute right-6 top-8 flex flex-col items-center">
-                      <MapPin size={22} className="text-[#E57617] fill-[#E57617]" />
-                      <span className="mt-1 text-[12px] font-bold text-[#10632D]">Niamey</span>
-                    </div>
                   </div>
                 </div>
               </div>

@@ -106,7 +106,7 @@ export default function EmploiPage() {
           <div className="sane-container">
             <div className="grid grid-cols-2 divide-x divide-[#DDE8E0] lg:grid-cols-4">
               {stats.map((s, i) => (
-                <div key={i} className="flex items-center gap-3 py-7 px-5">
+                <div key={i} className="flex items-center gap-2.5 py-5 px-3 sm:gap-3 sm:py-7 sm:px-5">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#F5F9F6] text-xl">
                     {s.icon}
                   </div>
@@ -131,12 +131,12 @@ export default function EmploiPage() {
             <p className="mb-4 text-[12px] text-[#61756B]">Recherchez parmi des centaines d'offres d'emploi publiées par nos partenaires.</p>
 
             <div className="flex items-center gap-3">
-              <div className="relative flex-1">
+              <div className="relative min-w-0 flex-1">
                 <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#61756B]" />
                 <input type="text" placeholder="Intitulé du poste, compétence..." className="w-full rounded-full border border-[#DDE8E0] bg-white py-2.5 pl-10 pr-4 text-[13px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none focus:border-[#10632D]" />
               </div>
               {["Secteur d'activité", "Lieu (Niamey, Zinder...)", "Type de contrat"].map((ph, i) => (
-                <select key={i} className="hidden rounded-full border border-[#DDE8E0] bg-white px-4 py-2.5 text-[13px] text-[#61756B] outline-none focus:border-[#10632D] sm:block appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2361756B%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat pr-10">
+                <select key={i} className="hidden rounded-full border border-[#DDE8E0] bg-white px-4 py-2.5 text-[13px] text-[#61756B] outline-none focus:border-[#10632D] lg:block appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2361756B%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat pr-10">
                   <option>{ph}</option>
                 </select>
               ))}
@@ -268,11 +268,11 @@ export default function EmploiPage() {
             </div>
             <h2 className="mb-10 text-2xl font-bold text-[#0a2e16] lg:text-3xl">Un processus simple en 4 étapes</h2>
 
-            <div className="flex items-start justify-between">
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:flex lg:items-start lg:justify-between">
               {steps.map((step, i) => (
                 <div key={i} className="flex items-start">
                   {/* Step */}
-                  <div className="flex w-[180px] flex-col items-center text-center">
+                  <div className="flex w-full flex-col items-center text-center lg:w-[180px]">
                     <div className="relative mb-5">
                       <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#E57617] text-white">
                         <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
@@ -289,7 +289,7 @@ export default function EmploiPage() {
 
                   {/* Arrow between steps */}
                   {i < 3 && (
-                    <div className="mt-7 flex items-center px-2 text-[#E57617]">
+                    <div className="mt-7 hidden items-center px-2 text-[#E57617] lg:flex">
                       <ArrowRight size={18} />
                     </div>
                   )}
