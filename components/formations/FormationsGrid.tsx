@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Clock, Users, MapPin, Search } from "lucide-react";
+import { ArrowRight, Clock, Users, MapPin, Search, ChevronDown } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { formations, domaines, niveaux, formats, tagColors } from "./data";
 
@@ -22,30 +22,30 @@ export function FormationsGrid() {
   return (
     <>
       {/* Search / filters */}
-      <section className="bg-[var(--sane-background)] py-10 sm:py-12">
+      <section className="bg-[#e8f3ec] py-10 sm:py-12">
         <Container>
           <div className="mb-1 flex items-center gap-2">
             <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
-            <span className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--sane-orange)]">
+            <span className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--sane-green)]">
               Trouvez votre formation
             </span>
           </div>
-          <h2 className="mb-1 text-[22px] font-extrabold text-[var(--sane-text)] md:text-[28px]">
+          <h2 className="mb-1 text-[22px] font-extrabold text-[var(--sane-green)] md:text-[28px]">
             Recherchez la formation qui vous correspond
           </h2>
-          <p className="mb-6 text-[13px] text-[var(--sane-text-light)]">
+          <p className="mb-7 text-[13px] text-[var(--sane-text-light)]">
             Explorez nos formations et développez les compétences dont vous avez besoin.
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-nowrap">
             <div className="relative flex-1 min-w-[180px]">
-              <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
+              <Search size={15} strokeWidth={2.2} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
               <input
                 type="text"
                 placeholder="Mot-clé, formation..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="h-[44px] w-full rounded-lg border border-[var(--sane-border)] bg-white pl-9 pr-4 text-[13px] text-[var(--sane-text)] outline-none placeholder:text-[var(--sane-text-light)] focus:border-[var(--sane-green)]"
+                className="h-[48px] w-full rounded-lg border border-[var(--sane-border)] bg-white pl-10 pr-4 text-[13px] text-[var(--sane-text)] outline-none placeholder:text-[var(--sane-text-light)] focus:border-[var(--sane-green)]"
               />
             </div>
             {[
@@ -54,16 +54,18 @@ export function FormationsGrid() {
               { value: format, setter: setFormat, options: formats },
             ].map(({ value, setter, options }) => (
               <div key={options[0]} className="relative flex-1 min-w-[140px]">
+                <Search size={15} strokeWidth={2.2} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
+                <ChevronDown size={14} className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
                 <select
                   value={value}
                   onChange={(e) => setter(e.target.value)}
-                  className="h-[44px] w-full appearance-none rounded-lg border border-[var(--sane-border)] bg-white px-4 text-[13px] text-[var(--sane-text-light)] outline-none focus:border-[var(--sane-green)]"
+                  className="h-[48px] w-full appearance-none rounded-lg border border-[var(--sane-border)] bg-white pl-10 pr-9 text-[13px] text-[var(--sane-text-light)] outline-none focus:border-[var(--sane-green)]"
                 >
                   {options.map((o) => <option key={o}>{o}</option>)}
                 </select>
               </div>
             ))}
-            <button className="h-[44px] shrink-0 rounded-lg bg-[var(--sane-orange)] px-6 text-[13px] font-bold text-white transition-colors hover:bg-[#CF6812]">
+            <button className="h-[48px] shrink-0 rounded-xl bg-[var(--sane-orange)] px-8 text-[14px] font-bold text-white transition-colors hover:bg-[#CF6812]">
               Rechercher
             </button>
           </div>
@@ -71,25 +73,28 @@ export function FormationsGrid() {
       </section>
 
       {/* Grid */}
-      <section className="bg-white py-10 sm:py-12">
-        <Container>
-          <div className="mb-6 flex items-start justify-between gap-4">
+      <section className="relative overflow-hidden bg-[var(--sane-background)] py-10 sm:py-14">
+        <div className="pointer-events-none absolute -left-20 top-0 h-full w-[300px] opacity-[0.04]">
+          <Image src="/formation-bg.png" alt="" fill className="object-cover object-right" sizes="300px" />
+        </div>
+        <Container className="relative z-10">
+          <div className="mb-8 flex items-end justify-between gap-4">
             <div>
               <div className="mb-1 flex items-center gap-2">
                 <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
-                <span className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--sane-orange)]">
+                <span className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--sane-green)]">
                   Nos Formations
                 </span>
               </div>
-              <h2 className="text-[20px] font-extrabold text-[var(--sane-text)] md:text-[26px]">
+              <h2 className="text-[22px] font-extrabold text-[#0f5025] md:text-[28px]">
                 Des formations pour tous les profils
               </h2>
             </div>
             <Link
               href="#"
-              className="hidden shrink-0 items-center gap-1 text-[13px] font-bold text-[var(--sane-green)] hover:underline sm:flex"
+              className="hidden shrink-0 items-center gap-1.5 text-[14px] font-semibold text-[#178040] hover:underline sm:flex"
             >
-              Voir toutes <ArrowRight size={13} />
+              Voir toutes les formations <ArrowRight size={14} />
             </Link>
           </div>
 
@@ -98,9 +103,9 @@ export function FormationsGrid() {
               {filtered.map((f) => (
                 <div
                   key={f.title}
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white transition-shadow hover:shadow-lg"
+                  className="group flex flex-col overflow-hidden rounded-xl bg-white shadow-[0_1px_4px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.03] transition-shadow hover:shadow-md"
                 >
-                  <div className="relative h-[160px] overflow-hidden bg-[var(--sane-background)]">
+                  <div className="relative aspect-[16/10] overflow-hidden bg-[#eef4f0]">
                     <Image
                       src={f.img}
                       alt={f.title}
@@ -108,27 +113,27 @@ export function FormationsGrid() {
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
-                    <span className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-bold ${tagColors[f.tag] ?? "bg-gray-700 text-white"}`}>
+                    <span className={`absolute bottom-2.5 left-2.5 rounded-full px-2.5 py-[3px] text-[10px] font-bold ${tagColors[f.tag] ?? "bg-gray-700 text-white"}`}>
                       {f.tag}
                     </span>
                   </div>
-                  <div className="flex flex-1 flex-col gap-3 p-4">
-                    <h3 className="text-[14px] font-extrabold leading-snug text-[var(--sane-text)]">{f.title}</h3>
-                    <div className="flex flex-col gap-1.5">
-                      <div className="flex items-center gap-1.5 text-[12px] text-[var(--sane-text-light)]">
-                        <Clock size={12} strokeWidth={2} className="text-[var(--sane-orange)]" /> {f.duree}
+                  <div className="flex flex-1 flex-col p-4">
+                    <h3 className="mb-2.5 text-[14px] font-extrabold leading-snug text-[var(--sane-green)]">{f.title}</h3>
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-center gap-2 text-[11.5px] text-[var(--sane-text-light)]">
+                        <Clock size={12} strokeWidth={2.2} className="shrink-0 text-[var(--sane-orange)]" /> {f.duree}
                       </div>
-                      <div className="flex items-center gap-1.5 text-[12px] text-[var(--sane-text-light)]">
-                        <Users size={12} strokeWidth={2} className="text-[var(--sane-orange)]" /> {f.places}
+                      <div className="flex items-center gap-2 text-[11.5px] text-[var(--sane-text-light)]">
+                        <Users size={12} strokeWidth={2.2} className="shrink-0 text-[var(--sane-orange)]" /> {f.places}
                       </div>
-                      <div className="flex items-center gap-1.5 text-[12px] text-[var(--sane-text-light)]">
-                        <MapPin size={12} strokeWidth={2} className="text-[var(--sane-orange)]" /> {f.lieu}
+                      <div className="flex items-center gap-2 text-[11.5px] text-[var(--sane-text-light)]">
+                        <MapPin size={12} strokeWidth={2.2} className="shrink-0 text-[var(--sane-orange)]" /> {f.lieu}
                       </div>
                     </div>
-                    <div className="mt-auto">
+                    <div className="mt-auto pt-3">
                       <Link
                         href="#"
-                        className="group/btn inline-flex items-center gap-2 rounded-lg border border-[var(--sane-border)] px-4 py-2 text-[12px] font-bold text-[var(--sane-green)] transition-colors hover:border-[var(--sane-green)] hover:bg-[var(--sane-green)] hover:text-white"
+                        className="group/btn inline-flex items-center gap-2 rounded-lg border border-[var(--sane-green)] px-4 py-[7px] text-[12px] font-bold text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green)] hover:text-white"
                       >
                         Voir la formation
                         <ArrowRight size={12} className="transition-transform group-hover/btn:translate-x-1" />

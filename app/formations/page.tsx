@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
 import { PageHero, InfoBar } from "@/components/shared";
+import { Container } from "@/components/ui/Container";
 import { FormationsGrid, WhySection, StepsSection, FaqSection, formationInfo } from "@/components/formations";
 
 export default function FormationsPage() {
@@ -25,8 +26,12 @@ export default function FormationsPage() {
         <InfoBar items={formationInfo} />
         <FormationsGrid />
         <WhySection />
-        <StepsSection />
-        <FaqSection />
+        <section className="bg-white py-12 sm:py-14">
+          <Container>
+            <StepsSection />
+            <FaqSection />
+          </Container>
+        </section>
         <CTASection />
       </main>
       <Footer />
