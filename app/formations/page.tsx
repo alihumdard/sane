@@ -15,15 +15,10 @@ export default function FormationsPage() {
           title="Formations du SANE"
           lead="Développez vos compétences pour un meilleur avenir."
           description="Le SANE propose des formations pratiques et adaptées aux besoins du marché du travail pour renforcer l'employabilité des jeunes et accompagner le développement des compétences au Niger."
-          image="/hero-about.png"
+          image="/formation-bg.png"
           actions={[
             { href: "/programme", label: "Voir le programme" },
             { href: "/inscription", label: "S'inscrire à une formation", variant: "secondary" },
-          ]}
-          stats={[
-            { value: "+20", label: "Formations" },
-            { value: "+50", label: "Formateurs" },
-            { value: "+1000", label: "Participants" },
           ]}
         />
         <InfoBar items={formationInfo} />
