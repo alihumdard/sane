@@ -14,6 +14,8 @@ interface Options {
   /** filter label -> row key, e.g. { "Catégorie": "categorie" } */
   filterKeys?: Record<string, string>;
   pageSize?: number;
+  /** sortable columns: key -> value used to compare rows */
+  sortGetters?: Record<string, (row: any) => string | number>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 function nextId(rows: Rec[]): unknown {
@@ -35,7 +37,7 @@ function nextId(rows: Rec[]): unknown {
 }
 
 export function useTable<T extends object>(initial: T[], options: Options = {}) {
-  const { filterKeys = {}, pageSize: initialSize = 10 } = options;
+  const { filterKeys = {}, pageSize: initialSize = 10, sortGetters = {} } = options;
   const counter = useRef(initial.length);
   const [rows, setRows] = useState<TableRow<T>[]>(() =>
     initial.map((r, i) => ({ ...r, _uid: `r${i}` }))
@@ -44,6 +46,7 @@ export function useTable<T extends object>(initial: T[], options: Options = {}) 
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [page, setPage] = useState(1);
   const [pageSize, setPageSizeState] = useState(initialSize);
+  const [sort, setSort] = useState<{ key: string; dir: "asc" | "desc" } | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
   const [modal, setModal] = useState<ModalState<T>>(null);
   const [confirm, setConfirm] = useState<string[] | null>(null);
@@ -67,7 +70,7 @@ export function useTable<T extends object>(initial: T[], options: Options = {}) 
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return rows.filter((r) => {
+    const list = rows.filter((r) => {
       const rec = r as Rec;
       if (q) {
         const hay = Object.entries(rec)
@@ -83,8 +86,17 @@ export function useTable<T extends object>(initial: T[], options: Options = {}) 
       }
       return true;
     });
+    const get = sort ? sortGetters[sort.key] : undefined;
+    if (!sort || !get) return list;
+    const dir = sort.dir === "asc" ? 1 : -1;
+    return [...list].sort((a, b) => {
+      const x = get(a);
+      const y = get(b);
+      if (typeof x === "number" && typeof y === "number") return (x - y) * dir;
+      return String(x).localeCompare(String(y), "fr", { numeric: true }) * dir;
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rows, query, filters]);
+  }, [rows, query, filters, sort]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const current = Math.min(page, totalPages);
@@ -152,6 +164,14 @@ export function useTable<T extends object>(initial: T[], options: Options = {}) 
     notify("Élément dupliqué");
   };
 
+  /** patch one row in place (e.g. change a status) */
+  const update = (uid: string, patch: Rec, message?: string) => {
+    setRows((rs) =>
+      rs.map((r) => (r._uid === uid ? (syncStyles({ ...(r as Rec), ...patch }, rs as Rec[]) as TableRow<T>) : r))
+    );
+    if (message) notify(message);
+  };
+
   const askDelete = (uids: string[]) => uids.length && setConfirm(uids);
   const doDelete = () => {
     if (!confirm) return;
@@ -184,6 +204,9 @@ export function useTable<T extends object>(initial: T[], options: Options = {}) 
     page: current,
     totalPages,
     setPage,
+    sort,
+    toggleSort: (key: string) =>
+      setSort((s) => (s?.key !== key ? { key, dir: "asc" } : s.dir === "asc" ? { key, dir: "desc" } : null)),
     pageSize,
     setPageSize: (n: number) => { setPageSizeState(n); setPage(1); },
     selected,
@@ -197,6 +220,7 @@ export function useTable<T extends object>(initial: T[], options: Options = {}) 
     closeModal: () => setModal(null),
     save,
     duplicate,
+    update,
     askDelete,
     confirm,
     cancelDelete: () => setConfirm(null),

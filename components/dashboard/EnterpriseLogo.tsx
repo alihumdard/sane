@@ -17,7 +17,7 @@ export default function EnterpriseLogo({ code, size = 28 }: Props) {
   const fs = size < 30 ? 8 : 9;
   const l = logos[code] || { text: code, color: "#61756B" };
   return (
-    <div className="shrink-0 flex items-center justify-center rounded-full border border-[#DDE8E0] overflow-hidden bg-white" style={{ width: size, height: size }}>
+    <div className="shrink-0 flex items-center justify-center rounded-full border border-[var(--sane-border)] overflow-hidden bg-white" style={{ width: size, height: size }}>
       <span className="font-extrabold leading-none" style={{ fontSize: fs, color: l.color }}>{l.text}</span>
     </div>
   );

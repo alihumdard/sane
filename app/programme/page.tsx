@@ -15,6 +15,7 @@ export default function ProgrammePage() {
           title="Programme du SANE"
           lead="Des échanges, des formations et des rencontres pour construire l'avenir de l'emploi au Niger."
           description="Découvrez le programme conçu par le Salon National de l'Emploi pour inspirer, former et connecter les talents, les entreprises et les institutions engagées pour l'emploi au Niger."
+          imageFit="banner"
           image="/hero-about.png"
           actions={[
             { href: "/inscription", label: "S'inscrire au SANE" },

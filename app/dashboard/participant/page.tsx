@@ -99,7 +99,7 @@ export default function ParticipantDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
+    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
@@ -127,16 +127,16 @@ export default function ParticipantDashboard() {
 
           {/* Row 1: 3 columns */}
           <div className="mb-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-            <SectionCard icon={<BookOpen size={14} className="text-[#10632D]" />} title="Mes formations" viewAllText="Voir toutes">
+            <SectionCard icon={<BookOpen size={14} className="text-[var(--sane-green)]" />} title="Mes formations" viewAllText="Voir toutes">
               <div className="flex flex-col gap-2.5">
                 {mesFormations.map((f, i) => (
                   <div key={i} className="flex items-center gap-2.5">
-                    <div className="relative h-11 w-16 shrink-0 overflow-hidden rounded-lg border border-[#DDE8E0]">
+                    <div className="relative h-11 w-16 shrink-0 overflow-hidden rounded-lg border border-[var(--sane-border)]">
                       <Image src={f.img} alt={f.titre} fill className="object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight truncate">{f.titre}</p>
-                      <p className="text-[9px] text-[#61756B]">{f.details}</p>
+                      <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight truncate">{f.titre}</p>
+                      <p className="text-[9px] text-[var(--sane-text-light)]">{f.details}</p>
                     </div>
                     <span className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-semibold" style={{ backgroundColor: f.statutBg, color: f.statutColor }}>{f.statut}</span>
                   </div>
@@ -144,15 +144,15 @@ export default function ParticipantDashboard() {
               </div>
             </SectionCard>
 
-            <SectionCard icon={<FileText size={14} className="text-[#10632D]" />} title="Mes candidatures" viewAllText="Voir toutes">
+            <SectionCard icon={<FileText size={14} className="text-[var(--sane-green)]" />} title="Mes candidatures" viewAllText="Voir toutes">
               <div className="flex flex-col gap-2.5">
                 {mesCandidatures.map((c, i) => (
                   <div key={i} className="flex items-center gap-2.5">
                     <EnterpriseLogo code={c.logo} size={36} />
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight truncate">{c.poste}</p>
-                      <p className="text-[9px] text-[#61756B]">{c.entreprise}</p>
-                      <p className="text-[9px] text-[#61756B]">{c.date}</p>
+                      <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight truncate">{c.poste}</p>
+                      <p className="text-[9px] text-[var(--sane-text-light)]">{c.entreprise}</p>
+                      <p className="text-[9px] text-[var(--sane-text-light)]">{c.date}</p>
                     </div>
                     <span className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-semibold" style={{ backgroundColor: c.statutBg, color: c.statutColor }}>{c.statut}</span>
                   </div>
@@ -160,26 +160,26 @@ export default function ParticipantDashboard() {
               </div>
             </SectionCard>
 
-            <SectionCard icon={<Calendar size={14} className="text-[#10632D]" />} title="Prochains rendez-vous" viewAllText="Voir tous">
+            <SectionCard icon={<Calendar size={14} className="text-[var(--sane-green)]" />} title="Prochains rendez-vous" viewAllText="Voir tous">
               <div className="flex flex-col gap-3">
                 {rdvs.map((r, i) => (
                   <div key={i} className="flex items-start gap-2.5">
-                    <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-[#E8F5ED]">
-                      <span className="text-[14px] font-extrabold text-[#10632D] leading-none">{r.day}</span>
-                      <span className="text-[8px] font-semibold text-[#10632D]">{r.month}</span>
+                    <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-[var(--sane-green-light)]">
+                      <span className="text-[14px] font-extrabold text-[var(--sane-green)] leading-none">{r.day}</span>
+                      <span className="text-[8px] font-semibold text-[var(--sane-green)]">{r.month}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight">{r.titre}</p>
-                      <p className="text-[9px] text-[#61756B]">{r.lieu}</p>
+                      <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight">{r.titre}</p>
+                      <p className="text-[9px] text-[var(--sane-text-light)]">{r.lieu}</p>
                       <div className="mt-0.5 flex items-center gap-2">
-                        <span className="text-[9px] text-[#61756B]">{r.heure}</span>
+                        <span className="text-[9px] text-[var(--sane-text-light)]">{r.heure}</span>
                         <span className="flex items-center gap-0.5 rounded-full bg-[#E0F0FF] px-1.5 py-0.5 text-[8px] font-semibold text-[#2563EB]">
                           {r.modeIcon} {r.mode}
                         </span>
                       </div>
                     </div>
-                    <button className="shrink-0 mt-2 flex h-6 w-6 items-center justify-center rounded-full border border-[#DDE8E0]">
-                      <ChevronRight size={12} className="text-[#61756B]" />
+                    <button className="shrink-0 mt-2 flex h-6 w-6 items-center justify-center rounded-full border border-[var(--sane-border)]">
+                      <ChevronRight size={12} className="text-[var(--sane-text-light)]" />
                     </button>
                   </div>
                 ))}
@@ -189,17 +189,17 @@ export default function ParticipantDashboard() {
 
           {/* Row 2: 3 columns */}
           <div className="mb-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-            <SectionCard icon={<Calendar size={14} className="text-[#10632D]" />} title="Événements à venir" viewAllText="Voir tous">
+            <SectionCard icon={<Calendar size={14} className="text-[var(--sane-green)]" />} title="Événements à venir" viewAllText="Voir tous">
               <div className="flex flex-col gap-2.5">
                 {evenements.map((e, i) => (
                   <div key={i} className="flex items-center gap-2.5">
-                    <div className="flex h-11 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-[#E8F5ED]">
-                      <span className="text-[13px] font-extrabold text-[#10632D] leading-none">{e.day}</span>
-                      <span className="text-[8px] font-semibold text-[#10632D]">{e.month}</span>
+                    <div className="flex h-11 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-[var(--sane-green-light)]">
+                      <span className="text-[13px] font-extrabold text-[var(--sane-green)] leading-none">{e.day}</span>
+                      <span className="text-[8px] font-semibold text-[var(--sane-green)]">{e.month}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight truncate">{e.titre}</p>
-                      <p className="text-[9px] text-[#61756B]">{e.lieu}</p>
+                      <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight truncate">{e.titre}</p>
+                      <p className="text-[9px] text-[var(--sane-text-light)]">{e.lieu}</p>
                     </div>
                     <span className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-semibold" style={{ backgroundColor: e.badgeBg, color: e.badgeColor }}>{e.badge}</span>
                   </div>
@@ -215,27 +215,27 @@ export default function ParticipantDashboard() {
           {/* Recommendations */}
           <div className="mb-4">
             <div className="mb-3 flex items-center gap-1.5">
-              <Star size={14} className="text-[#E57617]" />
-              <span className="text-[14px] font-bold text-[#0a2e16]">Recommendations pour vous</span>
+              <Star size={14} className="text-[var(--sane-orange)]" />
+              <span className="text-[14px] font-bold text-[var(--sane-green-deep)]">Recommendations pour vous</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
               {recommendations.map((r, i) => (
-                <div key={i} className="flex overflow-hidden rounded-xl border border-[#DDE8E0] bg-white">
+                <div key={i} className="flex overflow-hidden rounded-xl border border-[var(--sane-border)] bg-white">
                   <div className="relative w-[120px] shrink-0">
                     <Image src={r.img} alt={r.titre} fill className="object-cover" />
                   </div>
                   <div className="flex flex-1 items-center gap-2 p-3">
                     <div className="flex-1 min-w-0">
                       <span className="inline-block rounded-full px-2 py-0.5 text-[8px] font-semibold mb-1" style={{ backgroundColor: r.catBg, color: r.catColor }}>{r.category}</span>
-                      <p className="text-[11px] font-semibold text-[#0a2e16] leading-tight">{r.titre}</p>
-                      <p className="text-[9px] text-[#61756B] mt-0.5">{r.lieu}</p>
-                      <div className="mt-1 flex items-center gap-1 text-[9px] text-[#61756B]">
+                      <p className="text-[11px] font-semibold text-[var(--sane-green-deep)] leading-tight">{r.titre}</p>
+                      <p className="text-[9px] text-[var(--sane-text-light)] mt-0.5">{r.lieu}</p>
+                      <div className="mt-1 flex items-center gap-1 text-[9px] text-[var(--sane-text-light)]">
                         <Calendar size={9} />
                         <span>{r.date}</span>
                       </div>
                     </div>
-                    <button className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full border border-[#DDE8E0]">
-                      <ChevronRight size={13} className="text-[#61756B]" />
+                    <button className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full border border-[var(--sane-border)]">
+                      <ChevronRight size={13} className="text-[var(--sane-text-light)]" />
                     </button>
                   </div>
                 </div>

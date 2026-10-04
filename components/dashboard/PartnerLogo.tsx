@@ -18,8 +18,8 @@ export default function PartnerLogo({ nom }: { nom: string }) {
       </div>
     ),
     "GIZ": (
-      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#E8F5ED]">
-        <span className="text-[11px] font-extrabold italic text-[#10632D]">giz</span>
+      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--sane-green-light)]">
+        <span className="text-[11px] font-extrabold italic text-[var(--sane-green)]">giz</span>
       </div>
     ),
     "PNUD": (
@@ -28,8 +28,8 @@ export default function PartnerLogo({ nom }: { nom: string }) {
       </div>
     ),
     "Enabel": (
-      <div className="flex h-9 w-14 items-center justify-center rounded-lg border border-[#DDE8E0] bg-white">
-        <span className="text-[8px] font-bold text-[#E57617]">Enabel</span>
+      <div className="flex h-9 w-14 items-center justify-center rounded-lg border border-[var(--sane-border)] bg-white">
+        <span className="text-[8px] font-bold text-[var(--sane-orange)]">Enabel</span>
       </div>
     ),
     "Union Européenne": (
@@ -63,8 +63,8 @@ export default function PartnerLogo({ nom }: { nom: string }) {
   return (
     <>
       {logos[nom] || (
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F5F9F6] border border-[#DDE8E0]">
-          <span className="text-[8px] font-bold text-[#61756B]">{nom.substring(0, 3)}</span>
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--sane-background)] border border-[var(--sane-border)]">
+          <span className="text-[8px] font-bold text-[var(--sane-text-light)]">{nom.substring(0, 3)}</span>
         </div>
       )}
     </>

@@ -14,28 +14,28 @@ const actions = [
     description: "Trouvez des opportunités adaptées à votre profil.",
     href: "/emploi",
     icon: BriefcaseBusiness,
-    iconStyle: "bg-[#10632D] text-white",
+    iconStyle: "bg-[var(--sane-green)] text-white",
   },
   {
     title: "Je recrute",
     description: "Publiez vos offres et trouvez les meilleurs talents.",
     href: "/recruteur",
     icon: UsersRound,
-    iconStyle: "bg-[#E57617] text-white",
+    iconStyle: "bg-[var(--sane-orange)] text-white",
   },
   {
     title: "Je participe",
     description: "Inscrivez-vous au Salon National de l'Emploi.",
     href: "/inscription",
     icon: CalendarDays,
-    iconStyle: "bg-[#10632D] text-white",
+    iconStyle: "bg-[var(--sane-green)] text-white",
   },
   {
     title: "Je me forme",
     description: "Découvrez les formations disponibles.",
     href: "/formations",
     icon: GraduationCap,
-    iconStyle: "bg-[#E57617] text-white",
+    iconStyle: "bg-[var(--sane-orange)] text-white",
   },
 ];
 
@@ -60,17 +60,17 @@ export function QuickActions() {
                     <Icon size={20} strokeWidth={2} />
                   </div>
 
-                  <h3 className="mt-5 text-base font-extrabold text-[#17352A]">
+                  <h3 className="sane-h3 mt-5">
                     {action.title}
                   </h3>
 
-                  <p className="mt-2 text-sm leading-5 text-[#61756B]">
+                  <p className="sane-body mt-2">
                     {action.description}
                   </p>
                 </div>
 
                 <div className="mt-5 flex justify-end">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D7E5DB] text-[#10632D] transition-all group-hover:border-[#10632D] group-hover:bg-[#10632D] group-hover:text-white">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D7E5DB] text-[var(--sane-green)] transition-all group-hover:border-[var(--sane-green)] group-hover:bg-[var(--sane-green)] group-hover:text-white">
                     <ArrowRight
                       size={16}
                       className="transition-transform group-hover:translate-x-0.5"

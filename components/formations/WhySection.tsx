@@ -12,12 +12,12 @@ export function WhySection() {
         className="object-cover object-[50%_10%] sm:object-[0%_15%]"
         sizes="100vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a4a22]/60 via-[#0a4a22]/40 to-[#0a4a22]/10 sm:bg-none sm:bg-gradient-to-r sm:from-[#0a4a22]/20 sm:from-[20%] sm:to-[#0a4a22]/50" />
-      <div className="absolute inset-x-0 bottom-0 h-[50px] bg-gradient-to-t from-[#0a4a22] to-transparent" />
-      <div className="absolute inset-x-0 top-0 h-[30px] bg-gradient-to-b from-[#0a4a22]/60 to-transparent sm:block hidden" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--sane-green-dark)]/60 via-[var(--sane-green-dark)]/40 to-[var(--sane-green-dark)]/10 sm:bg-none sm:bg-gradient-to-r sm:from-[var(--sane-green-dark)]/20 sm:from-[20%] sm:to-[var(--sane-green-dark)]/50" />
+      <div className="absolute inset-x-0 bottom-0 h-[50px] bg-gradient-to-t from-[var(--sane-green-dark)] to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-[30px] bg-gradient-to-b from-[var(--sane-green-dark)]/60 to-transparent sm:block hidden" />
 
       <Container className="relative z-10 pt-10 pb-4 sm:pt-0 sm:pb-0">
-        <h2 className="mb-8 text-center text-[20px] font-extrabold italic text-white drop-shadow-sm sm:text-[24px] lg:pl-[32%] lg:text-left lg:text-[26px]">
+        <h2 className="sane-h2 on-dark mb-8 text-center italic drop-shadow-sm lg:pl-[32%] lg:text-left">
           Pourquoi se former avec le SANE ?
         </h2>
 

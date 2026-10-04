@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { imageFocus } from "./imageFocus";
 
 interface HeroStat {
   value: string;
@@ -17,7 +18,7 @@ interface HeroAction {
 interface PageHeroProps {
   breadcrumb: string;
   eyebrow: string;
-  title: string;
+  title: React.ReactNode;
   lead: string;
   description?: string;
   image: string;
@@ -25,6 +26,11 @@ interface PageHeroProps {
   tone?: "dark" | "light";
   /** CSS object-position value, e.g. "center", "right center", "top". Defaults to "center". */
   imagePosition?: string;
+  /**
+   * Kind of artwork, used to focus the background on mobile:
+   * "banner" – wide 3:1 artwork (subject on the right) · "photo" – square/portrait photo.
+   */
+  imageFit?: "photo" | "banner";
   actions?: HeroAction[];
   stats?: HeroStat[];
   floatingCardText?: string;
@@ -39,28 +45,62 @@ export function PageHero({
   description,
   image,
   tone = "dark",
-  imagePosition = "center",
+  imagePosition,
+  imageFit = "photo",
   actions = [],
   stats = [],
   floatingCardText,
   tagline,
 }: PageHeroProps) {
   const isDark = tone === "dark";
+  const photo = imageFit === "photo";
 
   return (
-    <section className="relative min-h-[520px] overflow-hidden sm:min-h-[450px] lg:min-h-[400px]">
-      <Image src={image} alt="" fill priority className="object-cover" style={{ objectPosition: imagePosition }} sizes="100vw" />
+    <section
+      className={`relative overflow-hidden lg:min-h-[400px] ${isDark ? "bg-[var(--sane-green-dark)]" : "bg-[var(--sane-background)]"}`}
+    >
+      {/* Artwork: always the full-bleed background (full width and height of the hero) */}
+      {/* wide banners fill the hero; square/portrait photos sit in the right 55% on desktop so they are not zoomed and cut */}
+      <div className={`absolute inset-0 ${photo ? "lg:left-auto lg:w-[55%]" : ""}`}>
+        <Image
+          src={image}
+          alt=""
+          fill
+          priority
+          sizes={photo ? "(min-width: 1024px) 55vw, 100vw" : "100vw"}
+          className={`object-cover ${photo ? "" : "object-[78%_center] lg:object-center"}`}
+          style={photo || imagePosition ? { objectPosition: imagePosition ?? imageFocus(image, "center 20%") } : undefined}
+        />
+        {photo && (
+          <div
+            className={`absolute inset-0 hidden bg-gradient-to-r to-transparent to-[60%] lg:block ${
+              isDark
+                ? "from-[var(--sane-green-dark)] via-[var(--sane-green-dark)]/40"
+                : "from-[var(--sane-background)] via-[var(--sane-background)]/40"
+            }`}
+          />
+        )}
+      </div>
+      {/* Readability overlay: from the top on mobile (text sits on top, artwork shows below), from the left on desktop */}
       {isDark ? (
-        <div className="absolute inset-0 bg-[#0a4a22]/70 lg:bg-gradient-to-r lg:from-[#0a4a22]/90 lg:via-[#0a4a22]/40 lg:to-transparent lg:to-[55%]" />
+        <div
+          className={`absolute inset-0 bg-gradient-to-b from-[var(--sane-green-dark)]/90 via-[var(--sane-green-dark)]/75 to-[var(--sane-green-dark)]/55 ${
+            photo ? "lg:hidden" : "lg:bg-gradient-to-r lg:from-[var(--sane-green-dark)]/90 lg:via-[var(--sane-green-dark)]/40 lg:to-transparent lg:to-[55%]"
+          }`}
+        />
       ) : (
-        <div className="absolute inset-0 bg-white/25 lg:bg-white/15" />
+        <div
+          className={`absolute inset-0 bg-gradient-to-b from-[var(--sane-background)]/95 via-[var(--sane-background)]/80 to-[var(--sane-background)]/60 ${
+            photo ? "lg:hidden" : "lg:bg-white/15 lg:bg-none"
+          }`}
+        />
       )}
 
       <Container className="relative z-10">
         {/* Breadcrumb */}
         {isDark ? (
           <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-white/99 px-4 py-1.5 text-[12px] backdrop-blur-sm sm:mt-10 sm:px-5 sm:py-2 sm:text-[13px]">
-            <Link href="/" className="font-medium text-[var(--sane-green)] transition-colors hover:text-[#0a4a22]">Accueil</Link>
+            <Link href="/" className="font-medium text-[var(--sane-green)] transition-colors hover:text-[var(--sane-green-dark)]">Accueil</Link>
             <ChevronRight size={16} className="text-[var(--sane-text-light)]" />
             <span className="font-bold text-[var(--sane-orange)]">{breadcrumb}</span>
           </div>
@@ -72,7 +112,7 @@ export function PageHero({
           </div>
         )}
 
-        <div className={`relative grid grid-cols-1 items-center gap-8 lg:grid-cols-2 ${isDark ? "min-h-[380px] pb-8 pt-4 sm:pb-10 sm:pt-6" : "min-h-[260px] pb-6 pt-3 sm:pb-8 sm:pt-4"}`}>
+        <div className={`relative grid grid-cols-1 items-center gap-8 lg:grid-cols-2 ${isDark ? "pb-8 pt-4 sm:pb-10 sm:pt-6 lg:min-h-[380px]" : "pb-6 pt-3 sm:pb-8 sm:pt-4 lg:min-h-[260px]"}`}>
           {/* Floating card — top right, light tone only */}
           {!isDark && (
             <div className="absolute right-0 top-0 hidden w-[130px] rounded-xl bg-white/95 px-3.5 py-3.5 shadow-lg ring-1 ring-[var(--sane-border)] backdrop-blur-sm lg:block">
@@ -92,40 +132,24 @@ export function PageHero({
           <div className="min-w-0">
             <div className="mb-2 flex items-center gap-2">
               <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
-              <span
-                className={`text-[11px] font-extrabold uppercase tracking-widest ${
-                  isDark ? "text-white/80" : "text-[var(--sane-green)]"
-                }`}
-              >
+              <span className={`sane-eyebrow ${isDark ? "on-dark" : ""}`}>
                 {eyebrow}
               </span>
             </div>
 
-            <h1
-              className={`font-extrabold leading-[1.08] tracking-tight ${
-                isDark
-                  ? "text-[26px] sm:text-[36px] md:text-[42px] lg:text-[48px] text-white"
-                  : "text-[24px] sm:text-[30px] md:text-[36px] lg:text-[38px] text-[var(--sane-green)]"
-              }`}
-            >
+            <h1 className={`sane-h1 ${isDark ? "on-dark" : "!text-[var(--sane-green)]"}`}>
               {title}
             </h1>
 
             <p
-              className={`max-w-[500px] font-semibold leading-7 ${
-                isDark
-                  ? "mt-4 text-[14px] sm:text-[15px] text-white/90"
-                  : "mt-2 text-[13px] sm:text-[14px] text-[var(--sane-green)]"
-              }`}
+              className={`sane-lead max-w-[520px] ${isDark ? "on-dark mt-4" : "mt-2"}`}
             >
               {lead}
             </p>
 
             {description && (
               <p
-                className={`mt-2 max-w-[500px] text-[13px] leading-6 sm:text-[14px] ${
-                  isDark ? "text-white/70" : "text-[var(--sane-text-light)]"
-                }`}
+                className={`sane-body mt-2 max-w-[520px] ${isDark ? "on-dark" : ""}`}
               >
                 {description}
               </p>
@@ -143,10 +167,10 @@ export function PageHero({
                         : "h-[38px] rounded-lg px-5 text-[13px] sm:h-[40px] sm:px-6"
                     } ${
                       action.variant !== "secondary"
-                        ? "bg-[var(--sane-orange)] text-white shadow-orange-900/20 hover:bg-[#CF6812]"
+                        ? "bg-[var(--sane-orange)] text-white shadow-orange-900/20 hover:bg-[var(--sane-orange-dark)]"
                         : isDark
                           ? "bg-white/95 text-[var(--sane-green)] backdrop-blur-sm hover:bg-white"
-                          : "border border-[var(--sane-green)] bg-white text-[var(--sane-green)] hover:bg-[#f0faf4]"
+                          : "border border-[var(--sane-green)] bg-white text-[var(--sane-green)] hover:bg-[var(--sane-green-light)]"
                     }`}
                   >
                     {action.label}

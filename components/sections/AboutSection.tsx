@@ -88,28 +88,28 @@ export function AboutSection() {
 
               {/* Label */}
               <div className="mb-2.5 flex items-center gap-2">
-                <span className="h-[2px] w-6 bg-[#E57617]" />
+                <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
 
-                <span className="text-xs font-bold uppercase tracking-wide text-[#10632D]">
+                <span className="text-xs font-bold uppercase tracking-wide text-[var(--sane-green)]">
                   À PROPOS
                 </span>
               </div>
 
               {/* Heading */}
-              <h2 className="text-2xl font-extrabold leading-[1.12] tracking-tight text-[#10632D] md:text-4xl">
+              <h2 className="sane-h2">
                 Le SANE, un engagement
                 <br />
                 pour l&apos;avenir professionnel
               </h2>
 
               {/* Description */}
-              <p className="mt-3 text-sm leading-6 text-[#61756B] md:mt-4 md:text-base md:leading-7">
+              <p className="sane-body mt-3 md:mt-4">
                 Le Salon National de l&apos;Emploi est un espace de rencontre
                 entre les talents, les entreprises et les opportunités
                 professionnelles.
               </p>
 
-              <p className="mt-2 text-sm leading-6 text-[#61756B] md:mt-3 md:text-base md:leading-7">
+              <p className="sane-body mt-2 md:mt-3">
                 Le SANE vise à favoriser l&apos;insertion professionnelle,
                 renforcer les compétences et promouvoir l&apos;emploi au Niger à
                 travers des rencontres, des formations et un accompagnement
@@ -119,7 +119,7 @@ export function AboutSection() {
               {/* CTA */}
               <Link
                 href="/a-propos"
-                className="group mt-5 inline-flex items-center gap-3 rounded-lg bg-[#10632D] px-5 py-3 text-sm font-bold text-white !text-white transition-all duration-300 hover:bg-[#0B5124] hover:!text-white"
+                className="group mt-5 inline-flex items-center gap-3 rounded-lg bg-[var(--sane-green)] px-5 py-3 text-sm font-bold text-white !text-white transition-all duration-300 hover:bg-[#0B5124] hover:!text-white"
               >
                 <span className="text-white !text-white hover:!text-white">En savoir plus</span>
 
@@ -140,25 +140,27 @@ export function AboutSection() {
                   <div
                     key={stat.label}
                     className={`
-                      border-[#DDE8E0]
+                      border-[var(--sane-border)]
+                      text-center
                       sm:border-l
                       sm:pl-4
+                      sm:text-left
                       ${index === 0 ? "sm:border-l-0 sm:pl-0" : ""}
                     `}
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-center gap-2 sm:justify-start">
                       <Icon
                         size={16}
                         strokeWidth={2}
-                        className="text-[#E57617]"
+                        className="text-[var(--sane-orange)]"
                       />
 
-                      <span className="text-lg font-extrabold text-[#10632D]">
+                      <span className="text-lg font-extrabold text-[var(--sane-green)]">
                         {stat.value}
                       </span>
                     </div>
 
-                    <p className="mt-1 text-xs text-[#61756B]">
+                    <p className="sane-small mt-1">
                       {stat.label}
                     </p>
                   </div>

@@ -154,7 +154,7 @@ export default function EvenementsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const tbl = useTable(evenements, { filterKeys: {"Catégorie":"categorie","Statut":"statut","Lieu":"lieu"} });
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
+    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
@@ -168,18 +168,18 @@ export default function EvenementsPage() {
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
           {/* Hero Banner - light variant */}
-          <div className="relative mb-4 overflow-hidden rounded-2xl bg-white border border-[#DDE8E0]">
+          <div className="relative mb-4 overflow-hidden rounded-2xl bg-white border border-[var(--sane-border)]">
             <div className="flex flex-col sm:flex-row">
               <div className="flex flex-col justify-center px-5 sm:px-8 py-5 relative z-10 sm:min-w-[45%]">
-                <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[#61756B]">
+                <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[var(--sane-text-light)]">
                   <span>Accueil</span><span>&rsaquo;</span><span>Événements</span><span>&rsaquo;</span>
-                  <span className="font-semibold text-[#0a2e16]">Tous les événements</span>
+                  <span className="font-semibold text-[var(--sane-green-deep)]">Tous les événements</span>
                 </div>
-                <h1 className="text-[22px] sm:text-[28px] font-extrabold text-[#0a2e16] leading-tight">Gestion des événements</h1>
-                <p className="mt-1.5 max-w-[420px] text-[11px] text-[#61756B] leading-relaxed hidden sm:block">
+                <h1 className="text-[22px] sm:text-[28px] font-extrabold text-[var(--sane-green-deep)] leading-tight">Gestion des événements</h1>
+                <p className="mt-1.5 max-w-[420px] text-[11px] text-[var(--sane-text-light)] leading-relaxed hidden sm:block">
                   Créez, organisez et gérez tous les événements du SANE. Suivez les inscriptions, les sessions, les intervenants et évaluez l&apos;impact de chaque événement.
                 </p>
-                <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+                <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                   Ajouter un événement
                 </button>
@@ -196,13 +196,13 @@ export default function EvenementsPage() {
                   </svg>
                 </div>
                 <div className="absolute right-5 bottom-3 text-right hidden sm:block">
-                  <p className="text-[18px] italic font-bold text-[#10632D] leading-snug" style={{ fontFamily: "Georgia, serif" }}>
+                  <p className="text-[18px] italic font-bold text-[var(--sane-green)] leading-snug" style={{ fontFamily: "Georgia, serif" }}>
                     Un Niger<br />de Talents
                   </p>
                 </div>
               </div>
             </div>
-            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter un événement
             </button>
@@ -222,45 +222,45 @@ export default function EvenementsPage() {
               <FilterBar searchPlaceholder="Rechercher un événement..." filters={["Catégorie", "Statut", "Lieu", "Date"]}  table={tbl} />
 
               {/* Table */}
-              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+              <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
                 <table className="w-full min-w-[1000px]">
                   <thead>
-                    <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
+                    <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Image</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Image</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Titre de l&apos;événement <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Catégorie <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Lieu <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Date <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Inscriptions <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Statut <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Actions</th>
+                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {tbl.pageRows.map((e, i) => (
-                      <tr key={i} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
+                      <tr key={i} className="border-b border-[var(--sane-border)] last:border-0 hover:bg-[var(--sane-background)]/50">
                         <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(e._uid)} onChange={() => tbl.toggle(e._uid)} /></td>
                         <td className="px-2 py-1.5">
-                          <div className="relative h-9 w-[72px] overflow-hidden rounded-md border border-[#DDE8E0]">
+                          <div className="relative h-9 w-[72px] overflow-hidden rounded-md border border-[var(--sane-border)]">
                             <Image src={e.img} alt={e.titre} fill className="object-cover object-center" />
                           </div>
                         </td>
                         <td className="px-2 py-2.5 min-w-[220px] max-w-[280px]">
-                          <p className="text-[12px] font-semibold text-[#0a2e16] leading-snug">{e.titre}</p>
-                          <p className="text-[9px] text-[#61756B]">{e.id}</p>
+                          <p className="text-[12px] font-semibold text-[var(--sane-green-deep)] leading-snug">{e.titre}</p>
+                          <p className="text-[9px] text-[var(--sane-text-light)]">{e.id}</p>
                         </td>
                         <td className="px-2 py-2">
                           <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${e.catColor}18`, color: e.catColor }}>
@@ -269,16 +269,16 @@ export default function EvenementsPage() {
                         </td>
                         <td className="px-2 py-2">
                           {e.lieu.split("\n").map((line, li) => (
-                            <p key={li} className={`whitespace-nowrap text-[11px] ${li === 0 ? "text-[#0a2e16] font-medium" : "text-[#61756B]"}`}>{line}</p>
+                            <p key={li} className={`whitespace-nowrap text-[11px] ${li === 0 ? "text-[var(--sane-green-deep)] font-medium" : "text-[var(--sane-text-light)]"}`}>{line}</p>
                           ))}
                         </td>
                         <td className="px-2 py-2">
-                          <p className="whitespace-nowrap text-[11px] text-[#0a2e16] font-medium">{e.date}</p>
+                          <p className="whitespace-nowrap text-[11px] text-[var(--sane-green-deep)] font-medium">{e.date}</p>
                         </td>
                         <td className="px-2 py-2">
-                          <p className="whitespace-nowrap text-[11px] font-semibold text-[#0a2e16]">{e.inscriptions.toLocaleString()} / {e.maxInscriptions.toLocaleString()}</p>
-                          <div className="mt-0.5 h-1.5 w-16 overflow-hidden rounded-full bg-[#DDE8E0]">
-                            <div className="h-full rounded-full bg-[#10632D]" style={{ width: `${e.inscPct}%` }} />
+                          <p className="whitespace-nowrap text-[11px] font-semibold text-[var(--sane-green-deep)]">{e.inscriptions.toLocaleString()} / {e.maxInscriptions.toLocaleString()}</p>
+                          <div className="mt-0.5 h-1.5 w-16 overflow-hidden rounded-full bg-[var(--sane-border)]">
+                            <div className="h-full rounded-full bg-[var(--sane-green)]" style={{ width: `${e.inscPct}%` }} />
                           </div>
                         </td>
                         <td className="px-2 py-2">

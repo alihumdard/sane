@@ -11,15 +11,15 @@ interface Props {
 export default function FilterBar({ searchPlaceholder, filters, table }: Props) {
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[#DDE8E0] bg-white p-3">
-        <div className="flex w-full sm:w-[200px] items-center gap-1.5 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-2.5 py-1.5">
-          <Search size={13} className="shrink-0 text-[#61756B]" />
+      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[var(--sane-border)] bg-white p-3">
+        <div className="flex w-full sm:w-[200px] items-center gap-1.5 rounded-lg border border-[var(--sane-border)] bg-[var(--sane-background)] px-2.5 py-1.5">
+          <Search size={13} className="shrink-0 text-[var(--sane-text-light)]" />
           <input
             type="text"
             placeholder={searchPlaceholder}
             value={table ? table.query : undefined}
             onChange={table ? (e) => table.setQuery(e.target.value) : undefined}
-            className="w-full bg-transparent text-[11px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none"
+            className="w-full bg-transparent text-[11px] text-[var(--sane-green-deep)] placeholder:text-[var(--sane-text-light)]/60 outline-none"
           />
         </div>
         <div className="grid flex-1 grid-cols-2 gap-2 sm:flex sm:flex-wrap">
@@ -30,7 +30,7 @@ export default function FilterBar({ searchPlaceholder, filters, table }: Props) 
                 key={f}
                 value={table ? table.filters[f] ?? "" : undefined}
                 onChange={table ? (e) => table.setFilter(f, e.target.value) : undefined}
-                className="min-w-0 rounded-lg border border-[#DDE8E0] bg-white px-2 py-1.5 text-[11px] text-[#0a2e16] outline-none focus:border-[#10632D] sm:min-w-[120px] sm:flex-1"
+                className="min-w-0 rounded-lg border border-[var(--sane-border)] bg-white px-2 py-1.5 text-[11px] text-[var(--sane-green-deep)] outline-none focus:border-[var(--sane-green)] sm:min-w-[120px] sm:flex-1"
               >
                 <option value="">{f}</option>
                 {opts.map((o) => (
@@ -43,14 +43,14 @@ export default function FilterBar({ searchPlaceholder, filters, table }: Props) 
         <div className="flex w-full gap-2 sm:w-auto">
           <button
             type="button"
-            className="flex-1 shrink-0 rounded-lg bg-[#10632D] px-4 py-1.5 text-[11px] font-semibold text-white hover:bg-[#0a4a22] sm:flex-none"
+            className="flex-1 shrink-0 rounded-lg bg-[var(--sane-green)] px-4 py-1.5 text-[11px] font-semibold text-white hover:bg-[var(--sane-green-dark)] sm:flex-none"
           >
             Rechercher
           </button>
           <button
             type="button"
             onClick={table?.reset}
-            className="flex-1 shrink-0 rounded-lg border border-[#DDE8E0] bg-white px-3 py-1.5 text-[11px] text-[#61756B] hover:bg-[#F5F9F6] sm:flex-none"
+            className="flex-1 shrink-0 rounded-lg border border-[var(--sane-border)] bg-white px-3 py-1.5 text-[11px] text-[var(--sane-text-light)] hover:bg-[var(--sane-background)] sm:flex-none"
           >
             Réinitialiser
           </button>
@@ -58,8 +58,8 @@ export default function FilterBar({ searchPlaceholder, filters, table }: Props) 
       </div>
 
       {table && table.selected.length > 0 && (
-        <div className="flex items-center justify-between gap-2 rounded-xl border border-[#E57617]/30 bg-[#FFF3E8] px-3 py-2">
-          <span className="text-[11px] font-semibold text-[#0a2e16]">
+        <div className="flex items-center justify-between gap-2 rounded-xl border border-[var(--sane-orange)]/30 bg-[var(--sane-orange-light)] px-3 py-2">
+          <span className="text-[11px] font-semibold text-[var(--sane-green-deep)]">
             {table.selected.length} sélectionné{table.selected.length > 1 ? "s" : ""}
           </span>
           <button

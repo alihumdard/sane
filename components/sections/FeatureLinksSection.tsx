@@ -43,7 +43,7 @@ export function FeatureLinksSection() {
             <Link
               key={item.title}
               href={item.href}
-              className="group flex gap-4 rounded-xl border border-[#DCE8E1] bg-[#F8FBF9] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#10632D]/20 hover:bg-white hover:shadow-md"
+              className="group flex gap-4 rounded-xl border border-[var(--sane-border)] bg-[var(--sane-background)] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--sane-green)]/20 hover:bg-white hover:shadow-md"
             >
               {/* IMAGE */}
               <div className="relative h-[85px] w-[85px] shrink-0 overflow-hidden rounded-lg">
@@ -58,7 +58,7 @@ export function FeatureLinksSection() {
 
               {/* CONTENT */}
               <div className="flex min-w-0 flex-1 flex-col">
-                <h3 className="text-[14px] font-extrabold leading-5 text-[#10632D]">
+                <h3 className="sane-h3">
                   {item.title}
                 </h3>
 
@@ -66,7 +66,7 @@ export function FeatureLinksSection() {
                   {item.description}
                 </p>
 
-                <span className="mt-auto inline-flex items-center gap-1.5 pt-2 text-[12px] font-bold text-[#10632D]">
+                <span className="mt-auto inline-flex items-center gap-1.5 pt-2 text-[12px] font-bold text-[var(--sane-green)]">
                   {item.action}
                   <ArrowRight
                     size={13}

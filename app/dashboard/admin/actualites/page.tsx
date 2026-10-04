@@ -146,7 +146,7 @@ export default function ActualitesPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const tbl = useTable(actualites, { filterKeys: {"Catégorie":"categorie","Statut":"statut","Auteur":"auteur"} });
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
+    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
@@ -160,10 +160,10 @@ export default function ActualitesPage() {
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
           {/* Hero Banner - dark variant */}
-          <div className="relative mb-4 min-h-[120px] sm:h-[160px] overflow-hidden rounded-2xl bg-[#0a2e16]">
+          <div className="relative mb-4 min-h-[120px] sm:h-[160px] overflow-hidden rounded-2xl bg-[var(--sane-green-deep)]">
             <div className="absolute right-0 top-0 h-full w-full sm:w-[55%]">
               <Image src="https://images.unsplash.com/photo-1611432579699-484f7990b127?w=800&h=400&fit=crop" alt="actualités" fill className="object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e16] via-[#0a2e16]/60 to-[#0a2e16]/20 sm:via-[#0a2e16]/40 sm:to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[var(--sane-green-deep)] via-[var(--sane-green-deep)]/60 to-[var(--sane-green-deep)]/20 sm:via-[var(--sane-green-deep)]/40 sm:to-transparent" />
             </div>
             <div className="absolute right-[110px] top-1/2 -translate-y-1/2 opacity-60 hidden sm:block">
               <svg width="100" height="100" viewBox="0 0 100 100">
@@ -187,12 +187,12 @@ export default function ActualitesPage() {
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
                 Créez, publiez et gérez toutes les actualités du SANE. Informez votre communauté sur les événements, les annonces, les partenariats et les initiatives.
               </p>
-              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                 Ajouter une actualité
               </button>
             </div>
-            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter une actualité
             </button>
@@ -212,41 +212,41 @@ export default function ActualitesPage() {
               <FilterBar searchPlaceholder="Rechercher une actualité..." filters={["Catégorie", "Statut", "Auteur", "Date de publication"]}  table={tbl} />
 
               {/* Table */}
-              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+              <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
                 <table className="w-full min-w-[900px]">
                   <thead>
-                    <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
+                    <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Image</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Image</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Titre de l&apos;actualité <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Catégorie</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Auteur</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Catégorie</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Auteur</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Date de publication <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Vues <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Statut</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Statut</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">En vedette <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Actions</th>
+                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {tbl.pageRows.map((a) => (
-                      <tr key={a.id} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
+                      <tr key={a.id} className="border-b border-[var(--sane-border)] last:border-0 hover:bg-[var(--sane-background)]/50">
                         <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(a._uid)} onChange={() => tbl.toggle(a._uid)} /></td>
                         <td className="px-2 py-1.5">
-                          <div className="relative h-9 w-[56px] overflow-hidden rounded-md border border-[#DDE8E0]">
+                          <div className="relative h-9 w-[56px] overflow-hidden rounded-md border border-[var(--sane-border)]">
                             <Image src={a.img} alt={a.titre} fill className="object-cover object-center" />
                           </div>
                         </td>
                         <td className="px-2 py-2.5 min-w-[220px] max-w-[280px]">
-                          <p className="text-[12px] font-semibold text-[#0a2e16] leading-snug line-clamp-2">{a.titre}</p>
+                          <p className="text-[12px] font-semibold text-[var(--sane-green-deep)] leading-snug line-clamp-2">{a.titre}</p>
                         </td>
                         <td className="px-2 py-2">
                           <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: `${a.catColor}18`, color: a.catColor }}>
@@ -258,14 +258,14 @@ export default function ActualitesPage() {
                             <div className="relative h-6 w-6 shrink-0 overflow-hidden rounded-full">
                               <Image src={a.auteurImg} alt={a.auteur} fill className="object-cover" />
                             </div>
-                            <span className="text-[10px] text-[#0a2e16] font-medium whitespace-nowrap">{a.auteur}</span>
+                            <span className="text-[10px] text-[var(--sane-green-deep)] font-medium whitespace-nowrap">{a.auteur}</span>
                           </div>
                         </td>
                         <td className="px-2 py-2">
-                          <p className="text-[10px] text-[#0a2e16] font-medium whitespace-nowrap">{a.date}</p>
+                          <p className="text-[10px] text-[var(--sane-green-deep)] font-medium whitespace-nowrap">{a.date}</p>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="text-[10px] font-semibold text-[#0a2e16]">{a.vues.toLocaleString()}</span>
+                          <span className="text-[10px] font-semibold text-[var(--sane-green-deep)]">{a.vues.toLocaleString()}</span>
                         </td>
                         <td className="px-2 py-2">
                           <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: a.statutBg, color: a.statutColor }}>
@@ -276,7 +276,7 @@ export default function ActualitesPage() {
                           {a.vedette ? (
                             <Star size={14} className="inline text-[#D97706]" fill="#D97706" />
                           ) : (
-                            <Star size={14} className="inline text-[#DDE8E0]" />
+                            <Star size={14} className="inline text-[var(--sane-border)]" />
                           )}
                         </td>
                         <td className="px-2 py-2">

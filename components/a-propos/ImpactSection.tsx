@@ -28,17 +28,15 @@ export function ImpactSection() {
         <div className="grid items-center gap-6 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
           <div>
             <div className="mb-2 flex items-center gap-2">
-              <span className="h-[3px] w-8 rounded-full bg-[var(--sane-orange)]" />
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.12em] text-[var(--sane-green)] sm:text-[11px]">
-                Notre Impact
-              </span>
+              <span className="sane-eyebrow-bar" />
+              <span className="sane-eyebrow">Notre Impact</span>
             </div>
 
-            <h2 className="text-[22px] font-extrabold leading-[1.12] tracking-tight text-[var(--sane-text)] sm:text-[26px] md:text-[30px]">
+            <h2 className="sane-h2">
               Un catalyseur d&apos;opportunités pour tous
             </h2>
 
-            <p className="mt-3 text-[13px] leading-[1.65] text-[var(--sane-text)] opacity-60 sm:text-[14px] md:text-[15px]">
+            <p className="sane-body mt-3">
               Depuis sa création, le SANE s&apos;impose comme un acteur clé de l&apos;écosystème
               de l&apos;emploi et de la formation au Niger. Grâce à une mobilisation nationale,
               il contribue chaque année à créer des passerelles concrètes entre les jeunes
@@ -46,7 +44,7 @@ export function ImpactSection() {
             </p>
 
             <Link
-              href="/a-propos/impact"
+              href="/programme"
               className="group mt-4 inline-flex h-[38px] items-center gap-2 rounded-full bg-[var(--sane-green)] px-6 text-[12px] font-semibold !text-white transition-colors hover:bg-white hover:!text-[var(--sane-green)] hover:border-[var(--sane-green)] border border-transparent sm:h-[40px] sm:px-7 sm:text-[13px]"
             >
               En savoir plus
@@ -85,9 +83,9 @@ export function ImpactSection() {
               <div key={stat.label} className="rounded-2xl border border-[var(--sane-border)] bg-[var(--sane-background)] px-4 py-3.5 sm:px-5 sm:py-4">
                 <div className="flex items-center gap-2.5">
                   <Icon size={22} strokeWidth={1.5} className="shrink-0 text-[var(--sane-orange)]" />
-                  <span className="text-[20px] font-extrabold text-[var(--sane-green)] sm:text-[22px]">{stat.value}</span>
+                  <span className="text-[length:var(--fs-h3)] font-extrabold text-[var(--sane-green)] sm:text-[22px]">{stat.value}</span>
                 </div>
-                <p className="mt-1 text-[11px] text-[var(--sane-text-light)] sm:text-[12px]">{stat.label}</p>
+                <p className="sane-small mt-1">{stat.label}</p>
               </div>
             );
           })}

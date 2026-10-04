@@ -23,7 +23,7 @@ export function JobsGrid() {
   return (
     <>
       {/* Search / filters */}
-      <section className="bg-[#e8f3ec] py-7 sm:py-8">
+      <section className="bg-[var(--sane-green-light)] py-8 sm:py-10 md:py-12">
         <Container>
           <div className="mb-1 flex items-center gap-2">
             <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
@@ -31,10 +31,10 @@ export function JobsGrid() {
               Recherche d&apos;emploi
             </span>
           </div>
-          <h2 className="mb-1.5 text-[20px] font-extrabold leading-tight tracking-tight text-[var(--sane-green)] sm:text-[24px] md:text-[30px]">
+          <h2 className="sane-h2 mb-1.5">
             Trouvez l&apos;offre qui vous correspond
           </h2>
-          <p className="mb-6 text-[13px] text-[var(--sane-text-light)] sm:text-[14px]">
+          <p className="sane-body mb-6">
             Recherchez parmi des centaines d&apos;offres d&apos;emploi publiées par nos partenaires.
           </p>
 
@@ -66,7 +66,7 @@ export function JobsGrid() {
                 </select>
               </div>
             ))}
-            <button className="h-[52px] w-full shrink-0 rounded-xl bg-[var(--sane-orange)] px-9 text-[14px] font-bold text-white shadow-sm transition-colors hover:bg-[#CF6812] sm:w-auto">
+            <button className="h-[52px] w-full shrink-0 rounded-xl bg-[var(--sane-orange)] px-9 text-[14px] font-bold text-white shadow-sm transition-colors hover:bg-[var(--sane-orange-dark)] sm:w-auto">
               Rechercher
             </button>
           </div>
@@ -74,9 +74,9 @@ export function JobsGrid() {
       </section>
 
       {/* Job Listings + Sidebar */}
-      <section className="bg-[var(--sane-background)] pt-8 sm:py-0">
+      <section className="bg-[var(--sane-background)] pb-8 pt-10 sm:pb-10 sm:pt-12 md:pb-12 md:pt-16">
         <Container>
-          <div className="mb-3 flex items-end justify-between gap-3 sm:gap-4">
+          <div className="mb-6 flex items-end justify-between gap-3 sm:mb-8 sm:gap-4">
             <div>
               <div className="mb-1 flex items-center gap-2">
                 <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
@@ -84,7 +84,7 @@ export function JobsGrid() {
                   Offres d&apos;emploi
                 </span>
               </div>
-              <h2 className="text-[19px] font-extrabold leading-tight text-[#0f5025] sm:text-[22px] md:text-[28px]">
+              <h2 className="sane-h2">
                 Offres récemment publiées
               </h2>
             </div>
@@ -114,13 +114,13 @@ export function JobsGrid() {
                       </span>
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-[15px] font-extrabold leading-tight text-[var(--sane-green)]">{j.title}</h3>
-                      <p className="mt-[3px] text-[13px] leading-tight text-[var(--sane-text-light)]">{j.companyFull}</p>
+                      <h3 className="sane-h3">{j.title}</h3>
+                      <p className="sane-body mt-[3px]">{j.companyFull}</p>
                       <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[12px]">
                         <span className="flex shrink-0 items-center gap-1 text-[var(--sane-text-light)] sm:w-[76px]">
                           <MapPin size={13} className="shrink-0 text-[var(--sane-orange)]" />{j.location}
                         </span>
-                        <span className="shrink-0 rounded-full bg-[#fdf0e4] px-2 py-[3px] text-center text-[11px] font-bold text-[var(--sane-orange)] sm:w-[66px]">
+                        <span className="shrink-0 rounded-full bg-[var(--sane-orange-light)] px-2 py-[3px] text-center text-[11px] font-bold text-[var(--sane-orange)] sm:w-[66px]">
                           {j.contract}
                         </span>
                         <span className="shrink-0 truncate rounded-full bg-[#eef4f1] px-2.5 py-[3px] text-center text-[11px] font-medium text-[var(--sane-text-light)] sm:w-[138px]">
@@ -133,7 +133,7 @@ export function JobsGrid() {
                     </div>
                     <Link
                       href="#"
-                      className="group inline-flex w-full shrink-0 items-center justify-center gap-1.5 rounded-lg border border-[var(--sane-green)] px-4 py-2 text-[13px] font-bold text-[var(--sane-green)] transition-colors hover:bg-[#f0faf4] sm:w-fit"
+                      className="group inline-flex w-full shrink-0 items-center justify-center gap-1.5 rounded-lg border border-[var(--sane-green)] px-4 py-2 text-[13px] font-bold text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green-light)] sm:w-fit"
                     >
                       Voir l&apos;offre
                       <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -141,7 +141,7 @@ export function JobsGrid() {
                   </div>
                 ))
               ) : (
-                <p className="rounded-xl bg-white py-12 text-center text-[13px] text-[var(--sane-text-light)] shadow-sm ring-1 ring-black/[0.04]">
+                <p className="sane-body rounded-xl bg-white py-12 text-center shadow-sm ring-1 ring-black/[0.04]">
                   Aucune offre trouvée pour cette recherche.
                 </p>
               )}
@@ -172,7 +172,7 @@ export function JobsGrid() {
                 </svg>
 
                 <div className="relative">
-                  <p className="font-[family-name:var(--font-caveat)] text-[19px] font-bold leading-[1.15] text-[#0f5025]">
+                  <p className="font-[family-name:var(--font-caveat)] text-[19px] font-bold leading-[1.15] text-[var(--sane-green-dark)]">
                     Des opportunités<br />dans tout le Niger
                   </p>
                   <div className="mt-1 h-[2px] w-11 rounded-full bg-[var(--sane-orange)]" />
@@ -183,7 +183,7 @@ export function JobsGrid() {
                     <div
                       key={city}
                       className={`flex items-center gap-1.5 rounded-full py-[3px] pl-1.5 pr-2.5 text-[12px] ${
-                        i === 0 ? "w-fit bg-[#fdf0e4]" : ""
+                        i === 0 ? "w-fit bg-[var(--sane-orange-light)]" : ""
                       }`}
                     >
                       <MapPin size={12} className="shrink-0 text-[var(--sane-orange)]" />
@@ -196,7 +196,7 @@ export function JobsGrid() {
 
                 <Link
                   href="#"
-                  className="group relative mt-3 inline-flex items-center gap-1.5 rounded-lg border border-[var(--sane-green)] bg-white/80 px-3.5 py-[7px] text-[11px] font-bold text-[var(--sane-green)] backdrop-blur-sm transition-colors hover:bg-[#f0faf4]"
+                  className="group relative mt-3 inline-flex items-center gap-1.5 rounded-lg border border-[var(--sane-green)] bg-white/80 px-3.5 py-[7px] text-[11px] font-bold text-[var(--sane-green)] backdrop-blur-sm transition-colors hover:bg-[var(--sane-green-light)]"
                 >
                   Voir les offres par région
                   <ArrowRight size={12} className="transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -207,7 +207,7 @@ export function JobsGrid() {
               <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4 shadow-sm">
                 <div className="mb-2.5 flex items-center gap-2">
                   <span className="h-[2px] w-4 bg-[var(--sane-orange)]" />
-                  <h3 className="text-[13px] font-extrabold text-[#0f5025]">Secteurs qui recrutent</h3>
+                  <h3 className="sane-h3">Secteurs qui recrutent</h3>
                 </div>
                 <div className="flex flex-col gap-2">
                   {sectors.map((s) => {

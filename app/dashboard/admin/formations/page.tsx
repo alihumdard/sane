@@ -173,7 +173,7 @@ export default function FormationsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const tbl = useTable(formations, { filterKeys: {"Catégorie":"categorie","Statut":"statut"} });
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
+    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
@@ -187,20 +187,20 @@ export default function FormationsPage() {
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
           {/* Breadcrumb */}
-          <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[#61756B]">
+          <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[var(--sane-text-light)]">
             <span>Accueil</span>
-            <span className="text-[#DDE8E0]">›</span>
+            <span className="text-[var(--sane-border)]">›</span>
             <span>Formations</span>
-            <span className="text-[#DDE8E0]">›</span>
-            <span className="font-semibold text-[#0a2e16]">Toutes les formations</span>
+            <span className="text-[var(--sane-border)]">›</span>
+            <span className="font-semibold text-[var(--sane-green-deep)]">Toutes les formations</span>
           </div>
 
           {/* Hero Banner */}
-          <div className="relative mb-4 min-h-[110px] sm:h-[160px] overflow-hidden rounded-2xl bg-[#0a2e16]">
+          <div className="relative mb-4 min-h-[110px] sm:h-[160px] overflow-hidden rounded-2xl bg-[var(--sane-green-deep)]">
             <div className="absolute inset-0">
               <Image src="https://randomuser.me/api/portraits/women/68.jpg" alt="formations" fill className="object-cover opacity-40" />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e16]/90 via-[#0a2e16]/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[var(--sane-green-deep)]/90 via-[var(--sane-green-deep)]/60 to-transparent" />
             <div className="absolute right-32 top-4 opacity-30 hidden sm:block">
               <svg width="80" height="80" viewBox="0 0 80 80">
                 <circle cx="40" cy="40" r="36" fill="white" opacity="0.2"/>
@@ -217,12 +217,12 @@ export default function FormationsPage() {
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
                 Créez, organisez et gérez toutes les formations du SANE. Suivez les inscriptions, les sessions et évaluez l&apos;impact de chaque formation.
               </p>
-              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                 Ajouter une formation
               </button>
             </div>
-            <button type="button" onClick={tbl.openAdd} className="absolute right-10 bottom-6 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-10 bottom-6 hidden sm:flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter une formation
             </button>
@@ -242,44 +242,44 @@ export default function FormationsPage() {
               <FilterBar searchPlaceholder="Rechercher une formation..." filters={["Catégorie", "Statut"]} table={tbl} />
 
               {/* Table */}
-              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+              <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
                 <table className="w-full min-w-[1050px]">
                   <thead>
-                    <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
+                    <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Image</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Image</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Titre de la formation <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Catégorie <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Formateur</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Mode</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Formateur</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Mode</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Dates <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Inscriptions <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Statut <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Actions</th>
+                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {tbl.pageRows.map((f, i) => (
-                      <tr key={i} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
+                      <tr key={i} className="border-b border-[var(--sane-border)] last:border-0 hover:bg-[var(--sane-background)]/50">
                         <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(f._uid)} onChange={() => tbl.toggle(f._uid)} /></td>
                         <td className="px-2 py-1.5">
-                          <div className="relative h-9 w-[72px] overflow-hidden rounded-md border border-[#DDE8E0]">
+                          <div className="relative h-9 w-[72px] overflow-hidden rounded-md border border-[var(--sane-border)]">
                             <Image src={f.img} alt={f.titre} fill className="object-cover object-center" />
                           </div>
                         </td>
                         <td className="px-2 py-2.5 min-w-[200px] max-w-[260px]">
-                          <p className="text-[12px] font-semibold text-[#0a2e16] leading-snug">{f.titre}</p>
-                          <p className="text-[9px] text-[#61756B]">{f.id}</p>
+                          <p className="text-[12px] font-semibold text-[var(--sane-green-deep)] leading-snug">{f.titre}</p>
+                          <p className="text-[9px] text-[var(--sane-text-light)]">{f.id}</p>
                         </td>
                         <td className="px-2 py-2">
                           <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${f.catColor}18`, color: f.catColor }}>
@@ -288,10 +288,10 @@ export default function FormationsPage() {
                         </td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-1.5">
-                            <div className="h-6 w-6 overflow-hidden rounded-full border border-[#DDE8E0] shrink-0">
+                            <div className="h-6 w-6 overflow-hidden rounded-full border border-[var(--sane-border)] shrink-0">
                               <Image src={f.fPhoto} alt={f.formateur} width={24} height={24} className="object-cover" />
                             </div>
-                            <span className="whitespace-nowrap text-[11px] text-[#0a2e16]">{f.formateur}</span>
+                            <span className="whitespace-nowrap text-[11px] text-[var(--sane-green-deep)]">{f.formateur}</span>
                           </div>
                         </td>
                         <td className="px-2 py-2">
@@ -301,13 +301,13 @@ export default function FormationsPage() {
                         </td>
                         <td className="px-2 py-2">
                           {f.dates.split("\n").map((line, li) => (
-                            <p key={li} className={`whitespace-nowrap text-[11px] ${li === 0 ? "text-[#0a2e16] font-medium" : "text-[#61756B]"}`}>{line}</p>
+                            <p key={li} className={`whitespace-nowrap text-[11px] ${li === 0 ? "text-[var(--sane-green-deep)] font-medium" : "text-[var(--sane-text-light)]"}`}>{line}</p>
                           ))}
                         </td>
                         <td className="px-2 py-2">
-                          <p className="whitespace-nowrap text-[11px] font-semibold text-[#0a2e16]">{f.inscriptions} / {f.maxInscriptions}</p>
-                          <div className="mt-0.5 h-1.5 w-16 overflow-hidden rounded-full bg-[#DDE8E0]">
-                            <div className="h-full rounded-full bg-[#10632D]" style={{ width: `${f.inscPct}%` }} />
+                          <p className="whitespace-nowrap text-[11px] font-semibold text-[var(--sane-green-deep)]">{f.inscriptions} / {f.maxInscriptions}</p>
+                          <div className="mt-0.5 h-1.5 w-16 overflow-hidden rounded-full bg-[var(--sane-border)]">
+                            <div className="h-full rounded-full bg-[var(--sane-green)]" style={{ width: `${f.inscPct}%` }} />
                           </div>
                         </td>
                         <td className="px-2 py-2">
@@ -331,13 +331,13 @@ export default function FormationsPage() {
             {/* Right sidebar */}
             <div className="grid grid-cols-1 md:grid-cols-3 2xl:flex 2xl:flex-col gap-3 min-w-0">
               {/* Donut chart */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-3">
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
-                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[#E57617]" />
-                    <span className="text-[11px] font-bold text-[#0a2e16]">Répartition par catégorie</span>
+                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[var(--sane-orange)]" />
+                    <span className="text-[11px] font-bold text-[var(--sane-green-deep)]">Répartition par catégorie</span>
                   </div>
-                  <select className="shrink-0 rounded border border-[#DDE8E0] px-1 py-0.5 text-[9px] text-[#61756B] outline-none">
+                  <select className="shrink-0 rounded border border-[var(--sane-border)] px-1 py-0.5 text-[9px] text-[var(--sane-text-light)] outline-none">
                     <option>Ce mois</option>
                   </select>
                 </div>
@@ -346,8 +346,8 @@ export default function FormationsPage() {
                     <div className="h-[85px] w-[85px] rounded-full" style={{ background: `conic-gradient(${buildConic(categories)})` }} />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="flex h-[57px] w-[57px] flex-col items-center justify-center rounded-full bg-white">
-                        <span className="text-[14px] font-extrabold text-[#0a2e16] leading-none">48</span>
-                        <span className="text-[7px] text-[#61756B]">Formations</span>
+                        <span className="text-[14px] font-extrabold text-[var(--sane-green-deep)] leading-none">48</span>
+                        <span className="text-[7px] text-[var(--sane-text-light)]">Formations</span>
                       </div>
                     </div>
                   </div>
@@ -356,9 +356,9 @@ export default function FormationsPage() {
                       <div key={i} className="flex items-center justify-between gap-1">
                         <div className="flex items-center gap-1 min-w-0">
                           <span className="h-1.5 w-1.5 shrink-0 rounded-sm" style={{ backgroundColor: c.color }} />
-                          <span className="text-[9px] text-[#61756B] truncate">{c.label}</span>
+                          <span className="text-[9px] text-[var(--sane-text-light)] truncate">{c.label}</span>
                         </div>
-                        <span className="text-[9px] font-semibold text-[#0a2e16] shrink-0 ml-1">{c.pct}%</span>
+                        <span className="text-[9px] font-semibold text-[var(--sane-green-deep)] shrink-0 ml-1">{c.pct}%</span>
                       </div>
                     ))}
                   </div>
@@ -366,25 +366,25 @@ export default function FormationsPage() {
               </div>
 
               {/* Prochaines formations */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-3">
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex items-center gap-1.5 min-w-0">
-                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[#E57617]" />
-                    <span className="text-[11px] font-bold text-[#0a2e16]">Prochaines formations</span>
+                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[var(--sane-orange)]" />
+                    <span className="text-[11px] font-bold text-[var(--sane-green-deep)]">Prochaines formations</span>
                   </div>
-                  <button className="shrink-0 ml-1 text-[9px] font-semibold text-[#E57617]">Voir tout</button>
+                  <button className="shrink-0 ml-1 text-[9px] font-semibold text-[var(--sane-orange)]">Voir tout</button>
                 </div>
                 <div className="flex flex-col gap-2">
                   {prochaines.map((p, i) => (
                     <div key={i} className="flex items-start gap-2">
-                      <div className="flex h-9 w-8 shrink-0 flex-col items-center justify-center rounded-lg bg-[#FFF3E8]">
-                        <span className="text-[12px] font-extrabold text-[#E57617] leading-none">{p.day}</span>
-                        <span className="text-[7px] font-semibold text-[#E57617]">{p.month}</span>
+                      <div className="flex h-9 w-8 shrink-0 flex-col items-center justify-center rounded-lg bg-[var(--sane-orange-light)]">
+                        <span className="text-[12px] font-extrabold text-[var(--sane-orange)] leading-none">{p.day}</span>
+                        <span className="text-[7px] font-semibold text-[var(--sane-orange)]">{p.month}</span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight truncate">{p.titre}</p>
-                        <p className="text-[9px] text-[#61756B] truncate">{p.lieu}</p>
-                        <p className="text-[9px] text-[#61756B]">{p.inscrits} inscrits</p>
+                        <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight truncate">{p.titre}</p>
+                        <p className="text-[9px] text-[var(--sane-text-light)] truncate">{p.lieu}</p>
+                        <p className="text-[9px] text-[var(--sane-text-light)]">{p.inscrits} inscrits</p>
                       </div>
                       <svg className="shrink-0 mt-1" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="#61756B" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
                     </div>
@@ -393,13 +393,13 @@ export default function FormationsPage() {
               </div>
 
               {/* Top formations populaires */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-3">
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex items-center gap-1.5 min-w-0">
-                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[#E57617]" />
-                    <span className="text-[11px] font-bold text-[#0a2e16]">Top formations populaires</span>
+                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[var(--sane-orange)]" />
+                    <span className="text-[11px] font-bold text-[var(--sane-green-deep)]">Top formations populaires</span>
                   </div>
-                  <button className="shrink-0 ml-1 text-[9px] font-semibold text-[#E57617]">Voir tout</button>
+                  <button className="shrink-0 ml-1 text-[9px] font-semibold text-[var(--sane-orange)]">Voir tout</button>
                 </div>
                 <div className="flex flex-col gap-2">
                   {topFormations.map((t, i) => (
@@ -408,8 +408,8 @@ export default function FormationsPage() {
                         {t.rank}
                       </span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[10px] font-semibold text-[#0a2e16] leading-tight truncate">{t.titre}</p>
-                        <p className="text-[9px] text-[#61756B]">{t.inscrits} inscriptions</p>
+                        <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight truncate">{t.titre}</p>
+                        <p className="text-[9px] text-[var(--sane-text-light)]">{t.inscrits} inscriptions</p>
                       </div>
                       <svg className="shrink-0" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="#61756B" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
                     </div>

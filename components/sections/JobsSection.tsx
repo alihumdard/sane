@@ -16,21 +16,21 @@ const jobs = [
     company: "Entreprise ABC",
     location: "Niamey",
     type: "CDI",
-    typeColor: "bg-[#E57617]/10 text-[#E57617]",
+    typeColor: "bg-[var(--sane-orange)]/10 text-[var(--sane-orange)]",
   },
   {
     title: "Développeur Web",
     company: "Tech Solutions",
     location: "Niamey",
     type: "CDD",
-    typeColor: "bg-[#EEF6F0] text-[#10632D]",
+    typeColor: "bg-[var(--sane-green-light)] text-[var(--sane-green)]",
   },
   {
     title: "Chargé de Communication",
     company: "ONG Internationale",
     location: "Niamey",
     type: "CDD",
-    typeColor: "bg-[#EEF6F0] text-[#10632D]",
+    typeColor: "bg-[var(--sane-green-light)] text-[var(--sane-green)]",
   },
   {
     title: "Assistant Administratif",
@@ -57,27 +57,27 @@ const locationOptions = [
 
 export function JobsSection() {
   return (
-    <section className="bg-[#F3F8F4] py-14 md:py-16">
+    <section className="bg-[var(--sane-background)] py-14 md:py-16">
       <Container>
 
         {/* HEADER */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className="mb-2 flex items-center gap-2">
-              <span className="h-[3px] w-6 rounded-full bg-[#E57617]" />
-              <span className="text-xs font-bold uppercase tracking-wide text-[#10632D]">
+              <span className="h-[3px] w-6 rounded-full bg-[var(--sane-orange)]" />
+              <span className="text-xs font-bold uppercase tracking-wide text-[var(--sane-green)]">
                 Offres d&apos;emploi
               </span>
             </div>
 
-            <h2 className="text-2xl font-extrabold leading-tight text-[#10632D] md:text-4xl">
+            <h2 className="sane-h2">
               Trouvez une opportunité
             </h2>
           </div>
 
           <Link
             href="/emploi"
-            className="group inline-flex items-center gap-2 text-sm font-bold text-[#10632D]"
+            className="group inline-flex items-center gap-2 text-sm font-bold text-[var(--sane-green)]"
           >
             Voir toutes les offres
             <ArrowRight
@@ -89,12 +89,12 @@ export function JobsSection() {
 
         {/* SEARCH */}
         <div className="mt-7 grid gap-3 md:grid-cols-[1.5fr_1fr_1fr_auto]">
-          <div className="flex h-12 items-center gap-3 rounded-lg border border-[#D5E3D9] bg-white px-4">
+          <div className="flex h-12 items-center gap-3 rounded-lg border border-[var(--sane-border)] bg-white px-4">
             <Search size={17} className="shrink-0 text-[#71857A]" />
             <input
               type="text"
               placeholder="Intitulé du poste, compétence..."
-              className="w-full bg-transparent text-sm text-[#17352A] outline-none placeholder:text-[#8A9A91]"
+              className="w-full bg-transparent text-sm text-[var(--sane-text)] outline-none placeholder:text-[#8A9A91]"
             />
           </div>
 
@@ -112,7 +112,7 @@ export function JobsSection() {
 
           <button
             type="button"
-            className="h-12 rounded-lg bg-[#E57617] px-7 text-sm font-bold text-white transition hover:bg-[#CF6812]"
+            className="h-12 rounded-lg bg-[var(--sane-orange)] px-7 text-sm font-bold text-white transition hover:bg-[var(--sane-orange-dark)]"
           >
             Rechercher
           </button>
@@ -120,7 +120,7 @@ export function JobsSection() {
 
         {/* JOBS */}
         <div className="mt-5">
-          <p className="mb-3 text-sm font-bold text-[#17352A]">
+          <p className="mb-3 text-sm font-bold text-[var(--sane-text)]">
             Offres récemment publiées
           </p>
 
@@ -128,13 +128,13 @@ export function JobsSection() {
             {jobs.map((job) => (
               <article
                 key={job.title}
-                className="rounded-xl border border-[#DCE8DF] bg-white p-5 shadow-[0_5px_20px_rgba(16,99,45,0.05)] transition hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(16,99,45,0.09)]"
+                className="rounded-xl border border-[var(--sane-border)] bg-white p-5 shadow-[0_5px_20px_rgba(16,99,45,0.05)] transition hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(16,99,45,0.09)]"
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#EAF4ED] text-[#10632D]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#EAF4ED] text-[var(--sane-green)]">
                   <BriefcaseBusiness size={19} />
                 </div>
 
-                <h3 className="mt-4 text-[15px] font-extrabold text-[#17352A]">
+                <h3 className="sane-h3 mt-4">
                   {job.title}
                 </h3>
 
@@ -144,7 +144,7 @@ export function JobsSection() {
 
                 <div className="mt-3 flex items-center justify-between gap-1.5 text-xs text-[#718178]">
                   <div className="flex items-center gap-1.5">
-                    <MapPin size={13} className="text-[#E57617]" />
+                    <MapPin size={13} className="text-[var(--sane-orange)]" />
                     {job.location}
                   </div>
 
@@ -155,7 +155,7 @@ export function JobsSection() {
 
                 <Link
                   href="/emploi"
-                  className="group mt-4 inline-flex items-center gap-2 rounded-full border border-[#10632D]/30 px-3.5 py-2 text-xs font-bold text-[#10632D] transition hover:border-[#10632D] hover:bg-[#10632D] hover:!text-white"
+                  className="group mt-4 inline-flex items-center gap-2 rounded-full border border-[var(--sane-green)]/30 px-3.5 py-2 text-xs font-bold text-[var(--sane-green)] transition hover:border-[var(--sane-green)] hover:bg-[var(--sane-green)] hover:!text-white"
                 >
                   <span className="group-hover:!text-white">Voir l&apos;offre</span>
                   <ArrowRight

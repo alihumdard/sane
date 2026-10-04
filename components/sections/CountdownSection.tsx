@@ -11,21 +11,21 @@ const countdownItems = [
 
 export function CountdownSection() {
   return (
-    <section className="bg-[#10632D] py-10 md:py-12">
+    <section className="bg-[var(--sane-green)] py-10 md:py-12">
       <Container>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10">
 
           {/* LEFT — text */}
           <div className="shrink-0 lg:max-w-[300px]">
-            <div className="mb-2 h-[3px] w-8 rounded-full bg-[#E57617]" />
+            <div className="mb-2 h-[3px] w-8 rounded-full bg-[var(--sane-orange)]" />
 
-            <h2 className="text-lg font-extrabold leading-tight text-white md:text-xl">
+            <h2 className="sane-h3 on-dark">
               Rendez-vous au
               <br />
               Salon National de l&apos;Emploi
             </h2>
 
-            <p className="mt-2 text-[13px] leading-5 text-white/70">
+            <p className="sane-body on-dark mt-2">
               Un événement pour l&apos;emploi, la formation et
               l&apos;avenir des talents nigériens.
             </p>
@@ -53,11 +53,11 @@ export function CountdownSection() {
             {/* Location / Date */}
             <div className="flex flex-wrap items-center gap-4 text-[12px] text-white/75">
               <div className="flex items-center gap-1.5">
-                <MapPin size={13} className="text-[#E57617]" />
+                <MapPin size={13} className="text-[var(--sane-orange)]" />
                 <span>Niamey, Niger</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <CalendarDays size={13} className="text-[#E57617]" />
+                <CalendarDays size={13} className="text-[var(--sane-orange)]" />
                 <span>Date de l&apos;événement à confirmer</span>
               </div>
             </div>
@@ -66,7 +66,7 @@ export function CountdownSection() {
           {/* RIGHT — CTA */}
           <Link
             href="/programme"
-            className="group inline-flex shrink-0 items-center justify-center gap-2.5 self-start rounded-full bg-[#E57617] px-6 py-3 text-[13px] font-bold text-white !text-white transition-all hover:bg-[#CF6812] hover:!text-white lg:self-center"
+            className="group inline-flex shrink-0 items-center justify-center gap-2.5 self-start rounded-full bg-[var(--sane-orange)] px-6 py-3 text-[13px] font-bold text-white !text-white transition-all hover:bg-[var(--sane-orange-dark)] hover:!text-white lg:self-center"
           >
             Voir le programme
             <ArrowRight

@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
 import { PageHero, InfoBar } from "@/components/shared";
-import { Container } from "@/components/ui/Container";
-import { FormationsGrid, WhySection, StepsSection, FaqSection, formationInfo } from "@/components/formations";
+import { FormationsExplorer, WhySection, StepsSection, FaqSection, formationInfo } from "@/components/formations";
+
+export const metadata: Metadata = {
+  title: "Formations – Salon National de l'Emploi",
+  description:
+    "Des formations pratiques et certifiantes pour renforcer l'employabilité des jeunes et développer les compétences au Niger.",
+};
 
 export default function FormationsPage() {
   return (
@@ -16,22 +22,19 @@ export default function FormationsPage() {
           title="Formations du SANE"
           lead="Développez vos compétences pour un meilleur avenir."
           description="Le SANE propose des formations pratiques et adaptées aux besoins du marché du travail pour renforcer l'employabilité des jeunes et accompagner le développement des compétences au Niger."
+          imageFit="banner"
           image="/formation-bg.png"
           tone="light"
           actions={[
-            { href: "/programme", label: "Voir le programme" },
+            { href: "#catalogue", label: "Voir les formations" },
             { href: "/inscription", label: "S'inscrire à une formation", variant: "secondary" },
           ]}
         />
         <InfoBar items={formationInfo} />
-        <FormationsGrid />
+        <FormationsExplorer />
         <WhySection />
-        <section className="bg-white py-12 sm:py-14">
-          <Container>
-            <StepsSection />
-            <FaqSection />
-          </Container>
-        </section>
+        <StepsSection />
+        <FaqSection />
         <CTASection />
       </main>
       <Footer />

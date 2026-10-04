@@ -48,52 +48,52 @@ export default function DashboardNavbar({
   }, []);
 
   return (
-    <header ref={ref} className="relative z-30 flex items-center gap-2 sm:gap-4 border-b border-[#DDE8E0] bg-white px-3 sm:px-6 py-3">
+    <header ref={ref} className="relative z-30 flex items-center gap-2 sm:gap-4 border-b border-[var(--sane-border)] bg-white px-3 sm:px-6 py-3">
       {/* Hamburger - mobile only */}
       <button
         onClick={onMenuClick}
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#DDE8E0] lg:hidden"
+        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--sane-border)] lg:hidden"
       >
-        <Menu size={16} className="text-[#61756B]" />
+        <Menu size={16} className="text-[var(--sane-text-light)]" />
       </button>
 
       {/* Search */}
-      <div className="flex flex-1 items-center gap-2 rounded-lg border border-[#DDE8E0] bg-[#F5F9F6] px-3 py-2 min-w-0">
-        <Search size={14} className="shrink-0 text-[#61756B]" />
+      <div className="flex flex-1 items-center gap-2 rounded-lg border border-[var(--sane-border)] bg-[var(--sane-background)] px-3 py-2 min-w-0">
+        <Search size={14} className="shrink-0 text-[var(--sane-text-light)]" />
         <input
           type="text"
           placeholder={searchPlaceholder}
-          className="min-w-0 flex-1 bg-transparent text-[12px] text-[#0a2e16] placeholder:text-[#61756B]/60 outline-none"
+          className="min-w-0 flex-1 bg-transparent text-[12px] text-[var(--sane-green-deep)] placeholder:text-[var(--sane-text-light)]/60 outline-none"
         />
       </div>
 
       {/* Bell */}
       <div className="relative shrink-0">
         <button type="button" aria-label="Notifications" onClick={() => setMenu(menu === "bell" ? null : "bell")} className="relative block">
-          <Bell size={20} className="text-[#61756B]" />
+          <Bell size={20} className="text-[var(--sane-text-light)]" />
           {count > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E57617] text-[8px] font-bold text-white">
+            <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--sane-orange)] text-[8px] font-bold text-white">
               {count}
             </span>
           )}
         </button>
         {menu === "bell" && (
-          <div className="absolute right-0 top-9 z-40 w-[290px] rounded-xl border border-[#DDE8E0] bg-white shadow-xl">
-            <div className="flex items-center justify-between border-b border-[#DDE8E0] px-3 py-2.5">
-              <span className="text-[12px] font-bold text-[#0a2e16]">Notifications</span>
+          <div className="absolute right-0 top-9 z-40 w-[290px] rounded-xl border border-[var(--sane-border)] bg-white shadow-xl">
+            <div className="flex items-center justify-between border-b border-[var(--sane-border)] px-3 py-2.5">
+              <span className="text-[12px] font-bold text-[var(--sane-green-deep)]">Notifications</span>
               {count > 0 && (
-                <button type="button" onClick={() => setCount(0)} className="text-[10px] font-semibold text-[#E57617] hover:underline">
+                <button type="button" onClick={() => setCount(0)} className="text-[10px] font-semibold text-[var(--sane-orange)] hover:underline">
                   Tout marquer comme lu
                 </button>
               )}
             </div>
             <ul className="max-h-[260px] overflow-y-auto">
               {SAMPLE_NOTIFICATIONS.map((n, i) => (
-                <li key={i} className={`flex gap-2 border-b border-[#DDE8E0]/60 px-3 py-2.5 last:border-0 ${i < count ? "bg-[#F5F9F6]" : ""}`}>
-                  <span className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${i < count ? "bg-[#E57617]" : "bg-transparent"}`} />
+                <li key={i} className={`flex gap-2 border-b border-[var(--sane-border)]/60 px-3 py-2.5 last:border-0 ${i < count ? "bg-[var(--sane-background)]" : ""}`}>
+                  <span className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${i < count ? "bg-[var(--sane-orange)]" : "bg-transparent"}`} />
                   <div>
-                    <p className="text-[11px] font-semibold text-[#0a2e16]">{n.title}</p>
-                    <p className="text-[10px] text-[#61756B]">{n.time}</p>
+                    <p className="text-[11px] font-semibold text-[var(--sane-green-deep)]">{n.title}</p>
+                    <p className="text-[10px] text-[var(--sane-text-light)]">{n.time}</p>
                   </div>
                 </li>
               ))}
@@ -103,35 +103,35 @@ export default function DashboardNavbar({
       </div>
 
       {/* Language - hidden on small mobile */}
-      <div className="hidden sm:flex items-center gap-1 rounded-lg border border-[#DDE8E0] px-2 py-1.5 shrink-0">
-        <span className="text-[12px] font-semibold text-[#0a2e16]">{language}</span>
-        <ChevronDown size={12} className="text-[#61756B]" />
+      <div className="hidden sm:flex items-center gap-1 rounded-lg border border-[var(--sane-border)] px-2 py-1.5 shrink-0">
+        <span className="text-[12px] font-semibold text-[var(--sane-green-deep)]">{language}</span>
+        <ChevronDown size={12} className="text-[var(--sane-text-light)]" />
       </div>
 
       {/* User */}
       <div className="relative shrink-0">
         <button type="button" onClick={() => setMenu(menu === "user" ? null : "user")} className="flex items-center gap-1.5">
-          <div className="h-8 w-8 overflow-hidden rounded-full border-2 border-[#DDE8E0]">
+          <div className="h-8 w-8 overflow-hidden rounded-full border-2 border-[var(--sane-border)]">
             <Image src={userImage} alt={userName} width={32} height={32} className="object-cover" />
           </div>
           <div className="hidden sm:block text-left">
-            <p className="text-[12px] font-bold text-[#0a2e16]">{userName}</p>
-            <p className="text-[10px] text-[#61756B]">{userRole}</p>
+            <p className="text-[12px] font-bold text-[var(--sane-green-deep)]">{userName}</p>
+            <p className="text-[10px] text-[var(--sane-text-light)]">{userRole}</p>
           </div>
-          <ChevronDown size={14} className="hidden sm:block text-[#61756B]" />
+          <ChevronDown size={14} className="hidden sm:block text-[var(--sane-text-light)]" />
         </button>
         {menu === "user" && (
-          <div className="absolute right-0 top-10 z-40 w-[200px] rounded-xl border border-[#DDE8E0] bg-white py-1 shadow-xl">
-            <div className="border-b border-[#DDE8E0] px-3 py-2">
-              <p className="text-[12px] font-bold text-[#0a2e16]">{userName}</p>
-              <p className="text-[10px] text-[#61756B]">{userRole}</p>
+          <div className="absolute right-0 top-10 z-40 w-[200px] rounded-xl border border-[var(--sane-border)] bg-white py-1 shadow-xl">
+            <div className="border-b border-[var(--sane-border)] px-3 py-2">
+              <p className="text-[12px] font-bold text-[var(--sane-green-deep)]">{userName}</p>
+              <p className="text-[10px] text-[var(--sane-text-light)]">{userRole}</p>
             </div>
             {isAdmin && (
-              <Link href="/dashboard/admin/parametres" onClick={() => setMenu(null)} className="flex items-center gap-2 px-3 py-2 text-[12px] text-[#0a2e16] hover:bg-[#F5F9F6]">
+              <Link href="/dashboard/admin/parametres" onClick={() => setMenu(null)} className="flex items-center gap-2 px-3 py-2 text-[12px] text-[var(--sane-green-deep)] hover:bg-[var(--sane-background)]">
                 <Settings size={13} /> Paramètres
               </Link>
             )}
-            <Link href="/" onClick={() => setMenu(null)} className="flex items-center gap-2 px-3 py-2 text-[12px] text-[#0a2e16] hover:bg-[#F5F9F6]">
+            <Link href="/" onClick={() => setMenu(null)} className="flex items-center gap-2 px-3 py-2 text-[12px] text-[var(--sane-green-deep)] hover:bg-[var(--sane-background)]">
               <User size={13} /> Voir le site
             </Link>
             <Link href="/connexion" className="flex items-center gap-2 px-3 py-2 text-[12px] font-semibold text-[#DC2626] hover:bg-[#FEF2F2]">

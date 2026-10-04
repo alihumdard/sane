@@ -79,7 +79,7 @@ export default function UtilisateursPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const tbl = useTable(utilisateurs, { filterKeys: { "Tous les rôles": "role", "Statut": "statut" } });
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
+    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
@@ -93,29 +93,29 @@ export default function UtilisateursPage() {
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
           {/* Breadcrumb */}
-          <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[#61756B]">
+          <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[var(--sane-text-light)]">
             <span>Accueil</span>
-            <span className="text-[#DDE8E0]">›</span>
-            <span className="font-semibold text-[#0a2e16]">Utilisateurs</span>
+            <span className="text-[var(--sane-border)]">›</span>
+            <span className="font-semibold text-[var(--sane-green-deep)]">Utilisateurs</span>
           </div>
 
           {/* Hero Banner */}
-          <div className="relative mb-4 min-h-[110px] sm:h-[150px] overflow-hidden rounded-2xl bg-[#0a2e16]">
+          <div className="relative mb-4 min-h-[110px] sm:h-[150px] overflow-hidden rounded-2xl bg-[var(--sane-green-deep)]">
             <div className="absolute inset-0">
               <Image src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=300&fit=crop&crop=center" alt="hero" fill className="object-cover object-center opacity-60" />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e16]/95 via-[#0a2e16]/70 to-[#0a2e16]/30" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[var(--sane-green-deep)]/95 via-[var(--sane-green-deep)]/70 to-[var(--sane-green-deep)]/30" />
             <div className="absolute inset-0 flex flex-col justify-center px-5 sm:px-8">
               <h1 className="text-[20px] sm:text-[24px] font-extrabold text-white leading-tight">Gestion des utilisateurs</h1>
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
                 Gérez tous les utilisateurs de la plateforme SANE. Consultez, ajoutez, modifiez et attribuez des rôles selon les besoins.
               </p>
-              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                 Ajouter un utilisateur
               </button>
             </div>
-            <button type="button" onClick={tbl.openAdd} className="absolute right-6 top-5 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-6 top-5 hidden sm:flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter un utilisateur
             </button>
@@ -123,7 +123,7 @@ export default function UtilisateursPage() {
               <p className="text-[17px] italic font-bold text-white leading-snug" style={{ fontFamily: "Georgia, serif" }}>
                 Un Niger<br />de Talents
               </p>
-              <div className="mt-1 ml-auto h-[2px] w-10 rounded-full bg-[#E57617]" />
+              <div className="mt-1 ml-auto h-[2px] w-10 rounded-full bg-[var(--sane-orange)]" />
             </div>
           </div>
 
@@ -138,19 +138,19 @@ export default function UtilisateursPage() {
           <div className="mb-3"><FilterBar searchPlaceholder="Rechercher un utilisateur..." filters={["Tous les rôles", "Statut"]} table={tbl} /></div>
 
           {/* Table */}
-          <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+          <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
             <table className="w-full min-w-[1000px]">
               <thead>
-                <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
+                <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
                   <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
-                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Utilisateur</th>
-                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Rôle</th>
-                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Organisation</th>
-                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Email</th>
-                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Téléphone</th>
-                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Statut</th>
-                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Date d&apos;inscription</th>
-                  <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Actions</th>
+                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Utilisateur</th>
+                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Rôle</th>
+                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Organisation</th>
+                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Email</th>
+                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Téléphone</th>
+                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Statut</th>
+                  <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Date d&apos;inscription</th>
+                  <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -158,16 +158,16 @@ export default function UtilisateursPage() {
                   const rs = roleStyle[u.role] ?? { bg: "#F5F9F6", color: "#61756B" };
                   const ss = statutStyle[u.statut] ?? { bg: "#F5F9F6", color: "#61756B" };
                   return (
-                    <tr key={u._uid} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
+                    <tr key={u._uid} className="border-b border-[var(--sane-border)] last:border-0 hover:bg-[var(--sane-background)]/50">
                       <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(u._uid)} onChange={() => tbl.toggle(u._uid)} /></td>
                       <td className="px-2 py-2">
                         <div className="flex items-center gap-2">
-                          <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full border border-[#DDE8E0]">
+                          <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full border border-[var(--sane-border)]">
                             <Image src={u.photo} alt={u.nom} width={32} height={32} className="object-cover" />
                           </div>
                           <div>
-                            <p className="whitespace-nowrap text-[12px] font-semibold text-[#0a2e16]">{u.nom}</p>
-                            <p className="text-[9px] text-[#61756B]">{u.id}</p>
+                            <p className="whitespace-nowrap text-[12px] font-semibold text-[var(--sane-green-deep)]">{u.nom}</p>
+                            <p className="text-[9px] text-[var(--sane-text-light)]">{u.id}</p>
                           </div>
                         </div>
                       </td>
@@ -176,10 +176,10 @@ export default function UtilisateursPage() {
                           {u.role}
                         </span>
                       </td>
-                      <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[#0a2e16]">{u.org}</td>
-                      <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[#0a2e16]">{u.email}</td>
+                      <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[var(--sane-green-deep)]">{u.org}</td>
+                      <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[var(--sane-green-deep)]">{u.email}</td>
                       <td className="px-2 py-2">
-                        <span className="flex items-center gap-1 whitespace-nowrap text-[11px] text-[#0a2e16]">
+                        <span className="flex items-center gap-1 whitespace-nowrap text-[11px] text-[var(--sane-green-deep)]">
                           <span className="text-[14px] leading-none">🇳🇪</span>
                           {u.tel}
                         </span>
@@ -189,7 +189,7 @@ export default function UtilisateursPage() {
                           {u.statut}
                         </span>
                       </td>
-                      <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[#0a2e16]">{u.date}</td>
+                      <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[var(--sane-green-deep)]">{u.date}</td>
                       <td className="px-2 py-2">
                         <RowActions table={tbl} row={u} />
                       </td>

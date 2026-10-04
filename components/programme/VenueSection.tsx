@@ -36,7 +36,7 @@ export function VenueSection() {
             <div className="flex-1">
               <span className="mb-3 block h-[3px] w-8 rounded-full bg-[var(--sane-orange)]" />
 
-              <h2 className="text-[20px] font-extrabold leading-[1.15] tracking-tight text-[var(--sane-text)] sm:text-[24px] md:text-[28px]">
+              <h2 className="sane-h2">
                 Lieu de l&apos;événement
               </h2>
 
@@ -44,7 +44,7 @@ export function VenueSection() {
                 Palais des Congrès de Niamey
               </p>
 
-              <p className="mt-3 text-[12.5px] leading-[1.7] text-[var(--sane-text-light)] sm:text-[13px]">
+              <p className="sane-body mt-3">
                 Le SANE se tiendra au Palais des Congrès de Niamey, un lieu emblématique et accessible,
                 offrant un cadre idéal pour accueillir tous les participants.
               </p>
@@ -64,7 +64,7 @@ export function VenueSection() {
 
               <Link
                 href="#"
-                className="group mt-5 inline-flex h-[40px] items-center gap-2 rounded-lg border border-[var(--sane-green)] bg-white px-5 text-[12.5px] font-bold text-[var(--sane-green)] transition-colors hover:bg-[#f3f9f5] sm:h-[42px] sm:text-[13px]"
+                className="group mt-5 inline-flex h-[40px] items-center gap-2 rounded-lg border border-[var(--sane-green)] bg-white px-5 text-[12.5px] font-bold text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-background)] sm:h-[42px] sm:text-[13px]"
               >
                 Voir sur la carte
                 <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />

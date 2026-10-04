@@ -1,49 +1,49 @@
 import { Fragment } from "react";
 import { ArrowRight } from "lucide-react";
+import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { steps } from "./data";
 
 export function StepsSection() {
   return (
-    <div>
-        <div className="mb-1 flex items-center gap-2">
-          <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
-          <span className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--sane-green)]">
-            Comment ça marche ?
-          </span>
-        </div>
-        <h2 className="mb-10 text-[24px] font-extrabold text-[#0f5025] md:text-[32px]">
-          Un processus simple et rapide
-        </h2>
+    <section className="bg-white py-10 sm:py-12 md:py-16">
+      <Container>
+        <SectionHeading eyebrow="Comment ça marche ?" title="Un processus simple et rapide" className="mb-10" />
 
-        <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-2 lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] lg:items-start lg:gap-x-4">
+        <ol className="grid grid-cols-1 gap-y-8 sm:grid-cols-2 lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] lg:items-start lg:gap-x-4">
           {steps.map((step, i) => {
             const Icon = step.icon;
-            const isEven = i % 2 === 0;
+            const green = i % 2 === 0;
             return (
               <Fragment key={step.num}>
-                <div>
+                <li>
                   <div className="flex items-center gap-3">
-                    <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${isEven ? "bg-[var(--sane-green)]" : "bg-[var(--sane-orange)]"}`}>
-                      <Icon size={18} strokeWidth={2} className="text-white" />
-                    </div>
-                    <span className={`text-[32px] font-extrabold leading-none ${isEven ? "text-[var(--sane-green)]" : "text-[var(--sane-orange)]"}`}>
+                    <span
+                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white ${
+                        green ? "bg-[var(--sane-green)]" : "bg-[var(--sane-orange)]"
+                      }`}
+                    >
+                      <Icon size={18} strokeWidth={2} />
+                    </span>
+                    <span className={`text-[32px] font-extrabold leading-none ${green ? "text-[var(--sane-green)]" : "text-[var(--sane-orange)]"}`}>
                       {step.num}
                     </span>
                   </div>
                   <div className="mt-3 lg:pr-2">
-                    <h3 className="text-[13px] font-extrabold italic text-[var(--sane-green)]">{step.title}</h3>
-                    <p className="mt-1 max-w-[180px] text-[12px] leading-[1.5] text-[var(--sane-text-light)]">{step.desc}</p>
+                    <h3 className="sane-h3">{step.title}</h3>
+                    <p className="sane-small mt-1 max-w-[220px]">{step.desc}</p>
                   </div>
-                </div>
+                </li>
                 {i < steps.length - 1 && (
-                  <div className="hidden items-center pt-3 text-[var(--sane-text-light)]/50 lg:flex">
+                  <li aria-hidden="true" className="hidden items-center pt-3 text-[var(--sane-text-light)]/50 lg:flex">
                     <ArrowRight size={16} />
-                  </div>
+                  </li>
                 )}
               </Fragment>
             );
           })}
-        </div>
-    </div>
+        </ol>
+      </Container>
+    </section>
   );
 }

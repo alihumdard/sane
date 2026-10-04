@@ -76,9 +76,9 @@ const donutSegments = [
 ];
 
 const catColors: Record<string, string> = {
-  "Général": "bg-[#10632D] text-white",
+  "Général": "bg-[var(--sane-green)] text-white",
   "Inscriptions": "bg-[#2563EB] text-white",
-  "Événements": "bg-[#E57617] text-white",
+  "Événements": "bg-[var(--sane-orange)] text-white",
   "Formations": "bg-[#6B21A8] text-white",
   "Partenaires": "bg-[#f59e0b] text-white",
   "Presse": "bg-[#ec4899] text-white",
@@ -89,9 +89,9 @@ const catColors: Record<string, string> = {
 };
 
 const reportIcons: Record<string, React.ReactNode> = {
-  "Général": <BarChart3 size={14} className="text-[#10632D]" />,
+  "Général": <BarChart3 size={14} className="text-[var(--sane-green)]" />,
   "Inscriptions": <Users size={14} className="text-[#2563EB]" />,
-  "Événements": <Calendar size={14} className="text-[#E57617]" />,
+  "Événements": <Calendar size={14} className="text-[var(--sane-orange)]" />,
   "Formations": <BookOpen size={14} className="text-[#6B21A8]" />,
   "Partenaires": <Star size={14} className="text-[#f59e0b]" />,
   "Presse": <Newspaper size={14} className="text-[#ec4899]" />,
@@ -154,7 +154,7 @@ export default function AdminRapportsPage() {
   };
 
   return (
-    <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
+    <div className="flex h-screen bg-[var(--sane-background)] overflow-hidden">
       {/* Mobile overlay */}
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
@@ -171,20 +171,20 @@ export default function AdminRapportsPage() {
             <div className="absolute inset-0 bg-gradient-to-r from-white from-35% via-white/60 via-50% to-transparent" />
             <div className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-20 hidden sm:flex items-center gap-3">
               <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
-              <p className="text-[16px] italic text-[#E57617] leading-tight font-semibold" style={{ fontFamily: "Georgia, serif" }}>Un Niger<br/>de Talents</p>
+              <p className="text-[16px] italic text-[var(--sane-orange)] leading-tight font-semibold" style={{ fontFamily: "Georgia, serif" }}>Un Niger<br/>de Talents</p>
             </div>
             <div className="relative z-20 p-4 sm:p-6 flex items-start justify-between">
               <div>
-                <nav className="mb-2 flex items-center gap-1.5 text-[11px] text-[#61756B]">
-                  <span>Accueil</span><ChevronRight size={11} /><span>Rapports</span><ChevronRight size={11} /><span className="font-medium text-[#0a2e16]">Tous les rapports</span>
+                <nav className="mb-2 flex items-center gap-1.5 text-[11px] text-[var(--sane-text-light)]">
+                  <span>Accueil</span><ChevronRight size={11} /><span>Rapports</span><ChevronRight size={11} /><span className="font-medium text-[var(--sane-green-deep)]">Tous les rapports</span>
                 </nav>
-                <h1 className="mb-1 text-[18px] sm:text-2xl font-extrabold text-[#0a2e16]">Gestion des rapports</h1>
-                <p className="max-w-lg text-[11px] sm:text-[12px] text-[#61756B] hidden sm:block">Consultez et générez tous les rapports du SANE. Suivez les statistiques, les inscriptions, la participation et l&apos;impact de vos événements.</p>
-                <button type="button" onClick={tbl.openAdd} className="mt-2 flex items-center gap-1 rounded-lg bg-[#10632D] px-3 py-1.5 text-[10px] font-bold text-white sm:hidden">
+                <h1 className="mb-1 text-[18px] sm:text-2xl font-extrabold text-[var(--sane-green-deep)]">Gestion des rapports</h1>
+                <p className="max-w-lg text-[11px] sm:text-[12px] text-[var(--sane-text-light)] hidden sm:block">Consultez et générez tous les rapports du SANE. Suivez les statistiques, les inscriptions, la participation et l&apos;impact de vos événements.</p>
+                <button type="button" onClick={tbl.openAdd} className="mt-2 flex items-center gap-1 rounded-lg bg-[var(--sane-green)] px-3 py-1.5 text-[10px] font-bold text-white sm:hidden">
                   <Plus size={11} /> Générer
                 </button>
               </div>
-              <button type="button" onClick={tbl.openAdd} className="hidden sm:flex shrink-0 items-center gap-2 rounded-lg bg-[#10632D] px-4 py-2.5 text-[12px] font-bold text-white hover:bg-[#0a4a22] mt-4">
+              <button type="button" onClick={tbl.openAdd} className="hidden sm:flex shrink-0 items-center gap-2 rounded-lg bg-[var(--sane-green)] px-4 py-2.5 text-[12px] font-bold text-white hover:bg-[var(--sane-green-dark)] mt-4">
                 <Plus size={14} /> Générer un rapport
               </button>
             </div>
@@ -193,17 +193,17 @@ export default function AdminRapportsPage() {
           {/* ═══════════ STATS ROW ═══════════ */}
           <div className="mb-6 grid grid-cols-2 lg:grid-cols-5 gap-3">
             {statsData.map((s, i) => (
-              <div key={i} className="flex items-center gap-3 rounded-xl border border-[#DDE8E0] bg-white px-3 py-3 sm:px-4">
+              <div key={i} className="flex items-center gap-3 rounded-xl border border-[var(--sane-border)] bg-white px-3 py-3 sm:px-4">
                 <span className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0" style={{ backgroundColor: s.bg, color: s.color }}>{s.icon}</span>
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-baseline gap-x-1.5">
-                    <span className="text-xl font-extrabold text-[#0a2e16]">{s.value}</span>
-                    <span className="flex items-center gap-0.5 text-[10px] font-semibold text-[#10632D]">
+                    <span className="text-xl font-extrabold text-[var(--sane-green-deep)]">{s.value}</span>
+                    <span className="flex items-center gap-0.5 text-[10px] font-semibold text-[var(--sane-green)]">
                       <TrendingUp size={10} /> {s.trend}
                     </span>
                   </div>
-                  <p className="text-[9px] text-[#61756B]">vs. mois dernier</p>
-                  <p className="text-[10px] text-[#61756B] truncate">{s.label}</p>
+                  <p className="text-[9px] text-[var(--sane-text-light)]">vs. mois dernier</p>
+                  <p className="text-[10px] text-[var(--sane-text-light)] truncate">{s.label}</p>
                 </div>
               </div>
             ))}
@@ -214,27 +214,27 @@ export default function AdminRapportsPage() {
               {/* Charts row */}
               <div className="grid grid-cols-1 lg:grid-cols-[2fr_2fr_1.5fr] gap-4">
                 {/* Line chart */}
-                <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
+                <div className="rounded-xl border border-[var(--sane-border)] bg-white p-5">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
-                      <span className="h-px w-4 bg-[#E57617]" />
-                      <h3 className="text-[12px] font-bold text-[#0a2e16]">Inscriptions et participation</h3>
+                      <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                      <h3 className="text-[12px] font-bold text-[var(--sane-green-deep)]">Inscriptions et participation</h3>
                     </div>
-                    <select className="text-[10px] border border-[#DDE8E0] rounded px-2 py-1 text-[#61756B] outline-none">
+                    <select className="text-[10px] border border-[var(--sane-border)] rounded px-2 py-1 text-[var(--sane-text-light)] outline-none">
                       <option>Cette année</option>
                     </select>
                   </div>
                   <div className="flex items-center gap-4 mb-2 text-[9px]">
                     <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[#3b82f6]" /> Inscriptions</span>
-                    <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[#10632D]" /> Participants</span>
+                    <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[var(--sane-green)]" /> Participants</span>
                   </div>
                   <svg viewBox="0 0 420 160" className="w-full">
                     <line x1="35" y1="20" x2="35" y2="140" stroke="#DDE8E0" strokeWidth="0.5" />
                     {[0, 500, 1000, 1500, 2000].map((v, i) => (
-                      <text key={i} x="30" y={140 - (v / maxLine) * 100} textAnchor="end" className="text-[7px] fill-[#61756B]">{v.toLocaleString()}</text>
+                      <text key={i} x="30" y={140 - (v / maxLine) * 100} textAnchor="end" className="text-[7px] fill-[var(--sane-text-light)]">{v.toLocaleString()}</text>
                     ))}
                     {lineChartData.map((d, i) => (
-                      <text key={i} x={35 + i * (350 / 11)} y="155" textAnchor="middle" className="text-[7px] fill-[#61756B]">{d.month}</text>
+                      <text key={i} x={35 + i * (350 / 11)} y="155" textAnchor="middle" className="text-[7px] fill-[var(--sane-text-light)]">{d.month}</text>
                     ))}
                     <polygon points={`${linePoints("insc")},${35 + 11 * (350 / 11)},140 35,140`} fill="#10632D" opacity="0.08" />
                     <polyline points={linePoints("insc")} fill="none" stroke="#3b82f6" strokeWidth="2" />
@@ -253,19 +253,19 @@ export default function AdminRapportsPage() {
                 </div>
 
                 {/* Bar chart */}
-                <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
+                <div className="rounded-xl border border-[var(--sane-border)] bg-white p-5">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
-                      <span className="h-px w-4 bg-[#E57617]" />
-                      <h3 className="text-[12px] font-bold text-[#0a2e16]">Rapports par mois</h3>
+                      <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                      <h3 className="text-[12px] font-bold text-[var(--sane-green-deep)]">Rapports par mois</h3>
                     </div>
-                    <select className="text-[10px] border border-[#DDE8E0] rounded px-2 py-1 text-[#61756B] outline-none">
+                    <select className="text-[10px] border border-[var(--sane-border)] rounded px-2 py-1 text-[var(--sane-text-light)] outline-none">
                       <option>Cette année</option>
                     </select>
                   </div>
                   <svg viewBox="0 0 360 160" className="w-full">
                     {[0, 10, 20, 30, 40].map((v, i) => (
-                      <text key={i} x="20" y={140 - (v / maxBar) * 100} textAnchor="end" className="text-[7px] fill-[#61756B]">{v}</text>
+                      <text key={i} x="20" y={140 - (v / maxBar) * 100} textAnchor="end" className="text-[7px] fill-[var(--sane-text-light)]">{v}</text>
                     ))}
                     {barChartData.map((d, i) => {
                       const x = 30 + i * 27;
@@ -273,7 +273,7 @@ export default function AdminRapportsPage() {
                       return (
                         <g key={i}>
                           <rect x={x} y={140 - h} width="18" height={h} rx="3" fill={`hsl(${200 + i * 8}, 60%, ${45 + i * 2}%)`} />
-                          <text x={x + 9} y="155" textAnchor="middle" className="text-[6px] fill-[#61756B]">{d.month}</text>
+                          <text x={x + 9} y="155" textAnchor="middle" className="text-[6px] fill-[var(--sane-text-light)]">{d.month}</text>
                         </g>
                       );
                     })}
@@ -281,25 +281,25 @@ export default function AdminRapportsPage() {
                 </div>
 
                 {/* Donut chart */}
-                <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
+                <div className="rounded-xl border border-[var(--sane-border)] bg-white p-5">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="h-px w-4 bg-[#E57617]" />
-                    <h3 className="text-[11px] font-bold text-[#0a2e16]">Répartition des rapports</h3>
+                    <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                    <h3 className="text-[11px] font-bold text-[var(--sane-green-deep)]">Répartition des rapports</h3>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="relative w-[120px] h-[120px] shrink-0">
                       <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${donutGradient})` }} />
                       <div className="absolute inset-[24px] rounded-full bg-white flex flex-col items-center justify-center">
-                        <span className="text-[16px] font-extrabold text-[#0a2e16]">12</span>
-                        <span className="text-[7px] text-[#61756B]">Rapports</span>
+                        <span className="text-[16px] font-extrabold text-[var(--sane-green-deep)]">12</span>
+                        <span className="text-[7px] text-[var(--sane-text-light)]">Rapports</span>
                       </div>
                     </div>
                     <div className="grid grid-cols-1 gap-0.5 flex-1">
                       {donutSegments.map((d, i) => (
                         <div key={i} className="flex items-center gap-1.5 text-[9px]">
                           <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: d.color }} />
-                          <span className="flex-1 text-[#61756B]">{d.label}</span>
-                          <span className="font-semibold text-[#0a2e16]">{d.pct}%</span>
+                          <span className="flex-1 text-[var(--sane-text-light)]">{d.label}</span>
+                          <span className="font-semibold text-[var(--sane-green-deep)]">{d.pct}%</span>
                         </div>
                       ))}
                     </div>
@@ -314,49 +314,49 @@ export default function AdminRapportsPage() {
               <FilterBar searchPlaceholder="Rechercher un rapport..." filters={["Catégorie", "Période", "Format", "Statut"]} table={tbl} />
 
               {/* ═══════════ TABLE ═══════════ */}
-              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+              <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
                 <table className="w-full min-w-[950px] text-left">
                   <thead>
-                    <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
-                      <th className="px-3 py-2 w-8"><input type="checkbox" className="accent-[#10632D]" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Titre du rapport</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Catégorie</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Période</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Format</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Généré par</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Date de création</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Statut</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Actions</th>
+                    <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
+                      <th className="px-3 py-2 w-8"><input type="checkbox" className="accent-[var(--sane-green)]" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Titre du rapport</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Catégorie</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Période</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Format</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Généré par</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Date de création</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Statut</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {tbl.pageRows.map((r) => (
-                      <tr key={r._uid} className="border-b border-[#DDE8E0]/50 hover:bg-[#F5F9F6]/50">
-                        <td className="px-3 py-2"><input type="checkbox" className="accent-[#10632D]" checked={tbl.selected.includes(r._uid)} onChange={() => tbl.toggle(r._uid)} /></td>
+                      <tr key={r._uid} className="border-b border-[var(--sane-border)]/50 hover:bg-[var(--sane-background)]/50">
+                        <td className="px-3 py-2"><input type="checkbox" className="accent-[var(--sane-green)]" checked={tbl.selected.includes(r._uid)} onChange={() => tbl.toggle(r._uid)} /></td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-2">
-                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[#F5F9F6]">
+                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[var(--sane-background)]">
                               {reportIcons[r.cat]}
                             </span>
-                            <span className="min-w-[200px] text-[12px] font-semibold text-[#0a2e16]">{r.title}</span>
+                            <span className="min-w-[200px] text-[12px] font-semibold text-[var(--sane-green-deep)]">{r.title}</span>
                           </div>
                         </td>
                         <td className="px-2 py-2">
                           <span className={`whitespace-nowrap rounded-md px-2 py-1 text-[10px] font-semibold ${catColors[r.cat] || "bg-gray-200 text-gray-700"}`}>{r.cat}</span>
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[#61756B]">{r.period}</td>
+                        <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[var(--sane-text-light)]">{r.period}</td>
                         <td className="px-2 py-2">
-                          <span className="flex items-center gap-1 text-[10px] text-[#61756B]">
+                          <span className="flex items-center gap-1 text-[10px] text-[var(--sane-text-light)]">
                             <FileText size={10} /> {r.format}
                           </span>
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[#61756B]">{r.by}</td>
-                        <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[#61756B]">{r.date}</td>
+                        <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[var(--sane-text-light)]">{r.by}</td>
+                        <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[var(--sane-text-light)]">{r.date}</td>
                         <td className="px-2 py-2">
                           <span className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold ${
-                            r.status === "Terminé" ? "bg-[#E8F5ED] text-[#10632D]" :
-                            r.status === "En cours" ? "bg-[#FFF3E8] text-[#E57617]" :
-                            "bg-[#F3F4F6] text-[#61756B]"
+                            r.status === "Terminé" ? "bg-[var(--sane-green-light)] text-[var(--sane-green)]" :
+                            r.status === "En cours" ? "bg-[var(--sane-orange-light)] text-[var(--sane-orange)]" :
+                            "bg-[#F3F4F6] text-[var(--sane-text-light)]"
                           }`}>{r.status}</span>
                         </td>
                         <td className="px-2 py-2">
@@ -374,10 +374,10 @@ export default function AdminRapportsPage() {
             {/* ═══════════ RIGHT SIDEBAR ═══════════ */}
             <div className="flex flex-col gap-4 min-w-0">
               {/* Top rapports téléchargés */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-[12px] font-bold text-[#0a2e16]">Top rapports téléchargés</h3>
-                  <Link href="#" className="text-[9px] font-semibold text-[#10632D] hover:text-[#E57617]">Voir tout</Link>
+                  <h3 className="text-[12px] font-bold text-[var(--sane-green-deep)]">Top rapports téléchargés</h3>
+                  <Link href="#" className="text-[9px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)]">Voir tout</Link>
                 </div>
                 <div className="flex flex-col gap-2.5">
                   {topReports.map((t, i) => (
@@ -385,20 +385,20 @@ export default function AdminRapportsPage() {
                       <span className="flex h-5 w-5 items-center justify-center rounded-full text-[9px] font-bold shrink-0" style={{ backgroundColor: `${t.rankColor}18`, color: t.rankColor }}>{t.rank}</span>
                       <span className="flex h-7 w-7 items-center justify-center rounded-md shrink-0" style={{ backgroundColor: t.bg, color: t.color }}>{t.icon}</span>
                       <div className="min-w-0 flex-1">
-                        <p className="text-[10px] font-bold text-[#0a2e16] truncate">{t.title}</p>
-                        <p className="text-[8px] text-[#61756B]">{t.downloads}</p>
+                        <p className="text-[10px] font-bold text-[var(--sane-green-deep)] truncate">{t.title}</p>
+                        <p className="text-[8px] text-[var(--sane-text-light)]">{t.downloads}</p>
                       </div>
-                      <ChevronRight size={12} className="text-[#61756B] shrink-0" />
+                      <ChevronRight size={12} className="text-[var(--sane-text-light)] shrink-0" />
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Rapports récents */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-[12px] font-bold text-[#0a2e16]">Rapports récents</h3>
-                  <Link href="#" className="text-[9px] font-semibold text-[#10632D] hover:text-[#E57617]">Voir tout</Link>
+                  <h3 className="text-[12px] font-bold text-[var(--sane-green-deep)]">Rapports récents</h3>
+                  <Link href="#" className="text-[9px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)]">Voir tout</Link>
                 </div>
                 <div className="flex flex-col gap-2.5">
                   {recentReports.map((r, i) => (
@@ -409,8 +409,8 @@ export default function AdminRapportsPage() {
                       </div>
                       <span className="flex h-7 w-7 items-center justify-center rounded-lg shrink-0" style={{ backgroundColor: r.bg, color: r.color }}>{r.icon}</span>
                       <div className="min-w-0 flex-1">
-                        <p className="text-[10px] font-bold text-[#0a2e16] truncate">{r.title}</p>
-                        <p className="text-[8px] text-[#61756B]">{r.desc}</p>
+                        <p className="text-[10px] font-bold text-[var(--sane-green-deep)] truncate">{r.title}</p>
+                        <p className="text-[8px] text-[var(--sane-text-light)]">{r.desc}</p>
                       </div>
                     </div>
                   ))}

@@ -149,7 +149,7 @@ export default function DashboardOrganisateurPage() {
   })();
 
   return (
-    <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
+    <div className="flex h-screen bg-[var(--sane-background)] overflow-hidden">
       {/* Mobile overlay */}
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
@@ -166,35 +166,35 @@ export default function DashboardOrganisateurPage() {
             <div className="absolute inset-0 bg-gradient-to-r from-white from-32% via-white/40 via-48% to-transparent" />
             <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 hidden sm:flex items-center gap-3">
               <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
-              <p className="text-[16px] italic text-[#E57617] leading-tight font-semibold" style={{ fontFamily: "Georgia, serif" }}>Un Niger<br/>de Talents</p>
+              <p className="text-[16px] italic text-[var(--sane-orange)] leading-tight font-semibold" style={{ fontFamily: "Georgia, serif" }}>Un Niger<br/>de Talents</p>
             </div>
             <div className="relative z-20 p-4 sm:p-6">
-              <nav className="mb-2 flex items-center gap-1.5 text-[11px] text-[#61756B]">
+              <nav className="mb-2 flex items-center gap-1.5 text-[11px] text-[var(--sane-text-light)]">
                 <span>Accueil</span>
                 <ChevronRight size={11} />
                 <span>Organisateur</span>
                 <ChevronRight size={11} />
-                <span className="font-medium text-[#0a2e16]">Tableau de bord</span>
+                <span className="font-medium text-[var(--sane-green-deep)]">Tableau de bord</span>
               </nav>
-              <h1 className="mb-1 text-2xl font-extrabold text-[#0a2e16]">Bienvenue, Aïssatou !</h1>
-              <p className="max-w-md text-[13px] text-[#61756B]">Organisez, gérez et suivez tous vos événements du SANE. Contribuez à connecter les talents nigériens aux opportunités.</p>
+              <h1 className="mb-1 text-2xl font-extrabold text-[var(--sane-green-deep)]">Bienvenue, Aïssatou !</h1>
+              <p className="max-w-md text-[13px] text-[var(--sane-text-light)]">Organisez, gérez et suivez tous vos événements du SANE. Contribuez à connecter les talents nigériens aux opportunités.</p>
             </div>
           </div>
 
           {/* ═══════════ STATS ROW ═══════════ */}
-          <div className="mb-6 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 rounded-xl border border-[#DDE8E0] bg-white px-4 py-3">
+          <div className="mb-6 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 rounded-xl border border-[var(--sane-border)] bg-white px-4 py-3">
             {statsData.map((s, i) => (
               <div key={i} className="flex items-center gap-2.5">
                 <span className="flex items-center justify-center w-10 h-10 rounded-full shrink-0" style={{ backgroundColor: s.bg, color: s.color }}>{s.icon}</span>
                 <div className="min-w-0">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-xl font-extrabold text-[#0a2e16]">{s.value}</span>
-                    <span className="flex items-center gap-0.5 text-[10px] font-semibold text-[#10632D]">
+                    <span className="text-xl font-extrabold text-[var(--sane-green-deep)]">{s.value}</span>
+                    <span className="flex items-center gap-0.5 text-[10px] font-semibold text-[var(--sane-green)]">
                       <TrendingUp size={10} /> {s.trend}
                     </span>
-                    <span className="hidden text-[9px] text-[#61756B]/60 min-[420px]:inline">vs. mois dernier</span>
+                    <span className="hidden text-[9px] text-[var(--sane-text-light)]/60 min-[420px]:inline">vs. mois dernier</span>
                   </div>
-                  <p className="text-[10px] text-[#61756B] truncate">{s.label}</p>
+                  <p className="text-[10px] text-[var(--sane-text-light)] truncate">{s.label}</p>
                 </div>
               </div>
             ))}
@@ -203,28 +203,28 @@ export default function DashboardOrganisateurPage() {
           {/* ═══════════ CHARTS ROW ═══════════ */}
           <div className="mb-6 grid grid-cols-1 xl:grid-cols-[1fr_280px_280px] gap-4">
             {/* Line Chart */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
+            <div className="rounded-xl border border-[var(--sane-border)] bg-white p-5">
               <div className="mb-1 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="h-px w-4 bg-[#E57617]" />
-                  <h3 className="text-[14px] font-bold text-[#0a2e16]">Inscriptions par mois</h3>
+                  <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                  <h3 className="text-[14px] font-bold text-[var(--sane-green-deep)]">Inscriptions par mois</h3>
                 </div>
-                <select className="rounded border border-[#DDE8E0] px-2 py-1 text-[10px] text-[#61756B] outline-none">
+                <select className="rounded border border-[var(--sane-border)] px-2 py-1 text-[10px] text-[var(--sane-text-light)] outline-none">
                   <option>Cette année</option>
                 </select>
               </div>
-              <div className="mb-3 flex items-center gap-4 text-[10px] text-[#61756B]">
-                <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[#10632D]" /> Inscriptions</span>
-                <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[#E57617]" /> Participants</span>
+              <div className="mb-3 flex items-center gap-4 text-[10px] text-[var(--sane-text-light)]">
+                <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[var(--sane-green)]" /> Inscriptions</span>
+                <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[var(--sane-orange)]" /> Participants</span>
               </div>
               <div className="flex gap-2">
-                <div className="flex flex-col justify-between text-[9px] text-[#61756B] pb-5">
+                <div className="flex flex-col justify-between text-[9px] text-[var(--sane-text-light)] pb-5">
                   <span>400</span><span>300</span><span>200</span><span>100</span><span>0</span>
                 </div>
                 <div className="relative flex-1" style={{ height: 130 }}>
                   {/* Grid lines */}
                   {[0, 25, 50, 75, 100].map((p) => (
-                    <div key={p} className="absolute left-0 right-0 border-t border-[#DDE8E0]/50" style={{ top: `${p}%` }} />
+                    <div key={p} className="absolute left-0 right-0 border-t border-[var(--sane-border)]/50" style={{ top: `${p}%` }} />
                   ))}
                   {/* Line charts */}
                   <svg className="absolute inset-0 w-full h-full" viewBox={`0 0 ${lineChartData.length * 40} ${maxVal}`} preserveAspectRatio="none" fill="none">
@@ -248,7 +248,7 @@ export default function DashboardOrganisateurPage() {
                   {/* Month labels */}
                   <div className="absolute -bottom-4 left-0 right-0 flex">
                     {lineChartData.map((d, i) => (
-                      <span key={i} className="flex-1 text-center text-[9px] text-[#61756B]">{d.month}</span>
+                      <span key={i} className="flex-1 text-center text-[9px] text-[var(--sane-text-light)]">{d.month}</span>
                     ))}
                   </div>
                 </div>
@@ -256,18 +256,18 @@ export default function DashboardOrganisateurPage() {
             </div>
 
             {/* Donut Chart */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
+            <div className="rounded-xl border border-[var(--sane-border)] bg-white p-5">
               <div className="mb-3 flex items-center gap-2">
-                <span className="h-px w-4 bg-[#E57617]" />
-                <h3 className="text-[14px] font-bold text-[#0a2e16]">Répartition des participants</h3>
+                <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                <h3 className="text-[14px] font-bold text-[var(--sane-green-deep)]">Répartition des participants</h3>
               </div>
               <div className="flex items-center gap-3">
                 <div className="relative shrink-0">
                   <div className="h-[100px] w-[100px] rounded-full" style={{ background: `conic-gradient(${conicGradient})` }} />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="flex h-[62px] w-[62px] flex-col items-center justify-center rounded-full bg-white">
-                      <span className="text-[15px] font-extrabold text-[#0a2e16]">2.8K</span>
-                      <span className="text-[7px] text-[#61756B]">Participants</span>
+                      <span className="text-[15px] font-extrabold text-[var(--sane-green-deep)]">2.8K</span>
+                      <span className="text-[7px] text-[var(--sane-text-light)]">Participants</span>
                     </div>
                   </div>
                 </div>
@@ -275,8 +275,8 @@ export default function DashboardOrganisateurPage() {
                   {donutData.map((d, i) => (
                     <div key={i} className="flex items-center gap-1.5 text-[9px]">
                       <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: d.color }} />
-                      <span className="text-[#61756B]">{d.label}</span>
-                      <span className="ml-1 font-semibold text-[#0a2e16]">{d.pct}%</span>
+                      <span className="text-[var(--sane-text-light)]">{d.label}</span>
+                      <span className="ml-1 font-semibold text-[var(--sane-green-deep)]">{d.pct}%</span>
                     </div>
                   ))}
                 </div>
@@ -284,29 +284,29 @@ export default function DashboardOrganisateurPage() {
             </div>
 
             {/* Prochains événements */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
+            <div className="rounded-xl border border-[var(--sane-border)] bg-white p-5">
               <div className="mb-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="h-px w-4 bg-[#E57617]" />
-                  <h3 className="text-[13px] font-bold text-[#0a2e16]">Prochains événements</h3>
+                  <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                  <h3 className="text-[13px] font-bold text-[var(--sane-green-deep)]">Prochains événements</h3>
                 </div>
-                <Link href="#" className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
+                <Link href="#" className="text-[10px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
               </div>
               <div className="flex flex-col gap-3">
                 {events.map((e, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <div className="flex shrink-0 flex-col items-center">
-                      <span className="text-[16px] font-extrabold leading-none text-[#E57617]">{e.day}</span>
-                      <span className="text-[9px] font-semibold text-[#E57617]">{e.month}</span>
+                      <span className="text-[16px] font-extrabold leading-none text-[var(--sane-orange)]">{e.day}</span>
+                      <span className="text-[9px] font-semibold text-[var(--sane-orange)]">{e.month}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[11px] font-bold text-[#0a2e16] truncate">{e.title}</p>
-                      <div className="flex items-center gap-2 text-[9px] text-[#61756B]">
+                      <p className="text-[11px] font-bold text-[var(--sane-green-deep)] truncate">{e.title}</p>
+                      <div className="flex items-center gap-2 text-[9px] text-[var(--sane-text-light)]">
                         <span className="flex items-center gap-0.5"><Clock size={8} /> {e.time}</span>
                       </div>
-                      <p className="text-[9px] text-[#61756B] flex items-center gap-0.5"><MapPin size={8} /> {e.location}</p>
+                      <p className="text-[9px] text-[var(--sane-text-light)] flex items-center gap-0.5"><MapPin size={8} /> {e.location}</p>
                     </div>
-                    <ChevronRight size={14} className="text-[#61756B] mt-1 shrink-0" />
+                    <ChevronRight size={14} className="text-[var(--sane-text-light)] mt-1 shrink-0" />
                   </div>
                 ))}
               </div>
@@ -316,19 +316,19 @@ export default function DashboardOrganisateurPage() {
           {/* ═══════════ TABLE + CATEGORIES ═══════════ */}
           <div className="mb-6 grid grid-cols-1 xl:grid-cols-[1fr_300px] gap-4">
             {/* Inscriptions Table */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5 min-w-0">
+            <div className="rounded-xl border border-[var(--sane-border)] bg-white p-5 min-w-0">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="h-px w-4 bg-[#E57617]" />
-                  <h3 className="text-[14px] font-bold text-[#0a2e16]">Dernières inscriptions</h3>
+                  <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                  <h3 className="text-[14px] font-bold text-[var(--sane-green-deep)]">Dernières inscriptions</h3>
                 </div>
-                <Link href="#" className="text-[11px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={11} /></Link>
+                <Link href="#" className="text-[11px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] flex items-center gap-1">Voir tout <ArrowRight size={11} /></Link>
               </div>
               <div className="overflow-x-auto">
               <table className="w-full min-w-[650px] text-left">
                 <thead>
-                  <tr className="border-b border-[#DDE8E0] text-[10px] font-semibold text-[#61756B]">
-                    <th className="pb-2 pr-2 w-6"><input type="checkbox" className="h-3 w-3 accent-[#10632D]" /></th>
+                  <tr className="border-b border-[var(--sane-border)] text-[10px] font-semibold text-[var(--sane-text-light)]">
+                    <th className="pb-2 pr-2 w-6"><input type="checkbox" className="h-3 w-3 accent-[var(--sane-green)]" /></th>
                     <th className="pb-2">Participant</th>
                     <th className="pb-2">Événement / Formation</th>
                     <th className="pb-2">Type</th>
@@ -339,31 +339,31 @@ export default function DashboardOrganisateurPage() {
                 </thead>
                 <tbody>
                   {inscriptions.map((r, i) => (
-                    <tr key={i} className="border-b border-[#DDE8E0] last:border-0">
-                      <td className="py-2.5 pr-2"><input type="checkbox" className="h-3 w-3 accent-[#10632D]" /></td>
+                    <tr key={i} className="border-b border-[var(--sane-border)] last:border-0">
+                      <td className="py-2.5 pr-2"><input type="checkbox" className="h-3 w-3 accent-[var(--sane-green)]" /></td>
                       <td className="py-2.5">
                         <div className="flex items-center gap-2">
                           <Image src={r.avatar} alt={r.name} width={28} height={28} className="rounded-full object-cover" />
-                          <span className="text-[12px] font-semibold text-[#0a2e16]">{r.name}</span>
+                          <span className="text-[12px] font-semibold text-[var(--sane-green-deep)]">{r.name}</span>
                         </div>
                       </td>
-                      <td className="py-2.5 text-[11px] text-[#61756B]">{r.event}</td>
+                      <td className="py-2.5 text-[11px] text-[var(--sane-text-light)]">{r.event}</td>
                       <td className="py-2.5">
                         <span className="rounded-full px-2 py-0.5 text-[9px] font-semibold text-white" style={{ backgroundColor: r.typeColor }}>
                           {r.type}
                         </span>
                       </td>
-                      <td className="py-2.5 text-[11px] text-[#61756B]">{r.date}</td>
+                      <td className="py-2.5 text-[11px] text-[var(--sane-text-light)]">{r.date}</td>
                       <td className="py-2.5">
                         <span className="rounded-full border px-2 py-0.5 text-[9px] font-semibold" style={{ borderColor: r.statutColor, color: r.statutColor }}>
                           {r.statut}
                         </span>
                       </td>
                       <td className="py-2.5">
-                        <div className="flex items-center gap-1.5 text-[#61756B]">
-                          <button className="hover:text-[#10632D]"><Eye size={14} /></button>
-                          <button className="hover:text-[#10632D]"><Mail size={14} /></button>
-                          <button className="hover:text-[#10632D]"><MoreVertical size={14} /></button>
+                        <div className="flex items-center gap-1.5 text-[var(--sane-text-light)]">
+                          <button className="hover:text-[var(--sane-green)]"><Eye size={14} /></button>
+                          <button className="hover:text-[var(--sane-green)]"><Mail size={14} /></button>
+                          <button className="hover:text-[var(--sane-green)]"><MoreVertical size={14} /></button>
                         </div>
                       </td>
                     </tr>
@@ -374,13 +374,13 @@ export default function DashboardOrganisateurPage() {
             </div>
 
             {/* Participants par catégorie */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
+            <div className="rounded-xl border border-[var(--sane-border)] bg-white p-5">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="h-px w-4 bg-[#E57617]" />
-                  <h3 className="text-[13px] font-bold text-[#0a2e16]">Participants par catégorie</h3>
+                  <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                  <h3 className="text-[13px] font-bold text-[var(--sane-green-deep)]">Participants par catégorie</h3>
                 </div>
-                <Link href="#" className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
+                <Link href="#" className="text-[10px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
               </div>
               <div className="flex flex-col gap-3">
                 {categories.map((c, i) => (
@@ -388,12 +388,12 @@ export default function DashboardOrganisateurPage() {
                     <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: c.bg, color: c.color }}>
                       {c.icon}
                     </div>
-                    <span className="w-[120px] text-[11px] text-[#0a2e16] truncate shrink-0">{c.label}</span>
+                    <span className="w-[120px] text-[11px] text-[var(--sane-green-deep)] truncate shrink-0">{c.label}</span>
                     <div className="flex-1 h-2 rounded-full bg-[#E8EEF2] overflow-hidden">
                       <div className="h-full rounded-full" style={{ width: `${c.pct * 2.8}%`, backgroundColor: c.color }} />
                     </div>
-                    <span className="text-[12px] font-bold text-[#0a2e16] w-8 text-right">{c.count}</span>
-                    <span className="text-[10px] text-[#61756B] w-7 text-right">{c.pct}%</span>
+                    <span className="text-[12px] font-bold text-[var(--sane-green-deep)] w-8 text-right">{c.count}</span>
+                    <span className="text-[10px] text-[var(--sane-text-light)] w-7 text-right">{c.pct}%</span>
                   </div>
                 ))}
               </div>
@@ -403,13 +403,13 @@ export default function DashboardOrganisateurPage() {
           {/* ═══════════ BOTTOM ROW ═══════════ */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {/* Activités récentes */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
+            <div className="rounded-xl border border-[var(--sane-border)] bg-white p-5">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="h-px w-4 bg-[#E57617]" />
-                  <h3 className="text-[13px] font-bold text-[#0a2e16]">Activités récentes</h3>
+                  <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                  <h3 className="text-[13px] font-bold text-[var(--sane-green-deep)]">Activités récentes</h3>
                 </div>
-                <Link href="#" className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
+                <Link href="#" className="text-[10px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
               </div>
               <div className="flex flex-col gap-3.5">
                 {activities.map((a, i) => (
@@ -418,8 +418,8 @@ export default function DashboardOrganisateurPage() {
                       {a.icon}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[11px] font-bold text-[#0a2e16] leading-tight">{a.title}</p>
-                      <p className="text-[10px] text-[#E57617] mt-0.5">{a.desc}</p>
+                      <p className="text-[11px] font-bold text-[var(--sane-green-deep)] leading-tight">{a.title}</p>
+                      <p className="text-[10px] text-[var(--sane-orange)] mt-0.5">{a.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -427,37 +427,37 @@ export default function DashboardOrganisateurPage() {
             </div>
 
             {/* Messages récents */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
+            <div className="rounded-xl border border-[var(--sane-border)] bg-white p-5">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="h-px w-4 bg-[#E57617]" />
-                  <h3 className="text-[13px] font-bold text-[#0a2e16]">Messages récents</h3>
+                  <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                  <h3 className="text-[13px] font-bold text-[var(--sane-green-deep)]">Messages récents</h3>
                 </div>
-                <Link href="#" className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
+                <Link href="#" className="text-[10px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
               </div>
               <div className="flex flex-col gap-3.5">
                 {recentMessages.map((m, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <Image src={m.avatar} alt={m.name} width={36} height={36} className="rounded-full object-cover shrink-0" />
                     <div className="min-w-0 flex-1">
-                      <p className="text-[12px] font-bold text-[#0a2e16]">{m.name}</p>
-                      <p className="text-[10px] text-[#61756B] truncate">{m.preview}</p>
+                      <p className="text-[12px] font-bold text-[var(--sane-green-deep)]">{m.name}</p>
+                      <p className="text-[10px] text-[var(--sane-text-light)] truncate">{m.preview}</p>
                       <p className="text-[9px] text-[#3b82f6] mt-0.5">{m.time}</p>
                     </div>
-                    <span className="mt-1 h-2.5 w-2.5 rounded-full bg-[#E57617] shrink-0" />
+                    <span className="mt-1 h-2.5 w-2.5 rounded-full bg-[var(--sane-orange)] shrink-0" />
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Notifications récentes */}
-            <div className="rounded-xl border border-[#DDE8E0] bg-white p-5">
+            <div className="rounded-xl border border-[var(--sane-border)] bg-white p-5">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="h-px w-4 bg-[#E57617]" />
-                  <h3 className="text-[13px] font-bold text-[#0a2e16]">Notifications récentes</h3>
+                  <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                  <h3 className="text-[13px] font-bold text-[var(--sane-green-deep)]">Notifications récentes</h3>
                 </div>
-                <Link href="#" className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
+                <Link href="#" className="text-[10px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] flex items-center gap-1">Voir tout <ArrowRight size={10} /></Link>
               </div>
               <div className="flex flex-col gap-3.5">
                 {recentNotifs.map((n, i) => (
@@ -466,9 +466,9 @@ export default function DashboardOrganisateurPage() {
                       {n.icon}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-[11px] font-bold text-[#0a2e16] leading-tight">{n.title}</p>
-                      <p className="text-[10px] text-[#61756B]">{n.desc}</p>
-                      <p className="text-[9px] text-[#E57617] mt-0.5">{n.time}</p>
+                      <p className="text-[11px] font-bold text-[var(--sane-green-deep)] leading-tight">{n.title}</p>
+                      <p className="text-[10px] text-[var(--sane-text-light)]">{n.desc}</p>
+                      <p className="text-[9px] text-[var(--sane-orange)] mt-0.5">{n.time}</p>
                     </div>
                     <span className="mt-1 h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: n.iconBg }} />
                   </div>

@@ -23,7 +23,7 @@ export function Footer() {
               </div>
             </Link>
 
-            <p className="mt-4 max-w-[280px] text-[13px] leading-[1.6] text-[#B8D9C5]">
+            <p className="mt-4 max-w-[280px] text-[13px] leading-[1.6] text-[var(--sane-green-muted)]">
               Le Salon National de l&apos;Emploi, un espace de rencontre entre
               les talents, les entreprises et les opportunités professionnelles
               au Niger.
@@ -50,8 +50,8 @@ export function Footer() {
 
           {/* ================= 2. LIENS RAPIDES ================= */}
           <div>
-            <h3 className="mb-5 text-[14px] font-bold text-white">Liens rapides</h3>
-            <div className="flex flex-col gap-1 text-[13px] text-[#B8D9C5]">
+            <h3 className="sane-h3 on-dark mb-5">Liens rapides</h3>
+            <div className="flex flex-col gap-1 text-[13px] text-[var(--sane-green-muted)]">
               <Link href="/" className="py-1.5 transition-colors hover:text-white">Accueil</Link>
               <Link href="/a-propos" className="py-1.5 transition-colors hover:text-white">À propos</Link>
               <Link href="/programme" className="py-1.5 transition-colors hover:text-white">Programme</Link>
@@ -62,8 +62,8 @@ export function Footer() {
 
           {/* ================= 3. DÉCOUVRIR ================= */}
           <div>
-            <h3 className="mb-5 text-[14px] font-bold text-white">Découvrir</h3>
-            <div className="flex flex-col gap-1 text-[13px] text-[#B8D9C5]">
+            <h3 className="sane-h3 on-dark mb-5">Découvrir</h3>
+            <div className="flex flex-col gap-1 text-[13px] text-[var(--sane-green-muted)]">
               <Link href="/intervenants" className="py-1.5 transition-colors hover:text-white">Intervenants</Link>
               <Link href="/partenaires" className="py-1.5 transition-colors hover:text-white">Partenaires</Link>
               <Link href="/actualites" className="py-1.5 transition-colors hover:text-white">Actualités</Link>
@@ -73,8 +73,8 @@ export function Footer() {
 
           {/* ================= 4. EMPLOI ================= */}
           <div>
-            <h3 className="mb-5 text-[14px] font-bold text-white">Emploi</h3>
-            <div className="flex flex-col gap-1 text-[13px] text-[#B8D9C5]">
+            <h3 className="sane-h3 on-dark mb-5">Emploi</h3>
+            <div className="flex flex-col gap-1 text-[13px] text-[var(--sane-green-muted)]">
               <Link href="/emploi" className="py-1.5 transition-colors hover:text-white">Offres d&apos;emploi</Link>
               <Link href="/demandeur-emploi" className="py-1.5 transition-colors hover:text-white">Demandeur d&apos;emploi</Link>
               <Link href="/recruteur" className="py-1.5 transition-colors hover:text-white">Recruteur</Link>
@@ -84,21 +84,21 @@ export function Footer() {
 
           {/* ================= 5. CONTACT ================= */}
           <div>
-            <h3 className="mb-5 text-[14px] font-bold text-white">Contact</h3>
-            <div className="flex flex-col gap-3.5 text-[13px] text-[#B8D9C5]">
+            <h3 className="sane-h3 on-dark mb-5">Contact</h3>
+            <div className="flex flex-col gap-3.5 text-[13px] text-[var(--sane-green-muted)]">
               <div className="flex items-center gap-2.5 break-words">
-                <MapPin size={15} className="shrink-0 text-[#E57617]" />
+                <MapPin size={15} className="shrink-0 text-[var(--sane-orange)]" />
                 <span>Niamey, Niger</span>
               </div>
               <div className="flex items-center gap-2.5 break-words">
-                <Mail size={15} className="shrink-0 text-[#E57617]" />
+                <Mail size={15} className="shrink-0 text-[var(--sane-orange)]" />
                 <span>contact@sane.ne</span>
               </div>
               <div className="flex items-center gap-2.5 break-words">
-                <Phone size={15} className="shrink-0 text-[#E57617]" />
+                <Phone size={15} className="shrink-0 text-[var(--sane-orange)]" />
                 <span>+227 XX XX XX XX</span>
               </div>
-              <Link href="/contact" className="mt-1 inline-flex w-fit items-center gap-1.5 font-semibold text-white transition-colors hover:text-[#B8D9C5]">
+              <Link href="/contact" className="mt-1 inline-flex w-fit items-center gap-1.5 font-semibold text-white transition-colors hover:text-[var(--sane-green-muted)]">
                 Nous écrire
                 <ArrowUpRight size={15} />
               </Link>
@@ -110,7 +110,7 @@ export function Footer() {
       {/* ================= BOTTOM LEGAL BAR ================= */}
       <div className="border-t border-white/15">
         <div className="sane-container">
-          <div className="flex flex-col gap-3 py-5 text-[11px] text-[#B8D9C5] sm:text-xs md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-3 py-5 text-[11px] text-[var(--sane-green-muted)] sm:text-xs md:flex-row md:items-center md:justify-between">
             <p>© 2026 SANE — Salon National de l&apos;Emploi. Tous droits réservés.</p>
             <div className="flex flex-wrap gap-x-5 gap-y-1.5">
               <Link href="/mentions-legales" className="transition-colors hover:text-white">Mentions légales</Link>

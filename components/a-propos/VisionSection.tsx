@@ -45,25 +45,23 @@ export function VisionSection() {
           </div>
 
           <div className="pt-12 lg:pt-12">
-            <div className="flex items-center gap-1.5">
-              <span className="h-[3px] w-8 rounded-full bg-[var(--sane-orange)]" />
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.12em] text-[var(--sane-green)] sm:text-[11px]">
-                Qui sommes-nous ?
-              </span>
+            <div className="flex items-center gap-2">
+              <span className="sane-eyebrow-bar" />
+              <span className="sane-eyebrow">Qui sommes-nous ?</span>
             </div>
-            <h2 className="mt-1 text-[22px] font-bold leading-[1.18] tracking-tight text-[var(--sane-text)] sm:text-[26px] md:text-[30px] lg:text-[34px]">
+            <h2 className="sane-h2 mt-2">
               Le SANE, plus qu&apos;un événement,
               <br className="hidden sm:block" />
               une vision pour l&apos;avenir
             </h2>
-            <p className="mt-2 text-[13px] leading-[1.6] text-[var(--sane-text)] opacity-65 sm:text-[14px] md:text-[15px]">
+            <p className="sane-body mt-3">
               Le Salon National de l&apos;Emploi est une initiative nationale qui vise
               à favoriser l&apos;insertion professionnelle, à renforcer les compétences
               et à promouvoir l&apos;entrepreneuriat au Niger. Il réunit chaque année
               des entreprises, des institutions, des experts et des jeunes talents
               autour d&apos;un objectif commun : bâtir un Niger plus fort.
             </p>
-            <div className="mt-2 flex items-end justify-between">
+            <div className="mt-5 flex items-end justify-between">
               <Link
                 href="/programme"
                 className="group inline-flex h-[36px] items-center gap-2 rounded-full bg-[var(--sane-green)] px-5 text-[12px] font-semibold !text-white transition-colors hover:bg-white hover:!text-[var(--sane-green)] hover:border-[var(--sane-green)] border border-transparent sm:h-[38px] sm:px-6 sm:text-[13px]"

@@ -143,7 +143,7 @@ export default function PartenairesPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const tbl = useTable(partenaires, { filterKeys: {"Catégorie":"categorie","Statut":"statut","Pays":"pays"} });
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
+    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
@@ -157,18 +157,18 @@ export default function PartenairesPage() {
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
           {/* Hero Banner - light variant */}
-          <div className="relative mb-4 overflow-hidden rounded-2xl bg-white border border-[#DDE8E0]">
+          <div className="relative mb-4 overflow-hidden rounded-2xl bg-white border border-[var(--sane-border)]">
             <div className="flex flex-col sm:flex-row">
               <div className="flex flex-col justify-center px-5 sm:px-8 py-5 relative z-10 sm:min-w-[45%]">
-                <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[#61756B]">
+                <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[var(--sane-text-light)]">
                   <span>Accueil</span>
                   <span>&rsaquo;</span>
                   <span>Partenaires</span>
                   <span>&rsaquo;</span>
-                  <span className="font-semibold text-[#0a2e16]">Tous les partenaires</span>
+                  <span className="font-semibold text-[var(--sane-green-deep)]">Tous les partenaires</span>
                 </div>
-                <h1 className="text-[28px] font-extrabold text-[#0a2e16] leading-tight">Gestion des partenaires</h1>
-                <p className="mt-1.5 max-w-[420px] text-[11px] text-[#61756B] leading-relaxed">
+                <h1 className="text-[28px] font-extrabold text-[var(--sane-green-deep)] leading-tight">Gestion des partenaires</h1>
+                <p className="mt-1.5 max-w-[420px] text-[11px] text-[var(--sane-text-light)] leading-relaxed">
                   Gérez tous les partenaires du SANE. Ajoutez de nouveaux partenaires,<br />
                   organisez-les par catégorie et suivez leurs contributions.
                 </p>
@@ -189,13 +189,13 @@ export default function PartenairesPage() {
                   </svg>
                 </div>
                 <div className="absolute right-5 bottom-3 text-right hidden sm:block">
-                  <p className="text-[18px] italic font-bold text-[#10632D] leading-snug" style={{ fontFamily: "Georgia, serif" }}>
+                  <p className="text-[18px] italic font-bold text-[var(--sane-green)] leading-snug" style={{ fontFamily: "Georgia, serif" }}>
                     Un Niger<br />de Talents
                   </p>
                 </div>
               </div>
             </div>
-            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter un partenaire
             </button>
@@ -215,40 +215,40 @@ export default function PartenairesPage() {
               <FilterBar searchPlaceholder="Rechercher un partenaire..." filters={["Catégorie", "Type de partenariat", "Pays", "Statut"]}  table={tbl} />
 
               {/* Table */}
-              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+              <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
                 <table className="w-full min-w-[1000px]">
                   <thead>
-                    <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
+                    <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Logo</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Logo</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Nom du partenaire <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Catégorie</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Catégorie</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Pays <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Type de partenariat <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Statut <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Date d&apos;ajout <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Actions</th>
+                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {tbl.pageRows.map((p) => (
-                      <tr key={p.id} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
+                      <tr key={p.id} className="border-b border-[var(--sane-border)] last:border-0 hover:bg-[var(--sane-background)]/50">
                         <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(p._uid)} onChange={() => tbl.toggle(p._uid)} /></td>
                         <td className="px-2 py-2">
                           <PartnerLogo nom={p.nom} />
                         </td>
                         <td className="px-2 py-2">
-                          <p className="whitespace-nowrap text-[12px] font-semibold text-[#0a2e16]">{p.nom}</p>
+                          <p className="whitespace-nowrap text-[12px] font-semibold text-[var(--sane-green-deep)]">{p.nom}</p>
                         </td>
                         <td className="px-2 py-2">
                           <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${p.catColor}18`, color: p.catColor }}>
@@ -258,7 +258,7 @@ export default function PartenairesPage() {
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-1">
                             <span className="text-[13px]">{p.flag}</span>
-                            <p className="text-[11px] text-[#0a2e16] font-medium whitespace-nowrap">{p.pays}</p>
+                            <p className="text-[11px] text-[var(--sane-green-deep)] font-medium whitespace-nowrap">{p.pays}</p>
                           </div>
                         </td>
                         <td className="px-2 py-2">
@@ -272,7 +272,7 @@ export default function PartenairesPage() {
                           </span>
                         </td>
                         <td className="px-2 py-2">
-                          <p className="text-[11px] text-[#0a2e16] font-medium whitespace-nowrap">{p.date}</p>
+                          <p className="text-[11px] text-[var(--sane-green-deep)] font-medium whitespace-nowrap">{p.date}</p>
                         </td>
                         <td className="px-2 py-2">
                           <RowActions table={tbl} row={p} />

@@ -22,14 +22,14 @@ export function DocumentsSection() {
                 href={doc.href}
                 className="group flex items-center gap-4 rounded-2xl border border-[var(--sane-border)] bg-white p-4 transition-shadow hover:shadow-md sm:p-5"
               >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#eaf5ee] sm:h-12 sm:w-12">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--sane-green-light)] sm:h-12 sm:w-12">
                   <Icon size={21} strokeWidth={2} className="text-[var(--sane-green)]" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[13px] font-extrabold text-[var(--sane-text)] sm:text-[14px]">
                     {doc.title}
                   </p>
-                  <p className="text-[11px] text-[var(--sane-text-light)] sm:text-[12px]">{doc.format}</p>
+                  <p className="sane-small">{doc.format}</p>
                 </div>
                 <Download
                   size={16}

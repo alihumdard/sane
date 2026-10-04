@@ -82,9 +82,9 @@ function Modal({ table, entity }: Props) {
         onMouseDown={(e) => e.stopPropagation()}
         className="flex max-h-[90vh] w-full flex-col rounded-t-2xl bg-white shadow-2xl sm:max-w-xl sm:rounded-2xl"
       >
-        <div className="flex items-center justify-between border-b border-[#DDE8E0] px-5 py-4">
-          <h3 className="text-[15px] font-bold text-[#0a2e16]">{title}</h3>
-          <button type="button" onClick={table.closeModal} className="rounded-full p-1 text-[#61756B] hover:bg-[#F5F9F6]">
+        <div className="flex items-center justify-between border-b border-[var(--sane-border)] px-5 py-4">
+          <h3 className="text-[15px] font-bold text-[var(--sane-green-deep)]">{title}</h3>
+          <button type="button" onClick={table.closeModal} className="rounded-full p-1 text-[var(--sane-text-light)] hover:bg-[var(--sane-background)]">
             <X size={16} />
           </button>
         </div>
@@ -93,18 +93,18 @@ function Modal({ table, entity }: Props) {
           {keys.map((k) => {
             const v = data[k];
             const long = typeof v === "string" && (v.includes("\n") || v.length > 60);
-            const common = "w-full rounded-lg border border-[#DDE8E0] px-3 py-2 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10 disabled:bg-[#F5F9F6]";
+            const common = "w-full rounded-lg border border-[var(--sane-border)] px-3 py-2 text-[13px] text-[var(--sane-green-deep)] outline-none focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10 disabled:bg-[var(--sane-background)]";
             const opts = suggestions(k);
             return (
               <label key={k} className={`flex flex-col gap-1.5 ${long ? "sm:col-span-2" : ""} ${typeof v === "boolean" ? "flex-row items-center" : ""}`}>
-                <span className="text-[12px] font-semibold text-[#0a2e16]">{label(k)}</span>
+                <span className="text-[12px] font-semibold text-[var(--sane-green-deep)]">{label(k)}</span>
                 {typeof v === "boolean" ? (
                   <input
                     type="checkbox"
                     disabled={readOnly}
                     checked={v}
                     onChange={(e) => setData({ ...data, [k]: e.target.checked })}
-                    className="h-4 w-4 accent-[#10632D]"
+                    className="h-4 w-4 accent-[var(--sane-green)]"
                   />
                 ) : long ? (
                   <textarea
@@ -140,20 +140,20 @@ function Modal({ table, entity }: Props) {
 
         {error && <p className="px-5 pb-1 text-[12px] font-medium text-[#DC2626]">{error}</p>}
 
-        <div className="flex justify-end gap-2 border-t border-[#DDE8E0] px-5 py-3">
-          <button type="button" onClick={table.closeModal} className="rounded-lg border border-[#DDE8E0] px-4 py-2 text-[12px] font-semibold text-[#61756B] hover:bg-[#F5F9F6]">
+        <div className="flex justify-end gap-2 border-t border-[var(--sane-border)] px-5 py-3">
+          <button type="button" onClick={table.closeModal} className="rounded-lg border border-[var(--sane-border)] px-4 py-2 text-[12px] font-semibold text-[var(--sane-text-light)] hover:bg-[var(--sane-background)]">
             {readOnly ? "Fermer" : "Annuler"}
           </button>
           {readOnly ? (
             <button
               type="button"
               onClick={() => modal.row && table.openEdit(modal.row)}
-              className="rounded-lg bg-[#10632D] px-4 py-2 text-[12px] font-semibold text-white hover:bg-[#0a4a22]"
+              className="rounded-lg bg-[var(--sane-green)] px-4 py-2 text-[12px] font-semibold text-white hover:bg-[var(--sane-green-dark)]"
             >
               Modifier
             </button>
           ) : (
-            <button type="submit" className="rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-semibold text-white hover:bg-[#c9600f]">
+            <button type="submit" className="rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-semibold text-white hover:bg-[var(--sane-orange-dark)]">
               Enregistrer
             </button>
           )}
@@ -171,14 +171,14 @@ export default function TableDialogs({ table, entity }: Props) {
       {table.confirm && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4" onMouseDown={table.cancelDelete}>
           <div onMouseDown={(e) => e.stopPropagation()} className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-2xl">
-            <h3 className="text-[15px] font-bold text-[#0a2e16]">Confirmer la suppression</h3>
-            <p className="mt-2 text-[13px] text-[#61756B]">
+            <h3 className="text-[15px] font-bold text-[var(--sane-green-deep)]">Confirmer la suppression</h3>
+            <p className="mt-2 text-[13px] text-[var(--sane-text-light)]">
               {table.confirm.length > 1
                 ? `Supprimer ${table.confirm.length} éléments sélectionnés ? Cette action est irréversible.`
                 : "Supprimer cet élément ? Cette action est irréversible."}
             </p>
             <div className="mt-5 flex justify-end gap-2">
-              <button onClick={table.cancelDelete} className="rounded-lg border border-[#DDE8E0] px-4 py-2 text-[12px] font-semibold text-[#61756B] hover:bg-[#F5F9F6]">
+              <button onClick={table.cancelDelete} className="rounded-lg border border-[var(--sane-border)] px-4 py-2 text-[12px] font-semibold text-[var(--sane-text-light)] hover:bg-[var(--sane-background)]">
                 Annuler
               </button>
               <button onClick={table.doDelete} className="rounded-lg bg-[#DC2626] px-4 py-2 text-[12px] font-semibold text-white hover:bg-[#b91c1c]">
@@ -190,7 +190,7 @@ export default function TableDialogs({ table, entity }: Props) {
       )}
 
       {table.toast && (
-        <div className="fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-lg bg-[#0a2e16] px-4 py-2.5 text-[12px] font-semibold text-white shadow-lg">
+        <div className="fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-lg bg-[var(--sane-green-deep)] px-4 py-2.5 text-[12px] font-semibold text-white shadow-lg">
           {table.toast}
         </div>
       )}

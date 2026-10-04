@@ -96,7 +96,7 @@ export default function FaqPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const tbl = useTable(questions, { filterKeys: {"Catégorie":"categorie","Statut":"statut"} });
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
+    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
@@ -110,10 +110,10 @@ export default function FaqPage() {
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
           {/* Hero Banner */}
-          <div className="relative mb-4 min-h-[120px] sm:h-[170px] overflow-hidden rounded-2xl bg-[#0a2e16]">
+          <div className="relative mb-4 min-h-[120px] sm:h-[170px] overflow-hidden rounded-2xl bg-[var(--sane-green-deep)]">
             <div className="absolute right-0 top-0 h-full w-full sm:w-[60%]">
               <Image src="https://images.unsplash.com/photo-1664575602554-2087b04935a5?w=800&h=400&fit=crop" alt="faq" fill className="object-cover object-top" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e16] via-[#0a2e16]/60 to-[#0a2e16]/20 sm:via-[#0a2e16]/30 sm:to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[var(--sane-green-deep)] via-[var(--sane-green-deep)]/60 to-[var(--sane-green-deep)]/20 sm:via-[var(--sane-green-deep)]/30 sm:to-transparent" />
             </div>
             <div className="absolute right-32 top-1/2 -translate-y-1/2 opacity-30 hidden sm:block">
               <svg width="90" height="90" viewBox="0 0 100 100">
@@ -137,12 +137,12 @@ export default function FaqPage() {
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
                 Gérez toutes les questions fréquentes du SANE. Organisez-les par catégories, mettez à jour les réponses et suivez les questions les plus consultées.
               </p>
-              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                 Ajouter une question
               </button>
             </div>
-            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-6 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-6 hidden sm:flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter une question
             </button>
@@ -161,27 +161,27 @@ export default function FaqPage() {
             <div className="flex flex-col gap-3 min-w-0">
               <FilterBar searchPlaceholder="Rechercher une question..." filters={["Catégorie", "Statut", "Popularité"]}  table={tbl} />
 
-              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+              <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
                 <table className="w-full min-w-[900px]">
                   <thead>
-                    <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
+                    <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Question</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Catégorie</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Question</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Catégorie</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Vues <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Statut</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Dernière mise à jour</th>
-                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Actions</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Statut</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Dernière mise à jour</th>
+                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {tbl.pageRows.map((q, i) => (
-                      <tr key={i} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
+                      <tr key={i} className="border-b border-[var(--sane-border)] last:border-0 hover:bg-[var(--sane-background)]/50">
                         <td className="px-3 py-2.5"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(q._uid)} onChange={() => tbl.toggle(q._uid)} /></td>
                         <td className="px-2 py-3 min-w-[300px] max-w-[420px]">
-                          <p className="text-[12px] font-semibold text-[#0a2e16] leading-snug">{q.question}</p>
+                          <p className="text-[12px] font-semibold text-[var(--sane-green-deep)] leading-snug">{q.question}</p>
                         </td>
                         <td className="px-2 py-2.5">
                           <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${q.catColor}18`, color: q.catColor }}>
@@ -190,8 +190,8 @@ export default function FaqPage() {
                         </td>
                         <td className="px-2 py-2.5">
                           <div className="flex items-center gap-1">
-                            <Eye size={12} className="text-[#61756B]" />
-                            <span className="text-[11px] font-medium text-[#0a2e16]">{q.vues.toLocaleString()}</span>
+                            <Eye size={12} className="text-[var(--sane-text-light)]" />
+                            <span className="text-[11px] font-medium text-[var(--sane-green-deep)]">{q.vues.toLocaleString()}</span>
                           </div>
                         </td>
                         <td className="px-2 py-2.5">
@@ -200,7 +200,7 @@ export default function FaqPage() {
                           </span>
                         </td>
                         <td className="px-2 py-2.5">
-                          <span className="whitespace-nowrap text-[11px] text-[#61756B]">{q.date}</span>
+                          <span className="whitespace-nowrap text-[11px] text-[var(--sane-text-light)]">{q.date}</span>
                         </td>
                         <td className="px-2 py-2.5">
                           <RowActions table={tbl} row={q} extra="duplicate" />

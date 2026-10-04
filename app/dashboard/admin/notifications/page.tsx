@@ -2,11 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import {
-  Home, Users, Briefcase, BookOpen, Calendar,
-  Newspaper, BarChart3, Settings, Share2, Bell,
-  Eye, Pencil, Copy, Trash2, MoreVertical,
-} from "lucide-react";
+import { ArrowDown, ArrowUp, Bell, ChevronsUpDown, Send } from "lucide-react";
 
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import { adminNav } from "@/lib/adminNav";
@@ -28,23 +24,23 @@ const sidebarItems = adminNav("Notifications", 0);
 const statsData = [
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>,
-    value: "126", label: "Total des notifications", trend: "+24%", bg: "#E8F5ED", color: "#10632D",
+    key: "total", label: "Total des notifications", trend: "+24%", bg: "#E8F5ED", color: "#10632D",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
-    value: "98", label: "Envoyées", trend: "+18%", bg: "#FFF3E8", color: "#E57617",
+    key: "sent", label: "Envoyées", trend: "+18%", bg: "#FFF3E8", color: "#E57617",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
-    value: "12", label: "Planifiées", trend: "+33%", bg: "#E0F0FF", color: "#2563EB",
+    key: "scheduled", label: "Planifiées", trend: "+33%", bg: "#E0F0FF", color: "#2563EB",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>,
-    value: "8", label: "Brouillons", trend: "+14%", bg: "#F3E8FF", color: "#7C3AED",
+    key: "drafts", label: "Brouillons", trend: "+14%", bg: "#F3E8FF", color: "#7C3AED",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
-    value: "92%", label: "Taux d'ouverture", trend: "+6%", bg: "#FFFBE8", color: "#D97706",
+    key: "openRate", label: "Taux d'ouverture", trend: "+6%", bg: "#FFFBE8", color: "#D97706",
   },
 ];
 
@@ -123,18 +119,6 @@ const notifications = [
   },
 ];
 
-/* ─── Donut chart segments ─── */
-const donutSegments = [
-  { label: "Événement", value: 35, pct: 28, color: "#10632D" },
-  { label: "Emploi", value: 25, pct: 20, color: "#E57617" },
-  { label: "Formation", value: 19, pct: 15, color: "#2563EB" },
-  { label: "Presse", value: 15, pct: 12, color: "#7C3AED" },
-  { label: "Partenariat", value: 13, pct: 10, color: "#0891B2" },
-  { label: "Général", value: 10, pct: 8, color: "#61756B" },
-  { label: "Système", value: 6, pct: 5, color: "#DC2626" },
-  { label: "Autres", value: 3, pct: 2, color: "#D97706" },
-];
-
 /* ─── Top notifications ─── */
 const topNotificationsData = [
   { rank: 1, title: "Ouverture des inscriptions", subtitle: "3,240 ouvertures (95%)" },
@@ -153,11 +137,74 @@ const recentesData = [
   { day: "02", month: "Mar", title: "Article de presse publié", subtitle: "Envoyée à tous · 1,760 ouvertures" },
 ];
 
+const MONTHS = ["Jan", "Fév", "Mars", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
+
+/** "12 Mars 2024" + "10:30" -> sortable number */
+function dateValue(n: { date: string; heure: string }) {
+  const [d, m, y] = n.date.split(" ");
+  const month = MONTHS.findIndex((x) => x.toLowerCase().slice(0, 3) === m.toLowerCase().slice(0, 3) && (m.toLowerCase().startsWith("juil") === (x === "Juil")));
+  return Number(y) * 1e8 + (month + 1) * 1e6 + Number(d) * 1e4 + Number(n.heure.replace(":", ""));
+}
+
+const columns: { label: string; sortKey?: string; align?: "center" }[] = [
+  { label: "Titre de la notification", sortKey: "titre" },
+  { label: "Catégorie", sortKey: "categorie" },
+  { label: "Type de destinataire" },
+  { label: "Date d'envoi", sortKey: "date" },
+  { label: "Statut", sortKey: "statut" },
+  { label: "Ouvertures", sortKey: "ouvertures" },
+  { label: "Actions", align: "center" },
+];
+
 export default function NotificationsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const tbl = useTable(notifications, { filterKeys: {"Catégorie":"categorie","Statut":"statut","Type de destinataire":"destinataire"} });
+  const tbl = useTable(notifications, {
+    filterKeys: { "Catégorie": "categorie", "Statut": "statut", "Type de destinataire": "destinataire" },
+    sortGetters: {
+      titre: (n) => n.titre,
+      categorie: (n) => n.categorie,
+      statut: (n) => n.statut,
+      ouvertures: (n) => n.ouvertures,
+      date: dateValue,
+    },
+  });
+
+  // live figures: they follow the table (add / delete / send)
+  const rows = tbl.rows;
+  const sent = rows.filter((n) => n.statut === "Envoyée");
+  const statValues: Record<string, string> = {
+    total: String(rows.length),
+    sent: String(sent.length),
+    scheduled: String(rows.filter((n) => n.statut === "Planifiée").length),
+    drafts: String(rows.filter((n) => n.statut === "Brouillon").length),
+    openRate: `${sent.length ? Math.round(sent.reduce((a, n) => a + n.ouverturesPct, 0) / sent.length) : 0}%`,
+  };
+  const donutSegments = Object.values(
+    rows.reduce<Record<string, { label: string; value: number; pct: number; color: string }>>((acc, n) => {
+      acc[n.categorie] ??= { label: n.categorie, value: 0, pct: 0, color: n.catColor };
+      acc[n.categorie].value += 1;
+      return acc;
+    }, {})
+  )
+    .map((seg) => ({ ...seg, pct: Math.round((seg.value / Math.max(rows.length, 1)) * 100) }))
+    .sort((a, b) => b.value - a.value);
+
+  const sendNow = (n: (typeof rows)[number]) => {
+    const now = new Date();
+    tbl.update(
+      n._uid,
+      {
+        statut: "Envoyée",
+        statutColor: "#10632D",
+        statutBg: "#E8F5ED",
+        date: `${String(now.getDate()).padStart(2, "0")} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`,
+        heure: `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`,
+      },
+      "Notification envoyée"
+    );
+  };
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
+    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
@@ -171,10 +218,10 @@ export default function NotificationsPage() {
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
           {/* Hero Banner - dark variant */}
-          <div className="relative mb-4 min-h-[120px] sm:h-[160px] overflow-hidden rounded-2xl bg-[#0a2e16]">
+          <div className="relative mb-4 min-h-[120px] sm:h-[160px] overflow-hidden rounded-2xl bg-[var(--sane-green-deep)]">
             <div className="absolute right-0 top-0 h-full w-full sm:w-[55%]">
-              <Image src="https://images.unsplash.com/photo-1611432579699-484f7990b127?w=800&h=400&fit=crop" alt="notifications" fill className="object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e16] via-[#0a2e16]/60 to-[#0a2e16]/20 sm:via-[#0a2e16]/40 sm:to-transparent" />
+              <Image src="/sane_deal.png" alt="" fill sizes="(max-width: 640px) 100vw, 55vw" className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[var(--sane-green-deep)] via-[var(--sane-green-deep)]/60 to-[var(--sane-green-deep)]/20 sm:via-[var(--sane-green-deep)]/40 sm:to-transparent" />
             </div>
             <div className="absolute right-[110px] top-1/2 -translate-y-1/2 opacity-60 hidden sm:block">
               <svg width="100" height="100" viewBox="0 0 100 100">
@@ -198,12 +245,12 @@ export default function NotificationsPage() {
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
                 Envoyez et gérez toutes les notifications du SANE. Informez les utilisateurs des mises à jour, événements et opportunités importantes.
               </p>
-              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+              <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                 Nouvelle notification
               </button>
             </div>
-            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Nouvelle notification
             </button>
@@ -212,7 +259,7 @@ export default function NotificationsPage() {
           {/* Stats */}
           <div className="mb-4 grid grid-cols-2 lg:grid-cols-5 gap-3">
             {statsData.map((s, i) => (
-              <StatsCard key={i} icon={s.icon} value={s.value} label={s.label} trend={s.trend} bg={s.bg} color={s.color} />
+              <StatsCard key={i} icon={s.icon} value={statValues[s.key] ?? "0"} label={s.label} trend={s.trend} bg={s.bg} color={s.color} />
             ))}
           </div>
 
@@ -223,40 +270,48 @@ export default function NotificationsPage() {
               <FilterBar searchPlaceholder="Rechercher une notification..." filters={["Catégorie", "Statut", "Type de destinataire", "Date d'envoi"]}  table={tbl} />
 
               {/* Table */}
-              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+              <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
                 <table className="w-full min-w-[1000px]">
                   <thead>
-                    <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
-                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Titre de la notification <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
-                      </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Catégorie <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
-                      </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Type de destinataire</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Date d&apos;envoi <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
-                      </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Statut <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
-                      </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Ouvertures</th>
-                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Actions</th>
+                    <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
+                      <th className="px-3 py-2.5 text-left"><input type="checkbox" aria-label="Tout sélectionner" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
+                      {columns.map((c) => {
+                        const active = c.sortKey && tbl.sort?.key === c.sortKey;
+                        const Icon = !active ? ChevronsUpDown : tbl.sort?.dir === "asc" ? ArrowUp : ArrowDown;
+                        return (
+                          <th
+                            key={c.label}
+                            aria-sort={active ? (tbl.sort?.dir === "asc" ? "ascending" : "descending") : undefined}
+                            className={`px-2 py-2.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--sane-text-light)] ${c.align === "center" ? "text-center" : "text-left"}`}
+                          >
+                            {c.sortKey ? (
+                              <button
+                                type="button"
+                                onClick={() => tbl.toggleSort(c.sortKey!)}
+                                className={`flex items-center gap-1 uppercase tracking-wide transition-colors hover:text-[var(--sane-green)] ${active ? "text-[var(--sane-green)]" : ""}`}
+                              >
+                                {c.label} <Icon size={10} />
+                              </button>
+                            ) : (
+                              c.label
+                            )}
+                          </th>
+                        );
+                      })}
                     </tr>
                   </thead>
                   <tbody>
-                    {tbl.pageRows.map((n, i) => (
-                      <tr key={i} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
-                        <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(n._uid)} onChange={() => tbl.toggle(n._uid)} /></td>
+                    {tbl.pageRows.map((n) => (
+                      <tr key={n._uid} className="border-b border-[var(--sane-border)] last:border-0 hover:bg-[var(--sane-background)]/50">
+                        <td className="px-3 py-2"><input type="checkbox" aria-label={`Sélectionner ${n.titre}`} className="h-3 w-3 rounded" checked={tbl.selected.includes(n._uid)} onChange={() => tbl.toggle(n._uid)} /></td>
                         <td className="px-2 py-2 max-w-[220px]">
                           <div className="flex items-start gap-2">
                             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: `${(catConfig[n.categorie]?.color || "#61756B")}15` }}>
-                              {catConfig[n.categorie]?.icon || <Bell size={14} className="text-[#61756B]" />}
+                              {catConfig[n.categorie]?.icon || <Bell size={14} className="text-[var(--sane-text-light)]" />}
                             </div>
                             <div className="min-w-0">
-                              <p className="text-[11px] font-semibold text-[#0a2e16] leading-tight truncate">{n.titre}</p>
-                              <p className="text-[9px] text-[#61756B] truncate">{n.subtitle}</p>
+                              <p className="text-[11px] font-semibold text-[var(--sane-green-deep)] leading-tight truncate">{n.titre}</p>
+                              <p className="text-[9px] text-[var(--sane-text-light)] truncate">{n.subtitle}</p>
                             </div>
                           </div>
                         </td>
@@ -266,11 +321,11 @@ export default function NotificationsPage() {
                           </span>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="text-[10px] text-[#0a2e16] font-medium">{n.destinataire}</span>
+                          <span className="text-[10px] text-[var(--sane-green-deep)] font-medium">{n.destinataire}</span>
                         </td>
                         <td className="px-2 py-2">
-                          <p className="text-[10px] text-[#0a2e16] font-medium whitespace-nowrap">{n.date}</p>
-                          <p className="text-[9px] text-[#61756B]">{n.heure}</p>
+                          <p className="text-[10px] text-[var(--sane-green-deep)] font-medium whitespace-nowrap">{n.date}</p>
+                          <p className="text-[9px] text-[var(--sane-text-light)]">{n.heure}</p>
                         </td>
                         <td className="px-2 py-2">
                           <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: n.statutBg, color: n.statutColor }}>
@@ -280,23 +335,35 @@ export default function NotificationsPage() {
                         <td className="px-2 py-2">
                           {n.ouvertures > 0 ? (
                             <div>
-                              <span className="text-[10px] font-semibold text-[#0a2e16]">{n.ouvertures.toLocaleString()}</span>
+                              <span className="text-[10px] font-semibold text-[var(--sane-green-deep)]">{n.ouvertures.toLocaleString()}</span>
                               <div className="mt-0.5 flex items-center gap-1">
-                                <div className="h-1.5 w-14 overflow-hidden rounded-full bg-[#DDE8E0]">
-                                  <div className="h-full rounded-full bg-[#10632D]" style={{ width: `${n.ouverturesPct}%` }} />
+                                <div className="h-1.5 w-14 overflow-hidden rounded-full bg-[var(--sane-border)]">
+                                  <div className="h-full rounded-full bg-[var(--sane-green)]" style={{ width: `${n.ouverturesPct}%` }} />
                                 </div>
-                                <span className="text-[8px] text-[#61756B]">{n.ouverturesPct}%</span>
+                                <span className="text-[8px] text-[var(--sane-text-light)]">{n.ouverturesPct}%</span>
                               </div>
                             </div>
                           ) : (
-                            <span className="text-[10px] text-[#61756B]">-</span>
+                            <span className="text-[10px] text-[var(--sane-text-light)]">-</span>
                           )}
                         </td>
                         <td className="px-2 py-2">
-                          <RowActions table={tbl} row={n} extra="duplicate" />
+                          <RowActions
+                            table={tbl}
+                            row={n}
+                            extra="duplicate"
+                            menuItems={n.statut !== "Envoyée" ? [{ label: "Envoyer maintenant", icon: Send, onClick: () => sendNow(n) }] : []}
+                          />
                         </td>
                       </tr>
                     ))}
+                    {tbl.pageRows.length === 0 && (
+                      <tr>
+                        <td colSpan={8} className="px-3 py-10 text-center text-[12px] text-[var(--sane-text-light)]">
+                          Aucune notification trouvée.
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
 
@@ -306,7 +373,7 @@ export default function NotificationsPage() {
 
             {/* Right sidebar */}
             <div className="flex flex-col gap-3 min-w-0">
-              <DonutChart title="Répartition par catégorie" segments={donutSegments} centerValue="126" centerLabel="Notifications" showValues={false} />
+              <DonutChart title="Répartition par catégorie" segments={donutSegments} centerValue={String(rows.length)} centerLabel="Notifications" showValues={false} />
               <RankedList heading="Top notifications (ouvertures)" items={topNotificationsData} showViewAll />
               <DateBadgeList heading="Notifications récentes" items={recentesData} showViewAll />
             </div>

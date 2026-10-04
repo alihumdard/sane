@@ -81,7 +81,7 @@ export default function EmploiPage() {
   const tbl = useTable(offres, { filterKeys: {"Catégorie":"contrat","Type de contrat":"contrat","Lieu":"lieu","Statut":"statut"} });
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
+    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
@@ -95,18 +95,18 @@ export default function EmploiPage() {
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
           {/* Hero Banner */}
-          <div className="relative mb-4 overflow-hidden rounded-2xl bg-white border border-[#DDE8E0]">
+          <div className="relative mb-4 overflow-hidden rounded-2xl bg-white border border-[var(--sane-border)]">
             <div className="flex flex-col sm:flex-row">
               <div className="flex flex-col justify-center px-5 sm:px-8 py-5 relative z-10 sm:min-w-[45%]">
-                <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[#61756B]">
+                <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[var(--sane-text-light)]">
                   <span>Accueil</span><span>&rsaquo;</span><span>Emploi</span><span>&rsaquo;</span>
-                  <span className="font-semibold text-[#0a2e16]">Offres d&apos;emploi</span>
+                  <span className="font-semibold text-[var(--sane-green-deep)]">Offres d&apos;emploi</span>
                 </div>
-                <h1 className="text-[22px] sm:text-[28px] font-extrabold text-[#0a2e16] leading-tight">Gestion des offres d&apos;emploi</h1>
-                <p className="mt-1.5 max-w-[420px] text-[11px] text-[#61756B] leading-relaxed hidden sm:block">
+                <h1 className="text-[22px] sm:text-[28px] font-extrabold text-[var(--sane-green-deep)] leading-tight">Gestion des offres d&apos;emploi</h1>
+                <p className="mt-1.5 max-w-[420px] text-[11px] text-[var(--sane-text-light)] leading-relaxed hidden sm:block">
                   Publiez, modifiez et gérez toutes les offres d&apos;emploi. Suivez les candidatures et trouvez les meilleurs talents pour le Niger.
                 </p>
-                <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
+                <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                   Ajouter une offre
                 </button>
@@ -123,13 +123,13 @@ export default function EmploiPage() {
                   </svg>
                 </div>
                 <div className="absolute right-5 bottom-3 text-right hidden sm:block">
-                  <p className="text-[18px] italic font-bold text-[#10632D] leading-snug" style={{ fontFamily: "Georgia, serif" }}>
+                  <p className="text-[18px] italic font-bold text-[var(--sane-green)] leading-snug" style={{ fontFamily: "Georgia, serif" }}>
                     Un Niger<br />de Talents
                   </p>
                 </div>
               </div>
             </div>
-            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[#E57617] px-4 py-2 text-[12px] font-bold text-white shadow">
+            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
               Ajouter une offre
             </button>
@@ -147,47 +147,47 @@ export default function EmploiPage() {
             {/* Left */}
             <div className="flex flex-col gap-3 min-w-0">
               <FilterBar searchPlaceholder="Rechercher une offre..." filters={["Catégorie", "Type de contrat", "Lieu", "Statut"]}  table={tbl} />
-              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+              <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
                 <table className="w-full min-w-[950px]">
                   <thead>
-                    <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
+                    <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide"><span className="flex items-center gap-0.5">Titre du poste <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span></th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide"><span className="flex items-center gap-0.5">Entreprise <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span></th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide"><span className="flex items-center gap-0.5">Lieu <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span></th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Contrat</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Candid.</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Statut</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Date</th>
-                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Actions</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide"><span className="flex items-center gap-0.5">Titre du poste <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span></th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide"><span className="flex items-center gap-0.5">Entreprise <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span></th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide"><span className="flex items-center gap-0.5">Lieu <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span></th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Contrat</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Candid.</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Statut</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Date</th>
+                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {tbl.pageRows.map((o, i) => (
-                      <tr key={i} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
+                      <tr key={i} className="border-b border-[var(--sane-border)] last:border-0 hover:bg-[var(--sane-background)]/50">
                         <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(o._uid)} onChange={() => tbl.toggle(o._uid)} /></td>
                         <td className="px-2 py-2.5 min-w-[220px]">
                           <div className="flex items-center gap-2">
-                            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#F5F9F6] border border-[#DDE8E0]">
-                              <span className="text-[7px] font-bold text-[#10632D]">{o.entreprise.split(" ")[0].substring(0, 5)}</span>
+                            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--sane-background)] border border-[var(--sane-border)]">
+                              <span className="text-[7px] font-bold text-[var(--sane-green)]">{o.entreprise.split(" ")[0].substring(0, 5)}</span>
                             </div>
                             <div className="min-w-0">
-                              <p className="text-[12px] font-semibold text-[#0a2e16] leading-snug">{o.titre}</p>
-                              <p className="text-[9px] text-[#61756B]">{o.id}</p>
+                              <p className="text-[12px] font-semibold text-[var(--sane-green-deep)] leading-snug">{o.titre}</p>
+                              <p className="text-[9px] text-[var(--sane-text-light)]">{o.id}</p>
                             </div>
                           </div>
                         </td>
-                        <td className="px-2 py-2 whitespace-nowrap"><p className="text-[10px] text-[#0a2e16] font-medium">{o.entreprise}</p></td>
+                        <td className="px-2 py-2 whitespace-nowrap"><p className="text-[10px] text-[var(--sane-green-deep)] font-medium">{o.entreprise}</p></td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-0.5">
-                            <MapPin size={10} className="text-[#E57617] shrink-0" />
-                            <p className="text-[10px] text-[#0a2e16] font-medium">{o.lieu}</p>
+                            <MapPin size={10} className="text-[var(--sane-orange)] shrink-0" />
+                            <p className="text-[10px] text-[var(--sane-green-deep)] font-medium">{o.lieu}</p>
                           </div>
                         </td>
                         <td className="px-2 py-2"><span className="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${o.contratColor}18`, color: o.contratColor }}>{o.contrat}</span></td>
-                        <td className="px-2 py-2 text-center"><span className="text-[11px] font-semibold text-[#0a2e16]">{o.candidatures}</span></td>
+                        <td className="px-2 py-2 text-center"><span className="text-[11px] font-semibold text-[var(--sane-green-deep)]">{o.candidatures}</span></td>
                         <td className="px-2 py-2"><span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: o.statutBg, color: o.statutColor }}>{o.statut}</span></td>
-                        <td className="px-2 py-2 whitespace-nowrap"><p className="text-[11px] text-[#0a2e16] font-medium">{o.date}</p></td>
+                        <td className="px-2 py-2 whitespace-nowrap"><p className="text-[11px] text-[var(--sane-green-deep)] font-medium">{o.date}</p></td>
                         <td className="px-2 py-2">
                           <RowActions table={tbl} row={o} extra="duplicate" />
                         </td>
@@ -203,13 +203,13 @@ export default function EmploiPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 2xl:flex 2xl:flex-col gap-3 min-w-0">
               <QuickStatsList heading="Statistiques rapides" subtitle="Ce mois" items={quickStats} />
               <DonutChart title="Répartition par secteur" segments={donutSegments} centerValue="128" centerLabel="Offres" showValues={false} showViewAll />
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-3">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
-                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[#E57617]" />
-                    <span className="text-[11px] font-bold text-[#0a2e16]">Entreprises qui recrutent</span>
+                    <span className="h-[3px] w-4 shrink-0 rounded-full bg-[var(--sane-orange)]" />
+                    <span className="text-[11px] font-bold text-[var(--sane-green-deep)]">Entreprises qui recrutent</span>
                   </div>
-                  <button className="shrink-0 ml-1 text-[9px] font-semibold text-[#E57617]">Voir toutes</button>
+                  <button className="shrink-0 ml-1 text-[9px] font-semibold text-[var(--sane-orange)]">Voir toutes</button>
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
                   <span className="text-[11px] font-bold" style={{ color: "#E57617" }}>Enabel<sup className="text-[5px] relative -top-1">*</sup></span>
@@ -217,7 +217,7 @@ export default function EmploiPage() {
                   <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#2563EB]">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#2563EB" strokeWidth="1" fill="none" /><path d="M7 16c1-3 3-5 5-6s4 0 5 2" stroke="#2563EB" strokeWidth="1.2" fill="none" /><path d="M6 10c2 1 4 1 6 0s4-1 6 0" stroke="#2563EB" strokeWidth="0.8" fill="none" /></svg>
                   </div>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0a2e16]">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--sane-green-deep)]">
                     <span className="text-[7px] font-bold text-white leading-none tracking-tight">AFD</span>
                   </div>
                   <svg width="30" height="22" viewBox="0 0 60 40" fill="none">

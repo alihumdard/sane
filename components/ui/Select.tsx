@@ -51,7 +51,7 @@ export function Select({
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex h-12 w-full items-center gap-3 rounded-lg border border-[#D5E3D9] bg-white px-4 text-left transition-colors hover:border-[#10632D]/40"
+        className="flex h-12 w-full items-center gap-3 rounded-lg border border-[var(--sane-border)] bg-white px-4 text-left transition-colors hover:border-[var(--sane-green)]/40"
       >
         {Icon && (
           <Icon size={17} className="shrink-0 text-[#71857A]" />
@@ -59,7 +59,7 @@ export function Select({
 
         <span
           className={`flex-1 truncate text-sm ${
-            selected ? "text-[#17352A]" : "text-[#8A9A91]"
+            selected ? "text-[var(--sane-text)]" : "text-[#8A9A91]"
           }`}
         >
           {selectedLabel || placeholder}
@@ -74,13 +74,13 @@ export function Select({
       </button>
 
       {open && (
-        <div className="absolute left-0 right-0 top-[calc(100%+4px)] z-50 max-h-[220px] overflow-y-auto rounded-lg border border-[#D5E3D9] bg-white py-1 shadow-lg">
+        <div className="absolute left-0 right-0 top-[calc(100%+4px)] z-50 max-h-[220px] overflow-y-auto rounded-lg border border-[var(--sane-border)] bg-white py-1 shadow-lg">
           {/* Reset / placeholder option */}
           <button
             type="button"
             onClick={() => handleSelect("")}
-            className={`flex w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#F3F8F4] ${
-              !selected ? "font-semibold text-[#10632D]" : "text-[#8A9A91]"
+            className={`flex w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-[var(--sane-background)] ${
+              !selected ? "font-semibold text-[var(--sane-green)]" : "text-[#8A9A91]"
             }`}
           >
             {placeholder}
@@ -91,10 +91,10 @@ export function Select({
               type="button"
               key={option.value}
               onClick={() => handleSelect(option.value)}
-              className={`flex w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#F3F8F4] ${
+              className={`flex w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-[var(--sane-background)] ${
                 selected === option.value
-                  ? "bg-[#EAF5EE] font-semibold text-[#10632D]"
-                  : "text-[#17352A]"
+                  ? "bg-[var(--sane-green-light)] font-semibold text-[var(--sane-green)]"
+                  : "text-[var(--sane-text)]"
               }`}
             >
               {option.label}

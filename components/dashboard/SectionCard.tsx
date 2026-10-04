@@ -10,14 +10,14 @@ interface Props {
 
 export default function SectionCard({ icon, title, viewAllText, children }: Props) {
   return (
-    <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
+    <div className="rounded-xl border border-[var(--sane-border)] bg-white p-3">
       <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           {icon}
-          <span className="text-[12px] font-bold text-[#0a2e16]">{title}</span>
+          <span className="text-[12px] font-bold text-[var(--sane-green-deep)]">{title}</span>
         </div>
         {viewAllText && (
-          <button className="flex items-center gap-0.5 text-[10px] font-semibold text-[#E57617]">
+          <button className="flex items-center gap-0.5 text-[10px] font-semibold text-[var(--sane-orange)]">
             {viewAllText} <ChevronRight size={10} />
           </button>
         )}

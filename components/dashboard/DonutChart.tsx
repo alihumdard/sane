@@ -25,21 +25,21 @@ function buildConic(segs: { pct: number; color: string }[]) {
 
 export default function DonutChart({ title, segments, centerValue, centerLabel, showValues = true, showViewAll = false }: Props) {
   return (
-    <div className="rounded-xl border border-[#DDE8E0] bg-white p-3">
+    <div className="rounded-xl border border-[var(--sane-border)] bg-white p-3">
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          <span className="h-[3px] w-4 shrink-0 rounded-full bg-[#E57617]" />
-          <span className="text-[11px] font-bold text-[#0a2e16]">{title}</span>
+          <span className="h-[3px] w-4 shrink-0 rounded-full bg-[var(--sane-orange)]" />
+          <span className="text-[11px] font-bold text-[var(--sane-green-deep)]">{title}</span>
         </div>
-        {showViewAll && <button className="shrink-0 ml-1 text-[9px] font-semibold text-[#E57617]">Voir tout</button>}
+        {showViewAll && <button className="shrink-0 ml-1 text-[9px] font-semibold text-[var(--sane-orange)]">Voir tout</button>}
       </div>
       <div className="flex items-center gap-2">
         <div className="relative shrink-0">
           <div className="h-[85px] w-[85px] rounded-full" style={{ background: `conic-gradient(${buildConic(segments)})` }} />
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex h-[57px] w-[57px] flex-col items-center justify-center rounded-full bg-white">
-              <span className="text-[14px] font-extrabold text-[#0a2e16] leading-none">{centerValue}</span>
-              <span className="text-[7px] text-[#61756B]">{centerLabel}</span>
+              <span className="text-[14px] font-extrabold text-[var(--sane-green-deep)] leading-none">{centerValue}</span>
+              <span className="text-[7px] text-[var(--sane-text-light)]">{centerLabel}</span>
             </div>
           </div>
         </div>
@@ -48,9 +48,9 @@ export default function DonutChart({ title, segments, centerValue, centerLabel, 
             <div key={i} className="flex items-center justify-between gap-1">
               <div className="flex items-center gap-1 min-w-0">
                 <span className="h-1.5 w-1.5 shrink-0 rounded-sm" style={{ backgroundColor: s.color }} />
-                <span className="text-[9px] text-[#61756B] truncate">{s.label}</span>
+                <span className="text-[9px] text-[var(--sane-text-light)] truncate">{s.label}</span>
               </div>
-              <span className="text-[9px] font-semibold text-[#0a2e16] shrink-0 ml-1">
+              <span className="text-[9px] font-semibold text-[var(--sane-green-deep)] shrink-0 ml-1">
                 {showValues ? `${s.value} (${s.pct}%)` : `${s.pct}%`}
               </span>
             </div>

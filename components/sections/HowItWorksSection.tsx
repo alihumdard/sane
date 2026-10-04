@@ -40,19 +40,19 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section className="bg-[#F8FBF9] py-14 md:py-16">
+    <section className="bg-[var(--sane-background)] py-14 md:py-16">
       <Container>
 
         {/* HEADING */}
         <div className="mb-10">
           <div className="mb-2 flex items-center gap-2">
-            <span className="h-[3px] w-6 rounded-full bg-[#E57617]" />
-            <span className="text-xs font-bold uppercase tracking-wide text-[#10632D]">
+            <span className="h-[3px] w-6 rounded-full bg-[var(--sane-orange)]" />
+            <span className="text-xs font-bold uppercase tracking-wide text-[var(--sane-green)]">
               Comment ça marche ?
             </span>
           </div>
 
-          <h2 className="text-2xl font-extrabold leading-tight tracking-tight text-[#10632D] md:text-4xl">
+          <h2 className="sane-h2">
             Un processus simple pour plus d&apos;opportunités
           </h2>
         </div>
@@ -75,21 +75,21 @@ export function HowItWorksSection() {
                 <div className="flex items-center gap-3">
                   <div
                     className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white sm:h-[52px] sm:w-[52px] ${
-                      step.orange ? "bg-[#E57617]" : "bg-[#10632D]"
+                      step.orange ? "bg-[var(--sane-orange)]" : "bg-[var(--sane-green)]"
                     }`}
                   >
                     <Icon size={18} strokeWidth={2} className="sm:!h-[22px] sm:!w-[22px]" />
                   </div>
 
                   <span className={`text-[18px] font-extrabold sm:text-[22px] ${
-                    step.orange ? "text-[#E57617]" : "text-[#10632D]"
+                    step.orange ? "text-[var(--sane-orange)]" : "text-[var(--sane-green)]"
                   }`}>
                     {step.number}
                   </span>
                 </div>
 
                 {/* Title */}
-                <h3 className="mt-4 text-[15px] font-extrabold leading-5 text-[#17352A]">
+                <h3 className="sane-h3 mt-4">
                   {step.title}
                 </h3>
 

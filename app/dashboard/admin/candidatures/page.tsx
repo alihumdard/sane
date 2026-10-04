@@ -102,7 +102,7 @@ export default function CandidaturesPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const tbl = useTable(candidatures, { filterKeys: {"Tous les postes":"poste","Tous les statuts":"statut","Toutes les entreprises":"entreprise"} });
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
+    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
@@ -116,12 +116,12 @@ export default function CandidaturesPage() {
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
           {/* Breadcrumb */}
-          <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[#61756B]">
+          <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[var(--sane-text-light)]">
             <span>Accueil</span>
-            <span className="text-[#DDE8E0]">&rsaquo;</span>
+            <span className="text-[var(--sane-border)]">&rsaquo;</span>
             <span>Emploi</span>
-            <span className="text-[#DDE8E0]">&rsaquo;</span>
-            <span className="font-semibold text-[#0a2e16]">Candidatures</span>
+            <span className="text-[var(--sane-border)]">&rsaquo;</span>
+            <span className="font-semibold text-[var(--sane-green-deep)]">Candidatures</span>
           </div>
 
           <HeroBanner
@@ -147,54 +147,54 @@ export default function CandidaturesPage() {
                table={tbl} />
 
               {/* Table */}
-              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+              <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
                 <table className="w-full min-w-[950px]">
                   <thead>
-                    <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
+                    <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Candidat <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Poste</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Entreprise</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Poste</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Entreprise</th>
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Date <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">
+                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
                         <span className="flex items-center gap-0.5">Statut <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
-                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">CV</th>
-                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Lettre</th>
-                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[#61756B] uppercase tracking-wide">Actions</th>
+                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">CV</th>
+                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Lettre</th>
+                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {tbl.pageRows.map((c, i) => (
-                      <tr key={i} className="border-b border-[#DDE8E0] last:border-0 hover:bg-[#F5F9F6]/50">
+                      <tr key={i} className="border-b border-[var(--sane-border)] last:border-0 hover:bg-[var(--sane-background)]/50">
                         <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(c._uid)} onChange={() => tbl.toggle(c._uid)} /></td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-2">
-                            <div className="h-8 w-8 overflow-hidden rounded-full border border-[#DDE8E0] shrink-0">
+                            <div className="h-8 w-8 overflow-hidden rounded-full border border-[var(--sane-border)] shrink-0">
                               <Image src={c.photo} alt={c.nom} width={32} height={32} className="object-cover" />
                             </div>
                             <div>
-                              <p className="text-[11px] font-semibold text-[#0a2e16] leading-tight">{c.nom}</p>
-                              <p className="text-[9px] text-[#61756B]">{c.ville}</p>
+                              <p className="text-[11px] font-semibold text-[var(--sane-green-deep)] leading-tight">{c.nom}</p>
+                              <p className="text-[9px] text-[var(--sane-text-light)]">{c.ville}</p>
                             </div>
                           </div>
                         </td>
                         <td className="px-2 py-2.5 min-w-[170px] max-w-[220px]">
-                          <p className="text-[12px] font-semibold text-[#0a2e16] leading-snug">{c.poste}</p>
-                          <p className="text-[9px] text-[#61756B]">{c.id}</p>
+                          <p className="text-[12px] font-semibold text-[var(--sane-green-deep)] leading-snug">{c.poste}</p>
+                          <p className="text-[9px] text-[var(--sane-text-light)]">{c.id}</p>
                         </td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-1.5">
                             <EnterpriseLogo code={c.eLogo} />
-                            <span className="text-[11px] text-[#0a2e16]">{c.entreprise}</span>
+                            <span className="text-[11px] text-[var(--sane-green-deep)]">{c.entreprise}</span>
                           </div>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="whitespace-nowrap text-[11px] text-[#0a2e16]">{c.date}</span>
+                          <span className="whitespace-nowrap text-[11px] text-[var(--sane-green-deep)]">{c.date}</span>
                         </td>
                         <td className="px-2 py-2">
                           <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: c.statutBg, color: c.statutColor }}>

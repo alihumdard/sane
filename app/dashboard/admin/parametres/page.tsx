@@ -130,7 +130,7 @@ export default function AdminParametresPage() {
   ];
 
   return (
-    <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
+    <div className="flex h-screen bg-[var(--sane-background)] overflow-hidden">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
@@ -144,12 +144,12 @@ export default function AdminParametresPage() {
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:px-6 sm:py-4">
           {/* Breadcrumb */}
-          <div className="mb-3 flex items-center gap-1 text-[11px] text-[#61756B]">
-            <span className="hover:text-[#10632D] cursor-pointer">Accueil</span>
+          <div className="mb-3 flex items-center gap-1 text-[11px] text-[var(--sane-text-light)]">
+            <span className="hover:text-[var(--sane-green)] cursor-pointer">Accueil</span>
             <ChevronRight size={12} />
-            <span className="hover:text-[#10632D] cursor-pointer">Paramètres</span>
+            <span className="hover:text-[var(--sane-green)] cursor-pointer">Paramètres</span>
             <ChevronRight size={12} />
-            <span className="font-medium text-[#0a2e16]">Paramètres généraux</span>
+            <span className="font-medium text-[var(--sane-green-deep)]">Paramètres généraux</span>
           </div>
 
           {/* Welcome Banner */}
@@ -158,8 +158,8 @@ export default function AdminParametresPage() {
             <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-transparent" />
             <div className="absolute inset-0 flex items-center px-4 sm:px-8">
               <div className="max-w-[65%] sm:max-w-[55%]">
-                <h1 className="text-[16px] sm:text-[22px] font-extrabold text-[#0a2e16] leading-tight">Paramètres du système</h1>
-                <p className="mt-1 text-[10px] sm:text-[11px] text-[#61756B] leading-relaxed hidden sm:block">
+                <h1 className="text-[16px] sm:text-[22px] font-extrabold text-[var(--sane-green-deep)] leading-tight">Paramètres du système</h1>
+                <p className="mt-1 text-[10px] sm:text-[11px] text-[var(--sane-text-light)] leading-relaxed hidden sm:block">
                   Configurez votre plateforme SANE selon vos besoins. Gérez les informations générales,<br/>
                   la sécurité, les notifications et les préférences de votre organisation.
                 </p>
@@ -175,13 +175,13 @@ export default function AdminParametresPage() {
           </div>
 
           {/* Tab Navigation */}
-          <div className="mb-5 flex items-center gap-0 border-b border-[#DDE8E0] overflow-x-auto">
+          <div className="mb-5 flex items-center gap-0 border-b border-[var(--sane-border)] overflow-x-auto">
             {tabs.map((tab, i) => (
               <button key={i} onClick={() => setActiveTab(i)}
                 className={`flex items-center gap-1.5 px-3 py-2.5 text-[11px] font-medium whitespace-nowrap transition-all border-b-2 ${
                   activeTab === i
-                    ? "border-[#10632D] text-[#10632D] font-semibold"
-                    : "border-transparent text-[#61756B] hover:text-[#0a2e16]"
+                    ? "border-[var(--sane-green)] text-[var(--sane-green)] font-semibold"
+                    : "border-transparent text-[var(--sane-text-light)] hover:text-[var(--sane-green-deep)]"
                 }`}>
                 {tab.icon}
                 {tab.label}
@@ -192,27 +192,27 @@ export default function AdminParametresPage() {
           {/* Main Content + Right Sidebar */}
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-4">
             {activeTab !== 0 && (
-              <div className="flex min-w-0 flex-col items-center justify-center rounded-xl border border-[#DDE8E0] bg-white p-8 text-center">
-                <p className="text-[14px] font-bold text-[#0a2e16]">{tabs[activeTab].label}</p>
-                <p className="mt-1 max-w-sm text-[12px] text-[#61756B]">
+              <div className="flex min-w-0 flex-col items-center justify-center rounded-xl border border-[var(--sane-border)] bg-white p-8 text-center">
+                <p className="text-[14px] font-bold text-[var(--sane-green-deep)]">{tabs[activeTab].label}</p>
+                <p className="mt-1 max-w-sm text-[12px] text-[var(--sane-text-light)]">
                   Cette section sera disponible prochainement. Retournez aux paramètres généraux pour modifier les informations de la plateforme.
                 </p>
-                <button type="button" onClick={() => setActiveTab(0)} className="mt-4 rounded-lg bg-[#10632D] px-4 py-2 text-[12px] font-semibold text-white hover:bg-[#0a4a22]">
+                <button type="button" onClick={() => setActiveTab(0)} className="mt-4 rounded-lg bg-[var(--sane-green)] px-4 py-2 text-[12px] font-semibold text-white hover:bg-[var(--sane-green-dark)]">
                   Paramètres généraux
                 </button>
               </div>
             )}
             {/* Form Card */}
-            <div className={`rounded-xl border border-[#DDE8E0] bg-white p-4 sm:p-5 min-w-0 ${activeTab === 0 ? "" : "hidden"}`}>
+            <div className={`rounded-xl border border-[var(--sane-border)] bg-white p-4 sm:p-5 min-w-0 ${activeTab === 0 ? "" : "hidden"}`}>
               <div className="flex flex-wrap items-start justify-between gap-2 mb-5">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="h-px w-4 bg-[#E57617]" />
-                    <h2 className="text-[14px] sm:text-[15px] font-bold text-[#0a2e16]">Informations de l&apos;organisation</h2>
+                    <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                    <h2 className="text-[14px] sm:text-[15px] font-bold text-[var(--sane-green-deep)]">Informations de l&apos;organisation</h2>
                   </div>
-                  <p className="text-[11px] text-[#61756B] ml-6">Configurez les informations générales de votre plateforme.</p>
+                  <p className="text-[11px] text-[var(--sane-text-light)] ml-6">Configurez les informations générales de votre plateforme.</p>
                 </div>
-                <button type="button" onClick={save} className="flex items-center gap-2 rounded-lg bg-[#10632D] px-3 sm:px-4 py-2 text-[11px] font-bold text-white hover:bg-[#0a4a22]">
+                <button type="button" onClick={save} className="flex items-center gap-2 rounded-lg bg-[var(--sane-green)] px-3 sm:px-4 py-2 text-[11px] font-bold text-white hover:bg-[var(--sane-green-dark)]">
                   <Save size={12} />
                   Enregistrer les modifications
                 </button>
@@ -222,36 +222,36 @@ export default function AdminParametresPage() {
                 {/* Left fields */}
                 <div className="flex flex-col gap-4">
                   <div>
-                    <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Nom de la plateforme <span className="text-red-500">*</span></label>
-                    <input value={form.nom} onChange={setField("nom")} className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10" />
+                    <label className="text-[12px] font-semibold text-[var(--sane-green-deep)] mb-1.5 block">Nom de la plateforme <span className="text-red-500">*</span></label>
+                    <input value={form.nom} onChange={setField("nom")} className="w-full rounded-lg border border-[var(--sane-border)] px-3 py-2.5 text-[13px] text-[var(--sane-green-deep)] outline-none focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10" />
                   </div>
                   <div>
-                    <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Email de contact <span className="text-red-500">*</span></label>
-                    <input type="email" value={form.email} onChange={setField("email")} className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10" />
+                    <label className="text-[12px] font-semibold text-[var(--sane-green-deep)] mb-1.5 block">Email de contact <span className="text-red-500">*</span></label>
+                    <input type="email" value={form.email} onChange={setField("email")} className="w-full rounded-lg border border-[var(--sane-border)] px-3 py-2.5 text-[13px] text-[var(--sane-green-deep)] outline-none focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10" />
                   </div>
                   <div>
-                    <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Téléphone</label>
+                    <label className="text-[12px] font-semibold text-[var(--sane-green-deep)] mb-1.5 block">Téléphone</label>
                     <div className="flex gap-2">
-                      <div className="flex items-center gap-1.5 rounded-lg border border-[#DDE8E0] px-2 py-2 bg-white">
+                      <div className="flex items-center gap-1.5 rounded-lg border border-[var(--sane-border)] px-2 py-2 bg-white">
                         <span className="text-[14px]">🇳🇪</span>
-                        <span className="text-[11px] text-[#0a2e16]">+227</span>
-                        <ChevronRight size={11} className="text-[#61756B] rotate-90" />
+                        <span className="text-[11px] text-[var(--sane-green-deep)]">+227</span>
+                        <ChevronRight size={11} className="text-[var(--sane-text-light)] rotate-90" />
                       </div>
-                      <input value={form.tel} onChange={setField("tel")} className="flex-1 rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10" />
+                      <input value={form.tel} onChange={setField("tel")} className="flex-1 rounded-lg border border-[var(--sane-border)] px-3 py-2.5 text-[13px] text-[var(--sane-green-deep)] outline-none focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10" />
                     </div>
                   </div>
                   <div>
-                    <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Adresse</label>
-                    <input value={form.adresse} onChange={setField("adresse")} className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10" />
+                    <label className="text-[12px] font-semibold text-[var(--sane-green-deep)] mb-1.5 block">Adresse</label>
+                    <input value={form.adresse} onChange={setField("adresse")} className="w-full rounded-lg border border-[var(--sane-border)] px-3 py-2.5 text-[13px] text-[var(--sane-green-deep)] outline-none focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10" />
                   </div>
                 </div>
 
                 {/* Right: logo / favicon / site / timezone */}
                 <div className="flex flex-col gap-4">
                   <div>
-                    <label className="text-[11px] font-semibold text-[#0a2e16] mb-2 block">Logo</label>
+                    <label className="text-[11px] font-semibold text-[var(--sane-green-deep)] mb-2 block">Logo</label>
                     <div className="flex items-center gap-3">
-                      <div className="flex h-16 w-[140px] items-center justify-center rounded-xl border border-[#DDE8E0] bg-white overflow-hidden px-3">
+                      <div className="flex h-16 w-[140px] items-center justify-center rounded-xl border border-[var(--sane-border)] bg-white overflow-hidden px-3">
                         {logoUrl ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={logoUrl} alt="Logo" className="h-12 w-auto max-w-[140px] object-contain" />
@@ -267,48 +267,48 @@ export default function AdminParametresPage() {
                         )}
                       </div>
                       <div>
-                        <label className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5 text-[11px] font-semibold text-[#0a2e16] hover:bg-[#F5F9F6]">
+                        <label className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-[var(--sane-border)] px-3 py-1.5 text-[11px] font-semibold text-[var(--sane-green-deep)] hover:bg-[var(--sane-background)]">
                           <Camera size={12} /> Changer le logo
                           <input type="file" accept="image/*" className="hidden" onChange={pickImage(setLogoUrl)} />
                         </label>
-                        <p className="mt-1 text-[9px] text-[#61756B]">PNG, JPG ou SVG (max. 2 MB)</p>
+                        <p className="mt-1 text-[9px] text-[var(--sane-text-light)]">PNG, JPG ou SVG (max. 2 MB)</p>
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-semibold text-[#0a2e16] mb-2 block">Favicon</label>
+                    <label className="text-[11px] font-semibold text-[var(--sane-green-deep)] mb-2 block">Favicon</label>
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-[#E57617] bg-white text-[#E57617] font-bold text-[18px]" style={{ fontFamily: "Georgia, serif" }}>
+                      <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-[var(--sane-orange)] bg-white text-[var(--sane-orange)] font-bold text-[18px]" style={{ fontFamily: "Georgia, serif" }}>
                         {faviconUrl ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={faviconUrl} alt="Favicon" className="h-full w-full object-cover" />
                         ) : "S"}
                       </div>
                       <div>
-                        <label className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-[#DDE8E0] px-3 py-1.5 text-[11px] font-semibold text-[#0a2e16] hover:bg-[#F5F9F6]">
+                        <label className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-[var(--sane-border)] px-3 py-1.5 text-[11px] font-semibold text-[var(--sane-green-deep)] hover:bg-[var(--sane-background)]">
                           <Camera size={12} /> Changer le favicon
                           <input type="file" accept="image/*" className="hidden" onChange={pickImage(setFaviconUrl)} />
                         </label>
-                        <p className="mt-1 text-[9px] text-[#61756B]">PNG, ICO (max. 1 MB)</p>
+                        <p className="mt-1 text-[9px] text-[var(--sane-text-light)]">PNG, ICO (max. 1 MB)</p>
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Site web</label>
-                    <input value={form.site} onChange={setField("site")} className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] focus:ring-2 focus:ring-[#10632D]/10" />
+                    <label className="text-[12px] font-semibold text-[var(--sane-green-deep)] mb-1.5 block">Site web</label>
+                    <input value={form.site} onChange={setField("site")} className="w-full rounded-lg border border-[var(--sane-border)] px-3 py-2.5 text-[13px] text-[var(--sane-green-deep)] outline-none focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10" />
                   </div>
 
                   <div>
-                    <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Fuseau horaire</label>
+                    <label className="text-[12px] font-semibold text-[var(--sane-green-deep)] mb-1.5 block">Fuseau horaire</label>
                     <div className="relative">
-                      <select className="w-full appearance-none rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] bg-white">
+                      <select className="w-full appearance-none rounded-lg border border-[var(--sane-border)] px-3 py-2.5 text-[13px] text-[var(--sane-green-deep)] outline-none focus:border-[var(--sane-green)] bg-white">
                         <option>(GMT+01:00) Niamey</option>
                         <option>(GMT+00:00) UTC</option>
                         <option>(GMT+01:00) Paris</option>
                       </select>
-                      <ChevronRight size={13} className="absolute right-3 top-2.5 text-[#61756B] pointer-events-none rotate-90" />
+                      <ChevronRight size={13} className="absolute right-3 top-2.5 text-[var(--sane-text-light)] pointer-events-none rotate-90" />
                     </div>
                   </div>
                 </div>
@@ -316,12 +316,12 @@ export default function AdminParametresPage() {
 
               {/* Description full-width */}
               <div className="mt-4">
-                <label className="text-[12px] font-semibold text-[#0a2e16] mb-1.5 block">Description</label>
+                <label className="text-[12px] font-semibold text-[var(--sane-green-deep)] mb-1.5 block">Description</label>
                 <textarea
                   value={form.description}
                   onChange={setField("description")}
                   rows={3}
-                  className="w-full rounded-lg border border-[#DDE8E0] px-3 py-2.5 text-[13px] text-[#0a2e16] outline-none focus:border-[#10632D] resize-none"
+                  className="w-full rounded-lg border border-[var(--sane-border)] px-3 py-2.5 text-[13px] text-[var(--sane-green-deep)] outline-none focus:border-[var(--sane-green)] resize-none"
                 />
               </div>
             </div>
@@ -329,45 +329,45 @@ export default function AdminParametresPage() {
             {/* Right Sidebar */}
             <div className="flex flex-col gap-4 min-w-0">
               {/* Statut du système */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="h-px w-4 bg-[#E57617]" />
-                  <h3 className="text-[12px] font-bold text-[#0a2e16]">Statut du système</h3>
+                  <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                  <h3 className="text-[12px] font-bold text-[var(--sane-green-deep)]">Statut du système</h3>
                 </div>
                 <div className="flex items-start gap-2 mb-3">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#10632D] shrink-0 mt-0.5" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[var(--sane-green)] shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-[11px] font-semibold text-[#10632D]">Tous les services fonctionnent normalement</p>
-                    <p className="text-[9px] text-[#61756B]">Dernière vérification : 12 Mars 2024 à 10:45</p>
+                    <p className="text-[11px] font-semibold text-[var(--sane-green)]">Tous les services fonctionnent normalement</p>
+                    <p className="text-[9px] text-[var(--sane-text-light)]">Dernière vérification : 12 Mars 2024 à 10:45</p>
                   </div>
                 </div>
-                <div className="flex flex-col gap-2 border-t border-[#DDE8E0] pt-3">
+                <div className="flex flex-col gap-2 border-t border-[var(--sane-border)] pt-3">
                   {systemStatus.map((s, i) => (
                     <div key={i} className="flex items-center gap-2">
-                      <span className="text-[#61756B]">{s.icon}</span>
-                      <span className="flex-1 text-[11px] text-[#0a2e16]">{s.label}</span>
-                      <span className="rounded-md border border-[#10632D]/30 bg-[#E8F5ED] px-2 py-0.5 text-[9px] font-semibold text-[#10632D]">Actif</span>
+                      <span className="text-[var(--sane-text-light)]">{s.icon}</span>
+                      <span className="flex-1 text-[11px] text-[var(--sane-green-deep)]">{s.label}</span>
+                      <span className="rounded-md border border-[var(--sane-green)]/30 bg-[var(--sane-green-light)] px-2 py-0.5 text-[9px] font-semibold text-[var(--sane-green)]">Actif</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Configuration rapide */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="h-px w-4 bg-[#E57617]" />
-                  <h3 className="text-[12px] font-bold text-[#0a2e16]">Configuration rapide</h3>
+                  <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                  <h3 className="text-[12px] font-bold text-[var(--sane-green-deep)]">Configuration rapide</h3>
                 </div>
-                <p className="text-[9px] text-[#61756B] mb-3 ml-6">Accès rapide aux paramètres importants.</p>
+                <p className="text-[9px] text-[var(--sane-text-light)] mb-3 ml-6">Accès rapide aux paramètres importants.</p>
                 <div className="flex flex-col gap-2">
                   {quickConfig.map((q, i) => (
-                    <button key={i} type="button" onClick={quickActions[i]} className="flex items-center gap-2.5 rounded-lg hover:bg-[#F5F9F6] p-1.5 text-left transition-all">
+                    <button key={i} type="button" onClick={quickActions[i]} className="flex items-center gap-2.5 rounded-lg hover:bg-[var(--sane-background)] p-1.5 text-left transition-all">
                       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: q.bg, color: q.color }}>{q.icon}</span>
                       <div className="min-w-0 flex-1">
-                        <p className="text-[11px] font-semibold text-[#10632D]">{q.title}</p>
-                        <p className="text-[9px] text-[#61756B]">{q.desc}</p>
+                        <p className="text-[11px] font-semibold text-[var(--sane-green)]">{q.title}</p>
+                        <p className="text-[9px] text-[var(--sane-text-light)]">{q.desc}</p>
                       </div>
-                      <ChevronRight size={13} className="text-[#61756B] shrink-0" />
+                      <ChevronRight size={13} className="text-[var(--sane-text-light)] shrink-0" />
                     </button>
                   ))}
                 </div>
@@ -377,7 +377,7 @@ export default function AdminParametresPage() {
         </main>
       </div>
       {toast && (
-        <div className="fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-lg bg-[#0a2e16] px-4 py-2.5 text-[12px] font-semibold text-white shadow-lg">{toast}</div>
+        <div className="fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-lg bg-[var(--sane-green-deep)] px-4 py-2.5 text-[12px] font-semibold text-white shadow-lg">{toast}</div>
       )}
     </div>
   );

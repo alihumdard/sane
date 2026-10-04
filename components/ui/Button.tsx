@@ -13,11 +13,11 @@ export function Button({
 }: ButtonProps) {
   const variants = {
     primary:
-      "bg-[#E57617] text-white hover:bg-[#cf6812]",
+      "bg-[var(--sane-orange)] text-white hover:bg-[var(--sane-orange-dark)]",
     secondary:
-      "bg-[#10632D] text-white hover:bg-[#084a21]",
+      "bg-[var(--sane-green)] text-white hover:bg-[var(--sane-green-dark)]",
     outline:
-      "border border-[#10632D] bg-white text-[#10632D] hover:bg-[#10632D] hover:text-white",
+      "border border-[var(--sane-green)] bg-white text-[var(--sane-green)] hover:bg-[var(--sane-green)] hover:text-white",
   };
 
   return (

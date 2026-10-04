@@ -18,7 +18,7 @@ function Card({
       <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--sane-orange)]/15 ring-1 ring-[var(--sane-orange)]/30">
         <Icon size={21} strokeWidth={1.8} className="text-[var(--sane-orange)]" />
       </div>
-      <h3 className="mb-2 text-[15px] font-extrabold text-white sm:text-[16px]">{title}</h3>
+      <h3 className="sane-h3 on-dark mb-2">{title}</h3>
       {children}
     </div>
   );
@@ -30,14 +30,14 @@ export function MissionVisionValues() {
       <Container>
         <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-3">
           <Card icon={Target} title="Notre mission">
-            <p className="text-[12px] leading-[1.5] text-white/60 sm:text-[13px]">
+            <p className="sane-small on-dark">
               Faciliter la rencontre entre les talents, les opportunités et les acteurs du
               développement pour contribuer à un Niger plus fort.
             </p>
           </Card>
 
           <Card icon={Eye} title="Notre vision">
-            <p className="text-[12px] leading-[1.5] text-white/60 sm:text-[13px]">
+            <p className="sane-small on-dark">
               Devenir la référence nationale en matière d&apos;emploi, de formation et
               d&apos;entrepreneuriat, au service d&apos;un développement durable du Niger.
             </p>
@@ -48,7 +48,7 @@ export function MissionVisionValues() {
               {values.map((v) => (
                 <li
                   key={v}
-                  className="flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-1 text-[11px] text-white/75 sm:text-[12px]"
+                  className="flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-1 text-[length:var(--fs-small)] text-white/75"
                 >
                   <Check size={12} strokeWidth={2.5} className="shrink-0 text-[var(--sane-orange)]" />
                   {v}

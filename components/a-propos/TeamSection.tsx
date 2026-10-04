@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 interface TeamMember {
   name: string;
@@ -31,15 +32,15 @@ function TeamCard({ member }: { member: TeamMember }) {
       </div>
       <div className="flex items-center justify-between gap-2 border-t border-[var(--sane-border)] px-4 py-3.5">
         <div className="min-w-0">
-          <h3 className="truncate text-[14px] font-bold leading-tight text-[var(--sane-text)]">{member.name}</h3>
-          <p className="mt-1 flex items-center gap-1.5 text-[11px] leading-snug text-[var(--sane-text-light)]">
+          <h3 className="sane-h3 truncate !text-[length:var(--fs-body)]">{member.name}</h3>
+          <p className="sane-small mt-1 flex items-center gap-1.5">
             <span className="h-1 w-1 shrink-0 rounded-full bg-[var(--sane-orange)]" />
             <span className="truncate">{member.role}</span>
           </p>
         </div>
         <a
           href={member.linkedin || "#"}
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--sane-green)] !text-white transition-colors hover:bg-[#0a4a22]"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--sane-green)] !text-white transition-colors hover:bg-[var(--sane-green-dark)]"
           aria-label={`LinkedIn de ${member.name}`}
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
@@ -53,19 +54,10 @@ export function TeamSection() {
   return (
     <section className="bg-[var(--sane-background)] py-10 sm:py-12 md:py-16">
       <Container>
-        <div className="mb-1.5 flex items-center gap-2">
-          <span className="h-[3px] w-8 rounded-full bg-[var(--sane-orange)]" />
-          <span className="text-[10px] font-extrabold uppercase tracking-[0.12em] text-[var(--sane-green)] sm:text-[11px]">
-            Notre Équipe
-          </span>
-        </div>
-
-        <div className="mb-8 flex items-end justify-between sm:mb-10">
-          <h2 className="text-[22px] font-extrabold leading-[1.12] tracking-tight text-[var(--sane-text)] sm:text-[26px] md:text-[30px]">
-            Une équipe engagée et expérimentée
-          </h2>
+        <div className="mb-8 flex items-end justify-between gap-4 sm:mb-10">
+          <SectionHeading eyebrow="Notre Équipe" title="Une équipe engagée et expérimentée" />
           <Link
-            href="/equipe"
+            href="/intervenants"
             className="hidden items-center gap-1.5 text-[12px] font-bold text-[var(--sane-green)] transition-colors hover:text-[var(--sane-orange)] sm:flex sm:text-[13px]"
           >
             Voir toute l&apos;équipe <ArrowRight size={14} />
@@ -79,7 +71,7 @@ export function TeamSection() {
         </div>
 
         <Link
-          href="/equipe"
+          href="/intervenants"
           className="mt-6 flex items-center justify-center gap-1.5 text-[12px] font-bold text-[var(--sane-green)] transition-colors hover:text-[var(--sane-orange)] sm:hidden"
         >
           Voir toute l&apos;équipe <ArrowRight size={14} />

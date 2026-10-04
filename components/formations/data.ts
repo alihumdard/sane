@@ -1,6 +1,6 @@
 import {
   GraduationCap, Users, BookOpen, Award,
-  Calendar, MapPin, UserCheck, FileCheck, Briefcase,
+  UserCheck, FileCheck, Briefcase,
   Mail, ClipboardCheck,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -13,6 +13,9 @@ export interface Formation {
   places: string;
   lieu: string;
   img: string;
+  /** sample values: edit them to match the real sessions */
+  niveau: string;
+  format: string;
 }
 
 export interface Step {
@@ -28,9 +31,9 @@ export interface Faq {
 }
 
 export const tagColors: Record<string, string> = {
-  Management: "bg-[#10632D] text-white",
+  Management: "bg-[var(--sane-green)] text-white",
   Digital: "bg-[#2B6CB0] text-white",
-  Entrepreneuriat: "bg-[#E57617] text-white",
+  Entrepreneuriat: "bg-[var(--sane-orange)] text-white",
   Communication: "bg-[#6B46C1] text-white",
   Technologie: "bg-[#0F766E] text-white",
   Informatique: "bg-[#1D4ED8] text-white",
@@ -46,14 +49,14 @@ export const formationInfo: InfoItem[] = [
 ];
 
 export const formations: Formation[] = [
-  { tag: "Management", title: "Leadership & Management", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership.png" },
-  { tag: "Digital", title: "Transformation Digitale", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/Transformation.png" },
-  { tag: "Entrepreneuriat", title: "Entrepreneuriat des Jeunes", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Entrepreneuriat.png" },
-  { tag: "Communication", title: "Techniques de Communication", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/sane_deal.png" },
-  { tag: "Technologie", title: "Compétences en Énergies Renouvelables", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/sane_company.png" },
-  { tag: "Informatique", title: "Compétences Digitales", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/Transformation.png" },
-  { tag: "Développement personnel", title: "Préparation à l'Emploi", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/sane_cv.png" },
-  { tag: "Finance", title: "Gestion de Projet", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership.png" },
+  { tag: "Management", title: "Leadership & Management", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership.png", niveau: "Intermédiaire", format: "Présentiel" },
+  { tag: "Digital", title: "Transformation Digitale", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/Transformation.png", niveau: "Intermédiaire", format: "Hybride" },
+  { tag: "Entrepreneuriat", title: "Entrepreneuriat des Jeunes", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Entrepreneuriat.png", niveau: "Débutant", format: "Présentiel" },
+  { tag: "Communication", title: "Techniques de Communication", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/sane_deal.png", niveau: "Débutant", format: "Présentiel" },
+  { tag: "Technologie", title: "Compétences en Énergies Renouvelables", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/sane_company.png", niveau: "Avancé", format: "Présentiel" },
+  { tag: "Informatique", title: "Compétences Digitales", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/Transformation.png", niveau: "Débutant", format: "En ligne" },
+  { tag: "Développement personnel", title: "Préparation à l'Emploi", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/sane_cv.png", niveau: "Débutant", format: "Hybride" },
+  { tag: "Finance", title: "Gestion de Projet", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership.png", niveau: "Intermédiaire", format: "En ligne" },
 ];
 
 export const domaines = ["Domaine de formation", "Management", "Digital", "Entrepreneuriat", "Communication", "Technologie", "Finance"];

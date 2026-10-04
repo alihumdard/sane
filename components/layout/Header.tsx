@@ -25,7 +25,7 @@ export function Header() {
   }, [searchOpen]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#dce8e1] bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-[var(--sane-border)] bg-white/95 backdrop-blur">
       <div className="sane-container flex h-[72px] items-center justify-between gap-4 lg:gap-6">
         {/* Logo */}
         <Link href="/" className="shrink-0">
@@ -56,8 +56,8 @@ export function Header() {
                 href={item.href}
                 className={`group relative flex items-center gap-1 py-1.5 text-[13px] font-semibold transition-colors ${
                   isActive
-                    ? "text-[#10632D]"
-                    : "text-[#17352A] hover:text-[#10632D]"
+                    ? "text-[var(--sane-green)]"
+                    : "text-[var(--sane-text)] hover:text-[var(--sane-green)]"
                 }`}
               >
                 {item.label}
@@ -71,7 +71,7 @@ export function Header() {
                 )}
 
                 {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#E57617]" />
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--sane-orange)]" />
                 )}
               </Link>
             );
@@ -85,7 +85,7 @@ export function Header() {
             type="button"
             aria-label="Rechercher"
             onClick={() => setSearchOpen(!searchOpen)}
-            className="flex h-10 w-10 items-center justify-center rounded-full text-[#10632D] transition-colors hover:bg-[#eaf5ee]"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green-light)]"
           >
             <Search size={18} />
           </button>
@@ -93,14 +93,14 @@ export function Header() {
           {/* Buttons — desktop only */}
           <Link
             href="/connexion"
-            className="hidden h-10 items-center justify-center rounded-full border-2 border-[#10632D] px-4 text-[13px] font-bold text-[#10632D] transition-all duration-200 hover:bg-[#10632D] hover:!text-white lg:inline-flex xl:px-5"
+            className="hidden h-10 items-center justify-center rounded-full border-2 border-[var(--sane-green)] px-4 text-[13px] font-bold text-[var(--sane-green)] transition-all duration-200 hover:bg-[var(--sane-green)] hover:!text-white lg:inline-flex xl:px-5"
           >
             Se connecter
           </Link>
 
           <Link
             href="/inscription"
-            className="hidden h-10 items-center justify-center rounded-full bg-[#E57617] px-4 text-[13px] font-bold text-white !text-white transition-all duration-200 hover:bg-[#cf6812] hover:!text-white lg:inline-flex xl:px-5"
+            className="hidden h-10 items-center justify-center rounded-full bg-[var(--sane-orange)] px-4 text-[13px] font-bold text-white !text-white transition-all duration-200 hover:bg-[var(--sane-orange-dark)] hover:!text-white lg:inline-flex xl:px-5"
           >
             S&apos;inscrire
           </Link>
@@ -112,7 +112,7 @@ export function Header() {
 
       {/* Search bar dropdown */}
       {searchOpen && (
-        <div className="absolute left-0 right-0 top-[72px] z-40 border-b border-[#dce8e1] bg-white px-4 py-4 shadow-lg">
+        <div className="absolute left-0 right-0 top-[72px] z-40 border-b border-[var(--sane-border)] bg-white px-4 py-4 shadow-lg">
           <div className="sane-container flex items-center gap-3">
             <Search size={20} className="shrink-0 text-[#71857A]" />
 
@@ -120,13 +120,13 @@ export function Header() {
               ref={searchInputRef}
               type="text"
               placeholder="Rechercher un emploi, une formation..."
-              className="w-full bg-transparent text-sm text-[#17352A] outline-none placeholder:text-[#8A9A91]"
+              className="w-full bg-transparent text-sm text-[var(--sane-text)] outline-none placeholder:text-[#8A9A91]"
             />
 
             <button
               type="button"
               onClick={() => setSearchOpen(false)}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#71857A] transition-colors hover:bg-[#eaf5ee] hover:text-[#10632D]"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#71857A] transition-colors hover:bg-[var(--sane-green-light)] hover:text-[var(--sane-green)]"
             >
               <X size={18} />
             </button>

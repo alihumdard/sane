@@ -5,7 +5,7 @@ import { steps } from "./data";
 
 export function EmploiStepsSection() {
   return (
-    <section className="bg-white py-8 sm:py-10">
+    <section className="bg-white py-10 sm:py-12 md:py-16">
       <Container>
         <div className="mb-1 flex items-center gap-2">
           <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
@@ -13,7 +13,7 @@ export function EmploiStepsSection() {
             Comment postuler ?
           </span>
         </div>
-        <h2 className="mb-6 text-[20px] font-extrabold leading-[1.15] tracking-tight text-[#0f5025] sm:mb-8 sm:text-[23px] md:text-[29px]">
+        <h2 className="sane-h2 mb-6 sm:mb-8">
           Un processus simple en 4 étapes
         </h2>
 
@@ -35,10 +35,10 @@ export function EmploiStepsSection() {
                     <span className="block text-[17px] font-bold leading-none text-[var(--sane-green)]/35">
                       {step.num}
                     </span>
-                    <h3 className="mt-1.5 text-[15px] font-extrabold leading-snug tracking-tight text-[#0f5025]">
+                    <h3 className="sane-h3 mt-1.5">
                       {step.title}
                     </h3>
-                    <p className="mt-1.5 text-[13px] font-normal leading-[1.5] text-[var(--sane-text-light)] lg:max-w-[210px]">
+                    <p className="sane-body mt-1.5 font-normal lg:max-w-[210px]">
                       {step.desc}
                     </p>
                   </div>

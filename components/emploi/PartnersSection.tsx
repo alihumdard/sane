@@ -4,7 +4,7 @@ import { recruitingPartners } from "./data";
 
 export function PartnersSection() {
   return (
-    <section className="bg-[var(--sane-background)] pb-4 pt-6 sm:-mt-10 sm:pb-5 sm:pt-0">
+    <section className="bg-[var(--sane-background)] pb-10 pt-2 sm:pb-12 md:pb-16">
       <Container>
         <div className="mb-0.5 flex items-center gap-2">
           <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
@@ -12,7 +12,7 @@ export function PartnersSection() {
             Nos partenaires qui recrutent
           </span>
         </div>
-        <h2 className="mb-3 text-[19px] font-extrabold leading-tight text-[#0f5025] sm:text-[22px] md:text-[26px]">
+        <h2 className="sane-h2 mb-6">
           Ils nous font confiance
         </h2>
 

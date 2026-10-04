@@ -15,7 +15,7 @@ function SessionCard({ session }: { session: Session }) {
 
       <div className="flex min-w-0 flex-1 flex-col gap-1.5 sm:flex-row sm:gap-4">
         <div className="min-w-0 flex-1">
-          <h3 className="text-[14px] font-extrabold text-[var(--sane-text)] sm:text-[15px]">{session.title}</h3>
+          <h3 className="sane-h3">{session.title}</h3>
 
           {Array.isArray(session.description) ? (
             <ul className="mt-1 flex flex-col gap-0.5">
@@ -30,7 +30,7 @@ function SessionCard({ session }: { session: Session }) {
               ))}
             </ul>
           ) : (
-            <p className="mt-1 text-[12px] leading-[1.5] text-[var(--sane-text-light)] sm:text-[13px]">
+            <p className="sane-small mt-1">
               {session.description}
             </p>
           )}
@@ -84,10 +84,10 @@ export function ScheduleSection() {
         <div className="mt-6 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-[var(--sane-border)] sm:mt-8 sm:p-6">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <h2 className="text-[20px] font-extrabold tracking-tight text-[var(--sane-text)] sm:text-[24px]">
+              <h2 className="sane-h2">
                 Programme détaillé
               </h2>
-              <p className="mt-1 text-[12px] text-[var(--sane-text-light)] sm:text-[13px]">
+              <p className="sane-small mt-1">
                 Un programme riche et varié pour inspirer, former et connecter les talents.
               </p>
             </div>
@@ -121,7 +121,7 @@ export function ScheduleSection() {
                   </div>
                 ))
               ) : (
-                <p className="py-10 text-center text-[13px] text-[var(--sane-text-light)]">
+                <p className="sane-body py-10 text-center">
                   Aucune session dans cette catégorie pour le moment.
                 </p>
               )}

@@ -114,16 +114,16 @@ function DonutChart() {
       <div className="relative shrink-0" style={{ width: 90, height: 90 }}>
         <div className="w-full h-full rounded-full" style={{ background: `conic-gradient(${gradient})` }} />
         <div className="absolute inset-[14px] rounded-full bg-white flex flex-col items-center justify-center">
-          <span className="text-[14px] font-extrabold text-[#0a2e16] leading-none">46</span>
-          <span className="text-[7px] text-[#61756B]">Intervenants</span>
+          <span className="text-[14px] font-extrabold text-[var(--sane-green-deep)] leading-none">46</span>
+          <span className="text-[7px] text-[var(--sane-text-light)]">Intervenants</span>
         </div>
       </div>
       <div className="flex flex-col gap-1">
         {donutData.map((d, i) => (
           <div key={i} className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-sm shrink-0" style={{ backgroundColor: d.color }} />
-            <span className="text-[9px] text-[#61756B] flex-1">{d.label}</span>
-            <span className="text-[9px] font-semibold text-[#0a2e16]">{d.pct}%</span>
+            <span className="text-[9px] text-[var(--sane-text-light)] flex-1">{d.label}</span>
+            <span className="text-[9px] font-semibold text-[var(--sane-green-deep)]">{d.pct}%</span>
           </div>
         ))}
       </div>
@@ -137,7 +137,7 @@ export default function IntervenantsPage() {
   const tbl = useTable(intervenants, { filterKeys: {"Catégorie":"cat","Statut":"statut"} });
 
   return (
-    <div className="flex h-screen bg-[#f8faf9] overflow-hidden">
+    <div className="flex h-screen bg-[var(--sane-background)] overflow-hidden">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
@@ -151,12 +151,12 @@ export default function IntervenantsPage() {
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
           {/* Breadcrumb */}
-          <div className="mb-3 flex items-center gap-1 text-[11px] text-[#61756B]">
-            <span className="cursor-pointer hover:text-[#10632D]">Accueil</span>
+          <div className="mb-3 flex items-center gap-1 text-[11px] text-[var(--sane-text-light)]">
+            <span className="cursor-pointer hover:text-[var(--sane-green)]">Accueil</span>
             <ChevronRight size={12} />
-            <span className="cursor-pointer hover:text-[#10632D]">Intervenants</span>
+            <span className="cursor-pointer hover:text-[var(--sane-green)]">Intervenants</span>
             <ChevronRight size={12} />
-            <span className="font-medium text-[#0a2e16]">Tous les intervenants</span>
+            <span className="font-medium text-[var(--sane-green-deep)]">Tous les intervenants</span>
           </div>
 
           {/* Welcome Banner */}
@@ -165,17 +165,17 @@ export default function IntervenantsPage() {
             <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-transparent" />
             <div className="absolute inset-0 flex items-center px-4 sm:px-8">
               <div className="max-w-[60%] sm:max-w-[50%]">
-                <h1 className="text-[16px] sm:text-[22px] font-extrabold text-[#0a2e16] leading-tight">Gestion des intervenants</h1>
-                <p className="mt-1 text-[10px] sm:text-[11px] text-[#61756B] leading-relaxed hidden sm:block">
+                <h1 className="text-[16px] sm:text-[22px] font-extrabold text-[var(--sane-green-deep)] leading-tight">Gestion des intervenants</h1>
+                <p className="mt-1 text-[10px] sm:text-[11px] text-[var(--sane-text-light)] leading-relaxed hidden sm:block">
                   Gérez tous les intervenants du SANE. Ajoutez de nouveaux intervenants,<br/>
                   assignez-les aux sessions et suivez leur participation.
                 </p>
-                <button type="button" onClick={tbl.openAdd} className="mt-2 flex items-center gap-1 rounded-lg bg-[#E57617] px-3 py-1.5 text-[10px] font-bold text-white sm:hidden">
+                <button type="button" onClick={tbl.openAdd} className="mt-2 flex items-center gap-1 rounded-lg bg-[var(--sane-orange)] px-3 py-1.5 text-[10px] font-bold text-white sm:hidden">
                   <Plus size={11} /> Ajouter
                 </button>
               </div>
               <div className="absolute right-4 sm:right-8 top-3 sm:top-4 flex flex-col items-end gap-1 hidden sm:flex">
-                <button type="button" onClick={tbl.openAdd} className="flex items-center gap-2 rounded-lg bg-[#E57617] px-4 py-2 text-[11px] font-bold text-white hover:bg-[#c45e0e]">
+                <button type="button" onClick={tbl.openAdd} className="flex items-center gap-2 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[11px] font-bold text-white hover:bg-[#c45e0e]">
                   <Plus size={13} /> Ajouter un intervenant
                 </button>
               </div>
@@ -195,57 +195,57 @@ export default function IntervenantsPage() {
               <FilterBar searchPlaceholder="Rechercher un intervenant..." filters={["Catégorie", "Statut", "Pays"]} table={tbl} />
 
               {/* Table */}
-              <div className="overflow-x-auto rounded-xl border border-[#DDE8E0] bg-white">
+              <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
                 <table className="w-full min-w-[1000px] text-left">
                   <thead>
-                    <tr className="border-b border-[#DDE8E0] bg-[#F5F9F6]">
-                      <th className="px-3 py-2 w-8"><input type="checkbox" className="accent-[#10632D]" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Intervenant</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Fonction / Entreprise</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Catégorie</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Pays</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Sessions</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Statut</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Note</th>
-                      <th className="px-2 py-2 text-[10px] font-semibold text-[#61756B]">Actions</th>
+                    <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
+                      <th className="px-3 py-2 w-8"><input type="checkbox" className="accent-[var(--sane-green)]" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Intervenant</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Fonction / Entreprise</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Catégorie</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Pays</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Sessions</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Statut</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Note</th>
+                      <th className="px-2 py-2 text-[10px] font-semibold text-[var(--sane-text-light)]">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {tbl.pageRows.map((r, i) => (
-                      <tr key={i} className="border-b border-[#DDE8E0]/50 hover:bg-[#F5F9F6]/50">
-                        <td className="px-3 py-2"><input type="checkbox" className="accent-[#10632D]" checked={tbl.selected.includes(r._uid)} onChange={() => tbl.toggle(r._uid)} /></td>
+                      <tr key={i} className="border-b border-[var(--sane-border)]/50 hover:bg-[var(--sane-background)]/50">
+                        <td className="px-3 py-2"><input type="checkbox" className="accent-[var(--sane-green)]" checked={tbl.selected.includes(r._uid)} onChange={() => tbl.toggle(r._uid)} /></td>
                         <td className="px-2 py-1.5">
                           <div className="flex items-center gap-2">
-                            <div className="h-8 w-8 overflow-hidden rounded-full shrink-0 border border-[#DDE8E0]">
+                            <div className="h-8 w-8 overflow-hidden rounded-full shrink-0 border border-[var(--sane-border)]">
                               <Image src={r.photo} alt={r.name} width={32} height={32} className="object-cover" />
                             </div>
                             <div>
-                              <p className="whitespace-nowrap text-[12px] font-semibold text-[#0a2e16]">{r.name}</p>
-                              <p className="text-[9px] text-[#61756B]">{r.code}</p>
+                              <p className="whitespace-nowrap text-[12px] font-semibold text-[var(--sane-green-deep)]">{r.name}</p>
+                              <p className="text-[9px] text-[var(--sane-text-light)]">{r.code}</p>
                             </div>
                           </div>
                         </td>
                         <td className="px-2 py-1.5">
-                          <p className="min-w-[200px] text-[12px] font-medium text-[#0a2e16]">{r.fonction}</p>
-                          <p className="text-[9px] text-[#61756B]">{r.entreprise}</p>
+                          <p className="min-w-[200px] text-[12px] font-medium text-[var(--sane-green-deep)]">{r.fonction}</p>
+                          <p className="text-[9px] text-[var(--sane-text-light)]">{r.entreprise}</p>
                         </td>
                         <td className="px-2 py-1.5">
                           <span className={`whitespace-nowrap rounded-md px-2 py-1 text-[10px] font-semibold ${catColors[r.cat] || "bg-gray-100 text-gray-600"}`}>{r.cat}</span>
                         </td>
                         <td className="px-2 py-1.5">
-                          <span className="flex items-center gap-1.5 whitespace-nowrap text-[11px] text-[#0a2e16]">
+                          <span className="flex items-center gap-1.5 whitespace-nowrap text-[11px] text-[var(--sane-green-deep)]">
                             <span className="text-[16px] leading-none">{r.pays.split(" ")[0]}</span>
                             <span>{r.pays.split(" ").slice(1).join(" ")}</span>
                           </span>
                         </td>
-                        <td className="px-2 py-1.5 text-center text-[11px] text-[#0a2e16]">{r.sessions}</td>
+                        <td className="px-2 py-1.5 text-center text-[11px] text-[var(--sane-green-deep)]">{r.sessions}</td>
                         <td className="px-2 py-1.5">
-                          <span className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold ${r.statut === "Confirmé" ? "bg-[#E8F5ED] text-[#10632D]" : "bg-[#FFF3E8] text-[#E57617]"}`}>{r.statut}</span>
+                          <span className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold ${r.statut === "Confirmé" ? "bg-[var(--sane-green-light)] text-[var(--sane-green)]" : "bg-[var(--sane-orange-light)] text-[var(--sane-orange)]"}`}>{r.statut}</span>
                         </td>
                         <td className="px-2 py-1.5">
                           <div className="flex items-center gap-0.5">
                             <Star size={11} fill="#f59e0b" className="text-[#f59e0b]" />
-                            <span className="text-[11px] font-semibold text-[#0a2e16]">{r.note}</span>
+                            <span className="text-[11px] font-semibold text-[var(--sane-green-deep)]">{r.note}</span>
                           </div>
                         </td>
                         <td className="px-2 py-1.5">
@@ -264,51 +264,51 @@ export default function IntervenantsPage() {
             {/* Right Sidebar */}
             <div className="grid grid-cols-1 md:grid-cols-3 2xl:flex 2xl:flex-col gap-4 min-w-0">
               {/* Répartition par catégorie */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="h-px w-4 bg-[#E57617]" />
-                  <h3 className="text-[12px] font-bold text-[#0a2e16]">Répartition par catégorie</h3>
+                  <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                  <h3 className="text-[12px] font-bold text-[var(--sane-green-deep)]">Répartition par catégorie</h3>
                 </div>
                 <DonutChart />
               </div>
 
               {/* Top intervenants */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="h-px w-4 bg-[#E57617]" />
-                    <h3 className="text-[12px] font-bold text-[#0a2e16]">Top intervenants</h3>
+                    <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                    <h3 className="text-[12px] font-bold text-[var(--sane-green-deep)]">Top intervenants</h3>
                   </div>
-                  <button className="text-[9px] font-semibold text-[#10632D] hover:text-[#E57617]">Voir tout</button>
+                  <button className="text-[9px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)]">Voir tout</button>
                 </div>
                 <div className="flex flex-col gap-2">
                   {topIntervenants.map((t, i) => (
                     <div key={i} className="flex items-center gap-2">
                       <span className="flex h-5 w-5 items-center justify-center rounded-full text-[9px] font-bold shrink-0" style={{ backgroundColor: `${t.rankColor}18`, color: t.rankColor }}>{t.rank}</span>
-                      <div className="h-7 w-7 overflow-hidden rounded-full shrink-0 border border-[#DDE8E0]">
+                      <div className="h-7 w-7 overflow-hidden rounded-full shrink-0 border border-[var(--sane-border)]">
                         <Image src={t.photo} alt={t.name} width={28} height={28} className="object-cover" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="text-[10px] font-bold text-[#0a2e16] truncate">{t.name}</p>
+                        <p className="text-[10px] font-bold text-[var(--sane-green-deep)] truncate">{t.name}</p>
                         <div className="flex items-center gap-1">
                           <Star size={9} fill="#f59e0b" className="text-[#f59e0b]" />
-                          <span className="text-[9px] text-[#61756B]">{t.note} · {t.sessions}</span>
+                          <span className="text-[9px] text-[var(--sane-text-light)]">{t.note} · {t.sessions}</span>
                         </div>
                       </div>
-                      <ChevronRight size={12} className="text-[#61756B] shrink-0" />
+                      <ChevronRight size={12} className="text-[var(--sane-text-light)] shrink-0" />
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Prochaines interventions */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="h-px w-4 bg-[#E57617]" />
-                    <h3 className="text-[12px] font-bold text-[#0a2e16]">Prochaines interventions</h3>
+                    <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                    <h3 className="text-[12px] font-bold text-[var(--sane-green-deep)]">Prochaines interventions</h3>
                   </div>
-                  <button className="text-[9px] font-semibold text-[#10632D] hover:text-[#E57617]">Voir tout</button>
+                  <button className="text-[9px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)]">Voir tout</button>
                 </div>
                 <div className="flex flex-col gap-3">
                   {prochaines.map((p, i) => (
@@ -318,11 +318,11 @@ export default function IntervenantsPage() {
                         <span className="text-[7px] font-semibold" style={{ color: p.color }}>{p.month}</span>
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="text-[10px] font-bold text-[#0a2e16] truncate">{p.name}</p>
-                        <p className="text-[9px] text-[#61756B] truncate">{p.desc}</p>
-                        <p className="text-[8px] text-[#61756B]/70">{p.time} · {p.salle}</p>
+                        <p className="text-[10px] font-bold text-[var(--sane-green-deep)] truncate">{p.name}</p>
+                        <p className="text-[9px] text-[var(--sane-text-light)] truncate">{p.desc}</p>
+                        <p className="text-[8px] text-[var(--sane-text-light)]/70">{p.time} · {p.salle}</p>
                       </div>
-                      <ChevronRight size={12} className="text-[#61756B] shrink-0 mt-1" />
+                      <ChevronRight size={12} className="text-[var(--sane-text-light)] shrink-0 mt-1" />
                     </div>
                   ))}
                 </div>

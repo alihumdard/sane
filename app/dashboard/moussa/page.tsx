@@ -83,7 +83,7 @@ export default function MoussaDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F5F9F6]">
+    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
       <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
@@ -109,13 +109,13 @@ export default function MoussaDashboard() {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-white from-30% via-white/50 via-50% to-transparent" />
             <div className="hidden sm:flex absolute right-6 top-1/2 -translate-y-1/2 z-20 items-center gap-2">
-              <p className="text-[18px] italic text-[#E57617] font-semibold leading-tight" style={{ fontFamily: "Georgia, serif" }}>
+              <p className="text-[18px] italic text-[var(--sane-orange)] font-semibold leading-tight" style={{ fontFamily: "Georgia, serif" }}>
                 Un Niger<br />de Talents
               </p>
             </div>
             <div className="relative z-20 p-4 sm:p-6">
-              <h1 className="text-xl sm:text-2xl font-extrabold text-[#0a2e16] mb-1">Bienvenue Moussa !</h1>
-              <p className="hidden sm:block max-w-md text-[13px] text-[#61756B]">
+              <h1 className="text-xl sm:text-2xl font-extrabold text-[var(--sane-green-deep)] mb-1">Bienvenue Moussa !</h1>
+              <p className="hidden sm:block max-w-md text-[13px] text-[var(--sane-text-light)]">
                 Découvrez de nouvelles opportunités, développez vos compétences<br />et construisez votre avenir avec le SANE.
               </p>
             </div>
@@ -124,14 +124,14 @@ export default function MoussaDashboard() {
           {/* ═══ STATS ═══ */}
           <div className="mb-4 grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3">
             {statsData.map((s, i) => (
-              <div key={i} className="flex items-center gap-3 rounded-xl border border-[#DDE8E0] bg-white px-3 py-3">
+              <div key={i} className="flex items-center gap-3 rounded-xl border border-[var(--sane-border)] bg-white px-3 py-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: s.bg, color: s.color }}>
                   {s.icon}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[18px] font-extrabold text-[#0a2e16] leading-none">{s.value}</p>
-                  <p className="text-[10px] text-[#61756B] truncate mt-0.5">{s.label}</p>
-                  <p className="text-[10px] text-[#10632D] font-semibold flex items-center gap-0.5 mt-0.5">
+                  <p className="text-[18px] font-extrabold text-[var(--sane-green-deep)] leading-none">{s.value}</p>
+                  <p className="text-[10px] text-[var(--sane-text-light)] truncate mt-0.5">{s.label}</p>
+                  <p className="text-[10px] text-[var(--sane-green)] font-semibold flex items-center gap-0.5 mt-0.5">
                     Voir <ChevronRight size={10} />
                   </p>
                 </div>
@@ -146,37 +146,37 @@ export default function MoussaDashboard() {
             <div className="flex flex-col gap-4 min-w-0">
 
               {/* Formations recommandées */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="h-px w-4 bg-[#E57617]" />
-                    <h3 className="text-[14px] font-bold text-[#0a2e16]">Formations recommandées</h3>
+                    <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                    <h3 className="text-[14px] font-bold text-[var(--sane-green-deep)]">Formations recommandées</h3>
                   </div>
-                  <button className="text-[11px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">
+                  <button className="text-[11px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] flex items-center gap-1">
                     Voir tout <ChevronRight size={11} />
                   </button>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
                   {formations.map((f, i) => (
-                    <div key={i} className="overflow-hidden rounded-xl border border-[#DDE8E0] bg-[#F5F9F6]">
+                    <div key={i} className="overflow-hidden rounded-xl border border-[var(--sane-border)] bg-[var(--sane-background)]">
                       <div className="relative h-[120px]">
                         <Image src={f.img} alt={f.titre} fill className="object-cover" />
-                        <span className="absolute top-2 left-2 rounded-full bg-white/90 px-2 py-0.5 text-[9px] font-semibold text-[#10632D]">
+                        <span className="absolute top-2 left-2 rounded-full bg-white/90 px-2 py-0.5 text-[9px] font-semibold text-[var(--sane-green)]">
                           Formation
                         </span>
                       </div>
                       <div className="p-3">
-                        <p className="text-[12px] font-bold text-[#0a2e16] leading-tight mb-1">{f.titre}</p>
-                        <p className="text-[10px] text-[#61756B] flex items-center gap-1 mb-1">
+                        <p className="text-[12px] font-bold text-[var(--sane-green-deep)] leading-tight mb-1">{f.titre}</p>
+                        <p className="text-[10px] text-[var(--sane-text-light)] flex items-center gap-1 mb-1">
                           <MapPin size={9} /> {f.organisme}
                         </p>
-                        <div className="flex items-center gap-2 text-[9px] text-[#61756B] mb-3">
+                        <div className="flex items-center gap-2 text-[9px] text-[var(--sane-text-light)] mb-3">
                           <span className="flex items-center gap-0.5"><Clock size={9} /> {f.duree}</span>
-                          <span className="flex items-center gap-0.5 text-[#10632D]">
+                          <span className="flex items-center gap-0.5 text-[var(--sane-green)]">
                             <CheckCircle size={9} /> Certificat
                           </span>
                         </div>
-                        <button className="w-full rounded-lg bg-[#10632D] py-1.5 text-[11px] font-semibold text-white hover:bg-[#0a4a22]">
+                        <button className="w-full rounded-lg bg-[var(--sane-green)] py-1.5 text-[11px] font-semibold text-white hover:bg-[var(--sane-green-dark)]">
                           Voir les détails
                         </button>
                       </div>
@@ -186,13 +186,13 @@ export default function MoussaDashboard() {
               </div>
 
               {/* Dernières offres d'emploi */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="h-px w-4 bg-[#E57617]" />
-                    <h3 className="text-[14px] font-bold text-[#0a2e16]">Dernières offres d'emploi</h3>
+                    <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                    <h3 className="text-[14px] font-bold text-[var(--sane-green-deep)]">Dernières offres d'emploi</h3>
                   </div>
-                  <button className="text-[11px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">
+                  <button className="text-[11px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] flex items-center gap-1">
                     Voir tout <ChevronRight size={11} />
                   </button>
                 </div>
@@ -200,29 +200,29 @@ export default function MoussaDashboard() {
                   <table className="w-full min-w-[500px]">
                     <tbody>
                       {offres.map((o, i) => (
-                        <tr key={i} className="border-b border-[#DDE8E0] last:border-0">
+                        <tr key={i} className="border-b border-[var(--sane-border)] last:border-0">
                           <td className="py-3 pr-3">
                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[10px] font-extrabold text-white" style={{ backgroundColor: o.bg }}>
                               {o.label}
                             </div>
                           </td>
                           <td className="py-3 pr-3 min-w-[160px]">
-                            <p className="text-[12px] font-bold text-[#0a2e16]">{o.poste}</p>
-                            <p className="text-[10px] text-[#61756B]">{o.entreprise}</p>
+                            <p className="text-[12px] font-bold text-[var(--sane-green-deep)]">{o.poste}</p>
+                            <p className="text-[10px] text-[var(--sane-text-light)]">{o.entreprise}</p>
                           </td>
                           <td className="py-3 pr-3">
                             <div className="flex flex-wrap gap-1">
-                              <span className="rounded-full bg-[#E8F5ED] px-2 py-0.5 text-[9px] font-semibold text-[#10632D]">{o.type}</span>
-                              <span className="rounded-full bg-[#F5F9F6] px-2 py-0.5 text-[9px] font-semibold text-[#61756B]">{o.domaine}</span>
+                              <span className="rounded-full bg-[var(--sane-green-light)] px-2 py-0.5 text-[9px] font-semibold text-[var(--sane-green)]">{o.type}</span>
+                              <span className="rounded-full bg-[var(--sane-background)] px-2 py-0.5 text-[9px] font-semibold text-[var(--sane-text-light)]">{o.domaine}</span>
                             </div>
                           </td>
-                          <td className="py-3 pr-3 text-[10px] text-[#61756B] whitespace-nowrap">{o.date}</td>
+                          <td className="py-3 pr-3 text-[10px] text-[var(--sane-text-light)] whitespace-nowrap">{o.date}</td>
                           <td className="py-3">
                             <div className="flex items-center gap-2">
-                              <button className="rounded-lg bg-[#10632D] px-3 py-1.5 text-[11px] font-semibold text-white hover:bg-[#0a4a22] whitespace-nowrap">
+                              <button className="rounded-lg bg-[var(--sane-green)] px-3 py-1.5 text-[11px] font-semibold text-white hover:bg-[var(--sane-green-dark)] whitespace-nowrap">
                                 Postuler
                               </button>
-                              <button className="rounded-lg border border-[#DDE8E0] p-1.5 text-[#61756B] hover:bg-[#F5F9F6]">
+                              <button className="rounded-lg border border-[var(--sane-border)] p-1.5 text-[var(--sane-text-light)] hover:bg-[var(--sane-background)]">
                                 <Bookmark size={13} />
                               </button>
                             </div>
@@ -240,13 +240,13 @@ export default function MoussaDashboard() {
             <div className="flex flex-col gap-4 min-w-0">
 
               {/* Mon profil */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="h-px w-4 bg-[#E57617]" />
-                    <h3 className="text-[13px] font-bold text-[#0a2e16]">Mon profil</h3>
+                    <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                    <h3 className="text-[13px] font-bold text-[var(--sane-green-deep)]">Mon profil</h3>
                   </div>
-                  <button className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">
+                  <button className="text-[10px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] flex items-center gap-1">
                     Voir mon profil <ChevronRight size={10} />
                   </button>
                 </div>
@@ -259,65 +259,65 @@ export default function MoussaDashboard() {
                     className="rounded-full object-cover shrink-0"
                   />
                   <div>
-                    <p className="text-[14px] font-extrabold text-[#0a2e16]">Moussa Idrissa</p>
-                    <p className="text-[11px] text-[#61756B]">Participant</p>
+                    <p className="text-[14px] font-extrabold text-[var(--sane-green-deep)]">Moussa Idrissa</p>
+                    <p className="text-[11px] text-[var(--sane-text-light)]">Participant</p>
                     <div className="mt-1 flex flex-col gap-0.5">
-                      <p className="text-[10px] text-[#61756B] flex items-center gap-1"><Mail size={10} /> moussa.idrissa@example.com</p>
-                      <p className="text-[10px] text-[#61756B] flex items-center gap-1"><Phone size={10} /> +227 90 12 34 56</p>
-                      <p className="text-[10px] text-[#61756B] flex items-center gap-1"><MapPin size={10} /> Niamey, Niger</p>
+                      <p className="text-[10px] text-[var(--sane-text-light)] flex items-center gap-1"><Mail size={10} /> moussa.idrissa@example.com</p>
+                      <p className="text-[10px] text-[var(--sane-text-light)] flex items-center gap-1"><Phone size={10} /> +227 90 12 34 56</p>
+                      <p className="text-[10px] text-[var(--sane-text-light)] flex items-center gap-1"><MapPin size={10} /> Niamey, Niger</p>
                     </div>
                   </div>
                 </div>
                 <div className="mb-3">
                   <div className="mb-1 flex items-center justify-between text-[11px]">
-                    <span className="text-[#61756B]">Profil complété</span>
-                    <span className="font-bold text-[#10632D]">80%</span>
+                    <span className="text-[var(--sane-text-light)]">Profil complété</span>
+                    <span className="font-bold text-[var(--sane-green)]">80%</span>
                   </div>
-                  <div className="h-2 w-full rounded-full bg-[#DDE8E0]">
-                    <div className="h-2 rounded-full bg-[#10632D]" style={{ width: "80%" }} />
+                  <div className="h-2 w-full rounded-full bg-[var(--sane-border)]">
+                    <div className="h-2 rounded-full bg-[var(--sane-green)]" style={{ width: "80%" }} />
                   </div>
                 </div>
-                <button className="flex w-full items-center justify-center gap-2 rounded-lg border border-[#10632D] py-2 text-[11px] font-semibold text-[#10632D] hover:bg-[#F5F9F6]">
+                <button className="flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--sane-green)] py-2 text-[11px] font-semibold text-[var(--sane-green)] hover:bg-[var(--sane-background)]">
                   ✏ Compléter mon profil
                 </button>
               </div>
 
               {/* Mes prochains entretiens */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="h-px w-4 bg-[#E57617]" />
-                    <h3 className="text-[13px] font-bold text-[#0a2e16]">Mes prochains entretiens</h3>
+                    <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                    <h3 className="text-[13px] font-bold text-[var(--sane-green-deep)]">Mes prochains entretiens</h3>
                   </div>
-                  <button className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">
+                  <button className="text-[10px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] flex items-center gap-1">
                     Voir tout <ChevronRight size={10} />
                   </button>
                 </div>
                 <div className="flex flex-col gap-3">
                   {entretiens.map((e, i) => (
                     <div key={i} className="flex items-start gap-3">
-                      <div className="flex h-12 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-[#E8F5ED]">
-                        <span className="text-[15px] font-extrabold text-[#10632D] leading-none">{e.day}</span>
-                        <span className="text-[8px] font-semibold text-[#10632D]">{e.month}</span>
+                      <div className="flex h-12 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-[var(--sane-green-light)]">
+                        <span className="text-[15px] font-extrabold text-[var(--sane-green)] leading-none">{e.day}</span>
+                        <span className="text-[8px] font-semibold text-[var(--sane-green)]">{e.month}</span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[11px] font-bold text-[#0a2e16] leading-tight truncate">{e.titre}</p>
-                        <p className="text-[9px] text-[#61756B] flex items-center gap-0.5"><MapPin size={8} /> {e.lieu}</p>
+                        <p className="text-[11px] font-bold text-[var(--sane-green-deep)] leading-tight truncate">{e.titre}</p>
+                        <p className="text-[9px] text-[var(--sane-text-light)] flex items-center gap-0.5"><MapPin size={8} /> {e.lieu}</p>
                         <div className="mt-0.5 flex items-center gap-2">
-                          <span className="text-[9px] text-[#61756B] flex items-center gap-0.5"><Clock size={8} /> {e.heure}</span>
+                          <span className="text-[9px] text-[var(--sane-text-light)] flex items-center gap-0.5"><Clock size={8} /> {e.heure}</span>
                           {e.mode === "video" ? (
                             <span className="flex items-center gap-0.5 rounded-full bg-[#E0F0FF] px-1.5 py-0.5 text-[8px] font-semibold text-[#2563EB]">
                               <Monitor size={8} /> En ligne
                             </span>
                           ) : (
-                            <span className="flex items-center gap-0.5 rounded-full bg-[#FFF3E8] px-1.5 py-0.5 text-[8px] font-semibold text-[#E57617]">
+                            <span className="flex items-center gap-0.5 rounded-full bg-[var(--sane-orange-light)] px-1.5 py-0.5 text-[8px] font-semibold text-[var(--sane-orange)]">
                               <MapPin size={8} /> Présentiel
                             </span>
                           )}
                         </div>
                       </div>
-                      <button className="shrink-0 mt-1 flex h-6 w-6 items-center justify-center rounded-full border border-[#DDE8E0]">
-                        <ChevronRight size={12} className="text-[#61756B]" />
+                      <button className="shrink-0 mt-1 flex h-6 w-6 items-center justify-center rounded-full border border-[var(--sane-border)]">
+                        <ChevronRight size={12} className="text-[var(--sane-text-light)]" />
                       </button>
                     </div>
                   ))}
@@ -325,13 +325,13 @@ export default function MoussaDashboard() {
               </div>
 
               {/* Notifications récentes */}
-              <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="h-px w-4 bg-[#E57617]" />
-                    <h3 className="text-[13px] font-bold text-[#0a2e16]">Notifications récentes</h3>
+                    <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                    <h3 className="text-[13px] font-bold text-[var(--sane-green-deep)]">Notifications récentes</h3>
                   </div>
-                  <button className="text-[10px] font-semibold text-[#10632D] hover:text-[#E57617] flex items-center gap-1">
+                  <button className="text-[10px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] flex items-center gap-1">
                     Voir tout <ChevronRight size={10} />
                   </button>
                 </div>
@@ -342,8 +342,8 @@ export default function MoussaDashboard() {
                         {n.icon}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[11px] font-semibold text-[#0a2e16] leading-tight">{n.title}</p>
-                        <p className="text-[9px] text-[#E57617] mt-0.5">{n.time}</p>
+                        <p className="text-[11px] font-semibold text-[var(--sane-green-deep)] leading-tight">{n.title}</p>
+                        <p className="text-[9px] text-[var(--sane-orange)] mt-0.5">{n.time}</p>
                       </div>
                       <span className="mt-1 h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: n.color }} />
                     </div>

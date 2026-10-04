@@ -27,7 +27,7 @@ export function InfoBar({ items }: { items: InfoItem[] }) {
               >
                 <span
                   className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl sm:h-12 sm:w-12 ${
-                    i % 2 === 0 ? "bg-[#fdf0e4]" : "bg-[#e8f2ec]"
+                    i % 2 === 0 ? "bg-[var(--sane-orange-light)]" : "bg-[#e8f2ec]"
                   }`}
                 >
                   <Icon
