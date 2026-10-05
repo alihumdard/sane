@@ -31,7 +31,7 @@ export function Header() {
         <Link href="/" className="shrink-0">
           <div className="relative h-10 w-32">
             <Image
-              src="/logo.png"
+              src="/new-logo.png"
               alt="SANE Logo"
               fill
               priority

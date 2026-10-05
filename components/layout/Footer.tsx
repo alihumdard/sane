@@ -13,7 +13,7 @@ export function Footer() {
             <Link href="/" className="inline-block">
               <div className="relative h-12 w-[135px]">
                 <Image
-                  src="/logo.png"
+                  src="/new-logo.png"
                   alt="SANE Logo"
                   fill
                   priority
