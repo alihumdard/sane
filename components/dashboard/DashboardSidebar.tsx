@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, ChevronUp, X } from "lucide-react";
 import type { ReactNode } from "react";
@@ -155,20 +156,19 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
         </button>
 
         {/* Logo */}
-        <div className="flex flex-col items-center px-5 pt-5 pb-2">
-          <div className="flex items-center gap-1">
-            <svg width="36" height="36" viewBox="0 0 40 40">
-              <circle cx="20" cy="20" r="18" fill="#10632D"/>
-              <text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text>
-              <path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/>
-            </svg>
-            <span className="text-[18px] font-extrabold text-[#1e3a5f]">SANE</span>
-          </div>
-          <span className="text-[7px] font-semibold tracking-[0.15em] text-[var(--sane-text-light)] uppercase">Salon National de l&apos;Emploi</span>
-          <svg className="mt-2" width="10" height="10" viewBox="0 0 10 10">
-            <polygon points="5,0 10,5 5,10 0,5" fill="#E57617"/>
-          </svg>
-        </div>
+        <Link
+          href="/"
+          className="flex flex-col items-center border-b border-[var(--sane-border)] px-5 pt-4 pb-4"
+        >
+          <Image
+            src="/new-logo.png"
+            alt="SANE Logo"
+            width={132}
+            height={88}
+            priority
+            className="h-auto w-[132px] object-contain"
+          />
+        </Link>
 
         {/* Nav */}
         <nav className="flex-1 overflow-y-auto px-3 py-2">
