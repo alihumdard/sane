@@ -23,7 +23,7 @@ const links = [
     description: "Ils nous accompagnent pour l'emploi.",
     action: "Voir nos partenaires",
     href: "/partenaires",
-    image: "/Partenaires.png",
+    image: "/card img2.png",
   },
   {
     title: "Actualités",
