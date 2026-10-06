@@ -246,26 +246,26 @@ export default function ActualitesPage() {
         {/* ═══════════════════ 2. CATEGORY TABS BAR ═══════════════════ */}
         <section className="relative z-20 -mt-10 pb-2">
           <div className="sane-container">
-            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
+            <div className="grid grid-cols-2 items-stretch gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
               {categoryTabs.map((tab) => {
                 const active = activeTab === tab.key;
                 return (
                   <button
                     key={tab.key}
                     onClick={() => setActiveTab(tab.key)}
-                    className={`flex h-full items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left transition-all ${
+                    className={`flex min-h-[64px] items-center gap-2 rounded-xl border px-2.5 py-2.5 text-left transition-all ${
                       active
                         ? "border-transparent bg-[#0a4a22] text-white shadow-md"
                         : "border-[#DDE8E0] bg-white text-[#17352a] shadow-sm hover:-translate-y-0.5 hover:shadow-md"
                     }`}
                   >
                     <div
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
                         active ? "bg-white/15 text-white" : "bg-[#fff4ec] text-[#E57617]"
                       }`}
                     >
                       <svg
-                        className="h-[18px] w-[18px]"
+                        className="h-4 w-4"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -279,9 +279,9 @@ export default function ActualitesPage() {
                       </svg>
                     </div>
                     <div className="min-w-0">
-                      <p className="truncate text-[12.5px] font-bold leading-tight">{tab.title}</p>
+                      <p className="text-[12px] font-bold leading-tight">{tab.title}</p>
                       <p
-                        className={`truncate text-[10.5px] leading-tight ${active ? "text-white/70" : "text-[#61756b]"}`}
+                        className={`text-[10px] leading-snug ${active ? "text-white/70" : "text-[#61756b]"}`}
                       >
                         {tab.subtitle}
                       </p>
