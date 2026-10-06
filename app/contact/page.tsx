@@ -15,11 +15,14 @@ export default function ContactPage() {
           title="Contactez le SANE"
           lead="Nous sommes à votre écoute."
           description="Une question, une demande d'information ou une proposition de partenariat ? Notre équipe est disponible pour vous répondre et vous accompagner."
-          image="/sane_deal.png"
+          image="/contact-hero.png"
+          tone="light"
+          imageFit="banner"
           actions={[
             { href: "#contact-form", label: "Nous écrire" },
             { href: "/programme", label: "Voir le programme", variant: "secondary" },
           ]}
+          floatingCardText={"EMPLOI\nFORMATION\nOPPORTUNITÉS\nAVENIR"}
         />
         <FeatureBar items={contactBarItems} />
         <ContactSection />
