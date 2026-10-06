@@ -132,7 +132,7 @@ export function AboutSection() {
             </div>
 
             {/* Stats */}
-            <div className="mt-8 grid grid-cols-2 gap-y-6 pt-2 sm:grid-cols-4">
+            <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-6 pt-2 sm:grid-cols-4">
               {stats.map((stat, index) => {
                 const Icon = stat.icon;
 

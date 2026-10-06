@@ -88,8 +88,8 @@ export function JobsSection() {
         </div>
 
         {/* SEARCH */}
-        <div className="mt-7 grid gap-3 md:grid-cols-[1.5fr_1fr_1fr_auto]">
-          <div className="flex h-12 items-center gap-3 rounded-lg border border-[var(--sane-border)] bg-white px-4">
+        <div className="mt-7 grid gap-3 sm:grid-cols-2 md:grid-cols-[1.5fr_1fr_1fr_auto]">
+          <div className="flex h-12 items-center gap-3 rounded-lg border border-[var(--sane-border)] bg-white px-4 sm:col-span-2 md:col-span-1">
             <Search size={17} className="shrink-0 text-[#71857A]" />
             <input
               type="text"
@@ -112,7 +112,7 @@ export function JobsSection() {
 
           <button
             type="button"
-            className="h-12 rounded-lg bg-[var(--sane-orange)] px-7 text-sm font-bold text-white transition hover:bg-[var(--sane-orange-dark)]"
+            className="h-12 w-full rounded-lg bg-[var(--sane-orange)] px-7 text-sm font-bold text-white transition hover:bg-[var(--sane-orange-dark)] sm:col-span-2 md:col-span-1 md:w-auto"
           >
             Rechercher
           </button>

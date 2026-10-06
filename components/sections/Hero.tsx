@@ -37,7 +37,7 @@ export function Hero() {
               </p>
 
               {/* Buttons */}
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-5 flex flex-wrap gap-3">
                 <Link
                   href="/inscription"
                   className="group inline-flex h-[42px] items-center justify-center gap-2 rounded-full bg-[var(--sane-orange)] px-6 text-[13px] font-bold !text-white transition-colors hover:bg-[var(--sane-orange-dark)] sm:h-[44px]"
@@ -54,7 +54,7 @@ export function Hero() {
               </div>
 
               {/* Highlights */}
-              <ul className="mt-7 grid grid-cols-2 gap-4 border-t border-white/30 pt-5 sm:flex sm:max-w-[600px] sm:items-center sm:gap-6 md:gap-8">
+              <ul className="mt-7 grid grid-cols-1 gap-3 border-t border-white/30 pt-5 xs:grid-cols-2 sm:flex sm:max-w-[600px] sm:items-center sm:gap-6 md:gap-8">
                 {highlights.map(({ icon: Icon, title, short, long, accent }, i) => (
                   <li key={title} className="flex items-center gap-2.5 sm:gap-3">
                     {i > 0 && <span className="hidden h-8 w-px bg-white/20 sm:-ml-3 sm:mr-3 sm:block md:-ml-4 md:mr-4" />}
