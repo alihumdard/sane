@@ -40,7 +40,7 @@ export function CTASection({
     <section
       className="relative min-h-[270px] overflow-hidden py-3 md:h-[280px] md:py-4"
       style={{
-        backgroundImage: "url('/card img.png')",
+        backgroundImage: "url('/SalonNationalbg.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
