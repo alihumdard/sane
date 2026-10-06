@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // Change this date when the event date is confirmed
-const EVENT_DATE = new Date("2025-03-15T09:00:00");
+const EVENT_DATE = new Date("2026-03-15T09:00:00");
 
 function getTimeLeft() {
   const diff = EVENT_DATE.getTime() - Date.now();
