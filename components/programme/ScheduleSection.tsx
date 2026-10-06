@@ -60,7 +60,7 @@ export function ScheduleSection() {
   return (
     <section id="programme" className="bg-[var(--sane-background)] py-10 sm:py-12 md:py-16">
       <Container>
-        <div className="flex gap-2 overflow-x-auto pb-1">
+        <div className="flex gap-2 overflow-x-auto pb-1 pr-4 -mr-4 sm:pr-0 sm:mr-0">
           {filters.map((filter) => {
             const Icon = filter.icon;
             const isActive = activeFilter === filter.label;

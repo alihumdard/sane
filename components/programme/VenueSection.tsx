@@ -32,7 +32,7 @@ export function VenueSection() {
           </div>
 
           {/* Text content */}
-          <div className="flex gap-4 lg:gap-6">
+          <div className="flex gap-4 overflow-hidden lg:gap-6">
             <div className="flex-1">
               <span className="mb-3 block h-[3px] w-8 rounded-full bg-[var(--sane-orange)]" />
 
