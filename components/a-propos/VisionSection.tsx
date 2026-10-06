@@ -22,7 +22,7 @@ export function VisionSection() {
             />
           </div>
 
-          <div className="pt-12 lg:pt-12">
+          <div className="pt-2 lg:pt-12">
             <div className="flex items-center gap-2">
               <span className="sane-eyebrow-bar" />
               <span className="sane-eyebrow">Qui sommes-nous ?</span>

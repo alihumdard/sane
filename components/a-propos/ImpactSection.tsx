@@ -25,7 +25,7 @@ export function ImpactSection() {
         style={{ backgroundImage: "url('/vision-bg.png')" }}
       />
       <Container className="relative z-10">
-        <div className="grid items-center gap-6 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
+        <div className="grid items-center gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
           <div>
             <div className="mb-2 flex items-center gap-2">
               <span className="sane-eyebrow-bar" />
