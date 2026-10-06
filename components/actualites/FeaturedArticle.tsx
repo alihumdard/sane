@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Calendar, Play } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -9,7 +9,7 @@ import { imageFocus } from "@/components/shared";
 export function FeaturedArticle() {
   return (
     <div className="mt-12">
-      <SectionHeading eyebrow="À la une" title="Le SANE, un engagement pour l'avenir du Niger" className="mb-6" />
+      <SectionHeading eyebrow="À la une" title="Le SANEM, un engagement pour l'avenir du Niger" className="mb-6" />
 
       <div className="grid gap-6 sm:grid-cols-2 sm:items-center">
         <Link href="#" aria-label="Lire la vidéo" className="group relative block h-[220px] overflow-hidden rounded-2xl">
@@ -27,7 +27,7 @@ export function FeaturedArticle() {
             <Calendar size={12} />
             12 Mars 2024
           </span>
-          <h3 className="sane-h3 mb-3">Le SANE 2024 : Ensemble pour un Niger plus fort</h3>
+          <h3 className="sane-h3 mb-3">Le SANEM 2024 : Ensemble pour un Niger plus fort</h3>
           <p className="sane-body mb-5">
             Découvrez la vision, les objectifs et les temps forts de cette nouvelle édition du Salon National de l&apos;Emploi,
             qui place les jeunes, la formation et l&apos;innovation au cœur du développement du Niger.

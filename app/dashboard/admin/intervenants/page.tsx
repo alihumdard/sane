@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -167,7 +167,7 @@ export default function IntervenantsPage() {
               <div className="max-w-[60%] sm:max-w-[50%]">
                 <h1 className="text-[16px] sm:text-[22px] font-extrabold text-[var(--sane-green-deep)] leading-tight">Gestion des intervenants</h1>
                 <p className="mt-1 text-[10px] sm:text-[11px] text-[var(--sane-text-light)] leading-relaxed hidden sm:block">
-                  Gérez tous les intervenants du SANE. Ajoutez de nouveaux intervenants,<br/>
+                  Gérez tous les intervenants du SANEM. Ajoutez de nouveaux intervenants,<br/>
                   assignez-les aux sessions et suivez leur participation.
                 </p>
                 <button type="button" onClick={tbl.openAdd} className="mt-2 flex items-center gap-1 rounded-lg bg-[var(--sane-orange)] px-3 py-1.5 text-[10px] font-bold text-white sm:hidden">

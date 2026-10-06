@@ -1,4 +1,4 @@
-import { Bell, Briefcase, Building2, CalendarCheck, FileText, Settings, User, UserSearch } from "lucide-react";
+﻿import { Bell, Briefcase, Building2, CalendarCheck, FileText, Settings, User, UserSearch } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export interface Role {

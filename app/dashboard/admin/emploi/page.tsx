@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -50,7 +50,7 @@ const offres = [
   { id: "#JOB003", titre: "Spécialiste Suivi & Évaluation", entreprise: "PNUD Niger", lieu: "Niamey", contrat: "CDI", contratColor: "#10632D", candidatures: 32, statut: "En attente", statutColor: "#D97706", statutBg: "#FFFBE8", date: "08 Mars 2024" },
   { id: "#JOB004", titre: "Assistant Administratif", entreprise: "Banque Mondiale", lieu: "Zinder", contrat: "CDD", contratColor: "#E57617", candidatures: 15, statut: "Active", statutColor: "#10632D", statutBg: "#E8F5ED", date: "05 Mars 2024" },
   { id: "#JOB005", titre: "Expert en Formation", entreprise: "AFD Niger", lieu: "Maradi", contrat: "Consultant", contratColor: "#2563EB", candidatures: 27, statut: "Active", statutColor: "#10632D", statutBg: "#E8F5ED", date: "02 Mars 2024" },
-  { id: "#JOB006", titre: "Chef de Projet Digital", entreprise: "SANE", lieu: "Niamey", contrat: "CDI", contratColor: "#10632D", candidatures: 41, statut: "Active", statutColor: "#10632D", statutBg: "#E8F5ED", date: "28 Fév 2024" },
+  { id: "#JOB006", titre: "Chef de Projet Digital", entreprise: "SANEM", lieu: "Niamey", contrat: "CDI", contratColor: "#10632D", candidatures: 41, statut: "Active", statutColor: "#10632D", statutBg: "#E8F5ED", date: "28 Fév 2024" },
   { id: "#JOB007", titre: "Responsable RH", entreprise: "UNICEF Niger", lieu: "Agadez", contrat: "CDI", contratColor: "#10632D", candidatures: 19, statut: "En revue", statutColor: "#2563EB", statutBg: "#E0F0FF", date: "25 Fév 2024" },
   { id: "#JOB008", titre: "Formateur en Entrepreneuriat", entreprise: "PNUD Niger", lieu: "Niamey", contrat: "Consultant", contratColor: "#2563EB", candidatures: 23, statut: "Active", statutColor: "#10632D", statutBg: "#E8F5ED", date: "20 Fév 2024" },
   { id: "#JOB009", titre: "Analyste de Données", entreprise: "Banque Mondiale", lieu: "Tahoua", contrat: "CDD", contratColor: "#E57617", candidatures: 17, statut: "Active", statutColor: "#10632D", statutBg: "#E8F5ED", date: "18 Fév 2024" },
@@ -118,7 +118,7 @@ export default function EmploiPage() {
                   <svg width="100" height="100" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="45" fill="#10632D" opacity="0.08" />
                     <circle cx="50" cy="50" r="45" stroke="#E57617" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
-                    <text x="50" y="48" textAnchor="middle" fill="#10632D" fontSize="18" fontWeight="800">SANE</text>
+                    <text x="50" y="48" textAnchor="middle" fill="#10632D" fontSize="18" fontWeight="800">SANEM</text>
                     <text x="50" y="60" textAnchor="middle" fill="#10632D" fontSize="5" fontWeight="600" letterSpacing="0.5">SALON NATIONAL DE L&apos;EMPLOI</text>
                   </svg>
                 </div>

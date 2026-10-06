@@ -1,4 +1,4 @@
-import { Container } from "@/components/ui/Container";
+﻿import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AccordionList } from "@/components/shared";
 import { faqs } from "./data";

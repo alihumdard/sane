@@ -1,4 +1,4 @@
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+﻿import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { FeatureBarItem } from "@/components/shared";
 

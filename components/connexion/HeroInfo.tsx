@@ -1,4 +1,4 @@
-import { ShieldCheck } from "lucide-react";
+﻿import { ShieldCheck } from "lucide-react";
 import { connexionStats, features } from "./data";
 
 /** Left column of the connexion hero. */
@@ -17,7 +17,7 @@ export function HeroInfo() {
         </h1>
         <p className="sane-body on-dark max-w-[480px]">
           Connectez-vous à votre espace pour gérer votre profil, accéder aux opportunités, suivre vos inscriptions et profiter
-          de tous les services du SANE.
+          de tous les services du SANEM.
         </p>
       </div>
 
@@ -47,7 +47,7 @@ export function HeroInfo() {
 
       <p className="sane-small on-dark flex items-center gap-2">
         <ShieldCheck size={16} className="shrink-0 text-[var(--sane-orange)]" />
-        Vos données sont protégées. Connexion sécurisée à votre espace SANE.
+        Vos données sont protégées. Connexion sécurisée à votre espace SANEM.
       </p>
     </div>
   );

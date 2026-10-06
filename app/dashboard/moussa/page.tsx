@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -39,7 +39,7 @@ const formations = [
   {
     img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400&h=220&fit=crop",
     titre: "Compétences numériques pour l'emploi",
-    organisme: "SANE · En ligne",
+    organisme: "SANEM · En ligne",
     duree: "6 semaines",
   },
   {
@@ -116,7 +116,7 @@ export default function MoussaDashboard() {
             <div className="relative z-20 p-4 sm:p-6">
               <h1 className="text-xl sm:text-2xl font-extrabold text-[var(--sane-green-deep)] mb-1">Bienvenue Moussa !</h1>
               <p className="hidden sm:block max-w-md text-[13px] text-[var(--sane-text-light)]">
-                Découvrez de nouvelles opportunités, développez vos compétences<br />et construisez votre avenir avec le SANE.
+                Découvrez de nouvelles opportunités, développez vos compétences<br />et construisez votre avenir avec le SANEM.
               </p>
             </div>
           </div>

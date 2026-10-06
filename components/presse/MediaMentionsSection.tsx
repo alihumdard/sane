@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -10,7 +10,7 @@ export function MediaMentionsSection() {
     <section className="bg-white py-10 sm:py-12 md:py-16">
       <Container>
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <SectionHeading eyebrow="Ils parlent du SANE" title="Le SANE dans les médias" />
+          <SectionHeading eyebrow="Ils parlent du SANEM" title="Le SANEM dans les médias" />
           <Link href="#" className={`${textLink} whitespace-nowrap`}>
             Voir toutes les mentions <ArrowRight size={15} />
           </Link>

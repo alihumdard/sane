@@ -1,4 +1,4 @@
-interface Props {
+﻿interface Props {
   current?: number;
   totalPages?: number;
   totalItems?: number;

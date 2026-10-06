@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { whyItems } from "./data";
 
@@ -18,7 +18,7 @@ export function WhySection() {
 
       <Container className="relative z-10 pt-10 pb-4 sm:pt-0 sm:pb-0">
         <h2 className="sane-h2 on-dark mb-8 text-center italic drop-shadow-sm lg:pl-[32%] lg:text-left">
-          Pourquoi se former avec le SANE ?
+          Pourquoi se former avec le SANEM ?
         </h2>
 
         <div className="flex flex-col items-center gap-6 sm:flex-row lg:pl-[30%]">

@@ -1,4 +1,4 @@
-import { SectionHeading } from "@/components/ui/SectionHeading";
+﻿import { SectionHeading } from "@/components/ui/SectionHeading";
 import { contactInfo, socials } from "./data";
 
 export function ContactInfo() {

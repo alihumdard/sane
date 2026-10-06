@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -23,7 +23,7 @@ export function LoginCard({ activeRole, onRoleChange }: Props) {
   return (
     <div id="login-form" className="w-full scroll-mt-24 rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
       <h2 className="sane-h2 mb-1">Connexion</h2>
-      <p className="sane-body mb-5">Accédez à votre espace SANE</p>
+      <p className="sane-body mb-5">Accédez à votre espace SANEM</p>
 
       <div role="group" aria-label="Type de compte" className="mb-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
         {roles.map(({ key, title, icon: Icon }) => {

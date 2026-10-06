@@ -1,4 +1,4 @@
-import {
+﻿import {
   CalendarDays,
   MapPin,
   UsersRound,
@@ -84,7 +84,7 @@ export const sessions: Session[] = [
   {
     time: "09:00 – 09:30",
     title: "Cérémonie d'ouverture",
-    description: "Allocutions officielles et présentation des objectifs du SANE.",
+    description: "Allocutions officielles et présentation des objectifs du SANEM.",
     tag: "Cérémonie",
     location: "Grande salle",
     image: "/sane_company.png",
@@ -147,7 +147,7 @@ export const sessions: Session[] = [
 ];
 
 export const documents: ProgrammeDocument[] = [
-  { title: "Programme du SANE", format: "PDF — 2,4 Mo", href: "#", icon: FileText },
+  { title: "Programme du SANEM", format: "PDF — 2,4 Mo", href: "#", icon: FileText },
   { title: "Guide du participant", format: "PDF — 1,1 Mo", href: "#", icon: FileText },
   { title: "Plan du site", format: "PDF — 800 Ko", href: "#", icon: FileText },
 ];

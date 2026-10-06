@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowRight, BriefcaseBusiness, Building2, CheckCircle2, Handshake, Landmark } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -32,7 +32,7 @@ const cards = [
     href: "/partenaires",
     items: [
       "Soutenir l’emploi des jeunes",
-      "Coopérer avec le SANE",
+      "Coopérer avec le SANEM",
       "Construire un développement durable",
     ],
   },

@@ -1,4 +1,4 @@
-import { Banknote, Briefcase, Building2, ClipboardList, Globe, Handshake, Landmark, Users } from "lucide-react";
+﻿import { Banknote, Briefcase, Building2, ClipboardList, Globe, Handshake, Landmark, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { FeatureBarItem } from "@/components/shared";
 
@@ -63,21 +63,21 @@ export const impactStats: { icon: LucideIcon; value: string; label: string }[] =
 
 export const testimonials: { quote: string; name: string; role: string; photo: string; icon: LucideIcon }[] = [
   {
-    quote: "Le SANE est un partenaire clé dans la promotion de l'emploi des jeunes au Niger. Cette initiative crée un véritable pont entre les talents et les opportunités.",
+    quote: "Le SANEM est un partenaire clé dans la promotion de l'emploi des jeunes au Niger. Cette initiative crée un véritable pont entre les talents et les opportunités.",
     name: "M. Harouna Moussa",
     role: "Ministère de l'Emploi",
     photo: "https://randomuser.me/api/portraits/men/75.jpg",
     icon: Landmark,
   },
   {
-    quote: "Notre collaboration avec le SANE nous permet de renforcer nos actions de formation et d'insertion professionnelle des jeunes, en particulier des femmes.",
+    quote: "Notre collaboration avec le SANEM nous permet de renforcer nos actions de formation et d'insertion professionnelle des jeunes, en particulier des femmes.",
     name: "Mme Aissatou Diallo",
     role: "PNUD Niger",
     photo: "https://randomuser.me/api/portraits/women/29.jpg",
     icon: Globe,
   },
   {
-    quote: "Le SANE incarne une vision ambitieuse pour l'avenir du Niger. Nous sommes fiers de soutenir cette plateforme qui favorise le dialogue entre les acteurs de l'emploi.",
+    quote: "Le SANEM incarne une vision ambitieuse pour l'avenir du Niger. Nous sommes fiers de soutenir cette plateforme qui favorise le dialogue entre les acteurs de l'emploi.",
     name: "M. Pierre Dubois",
     role: "AFD Niger",
     photo: "https://randomuser.me/api/portraits/men/52.jpg",

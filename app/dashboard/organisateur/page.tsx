@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -84,7 +84,7 @@ const donutData = [
 ];
 
 const events = [
-  { day: "15", month: "Mar", title: "Conférence d'ouverture SANE 2024", time: "09:00 - 12:00", location: "Palais des Congrès - Niamey" },
+  { day: "15", month: "Mar", title: "Conférence d'ouverture SANEM 2024", time: "09:00 - 12:00", location: "Palais des Congrès - Niamey" },
   { day: "18", month: "Mar", title: "Forum Emploi & Entrepreneuriat", time: "10:00 - 16:00", location: "Hôtel Bravia - Niamey" },
   { day: "22", month: "Mar", title: "Atelier : Compétences numériques", time: "14:00 - 17:00", location: "En ligne" },
 ];
@@ -165,7 +165,7 @@ export default function DashboardOrganisateurPage() {
             <Image src="/sane_deal.png" alt="Dashboard" fill className="object-cover" style={{ objectPosition: "center 30%" }} />
             <div className="absolute inset-0 bg-gradient-to-r from-white from-32% via-white/40 via-48% to-transparent" />
             <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 hidden sm:flex items-center gap-3">
-              <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
+              <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANEM</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
               <p className="text-[16px] italic text-[var(--sane-orange)] leading-tight font-semibold" style={{ fontFamily: "Georgia, serif" }}>Un Niger<br/>de Talents</p>
             </div>
             <div className="relative z-20 p-4 sm:p-6">
@@ -177,7 +177,7 @@ export default function DashboardOrganisateurPage() {
                 <span className="font-medium text-[var(--sane-green-deep)]">Tableau de bord</span>
               </nav>
               <h1 className="mb-1 text-2xl font-extrabold text-[var(--sane-green-deep)]">Bienvenue, Aïssatou !</h1>
-              <p className="max-w-md text-[13px] text-[var(--sane-text-light)]">Organisez, gérez et suivez tous vos événements du SANE. Contribuez à connecter les talents nigériens aux opportunités.</p>
+              <p className="max-w-md text-[13px] text-[var(--sane-text-light)]">Organisez, gérez et suivez tous vos événements du SANEM. Contribuez à connecter les talents nigériens aux opportunités.</p>
             </div>
           </div>
 

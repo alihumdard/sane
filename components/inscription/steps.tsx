@@ -1,4 +1,4 @@
-import { Calendar, Check, Mail, User } from "lucide-react";
+﻿import { Calendar, Check, Mail, User } from "lucide-react";
 import { PhoneField, SelectField, TextAreaField, TextField } from "@/components/ui/FormFields";
 import { labelClass } from "@/components/ui/styles";
 import { interestOptions, options, type RegistrationData } from "./data";
@@ -79,10 +79,10 @@ export function InterestsStep({
           })}
         </div>
       </fieldset>
-      <SelectField id="source" label="Comment avez-vous connu le SANE ?" placeholder="Sélectionnez une réponse" list={options.source} value={data.source} onChange={set("source")} />
+      <SelectField id="source" label="Comment avez-vous connu le SANEM ?" placeholder="Sélectionnez une réponse" list={options.source} value={data.source} onChange={set("source")} />
       <label className="sane-small flex cursor-pointer items-start gap-2.5">
         <input type="checkbox" name="newsletter" defaultChecked className="mt-0.5 h-4 w-4 shrink-0 rounded accent-[var(--sane-green)]" />
-        Je souhaite recevoir les actualités et les rappels du SANE par email.
+        Je souhaite recevoir les actualités et les rappels du SANEM par email.
       </label>
     </>
   );
@@ -128,7 +128,7 @@ export function ConfirmStep({
           onChange={(e) => onConsent(e.target.checked)}
           className="mt-0.5 h-4 w-4 shrink-0 rounded accent-[var(--sane-green)]"
         />
-        J&apos;certifie que les informations fournies sont exactes et j&apos;accepte d&apos;être contacté(e) au sujet de mon inscription au SANE.
+        J&apos;certifie que les informations fournies sont exactes et j&apos;accepte d&apos;être contacté(e) au sujet de mon inscription au SANEM.
       </label>
     </>
   );

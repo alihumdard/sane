@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import {
@@ -169,7 +169,7 @@ export default function PartenairesPage() {
                 </div>
                 <h1 className="text-[28px] font-extrabold text-[var(--sane-green-deep)] leading-tight">Gestion des partenaires</h1>
                 <p className="mt-1.5 max-w-[420px] text-[11px] text-[var(--sane-text-light)] leading-relaxed">
-                  Gérez tous les partenaires du SANE. Ajoutez de nouveaux partenaires,<br />
+                  Gérez tous les partenaires du SANEM. Ajoutez de nouveaux partenaires,<br />
                   organisez-les par catégorie et suivez leurs contributions.
                 </p>
               </div>
@@ -184,7 +184,7 @@ export default function PartenairesPage() {
                   <svg width="100" height="100" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="45" fill="#10632D" opacity="0.08" />
                     <circle cx="50" cy="50" r="45" stroke="#E57617" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
-                    <text x="50" y="48" textAnchor="middle" fill="#10632D" fontSize="18" fontWeight="800">SANE</text>
+                    <text x="50" y="48" textAnchor="middle" fill="#10632D" fontSize="18" fontWeight="800">SANEM</text>
                     <text x="50" y="60" textAnchor="middle" fill="#10632D" fontSize="5" fontWeight="600" letterSpacing="0.5">SALON NATIONAL DE L&apos;EMPLOI</text>
                   </svg>
                 </div>

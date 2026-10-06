@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/Header";
+﻿import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
 import { PageHero, FeatureBar } from "@/components/shared";
@@ -13,7 +13,7 @@ export default function InscriptionPage() {
           breadcrumb="Inscription participant"
           eyebrow="Salon National de l'Emploi"
           title="Inscription Participant"
-          lead="Rejoignez le SANE et vivez une expérience unique."
+          lead="Rejoignez le SANEM et vivez une expérience unique."
           description="Inscrivez-vous pour participer au Salon National de l'Emploi et accédez aux conférences, formations, rencontres et opportunités d'emploi."
           image="/sane_deal.png"
           actions={[

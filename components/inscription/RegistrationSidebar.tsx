@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import { Check } from "lucide-react";
 import { practicalInfo, whyItems } from "./data";
 
@@ -8,7 +8,7 @@ export function RegistrationSidebar() {
       <div className="relative min-h-28 flex-1 overflow-hidden rounded-2xl">
         <Image src="/sane_deal.png" alt="" fill sizes="(max-width: 1024px) 100vw, 340px" className="object-cover" />
         <span className="absolute bottom-3 right-3 rounded-lg bg-white px-3 py-1.5 text-[length:var(--fs-body)] font-extrabold text-[var(--sane-green)] shadow">
-          SANE
+          SANEM
         </span>
       </div>
 

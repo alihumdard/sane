@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -204,7 +204,7 @@ export default function FormationsPage() {
             <div className="absolute right-32 top-4 opacity-30 hidden sm:block">
               <svg width="80" height="80" viewBox="0 0 80 80">
                 <circle cx="40" cy="40" r="36" fill="white" opacity="0.2"/>
-                <text x="40" y="46" textAnchor="middle" fill="white" fontSize="14" fontWeight="800">SANE</text>
+                <text x="40" y="46" textAnchor="middle" fill="white" fontSize="14" fontWeight="800">SANEM</text>
               </svg>
             </div>
             <div className="absolute right-10 top-5 text-right hidden sm:block">
@@ -215,7 +215,7 @@ export default function FormationsPage() {
             <div className="absolute inset-0 flex flex-col justify-center px-5 sm:px-8">
               <h1 className="text-[20px] sm:text-[26px] font-extrabold text-white leading-tight">Gestion des formations</h1>
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
-                Créez, organisez et gérez toutes les formations du SANE. Suivez les inscriptions, les sessions et évaluez l&apos;impact de chaque formation.
+                Créez, organisez et gérez toutes les formations du SANEM. Suivez les inscriptions, les sessions et évaluez l&apos;impact de chaque formation.
               </p>
               <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>

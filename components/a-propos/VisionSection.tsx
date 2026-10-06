@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -16,7 +16,7 @@ export function VisionSection() {
             <div className="relative h-[200px] overflow-hidden rounded-xl sm:h-[230px] md:h-[260px] lg:h-[260px]">
               <Image
                 src="/sane_company.png"
-                alt="SANE événement"
+                alt="SANEM événement"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 45vw"
@@ -35,7 +35,7 @@ export function VisionSection() {
               <div className="relative h-[130px] overflow-hidden rounded-xl sm:h-[145px] md:h-[160px] lg:h-[160px]">
                 <Image
                   src="/sane_cv.png"
-                  alt="SANE rencontre"
+                  alt="SANEM rencontre"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 50vw, 22vw"
@@ -50,7 +50,7 @@ export function VisionSection() {
               <span className="sane-eyebrow">Qui sommes-nous ?</span>
             </div>
             <h2 className="sane-h2 mt-2">
-              Le SANE, plus qu&apos;un événement,
+              Le SANEM, plus qu&apos;un événement,
               <br className="hidden sm:block" />
               une vision pour l&apos;avenir
             </h2>

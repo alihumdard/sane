@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -152,7 +152,7 @@ export default function DashboardPage() {
             <p className="absolute bottom-4 right-6 z-20 hidden sm:block text-[15px] italic text-[var(--sane-orange)]" style={{ fontFamily: "serif" }}>Un Niger<br/>de Talents</p>
             <div className="relative z-20 p-4 sm:p-6">
               <h1 className="mb-1 text-2xl font-extrabold text-[var(--sane-green-deep)]">Bienvenue, {company.name} !</h1>
-              <p className="max-w-md text-[13px] text-[var(--sane-text-light)]">Trouvez les meilleurs talents et contribuez au développement des compétences au Niger avec le SANE.</p>
+              <p className="max-w-md text-[13px] text-[var(--sane-text-light)]">Trouvez les meilleurs talents et contribuez au développement des compétences au Niger avec le SANEM.</p>
             </div>
           </div>
 

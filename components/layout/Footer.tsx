@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Mail, Phone, ArrowUpRight } from "lucide-react";
 
@@ -14,7 +14,7 @@ export function Footer() {
               <div className="relative h-12 w-[135px]">
                 <Image
                   src="/new-logo.png"
-                  alt="SANE Logo"
+                  alt="SANEM Logo"
                   fill
                   priority
                   className="object-contain object-left brightness-0 invert"
@@ -245,7 +245,7 @@ export function Footer() {
         <div className="sane-container">
           <div className="flex flex-col gap-3 py-5 text-[11px] text-[var(--sane-green-muted)] sm:text-xs md:flex-row md:items-center md:justify-between">
             <p>
-              © 2026 SANE — Salon National de l&apos;Emploi. Tous droits
+              © 2026 SANEM — Salon National de l&apos;Emploi. Tous droits
               réservés.
             </p>
 

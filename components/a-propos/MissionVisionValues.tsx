@@ -1,4 +1,4 @@
-import { Target, Eye, Diamond, Check } from "lucide-react";
+﻿import { Target, Eye, Diamond, Check } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 

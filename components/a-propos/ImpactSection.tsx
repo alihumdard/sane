@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, BriefcaseBusiness, Building2, GraduationCap, UsersRound } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -37,7 +37,7 @@ export function ImpactSection() {
             </h2>
 
             <p className="sane-body mt-3">
-              Depuis sa création, le SANE s&apos;impose comme un acteur clé de l&apos;écosystème
+              Depuis sa création, le SANEM s&apos;impose comme un acteur clé de l&apos;écosystème
               de l&apos;emploi et de la formation au Niger. Grâce à une mobilisation nationale,
               il contribue chaque année à créer des passerelles concrètes entre les jeunes
               talents et le monde professionnel.
@@ -56,7 +56,7 @@ export function ImpactSection() {
             <div className="relative aspect-[3/2] overflow-hidden rounded-2xl shadow-xl">
               <Image
                 src="/sane_deal.png"
-                alt="Impact SANE"
+                alt="Impact SANEM"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 45vw"

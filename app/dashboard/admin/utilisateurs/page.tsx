@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -67,10 +67,10 @@ const utilisateurs = [
   { id: "#USR002", nom: "Omar Issa",        photo: "https://randomuser.me/api/portraits/men/22.jpg",   role: "Recruteur",      org: "Enabel Niger",  email: "omar@enabel.ne",          tel: "+227 90 11 22 33", statut: "Actif",      date: "10 Mars 2024" },
   { id: "#USR003", nom: "Fatima Bello",     photo: "https://randomuser.me/api/portraits/women/33.jpg", role: "Participant",    org: "—",             email: "fatima@example.com",      tel: "+227 97 45 67 89", statut: "En attente", date: "08 Mars 2024" },
   { id: "#USR004", nom: "Moussa Diallo",    photo: "https://randomuser.me/api/portraits/men/44.jpg",   role: "Entreprise",     org: "GIZ Niger",     email: "moussa@giz.ne",           tel: "+227 98 76 54 32", statut: "Actif",      date: "05 Mars 2024" },
-  { id: "#USR005", nom: "Khadija Ali",      photo: "https://randomuser.me/api/portraits/women/55.jpg", role: "Organisateur",   org: "SANE",          email: "khadija@sane.ne",         tel: "+227 92 33 44 55", statut: "Actif",      date: "02 Mars 2024" },
+  { id: "#USR005", nom: "Khadija Ali",      photo: "https://randomuser.me/api/portraits/women/55.jpg", role: "Organisateur",   org: "SANEM",          email: "khadija@sane.ne",         tel: "+227 92 33 44 55", statut: "Actif",      date: "02 Mars 2024" },
   { id: "#USR006", nom: "Ibrahim Toure",    photo: "https://randomuser.me/api/portraits/men/66.jpg",   role: "Participant",    org: "—",             email: "ibrahim@example.com",     tel: "+227 91 22 33 44", statut: "Inactif",    date: "28 Février 2024" },
   { id: "#USR007", nom: "Nadia Saidou",     photo: "https://randomuser.me/api/portraits/women/77.jpg", role: "Recruteur",      org: "PNUD Niger",    email: "nadia@pnud.ne",           tel: "+227 93 55 66 77", statut: "Actif",      date: "25 Février 2024" },
-  { id: "#USR008", nom: "Ahmed Mahamane",   photo: "https://randomuser.me/api/portraits/men/88.jpg",   role: "Administrateur", org: "SANE",          email: "ahmed@sane.ne",           tel: "+227 90 88 77 66", statut: "Actif",      date: "20 Février 2024" },
+  { id: "#USR008", nom: "Ahmed Mahamane",   photo: "https://randomuser.me/api/portraits/men/88.jpg",   role: "Administrateur", org: "SANEM",          email: "ahmed@sane.ne",           tel: "+227 90 88 77 66", statut: "Actif",      date: "20 Février 2024" },
   { id: "#USR009", nom: "Mariama Amadou",   photo: "https://randomuser.me/api/portraits/women/21.jpg", role: "Entreprise",     org: "Banque Mondiale",email: "mariama@worldbank.ne",   tel: "+227 96 77 88 99", statut: "Actif",      date: "18 Février 2024" },
   { id: "#USR010", nom: "Yacoubou Sani",    photo: "https://randomuser.me/api/portraits/men/32.jpg",   role: "Participant",    org: "—",             email: "yacoubou@example.com",    tel: "+227 94 11 22 33", statut: "En attente", date: "15 Février 2024" },
 ];
@@ -108,7 +108,7 @@ export default function UtilisateursPage() {
             <div className="absolute inset-0 flex flex-col justify-center px-5 sm:px-8">
               <h1 className="text-[20px] sm:text-[24px] font-extrabold text-white leading-tight">Gestion des utilisateurs</h1>
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
-                Gérez tous les utilisateurs de la plateforme SANE. Consultez, ajoutez, modifiez et attribuez des rôles selon les besoins.
+                Gérez tous les utilisateurs de la plateforme SANEM. Consultez, ajoutez, modifiez et attribuez des rôles selon les besoins.
               </p>
               <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>

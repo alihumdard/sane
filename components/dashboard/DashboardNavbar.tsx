@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -8,9 +8,9 @@ import { Bell, ChevronDown, LogOut, Menu, Search, Settings, User } from "lucide-
 
 const SAMPLE_NOTIFICATIONS = [
   { title: "Nouvelle candidature reçue", time: "Il y a 5 min" },
-  { title: "Inscription confirmée au SANE 2024", time: "Il y a 1 h" },
+  { title: "Inscription confirmée au SANEM 2024", time: "Il y a 1 h" },
   { title: "Un entretien a été planifié", time: "Hier" },
-  { title: "Nouveau message de l'équipe SANE", time: "Hier" },
+  { title: "Nouveau message de l'équipe SANEM", time: "Hier" },
   { title: "Rappel : complétez votre profil", time: "Il y a 2 jours" },
 ];
 

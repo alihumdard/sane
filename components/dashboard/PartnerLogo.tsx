@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 export default function PartnerLogo({ nom }: { nom: string }) {
   const logos: Record<string, React.ReactNode> = {

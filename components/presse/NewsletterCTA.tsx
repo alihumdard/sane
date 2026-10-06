@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { NewsletterForm } from "@/components/shared";
@@ -17,7 +17,7 @@ export function NewsletterCTA() {
             tone="light"
             eyebrow="Newsletter presse"
             title="Recevez nos actualités presse"
-            description="Abonnez-vous pour recevoir nos communiqués et les dernières nouvelles du SANE."
+            description="Abonnez-vous pour recevoir nos communiqués et les dernières nouvelles du SANEM."
             className="mb-6"
           />
           <NewsletterForm layout="inline" tone="dark" successMessage="Merci ! Vous êtes abonné(e) à nos actualités presse." />

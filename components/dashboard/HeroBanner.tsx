@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import type { ReactNode } from "react";
 
 interface Props {
@@ -20,7 +20,7 @@ export default function HeroBanner({ title, description, imageSrc, variant = "li
         <div className="absolute right-32 top-1/2 -translate-y-1/2 opacity-30">
           <svg width="80" height="80" viewBox="0 0 80 80">
             <circle cx="40" cy="40" r="36" fill="white" opacity="0.2" />
-            <text x="40" y="46" textAnchor="middle" fill="white" fontSize="14" fontWeight="800">SANE</text>
+            <text x="40" y="46" textAnchor="middle" fill="white" fontSize="14" fontWeight="800">SANEM</text>
           </svg>
         </div>
         <div className="absolute right-10 top-1/2 -translate-y-1/2 text-right">
@@ -50,7 +50,7 @@ export default function HeroBanner({ title, description, imageSrc, variant = "li
           <div className="absolute right-24 top-1/2 -translate-y-1/2 opacity-20">
             <svg width="70" height="70" viewBox="0 0 80 80">
               <circle cx="40" cy="40" r="36" fill="#10632D" opacity="0.3" />
-              <text x="40" y="46" textAnchor="middle" fill="#10632D" fontSize="14" fontWeight="800">SANE</text>
+              <text x="40" y="46" textAnchor="middle" fill="#10632D" fontSize="14" fontWeight="800">SANEM</text>
             </svg>
           </div>
           <div className="absolute right-6 top-1/2 -translate-y-1/2 text-right">

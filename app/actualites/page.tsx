@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -68,7 +68,7 @@ const articles = [
     date: "12 Mars 2024",
     tag: "Événement",
     tagColor: "#E57617",
-    title: "Lancement officiel du SANE 2024 à Niamey",
+    title: "Lancement officiel du SANEM 2024 à Niamey",
     description:
       "Le Ministère de l'Emploi annonce la tenue de la prochaine édition du Salon National de l'Emploi au Palais des Congrès de Niamey.",
   },
@@ -77,7 +77,7 @@ const articles = [
     date: "08 Mars 2024",
     tag: "Formation",
     tagColor: "#10632D",
-    title: "Le SANE 2024 : un carrefour d'opportunités pour les jeunes",
+    title: "Le SANEM 2024 : un carrefour d'opportunités pour les jeunes",
     description:
       "Découvrez les objectifs, les temps forts et les innovations de cette nouvelle édition qui réunit entreprises, institutions et chercheurs d'emploi.",
   },
@@ -86,7 +86,7 @@ const articles = [
     date: "05 Mars 2024",
     tag: "Partenariat",
     tagColor: "#E57617",
-    title: "Le SANE renforce ses partenariats internationaux",
+    title: "Le SANEM renforce ses partenariats internationaux",
     description:
       "De nouvelles collaborations pour soutenir l'emploi, la formation et l'insertion professionnelle des jeunes nigériens.",
   },
@@ -95,7 +95,7 @@ const articles = [
     date: "28 Février 2024",
     tag: "Témoignage",
     tagColor: "#10632D",
-    title: "Ils ont trouvé leur opportunité grâce au SANE",
+    title: "Ils ont trouvé leur opportunité grâce au SANEM",
     description:
       "Découvrez les témoignages inspirants des jeunes qui ont pu bénéficier d'opportunités d'emploi et de formation.",
   },
@@ -106,14 +106,14 @@ const articles = [
     tagColor: "#E57617",
     title: "Des formations adaptées aux besoins du marché",
     description:
-      "Le SANE met l'accent sur des formations pratiques et certifiantes pour renforcer l'employabilité des jeunes.",
+      "Le SANEM met l'accent sur des formations pratiques et certifiantes pour renforcer l'employabilité des jeunes.",
   },
   {
     image: "/hero-bg.png",
     date: "15 Février 2024",
     tag: "Communiqué",
     tagColor: "#1a5276",
-    title: "Communiqué officiel du SANE",
+    title: "Communiqué officiel du SANEM",
     description:
       "Retrouvez les dernières annonces et informations importantes concernant l'organisation de l'événement.",
   },
@@ -121,7 +121,7 @@ const articles = [
 
 const popularArticles = [
   {
-    title: "Lancement officiel du SANE 2024 à Niamey",
+    title: "Lancement officiel du SANEM 2024 à Niamey",
     date: "12 Mars 2024",
     image: "/sane_deal.png",
   },
@@ -131,7 +131,7 @@ const popularArticles = [
     image: "/hero-bg.png",
   },
   {
-    title: "Le SANE renforce ses partenariats",
+    title: "Le SANEM renforce ses partenariats",
     date: "28 Février 2024",
     image: "/sane_deal.png",
   },
@@ -174,7 +174,7 @@ export default function ActualitesPage() {
           <div className="absolute right-0 top-0 h-full w-[55%]">
             <Image
               src="/sane_deal.png"
-              alt="Actualités SANE"
+              alt="Actualités SANEM"
               fill
               className="object-cover object-center"
               priority
@@ -215,7 +215,7 @@ export default function ActualitesPage() {
             </p>
             <div className="max-w-[480px]">
               <h1 className="mb-1 text-3xl font-extrabold text-white lg:text-4xl">
-                Actualités du SANE
+                Actualités du SANEM
               </h1>
               <p className="mb-2 text-lg font-bold text-white/90">
                 Restez informé des dernières nouvelles.
@@ -410,7 +410,7 @@ export default function ActualitesPage() {
                     <span className="h-px w-4 bg-[#E57617]" />À LA UNE
                   </div>
                   <h2 className="mb-6 text-xl font-bold text-[#0a2e16] lg:text-2xl">
-                    Le SANE, un engagement pour l'avenir du Niger
+                    Le SANEM, un engagement pour l'avenir du Niger
                   </h2>
 
                   <div className="grid gap-6 sm:grid-cols-2 sm:items-center">
@@ -438,7 +438,7 @@ export default function ActualitesPage() {
                         12 Mars 2024
                       </div>
                       <h3 className="mb-3 text-[16px] font-bold text-[#0a2e16]">
-                        Le SANE 2024 : Ensemble pour un Niger plus fort
+                        Le SANEM 2024 : Ensemble pour un Niger plus fort
                       </h3>
                       <p className="mb-4 text-[13px] leading-relaxed text-[#61756B]">
                         Découvrez la vision, les objectifs et les temps forts de
@@ -590,7 +590,7 @@ export default function ActualitesPage() {
         <PageHero
           breadcrumb="Actualités"
           eyebrow="Salon National de l'Emploi"
-          title="Actualités du SANE"
+          title="Actualités du SANEM"
           lead="Restez informé des dernières nouvelles."
           description="Découvrez nos actualités, annonces, événements et initiatives autour de l'emploi, de la formation et du développement des compétences au Niger."
           image="/sane_deal.png"

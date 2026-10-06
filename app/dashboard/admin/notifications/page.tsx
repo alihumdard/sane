@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -58,7 +58,7 @@ const catConfig: Record<string, { color: string; icon: React.ReactNode }> = {
 /* ─── Table Data ─── */
 const notifications = [
   {
-    titre: "Ouverture des inscriptions SANE 2024", subtitle: "Les inscriptions sont désormais ouvertes...",
+    titre: "Ouverture des inscriptions SANEM 2024", subtitle: "Les inscriptions sont désormais ouvertes...",
     categorie: "Événement", catColor: "#10632D", destinataire: "Tous les utilisateurs",
     date: "12 Mars 2024", heure: "10:30", statut: "Envoyée", statutColor: "#10632D", statutBg: "#E8F5ED",
     ouvertures: 3240, ouverturesPct: 95,
@@ -130,7 +130,7 @@ const topNotificationsData = [
 
 /* ─── Notifications récentes ─── */
 const recentesData = [
-  { day: "12", month: "Mar", title: "Ouverture des inscriptions SANE 2024", subtitle: "Envoyée à tous · 3,240 ouvertures" },
+  { day: "12", month: "Mar", title: "Ouverture des inscriptions SANEM 2024", subtitle: "Envoyée à tous · 3,240 ouvertures" },
   { day: "10", month: "Mar", title: "Nouvelles offres d'emploi", subtitle: "Envoyée aux demandeurs · 2,860" },
   { day: "08", month: "Mar", title: "Nouvelles formations disponibles", subtitle: "Envoyée à tous · 2,540 ouvertures" },
   { day: "05", month: "Mar", title: "Rappel : Conférence demain", subtitle: "Envoyée aux inscrits · 1,980" },
@@ -227,7 +227,7 @@ export default function NotificationsPage() {
               <svg width="100" height="100" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="45" fill="white" opacity="0.08" />
                 <circle cx="50" cy="50" r="45" stroke="#E57617" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
-                <text x="50" y="48" textAnchor="middle" fill="white" fontSize="18" fontWeight="800">SANE</text>
+                <text x="50" y="48" textAnchor="middle" fill="white" fontSize="18" fontWeight="800">SANEM</text>
                 <text x="50" y="60" textAnchor="middle" fill="white" fontSize="5" fontWeight="600" letterSpacing="0.5">SALON NATIONAL DE L&apos;EMPLOI</text>
               </svg>
             </div>
@@ -243,7 +243,7 @@ export default function NotificationsPage() {
               </div>
               <h1 className="text-[20px] sm:text-[26px] font-extrabold text-white leading-tight">Gestion des notifications</h1>
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
-                Envoyez et gérez toutes les notifications du SANE. Informez les utilisateurs des mises à jour, événements et opportunités importantes.
+                Envoyez et gérez toutes les notifications du SANEM. Informez les utilisateurs des mises à jour, événements et opportunités importantes.
               </p>
               <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>

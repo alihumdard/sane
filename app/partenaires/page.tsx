@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/Header";
+﻿import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
 import { PageHero, FeatureBar } from "@/components/shared";
@@ -24,7 +24,7 @@ export default function PartenairesPage() {
             </>
           }
           lead="Ensemble pour l'emploi de demain."
-          description="Le SANE réunit institutions publiques, entreprises privées, organisations internationales et société civile autour d'un objectif commun : promouvoir l'emploi au Niger."
+          description="Le SANEM réunit institutions publiques, entreprises privées, organisations internationales et société civile autour d'un objectif commun : promouvoir l'emploi au Niger."
           image="/Partenaires.png"
           actions={[
             { href: "/contact", label: "Devenir partenaire" },

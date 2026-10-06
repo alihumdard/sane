@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -102,7 +102,7 @@ const reportIcons: Record<string, React.ReactNode> = {
 };
 
 const reports = [
-  { title: "Rapport global du SANE 2024", cat: "Général", period: "Année 2024", format: "PDF", by: "Admin", date: "12 Mars 2024", status: "Terminé" },
+  { title: "Rapport global du SANEM 2024", cat: "Général", period: "Année 2024", format: "PDF", by: "Admin", date: "12 Mars 2024", status: "Terminé" },
   { title: "Statistiques des inscriptions", cat: "Inscriptions", period: "Mars 2024", format: "Excel", by: "Fatima Bello", date: "10 Mars 2024", status: "Terminé" },
   { title: "Participation par événement", cat: "Événements", period: "Fév 2024", format: "PDF", by: "Ibrahim Touré", date: "08 Mars 2024", status: "Terminé" },
   { title: "Rapport des formations", cat: "Formations", period: "Fév 2024", format: "Excel", by: "Aicha Souley", date: "05 Mars 2024", status: "Terminé" },
@@ -115,7 +115,7 @@ const reports = [
 ];
 
 const topReports = [
-  { rank: 1, rankColor: "#10632D", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>, bg: "#E8F5ED", color: "#10632D", title: "Rapport global du SANE 2024", downloads: "1,240 téléchargements" },
+  { rank: 1, rankColor: "#10632D", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>, bg: "#E8F5ED", color: "#10632D", title: "Rapport global du SANEM 2024", downloads: "1,240 téléchargements" },
   { rank: 2, rankColor: "#6B21A8", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6H2z"/><path d="M22 20c0-2.2-1.8-4-4.5-4-.8 0-1.5.1-2.2.4 1.3 1.2 2.2 2.8 2.2 4.6h4.5z"/></svg>, bg: "#FFE8D6", color: "#E57617", title: "Statistiques des inscriptions", downloads: "980 téléchargements" },
   { rank: 3, rankColor: "#0891b2", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18" stroke="white" strokeWidth="1.5"/><path d="M8 2v4M16 2v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><rect x="7" y="13" width="3" height="3" rx=".5" fill="white"/><rect x="14" y="13" width="3" height="3" rx=".5" fill="white"/></svg>, bg: "#E0F0FF", color: "#2563EB", title: "Participation par événement", downloads: "760 téléchargements" },
   { rank: 4, rankColor: "#E57617", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>, bg: "#F0E8F5", color: "#6B21A8", title: "Rapport des formations", downloads: "540 téléchargements" },
@@ -123,7 +123,7 @@ const topReports = [
 ];
 
 const recentReports = [
-  { day: "12", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>, bg: "#E8F5ED", color: "#10632D", title: "Rapport global du SANE 2024", desc: "Général · PDF" },
+  { day: "12", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>, bg: "#E8F5ED", color: "#10632D", title: "Rapport global du SANEM 2024", desc: "Général · PDF" },
   { day: "10", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6H2z"/><path d="M22 20c0-2.2-1.8-4-4.5-4-.8 0-1.5.1-2.2.4 1.3 1.2 2.2 2.8 2.2 4.6h4.5z"/></svg>, bg: "#FFE8D6", color: "#E57617", title: "Statistiques des inscriptions", desc: "Inscriptions · Excel" },
   { day: "08", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18" stroke="white" strokeWidth="1.5"/><path d="M8 2v4M16 2v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>, bg: "#E0F0FF", color: "#2563EB", title: "Participation par événement", desc: "Événements · PDF" },
   { day: "05", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>, bg: "#F0E8F5", color: "#6B21A8", title: "Rapport des formations", desc: "Formations · Excel" },
@@ -170,7 +170,7 @@ export default function AdminRapportsPage() {
             <Image src="/sane_deal.png" alt="Rapports" fill className="object-cover" style={{ objectPosition: "center 30%" }} />
             <div className="absolute inset-0 bg-gradient-to-r from-white from-35% via-white/60 via-50% to-transparent" />
             <div className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-20 hidden sm:flex items-center gap-3">
-              <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANE</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
+              <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANEM</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
               <p className="text-[16px] italic text-[var(--sane-orange)] leading-tight font-semibold" style={{ fontFamily: "Georgia, serif" }}>Un Niger<br/>de Talents</p>
             </div>
             <div className="relative z-20 p-4 sm:p-6 flex items-start justify-between">
@@ -179,7 +179,7 @@ export default function AdminRapportsPage() {
                   <span>Accueil</span><ChevronRight size={11} /><span>Rapports</span><ChevronRight size={11} /><span className="font-medium text-[var(--sane-green-deep)]">Tous les rapports</span>
                 </nav>
                 <h1 className="mb-1 text-[18px] sm:text-2xl font-extrabold text-[var(--sane-green-deep)]">Gestion des rapports</h1>
-                <p className="max-w-lg text-[11px] sm:text-[12px] text-[var(--sane-text-light)] hidden sm:block">Consultez et générez tous les rapports du SANE. Suivez les statistiques, les inscriptions, la participation et l&apos;impact de vos événements.</p>
+                <p className="max-w-lg text-[11px] sm:text-[12px] text-[var(--sane-text-light)] hidden sm:block">Consultez et générez tous les rapports du SANEM. Suivez les statistiques, les inscriptions, la participation et l&apos;impact de vos événements.</p>
                 <button type="button" onClick={tbl.openAdd} className="mt-2 flex items-center gap-1 rounded-lg bg-[var(--sane-green)] px-3 py-1.5 text-[10px] font-bold text-white sm:hidden">
                   <Plus size={11} /> Générer
                 </button>

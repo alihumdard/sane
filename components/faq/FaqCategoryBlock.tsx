@@ -1,4 +1,4 @@
-import { AccordionList, type FaqEntry } from "@/components/shared";
+﻿import { AccordionList, type FaqEntry } from "@/components/shared";
 import { faqCategories, faqData } from "./data";
 
 interface Props {

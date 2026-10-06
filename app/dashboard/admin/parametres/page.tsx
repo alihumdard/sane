@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -72,12 +72,12 @@ const quickConfig = [
 ];
 
 const DEFAULT_FORM = {
-  nom: "SANE",
+  nom: "SANEM",
   email: "contact@sane.ne",
   tel: "20 72 35 10",
   adresse: "Niamey, Niger",
   site: "https://www.sane.ne",
-  description: "Le Salon National de l'Emploi (SANE) est une plateforme qui connecte les talents nigériens aux opportunités d'emploi, de formation et de partenariat.",
+  description: "Le Salon National de l'Emploi (SANEM) est une plateforme qui connecte les talents nigériens aux opportunités d'emploi, de formation et de partenariat.",
 };
 
 /* ─── Page ─── */
@@ -160,7 +160,7 @@ export default function AdminParametresPage() {
               <div className="max-w-[65%] sm:max-w-[55%]">
                 <h1 className="text-[16px] sm:text-[22px] font-extrabold text-[var(--sane-green-deep)] leading-tight">Paramètres du système</h1>
                 <p className="mt-1 text-[10px] sm:text-[11px] text-[var(--sane-text-light)] leading-relaxed hidden sm:block">
-                  Configurez votre plateforme SANE selon vos besoins. Gérez les informations générales,<br/>
+                  Configurez votre plateforme SANEM selon vos besoins. Gérez les informations générales,<br/>
                   la sécurité, les notifications et les préférences de votre organisation.
                 </p>
               </div>
@@ -258,9 +258,9 @@ export default function AdminParametresPage() {
                         ) : (
                         <svg width="120" height="48" viewBox="0 0 140 48">
                           <circle cx="24" cy="24" r="22" fill="#10632D"/>
-                          <text x="24" y="29" textAnchor="middle" fill="white" fontSize="11" fontWeight="800" fontFamily="sans-serif">SANE</text>
+                          <text x="24" y="29" textAnchor="middle" fill="white" fontSize="11" fontWeight="800" fontFamily="sans-serif">SANEM</text>
                           <path d="M6 6 Q24 0 42 6" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                          <text x="52" y="20" fill="#0a2e16" fontSize="16" fontWeight="800" fontFamily="sans-serif">SANE</text>
+                          <text x="52" y="20" fill="#0a2e16" fontSize="16" fontWeight="800" fontFamily="sans-serif">SANEM</text>
                           <text x="52" y="31" fill="#61756B" fontSize="5.5" fontFamily="sans-serif">SALON</text>
                           <text x="52" y="39" fill="#61756B" fontSize="5" fontFamily="sans-serif">SALON NATIONAL DE L&apos;EMPLOI</text>
                         </svg>

@@ -1,4 +1,4 @@
-interface Segment {
+﻿interface Segment {
   label: string;
   value: number;
   pct: number;

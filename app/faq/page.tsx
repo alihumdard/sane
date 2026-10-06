@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
@@ -8,7 +8,7 @@ import { faqStats, faqData, FaqExplorer } from "@/components/faq";
 export const metadata: Metadata = {
   title: "FAQ – Salon National de l'Emploi",
   description:
-    "Les réponses aux questions les plus fréquentes sur le SANE : inscriptions, formations, emploi, partenariats et participation.",
+    "Les réponses aux questions les plus fréquentes sur le SANEM : inscriptions, formations, emploi, partenariats et participation.",
 };
 
 /** Structured data so search engines can show the questions directly. */

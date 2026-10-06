@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -58,9 +58,9 @@ const candidatures = [
   { photo: "https://randomuser.me/api/portraits/men/55.jpg", nom: "Omar Issa", ville: "Agadez", id: "#JOB005", poste: "Expert en Formation", entreprise: "AFD Niger", eLogo: "afd", date: "08 Mars 2024", statut: "Recrutée", statutColor: "#10632D", statutBg: "#E8F5ED" },
   { photo: "https://randomuser.me/api/portraits/women/56.jpg", nom: "Nadia Saidou", ville: "Niamey", id: "#JOB007", poste: "Responsable RH", entreprise: "UNICEF Niger", eLogo: "unicef", date: "07 Mars 2024", statut: "En attente", statutColor: "#E57617", statutBg: "#FFF3E8" },
   { photo: "https://randomuser.me/api/portraits/men/61.jpg", nom: "Yacoubou Sani", ville: "Tahoua", id: "#JOB008", poste: "Formateur en Entrepreneuriat", entreprise: "PNUD Niger", eLogo: "pnud", date: "06 Mars 2024", statut: "En entretien", statutColor: "#7C3AED", statutBg: "#F3E8FF" },
-  { photo: "https://randomuser.me/api/portraits/women/62.jpg", nom: "Khadija Ali", ville: "Niamey", id: "#JOB010", poste: "Coordinateur de Programme", entreprise: "SANE", eLogo: "sane", date: "05 Mars 2024", statut: "Présélectionnée", statutColor: "#2563EB", statutBg: "#E0F0FF" },
+  { photo: "https://randomuser.me/api/portraits/women/62.jpg", nom: "Khadija Ali", ville: "Niamey", id: "#JOB010", poste: "Coordinateur de Programme", entreprise: "SANEM", eLogo: "sane", date: "05 Mars 2024", statut: "Présélectionnée", statutColor: "#2563EB", statutBg: "#E0F0FF" },
   { photo: "https://randomuser.me/api/portraits/men/63.jpg", nom: "Ahmed Mahamane", ville: "Zinder", id: "#JOB009", poste: "Analyste de Données", entreprise: "Banque Mondiale", eLogo: "bm", date: "04 Mars 2024", statut: "En attente", statutColor: "#E57617", statutBg: "#FFF3E8" },
-  { photo: "https://randomuser.me/api/portraits/women/64.jpg", nom: "Mariama Amadou", ville: "Niamey", id: "#JOB006", poste: "Chef de Projet Digital", entreprise: "SANE", eLogo: "sane", date: "02 Mars 2024", statut: "Recrutée", statutColor: "#10632D", statutBg: "#E8F5ED" },
+  { photo: "https://randomuser.me/api/portraits/women/64.jpg", nom: "Mariama Amadou", ville: "Niamey", id: "#JOB006", poste: "Chef de Projet Digital", entreprise: "SANEM", eLogo: "sane", date: "02 Mars 2024", statut: "Recrutée", statutColor: "#10632D", statutBg: "#E8F5ED" },
 ];
 
 /* ─── Donut segments ─── */
@@ -82,7 +82,7 @@ const topPostes = [
 
 /* ─── Top entreprises ─── */
 const topEntreprises = [
-  { nom: "SANE", count: 72, logo: "sane" },
+  { nom: "SANEM", count: 72, logo: "sane" },
   { nom: "Banque Mondiale", count: 58, logo: "bm" },
   { nom: "PNUD Niger", count: 46, logo: "pnud" },
   { nom: "Enabel Niger", count: 38, logo: "enabel" },

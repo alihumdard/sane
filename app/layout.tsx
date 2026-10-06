@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Caveat, Montserrat } from "next/font/google";
 import "./globals.css";
 import TableLabels from "@/components/dashboard/TableLabels";
@@ -18,8 +18,8 @@ const caveat = Caveat({
 
 export const metadata: Metadata = {
   title: {
-    default: "SANE — Salon National de l'Emploi",
-    template: "%s | SANE",
+    default: "SANEM — Salon National de l'Emploi",
+    template: "%s | SANEM",
   },
   description:
     "Salon National de l'Emploi — Connectons les talents aux opportunités.",

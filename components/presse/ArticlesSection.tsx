@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -13,7 +13,7 @@ export function ArticlesSection() {
         <div className="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
           <SectionHeading
             eyebrow="Nos actualités médias"
-            title="Dernières actualités du SANE"
+            title="Dernières actualités du SANEM"
             description="Suivez les dernières nouvelles, annonces et temps forts du Salon National de l'Emploi."
           />
           <Link href="/actualites" className={`${textLink} whitespace-nowrap`}>

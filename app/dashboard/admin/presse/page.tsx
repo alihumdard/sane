@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import {
@@ -80,7 +80,7 @@ const communiques = [
   {
     id: 1,
     image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=80&h=60&fit=crop",
-    titre: "Lancement officiel du SANE 2024",
+    titre: "Lancement officiel du SANEM 2024",
     categorie: "Communiqué", catColor: "#10632D",
     typeMedia: "National", typeColor: "#10632D",
     source: "RTN Niger",
@@ -91,7 +91,7 @@ const communiques = [
   {
     id: 2,
     image: "https://images.unsplash.com/photo-1529119368496-2dfda6ec2804?w=80&h=60&fit=crop",
-    titre: "Le SANE au service de l'emploi des jeunes",
+    titre: "Le SANEM au service de l'emploi des jeunes",
     categorie: "Interview", catColor: "#7C3AED",
     typeMedia: "Télévision", typeColor: "#2563EB",
     source: "Télé Sahel",
@@ -135,7 +135,7 @@ const communiques = [
   {
     id: 6,
     image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=80&h=60&fit=crop",
-    titre: "Conférence de presse : les objectifs du SANE",
+    titre: "Conférence de presse : les objectifs du SANEM",
     categorie: "Conférence", catColor: "#DB2777",
     typeMedia: "Télévision", typeColor: "#2563EB",
     source: "ORTN",
@@ -146,7 +146,7 @@ const communiques = [
   {
     id: 7,
     image: "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=80&h=60&fit=crop",
-    titre: "L'inclusion au cœur du SANE",
+    titre: "L'inclusion au cœur du SANEM",
     categorie: "Article", catColor: "#0891B2",
     typeMedia: "Presse écrite", typeColor: "#61756B",
     source: "L'Observateur",
@@ -179,7 +179,7 @@ const communiques = [
   {
     id: 10,
     image: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=80&h=60&fit=crop",
-    titre: "Le SANE dans la presse internationale",
+    titre: "Le SANEM dans la presse internationale",
     categorie: "Article", catColor: "#0891B2",
     typeMedia: "International", typeColor: "#003399",
     source: "RFI Afrique",
@@ -211,8 +211,8 @@ const topMediasData = [
 
 /* ─── Communiqués récents ─── */
 const recentsData = [
-  { day: "12", month: "Mar", title: "Lancement officiel du SANE 2024", subtitle: "RTN Niger" },
-  { day: "10", month: "Mar", title: "Le SANE au service de l'emploi...", subtitle: "Télé Sahel" },
+  { day: "12", month: "Mar", title: "Lancement officiel du SANEM 2024", subtitle: "RTN Niger" },
+  { day: "10", month: "Mar", title: "Le SANEM au service de l'emploi...", subtitle: "Télé Sahel" },
   { day: "08", month: "Mar", title: "Partenariat avec l'AFD", subtitle: "Le Sahel" },
   { day: "05", month: "Mar", title: "Focus sur les métiers numériques", subtitle: "Niger24" },
   { day: "02", month: "Mar", title: "Témoignages : des jeunes...", subtitle: "Radio Nationale" },
@@ -248,7 +248,7 @@ export default function PressePage() {
                 </div>
                 <h1 className="text-[28px] font-extrabold text-[var(--sane-green-deep)] leading-tight">Gestion de la presse</h1>
                 <p className="mt-1.5 max-w-[420px] text-[11px] text-[var(--sane-text-light)] leading-relaxed">
-                  Publiez et gérez tous les communiqués, articles et couvertures médias du SANE.<br />
+                  Publiez et gérez tous les communiqués, articles et couvertures médias du SANEM.<br />
                   Suivez la visibilité, les retombées et l&apos;impact médiatique de vos actions.
                 </p>
               </div>
@@ -263,7 +263,7 @@ export default function PressePage() {
                   <svg width="100" height="100" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="45" fill="#10632D" opacity="0.08" />
                     <circle cx="50" cy="50" r="45" stroke="#E57617" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
-                    <text x="50" y="48" textAnchor="middle" fill="#10632D" fontSize="18" fontWeight="800">SANE</text>
+                    <text x="50" y="48" textAnchor="middle" fill="#10632D" fontSize="18" fontWeight="800">SANEM</text>
                     <text x="50" y="60" textAnchor="middle" fill="#10632D" fontSize="5" fontWeight="600" letterSpacing="0.5">SALON NATIONAL DE L&apos;EMPLOI</text>
                   </svg>
                 </div>

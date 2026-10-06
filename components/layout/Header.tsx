@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
@@ -32,7 +32,7 @@ export function Header() {
           <div className="relative h-10 w-32">
             <Image
               src="/new-logo.png"
-              alt="SANE Logo"
+              alt="SANEM Logo"
               fill
               priority
               className="object-contain object-left"

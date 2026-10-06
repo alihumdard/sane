@@ -1,4 +1,4 @@
-import { Building2, GraduationCap, Mic, Users } from "lucide-react";
+﻿import { Building2, GraduationCap, Mic, Users } from "lucide-react";
 import type { FeatureBarItem } from "@/components/shared";
 
 export const speakerStats: FeatureBarItem[] = [
@@ -41,7 +41,7 @@ export const speakers: Speaker[] = [
   {
     name: "Mme Kadidia Salifou",
     title: "Responsable Communication",
-    org: "SANE",
+    org: "SANEM",
     tags: ["Communication", "Partenariats"],
     img: "https://randomuser.me/api/portraits/women/68.jpg",
   },

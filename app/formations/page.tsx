@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
@@ -19,9 +19,9 @@ export default function FormationsPage() {
         <PageHero
           breadcrumb="Formations"
           eyebrow="Salon National de l'Emploi"
-          title="Formations du SANE"
+          title="Formations du SANEM"
           lead="Développez vos compétences pour un meilleur avenir."
-          description="Le SANE propose des formations pratiques et adaptées aux besoins du marché du travail pour renforcer l'employabilité des jeunes et accompagner le développement des compétences au Niger."
+          description="Le SANEM propose des formations pratiques et adaptées aux besoins du marché du travail pour renforcer l'employabilité des jeunes et accompagner le développement des compétences au Niger."
           imageFit="banner"
           image="/formation-bg.png"
           tone="light"

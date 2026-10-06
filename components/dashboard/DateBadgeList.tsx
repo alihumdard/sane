@@ -1,4 +1,4 @@
-interface DateItem {
+﻿interface DateItem {
   day: string;
   month: string;
   title: string;

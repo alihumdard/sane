@@ -1,4 +1,4 @@
-import { Camera, FileText, Newspaper, Palette, Video } from "lucide-react";
+﻿import { Camera, FileText, Newspaper, Palette, Video } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ArticleCardData, FeatureBarItem } from "@/components/shared";
 
@@ -15,7 +15,7 @@ export const pressArticles: ArticleCardData[] = [
     date: "12 Mars 2024",
     tag: "Communiqué",
     tagColor: "var(--sane-orange)",
-    title: "Lancement officiel du SANE 2024 à Niamey",
+    title: "Lancement officiel du SANEM 2024 à Niamey",
     description: "Le Ministère de l'Emploi annonce la tenue de la prochaine édition du Salon National de l'Emploi au Palais des Congrès de Niamey.",
   },
   {
@@ -23,7 +23,7 @@ export const pressArticles: ArticleCardData[] = [
     date: "08 Mars 2024",
     tag: "Événement",
     tagColor: "var(--sane-green)",
-    title: "Le SANE 2024 : un carrefour d'opportunités pour les talents nigériens",
+    title: "Le SANEM 2024 : un carrefour d'opportunités pour les talents nigériens",
     description: "Découvrez les temps forts, les objectifs et les innovations de cette nouvelle édition qui réunit entreprises, institutions et chercheurs d'emploi.",
   },
   {
@@ -32,7 +32,7 @@ export const pressArticles: ArticleCardData[] = [
     tag: "Presse",
     tagColor: "#1a5276",
     title: "Des formations pour renforcer l'employabilité des jeunes",
-    description: "Le SANE met l'accent sur le développement des compétences à travers des formations adaptées aux besoins du marché.",
+    description: "Le SANEM met l'accent sur le développement des compétences à travers des formations adaptées aux besoins du marché.",
   },
 ];
 
@@ -47,7 +47,7 @@ export interface PressResource {
 export const pressResources: PressResource[] = [
   { icon: Newspaper, color: "var(--sane-orange)", title: "Communiqués de presse", description: "Tous nos communiqués officiels au format PDF.", button: "Voir les communiqués" },
   { icon: Camera, color: "var(--sane-green)", title: "Photos officielles", description: "Photos libres de droit pour vos publications.", button: "Accéder aux photos" },
-  { icon: Video, color: "var(--sane-orange)", title: "Vidéos et reportages", description: "Revivez les moments forts du SANE en vidéo.", button: "Voir les vidéos" },
+  { icon: Video, color: "var(--sane-orange)", title: "Vidéos et reportages", description: "Revivez les moments forts du SANEM en vidéo.", button: "Voir les vidéos" },
   { icon: Palette, color: "var(--sane-green)", title: "Kit média", description: "Logos, visuels, charte graphique et documents officiels.", button: "Télécharger le kit" },
 ];
 

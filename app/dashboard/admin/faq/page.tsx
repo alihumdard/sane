@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -51,14 +51,14 @@ const statsData = [
 /* ─── Table Data ─── */
 const questions = [
   { question: "Comment puis-je m'inscrire au Salon National de l'Emploi ?", categorie: "Inscription", catColor: "#10632D", vues: 2540, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED", date: "12 Mars 2024" },
-  { question: "La participation au SANE est-elle gratuite ?", categorie: "Général", catColor: "#61756B", vues: 1980, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED", date: "10 Mars 2024" },
+  { question: "La participation au SANEM est-elle gratuite ?", categorie: "Général", catColor: "#61756B", vues: 1980, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED", date: "10 Mars 2024" },
   { question: "Quels sont les documents nécessaires ?", categorie: "Documents", catColor: "#7C3AED", vues: 1760, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED", date: "08 Mars 2024" },
   { question: "Comment postuler aux offres d'emploi ?", categorie: "Emploi", catColor: "#E57617", vues: 1520, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED", date: "05 Mars 2024" },
   { question: "Comment devenir exposant ou partenaire ?", categorie: "Partenariat", catColor: "#2563EB", vues: 1340, statut: "Brouillon", statutColor: "#D97706", statutBg: "#FFFBE8", date: "02 Mars 2024" },
   { question: "Y a-t-il des formations pendant le salon ?", categorie: "Formation", catColor: "#0891B2", vues: 1210, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED", date: "28 Fév 2024" },
   { question: "Comment accéder aux conférences ?", categorie: "Événements", catColor: "#DB2777", vues: 1090, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED", date: "25 Fév 2024" },
   { question: "Le salon est-il ouvert aux étudiants ?", categorie: "Étudiants", catColor: "#059669", vues: 980, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED", date: "22 Fév 2024" },
-  { question: "Où se déroule le SANE 2024 ?", categorie: "Lieu", catColor: "#7C3AED", vues: 860, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED", date: "20 Fév 2024" },
+  { question: "Où se déroule le SANEM 2024 ?", categorie: "Lieu", catColor: "#7C3AED", vues: 860, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED", date: "20 Fév 2024" },
   { question: "Comment contacter l'équipe organisatrice ?", categorie: "Contact", catColor: "#E57617", vues: 740, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED", date: "18 Fév 2024" },
 ];
 
@@ -76,7 +76,7 @@ const donutSegments = [
 
 /* ─── Top questions ─── */
 const topQuestionsData = [
-  { rank: 1, title: "Comment puis-je m'inscrire au SANE ?", subtitle: "2,540 vues" },
+  { rank: 1, title: "Comment puis-je m'inscrire au SANEM ?", subtitle: "2,540 vues" },
   { rank: 2, title: "La participation est-elle gratuite ?", subtitle: "1,980 vues" },
   { rank: 3, title: "Quels sont les documents nécessaires ?", subtitle: "1,760 vues" },
   { rank: 4, title: "Comment postuler aux offres d'emploi ?", subtitle: "1,520 vues" },
@@ -85,7 +85,7 @@ const topQuestionsData = [
 
 /* ─── Questions récentes ─── */
 const recentQuestions = [
-  { day: "12", month: "Mar", title: "Comment s'inscrire au SANE ?", subtitle: "Publié" },
+  { day: "12", month: "Mar", title: "Comment s'inscrire au SANEM ?", subtitle: "Publié" },
   { day: "10", month: "Mar", title: "La participation est-elle gratuite ?", subtitle: "Publié" },
   { day: "08", month: "Mar", title: "Quels sont les documents ?", subtitle: "Publié" },
   { day: "05", month: "Mar", title: "Comment postuler aux offres ?", subtitle: "Publié" },
@@ -119,7 +119,7 @@ export default function FaqPage() {
               <svg width="90" height="90" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="45" fill="white" opacity="0.15"/>
                 <circle cx="50" cy="50" r="45" stroke="#E57617" strokeWidth="2.5" fill="none" opacity="0.4" strokeDasharray="6 3"/>
-                <text x="50" y="46" textAnchor="middle" fill="white" fontSize="12" fontWeight="800">SANE</text>
+                <text x="50" y="46" textAnchor="middle" fill="white" fontSize="12" fontWeight="800">SANEM</text>
                 <text x="50" y="58" textAnchor="middle" fill="white" fontSize="5" fontWeight="600">SALON NATIONAL DE L&apos;EMPLOI</text>
               </svg>
             </div>
@@ -135,7 +135,7 @@ export default function FaqPage() {
               </div>
               <h1 className="text-[20px] sm:text-[26px] font-extrabold text-white leading-tight">Gestion des FAQ</h1>
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
-                Gérez toutes les questions fréquentes du SANE. Organisez-les par catégories, mettez à jour les réponses et suivez les questions les plus consultées.
+                Gérez toutes les questions fréquentes du SANEM. Organisez-les par catégories, mettez à jour les réponses et suivez les questions les plus consultées.
               </p>
               <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>

@@ -1,4 +1,4 @@
-export interface CategoryTab {
+﻿export interface CategoryTab {
   key: string;
   title: string;
   subtitle: string;
@@ -45,7 +45,7 @@ export const articles: NewsArticle[] = [
     date: "12 Mars 2024",
     iso: "2024-03-12",
     category: "evenements",
-    title: "Lancement officiel du SANE 2024 à Niamey",
+    title: "Lancement officiel du SANEM 2024 à Niamey",
     description: "Le Ministère de l'Emploi annonce la tenue de la prochaine édition du Salon National de l'Emploi au Palais des Congrès de Niamey.",
   },
   {
@@ -53,7 +53,7 @@ export const articles: NewsArticle[] = [
     date: "08 Mars 2024",
     iso: "2024-03-08",
     category: "formations",
-    title: "Le SANE 2024 : un carrefour d'opportunités pour les jeunes",
+    title: "Le SANEM 2024 : un carrefour d'opportunités pour les jeunes",
     description: "Découvrez les objectifs, les temps forts et les innovations de cette nouvelle édition qui réunit entreprises, institutions et chercheurs d'emploi.",
   },
   {
@@ -61,7 +61,7 @@ export const articles: NewsArticle[] = [
     date: "05 Mars 2024",
     iso: "2024-03-05",
     category: "partenariats",
-    title: "Le SANE renforce ses partenariats internationaux",
+    title: "Le SANEM renforce ses partenariats internationaux",
     description: "De nouvelles collaborations pour soutenir l'emploi, la formation et l'insertion professionnelle des jeunes nigériens.",
   },
   {
@@ -69,7 +69,7 @@ export const articles: NewsArticle[] = [
     date: "28 Février 2024",
     iso: "2024-02-28",
     category: "temoignages",
-    title: "Ils ont trouvé leur opportunité grâce au SANE",
+    title: "Ils ont trouvé leur opportunité grâce au SANEM",
     description: "Découvrez les témoignages inspirants des jeunes qui ont pu bénéficier d'opportunités d'emploi et de formation.",
   },
   {
@@ -78,22 +78,22 @@ export const articles: NewsArticle[] = [
     iso: "2024-02-20",
     category: "formations",
     title: "Des formations adaptées aux besoins du marché",
-    description: "Le SANE met l'accent sur des formations pratiques et certifiantes pour renforcer l'employabilité des jeunes.",
+    description: "Le SANEM met l'accent sur des formations pratiques et certifiantes pour renforcer l'employabilité des jeunes.",
   },
   {
     image: "/hero-bg.png",
     date: "15 Février 2024",
     iso: "2024-02-15",
     category: "communiques",
-    title: "Communiqué officiel du SANE",
+    title: "Communiqué officiel du SANEM",
     description: "Retrouvez les dernières annonces et informations importantes concernant l'organisation de l'événement.",
   },
 ];
 
 export const popularArticles = [
-  { title: "Lancement officiel du SANE 2024 à Niamey", date: "12 Mars 2024", image: "/sane_deal.png" },
+  { title: "Lancement officiel du SANEM 2024 à Niamey", date: "12 Mars 2024", image: "/sane_deal.png" },
   { title: "Des formations pour les jeunes nigériens", date: "05 Mars 2024", image: "/hero-bg.png" },
-  { title: "Le SANE renforce ses partenariats", date: "28 Février 2024", image: "/sane_deal.png" },
+  { title: "Le SANEM renforce ses partenariats", date: "28 Février 2024", image: "/sane_deal.png" },
   { title: "Témoignages de participants", date: "20 Février 2024", image: "/hero-bg.png" },
 ];
 

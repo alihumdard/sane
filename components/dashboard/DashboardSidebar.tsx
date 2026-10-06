@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -162,7 +162,7 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
         >
           <Image
             src="/new-logo.png"
-            alt="SANE Logo"
+            alt="SANEM Logo"
             width={132}
             height={88}
             priority

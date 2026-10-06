@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/Header";
+﻿import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageHero, FeatureBar } from "@/components/shared";
 import {
@@ -18,7 +18,7 @@ export default function PressePage() {
           breadcrumb="Presse"
           eyebrow="Salon National de l'Emploi"
           title="Espace Presse"
-          lead="Toute l'actualité du SANE, au même endroit."
+          lead="Toute l'actualité du SANEM, au même endroit."
           description="Retrouvez nos communiqués, nos événements et nos ressources médias."
           image="/Actualités.png"
           actions={[

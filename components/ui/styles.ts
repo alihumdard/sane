@@ -1,4 +1,4 @@
-/** Shared class strings so every form, button and link looks the same across the site. */
+﻿/** Shared class strings so every form, button and link looks the same across the site. */
 
 export const labelClass =
   "mb-2 block text-[length:var(--fs-small)] font-semibold text-[var(--sane-text)]";

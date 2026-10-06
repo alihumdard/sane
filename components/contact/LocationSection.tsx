@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Bus, Car, MapPin } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -32,7 +32,7 @@ export function LocationSection() {
           <div>
             <h3 className="sane-h3 mb-3">Lieu de l&apos;événement</h3>
             <p className="sane-body mb-6">
-              Le Salon National de l&apos;Emploi (SANE) se tient au Palais des Congrès de Niamey, un lieu moderne et accessible,
+              Le Salon National de l&apos;Emploi (SANEM) se tient au Palais des Congrès de Niamey, un lieu moderne et accessible,
               situé au cœur de la capitale. Rejoignez-nous pour découvrir des opportunités et rencontrer les acteurs clés de
               l&apos;emploi au Niger.
             </p>

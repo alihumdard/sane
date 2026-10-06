@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 "use client";
 
@@ -61,14 +61,14 @@ const mesCandidatures = [
 /* ─── Prochains rendez-vous ─── */
 const rdvs = [
   { day: "15", month: "Mars", titre: "Entretien - Assistant Communication", lieu: "Enabel Niger", heure: "10h00 - 11h00", mode: "En ligne", modeIcon: <Monitor size={10} /> },
-  { day: "22", month: "Mars", titre: "Webinaire : Préparation à l'emploi", lieu: "SANE", heure: "14h00 - 16h00", mode: "En ligne", modeIcon: <Video size={10} /> },
+  { day: "22", month: "Mars", titre: "Webinaire : Préparation à l'emploi", lieu: "SANEM", heure: "14h00 - 16h00", mode: "En ligne", modeIcon: <Video size={10} /> },
 ];
 
 /* ─── Événements à venir ─── */
 const evenements = [
-  { day: "10", month: "Avr", titre: "Atelier : Rédaction de CV", lieu: "SANE · Niamey", badge: "Gratuit", badgeColor: "#10632D", badgeBg: "#E8F5ED" },
+  { day: "10", month: "Avr", titre: "Atelier : Rédaction de CV", lieu: "SANEM · Niamey", badge: "Gratuit", badgeColor: "#10632D", badgeBg: "#E8F5ED" },
   { day: "15", month: "Avr", titre: "Conférence : Jeunes et emploi", lieu: "Palais des Congrès", badge: "Gratuit", badgeColor: "#10632D", badgeBg: "#E8F5ED" },
-  { day: "22", month: "Avr", titre: "Rencontre avec les recruteurs", lieu: "SANE · Niamey", badge: "Sur invitation", badgeColor: "#E57617", badgeBg: "#FFF3E8" },
+  { day: "22", month: "Avr", titre: "Rencontre avec les recruteurs", lieu: "SANEM · Niamey", badge: "Sur invitation", badgeColor: "#E57617", badgeBg: "#FFF3E8" },
 ];
 
 /* ─── Bar chart data ─── */
@@ -90,7 +90,7 @@ const calWeeks = [
 
 /* ─── Recommendations ─── */
 const recommendations = [
-  { img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=200&fit=crop", category: "Formation", catColor: "#10632D", catBg: "#E8F5ED", titre: "Leadership et gestion d'équipe", lieu: "SANE · Niamey", date: "18 - 20 Avril 2024" },
+  { img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=200&fit=crop", category: "Formation", catColor: "#10632D", catBg: "#E8F5ED", titre: "Leadership et gestion d'équipe", lieu: "SANEM · Niamey", date: "18 - 20 Avril 2024" },
   { img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=200&fit=crop", category: "Événement", catColor: "#E57617", catBg: "#FFF3E8", titre: "Salon National de l'Emploi 2024", lieu: "Palais des Congrès · Niamey", date: "12 - 14 Mai 2024" },
   { img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=200&fit=crop", category: "Opportunité", catColor: "#2563EB", catBg: "#E0F0FF", titre: "Stagiaire en Communication", lieu: "UNICEF Niger", date: "Date limite : 25 Mars 2024" },
 ];

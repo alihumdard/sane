@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, CalendarDays, Car, MapPin } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -45,7 +45,7 @@ export function VenueSection() {
               </p>
 
               <p className="sane-body mt-3">
-                Le SANE se tiendra au Palais des Congrès de Niamey, un lieu emblématique et accessible,
+                Le SANEM se tiendra au Palais des Congrès de Niamey, un lieu emblématique et accessible,
                 offrant un cadre idéal pour accueillir tous les participants.
               </p>
 

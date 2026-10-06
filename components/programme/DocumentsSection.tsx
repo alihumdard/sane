@@ -1,4 +1,4 @@
-import { Download } from "lucide-react";
+﻿import { Download } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { documents } from "./data";
@@ -10,7 +10,7 @@ export function DocumentsSection() {
         <SectionHeading
           eyebrow="Ressources"
           title="Documents utiles"
-          description="Téléchargez les documents officiels du SANE."
+          description="Téléchargez les documents officiels du SANEM."
         />
 
         <div className="mt-6 grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 sm:mt-8 lg:grid-cols-3">

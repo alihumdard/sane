@@ -1,4 +1,4 @@
-import { Search, Trash2 } from "lucide-react";
+﻿import { Search, Trash2 } from "lucide-react";
 import type { TableApi } from "./useTable";
 
 interface Props {

@@ -1,4 +1,4 @@
-import { Copy, Download, Eye, FileDown, Link2, Pencil, Trash2 } from "lucide-react";
+﻿import { Copy, Download, Eye, FileDown, Link2, Pencil, Trash2 } from "lucide-react";
 import type { TableApi, TableRow } from "./useTable";
 import RowMenu, { type RowMenuItem } from "./RowMenu";
 

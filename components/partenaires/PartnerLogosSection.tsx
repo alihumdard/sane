@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -13,7 +13,7 @@ export function PartnerLogosSection() {
           <SectionHeading
             eyebrow="Nos partenaires"
             title="Ils nous font confiance"
-            description="Le SANE remercie l'ensemble de ses partenaires pour leur engagement à soutenir l'emploi, la formation et le développement des compétences au Niger."
+            description="Le SANEM remercie l'ensemble de ses partenaires pour leur engagement à soutenir l'emploi, la formation et le développement des compétences au Niger."
             className="max-w-[460px]"
           />
           <div className="flex flex-col gap-3 sm:items-end">

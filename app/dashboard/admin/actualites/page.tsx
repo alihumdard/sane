@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -69,13 +69,13 @@ const actualites = [
     vedette: false, img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=80&h=56&fit=crop",
   },
   {
-    id: 4, titre: "Focus sur les métiers du numérique au SANE 2024", categorie: "Emploi", catColor: "#7C3AED",
+    id: 4, titre: "Focus sur les métiers du numérique au SANEM 2024", categorie: "Emploi", catColor: "#7C3AED",
     auteur: "Aicha Souley", auteurImg: "https://randomuser.me/api/portraits/women/68.jpg",
     date: "05 Mars 2024", vues: 2340, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
     vedette: true, img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=80&h=56&fit=crop",
   },
   {
-    id: 5, titre: "Témoignages : des jeunes trouvent des opportunités grâce au SANE", categorie: "Témoignage", catColor: "#0891B2",
+    id: 5, titre: "Témoignages : des jeunes trouvent des opportunités grâce au SANEM", categorie: "Témoignage", catColor: "#0891B2",
     auteur: "Omar Issa", auteurImg: "https://randomuser.me/api/portraits/men/52.jpg",
     date: "02 Mars 2024", vues: 1280, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
     vedette: false, img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=80&h=56&fit=crop",
@@ -105,7 +105,7 @@ const actualites = [
     vedette: false, img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=80&h=56&fit=crop",
   },
   {
-    id: 10, titre: "Préparatifs du SANE 2024 : les coulisses de l'organisation", categorie: "Organisation", catColor: "#61756B",
+    id: 10, titre: "Préparatifs du SANEM 2024 : les coulisses de l'organisation", categorie: "Organisation", catColor: "#61756B",
     auteur: "Mariama Amadou", auteurImg: "https://randomuser.me/api/portraits/women/42.jpg",
     date: "18 Fév 2024", vues: 1320, statut: "Brouillon", statutColor: "#61756B", statutBg: "#F5F9F6",
     vedette: false, img: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=80&h=56&fit=crop",
@@ -126,7 +126,7 @@ const donutSegments = [
 
 /* ─── Top actualités (vues) ─── */
 const topActualitesData = [
-  { rank: 1, title: "Lancement officiel du SANE 2024", subtitle: "2,850 vues" },
+  { rank: 1, title: "Lancement officiel du SANEM 2024", subtitle: "2,850 vues" },
   { rank: 2, title: "Focus sur les métiers du numérique", subtitle: "2,340 vues" },
   { rank: 3, title: "Accord avec l'Union Européenne", subtitle: "2,120 vues" },
   { rank: 4, title: "Formation des jeunes pour l'avenir", subtitle: "1,920 vues" },
@@ -135,7 +135,7 @@ const topActualitesData = [
 
 /* ─── Actualités récentes ─── */
 const recentesData = [
-  { day: "12", month: "Mar", title: "Lancement officiel du SANE 2024", subtitle: "Publié" },
+  { day: "12", month: "Mar", title: "Lancement officiel du SANEM 2024", subtitle: "Publié" },
   { day: "10", month: "Mar", title: "Formation des jeunes pour l'avenir", subtitle: "Publié" },
   { day: "08", month: "Mar", title: "Partenariat avec l'AFD", subtitle: "Publié" },
   { day: "05", month: "Mar", title: "Métiers du numérique", subtitle: "Publié" },
@@ -169,7 +169,7 @@ export default function ActualitesPage() {
               <svg width="100" height="100" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="45" fill="white" opacity="0.08" />
                 <circle cx="50" cy="50" r="45" stroke="#E57617" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
-                <text x="50" y="48" textAnchor="middle" fill="white" fontSize="18" fontWeight="800">SANE</text>
+                <text x="50" y="48" textAnchor="middle" fill="white" fontSize="18" fontWeight="800">SANEM</text>
                 <text x="50" y="60" textAnchor="middle" fill="white" fontSize="5" fontWeight="600" letterSpacing="0.5">SALON NATIONAL DE L&apos;EMPLOI</text>
               </svg>
             </div>
@@ -185,7 +185,7 @@ export default function ActualitesPage() {
               </div>
               <h1 className="text-[20px] sm:text-[26px] font-extrabold text-white leading-tight">Gestion des actualités</h1>
               <p className="mt-1 max-w-[420px] text-[11px] text-white/80 leading-relaxed hidden sm:block">
-                Créez, publiez et gérez toutes les actualités du SANE. Informez votre communauté sur les événements, les annonces, les partenariats et les initiatives.
+                Créez, publiez et gérez toutes les actualités du SANEM. Informez votre communauté sur les événements, les annonces, les partenariats et les initiatives.
               </p>
               <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
