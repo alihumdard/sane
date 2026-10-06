@@ -55,7 +55,7 @@ export function ImpactSection() {
           <div className="relative">
             <div className="relative aspect-[3/2] overflow-hidden rounded-2xl shadow-xl">
               <Image
-                src="/sane deal2.png"
+                src="/sane_deal.png"
                 alt="Impact SANEM"
                 fill
                 className="object-cover"
