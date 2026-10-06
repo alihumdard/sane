@@ -24,7 +24,7 @@ export function PartnerLogosSection() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 border border-[var(--sane-border)] sm:grid-cols-4 lg:grid-cols-5 [&>*]:border-b [&>*]:border-r [&>*]:border-[var(--sane-border)]">
+        <div className="grid grid-cols-2 border border-[var(--sane-border)] sm:grid-cols-4 lg:grid-cols-5 [&>*]:border-b [&>*]:border-r [&>*]:border-[var(--sane-border)]">
           {partners.map((p) => (
             <div
               key={p.name}

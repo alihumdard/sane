@@ -22,7 +22,7 @@ export function ImpactSection() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:flex-1">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-8 lg:flex-1">
             {impactStats.map(({ icon: Icon, value, label }) => (
               <div key={label} className="flex flex-col items-center gap-2 text-center">
                 <span className="mb-1 flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 text-white">
