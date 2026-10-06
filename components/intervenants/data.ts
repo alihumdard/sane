@@ -43,7 +43,7 @@ export const speakers: Speaker[] = [
     title: "Responsable Communication",
     org: "SANEM",
     tags: ["Communication", "Partenariats"],
-    img: "https://randomuser.me/api/portraits/women/68.jpg",
+    img: "/sane deal3.png",
   },
   {
     name: "M. Salim Oumar",
