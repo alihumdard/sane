@@ -16,7 +16,7 @@ const links = [
     description: "Rencontrez nos experts et leaders.",
     action: "Voir les intervenants",
     href: "/intervenants",
-    image: "/Intervenants.png",
+    image: "/card img.png",
   },
   {
     title: "Partenaires",
