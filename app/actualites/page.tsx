@@ -202,7 +202,7 @@ export default function ActualitesPage() {
             </p>
           </div>
 
-          <div className="sane-container relative z-20 flex min-h-[380px] flex-col justify-center pt-12 pb-20">
+          <div className="sane-container relative z-20 flex min-h-[380px] flex-col justify-center py-12">
             <nav className="mb-4 flex items-center gap-1.5 text-[12px] text-white/60">
               <Link href="/" className="hover:text-white transition-colors">
                 Accueil
@@ -244,7 +244,7 @@ export default function ActualitesPage() {
         </section>
 
         {/* ═══════════════════ 2. CATEGORY TABS BAR ═══════════════════ */}
-        <section className="relative z-20 -mt-10 pb-2">
+        <section className="bg-white py-5">
           <div className="sane-container">
             <div className="grid grid-cols-2 items-stretch gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
               {categoryTabs.map((tab) => {
