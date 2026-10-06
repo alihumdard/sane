@@ -73,7 +73,7 @@ const articles = [
       "Le Ministère de l'Emploi annonce la tenue de la prochaine édition du Salon National de l'Emploi au Palais des Congrès de Niamey.",
   },
   {
-    image: "/hero-bg.png",
+    image: "/actualites card.png",
     date: "08 Mars 2024",
     tag: "Formation",
     tagColor: "#10632D",
