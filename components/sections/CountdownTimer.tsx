@@ -17,18 +17,19 @@ function getTimeLeft() {
 }
 
 export function CountdownTimer() {
-  const [time, setTime] = useState(getTimeLeft);
+  const [time, setTime] = useState<ReturnType<typeof getTimeLeft> | null>(null);
 
   useEffect(() => {
+    setTime(getTimeLeft());
     const id = setInterval(() => setTime(getTimeLeft()), 1000);
     return () => clearInterval(id);
   }, []);
 
   const items = [
-    { value: String(time.days).padStart(2, "0"), label: "JOURS" },
-    { value: String(time.hours).padStart(2, "0"), label: "HEURES" },
-    { value: String(time.minutes).padStart(2, "0"), label: "MINUTES" },
-    { value: String(time.seconds).padStart(2, "0"), label: "SECONDES" },
+    { value: time ? String(time.days).padStart(2, "0") : "--", label: "JOURS" },
+    { value: time ? String(time.hours).padStart(2, "0") : "--", label: "HEURES" },
+    { value: time ? String(time.minutes).padStart(2, "0") : "--", label: "MINUTES" },
+    { value: time ? String(time.seconds).padStart(2, "0") : "--", label: "SECONDES" },
   ];
 
   return (
