@@ -36,7 +36,7 @@ export function FormationsExplorer() {
 
       <section id="catalogue" className="scroll-mt-20 bg-[var(--sane-background)] py-10 sm:py-12 md:py-16">
         <Container>
-          <div className="mb-8 flex items-end justify-between gap-4">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <SectionHeading
               eyebrow="Nos formations"
               title="Des formations pour tous les profils"
@@ -50,7 +50,7 @@ export function FormationsExplorer() {
           </div>
 
           {filtered.length > 0 ? (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filtered.map((f) => (
                 <FormationCard key={f.title} formation={f} />
               ))}
