@@ -36,7 +36,7 @@ export const speakers: Speaker[] = [
     title: "Expert en Développement",
     org: "Développement de Développement",
     tags: ["Innovation", "Entrepreneuriat"],
-    img: "https://randomuser.me/api/portraits/men/52.jpg",
+    img: "/sane cv2.png",
   },
   {
     name: "Mme Kadidia Salifou",
