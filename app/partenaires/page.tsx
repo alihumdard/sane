@@ -26,6 +26,7 @@ export default function PartenairesPage() {
           lead="Ensemble pour l'emploi de demain."
           description="Le SANEM réunit institutions publiques, entreprises privées, organisations internationales et société civile autour d'un objectif commun : promouvoir l'emploi au Niger."
           image="/partners hero.png"
+          imageFit="banner"
           actions={[
             { href: "/contact", label: "Devenir partenaire" },
             { href: "#partenaires", label: "Voir tous les partenaires", variant: "secondary" },
