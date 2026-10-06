@@ -35,6 +35,8 @@ interface PageHeroProps {
   stats?: HeroStat[];
   floatingCardText?: string;
   tagline?: string;
+  /** Lighten the dark overlay so the background artwork shows through more. */
+  overlayStrength?: "normal" | "light";
 }
 
 export function PageHero({
@@ -51,9 +53,11 @@ export function PageHero({
   stats = [],
   floatingCardText,
   tagline,
+  overlayStrength = "normal",
 }: PageHeroProps) {
   const isDark = tone === "dark";
   const photo = imageFit === "photo";
+  const light = overlayStrength === "light";
 
   return (
     <section
@@ -84,8 +88,16 @@ export function PageHero({
       {/* Readability overlay: from the top on mobile (text sits on top, artwork shows below), from the left on desktop */}
       {isDark ? (
         <div
-          className={`absolute inset-0 bg-gradient-to-b from-[var(--sane-green-dark)]/90 via-[var(--sane-green-dark)]/75 to-[var(--sane-green-dark)]/55 ${
-            photo ? "lg:hidden" : "lg:bg-gradient-to-r lg:from-[var(--sane-green-dark)]/90 lg:via-[var(--sane-green-dark)]/40 lg:to-transparent lg:to-[55%]"
+          className={`absolute inset-0 bg-gradient-to-b ${
+            light
+              ? "from-[var(--sane-green-dark)]/80 via-[var(--sane-green-dark)]/55 to-[var(--sane-green-dark)]/30"
+              : "from-[var(--sane-green-dark)]/90 via-[var(--sane-green-dark)]/75 to-[var(--sane-green-dark)]/55"
+          } ${
+            photo
+              ? "lg:hidden"
+              : light
+                ? "lg:bg-gradient-to-r lg:from-[var(--sane-green-dark)]/75 lg:via-[var(--sane-green-dark)]/25 lg:to-transparent lg:to-[55%]"
+                : "lg:bg-gradient-to-r lg:from-[var(--sane-green-dark)]/90 lg:via-[var(--sane-green-dark)]/40 lg:to-transparent lg:to-[55%]"
           }`}
         />
       ) : (
