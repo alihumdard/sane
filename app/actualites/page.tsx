@@ -246,17 +246,17 @@ export default function ActualitesPage() {
         {/* ═══════════════════ 2. CATEGORY TABS BAR ═══════════════════ */}
         <section className="relative z-20 -mt-10 pb-2">
           <div className="sane-container">
-            <div className="flex gap-2.5 overflow-x-auto pb-1 pr-4 -mr-4 scrollbar-hide sm:pr-0 sm:mr-0">
+            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
               {categoryTabs.map((tab) => {
                 const active = activeTab === tab.key;
                 return (
                   <button
                     key={tab.key}
                     onClick={() => setActiveTab(tab.key)}
-                    className={`flex shrink-0 items-center gap-2.5 rounded-xl px-4 py-3 text-left shadow-sm transition-all ${
+                    className={`flex h-full items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left transition-all ${
                       active
-                        ? "bg-[#0a4a22] text-white shadow-md"
-                        : "bg-white text-[#17352a] hover:-translate-y-0.5 hover:shadow-md"
+                        ? "border-transparent bg-[#0a4a22] text-white shadow-md"
+                        : "border-[#DDE8E0] bg-white text-[#17352a] shadow-sm hover:-translate-y-0.5 hover:shadow-md"
                     }`}
                   >
                     <div
@@ -278,10 +278,10 @@ export default function ActualitesPage() {
                         />
                       </svg>
                     </div>
-                    <div>
-                      <p className="text-[13px] font-bold leading-tight">{tab.title}</p>
+                    <div className="min-w-0">
+                      <p className="truncate text-[12.5px] font-bold leading-tight">{tab.title}</p>
                       <p
-                        className={`text-[11px] leading-tight ${active ? "text-white/70" : "text-[#61756b]"}`}
+                        className={`truncate text-[10.5px] leading-tight ${active ? "text-white/70" : "text-[#61756b]"}`}
                       >
                         {tab.subtitle}
                       </p>
