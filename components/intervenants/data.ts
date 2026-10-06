@@ -57,7 +57,7 @@ export const speakers: Speaker[] = [
     title: "Spécialiste en Formation",
     org: "UNESCO",
     tags: ["Éducation", "Compétences"],
-    img: "https://randomuser.me/api/portraits/women/26.jpg",
+    img: "/Leadership2.png",
   },
   {
     name: "M. Abdoulaye Harouna",
