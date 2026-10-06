@@ -91,7 +91,7 @@ const articles = [
       "De nouvelles collaborations pour soutenir l'emploi, la formation et l'insertion professionnelle des jeunes nigériens.",
   },
   {
-    image: "/hero-bg.png",
+    image: "/actualites card1.png",
     date: "28 Février 2024",
     tag: "Témoignage",
     tagColor: "#10632D",
@@ -109,7 +109,7 @@ const articles = [
       "Le SANEM met l'accent sur des formations pratiques et certifiantes pour renforcer l'employabilité des jeunes.",
   },
   {
-    image: "/hero-bg.png",
+    image: "/actualites card1.png",
     date: "15 Février 2024",
     tag: "Communiqué",
     tagColor: "#1a5276",
