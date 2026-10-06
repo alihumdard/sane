@@ -12,36 +12,14 @@ export function VisionSection() {
       />
       <Container className="relative z-10">
         <div className="grid items-start gap-6 lg:grid-cols-[1fr_1.1fr] lg:gap-10">
-          <div className="flex flex-col gap-2">
-            <div className="relative h-[200px] overflow-hidden rounded-xl sm:h-[230px] md:h-[260px] lg:h-[260px]">
-              <Image
-                src="/sane_company.png"
-                alt="SANEM événement"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 45vw"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="relative h-[130px] overflow-hidden rounded-xl sm:h-[145px] md:h-[160px] lg:h-[160px]">
-                <Image
-                  src="/sane_deal.png"
-                  alt="Niger"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 50vw, 22vw"
-                />
-              </div>
-              <div className="relative h-[130px] overflow-hidden rounded-xl sm:h-[145px] md:h-[160px] lg:h-[160px]">
-                <Image
-                  src="/sane_cv.png"
-                  alt="SANEM rencontre"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 50vw, 22vw"
-                />
-              </div>
-            </div>
+          <div className="relative h-[340px] overflow-hidden rounded-xl sm:h-[385px] md:h-[430px]">
+            <Image
+              src="/sanme collage2.png"
+              alt="SANEM événement"
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 1024px) 100vw, 45vw"
+            />
           </div>
 
           <div className="pt-12 lg:pt-12">
