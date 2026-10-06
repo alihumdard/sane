@@ -64,7 +64,7 @@ const categoryTabs = [
 
 const articles = [
   {
-    image: "/sane_deal.png",
+    image: "/actualites card1.png",
     date: "12 Mars 2024",
     tag: "Événement",
     tagColor: "#E57617",
@@ -82,7 +82,7 @@ const articles = [
       "Découvrez les objectifs, les temps forts et les innovations de cette nouvelle édition qui réunit entreprises, institutions et chercheurs d'emploi.",
   },
   {
-    image: "/sane_deal.png",
+    image: "/actualites card1.png",
     date: "05 Mars 2024",
     tag: "Partenariat",
     tagColor: "#E57617",
