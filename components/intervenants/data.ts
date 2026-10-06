@@ -50,7 +50,7 @@ export const speakers: Speaker[] = [
     title: "Consultant RH",
     org: "Cabinet Conseil",
     tags: ["Ressources humaines", "Insertion professionnelle"],
-    img: "https://randomuser.me/api/portraits/men/75.jpg",
+    img: "/Transformation3.png",
   },
   {
     name: "Mme Fatoumata Diallo",
