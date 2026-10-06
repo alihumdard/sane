@@ -22,7 +22,7 @@ export const speakers: Speaker[] = [
     title: "Directeur Général",
     org: "Ministère de l'Emploi",
     tags: ["Politiques publiques", "Emploi des jeunes"],
-    img: "https://randomuser.me/api/portraits/men/32.jpg",
+    img: "/sane deal3.png",
   },
   {
     name: "Mme Aïssatou Issa",
