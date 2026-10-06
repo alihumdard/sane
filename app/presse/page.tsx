@@ -20,7 +20,7 @@ export default function PressePage() {
           title="Espace Presse"
           lead="Toute l'actualité du SANE, au même endroit."
           description="Retrouvez nos communiqués, nos événements et nos ressources médias."
-          image="/sane_deal.png"
+          image="/Actualités.png"
           actions={[
             { href: "/programme", label: "Voir le programme" },
             { href: "/contact", label: "Nous contacter", variant: "secondary" },
