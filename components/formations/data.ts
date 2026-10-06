@@ -56,7 +56,7 @@ export const formations: Formation[] = [
   { tag: "Technologie", title: "Compétences en Énergies Renouvelables", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/sane campany2.png", niveau: "Avancé", format: "Présentiel" },
   { tag: "Informatique", title: "Compétences Digitales", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/Transformation3.png", niveau: "Débutant", format: "En ligne" },
   { tag: "Développement personnel", title: "Préparation à l'Emploi", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/sane cv2.png", niveau: "Débutant", format: "Hybride" },
-  { tag: "Finance", title: "Gestion de Projet", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership.png", niveau: "Intermédiaire", format: "En ligne" },
+  { tag: "Finance", title: "Gestion de Projet", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership2.png", niveau: "Intermédiaire", format: "En ligne" },
 ];
 
 export const domaines = ["Domaine de formation", "Management", "Digital", "Entrepreneuriat", "Communication", "Technologie", "Finance"];
