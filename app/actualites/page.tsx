@@ -64,7 +64,7 @@ const categoryTabs = [
 
 const articles = [
   {
-    image: "/sane_deal.png",
+    image: "/actualites card1.png",
     date: "12 Mars 2024",
     tag: "Événement",
     tagColor: "#E57617",
