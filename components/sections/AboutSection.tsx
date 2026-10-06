@@ -40,27 +40,27 @@ export function AboutSection() {
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
 
           {/* ================= IMAGE GALLERY ================= */}
-          <div className="grid grid-cols-1 sm:grid-cols-[1.35fr_0.85fr] gap-3 items-center">
+          <div className="relative w-full">
 
-            {/* Main Large Left Image (/sane_deal.png) */}
-            <div className="relative h-[280px] overflow-hidden rounded-xl sm:h-[420px]">
+            {/* SANEM Collage Image */}
+            <div className="relative w-full overflow-hidden rounded-xl" style={{ aspectRatio: "4/3" }}>
               <Image
-                src="/sane_deal.png"
-                alt="SANE Deal"
+                src="/sanem_collage.png"
+                alt="SANEM Collage"
                 fill
                 priority
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 48vw"
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
 
-            {/* Right Stacked Images (/sane_company.png & /sane_cv.png) */}
-            <div className="grid h-[280px] grid-rows-2 gap-3 sm:h-[420px]">
+            {/* Right Stacked Images — hidden now replaced by collage */}
+            <div className="hidden">
 
               <div className="relative overflow-hidden rounded-xl">
                 <Image
                   src="/sane_company.png"
-                  alt="SANE Company"
+                  alt="SANEM Company"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 50vw, 25vw"
@@ -70,7 +70,7 @@ export function AboutSection() {
               <div className="relative overflow-hidden rounded-xl">
                 <Image
                   src="/sane_cv.png"
-                  alt="SANE CV"
+                  alt="SANEM CV"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 50vw, 25vw"
