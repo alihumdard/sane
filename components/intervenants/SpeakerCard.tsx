@@ -26,13 +26,13 @@ const arrowBtn =
 export function SpeakerCard({ speaker, view }: { speaker: Speaker; view: "grid" | "list" }) {
   if (view === "list") {
     return (
-      <div className="flex items-center gap-4 rounded-xl border border-[var(--sane-border)] bg-white p-4 transition-shadow hover:shadow-md">
-        <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-[var(--sane-background)]">
+      <div className="flex items-center gap-3 rounded-xl border border-[var(--sane-border)] bg-white p-3 transition-shadow hover:shadow-md sm:gap-4 sm:p-4">
+        <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[var(--sane-background)] sm:h-16 sm:w-16">
           <Image src={speaker.img} alt={speaker.name} fill sizes="64px" className="object-cover object-top" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="sane-h3">{speaker.name}</p>
-          <p className="sane-small mb-1.5">
+          <p className="sane-h3 truncate">{speaker.name}</p>
+          <p className="sane-small mb-1.5 line-clamp-2">
             {speaker.title} — {speaker.org}
           </p>
           <Tags tags={speaker.tags} small />

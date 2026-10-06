@@ -18,7 +18,7 @@ export function SpeakerSearch({ search, secteur, domaine, onSearch, onSecteur, o
   return (
     <section className="bg-[var(--sane-background)] py-10 sm:py-12 md:py-16">
       <Container>
-        <div className="mb-6 flex items-end justify-between gap-4">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <SectionHeading
             eyebrow="Découvrez nos intervenants"
             title="Trouvez un intervenant"

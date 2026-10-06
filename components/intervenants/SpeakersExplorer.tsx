@@ -47,7 +47,7 @@ export function SpeakersExplorer() {
 
       <section id="speakers" className="scroll-mt-20 bg-white py-10 sm:py-12 md:py-16">
         <Container>
-          <div className="mb-6 flex items-end justify-between gap-4">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <SectionHeading eyebrow="Nos intervenants" title="Des profils inspirants pour l'avenir du Niger" />
             <div className="flex shrink-0 items-center gap-2">
               <button type="button" onClick={() => setView("grid")} aria-label="Vue en grille" aria-pressed={view === "grid"} className={toggle(view === "grid")}>
@@ -64,7 +64,7 @@ export function SpeakersExplorer() {
               Aucun intervenant ne correspond à votre recherche.
             </p>
           ) : view === "grid" ? (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {filtered.map((p) => (
                 <SpeakerCard key={p.name} speaker={p} view="grid" />
               ))}
