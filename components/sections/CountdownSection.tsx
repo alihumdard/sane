@@ -1,13 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, CalendarDays, MapPin } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-
-const countdownItems = [
-  { value: "24", label: "JOURS" },
-  { value: "18", label: "HEURES" },
-  { value: "36", label: "MINUTES" },
-  { value: "12", label: "SECONDES" },
-];
+import { CountdownTimer } from "./CountdownTimer";
 
 export function CountdownSection() {
   return (
@@ -34,21 +28,7 @@ export function CountdownSection() {
           {/* MIDDLE — countdown + meta */}
           <div className="flex flex-1 flex-col gap-2.5">
             {/* Countdown boxes */}
-            <div className="grid grid-cols-4 gap-2 sm:gap-2.5">
-              {countdownItems.map((item) => (
-                <div
-                  key={item.label}
-                  className="flex flex-col items-center justify-center rounded-lg bg-white/10 px-2 py-2.5 sm:px-3 sm:py-3"
-                >
-                  <span className="text-xl font-extrabold leading-none text-white sm:text-2xl md:text-[28px]">
-                    {item.value}
-                  </span>
-                  <span className="mt-1 text-[7px] font-bold uppercase tracking-wider text-white/60 sm:text-[8px]">
-                    {item.label}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <CountdownTimer />
 
             {/* Location / Date */}
             <div className="flex flex-wrap items-center gap-4 text-[12px] text-white/75">
