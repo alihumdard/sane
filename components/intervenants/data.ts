@@ -71,7 +71,7 @@ export const speakers: Speaker[] = [
     title: "Directeur Innovation",
     org: "Startup Niger",
     tags: ["Innovation", "Économie numérique"],
-    img: "https://randomuser.me/api/portraits/men/88.jpg",
+    img: "/sane deal3.png",
   },
 ];
 
