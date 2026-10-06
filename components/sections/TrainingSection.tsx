@@ -12,7 +12,7 @@ const trainings = [
     title: "Leadership & Management",
     duration: "2 jours",
     seats: "Places limitées",
-    image: "/Leadership.png",
+    image: "/Leadership2.png",
   },
   {
     title: "Transformation Digitale",

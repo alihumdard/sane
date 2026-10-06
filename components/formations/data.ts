@@ -49,7 +49,7 @@ export const formationInfo: InfoItem[] = [
 ];
 
 export const formations: Formation[] = [
-  { tag: "Management", title: "Leadership & Management", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership.png", niveau: "Intermédiaire", format: "Présentiel" },
+  { tag: "Management", title: "Leadership & Management", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership2.png", niveau: "Intermédiaire", format: "Présentiel" },
   { tag: "Digital", title: "Transformation Digitale", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/Transformation3.png", niveau: "Intermédiaire", format: "Hybride" },
   { tag: "Entrepreneuriat", title: "Entrepreneuriat des Jeunes", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Entrepreneuriat.png", niveau: "Débutant", format: "Présentiel" },
   { tag: "Communication", title: "Techniques de Communication", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/sane deal3.png", niveau: "Débutant", format: "Présentiel" },
