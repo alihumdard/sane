@@ -29,7 +29,7 @@ export const speakers: Speaker[] = [
     title: "Directrice des Programmes",
     org: "ONG Internationale UNESCO",
     tags: ["Formation", "Inclusion"],
-    img: "https://randomuser.me/api/portraits/women/44.jpg",
+    img: "/sane campany2.png",
   },
   {
     name: "M. Moussa Alidou",
