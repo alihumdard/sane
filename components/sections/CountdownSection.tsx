@@ -16,7 +16,7 @@ export function CountdownSection() {
             <h2 className="sane-h3 on-dark">
               Rendez-vous au
               <br />
-              Salon National de l&apos;Emploi
+              Salon National de l&apos;Emploi du Niger (SANEM)
             </h2>
 
             <p className="sane-body on-dark mt-2">

@@ -25,7 +25,7 @@ const actions = [
   },
   {
     title: "Je participe",
-    description: "Inscrivez-vous au Salon National de l'Emploi.",
+    description: "Inscrivez-vous au Salon National de l'Emploi du Niger (SANEM).",
     href: "/inscription",
     icon: CalendarDays,
     iconStyle: "bg-[var(--sane-green)] text-white",

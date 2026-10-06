@@ -21,7 +21,7 @@ export function Hero() {
               {/* Label */}
               <div className="mb-4">
                 <span className="text-[11px] font-extrabold uppercase tracking-wide text-white">
-                  Salon National de l&apos;Emploi
+                  Salon National de l&apos;Emploi du Niger (SANEM)
                 </span>
               </div>
 
@@ -42,7 +42,7 @@ export function Hero() {
                   href="/inscription"
                   className="group inline-flex h-[42px] items-center justify-center gap-2 rounded-full bg-[var(--sane-orange)] px-6 text-[13px] font-bold !text-white transition-colors hover:bg-[var(--sane-orange-dark)] sm:h-[44px]"
                 >
-                  Participer au SANE
+                  Participer au SANEM
                   <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
                 <Link

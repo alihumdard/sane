@@ -27,9 +27,9 @@ export function CTASection({
       commence ici.
     </>
   ),
-  description = "Rejoignez le Salon National de l'Emploi et construisez votre avenir professionnel.",
+  description = "Rejoignez le Salon National de l'Emploi du Niger (SANEM) et construisez votre avenir professionnel.",
   actions = [
-    { href: "/inscription", label: "Participer au SANE" },
+    { href: "/inscription", label: "Participer au SANEM" },
     { href: "/emploi", label: "Découvrir les offres", variant: "secondary" },
   ],
   tone = "light",

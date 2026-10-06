@@ -27,7 +27,7 @@ const links = [
   },
   {
     title: "Actualités",
-    description: "Restez informé des dernières nouvelles du SANE.",
+    description: "Restez informé des dernières nouvelles du SANEM.",
     action: "Lire les actualités",
     href: "/actualites",
     image: "/Actualités.png",

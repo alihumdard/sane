@@ -97,20 +97,20 @@ export function AboutSection() {
 
               {/* Heading */}
               <h2 className="sane-h2">
-                Le SANE, un engagement
+                Le SANEM, un engagement
                 <br />
                 pour l&apos;avenir professionnel
               </h2>
 
               {/* Description */}
               <p className="sane-body mt-3 md:mt-4">
-                Le Salon National de l&apos;Emploi est un espace de rencontre
+                Le Salon National de l&apos;Emploi du Niger (SANEM) est un espace de rencontre
                 entre les talents, les entreprises et les opportunités
                 professionnelles.
               </p>
 
               <p className="sane-body mt-2 md:mt-3">
-                Le SANE vise à favoriser l&apos;insertion professionnelle,
+                Le SANEM vise à favoriser l&apos;insertion professionnelle,
                 renforcer les compétences et promouvoir l&apos;emploi au Niger à
                 travers des rencontres, des formations et un accompagnement
                 personnalisé.
