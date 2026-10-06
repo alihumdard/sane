@@ -64,7 +64,7 @@ export const speakers: Speaker[] = [
     title: "Fondateur & CEO",
     org: "Tech Solutions",
     tags: ["Transformation digitale", "Entrepreneuriat"],
-    img: "https://randomuser.me/api/portraits/men/41.jpg",
+    img: "/Entrepreneuriat.png",
   },
   {
     name: "M. Zakariou Idrissa",
