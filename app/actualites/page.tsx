@@ -202,7 +202,7 @@ export default function ActualitesPage() {
             </p>
           </div>
 
-          <div className="sane-container relative z-20 flex min-h-[380px] flex-col justify-center py-12">
+          <div className="sane-container relative z-20 flex min-h-[380px] flex-col justify-center pt-12 pb-20">
             <nav className="mb-4 flex items-center gap-1.5 text-[12px] text-white/60">
               <Link href="/" className="hover:text-white transition-colors">
                 Accueil
@@ -244,50 +244,51 @@ export default function ActualitesPage() {
         </section>
 
         {/* ═══════════════════ 2. CATEGORY TABS BAR ═══════════════════ */}
-        <section className="bg-[#0a2e16]">
+        <section className="relative z-20 -mt-10 pb-2">
           <div className="sane-container">
-            <div className="flex overflow-x-auto scrollbar-hide">
-              {categoryTabs.map((tab) => (
-                <button
-                  key={tab.key}
-                  onClick={() => setActiveTab(tab.key)}
-                  className={`flex shrink-0 items-center gap-2.5 px-5 py-3 text-left transition-colors ${
-                    activeTab === tab.key
-                      ? "bg-[#E57617] text-white"
-                      : "text-white/70 hover:text-white hover:bg-white/5"
-                  }`}
-                >
-                  <div
-                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-                      activeTab === tab.key
-                        ? "bg-white text-[#E57617]"
-                        : "bg-[#E57617] text-white"
+            <div className="flex gap-2.5 overflow-x-auto pb-1 pr-4 -mr-4 scrollbar-hide sm:pr-0 sm:mr-0">
+              {categoryTabs.map((tab) => {
+                const active = activeTab === tab.key;
+                return (
+                  <button
+                    key={tab.key}
+                    onClick={() => setActiveTab(tab.key)}
+                    className={`flex shrink-0 items-center gap-2.5 rounded-xl px-4 py-3 text-left shadow-sm transition-all ${
+                      active
+                        ? "bg-[#0a4a22] text-white shadow-md"
+                        : "bg-white text-[#17352a] hover:-translate-y-0.5 hover:shadow-md"
                     }`}
                   >
-                    <svg
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
+                    <div
+                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
+                        active ? "bg-white/15 text-white" : "bg-[#fff4ec] text-[#E57617]"
+                      }`}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d={tab.iconPath}
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-[12px] font-bold">{tab.title}</p>
-                    <p
-                      className={`text-[10px] ${activeTab === tab.key ? "text-white/80" : "text-white/50"}`}
-                    >
-                      {tab.subtitle}
-                    </p>
-                  </div>
-                </button>
-              ))}
+                      <svg
+                        className="h-[18px] w-[18px]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d={tab.iconPath}
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-[13px] font-bold leading-tight">{tab.title}</p>
+                      <p
+                        className={`text-[11px] leading-tight ${active ? "text-white/70" : "text-[#61756b]"}`}
+                      >
+                        {tab.subtitle}
+                      </p>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </section>
