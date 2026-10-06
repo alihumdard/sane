@@ -9,7 +9,7 @@ const links = [
     description: "Découvrez le programme complet de l'événement.",
     action: "Voir le programme",
     href: "/programme",
-    image: "/card img2.png",
+    image: "/Programme.png",
   },
   {
     title: "Intervenants",
