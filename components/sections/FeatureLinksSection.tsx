@@ -30,7 +30,7 @@ const links = [
     description: "Restez informé des dernières nouvelles du SANEM.",
     action: "Lire les actualités",
     href: "/actualites",
-    image: "/Actualités.png",
+    image: "/card img3.png",
   },
 ];
 
