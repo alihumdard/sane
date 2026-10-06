@@ -173,7 +173,7 @@ export default function ActualitesPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a4a22] via-[#0a4a22]/90 to-[#0a4a22]/30 z-10" />
           <div className="absolute right-0 top-0 h-full w-[55%]">
             <Image
-              src="/sane_deal.png"
+              src="/actualites2.png"
               alt="Actualités SANEM"
               fill
               className="object-cover object-center"
