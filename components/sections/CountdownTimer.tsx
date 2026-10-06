@@ -3,25 +3,29 @@
 import { useEffect, useState } from "react";
 
 // Change this date when the event date is confirmed
-const EVENT_DATE = new Date("2026-03-15T09:00:00");
+const EVENT_DATE_STR = "2026-03-15T09:00:00";
 
-function getTimeLeft() {
-  const diff = EVENT_DATE.getTime() - Date.now();
+type TimeLeft = { days: number; hours: number; minutes: number; seconds: number };
+
+function getTimeLeft(): TimeLeft {
+  const target = new Date(EVENT_DATE_STR).getTime();
+  const diff = target - new Date().getTime();
   if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
   return {
-    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-    hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-    minutes: Math.floor((diff / (1000 * 60)) % 60),
-    seconds: Math.floor((diff / 1000) % 60),
+    days: Math.floor(diff / 86400000),
+    hours: Math.floor((diff % 86400000) / 3600000),
+    minutes: Math.floor((diff % 3600000) / 60000),
+    seconds: Math.floor((diff % 60000) / 1000),
   };
 }
 
 export function CountdownTimer() {
-  const [time, setTime] = useState<ReturnType<typeof getTimeLeft> | null>(null);
+  const [time, setTime] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
-    setTime(getTimeLeft());
-    const id = setInterval(() => setTime(getTimeLeft()), 1000);
+    const tick = () => setTime(getTimeLeft());
+    tick();
+    const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
 
