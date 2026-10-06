@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // Change this date when the event date is confirmed
-const EVENT_DATE_STR = "2026-03-15T09:00:00";
+const EVENT_DATE_STR = "2027-03-15T09:00:00";
 
 type TimeLeft = { days: number; hours: number; minutes: number; seconds: number };
 
