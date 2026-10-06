@@ -170,17 +170,17 @@ export default function ActualitesPage() {
       <main>
         {/* ═══════════════════ 1. HERO ═══════════════════ */}
         <section className="relative min-h-[380px] overflow-hidden bg-[#0a4a22]">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a4a22] via-[#0a4a22]/90 to-[#0a4a22]/30 z-10" />
-          <div className="absolute right-0 top-0 h-full w-[55%]">
+          <div className="absolute inset-0">
             <Image
               src="/actualites2.png"
               alt="Actualités SANEM"
               fill
-              className="object-cover object-center"
+              sizes="100vw"
+              className="object-cover object-[75%_center] lg:object-center"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0a4a22] via-[#0a4a22]/30 to-transparent" />
           </div>
+          <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0a4a22]/85 via-[#0a4a22]/60 to-[#0a4a22]/35 lg:bg-gradient-to-r lg:from-[#0a4a22]/80 lg:via-[#0a4a22]/25 lg:to-transparent lg:to-[60%]" />
 
           <div className="absolute right-5 top-10 z-20 hidden rounded-md bg-[#E57617] px-2.5 py-2 text-[9px] font-bold leading-snug text-white lg:block">
             EMPLOI
