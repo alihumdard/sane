@@ -373,12 +373,7 @@ export default function ActualitesPage() {
                           fill
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                          <div className="flex items-center gap-1.5 text-[11px] text-white">
-                            <Calendar size={12} />
-                            {a.date}
-                          </div>
+                        <div className="absolute bottom-3 right-3">
                           <span
                             className="rounded-full px-2.5 py-0.5 text-[10px] font-semibold text-white"
                             style={{ backgroundColor: a.tagColor }}
@@ -388,6 +383,10 @@ export default function ActualitesPage() {
                         </div>
                       </div>
                       <div className="p-4">
+                        <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[#61756B]">
+                          <Calendar size={12} className="text-[#E57617]" />
+                          {a.date}
+                        </div>
                         <h3 className="mb-2 text-[14px] font-bold leading-snug text-[#0a2e16]">
                           {a.title}
                         </h3>
