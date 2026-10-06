@@ -66,7 +66,7 @@ export function TrainingSection() {
         </div>
 
         {/* TRAINING CARDS */}
-        <div className="mt-8 grid gap-5 md:grid-cols-3">
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 md:grid-cols-3">
           {trainings.map((training) => (
             <article
               key={training.title}

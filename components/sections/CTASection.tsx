@@ -50,12 +50,12 @@ export function CTASection({
 
       <Container className="relative h-full">
         <div className="relative z-20 flex h-full items-center py-2 md:py-0">
-          <div className="w-full px-0 md:pl-64 md:pr-16 lg:pl-72">
+          <div className="w-full px-0 md:pl-48 md:pr-16 lg:pl-64 xl:pl-72">
             <h2 className="sane-h2 on-dark max-w-[430px]">{title}</h2>
 
             <p className="sane-small on-dark mt-3 max-w-[470px]">{description}</p>
 
-            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-4 flex flex-wrap gap-3">
               {actions.map((a) => (
                 <Link
                   key={a.label}

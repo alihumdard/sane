@@ -7,7 +7,7 @@ export function CountdownSection() {
   return (
     <section className="bg-[var(--sane-green)] py-10 md:py-12">
       <Container>
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10">
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-8 lg:gap-10">
 
           {/* LEFT — text */}
           <div className="shrink-0 lg:max-w-[300px]">
@@ -46,7 +46,7 @@ export function CountdownSection() {
           {/* RIGHT — CTA */}
           <Link
             href="/programme"
-            className="group inline-flex shrink-0 items-center justify-center gap-2.5 self-start rounded-full bg-[var(--sane-orange)] px-6 py-3 text-[13px] font-bold text-white !text-white transition-all hover:bg-[var(--sane-orange-dark)] hover:!text-white lg:self-center"
+            className="group inline-flex shrink-0 items-center justify-center gap-2.5 self-start rounded-full bg-[var(--sane-orange)] px-6 py-3 text-[13px] font-bold text-white !text-white transition-all hover:bg-[var(--sane-orange-dark)] hover:!text-white md:self-center whitespace-nowrap"
           >
             Voir le programme
             <ArrowRight

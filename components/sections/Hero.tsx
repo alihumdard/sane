@@ -14,10 +14,10 @@ export function Hero() {
       {/* mobile: solid color behind the text fading out so the artwork shows underneath */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#01676e]/90 via-[#01676e]/70 to-[#01676e]/45 lg:hidden" />
       <Container className="relative">
-        <div className="grid grid-cols-1 lg:min-h-[410px] lg:grid-cols-2">
+        <div className="grid grid-cols-1 lg:min-h-[410px] lg:grid-cols-2 overflow-hidden">
           {/* ================= LEFT CONTENT ================= */}
           <div className="relative z-10 flex items-center">
-            <div className="w-full py-10 lg:max-w-[600px] lg:pr-8">
+            <div className="w-full py-8 sm:py-10 lg:max-w-[600px] lg:pr-8">
               {/* Label */}
               <div className="mb-4">
                 <span className="text-[11px] font-extrabold uppercase tracking-wide text-white">
@@ -26,7 +26,7 @@ export function Hero() {
               </div>
 
               {/* Heading */}
-              <h1 className="sane-h1 on-dark max-w-[600px]">
+              <h1 className="sane-h1 on-dark max-w-[600px] text-[26px] sm:text-[32px] lg:text-[length:var(--fs-h1)]">
                 Connectons les talents aux opportunités
                 <span className="text-[var(--sane-orange)]">.</span>
               </h1>
@@ -47,7 +47,7 @@ export function Hero() {
                 </Link>
                 <Link
                   href="/emploi"
-                  className="group inline-flex h-[42px] items-center justify-center gap-2 rounded-full border-2 border-white bg-white px-6 text-[13px] font-bold text-[var(--sane-green)] transition-colors hover:bg-transparent hover:!text-white sm:h-[44px]"
+                  className="group inline-flex h-[42px] items-center justify-center gap-2 rounded-full border-2 border-white bg-white px-6 text-[13px] font-bold text-[var(--sane-green)] transition-colors hover:bg-transparent hover:!text-white sm:h-[44px] whitespace-nowrap"
                 >
                   Découvrir les opportunités
                 </Link>
