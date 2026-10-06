@@ -18,7 +18,7 @@ const trainings = [
     title: "Transformation Digitale",
     duration: "1 jour",
     seats: "Places limitées",
-    image: "/Transformation.png",
+    image: "/Transformation2.png",
   },
   {
     title: "Entrepreneuriat des Jeunes",
