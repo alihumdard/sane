@@ -61,17 +61,6 @@ export function ImpactSection() {
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 45vw"
               />
-              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/50 to-transparent" />
-              <div className="absolute bottom-4 right-4 text-right sm:bottom-5 sm:right-5">
-                <p className="font-serif text-[15px] italic leading-[1.3] text-white drop-shadow sm:text-[17px]">
-                  Des talents
-                  <br />
-                  pour un Niger
-                  <br />
-                  plus fort
-                </p>
-                <div className="ml-auto mt-1.5 h-[3px] w-10 bg-[var(--sane-orange)]" />
-              </div>
             </div>
           </div>
         </div>
