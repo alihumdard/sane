@@ -168,6 +168,13 @@ export function Footer() {
               >
                 FAQ
               </Link>
+
+              <Link
+                href="/presse"
+                className="py-1.5 transition-colors hover:text-white"
+              >
+                Presse
+              </Link>
             </div>
           </div>
 
