@@ -16,7 +16,7 @@ export function StepsSection() {
             const green = i % 2 === 0;
             return (
               <Fragment key={step.num}>
-                <li>
+                <li className="flex flex-col items-center text-center sm:items-start sm:text-left">
                   <div className="flex items-center gap-3">
                     <span
                       className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white ${
@@ -31,7 +31,7 @@ export function StepsSection() {
                   </div>
                   <div className="mt-3 lg:pr-2">
                     <h3 className="sane-h3">{step.title}</h3>
-                    <p className="sane-small mt-1 max-w-[220px]">{step.desc}</p>
+                    <p className="sane-small mt-1">{step.desc}</p>
                   </div>
                 </li>
                 {i < steps.length - 1 && (
