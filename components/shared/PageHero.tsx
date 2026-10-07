@@ -124,24 +124,32 @@ export function PageHero({
           </div>
         )}
 
-        <div className={`relative grid grid-cols-1 items-center gap-8 lg:grid-cols-2 ${isDark ? "pb-8 pt-4 sm:pb-10 sm:pt-6 lg:min-h-[380px]" : "pb-6 pt-3 sm:pb-8 sm:pt-4 lg:min-h-[260px]"}`}>
-          {/* Floating card — top right, light tone only */}
+        <div className={`relative grid grid-cols-1 items-center gap-8 lg:grid-cols-2 ${isDark ? "pb-8 pt-4 sm:pb-10 sm:pt-6 lg:min-h-[380px]" : "pb-6 pt-3 sm:pb-8 sm:pt-4 lg:min-h-[300px]"}`}>
+          {/* Floating card + tagline — right side, light tone only */}
           {!isDark && (
-            <div className="absolute right-0 top-0 hidden w-[130px] rounded-xl bg-white/95 px-3.5 py-3.5 shadow-lg ring-1 ring-[var(--sane-border)] backdrop-blur-sm lg:block">
-              <p className="whitespace-pre-line text-[9px] font-extrabold uppercase leading-[1.7] tracking-wide text-[var(--sane-green)]">
-                {floatingCardText ?? "Des compétences\npour un Niger\nplus fort"}
-              </p>
-              <div className="mt-2 h-[2.5px] w-6 rounded-full bg-[var(--sane-orange)]" />
+            <div className="absolute right-0 top-0 hidden flex-col items-end gap-4 lg:flex lg:right-[-40px]">
+              <div className="w-[155px] rounded-xl bg-white/95 px-4 py-4 shadow-lg ring-1 ring-[var(--sane-border)] backdrop-blur-sm">
+                <p className="whitespace-pre-line text-[10px] font-extrabold uppercase leading-[1.8] tracking-wide text-[var(--sane-green)]">
+                  {floatingCardText ?? "Des compétences\npour un Niger\nplus fort"}
+                </p>
+                <div className="mt-2 h-[2.5px] w-6 rounded-full bg-[var(--sane-orange)]" />
+              </div>
+              {tagline && (
+                <div className="text-right">
+                  <p className="whitespace-pre-line font-serif text-[24px] italic leading-[1.35] text-[var(--sane-green)] [text-shadow:0_1px_8px_rgba(255,255,255,0.9)]">{tagline}</p>
+                  <div className="ml-auto mt-2 h-[2.5px] w-10 rounded-full bg-[var(--sane-orange)]" />
+                </div>
+              )}
             </div>
           )}
-          {/* Tagline — bottom right, light tone only */}
+          {/* Tagline mobile — bottom right, light tone only */}
           {!isDark && tagline && (
-            <div className="absolute bottom-6 right-0 hidden text-right lg:block">
-              <p className="font-serif text-[15px] italic leading-[1.2] text-[var(--sane-orange)]">{tagline}</p>
-              <div className="ml-auto mt-1.5 h-[2.5px] w-10 rounded-full bg-[var(--sane-orange)]" />
+            <div className="absolute bottom-4 right-0 text-right lg:hidden">
+              <p className="whitespace-pre-line font-serif text-[18px] italic leading-[1.35] text-[var(--sane-green)] [text-shadow:0_1px_8px_rgba(255,255,255,0.9)] sm:text-[20px]">{tagline}</p>
+              <div className="ml-auto mt-1.5 h-[2px] w-8 rounded-full bg-[var(--sane-orange)]" />
             </div>
           )}
-          <div className="min-w-0">
+          <div className={`min-w-0 ${!isDark && tagline ? "pr-[120px] sm:pr-[140px] lg:pr-0" : ""}`}>
             <div className="mb-2 flex items-center gap-2">
               <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
               <span className={`sane-eyebrow ${isDark ? "on-dark" : ""}`}>

@@ -15,6 +15,7 @@ export default function ContactPage() {
           title="Contactez le SANEM"
           lead="Nous sommes à votre écoute."
           description="Une question, une demande d'information ou une proposition de partenariat ? Notre équipe est disponible pour vous répondre et vous accompagner."
+          tagline={"Des échanges\npour un Niger\nplus fort"}
           image="/contact-hero.png"
           tone="light"
           imageFit="banner"

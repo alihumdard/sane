@@ -15,7 +15,7 @@ export function ContactForm() {
   const set = (key: keyof typeof empty) => (value: string) => setData((d) => ({ ...d, [key]: value }));
 
   return (
-    <div>
+    <div className="rounded-2xl border border-[var(--sane-border)] bg-white p-6 shadow-sm sm:p-8">
       <SectionHeading
         eyebrow="Nous contacter"
         title="Envoyez-nous un message"
