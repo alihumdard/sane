@@ -4,6 +4,7 @@
  */
 const FOCUS: Record<string, string> = {
   "/sane_deal.png": "center 12%", // square photo, faces in the upper part
+  "/sane-deal3.png": "center 15%", // group photo, faces in the upper part
   "/hero-bg.png": "88% center", // wide banner, people on the right
   "/Leadership.png": "center 40%",
   "/Transformation.png": "center 40%",
