@@ -28,7 +28,7 @@ export function FaqContactPrompt({ title = "Vous n'avez pas trouvé votre répon
   }
 
   return (
-    <div className="mt-12 flex flex-col items-start gap-4 rounded-2xl border border-[var(--sane-border)] bg-[var(--sane-background)] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+    <div className="mt-8 flex flex-col items-start gap-4 rounded-2xl border border-[var(--sane-border)] bg-[var(--sane-background)] p-5 sm:mt-12 sm:flex-row sm:items-center sm:justify-between sm:p-8">
       <div className="flex items-start gap-4">
         <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--sane-orange)] text-white">
           <Headphones size={22} />

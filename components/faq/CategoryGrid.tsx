@@ -30,25 +30,26 @@ export function CategoryGrid({ active, onSelect }: Props) {
                 type="button"
                 onClick={() => onSelect(key)}
                 aria-pressed={on}
-                className={`flex flex-col gap-2 rounded-xl border p-4 text-left transition-all hover:-translate-y-0.5 ${
+                className={`flex flex-col gap-2 rounded-xl border p-3 text-left transition-all hover:-translate-y-0.5 sm:p-4 ${
                   on
                     ? "border-[var(--sane-green)] bg-[var(--sane-green)] text-white shadow-lg"
                     : "border-[var(--sane-border)] bg-white text-[var(--sane-text)] hover:border-[var(--sane-green)]/30 hover:shadow-md"
                 }`}
               >
-                <span className={`flex h-10 w-10 items-center justify-center rounded-lg ${on ? "bg-white/20" : "bg-[var(--sane-background)] text-[var(--sane-green)]"}`}>
-                  <Icon size={20} />
+                <span className={`flex h-9 w-9 items-center justify-center rounded-lg sm:h-10 sm:w-10 ${on ? "bg-white/20" : "bg-[var(--sane-background)] text-[var(--sane-green)]"}`}>
+                  <Icon size={18} className="sm:hidden" />
+                  <Icon size={20} className="hidden sm:block" />
                 </span>
                 <span>
-                  <span className={`block text-[length:var(--fs-body)] font-bold ${on ? "text-white" : ""}`}>{title}</span>
-                  <span className={`block text-[length:var(--fs-small)] ${on ? "text-white/70" : "text-[var(--sane-text-light)]"}`}>{subtitle}</span>
+                  <span className={`block text-[13px] font-bold sm:text-[length:var(--fs-body)] ${on ? "text-white" : ""}`}>{title}</span>
+                  <span className={`hidden text-[length:var(--fs-small)] sm:block ${on ? "text-white/70" : "text-[var(--sane-text-light)]"}`}>{subtitle}</span>
                 </span>
-                <span className="mt-auto flex items-center justify-between gap-2">
-                  <span className={`text-[11px] font-semibold ${on ? "text-white/80" : "text-[var(--sane-orange)]"}`}>
+                <span className="mt-auto flex items-center justify-between gap-1">
+                  <span className={`text-[10px] font-semibold sm:text-[11px] ${on ? "text-white/80" : "text-[var(--sane-orange)]"}`}>
                     {count} questions
                   </span>
                   <span
-                    className={`flex h-6 w-6 items-center justify-center rounded-full ${
+                    className={`hidden h-6 w-6 items-center justify-center rounded-full sm:flex ${
                       on ? "bg-white/20 text-white" : "border border-[var(--sane-border)] text-[var(--sane-text-light)]"
                     }`}
                   >

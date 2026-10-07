@@ -43,7 +43,7 @@ export function FaqExplorer() {
       <section className="bg-white py-10 sm:py-12 md:py-16">
         <Container>
           {/* Search */}
-          <div className="mb-10">
+          <div className="mb-8 sm:mb-10">
             <div className="relative mx-auto max-w-[640px]">
               <Search size={17} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
               <input
@@ -75,7 +75,7 @@ export function FaqExplorer() {
           {total > 0 ? (
             <>
               {/* Categories in pairs (6|6, 5|5), the contact card fills the last cell so both sides end level */}
-              <div className="grid items-start gap-x-12 gap-y-10 lg:grid-cols-2">
+              <div className="grid items-start gap-x-8 gap-y-8 sm:gap-x-10 sm:gap-y-10 lg:grid-cols-2">
                 {keys.map((key) => (
                   <FaqCategoryBlock
                     key={`${key}-${q}`}
