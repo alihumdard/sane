@@ -21,12 +21,12 @@ const team: TeamMember[] = [
 function TeamCard({ member }: { member: TeamMember }) {
   return (
     <div className="group overflow-hidden rounded-2xl bg-white shadow-sm transition-shadow hover:shadow-lg">
-      <div className="relative aspect-[5/4] w-full overflow-hidden">
+      <div className="relative aspect-[4/3] w-full overflow-hidden">
         <Image
           src={member.img}
           alt={member.name}
           fill
-          className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
+          className="scale-[1.02] object-cover object-center transition-transform duration-300 group-hover:scale-105"
           sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
         />
       </div>
