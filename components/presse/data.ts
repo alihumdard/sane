@@ -11,7 +11,7 @@ export const pressStats: FeatureBarItem[] = [
 
 export const pressArticles: ArticleCardData[] = [
   {
-    image: "/sane_deal.png",
+    image: "/sane deal3.png",
     date: "12 Mars 2024",
     tag: "Communiqué",
     tagColor: "var(--sane-orange)",
@@ -27,7 +27,7 @@ export const pressArticles: ArticleCardData[] = [
     description: "Découvrez les temps forts, les objectifs et les innovations de cette nouvelle édition qui réunit entreprises, institutions et chercheurs d'emploi.",
   },
   {
-    image: "/sane_deal.png",
+    image: "/sane deal3.png",
     date: "05 Mars 2024",
     tag: "Presse",
     tagColor: "#1a5276",
@@ -42,13 +42,14 @@ export interface PressResource {
   title: string;
   description: string;
   button: string;
+  href: string;
 }
 
 export const pressResources: PressResource[] = [
-  { icon: Newspaper, color: "var(--sane-orange)", title: "Communiqués de presse", description: "Tous nos communiqués officiels au format PDF.", button: "Voir les communiqués" },
-  { icon: Camera, color: "var(--sane-green)", title: "Photos officielles", description: "Photos libres de droit pour vos publications.", button: "Accéder aux photos" },
-  { icon: Video, color: "var(--sane-orange)", title: "Vidéos et reportages", description: "Revivez les moments forts du SANEM en vidéo.", button: "Voir les vidéos" },
-  { icon: Palette, color: "var(--sane-green)", title: "Kit média", description: "Logos, visuels, charte graphique et documents officiels.", button: "Télécharger le kit" },
+  { icon: Newspaper, color: "var(--sane-orange)", title: "Communiqués de presse", description: "Tous nos communiqués officiels au format PDF.", button: "Voir les communiqués", href: "/contact" },
+  { icon: Camera, color: "var(--sane-green)", title: "Photos officielles", description: "Photos libres de droit pour vos publications.", button: "Accéder aux photos", href: "/contact" },
+  { icon: Video, color: "var(--sane-orange)", title: "Vidéos et reportages", description: "Revivez les moments forts du SANEM en vidéo.", button: "Voir les vidéos", href: "/contact" },
+  { icon: Palette, color: "var(--sane-green)", title: "Kit média", description: "Logos, visuels, charte graphique et documents officiels.", button: "Télécharger le kit", href: "/contact" },
 ];
 
 export const mediaLogos = [

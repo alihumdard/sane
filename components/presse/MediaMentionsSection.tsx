@@ -11,7 +11,7 @@ export function MediaMentionsSection() {
       <Container>
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <SectionHeading eyebrow="Ils parlent du SANEM" title="Le SANEM dans les médias" />
-          <Link href="#" className={`${textLink} whitespace-nowrap`}>
+          <Link href="/contact" className={`${textLink} whitespace-nowrap`}>
             Voir toutes les mentions <ArrowRight size={15} />
           </Link>
         </div>

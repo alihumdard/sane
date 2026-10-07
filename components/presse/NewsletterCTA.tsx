@@ -7,7 +7,7 @@ export function NewsletterCTA() {
   return (
     <section className="relative overflow-hidden bg-[var(--sane-green-dark)]">
       <div className="absolute inset-y-0 right-0 hidden w-1/3 lg:block">
-        <Image src="/sane_deal.png" alt="" fill sizes="33vw" className="object-cover object-center opacity-40" />
+        <Image src="/sane deal3.png" alt="" fill sizes="33vw" className="object-cover object-center opacity-40" />
       </div>
       <div className="absolute inset-0 z-10 bg-gradient-to-r from-[var(--sane-green-dark)] via-[var(--sane-green-dark)] to-[var(--sane-green-dark)]/80" />
 

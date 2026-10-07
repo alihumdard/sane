@@ -20,7 +20,9 @@ export default function PressePage() {
           title="Espace Presse"
           lead="Toute l'actualité du SANEM, au même endroit."
           description="Retrouvez nos communiqués, nos événements et nos ressources médias."
-          image="/Actualités.png"
+          image="/press hero.png"
+          imageFit="banner"
+          overlayStrength="light"
           actions={[
             { href: "/programme", label: "Voir le programme" },
             { href: "/contact", label: "Nous contacter", variant: "secondary" },
