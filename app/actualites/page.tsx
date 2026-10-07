@@ -180,7 +180,7 @@ export default function ActualitesPage() {
           </div>
           <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0a4a22]/85 via-[#0a4a22]/60 to-[#0a4a22]/35 lg:bg-gradient-to-r lg:from-[#0a4a22]/80 lg:via-[#0a4a22]/25 lg:to-transparent lg:to-[60%]" />
 
-          <div className="absolute right-5 top-10 z-20 hidden rounded-md bg-[#E57617] px-2.5 py-2 text-[9px] font-bold leading-snug text-white lg:block">
+          <div className="absolute right-4 top-4 z-20 rounded-lg bg-white/95 px-3 py-2.5 text-[8px] font-extrabold uppercase leading-[1.8] tracking-wide text-[#0a4a22] shadow-lg backdrop-blur-sm sm:right-6 sm:top-8 sm:px-3.5 sm:py-3 sm:text-[10px]">
             EMPLOI
             <br />
             FORMATION
@@ -188,16 +188,17 @@ export default function ActualitesPage() {
             OPPORTUNITÉS
             <br />
             AVENIR
-            <div className="mt-1 h-[2px] w-5 bg-white/60 rounded-full" />
+            <div className="mt-1.5 h-[2px] w-6 rounded-full bg-[#E57617]" />
           </div>
-          <div className="absolute right-5 bottom-8 z-20 hidden text-right lg:block">
-            <p className="font-serif text-[15px] italic leading-snug text-[#E57617]">
+          <div className="absolute bottom-[25%] right-4 z-20 hidden text-right sm:bottom-10 sm:right-6 lg:block">
+            <p className="font-serif text-[20px] font-bold italic leading-[1.3] text-white [text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
               Une information
               <br />
               pour un Niger
               <br />
               plus fort
             </p>
+            <div className="ml-auto mt-2 h-[2.5px] w-8 rounded-full bg-[#E57617]" />
           </div>
 
           <div className="sane-container relative z-20 flex min-h-[300px] flex-col justify-center px-4 py-8 sm:min-h-[340px] sm:py-10 lg:min-h-[380px] lg:py-12">

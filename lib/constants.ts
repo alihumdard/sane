@@ -1,5 +1,5 @@
 export const SITE_CONFIG = {
-  name: "SANE",
+  name: "SANEM",
   fullName: "Salon National de l'Emploi",
   country: "Niger",
   primaryColor: "#10632D",
@@ -26,6 +26,14 @@ export const NAVIGATION = [
   {
     label: "Emploi",
     href: "/emploi",
+  },
+  {
+    label: "Intervenants",
+    href: "/intervenants",
+  },
+  {
+    label: "Partenaires",
+    href: "/partenaires",
   },
   {
     label: "Actualités",

@@ -42,7 +42,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-3 xl:gap-5 lg:flex">
+        <nav className="hidden items-center gap-1.5 lg:flex xl:gap-3">
           {NAVIGATION.map((item) => {
             const hasDropdown = item.label === "Emploi";
             const isActive = mounted && (
@@ -54,7 +54,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`group relative flex items-center gap-1 py-1.5 text-[13px] font-semibold transition-colors ${
+                className={`group relative flex items-center gap-1 py-1.5 text-[12px] font-semibold transition-colors xl:text-[13px] ${
                   isActive
                     ? "text-[var(--sane-green)]"
                     : "text-[var(--sane-text)] hover:text-[var(--sane-green)]"
