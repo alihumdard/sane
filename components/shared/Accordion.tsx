@@ -25,9 +25,9 @@ export function AccordionItem({ question, answer, defaultOpen = false }: ItemPro
         onClick={() => setOpen(!open)}
         aria-expanded={open}
         aria-controls={id}
-        className="flex w-full items-center justify-between gap-3 py-3.5 text-left text-[13px] font-semibold text-[var(--sane-text)] transition-colors hover:text-[var(--sane-green)] sm:gap-4 sm:py-4 sm:text-[length:var(--fs-body)]"
+        className="flex w-full items-start justify-between gap-3 py-3.5 text-left text-[13px] font-semibold text-[var(--sane-text)] transition-colors hover:text-[var(--sane-green)] sm:gap-4 sm:py-4 sm:text-[length:var(--fs-body)]"
       >
-        <span>{question}</span>
+        <span className="flex-1">{question}</span>
         {open ? (
           <Minus size={17} className="shrink-0 text-[var(--sane-green)]" />
         ) : (
