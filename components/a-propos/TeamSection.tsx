@@ -13,7 +13,7 @@ interface TeamMember {
 
 const team: TeamMember[] = [
   { name: "M. Ibrahim Maiga", role: "Président du Comité d'organisation", img: "/sane deal3.png" },
-  { name: "Mme Aïssatou Issa", role: "Coordinatrice des formations", img: "/sane campany2.png" },
+  { name: "Mme Aïssatou Issa", role: "Coordinatrice des formations", img: "/sane card.png" },
   { name: "M. Moussa Alidou", role: "Responsable Partenariats", img: "/sane cv2.png" },
   { name: "Mme Kadidia Salifou", role: "Responsable Communication", img: "/sane deal3.png" },
 ];
