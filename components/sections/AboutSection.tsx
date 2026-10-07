@@ -69,7 +69,7 @@ export function AboutSection() {
 
               <div className="relative overflow-hidden rounded-xl">
                 <Image
-                  src="/sane_cv.png"
+                  src="/sane-cv2.png"
                   alt="SANEM CV"
                   fill
                   className="object-cover"

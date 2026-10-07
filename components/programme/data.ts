@@ -110,7 +110,7 @@ export const sessions: Session[] = [
     ],
     tag: "Panel",
     location: "Salles thématiques",
-    image: "/sane_cv.png",
+    image: "/sane-cv2.png",
   },
   {
     time: "12:30 – 14:00",
@@ -134,7 +134,7 @@ export const sessions: Session[] = [
     description: "Rencontrez directement des recruteurs et déposez vos CV.",
     tag: "Recrutement",
     location: "Espace recrutement",
-    image: "/sane_cv.png",
+    image: "/sane-cv2.png",
   },
   {
     time: "17:30 – 18:00",
