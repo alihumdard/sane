@@ -17,8 +17,8 @@ export interface ArticleCardData {
 /** News / press article card (image with date + tag, title, excerpt, link). */
 export function ArticleCard({ image, date, tag, tagColor, title, description, href = "#" }: ArticleCardData) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white transition-all hover:-translate-y-1 hover:shadow-lg">
-      <div className="relative h-[190px] overflow-hidden">
+    <article className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg">
+      <div className="relative h-[190px] w-full overflow-hidden">
         <Image
           src={image}
           alt={title}
