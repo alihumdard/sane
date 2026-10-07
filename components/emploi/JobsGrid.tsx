@@ -31,22 +31,22 @@ export function JobsGrid() {
               Recherche d&apos;emploi
             </span>
           </div>
-          <h2 className="sane-h2 mb-1.5">
+          <h2 className="mb-1.5 text-[18px] font-bold text-[var(--sane-text)] sm:text-[length:var(--fs-h2)]">
             Trouvez l&apos;offre qui vous correspond
           </h2>
-          <p className="sane-body mb-6">
+          <p className="mb-4 text-[13px] text-[var(--sane-text-light)] sm:mb-6 sm:text-[length:var(--fs-body)]">
             Recherchez parmi des centaines d&apos;offres d&apos;emploi publiées par nos partenaires.
           </p>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-nowrap">
-            <div className="relative min-w-[180px] flex-1">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:flex-nowrap">
+            <div className="relative sm:col-span-2 lg:min-w-[180px] lg:flex-1">
               <Search size={16} strokeWidth={2.2} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
               <input
                 type="text"
                 placeholder="Intitulé du poste, compétence..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="h-[52px] w-full rounded-xl bg-white pl-11 pr-4 text-[14px] text-[var(--sane-text)] shadow-sm outline-none ring-1 ring-black/[0.04] transition-shadow placeholder:text-[var(--sane-text-light)] focus:ring-2 focus:ring-[var(--sane-green)]"
+                className="h-[46px] w-full rounded-xl bg-white pl-11 pr-4 text-[13px] text-[var(--sane-text)] shadow-sm outline-none ring-1 ring-black/[0.04] transition-shadow placeholder:text-[var(--sane-text-light)] focus:ring-2 focus:ring-[var(--sane-green)] sm:h-[52px] sm:text-[14px]"
               />
             </div>
             {[
@@ -54,19 +54,19 @@ export function JobsGrid() {
               { value: lieu, setter: setLieu, options: lieuOptions },
               { value: contrat, setter: setContrat, options: contratOptions },
             ].map(({ value, setter, options }) => (
-              <div key={options[0]} className="relative min-w-[150px] flex-1">
+              <div key={options[0]} className="relative lg:min-w-[150px] lg:flex-1">
                 <Search size={16} strokeWidth={2.2} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
                 <ChevronDown size={15} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
                 <select
                   value={value}
                   onChange={(e) => setter(e.target.value)}
-                  className="h-[52px] w-full appearance-none rounded-xl bg-white pl-11 pr-10 text-[14px] text-[var(--sane-text-light)] shadow-sm outline-none ring-1 ring-black/[0.04] transition-shadow focus:ring-2 focus:ring-[var(--sane-green)]"
+                  className="h-[46px] w-full appearance-none rounded-xl bg-white pl-11 pr-10 text-[13px] text-[var(--sane-text-light)] shadow-sm outline-none ring-1 ring-black/[0.04] transition-shadow focus:ring-2 focus:ring-[var(--sane-green)] sm:h-[52px] sm:text-[14px]"
                 >
                   {options.map((o) => <option key={o}>{o}</option>)}
                 </select>
               </div>
             ))}
-            <button className="h-[52px] w-full shrink-0 rounded-xl bg-[var(--sane-orange)] px-9 text-[14px] font-bold text-white shadow-sm transition-colors hover:bg-[var(--sane-orange-dark)] sm:w-auto">
+            <button className="h-[46px] w-full shrink-0 rounded-xl bg-[var(--sane-orange)] px-9 text-[13px] font-bold text-white shadow-sm transition-colors hover:bg-[var(--sane-orange-dark)] sm:col-span-2 sm:h-[52px] sm:text-[14px] lg:w-auto">
               Rechercher
             </button>
           </div>
@@ -103,9 +103,9 @@ export function JobsGrid() {
                 filtered.map((j, i) => (
                   <div
                     key={i}
-                    className="flex flex-col gap-2.5 rounded-xl bg-white p-3.5 shadow-sm ring-1 ring-black/[0.04] transition-shadow hover:shadow-md sm:flex-row sm:items-center sm:gap-4 sm:py-3.5 sm:pl-4 sm:pr-4"
+                    className="flex flex-col gap-2 rounded-xl bg-white p-3 shadow-sm ring-1 ring-black/[0.04] transition-shadow hover:shadow-md sm:flex-row sm:items-center sm:gap-4 sm:p-3.5 sm:pl-4"
                   >
-                    <div className="flex h-[44px] w-[76px] shrink-0 items-center justify-start overflow-hidden sm:justify-center sm:border-r sm:border-[var(--sane-border)] sm:pr-4">
+                    <div className="hidden h-[44px] w-[76px] shrink-0 items-center justify-center overflow-hidden border-r border-[var(--sane-border)] pr-4 sm:flex">
                       <span
                         className="max-w-full text-center text-[13px] font-extrabold leading-tight tracking-tight"
                         style={{ color: j.color }}
@@ -114,26 +114,26 @@ export function JobsGrid() {
                       </span>
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="sane-h3">{j.title}</h3>
-                      <p className="sane-body mt-[3px]">{j.companyFull}</p>
-                      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[12px]">
-                        <span className="flex shrink-0 items-center gap-1 text-[var(--sane-text-light)] sm:w-[76px]">
+                      <h3 className="text-[14px] font-bold text-[var(--sane-text)] sm:text-[length:var(--fs-h3)]">{j.title}</h3>
+                      <p className="text-[12px] text-[var(--sane-text-light)] sm:text-[length:var(--fs-body)]">{j.companyFull}</p>
+                      <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-[11px] sm:mt-2 sm:gap-x-3 sm:text-[12px]">
+                        <span className="flex shrink-0 items-center gap-1 text-[var(--sane-text-light)]">
                           <MapPin size={13} className="shrink-0 text-[var(--sane-orange)]" />{j.location}
                         </span>
-                        <span className="shrink-0 rounded-full bg-[var(--sane-orange-light)] px-2 py-[3px] text-center text-[11px] font-bold text-[var(--sane-orange)] sm:w-[66px]">
+                        <span className="shrink-0 whitespace-nowrap rounded-full bg-[var(--sane-orange-light)] px-2 py-[3px] text-center text-[11px] font-bold text-[var(--sane-orange)]">
                           {j.contract}
                         </span>
-                        <span className="shrink-0 truncate rounded-full bg-[#eef4f1] px-2.5 py-[3px] text-center text-[11px] font-medium text-[var(--sane-text-light)] sm:w-[138px]">
+                        <span className="shrink-0 rounded-full bg-[#eef4f1] px-2 py-[3px] text-center text-[11px] font-medium text-[var(--sane-text-light)]">
                           {j.category}
                         </span>
-                        <span className="flex shrink-0 items-center gap-1.5 text-[var(--sane-text-light)] sm:ml-24">
+                        <span className="flex shrink-0 items-center gap-1.5 text-[var(--sane-text-light)]">
                           <Calendar size={13} className="shrink-0 text-[var(--sane-orange)]" />{j.date}
                         </span>
                       </div>
                     </div>
                     <Link
                       href="#"
-                      className="group inline-flex w-full shrink-0 items-center justify-center gap-1.5 rounded-lg border border-[var(--sane-green)] px-4 py-2 text-[13px] font-bold text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green-light)] sm:w-fit"
+                      className="group inline-flex w-full shrink-0 items-center justify-center gap-1.5 rounded-lg border border-[var(--sane-green)] px-4 py-2 text-[12px] font-bold text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green-light)] sm:w-fit sm:text-[13px]"
                     >
                       Voir l&apos;offre
                       <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -148,7 +148,7 @@ export function JobsGrid() {
             </div>
 
             {/* Sidebar */}
-            <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
               {/* Map card */}
               <div className="relative overflow-hidden rounded-xl border border-[var(--sane-border)] bg-[#f7fbf9] p-4 shadow-sm">
                 {/* Niger map — right side, natural proportions */}

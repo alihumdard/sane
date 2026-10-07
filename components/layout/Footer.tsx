@@ -236,6 +236,17 @@ export function Footer() {
                 <ArrowUpRight size={15} />
               </Link>
             </div>
+
+            <div className="mt-6 hidden -rotate-3 lg:block">
+              <p className="font-[family-name:var(--font-caveat)] text-[18px] italic leading-[1.25] text-white/80 xl:text-[20px]">
+                L&apos;emploi
+                <br />
+                au cœur d&apos;un
+                <br />
+                Niger prospère
+              </p>
+              <div className="mt-1 h-[2px] w-12 rounded-full bg-[var(--sane-orange)]" />
+            </div>
           </div>
         </div>
       </div>

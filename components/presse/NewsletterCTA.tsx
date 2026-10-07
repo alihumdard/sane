@@ -6,21 +6,34 @@ import { NewsletterForm } from "@/components/shared";
 export function NewsletterCTA() {
   return (
     <section className="relative overflow-hidden bg-[var(--sane-green-dark)]">
-      <div className="absolute inset-y-0 right-0 hidden w-1/3 lg:block">
-        <Image src="/sane-deal3.png" alt="" fill sizes="33vw" className="object-cover object-center opacity-40" />
+      {/* Person image — left side */}
+      <div className="absolute inset-y-0 left-0 hidden w-[280px] lg:block">
+        <Image src="/sane-deal3.png" alt="" fill sizes="280px" className="object-cover object-top" />
       </div>
-      <div className="absolute inset-0 z-10 bg-gradient-to-r from-[var(--sane-green-dark)] via-[var(--sane-green-dark)] to-[var(--sane-green-dark)]/80" />
+      {/* Background image — right side */}
+      <div className="absolute inset-y-0 right-0 hidden w-1/3 lg:block">
+        <Image src="/hero-bg.png" alt="" fill sizes="33vw" className="object-cover object-center opacity-30" />
+      </div>
+      <div className="absolute inset-0 z-10 bg-gradient-to-r from-[var(--sane-green-dark)] via-[var(--sane-green-dark)]/95 to-[var(--sane-green-dark)]/80" />
 
       <Container className="relative z-20 py-10 sm:py-12 md:py-16">
-        <div className="max-w-[520px]">
-          <SectionHeading
-            tone="light"
-            eyebrow="Newsletter presse"
-            title="Recevez nos actualités presse"
-            description="Abonnez-vous pour recevoir nos communiqués et les dernières nouvelles du SANEM."
-            className="mb-6"
-          />
-          <NewsletterForm layout="inline" tone="dark" successMessage="Merci ! Vous êtes abonné(e) à nos actualités presse." />
+        <div className="flex items-center justify-between gap-8">
+          <div className="max-w-[520px] lg:ml-[200px]">
+            <SectionHeading
+              tone="light"
+              eyebrow="Newsletter presse"
+              title="Recevez nos actualités presse"
+              description="Abonnez-vous pour recevoir nos communiqués et les dernières nouvelles du SANEM."
+              className="mb-6"
+            />
+            <NewsletterForm layout="inline" tone="dark" successMessage="Merci ! Vous êtes abonné(e) à nos actualités presse." />
+          </div>
+          <div className="hidden -rotate-3 text-right lg:block">
+            <p className="whitespace-pre-line font-[family-name:var(--font-caveat)] text-[22px] italic leading-[1.3] text-white/90 xl:text-[26px]">
+              {"Des talents\npour un Niger\nplus fort"}
+            </p>
+            <div className="ml-auto mt-1.5 h-[2.5px] w-12 rounded-full bg-[var(--sane-orange)]" />
+          </div>
         </div>
       </Container>
     </section>

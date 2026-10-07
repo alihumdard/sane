@@ -16,13 +16,14 @@ export default function PressePage() {
       <main>
         <PageHero
           breadcrumb="Presse"
-          eyebrow="Salon National de l'Emploi"
+          eyebrow="SALON NATIONAL DE L'EMPLOI"
           title="Espace Presse"
-          lead="Toute l'actualité du SANEM, au même endroit."
-          description="Retrouvez nos communiqués, nos événements et nos ressources médias."
+          lead="Toute l'actualité du SANEM, nos communiqués, nos événements et nos ressources médias."
           image="/press-hero.png"
           imageFit="banner"
           overlayStrength="light"
+          floatingCardText={"EMPLOI\nFORMATION\nOPPORTUNITÉS\nAVENIR"}
+          tagline={"Une visibilité\npour un Niger\nplus fort"}
           actions={[
             { href: "/programme", label: "Voir le programme" },
             { href: "/contact", label: "Nous contacter", variant: "secondary" },
