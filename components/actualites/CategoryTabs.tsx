@@ -1,4 +1,4 @@
-﻿import { Container } from "@/components/ui/Container";
+import { Container } from "@/components/ui/Container";
 import { categoryTabs } from "./data";
 
 interface Props {
@@ -6,12 +6,12 @@ interface Props {
   onChange: (key: string) => void;
 }
 
-/** Dark bar with the news categories. */
+/** White section with category cards below the hero. */
 export function CategoryTabs({ active, onChange }: Props) {
   return (
-    <section className="bg-[var(--sane-green-deep)]" aria-label="Catégories">
+    <section className="bg-white py-5" aria-label="Catégories">
       <Container>
-        <div className="flex overflow-x-auto [scrollbar-width:none] lg:grid lg:grid-cols-6 lg:overflow-visible [&::-webkit-scrollbar]:hidden">
+        <div className="grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {categoryTabs.map((tab) => {
             const on = active === tab.key;
             return (
@@ -20,22 +20,24 @@ export function CategoryTabs({ active, onChange }: Props) {
                 type="button"
                 onClick={() => onChange(tab.key)}
                 aria-pressed={on}
-                className={`flex shrink-0 items-center gap-2.5 px-4 py-3 text-left transition-colors sm:px-5 lg:min-w-0 lg:shrink lg:px-3 xl:px-4 ${
-                  on ? "bg-[var(--sane-orange)] text-white" : "text-white/70 hover:bg-white/5 hover:text-white"
+                className={`flex min-h-[80px] items-center gap-3 rounded-xl border px-4 py-3.5 text-left transition-all ${
+                  on
+                    ? "border-[#0a4a22] bg-[#0a4a22] text-white shadow-md"
+                    : "border-[#DDE8E0] bg-white text-[#0a2e16] hover:border-[#0a4a22]/30 hover:shadow-sm"
                 }`}
               >
                 <span
-                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-                    on ? "bg-white text-[var(--sane-orange)]" : "bg-[var(--sane-orange)] text-white"
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+                    on ? "bg-white/15 text-white" : "bg-[#fff4ec] text-[#E57617]"
                   }`}
                 >
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d={tab.iconPath} />
                   </svg>
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-[length:var(--fs-small)] font-bold">{tab.title}</span>
-                  <span className={`block text-[11px] ${on ? "text-white/80" : "text-white/50"}`}>{tab.subtitle}</span>
+                  <span className={`block text-[13px] font-bold ${on ? "text-white" : "text-[#0a2e16]"}`}>{tab.title}</span>
+                  <span className={`block text-[11px] ${on ? "text-white/70" : "text-[#61756B]"}`}>{tab.subtitle}</span>
                 </span>
               </button>
             );
