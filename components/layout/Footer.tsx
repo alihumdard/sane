@@ -161,6 +161,13 @@ export function Footer() {
               >
                 Contact
               </Link>
+
+              <Link
+                href="/faq"
+                className="py-1.5 transition-colors hover:text-white"
+              >
+                FAQ
+              </Link>
             </div>
           </div>
 
