@@ -16,11 +16,11 @@ export function MediaMentionsSection() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 min-[480px]:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-3 min-[480px]:grid-cols-3 sm:gap-4 lg:grid-cols-6">
           {mediaLogos.map((m) => (
             <div
               key={m.name}
-              className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-[var(--sane-border)] bg-white p-5 text-center transition-all hover:-translate-y-1 hover:shadow-md"
+              className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-[var(--sane-border)] bg-white p-3 text-center transition-all hover:-translate-y-1 hover:shadow-md sm:p-5"
             >
               <span className="text-[length:var(--fs-lead)] font-extrabold tracking-tight" style={{ color: m.color }}>
                 {m.name}

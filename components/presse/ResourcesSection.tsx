@@ -14,7 +14,7 @@ export function ResourcesSection() {
           {pressResources.map(({ icon: Icon, color, title, description, button, href }) => (
             <div
               key={title}
-              className="flex flex-col rounded-2xl border border-[var(--sane-border)] bg-white p-6 transition-all hover:-translate-y-1 hover:shadow-md"
+              className="flex flex-col rounded-2xl border border-[var(--sane-border)] bg-white p-5 transition-all hover:-translate-y-1 hover:shadow-md sm:p-6"
             >
               <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl text-white" style={{ backgroundColor: color }}>
                 <Icon size={22} />

@@ -11,7 +11,7 @@ export function NewsletterCTA() {
       </div>
       <div className="absolute inset-0 z-10 bg-gradient-to-r from-[var(--sane-green-dark)] via-[var(--sane-green-dark)] to-[var(--sane-green-dark)]/80" />
 
-      <Container className="relative z-20 py-10 sm:py-12">
+      <Container className="relative z-20 py-10 sm:py-12 md:py-16">
         <div className="max-w-[520px]">
           <SectionHeading
             tone="light"
