@@ -43,7 +43,7 @@ export function QuickActions() {
   return (
     <section className="relative z-10 -mt-6 pb-10">
       <Container>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {actions.map((action) => {
             const Icon = action.icon;
 

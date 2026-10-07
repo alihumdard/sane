@@ -96,7 +96,7 @@ export function JobsGrid() {
             </Link>
           </div>
 
-          <div className="grid items-start gap-5 lg:grid-cols-[1fr_265px] xl:grid-cols-[1fr_280px]">
+          <div className="grid items-start gap-5 md:grid-cols-[1fr_250px] lg:grid-cols-[1fr_265px] xl:grid-cols-[1fr_280px]">
             {/* Job List */}
             <div className="flex flex-col gap-2.5">
               {filtered.length > 0 ? (
@@ -148,7 +148,7 @@ export function JobsGrid() {
             </div>
 
             {/* Sidebar */}
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-1">
               {/* Map card */}
               <div className="relative overflow-hidden rounded-xl border border-[var(--sane-border)] bg-[#f7fbf9] p-4 shadow-sm">
                 {/* Niger map — right side, natural proportions */}

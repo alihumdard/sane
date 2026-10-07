@@ -10,7 +10,7 @@ export function CountdownSection() {
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-8 lg:gap-10">
 
           {/* LEFT — text */}
-          <div className="shrink-0 lg:max-w-[300px]">
+          <div className="shrink-0 md:max-w-[260px] lg:max-w-[300px]">
             <div className="mb-2 h-[3px] w-8 rounded-full bg-[var(--sane-orange)]" />
 
             <h2 className="sane-h3 on-dark">

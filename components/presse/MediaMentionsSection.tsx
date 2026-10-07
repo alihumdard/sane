@@ -16,7 +16,7 @@ export function MediaMentionsSection() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 min-[480px]:grid-cols-3 sm:gap-4 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-3 min-[480px]:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-6">
           {mediaLogos.map((m) => (
             <div
               key={m.name}

@@ -13,7 +13,7 @@ export function DocumentsSection() {
           description="Téléchargez les documents officiels du SANEM."
         />
 
-        <div className="mt-6 grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 sm:mt-8 lg:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 sm:mt-8 md:grid-cols-3">
           {documents.map((doc) => {
             const Icon = doc.icon;
             return (

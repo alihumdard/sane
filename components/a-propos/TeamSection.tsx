@@ -12,21 +12,21 @@ interface TeamMember {
 }
 
 const team: TeamMember[] = [
-  { name: "M. Ibrahim Maiga", role: "Président du Comité d'organisation", img: "/sane-deal3.png" },
+  { name: "M. Ibrahim Maiga", role: "Président du Comité d'organisation", img: "/sane-card4.png" },
   { name: "Mme Aïssatou Issa", role: "Coordinatrice des formations", img: "/sane-card.png" },
-  { name: "M. Moussa Alidou", role: "Responsable Partenariats", img: "/sane-cv2.png" },
-  { name: "Mme Kadidia Salifou", role: "Responsable Communication", img: "/sane-deal3.png" },
+  { name: "M. Moussa Alidou", role: "Responsable Partenariats", img: "/Intervenants-card.png" },
+  { name: "Mme Kadidia Salifou", role: "Responsable Communication", img: "/sane-card4.png" },
 ];
 
 function TeamCard({ member }: { member: TeamMember }) {
   return (
-    <div className="group overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-[var(--sane-border)] transition-shadow hover:shadow-lg">
-      <div className="relative aspect-[4/3] w-full overflow-hidden">
+    <div className="group overflow-hidden rounded-2xl bg-white shadow-sm transition-shadow hover:shadow-lg">
+      <div className="relative aspect-[5/4] w-full overflow-hidden">
         <Image
           src={member.img}
           alt={member.name}
           fill
-          className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+          className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
           sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
         />
       </div>

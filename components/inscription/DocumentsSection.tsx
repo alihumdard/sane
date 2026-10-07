@@ -12,7 +12,7 @@ export function DocumentsSection() {
           description="Préparez les documents suivants pour compléter votre inscription."
           className="mb-8"
         />
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {documents.map(({ icon: Icon, title, desc, format, color }) => (
             <div key={title} className="rounded-2xl border border-[var(--sane-border)] bg-[var(--sane-background)] p-5">
               <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl text-white" style={{ backgroundColor: color }}>

@@ -9,7 +9,7 @@ export function TestimonialsSection() {
       <Container>
         <SectionHeading eyebrow="Témoignages" title="Témoignages de nos partenaires" className="mb-8 sm:mb-10" />
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
           {testimonials.map(({ quote, name, role, photo, icon: Icon }) => (
             <figure
               key={name}

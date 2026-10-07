@@ -18,7 +18,7 @@ export function VenueSection() {
         style={{ backgroundImage: "url('/vision-bg.png')" }}
       />
       <Container className="relative z-10">
-        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+        <div className="grid items-center gap-8 md:grid-cols-2 md:gap-8 lg:gap-12">
 
           {/* Image — fills container, building centred */}
           <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl shadow-md ring-1 ring-[var(--sane-border)]">

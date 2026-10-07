@@ -37,7 +37,7 @@ export function AboutSection() {
   return (
     <section className="bg-white py-12 md:py-16">
       <Container>
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+        <div className="grid items-center gap-10 md:grid-cols-2 md:gap-10 lg:gap-14">
 
           {/* ================= IMAGE GALLERY ================= */}
           <div className="relative w-full">

@@ -14,7 +14,7 @@ export function RegistrationSection() {
           description="Remplissez le formulaire ci-dessous pour vous inscrire au Salon National de l'Emploi."
           className="mb-8"
         />
-        <div className="grid gap-8 lg:grid-cols-[1fr_340px] lg:gap-10">
+        <div className="grid gap-8 md:grid-cols-[1fr_300px] md:gap-8 lg:grid-cols-[1fr_340px] lg:gap-10">
           <RegistrationWizard />
           <RegistrationSidebar />
         </div>

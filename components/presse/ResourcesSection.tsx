@@ -10,7 +10,7 @@ export function ResourcesSection() {
       <Container>
         <SectionHeading eyebrow="Ressources médias" title="Téléchargez nos ressources" className="mb-8 sm:mb-10" />
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {pressResources.map(({ icon: Icon, color, title, description, button, href }) => (
             <div
               key={title}

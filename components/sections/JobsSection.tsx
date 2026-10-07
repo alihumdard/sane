@@ -88,8 +88,8 @@ export function JobsSection() {
         </div>
 
         {/* SEARCH */}
-        <div className="mt-7 grid gap-3 sm:grid-cols-2 md:grid-cols-[1.5fr_1fr_1fr_auto]">
-          <div className="flex h-12 items-center gap-3 rounded-lg border border-[var(--sane-border)] bg-white px-4 sm:col-span-2 md:col-span-1">
+        <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_auto]">
+          <div className="flex h-12 items-center gap-3 rounded-lg border border-[var(--sane-border)] bg-white px-4 sm:col-span-2 lg:col-span-1">
             <Search size={17} className="shrink-0 text-[#71857A]" />
             <input
               type="text"
@@ -112,7 +112,7 @@ export function JobsSection() {
 
           <button
             type="button"
-            className="h-12 w-full rounded-lg bg-[var(--sane-orange)] px-7 text-sm font-bold text-white transition hover:bg-[var(--sane-orange-dark)] sm:col-span-2 md:col-span-1 md:w-auto"
+            className="h-12 w-full rounded-lg bg-[var(--sane-orange)] px-7 text-sm font-bold text-white transition hover:bg-[var(--sane-orange-dark)] sm:col-span-2 lg:col-span-1 lg:w-auto"
           >
             Rechercher
           </button>
@@ -124,7 +124,7 @@ export function JobsSection() {
             Offres récemment publiées
           </p>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {jobs.map((job) => (
               <article
                 key={job.title}

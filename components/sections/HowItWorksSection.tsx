@@ -58,7 +58,7 @@ export function HowItWorksSection() {
         </div>
 
         {/* STEPS */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
           {steps.map((step, index) => {
             const Icon = step.icon;
 
@@ -66,7 +66,7 @@ export function HowItWorksSection() {
               <div key={step.number} className="relative flex flex-col items-start">
                 {/* Arrow connector — hidden on last item and on mobile */}
                 {index < steps.length - 1 && (
-                  <div className="absolute right-0 top-6 hidden translate-x-1/2 text-[#D4E1D8] lg:block">
+                  <div className="absolute right-0 top-6 hidden translate-x-1/2 text-[#D4E1D8] md:block">
                     <ArrowRight size={20} />
                   </div>
                 )}
