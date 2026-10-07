@@ -10,7 +10,7 @@ const highlights = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[#01676e] bg-[url('/hero-bg.png')] bg-cover bg-[position:80%_center] lg:bg-center">
+    <section className="relative overflow-hidden bg-[#01676e] bg-[url('/hero-bg.png')] bg-cover bg-center">
       {/* mobile: solid color behind the text fading out so the artwork shows underneath */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#01676e]/75 via-[#01676e]/50 to-[#01676e]/20 lg:hidden" />
       <Container className="relative">

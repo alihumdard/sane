@@ -174,7 +174,7 @@ export default function ActualitesPage() {
               alt="Actualités SANEM"
               fill
               sizes="100vw"
-              className="object-cover object-[75%_center] lg:object-center"
+              className="object-cover object-center"
               priority
             />
           </div>
