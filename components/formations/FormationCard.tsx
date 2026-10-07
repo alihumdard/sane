@@ -19,7 +19,7 @@ export function FormationCard({ formation: f }: { formation: Formation }) {
           alt={f.title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="scale-[1.02] object-cover transition-transform duration-300 group-hover:scale-105"
+          className="block object-cover transition-transform duration-300 group-hover:scale-105"
           style={{ objectPosition: imageFocus(f.img) }}
         />
         <span className={`absolute bottom-2 left-2 rounded-full px-2 py-[2px] text-[10px] font-bold ${tagColors[f.tag] ?? "bg-gray-700 text-white"}`}>

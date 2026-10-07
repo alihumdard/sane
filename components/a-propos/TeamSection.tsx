@@ -26,7 +26,7 @@ function TeamCard({ member }: { member: TeamMember }) {
           src={member.img}
           alt={member.name}
           fill
-          className="scale-[1.02] object-cover object-center transition-transform duration-300 group-hover:scale-105"
+          className="block object-cover object-center transition-transform duration-300 group-hover:scale-105"
           sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
         />
       </div>
