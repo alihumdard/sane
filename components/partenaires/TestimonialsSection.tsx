@@ -16,8 +16,8 @@ export function TestimonialsSection() {
               className="flex flex-col overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
             >
               <div className="flex gap-4 p-5">
-                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl">
-                  <Image src={photo} alt={name} fill sizes="96px" className="object-cover" />
+                <div className="relative h-36 w-36 shrink-0 overflow-hidden rounded-xl">
+                  <Image src={photo} alt={name} fill sizes="144px" className="object-cover" />
                 </div>
                 <blockquote className="sane-small italic">&ldquo;{quote}&rdquo;</blockquote>
               </div>
