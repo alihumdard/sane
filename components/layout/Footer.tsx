@@ -217,7 +217,7 @@ export function Footer() {
                   size={15}
                   className="shrink-0 text-[var(--sane-orange)]"
                 />
-                <span>contact@sane.ne</span>
+                <span>contact@sanem.ne</span>
               </div>
 
               <div className="flex items-center gap-2.5 break-words">

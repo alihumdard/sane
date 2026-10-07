@@ -73,10 +73,10 @@ const quickConfig = [
 
 const DEFAULT_FORM = {
   nom: "SANEM",
-  email: "contact@sane.ne",
+  email: "contact@sanem.ne",
   tel: "20 72 35 10",
   adresse: "Niamey, Niger",
-  site: "https://www.sane.ne",
+  site: "https://www.sanem.ne",
   description: "Le Salon National de l'Emploi (SANEM) est une plateforme qui connecte les talents nigériens aux opportunités d'emploi, de formation et de partenariat.",
 };
 

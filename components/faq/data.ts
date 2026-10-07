@@ -24,7 +24,7 @@ export const faqData: Record<string, FaqEntry[]> = {
     { question: "Qui peut participer au SANEM ?", answer: "Le SANEM est ouvert à tous : demandeurs d'emploi, étudiants, professionnels en reconversion, entreprises, institutions publiques et organisations internationales." },
     { question: "L'entrée au salon est-elle gratuite ?", answer: "Oui, l'accès au salon est entièrement gratuit pour les visiteurs et les demandeurs d'emploi. Certaines formations spécialisées peuvent nécessiter une inscription préalable." },
     { question: "Quels sont les objectifs du SANEM ?", answer: "Les objectifs principaux sont de faciliter la mise en relation entre employeurs et demandeurs d'emploi, promouvoir la formation professionnelle, et contribuer au développement économique du Niger." },
-    { question: "Comment puis-je contacter l'équipe organisatrice ?", answer: "Vous pouvez nous contacter via notre page Contact, par email à contact@sane.ne, ou par téléphone au +227 XX XX XX XX." },
+    { question: "Comment puis-je contacter l'équipe organisatrice ?", answer: "Vous pouvez nous contacter via notre page Contact, par email à contact@sanem.ne, ou par téléphone au +227 XX XX XX XX." },
   ],
   inscriptions: [
     { question: "Comment s'inscrire au SANEM ?", answer: "L'inscription se fait en ligne via notre plateforme. Cliquez sur 'S'inscrire' dans le menu principal et suivez les étapes indiquées." },
@@ -49,7 +49,7 @@ export const faqData: Record<string, FaqEntry[]> = {
     { question: "Les offres sont-elles accessibles après le salon ?", answer: "Oui, les offres d'emploi restent disponibles sur notre plateforme en ligne après l'événement." },
   ],
   partenaires: [
-    { question: "Comment devenir partenaire du SANEM ?", answer: "Contactez-nous via notre formulaire de partenariat ou écrivez-nous à partenaires@sane.ne pour discuter des modalités de collaboration." },
+    { question: "Comment devenir partenaire du SANEM ?", answer: "Contactez-nous via notre formulaire de partenariat ou écrivez-nous à partenaires@sanem.ne pour discuter des modalités de collaboration." },
     { question: "Quels sont les avantages du partenariat ?", answer: "Les partenaires bénéficient d'une visibilité accrue, d'un accès privilégié aux talents, et contribuent directement au développement de l'emploi au Niger." },
     { question: "Quels types de partenariats proposez-vous ?", answer: "Nous proposons des partenariats institutionnels, financiers, techniques et médiatiques, adaptés aux objectifs de chaque organisation." },
     { question: "Les ONG peuvent-elles participer ?", answer: "Oui, les ONG et organisations de la société civile sont les bienvenues en tant que partenaires ou exposants." },

@@ -48,7 +48,7 @@ export const practicalInfo: { icon: LucideIcon; title: string; lines: string[]; 
   { icon: Calendar, title: "Date de l'événement", lines: ["À confirmer – 2024"], color: "var(--sane-green)" },
   { icon: MapPin, title: "Lieu", lines: ["Palais des Congrès de Niamey"], color: "var(--sane-orange)" },
   { icon: Clock, title: "Horaires", lines: ["08h00 – 17h00"], color: "var(--sane-green)" },
-  { icon: Phone, title: "Contact", lines: ["contact@sane.ne"], color: "var(--sane-orange)" },
+  { icon: Phone, title: "Contact", lines: ["contact@sanem.ne"], color: "var(--sane-orange)" },
 ];
 
 export const documents: { icon: LucideIcon; title: string; desc: string; format: string; color: string }[] = [

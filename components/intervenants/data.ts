@@ -34,7 +34,7 @@ export const speakers: Speaker[] = [
   {
     name: "M. Moussa Alidou",
     title: "Expert en Développement",
-    org: "Développement de Développement",
+    org: "Agence de Développement",
     tags: ["Innovation", "Entrepreneuriat"],
     img: "/sane cv2.png",
   },
