@@ -9,7 +9,7 @@ import { filters, sessions, tagStyles, type Session } from "./data";
 function SessionCard({ session }: { session: Session }) {
   return (
     <article className="flex flex-1 gap-3 rounded-xl bg-white p-3 shadow-sm ring-1 ring-[var(--sane-border)] transition-shadow hover:shadow-md sm:gap-4 sm:p-4">
-      <div className="relative hidden h-[72px] w-[110px] shrink-0 overflow-hidden rounded-lg sm:block">
+      <div className="relative h-[60px] w-[80px] shrink-0 overflow-hidden rounded-lg sm:h-[72px] sm:w-[110px]">
         <Image src={session.image} alt="" fill className="object-cover" sizes="110px" />
       </div>
 
