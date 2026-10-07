@@ -90,8 +90,8 @@ export function PageHero({
         <div
           className={`absolute inset-0 bg-gradient-to-b ${
             light
-              ? "from-[var(--sane-green-dark)]/80 via-[var(--sane-green-dark)]/55 to-[var(--sane-green-dark)]/30"
-              : "from-[var(--sane-green-dark)]/90 via-[var(--sane-green-dark)]/75 to-[var(--sane-green-dark)]/55"
+              ? "from-[var(--sane-green-dark)]/70 via-[var(--sane-green-dark)]/40 to-[var(--sane-green-dark)]/15"
+              : "from-[var(--sane-green-dark)]/80 via-[var(--sane-green-dark)]/55 to-[var(--sane-green-dark)]/30"
           } ${
             photo
               ? "lg:hidden"

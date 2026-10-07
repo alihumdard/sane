@@ -18,7 +18,7 @@ export function EmploiHero() {
         />
       </div>
       {/* Readability fade — only behind the text on mobile (top), so the people at the bottom stay clear; from the left on desktop */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[var(--sane-background)]/95 via-[var(--sane-background)]/60 via-[48%] to-transparent sm:bg-gradient-to-r sm:from-[var(--sane-background)] sm:via-[var(--sane-background)] sm:via-[25%] sm:to-[var(--sane-background)]/0 sm:to-[40%]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--sane-background)]/85 via-[var(--sane-background)]/45 via-[48%] to-transparent sm:bg-gradient-to-r sm:from-[var(--sane-background)] sm:via-[var(--sane-background)] sm:via-[25%] sm:to-[var(--sane-background)]/0 sm:to-[40%]" />
 
       {/* Floating card — top right, relative to section */}
       <div className="absolute right-4 top-10 z-20 hidden w-[130px] rounded-xl bg-white/95 px-4 py-3.5 shadow-lg ring-1 ring-[var(--sane-border)] backdrop-blur-sm lg:block xl:right-6">

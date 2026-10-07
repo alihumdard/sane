@@ -12,14 +12,14 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden bg-[#01676e] bg-[url('/hero-bg.png')] bg-cover bg-[position:80%_center] lg:bg-center">
       {/* mobile: solid color behind the text fading out so the artwork shows underneath */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#01676e]/90 via-[#01676e]/70 to-[#01676e]/45 lg:hidden" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#01676e]/75 via-[#01676e]/50 to-[#01676e]/20 lg:hidden" />
       <Container className="relative">
         <div className="grid grid-cols-1 lg:min-h-[410px] lg:grid-cols-2 overflow-hidden">
           {/* ================= LEFT CONTENT ================= */}
           <div className="relative z-10 flex items-center">
-            <div className="w-full py-8 sm:py-10 lg:max-w-[600px] lg:pr-8">
+            <div className="w-full py-5 sm:py-10 lg:max-w-[600px] lg:pr-8">
               {/* Label */}
-              <div className="mb-4">
+              <div className="mb-2 sm:mb-4">
                 <span className="text-[11px] font-extrabold uppercase tracking-wide text-white">
                   Salon National de l&apos;Emploi du Niger (SANEM)
                 </span>
