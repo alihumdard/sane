@@ -44,7 +44,7 @@ export function EmploiHero() {
           <span className="font-medium text-[var(--sane-text-light)]">Emploi</span>
         </div>
 
-        <div className="relative pb-[170px] pt-2 sm:pb-8 sm:pt-3 lg:grid lg:grid-cols-[45%_55%] lg:items-center lg:gap-4">
+        <div className="relative pb-[120px] pt-2 sm:pb-8 sm:pt-3 lg:grid lg:grid-cols-[45%_55%] lg:items-center lg:gap-4">
 
           {/* Content */}
           <div className="min-w-0">
@@ -67,17 +67,17 @@ export function EmploiHero() {
               Connectez-vous aux entreprises, institutions et organisations qui recrutent au Niger. Parcourez les offres et postulez en quelques clics.
             </p>
 
-            <div className="mt-4 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-3">
+            <div className="mt-4 flex flex-wrap gap-2.5 sm:gap-3">
               <Link
                 href="/programme"
-                className="group inline-flex h-[42px] w-full items-center justify-center gap-2 rounded-full bg-[var(--sane-orange)] px-6 text-[12px] font-bold text-white shadow-md transition-all hover:bg-[var(--sane-orange-dark)] sm:h-[40px] sm:w-fit sm:text-[13px]"
+                className="group inline-flex h-[38px] items-center justify-center gap-2 rounded-full bg-[var(--sane-orange)] px-5 text-[12px] font-bold text-white shadow-md transition-all hover:bg-[var(--sane-orange-dark)] sm:h-[40px] sm:px-6 sm:text-[13px]"
               >
                 Voir le programme
                 <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
               <Link
                 href="/inscription"
-                className="group inline-flex h-[42px] w-full items-center justify-center gap-2 rounded-full border border-[var(--sane-green)] bg-white px-6 text-[12px] font-bold text-[var(--sane-green)] transition-all hover:bg-[var(--sane-green-light)] sm:h-[40px] sm:w-fit sm:text-[13px]"
+                className="group inline-flex h-[38px] items-center justify-center gap-2 rounded-full border border-[var(--sane-green)] bg-white px-5 text-[12px] font-bold text-[var(--sane-green)] transition-all hover:bg-[var(--sane-green-light)] sm:h-[40px] sm:px-6 sm:text-[13px]"
               >
                 Créer mon profil
                 <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />

@@ -124,7 +124,7 @@ export function PageHero({
           </div>
         )}
 
-        <div className={`relative grid grid-cols-1 items-center gap-8 lg:grid-cols-2 ${isDark ? "pb-8 pt-4 sm:pb-10 sm:pt-6 lg:min-h-[380px]" : "pb-6 pt-3 sm:pb-8 sm:pt-4 lg:min-h-[300px]"}`}>
+        <div className={`relative grid grid-cols-1 items-center gap-8 lg:grid-cols-2 ${isDark ? "pb-6 pt-3 sm:pb-10 sm:pt-6 lg:min-h-[380px]" : "pb-5 pt-2 sm:pb-8 sm:pt-4 lg:min-h-[300px]"}`}>
           {/* Floating card + tagline — right side */}
           {(floatingCardText || tagline) && (
             <div className="absolute right-0 top-0 hidden flex-col items-end gap-4 lg:flex lg:right-[-40px]">
@@ -164,7 +164,7 @@ export function PageHero({
             </h1>
 
             <p
-              className={`sane-lead max-w-[520px] ${isDark ? "on-dark mt-4" : "mt-2"}`}
+              className={`sane-lead max-w-[520px] ${isDark ? "on-dark mt-2 sm:mt-4" : "mt-2"}`}
             >
               {lead}
             </p>
@@ -178,7 +178,7 @@ export function PageHero({
             )}
 
             {actions.length > 0 && (
-              <div className={`flex flex-wrap gap-3 ${isDark ? "mt-6 sm:mt-8" : "mt-4 sm:mt-5"}`}>
+              <div className={`flex flex-wrap gap-3 ${isDark ? "mt-4 sm:mt-8" : "mt-3 sm:mt-5"}`}>
                 {actions.map((action) => (
                   <Link
                     key={action.href}
