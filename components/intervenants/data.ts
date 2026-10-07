@@ -29,7 +29,7 @@ export const speakers: Speaker[] = [
     title: "Directrice des Programmes",
     org: "ONG Internationale UNESCO",
     tags: ["Formation", "Inclusion"],
-    img: "/sane campany2.png",
+    img: "/card img2.png",
   },
   {
     name: "M. Moussa Alidou",
@@ -64,7 +64,7 @@ export const speakers: Speaker[] = [
     title: "Fondateur & CEO",
     org: "Tech Solutions",
     tags: ["Transformation digitale", "Entrepreneuriat"],
-    img: "/Entrepreneuriat.png",
+    img: "/card 2.png",
   },
   {
     name: "M. Zakariou Idrissa",

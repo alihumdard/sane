@@ -98,13 +98,13 @@ export function ScheduleSection() {
           </div>
 
           <div className="relative mt-5 sm:mt-6">
-            <span className="absolute left-[78px] top-2 bottom-2 hidden w-px bg-[var(--sane-border)] sm:block" />
+            <span className="absolute left-[110px] top-2 bottom-2 hidden w-px bg-[var(--sane-border)] sm:block" />
 
             <div className="flex flex-col gap-3">
               {visible.length > 0 ? (
                 visible.map((session, i) => (
                   <div key={session.title} className="flex items-start gap-3 sm:gap-4">
-                    <time className="hidden w-[68px] shrink-0 pt-4 text-right text-[11px] font-bold text-[var(--sane-text)] sm:block">
+                    <time className="hidden w-[100px] shrink-0 pt-4 text-right text-[11px] font-bold text-[var(--sane-text)] sm:block">
                       {session.time}
                     </time>
                     <span
