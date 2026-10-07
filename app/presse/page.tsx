@@ -22,8 +22,6 @@ export default function PressePage() {
           image="/press-hero.png"
           imageFit="banner"
           overlayStrength="light"
-          floatingCardText={"EMPLOI\nFORMATION\nOPPORTUNITÉS\nAVENIR"}
-          tagline={"Une visibilité\npour un Niger\nplus fort"}
           actions={[
             { href: "/programme", label: "Voir le programme" },
             { href: "/contact", label: "Nous contacter", variant: "secondary" },
