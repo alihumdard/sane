@@ -1,4 +1,4 @@
-﻿import { Camera, FileText, Newspaper, Palette, Video } from "lucide-react";
+import { Camera, FileText, Newspaper, Palette, Video } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ArticleCardData, FeatureBarItem } from "@/components/shared";
 
@@ -11,7 +11,7 @@ export const pressStats: FeatureBarItem[] = [
 
 export const pressArticles: ArticleCardData[] = [
   {
-    image: "/sane deal3.png",
+    image: "/sane-deal3.png",
     date: "12 Mars 2024",
     tag: "Communiqué",
     tagColor: "var(--sane-orange)",
@@ -27,7 +27,7 @@ export const pressArticles: ArticleCardData[] = [
     description: "Découvrez les temps forts, les objectifs et les innovations de cette nouvelle édition qui réunit entreprises, institutions et chercheurs d'emploi.",
   },
   {
-    image: "/sane deal3.png",
+    image: "/sane-deal3.png",
     date: "05 Mars 2024",
     tag: "Presse",
     tagColor: "#1a5276",

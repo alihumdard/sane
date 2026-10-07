@@ -20,7 +20,7 @@ export function LocationSection() {
 
         <div className="grid gap-6 lg:grid-cols-2 lg:items-center lg:gap-10">
           <div className="relative h-[200px] overflow-hidden rounded-2xl sm:h-[240px] lg:h-[280px]">
-            <Image src="/contact bulding.png" alt="Palais des Congrès de Niamey" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
+            <Image src="/contact-bulding.png" alt="Palais des Congrès de Niamey" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
           </div>
 
           <div>

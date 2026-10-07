@@ -15,7 +15,7 @@ export default function IntervenantsPage() {
           title="Nos Intervenants"
           lead="Des experts pour un Niger plus fort."
           description="Des experts, des leaders et des professionnels engagés pour partager leurs expériences et inspirer les talents du Niger."
-          image="/Intervenants2 png.png"
+          image="/Intervenants2-png.png"
           imageFit="banner"
           overlayStrength="light"
           actions={[

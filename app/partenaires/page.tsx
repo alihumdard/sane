@@ -1,4 +1,4 @@
-﻿import { Header } from "@/components/layout/Header";
+import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
 import { PageHero, FeatureBar } from "@/components/shared";
@@ -25,7 +25,7 @@ export default function PartenairesPage() {
           }
           lead="Ensemble pour l'emploi de demain."
           description="Le SANEM réunit institutions publiques, entreprises privées, organisations internationales et société civile autour d'un objectif commun : promouvoir l'emploi au Niger."
-          image="/Partenaires hero.png"
+          image="/Partenaires-hero.png"
           imageFit="banner"
           overlayStrength="light"
           actions={[

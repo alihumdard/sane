@@ -1,4 +1,4 @@
-﻿import { Header } from "@/components/layout/Header";
+import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageHero, FeatureBar } from "@/components/shared";
 import {
@@ -20,7 +20,7 @@ export default function PressePage() {
           title="Espace Presse"
           lead="Toute l'actualité du SANEM, au même endroit."
           description="Retrouvez nos communiqués, nos événements et nos ressources médias."
-          image="/press hero.png"
+          image="/press-hero.png"
           imageFit="banner"
           overlayStrength="light"
           actions={[

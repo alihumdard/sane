@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -9,28 +9,28 @@ const links = [
     description: "Découvrez le programme complet de l'événement.",
     action: "Voir le programme",
     href: "/programme",
-    image: "/card img3.png",
+    image: "/card-img3.png",
   },
   {
     title: "Intervenants",
     description: "Rencontrez nos experts et leaders.",
     action: "Voir les intervenants",
     href: "/intervenants",
-    image: "/card img.png",
+    image: "/card-img.png",
   },
   {
     title: "Partenaires",
     description: "Ils nous accompagnent pour l'emploi.",
     action: "Voir nos partenaires",
     href: "/partenaires",
-    image: "/card img2.png",
+    image: "/card-img2.png",
   },
   {
     title: "Actualités",
     description: "Restez informé des dernières nouvelles du SANEM.",
     action: "Lire les actualités",
     href: "/actualites",
-    image: "/card img3.png",
+    image: "/card-img3.png",
   },
 ];
 

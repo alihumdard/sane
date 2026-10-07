@@ -1,4 +1,4 @@
-﻿import { Header } from "@/components/layout/Header";
+import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
 import { PageHero, FeatureBar } from "@/components/shared";
@@ -16,7 +16,7 @@ export default function ContactPage() {
           lead="Nous sommes à votre écoute."
           description="Une question, une demande d'information ou une proposition de partenariat ? Notre équipe est disponible pour vous répondre et vous accompagner."
           tagline={"Des échanges\npour un Niger\nplus fort"}
-          image="/contact hero2.png"
+          image="/contact-hero2.png"
           tone="dark"
           imageFit="banner"
           imagePosition="center center"

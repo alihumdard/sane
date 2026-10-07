@@ -1,4 +1,4 @@
-﻿import {
+import {
   CalendarDays,
   MapPin,
   UsersRound,
@@ -87,7 +87,7 @@ export const sessions: Session[] = [
     description: "Allocutions officielles et présentation des objectifs du SANEM.",
     tag: "Cérémonie",
     location: "Grande salle",
-    image: "/sane company3.png",
+    image: "/sane-company3.png",
   },
   {
     time: "09:30 – 10:30",
@@ -118,7 +118,7 @@ export const sessions: Session[] = [
     description: "Un moment d'échange entre participants, entreprises et institutions.",
     tag: "Networking",
     location: "Espace détente",
-    image: "/sane company3.png",
+    image: "/sane-company3.png",
   },
   {
     time: "14:00 – 16:00",
@@ -142,7 +142,7 @@ export const sessions: Session[] = [
     description: "Synthèse de la journée et prochaines étapes.",
     tag: "Cérémonie",
     location: "Grande salle",
-    image: "/sane company3.png",
+    image: "/sane-company3.png",
   },
 ];
 

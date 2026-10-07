@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, BriefcaseBusiness, Building2, GraduationCap, UsersRound } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -55,7 +55,7 @@ export function ImpactSection() {
           <div className="relative">
             <div className="relative aspect-[3/2] overflow-hidden rounded-2xl shadow-xl">
               <Image
-                src="/sane deal3.png"
+                src="/sane-deal3.png"
                 alt="Impact SANEM"
                 fill
                 className="object-cover"

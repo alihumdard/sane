@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -71,7 +71,7 @@ const articles = [
       "Le Ministère de l'Emploi annonce la tenue de la prochaine édition du Salon National de l'Emploi au Palais des Congrès de Niamey.",
   },
   {
-    image: "/actualites card1.png",
+    image: "/actualites-card1.png",
     date: "08 Mars 2024",
     tag: "Formation",
     tagColor: "#10632D",
@@ -89,7 +89,7 @@ const articles = [
       "De nouvelles collaborations pour soutenir l'emploi, la formation et l'insertion professionnelle des jeunes nigériens.",
   },
   {
-    image: "/actualites card1.png",
+    image: "/actualites-card1.png",
     date: "28 Février 2024",
     tag: "Témoignage",
     tagColor: "#10632D",
@@ -107,7 +107,7 @@ const articles = [
       "Le SANEM met l'accent sur des formations pratiques et certifiantes pour renforcer l'employabilité des jeunes.",
   },
   {
-    image: "/actualites card1.png",
+    image: "/actualites-card1.png",
     date: "15 Février 2024",
     tag: "Communiqué",
     tagColor: "#1a5276",
@@ -121,22 +121,22 @@ const popularArticles = [
   {
     title: "Lancement officiel du SANEM 2024 à Niamey",
     date: "12 Mars 2024",
-    image: "/sane deal3.png",
+    image: "/sane-deal3.png",
   },
   {
     title: "Des formations pour les jeunes nigériens",
     date: "05 Mars 2024",
-    image: "/sane deal3.png",
+    image: "/sane-deal3.png",
   },
   {
     title: "Le SANEM renforce ses partenariats",
     date: "28 Février 2024",
-    image: "/sane deal3.png",
+    image: "/sane-deal3.png",
   },
   {
     title: "Témoignages de participants",
     date: "20 Février 2024",
-    image: "/sane deal3.png",
+    image: "/sane-deal3.png",
   },
 ];
 

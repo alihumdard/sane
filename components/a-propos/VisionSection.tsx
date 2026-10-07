@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -13,7 +13,7 @@ export function VisionSection() {
       <Container className="relative z-10">
         <div className="grid items-start gap-6 lg:grid-cols-[1fr_1.1fr] lg:gap-10">
           <div className="relative h-[340px] overflow-hidden rounded-xl sm:h-[385px] md:h-[430px]">
-            <Image src="/À propos cards.png" alt="SANEM événement" fill className="object-cover object-center" sizes="(max-width: 1024px) 100vw, 45vw" />
+            <Image src="/À-propos-cards.png" alt="SANEM événement" fill className="object-cover object-center" sizes="(max-width: 1024px) 100vw, 45vw" />
           </div>
 
           <div className="pt-2 lg:pt-12">

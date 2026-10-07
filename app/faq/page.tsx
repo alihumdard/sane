@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
@@ -36,7 +36,7 @@ export default function FAQPage() {
           title="FAQ"
           lead="Vos questions, nos réponses"
           description="Retrouvez ici les réponses aux questions les plus fréquentes sur le Salon National de l'Emploi, son programme, les formations, les inscriptions et la participation."
-          image="/faq hero.png"
+          image="/faq-hero.png"
           imageFit="banner"
           tone="dark"
           actions={[
