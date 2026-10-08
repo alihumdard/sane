@@ -12,7 +12,7 @@ const highlights = [
 export function Hero() {
   return (
     <section className="relative min-h-[460px] overflow-hidden bg-[#01676e] sm:min-h-0">
-      {/* Background image — same source/treatment at every breakpoint, only position shifts on mobile */}
+      {/* Background image — same source/quality at every breakpoint, only position shifts on mobile to keep both faces in frame */}
       <div className="absolute inset-0">
         <Image
           src="/hero-bg.png"
@@ -21,8 +21,7 @@ export function Hero() {
           priority
           quality={90}
           sizes="100vw"
-          className="object-cover"
-          style={{ objectPosition: "75% center" }}
+          className="object-cover object-[55%_center] sm:object-[75%_center]"
         />
       </div>
       {/* Readability gradient — lighter on mobile so the photo reads clearly, same technique on desktop */}
