@@ -24,18 +24,17 @@ export function Hero() {
           style={{ objectPosition: "80% center" }}
         />
       </div>
-      {/* Mobile: CSS background so we can control exact sizing without object-cover crop */}
+      {/* Mobile: background-size 200% so right half of image (all 3 people) fits in viewport */}
       <div
         className="pointer-events-none absolute inset-0 sm:hidden"
         style={{
           backgroundImage: "url(/hero-bg.png)",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "right bottom",
-          backgroundSize: "auto 100%",
+          backgroundSize: "200% auto",
         }}
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#01676e] via-[#01676e]/50 via-[30%] to-transparent sm:hidden" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#01676e]/50 via-transparent via-[35%] to-transparent sm:hidden" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#01676e] via-[#01676e]/70 via-[45%] to-[#01676e]/15 sm:hidden" />
       {/* Desktop readability gradient */}
       <div className="absolute inset-0 hidden bg-gradient-to-b from-[#01676e]/80 via-[#01676e]/55 to-[#01676e]/30 sm:block lg:hidden" />
 
