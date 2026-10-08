@@ -64,8 +64,8 @@ export function PageHero({
     <section
       className={`relative min-h-[320px] overflow-hidden sm:min-h-0 ${isDark ? "bg-[var(--sane-green-dark)]" : "bg-[var(--sane-background)]"}`}
     >
-      {/* ===== Background image (all screens) ===== */}
-      <div className={`absolute inset-0 ${photo ? "lg:left-auto lg:w-[55%]" : ""}`}>
+      {/* ===== Desktop background image ===== */}
+      <div className={`absolute inset-0 ${photo ? "lg:left-auto lg:w-[55%]" : "hidden sm:block"}`}>
         <Image
           src={image}
           alt=""
@@ -86,19 +86,34 @@ export function PageHero({
         )}
       </div>
 
+      {/* ===== Mobile banner: CSS background for precise sizing (shows right half of wide image) ===== */}
+      {!photo && (
+        <div
+          className="pointer-events-none absolute inset-0 sm:hidden"
+          style={{
+            backgroundImage: `url(${image})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "right center",
+            backgroundSize: "200% 100%",
+          }}
+        />
+      )}
+
       {/* Readability overlay */}
       {isDark ? (
         <div
-          className={`absolute inset-0 bg-gradient-to-b from-[var(--sane-green-dark)]/70 via-[var(--sane-green-dark)]/40 via-[55%] to-[var(--sane-green-dark)]/10 ${
+          className={`absolute inset-0 ${
             photo
-              ? "lg:hidden"
-              : "sm:from-[var(--sane-green-dark)]/60 sm:via-[var(--sane-green-dark)]/30 sm:to-[var(--sane-green-dark)]/10 lg:bg-none lg:bg-[var(--sane-green-dark)]/20"
+              ? "bg-gradient-to-b from-[var(--sane-green-dark)]/70 via-[var(--sane-green-dark)]/40 via-[55%] to-[var(--sane-green-dark)]/10 lg:hidden"
+              : "bg-gradient-to-b from-[var(--sane-green-dark)]/95 via-[var(--sane-green-dark)]/60 via-[50%] to-[var(--sane-green-dark)]/10 sm:from-[var(--sane-green-dark)]/60 sm:via-[var(--sane-green-dark)]/30 sm:to-[var(--sane-green-dark)]/10 lg:bg-none lg:bg-[var(--sane-green-dark)]/20"
           }`}
         />
       ) : (
         <div
-          className={`absolute inset-0 bg-gradient-to-b from-[var(--sane-background)]/85 via-[var(--sane-background)]/50 via-[55%] to-[var(--sane-background)]/20 sm:from-[var(--sane-background)]/70 sm:via-[var(--sane-background)]/40 sm:to-[var(--sane-background)]/15 ${
-            photo ? "lg:hidden" : "lg:bg-none lg:bg-[var(--sane-background)]/10"
+          className={`absolute inset-0 ${
+            photo
+              ? "bg-gradient-to-b from-[var(--sane-background)]/85 via-[var(--sane-background)]/50 via-[55%] to-[var(--sane-background)]/20 lg:hidden"
+              : "bg-gradient-to-b from-[var(--sane-background)]/95 via-[var(--sane-background)]/60 via-[50%] to-[var(--sane-background)]/15 sm:from-[var(--sane-background)]/70 sm:via-[var(--sane-background)]/40 sm:to-[var(--sane-background)]/15 lg:bg-none lg:bg-[var(--sane-background)]/10"
           }`}
         />
       )}
