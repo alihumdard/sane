@@ -33,8 +33,14 @@ export function Hero() {
           backgroundPosition: "right center",
           backgroundSize: "200% 100%",
         }}
-      />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#01676e]/95 via-[#01676e]/60 via-[50%] to-[#01676e]/10 sm:hidden" />
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(to bottom, rgba(1,103,110,0.72) 0%, rgba(1,103,110,0.40) 40%, rgba(1,103,110,0.08) 65%, transparent 80%)",
+          }}
+        />
+      </div>
       {/* Desktop readability gradient */}
       <div className="absolute inset-0 hidden bg-gradient-to-b from-[#01676e]/80 via-[#01676e]/55 to-[#01676e]/30 sm:block lg:hidden" />
 
