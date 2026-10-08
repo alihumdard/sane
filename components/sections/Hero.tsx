@@ -21,7 +21,7 @@ export function Hero() {
           priority
           quality={90}
           sizes="100vw"
-          className="object-cover object-[55%_center] sm:object-[75%_center]"
+          className="object-cover object-[71%_40%] sm:object-[75%_center]"
         />
       </div>
       {/* Readability gradient — lighter on mobile so the photo reads clearly, same technique on desktop */}
