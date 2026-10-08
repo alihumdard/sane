@@ -24,8 +24,9 @@ export function Hero() {
           className="object-cover object-[71%_40%] sm:object-[75%_center]"
         />
       </div>
-      {/* Readability gradient — only behind the text block, not over the people */}
+      {/* Readability gradient — top band behind heading/CTAs, faces stay clear, bottom band behind feature list */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[260px] bg-gradient-to-b from-[#01676e]/70 to-transparent sm:hidden" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[220px] bg-gradient-to-t from-[#01676e]/75 to-transparent sm:hidden" />
       <div className="absolute inset-0 hidden bg-gradient-to-b from-[#01676e]/80 via-[#01676e]/55 to-[#01676e]/30 sm:block lg:hidden" />
 
       <Container className="relative">
