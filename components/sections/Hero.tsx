@@ -11,8 +11,8 @@ const highlights = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[#01676e]">
-      {/* Desktop: full-bleed background image */}
+    <section className="relative overflow-hidden bg-[#01676e] sm:min-h-0">
+      {/* Background image — desktop: full bleed */}
       <div className="absolute inset-0 hidden sm:block">
         <Image
           src="/hero-bg.png"
@@ -20,17 +20,31 @@ export function Hero() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover"
+          style={{ objectPosition: "80% center" }}
         />
       </div>
-      {/* Desktop gradient */}
-      <div className="absolute inset-0 hidden bg-gradient-to-b from-[#01676e]/75 via-[#01676e]/50 to-[#01676e]/20 sm:block lg:hidden" />
+      {/* Mobile: image positioned in bottom-right, showing the people + building */}
+      <div className="pointer-events-none absolute bottom-0 right-0 h-[75%] w-[85%] sm:hidden">
+        <Image
+          src="/hero-bg.png"
+          alt=""
+          fill
+          priority
+          sizes="85vw"
+          className="object-cover object-right-top"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#01676e] via-[#01676e]/40 via-[20%] to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#01676e] via-[#01676e]/30 via-[25%] to-transparent" />
+      </div>
+      {/* Desktop readability gradient */}
+      <div className="absolute inset-0 hidden bg-gradient-to-b from-[#01676e]/80 via-[#01676e]/55 to-[#01676e]/30 sm:block lg:hidden" />
 
       <Container className="relative">
         <div className="grid grid-cols-1 lg:min-h-[410px] lg:grid-cols-2 overflow-hidden">
           {/* ================= LEFT CONTENT ================= */}
           <div className="relative z-10 flex items-center">
-            <div className="w-full py-5 sm:py-10 lg:max-w-[600px] lg:pr-8">
+            <div className="w-full pb-10 pt-5 sm:py-10 lg:max-w-[600px] lg:pr-8">
               {/* Label */}
               <div className="mb-2 sm:mb-4">
                 <span className="text-[11px] font-extrabold uppercase tracking-wide text-white">
@@ -118,19 +132,6 @@ export function Hero() {
         </div>
       </Container>
 
-      {/* Mobile: visible image strip below content */}
-      <div className="relative h-[200px] sm:hidden">
-        <Image
-          src="/hero-bg.png"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-          style={{ objectPosition: "80% center" }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#01676e] via-transparent to-transparent to-[30%]" />
-      </div>
     </section>
   );
 }

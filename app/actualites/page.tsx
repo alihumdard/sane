@@ -167,18 +167,19 @@ export default function ActualitesPage() {
       <Header />
       <main>
         {/* ═══════════════════ 1. HERO ═══════════════════ */}
-        <section className="relative overflow-hidden bg-[#0a4a22] sm:min-h-[340px] lg:min-h-[380px]">
-          <div className="absolute inset-0 hidden sm:block">
+        <section className="relative min-h-[320px] overflow-hidden bg-[#0a4a22] sm:min-h-[340px] lg:min-h-[380px]">
+          <div className="absolute inset-0">
             <Image
               src="/actualites2.png"
               alt="Actualités SANEM"
               fill
               sizes="100vw"
-              className="object-cover object-center"
+              className="object-cover"
+              style={{ objectPosition: "70% center" }}
               priority
             />
           </div>
-          <div className="absolute inset-0 z-10 hidden sm:block sm:bg-gradient-to-b sm:from-[#0a4a22]/85 sm:via-[#0a4a22]/60 sm:to-[#0a4a22]/35 lg:bg-gradient-to-r lg:from-[#0a4a22]/80 lg:via-[#0a4a22]/25 lg:to-transparent lg:to-[60%]" />
+          <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0a4a22]/70 via-[#0a4a22]/40 via-[55%] to-[#0a4a22]/10 sm:from-[#0a4a22]/80 sm:via-[#0a4a22]/55 sm:to-[#0a4a22]/30 lg:bg-gradient-to-r lg:from-[#0a4a22]/80 lg:via-[#0a4a22]/25 lg:to-transparent lg:to-[60%]" />
 
           <div className="absolute right-4 top-4 z-20 rounded-lg bg-white/95 px-3 py-2.5 text-[8px] font-extrabold uppercase leading-[1.8] tracking-wide text-[#0a4a22] shadow-lg backdrop-blur-sm sm:right-6 sm:top-8 sm:px-3.5 sm:py-3 sm:text-[10px]">
             EMPLOI
@@ -241,18 +242,6 @@ export default function ActualitesPage() {
             </div>
           </div>
 
-          {/* Mobile: visible image strip */}
-          <div className="relative h-[180px] sm:hidden">
-            <Image
-              src="/actualites2.png"
-              alt=""
-              fill
-              sizes="100vw"
-              className="object-cover"
-              style={{ objectPosition: "70% center" }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0a4a22] via-transparent to-transparent to-[25%]" />
-          </div>
         </section>
 
         {/* ═══════════════════ 2. CATEGORY TABS BAR ═══════════════════ */}

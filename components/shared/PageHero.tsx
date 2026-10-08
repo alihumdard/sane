@@ -62,10 +62,10 @@ export function PageHero({
 
   return (
     <section
-      className={`relative overflow-hidden ${isDark ? "bg-[var(--sane-green-dark)]" : "bg-[var(--sane-background)]"}`}
+      className={`relative min-h-[320px] overflow-hidden sm:min-h-0 ${isDark ? "bg-[var(--sane-green-dark)]" : "bg-[var(--sane-background)]"}`}
     >
-      {/* ===== DESKTOP: full-bleed background image (unchanged) ===== */}
-      <div className={`absolute inset-0 ${photo ? "lg:left-auto lg:w-[55%]" : ""} ${!photo ? "hidden sm:block" : ""}`}>
+      {/* ===== Background image (all screens) ===== */}
+      <div className={`absolute inset-0 ${photo ? "lg:left-auto lg:w-[55%]" : ""}`}>
         <Image
           src={image}
           alt=""
@@ -89,22 +89,16 @@ export function PageHero({
       {/* Readability overlay */}
       {isDark ? (
         <div
-          className={`absolute inset-0 ${!photo ? "hidden sm:block" : ""} bg-gradient-to-b ${
-            light
-              ? "from-[var(--sane-green-dark)]/70 via-[var(--sane-green-dark)]/40 to-[var(--sane-green-dark)]/15"
-              : "from-[var(--sane-green-dark)]/80 via-[var(--sane-green-dark)]/55 to-[var(--sane-green-dark)]/30"
-          } ${
+          className={`absolute inset-0 bg-gradient-to-b from-[var(--sane-green-dark)]/70 via-[var(--sane-green-dark)]/40 via-[55%] to-[var(--sane-green-dark)]/10 ${
             photo
               ? "lg:hidden"
-              : light
-                ? "lg:bg-gradient-to-r lg:from-[var(--sane-green-dark)]/75 lg:via-[var(--sane-green-dark)]/25 lg:to-transparent lg:to-[55%]"
-                : "lg:bg-gradient-to-r lg:from-[var(--sane-green-dark)]/90 lg:via-[var(--sane-green-dark)]/40 lg:to-transparent lg:to-[55%]"
+              : "sm:from-[var(--sane-green-dark)]/60 sm:via-[var(--sane-green-dark)]/30 sm:to-[var(--sane-green-dark)]/10 lg:bg-none lg:bg-[var(--sane-green-dark)]/20"
           }`}
         />
       ) : (
         <div
-          className={`absolute inset-0 ${!photo ? "hidden sm:block" : ""} bg-gradient-to-b from-[var(--sane-background)]/95 via-[var(--sane-background)]/80 to-[var(--sane-background)]/60 ${
-            photo ? "lg:hidden" : "lg:bg-white/15 lg:bg-none"
+          className={`absolute inset-0 bg-gradient-to-b from-[var(--sane-background)]/85 via-[var(--sane-background)]/50 via-[55%] to-[var(--sane-background)]/20 sm:from-[var(--sane-background)]/70 sm:via-[var(--sane-background)]/40 sm:to-[var(--sane-background)]/15 ${
+            photo ? "lg:hidden" : "lg:bg-none lg:bg-[var(--sane-background)]/10"
           }`}
         />
       )}
@@ -222,26 +216,6 @@ export function PageHero({
         </div> {/* end inner grid */}
       </Container>
 
-      {/* ===== MOBILE BANNER IMAGE: visible strip below content ===== */}
-      {!photo && (
-        <div className="relative h-[180px] sm:hidden">
-          <Image
-            src={image}
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover"
-            style={{ objectPosition: pos }}
-          />
-          <div
-            className={`absolute inset-0 bg-gradient-to-b ${
-              isDark
-                ? "from-[var(--sane-green-dark)] via-transparent to-transparent"
-                : "from-[var(--sane-background)] via-transparent to-transparent"
-            } to-[30%]`}
-          />
-        </div>
-      )}
     </section>
   );
 }
