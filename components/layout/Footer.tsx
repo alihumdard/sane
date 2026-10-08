@@ -7,9 +7,9 @@ export function Footer() {
     <footer className="bg-[#0B6630]">
       {/* ================= MAIN FOOTER ================= */}
       <div className="sane-container">
-        <div className="grid grid-cols-1 gap-x-6 gap-y-8 py-10 sm:grid-cols-2 sm:gap-y-10 sm:py-12 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1.2fr] lg:gap-10 lg:py-16">
+        <div className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-x-6 gap-y-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1.2fr] lg:gap-10 lg:py-16">
           {/* ================= 1. BRAND ================= */}
-          <div className="col-span-1 flex flex-col sm:col-span-2 lg:col-span-1">
+          <div className="min-[480px]:col-span-2 flex flex-col sm:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-block">
               <div className="relative h-12 w-[135px]">
                 <Image
@@ -89,9 +89,9 @@ export function Footer() {
 
           {/* ================= 2. LIENS RAPIDES ================= */}
           <div>
-            <h3 className="sane-h3 on-dark mb-4">Liens rapides</h3>
+            <h3 className="sane-h3 on-dark mb-5">Liens rapides</h3>
 
-            <div className="flex flex-col gap-0.5 text-[13px] text-[var(--sane-green-muted)]">
+            <div className="grid grid-cols-2 gap-x-5 gap-y-1 text-[13px] text-[var(--sane-green-muted)] lg:flex lg:flex-col lg:gap-1">
               <Link
                 href="/"
                 className="py-1.5 transition-colors hover:text-white"
@@ -131,9 +131,9 @@ export function Footer() {
 
           {/* ================= 3. DÉCOUVRIR ================= */}
           <div>
-            <h3 className="sane-h3 on-dark mb-4">Découvrir</h3>
+            <h3 className="sane-h3 on-dark mb-5">Découvrir</h3>
 
-            <div className="flex flex-col gap-0.5 text-[13px] text-[var(--sane-green-muted)]">
+            <div className="grid grid-cols-2 gap-x-5 gap-y-1 text-[13px] text-[var(--sane-green-muted)] lg:flex lg:flex-col lg:gap-1">
               <Link
                 href="/intervenants"
                 className="py-1.5 transition-colors hover:text-white"
@@ -180,9 +180,9 @@ export function Footer() {
 
           {/* ================= 4. EMPLOI ================= */}
           <div>
-            <h3 className="sane-h3 on-dark mb-4">Emploi</h3>
+            <h3 className="sane-h3 on-dark mb-5">Emploi</h3>
 
-            <div className="flex flex-col gap-0.5 text-[13px] text-[var(--sane-green-muted)]">
+            <div className="grid grid-cols-2 gap-x-5 gap-y-1 text-[13px] text-[var(--sane-green-muted)] lg:flex lg:flex-col lg:gap-1">
               <Link
                 href="/emploi"
                 className="py-1.5 transition-colors hover:text-white"
@@ -214,10 +214,10 @@ export function Footer() {
           </div>
 
           {/* ================= 5. CONTACT ================= */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <h3 className="sane-h3 on-dark mb-4">Contact</h3>
+          <div>
+            <h3 className="sane-h3 on-dark mb-5">Contact</h3>
 
-            <div className="flex flex-col gap-3 text-[13px] text-[var(--sane-green-muted)] sm:grid sm:grid-cols-2 sm:gap-x-5 sm:gap-y-3 lg:flex lg:flex-col lg:gap-3.5">
+            <div className="grid grid-cols-2 gap-x-5 gap-y-3.5 text-[13px] text-[var(--sane-green-muted)] lg:flex lg:flex-col lg:gap-3.5">
               <div className="flex items-center gap-2.5 break-words">
                 <MapPin
                   size={15}
