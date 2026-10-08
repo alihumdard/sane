@@ -30,14 +30,14 @@ export function Hero() {
         style={{
           backgroundImage: "url(/hero-bg.png)",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "right center",
+          backgroundPosition: "65% center",
           backgroundSize: "200% 100%",
         }}
       >
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(to bottom, rgba(1,103,110,0.72) 0%, rgba(1,103,110,0.40) 40%, rgba(1,103,110,0.08) 65%, transparent 80%)",
+            background: "linear-gradient(to bottom, rgba(1,103,110,0.70) 0%, rgba(1,103,110,0.35) 45%, rgba(1,103,110,0.50) 70%, rgba(1,103,110,0.65) 100%)",
           }}
         />
       </div>
