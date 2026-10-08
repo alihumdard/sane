@@ -9,7 +9,7 @@ export function WhySection() {
         src="/why-bg2.png"
         alt=""
         fill
-        className="object-cover object-center"
+        className="object-cover object-[25%_30%] lg:object-center"
         sizes="100vw"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-[var(--sane-green-dark)]/60 via-[var(--sane-green-dark)]/40 to-[var(--sane-green-dark)]/10 sm:bg-none sm:bg-gradient-to-r sm:from-[var(--sane-green-dark)]/20 sm:from-[20%] sm:to-[var(--sane-green-dark)]/50" />

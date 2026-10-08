@@ -26,7 +26,7 @@ export function VenueSection() {
               src="/programme-bd.png"
               alt="Palais des Congrès de Niamey"
               fill
-              className="object-cover object-center"
+              className="object-cover object-[center_40%]"
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 50vw"
             />
           </div>

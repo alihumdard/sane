@@ -13,7 +13,7 @@ export function EmploiHero() {
           alt=""
           fill
           priority
-          className="object-cover object-[center_bottom]"
+          className="object-cover object-[75%_center] sm:object-[center_bottom]"
           sizes="(min-width: 1024px) 85vw, 100vw"
         />
       </div>

@@ -49,7 +49,7 @@ export function AboutSection() {
                 alt="SANEM Collage"
                 fill
                 priority
-                className="object-cover object-center"
+                className="object-cover object-[40%_center]"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>

@@ -72,8 +72,8 @@ export function PageHero({
           fill
           priority
           sizes={photo ? "(min-width: 1024px) 55vw, 100vw" : "100vw"}
-          className={`object-cover ${photo ? "" : "object-center"}`}
-          style={photo || imagePosition ? { objectPosition: imagePosition ?? imageFocus(image, "center 20%") } : undefined}
+          className="object-cover"
+          style={{ objectPosition: imagePosition ?? imageFocus(image, photo ? "center 20%" : "center") }}
         />
         {photo && (
           <div

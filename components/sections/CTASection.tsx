@@ -45,7 +45,7 @@ export function CTASection({
           alt=""
           fill
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-[70%_center] lg:object-center"
         />
       </div>
       {dark && <div className="absolute inset-0 bg-[var(--sane-green-deep)]/80" />}

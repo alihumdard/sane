@@ -6,6 +6,7 @@ import {
   Users,
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { imageFocus } from "@/components/shared/imageFocus";
 
 const trainings = [
   {
@@ -78,7 +79,8 @@ export function TrainingSection() {
                   src={training.image}
                   alt={training.title}
                   fill
-                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  style={{ objectPosition: imageFocus(training.image) }}
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
