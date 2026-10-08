@@ -25,8 +25,8 @@ export function Hero() {
           style={{ objectPosition: "75% center" }}
         />
       </div>
-      {/* Readability gradient — single layer, same style on every breakpoint */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#01676e]/85 via-[#01676e]/50 to-[#01676e]/20 sm:bg-gradient-to-b sm:from-[#01676e]/80 sm:via-[#01676e]/55 sm:to-[#01676e]/30 lg:hidden" />
+      {/* Readability gradient — lighter on mobile so the photo reads clearly, same technique on desktop */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#01676e]/65 via-[#01676e]/30 via-40% to-[#01676e]/10 sm:from-[#01676e]/80 sm:via-[#01676e]/55 sm:to-[#01676e]/30 lg:hidden" />
 
       <Container className="relative">
         <div className="grid grid-cols-1 lg:min-h-[410px] lg:grid-cols-2 overflow-hidden">
