@@ -40,13 +40,13 @@ export interface ProgrammeDocument {
 }
 
 export const tagStyles: Record<SessionTag, string> = {
-  Accueil: "bg-[#eaf5ee] text-[var(--sane-green)]",
-  Cérémonie: "bg-[#fff3e8] text-[var(--sane-orange)]",
-  Conférence: "bg-[#e8f0ff] text-[#2B6CB0]",
-  Panel: "bg-[#f3e8ff] text-[#6B46C1]",
-  Networking: "bg-[#e8fff3] text-[#0F766E]",
-  Formation: "bg-[#fef3c7] text-[#92400E]",
-  Recrutement: "bg-[#fee2e2] text-[#B91C1C]",
+  Accueil: "bg-[var(--sane-green-light)] text-[var(--sane-green)]",
+  Cérémonie: "bg-[var(--sane-orange-tint)] text-[var(--sane-orange)]",
+  Conférence: "bg-[var(--sane-c-e8f0ff)] text-[var(--sane-c-2b6cb0)]",
+  Panel: "bg-[var(--sane-purple-tint)] text-[var(--sane-c-6b46c1)]",
+  Networking: "bg-[var(--sane-c-e8fff3)] text-[var(--sane-c-0f766e)]",
+  Formation: "bg-[var(--sane-c-fef3c7)] text-[var(--sane-c-92400e)]",
+  Recrutement: "bg-[var(--sane-c-fee2e2)] text-[var(--sane-red-dark)]",
 };
 
 export const eventInfo: InfoItem[] = [
@@ -79,7 +79,7 @@ export const sessions: Session[] = [
     description: "Accueil des participants, remise des badges et documents.",
     tag: "Accueil",
     location: "Hall principal",
-    image: "/sane_deal.png",
+    image: "/sane_deal.webp",
   },
   {
     time: "09:00 – 09:30",
@@ -87,7 +87,7 @@ export const sessions: Session[] = [
     description: "Allocutions officielles et présentation des objectifs du SANEM.",
     tag: "Cérémonie",
     location: "Grande salle",
-    image: "/sane-company3.png",
+    image: "/sane-company3.webp",
   },
   {
     time: "09:30 – 10:30",
@@ -98,7 +98,7 @@ export const sessions: Session[] = [
     ],
     tag: "Conférence",
     location: "Grande salle",
-    image: "/sane_deal.png",
+    image: "/sane_deal.webp",
   },
   {
     time: "11:00 – 12:30",
@@ -110,7 +110,7 @@ export const sessions: Session[] = [
     ],
     tag: "Panel",
     location: "Salles thématiques",
-    image: "/sane-cv2.png",
+    image: "/sane-cv2.webp",
   },
   {
     time: "12:30 – 14:00",
@@ -118,7 +118,7 @@ export const sessions: Session[] = [
     description: "Un moment d'échange entre participants, entreprises et institutions.",
     tag: "Networking",
     location: "Espace détente",
-    image: "/sane-company3.png",
+    image: "/sane-company3.webp",
   },
   {
     time: "14:00 – 16:00",
@@ -126,7 +126,7 @@ export const sessions: Session[] = [
     description: "Ateliers pratiques animés par des experts du secteur.",
     tag: "Formation",
     location: "Salles de formation",
-    image: "/sane_deal.png",
+    image: "/sane_deal.webp",
   },
   {
     time: "16:00 – 17:30",
@@ -134,7 +134,7 @@ export const sessions: Session[] = [
     description: "Rencontrez directement des recruteurs et déposez vos CV.",
     tag: "Recrutement",
     location: "Espace recrutement",
-    image: "/sane-cv2.png",
+    image: "/sane-cv2.webp",
   },
   {
     time: "17:30 – 18:00",
@@ -142,7 +142,7 @@ export const sessions: Session[] = [
     description: "Synthèse de la journée et prochaines étapes.",
     tag: "Cérémonie",
     location: "Grande salle",
-    image: "/sane-company3.png",
+    image: "/sane-company3.webp",
   },
 ];
 

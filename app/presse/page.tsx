@@ -19,7 +19,7 @@ export default function PressePage() {
           eyebrow="SALON NATIONAL DE L'EMPLOI"
           title="Espace Presse"
           lead="Toute l'actualité du SANEM, nos communiqués, nos événements et nos ressources médias."
-          image="/press-hero.png"
+          image="/press-hero.webp"
           imageFit="banner"
           overlayStrength="light"
           actions={[

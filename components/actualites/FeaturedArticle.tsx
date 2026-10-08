@@ -13,7 +13,7 @@ export function FeaturedArticle() {
 
       <div className="grid gap-6 sm:grid-cols-2 sm:items-center">
         <Link href="#" aria-label="Lire la vidéo" className="group relative block h-[220px] overflow-hidden rounded-2xl">
-          <Image src="/sane_deal.png" alt="À la une" fill sizes="(max-width: 640px) 100vw, 40vw" className="object-cover" style={{ objectPosition: imageFocus("/sane_deal.png") }} />
+          <Image src="/sane_deal.webp" alt="À la une" fill sizes="(max-width: 640px) 100vw, 40vw" className="object-cover" style={{ objectPosition: imageFocus("/sane_deal.webp") }} />
           <span className="absolute inset-0 bg-black/30 transition-colors group-hover:bg-black/40" />
           <span className="absolute inset-0 flex items-center justify-center">
             <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-[var(--sane-green)] shadow-lg transition-transform group-hover:scale-110">

@@ -37,7 +37,7 @@ const jobs = [
     company: "Société de Services",
     location: "Niamey",
     type: "Stage",
-    typeColor: "bg-[#FFF7ED] text-[#B45309]",
+    typeColor: "bg-[var(--sane-c-fff7ed)] text-[var(--sane-c-b45309)]",
   },
 ];
 
@@ -90,11 +90,11 @@ export function JobsSection() {
         {/* SEARCH */}
         <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_auto]">
           <div className="flex h-12 items-center gap-3 rounded-lg border border-[var(--sane-border)] bg-white px-4 sm:col-span-2 lg:col-span-1">
-            <Search size={17} className="shrink-0 text-[#71857A]" />
+            <Search size={17} className="shrink-0 text-[var(--sane-c-71857a)]" />
             <input
               type="text"
               placeholder="Intitulé du poste, compétence..."
-              className="w-full bg-transparent text-sm text-[var(--sane-text)] outline-none placeholder:text-[#8A9A91]"
+              className="w-full bg-transparent text-sm text-[var(--sane-text)] outline-none placeholder:text-[var(--sane-c-8a9a91)]"
             />
           </div>
 
@@ -130,7 +130,7 @@ export function JobsSection() {
                 key={job.title}
                 className="rounded-xl border border-[var(--sane-border)] bg-white p-5 shadow-[0_5px_20px_rgba(16,99,45,0.05)] transition hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(16,99,45,0.09)]"
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#EAF4ED] text-[var(--sane-green)]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--sane-c-eaf4ed)] text-[var(--sane-green)]">
                   <BriefcaseBusiness size={19} />
                 </div>
 
@@ -138,11 +138,11 @@ export function JobsSection() {
                   {job.title}
                 </h3>
 
-                <p className="mt-1 text-xs text-[#718178]">
+                <p className="mt-1 text-xs text-[var(--sane-c-718178)]">
                   {job.company}
                 </p>
 
-                <div className="mt-3 flex items-center justify-between gap-1.5 text-xs text-[#718178]">
+                <div className="mt-3 flex items-center justify-between gap-1.5 text-xs text-[var(--sane-c-718178)]">
                   <div className="flex items-center gap-1.5">
                     <MapPin size={13} className="text-[var(--sane-orange)]" />
                     {job.location}

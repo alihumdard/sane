@@ -29,46 +29,46 @@ const sidebarItems = adminNav("Emploi", 3);
 const statsData = [
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/><path d="M9 13h6v2H9zm0-3h6v2H9z"/></svg>,
-    value: "286", label: "Total candidatures", trend: "+22%", bg: "#E8F5ED", color: "#10632D",
+    value: "286", label: "Total candidatures", trend: "+22%", bg: "var(--sane-green-tint)", color: "var(--sane-green)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>,
-    value: "124", label: "En attente", trend: "+18%", bg: "#FFF3E8", color: "#E57617",
+    value: "124", label: "En attente", trend: "+18%", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="9" r="3"/><path d="M2 21v-2c0-2.2 3.1-4 7-4s7 1.8 7 4v2H2z"/><path d="M22 21v-2c0-1.5-1.4-2.8-3.5-3.4.9.7 1.5 1.7 1.5 3.4v2h2z"/></svg>,
-    value: "96", label: "Présélectionnées", trend: "+12%", bg: "#E0F0FF", color: "#2563EB",
+    value: "96", label: "Présélectionnées", trend: "+12%", bg: "var(--sane-blue-tint)", color: "var(--sane-blue)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>,
-    value: "48", label: "En entretien", trend: "+8%", bg: "#F3E8FF", color: "#7C3AED",
+    value: "48", label: "En entretien", trend: "+8%", bg: "var(--sane-purple-tint)", color: "var(--sane-purple)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>,
-    value: "18", label: "Recrutées", trend: "+25%", bg: "#FFFBE8", color: "#D97706",
+    value: "18", label: "Recrutées", trend: "+25%", bg: "var(--sane-amber-tint)", color: "var(--sane-amber-dark)",
   },
 ];
 
 /* ─── Table Data ─── */
 const candidatures = [
-  { photo: "https://randomuser.me/api/portraits/men/11.jpg", nom: "Moussa Diallo", ville: "Niamey", id: "#JOB002", poste: "Développeur Web", entreprise: "GIZ Niger", eLogo: "giz", date: "12 Mars 2024", statut: "En attente", statutColor: "#E57617", statutBg: "#FFF3E8" },
-  { photo: "https://randomuser.me/api/portraits/women/21.jpg", nom: "Fatima Bello", ville: "Zinder", id: "#JOB004", poste: "Assistant Administratif", entreprise: "Banque Mondiale", eLogo: "bm", date: "11 Mars 2024", statut: "Présélectionnée", statutColor: "#2563EB", statutBg: "#E0F0FF" },
-  { photo: "https://randomuser.me/api/portraits/men/33.jpg", nom: "Ibrahim Touré", ville: "Niamey", id: "#JOB001", poste: "Chargé de Communication", entreprise: "Enabel Niger", eLogo: "enabel", date: "10 Mars 2024", statut: "En entretien", statutColor: "#7C3AED", statutBg: "#F3E8FF" },
-  { photo: "https://randomuser.me/api/portraits/women/34.jpg", nom: "Aicha Souley", ville: "Maradi", id: "#JOB003", poste: "Spécialiste Suivi & Évaluation", entreprise: "PNUD Niger", eLogo: "pnud", date: "09 Mars 2024", statut: "Présélectionnée", statutColor: "#2563EB", statutBg: "#E0F0FF" },
-  { photo: "https://randomuser.me/api/portraits/men/55.jpg", nom: "Omar Issa", ville: "Agadez", id: "#JOB005", poste: "Expert en Formation", entreprise: "AFD Niger", eLogo: "afd", date: "08 Mars 2024", statut: "Recrutée", statutColor: "#10632D", statutBg: "#E8F5ED" },
-  { photo: "https://randomuser.me/api/portraits/women/56.jpg", nom: "Nadia Saidou", ville: "Niamey", id: "#JOB007", poste: "Responsable RH", entreprise: "UNICEF Niger", eLogo: "unicef", date: "07 Mars 2024", statut: "En attente", statutColor: "#E57617", statutBg: "#FFF3E8" },
-  { photo: "https://randomuser.me/api/portraits/men/61.jpg", nom: "Yacoubou Sani", ville: "Tahoua", id: "#JOB008", poste: "Formateur en Entrepreneuriat", entreprise: "PNUD Niger", eLogo: "pnud", date: "06 Mars 2024", statut: "En entretien", statutColor: "#7C3AED", statutBg: "#F3E8FF" },
-  { photo: "https://randomuser.me/api/portraits/women/62.jpg", nom: "Khadija Ali", ville: "Niamey", id: "#JOB010", poste: "Coordinateur de Programme", entreprise: "SANEM", eLogo: "sane", date: "05 Mars 2024", statut: "Présélectionnée", statutColor: "#2563EB", statutBg: "#E0F0FF" },
-  { photo: "https://randomuser.me/api/portraits/men/63.jpg", nom: "Ahmed Mahamane", ville: "Zinder", id: "#JOB009", poste: "Analyste de Données", entreprise: "Banque Mondiale", eLogo: "bm", date: "04 Mars 2024", statut: "En attente", statutColor: "#E57617", statutBg: "#FFF3E8" },
-  { photo: "https://randomuser.me/api/portraits/women/64.jpg", nom: "Mariama Amadou", ville: "Niamey", id: "#JOB006", poste: "Chef de Projet Digital", entreprise: "SANEM", eLogo: "sane", date: "02 Mars 2024", statut: "Recrutée", statutColor: "#10632D", statutBg: "#E8F5ED" },
+  { photo: "https://randomuser.me/api/portraits/men/11.jpg", nom: "Moussa Diallo", ville: "Niamey", id: "#JOB002", poste: "Développeur Web", entreprise: "GIZ Niger", eLogo: "giz", date: "12 Mars 2024", statut: "En attente", statutColor: "var(--sane-orange)", statutBg: "var(--sane-orange-tint)" },
+  { photo: "https://randomuser.me/api/portraits/women/21.jpg", nom: "Fatima Bello", ville: "Zinder", id: "#JOB004", poste: "Assistant Administratif", entreprise: "Banque Mondiale", eLogo: "bm", date: "11 Mars 2024", statut: "Présélectionnée", statutColor: "var(--sane-blue)", statutBg: "var(--sane-blue-tint)" },
+  { photo: "https://randomuser.me/api/portraits/men/33.jpg", nom: "Ibrahim Touré", ville: "Niamey", id: "#JOB001", poste: "Chargé de Communication", entreprise: "Enabel Niger", eLogo: "enabel", date: "10 Mars 2024", statut: "En entretien", statutColor: "var(--sane-purple)", statutBg: "var(--sane-purple-tint)" },
+  { photo: "https://randomuser.me/api/portraits/women/34.jpg", nom: "Aicha Souley", ville: "Maradi", id: "#JOB003", poste: "Spécialiste Suivi & Évaluation", entreprise: "PNUD Niger", eLogo: "pnud", date: "09 Mars 2024", statut: "Présélectionnée", statutColor: "var(--sane-blue)", statutBg: "var(--sane-blue-tint)" },
+  { photo: "https://randomuser.me/api/portraits/men/55.jpg", nom: "Omar Issa", ville: "Agadez", id: "#JOB005", poste: "Expert en Formation", entreprise: "AFD Niger", eLogo: "afd", date: "08 Mars 2024", statut: "Recrutée", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)" },
+  { photo: "https://randomuser.me/api/portraits/women/56.jpg", nom: "Nadia Saidou", ville: "Niamey", id: "#JOB007", poste: "Responsable RH", entreprise: "UNICEF Niger", eLogo: "unicef", date: "07 Mars 2024", statut: "En attente", statutColor: "var(--sane-orange)", statutBg: "var(--sane-orange-tint)" },
+  { photo: "https://randomuser.me/api/portraits/men/61.jpg", nom: "Yacoubou Sani", ville: "Tahoua", id: "#JOB008", poste: "Formateur en Entrepreneuriat", entreprise: "PNUD Niger", eLogo: "pnud", date: "06 Mars 2024", statut: "En entretien", statutColor: "var(--sane-purple)", statutBg: "var(--sane-purple-tint)" },
+  { photo: "https://randomuser.me/api/portraits/women/62.jpg", nom: "Khadija Ali", ville: "Niamey", id: "#JOB010", poste: "Coordinateur de Programme", entreprise: "SANEM", eLogo: "sane", date: "05 Mars 2024", statut: "Présélectionnée", statutColor: "var(--sane-blue)", statutBg: "var(--sane-blue-tint)" },
+  { photo: "https://randomuser.me/api/portraits/men/63.jpg", nom: "Ahmed Mahamane", ville: "Zinder", id: "#JOB009", poste: "Analyste de Données", entreprise: "Banque Mondiale", eLogo: "bm", date: "04 Mars 2024", statut: "En attente", statutColor: "var(--sane-orange)", statutBg: "var(--sane-orange-tint)" },
+  { photo: "https://randomuser.me/api/portraits/women/64.jpg", nom: "Mariama Amadou", ville: "Niamey", id: "#JOB006", poste: "Chef de Projet Digital", entreprise: "SANEM", eLogo: "sane", date: "02 Mars 2024", statut: "Recrutée", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)" },
 ];
 
 /* ─── Donut segments ─── */
 const statuses = [
-  { label: "En attente", value: 124, pct: 43, color: "#E57617" },
-  { label: "Présélectionnée", value: 96, pct: 34, color: "#2563EB" },
-  { label: "En entretien", value: 48, pct: 17, color: "#7C3AED" },
-  { label: "Recrutée", value: 18, pct: 6, color: "#10632D" },
+  { label: "En attente", value: 124, pct: 43, color: "var(--sane-orange)" },
+  { label: "Présélectionnée", value: 96, pct: 34, color: "var(--sane-blue)" },
+  { label: "En entretien", value: 48, pct: 17, color: "var(--sane-purple)" },
+  { label: "Recrutée", value: 18, pct: 6, color: "var(--sane-green)" },
 ];
 
 /* ─── Top postes ─── */
@@ -91,7 +91,7 @@ const topEntreprises = [
 
 function DocIcon({ filled }: { filled?: boolean }) {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill={filled ? "#10632D" : "none"} stroke={filled ? "#10632D" : "#94A3B8"} strokeWidth="2">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill={filled ? "var(--sane-green)" : "none"} stroke={filled ? "var(--sane-green)" : "var(--sane-slate)"} strokeWidth="2">
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
       <polyline points="14 2 14 8 20 8" />
     </svg>
@@ -153,15 +153,15 @@ export default function CandidaturesPage() {
                     <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Candidat <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Candidat <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Poste</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Entreprise</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Date <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Date <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Statut <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Statut <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">CV</th>
                       <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Lettre</th>

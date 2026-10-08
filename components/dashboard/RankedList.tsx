@@ -15,7 +15,7 @@ interface Props {
   className?: string;
 }
 
-const defaultRankColors = ["#E57617", "#10632D", "#2563EB", "#7C3AED", "#DB2777"];
+const defaultRankColors = ["var(--sane-orange)", "var(--sane-green)", "var(--sane-blue)", "var(--sane-purple)", "var(--sane-pink)"];
 
 export default function RankedList({ heading, items, rankColors = defaultRankColors, showViewAll = false, className = "" }: Props) {
   return (
@@ -31,7 +31,7 @@ export default function RankedList({ heading, items, rankColors = defaultRankCol
         {items.map((item, i) => (
           <div key={i} className="flex items-center gap-2">
             {item.icon || (
-              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold" style={{ backgroundColor: `${rankColors[i % rankColors.length]}18`, color: rankColors[i % rankColors.length] }}>
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold" style={{ backgroundColor: `color-mix(in srgb, ${rankColors[i % rankColors.length]} 9%, transparent)`, color: rankColors[i % rankColors.length] }}>
                 {item.rank}
               </span>
             )}
@@ -39,7 +39,7 @@ export default function RankedList({ heading, items, rankColors = defaultRankCol
               <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight truncate">{item.title}</p>
               <p className="text-[9px] text-[var(--sane-text-light)]">{item.subtitle}</p>
             </div>
-            <svg className="shrink-0" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="#61756B" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
+            <svg className="shrink-0" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="var(--sane-text-light)" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
           </div>
         ))}
       </div>

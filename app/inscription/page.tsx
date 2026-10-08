@@ -15,7 +15,7 @@ export default function InscriptionPage() {
           title="Inscription Participant"
           lead="Rejoignez le SANEM et vivez une expérience unique."
           description="Inscrivez-vous pour participer au Salon National de l'Emploi et accédez aux conférences, formations, rencontres et opportunités d'emploi."
-          image="/sane_deal.png"
+          image="/sane_deal.webp"
           actions={[
             { href: "#form", label: "Créer mon compte" },
             { href: "/programme", label: "Voir le programme", variant: "secondary" },

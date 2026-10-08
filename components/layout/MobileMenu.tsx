@@ -27,7 +27,7 @@ export function MobileMenu() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="border-b border-[#eef3ef] py-3 text-sm font-semibold text-[var(--sane-text)]"
+                className="border-b border-[var(--sane-c-eef3ef)] py-3 text-sm font-semibold text-[var(--sane-text)]"
               >
                 {item.label}
               </Link>

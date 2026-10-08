@@ -25,40 +25,40 @@ const sidebarItems = adminNav("Utilisateurs", 0);
 const statsData = [
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20v-2c0-2.2 3.6-4 8-4s8 1.8 8 4v2H4z"/></svg>,
-    value: "1,248", label: "Total utilisateurs", trend: "+12%", bg: "#E8F5ED", color: "#10632D",
+    value: "1,248", label: "Total utilisateurs", trend: "+12%", bg: "var(--sane-green-tint)", color: "var(--sane-green)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="9" r="3"/><path d="M2 21v-2c0-2.2 3.1-4 7-4s7 1.8 7 4v2H2z"/><path d="M22 21v-2c0-1.5-1.4-2.8-3.5-3.4.9.7 1.5 1.7 1.5 3.4v2h2z"/></svg>,
-    value: "856", label: "Participants", trend: "+18%", bg: "#FFF3E8", color: "#E57617",
+    value: "856", label: "Participants", trend: "+18%", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>,
-    value: "214", label: "Entreprises", trend: "+8%", bg: "#E0F0FF", color: "#2563EB",
+    value: "214", label: "Entreprises", trend: "+8%", bg: "var(--sane-blue-tint)", color: "var(--sane-blue)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.53 15.49 0 12.36 0c-1.7 0-3.21.94-4.1 2.35L12 6H8l-1.5-2.62C5.62 2.18 4.2 2 3 2H2C.9 2 0 2.9 0 4v16c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>,
-    value: "156", label: "Recruteurs", trend: "+10%", bg: "#F3E8FF", color: "#7C3AED",
+    value: "156", label: "Recruteurs", trend: "+10%", bg: "var(--sane-purple-tint)", color: "var(--sane-purple)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>,
-    value: "22", label: "Organisateurs", trend: "+4%", bg: "#E8F5ED", color: "#059669",
+    value: "22", label: "Organisateurs", trend: "+4%", bg: "var(--sane-green-tint)", color: "var(--sane-emerald)",
   },
 ];
 
 /* ─── Role colors ─── */
 const roleStyle: Record<string, { bg: string; color: string }> = {
-  "Participant":    { bg: "#E8F5ED", color: "#10632D" },
-  "Recruteur":      { bg: "#F3E8FF", color: "#7C3AED" },
-  "Entreprise":     { bg: "#E0F0FF", color: "#2563EB" },
-  "Organisateur":   { bg: "#CCFBF1", color: "#0D9488" },
-  "Administrateur": { bg: "#FFF3E8", color: "#E57617" },
+  "Participant":    { bg: "var(--sane-green-tint)", color: "var(--sane-green)" },
+  "Recruteur":      { bg: "var(--sane-purple-tint)", color: "var(--sane-purple)" },
+  "Entreprise":     { bg: "var(--sane-blue-tint)", color: "var(--sane-blue)" },
+  "Organisateur":   { bg: "var(--sane-c-ccfbf1)", color: "var(--sane-c-0d9488)" },
+  "Administrateur": { bg: "var(--sane-orange-tint)", color: "var(--sane-orange)" },
 };
 
 /* ─── Statut colors ─── */
 const statutStyle: Record<string, { bg: string; color: string }> = {
-  "Actif":      { bg: "#E8F5ED", color: "#10632D" },
-  "En attente": { bg: "#FFF3E8", color: "#E57617" },
-  "Inactif":    { bg: "#FEE2E2", color: "#DC2626" },
+  "Actif":      { bg: "var(--sane-green-tint)", color: "var(--sane-green)" },
+  "En attente": { bg: "var(--sane-orange-tint)", color: "var(--sane-orange)" },
+  "Inactif":    { bg: "var(--sane-c-fee2e2)", color: "var(--sane-red)" },
 };
 
 /* ─── Users data ─── */
@@ -102,7 +102,7 @@ export default function UtilisateursPage() {
           {/* Hero Banner */}
           <div className="relative mb-4 min-h-[110px] sm:h-[150px] overflow-hidden rounded-2xl bg-[var(--sane-green-deep)]">
             <div className="absolute inset-0">
-              <Image src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=300&fit=crop&crop=center" alt="hero" fill className="object-cover object-center opacity-60" />
+              <Image src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=300&fit=crop&crop=center" alt="hero" fill sizes="100vw" className="object-cover object-center opacity-60" />
             </div>
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--sane-green-deep)]/95 via-[var(--sane-green-deep)]/70 to-[var(--sane-green-deep)]/30" />
             <div className="absolute inset-0 flex flex-col justify-center px-5 sm:px-8">
@@ -155,8 +155,8 @@ export default function UtilisateursPage() {
               </thead>
               <tbody>
                 {tbl.pageRows.map((u) => {
-                  const rs = roleStyle[u.role] ?? { bg: "#F5F9F6", color: "#61756B" };
-                  const ss = statutStyle[u.statut] ?? { bg: "#F5F9F6", color: "#61756B" };
+                  const rs = roleStyle[u.role] ?? { bg: "var(--sane-background)", color: "var(--sane-text-light)" };
+                  const ss = statutStyle[u.statut] ?? { bg: "var(--sane-background)", color: "var(--sane-text-light)" };
                   return (
                     <tr key={u._uid} className="border-b border-[var(--sane-border)] last:border-0 hover:bg-[var(--sane-background)]/50">
                       <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(u._uid)} onChange={() => tbl.toggle(u._uid)} /></td>

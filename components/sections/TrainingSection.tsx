@@ -13,19 +13,19 @@ const trainings = [
     title: "Leadership & Management",
     duration: "2 jours",
     seats: "Places limitées",
-    image: "/Leadership2.png",
+    image: "/Leadership2.webp",
   },
   {
     title: "Transformation Digitale",
     duration: "1 jour",
     seats: "Places limitées",
-    image: "/Transformation3.png",
+    image: "/Transformation3.webp",
   },
   {
     title: "Entrepreneuriat des Jeunes",
     duration: "2 jours",
     seats: "Places limitées",
-    image: "/Entrepreneuriat.png",
+    image: "/Entrepreneuriat.webp",
   },
 ];
 
@@ -92,12 +92,12 @@ export function TrainingSection() {
                 </h3>
 
                 <div className="mt-3 flex items-center gap-4">
-                  <div className="flex items-center gap-1.5 text-[12px] text-[#718178]">
+                  <div className="flex items-center gap-1.5 text-[12px] text-[var(--sane-c-718178)]">
                     <Clock3 size={13} className="text-[var(--sane-orange)]" />
                     {training.duration}
                   </div>
 
-                  <div className="flex items-center gap-1.5 text-[12px] text-[#718178]">
+                  <div className="flex items-center gap-1.5 text-[12px] text-[var(--sane-c-718178)]">
                     <Users size={13} className="text-[var(--sane-orange)]" />
                     {training.seats}
                   </div>

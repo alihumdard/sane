@@ -21,7 +21,7 @@ export default function StatsCard({ icon, value, label, trend, trendLabel, bg, c
           <span className="text-[20px] font-extrabold text-[var(--sane-green-deep)] leading-none">{value}</span>
           <div className="hidden flex-col items-end min-[360px]:flex">
             <span className="flex items-center gap-0.5 text-[9px] font-semibold text-[var(--sane-green)]">
-              <svg width="7" height="7" viewBox="0 0 10 10" fill="#10632D"><path d="M5 1 L9 9 L1 9 Z"/></svg>
+              <svg width="7" height="7" viewBox="0 0 10 10" fill="var(--sane-green)"><path d="M5 1 L9 9 L1 9 Z"/></svg>
               {trend}
             </span>
             <span className="hidden text-[8px] text-[var(--sane-text-light)]/70 whitespace-nowrap sm:inline">{trendLabel || "vs. mois dernier"}</span>

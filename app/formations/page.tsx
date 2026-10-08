@@ -23,7 +23,7 @@ export default function FormationsPage() {
           lead="Développez vos compétences pour un meilleur avenir."
           description="Le SANEM propose des formations pratiques et adaptées aux besoins du marché du travail pour renforcer l'employabilité des jeunes et accompagner le développement des compétences au Niger."
           imageFit="banner"
-          image="/formation-bg.png"
+          image="/formation-bg.webp"
           tone="light"
           actions={[
             { href: "#catalogue", label: "Voir les formations" },

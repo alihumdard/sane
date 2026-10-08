@@ -66,7 +66,7 @@ export function HowItWorksSection() {
               <div key={step.number} className="relative flex flex-col items-start">
                 {/* Arrow connector — hidden on last item and on mobile */}
                 {index < steps.length - 1 && (
-                  <div className="absolute right-0 top-6 hidden translate-x-1/2 text-[#D4E1D8] md:block">
+                  <div className="absolute right-0 top-6 hidden translate-x-1/2 text-[var(--sane-c-d4e1d8)] md:block">
                     <ArrowRight size={20} />
                   </div>
                 )}
@@ -94,7 +94,7 @@ export function HowItWorksSection() {
                 </h3>
 
                 {/* Description */}
-                <p className="mt-2 text-[13px] leading-5 text-[#718178]">
+                <p className="mt-2 text-[13px] leading-5 text-[var(--sane-c-718178)]">
                   {step.description}
                 </p>
               </div>

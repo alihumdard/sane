@@ -12,10 +12,10 @@ interface TeamMember {
 }
 
 const team: TeamMember[] = [
-  { name: "M. Ibrahim Maiga", role: "Président du Comité d'organisation", img: "/sane-card4.png" },
-  { name: "Mme Aïssatou Issa", role: "Coordinatrice des formations", img: "/sane-card.png" },
-  { name: "M. Moussa Alidou", role: "Responsable Partenariats", img: "/Intervenants-card.png" },
-  { name: "Mme Kadidia Salifou", role: "Responsable Communication", img: "/sane-card4.png" },
+  { name: "M. Ibrahim Maiga", role: "Président du Comité d'organisation", img: "/sane-card4.webp" },
+  { name: "Mme Aïssatou Issa", role: "Coordinatrice des formations", img: "/sane-card.webp" },
+  { name: "M. Moussa Alidou", role: "Responsable Partenariats", img: "/Intervenants-card.webp" },
+  { name: "Mme Kadidia Salifou", role: "Responsable Communication", img: "/sane-card4.webp" },
 ];
 
 function TeamCard({ member }: { member: TeamMember }) {

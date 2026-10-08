@@ -90,7 +90,7 @@ export function JobsGrid() {
             </div>
             <Link
               href="#"
-              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap text-[12px] font-semibold text-[#178040] hover:underline sm:text-[14px]"
+              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap text-[12px] font-semibold text-[var(--sane-c-178040)] hover:underline sm:text-[14px]"
             >
               Voir toutes les offres <ArrowRight size={14} />
             </Link>
@@ -123,7 +123,7 @@ export function JobsGrid() {
                         <span className="shrink-0 whitespace-nowrap rounded-full bg-[var(--sane-orange-light)] px-2 py-[3px] text-center text-[11px] font-bold text-[var(--sane-orange)]">
                           {j.contract}
                         </span>
-                        <span className="shrink-0 rounded-full bg-[#eef4f1] px-2 py-[3px] text-center text-[11px] font-medium text-[var(--sane-text-light)]">
+                        <span className="shrink-0 rounded-full bg-[var(--sane-c-eef4f1)] px-2 py-[3px] text-center text-[11px] font-medium text-[var(--sane-text-light)]">
                           {j.category}
                         </span>
                         <span className="flex shrink-0 items-center gap-1.5 text-[var(--sane-text-light)]">
@@ -150,7 +150,7 @@ export function JobsGrid() {
             {/* Sidebar */}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-1">
               {/* Map card */}
-              <div className="relative overflow-hidden rounded-xl border border-[var(--sane-border)] bg-[#f7fbf9] p-4 shadow-sm">
+              <div className="relative overflow-hidden rounded-xl border border-[var(--sane-border)] bg-[var(--sane-c-f7fbf9)] p-4 shadow-sm">
                 {/* Niger map — right side, natural proportions */}
                 <svg
                   viewBox="0 0 200 140"
@@ -216,7 +216,7 @@ export function JobsGrid() {
                       <div key={s.name} className="flex items-center gap-2.5 text-[12px]">
                         <SectorIcon size={15} strokeWidth={1.9} className="shrink-0 text-[var(--sane-green)]" />
                         <span className="min-w-0 flex-1 truncate text-[var(--sane-text-light)]">{s.name}</span>
-                        <span className="shrink-0 rounded-md bg-[#f1f5f3] px-2 py-[3px] text-[11px] font-bold text-[var(--sane-text)]">
+                        <span className="shrink-0 rounded-md bg-[var(--sane-c-f1f5f3)] px-2 py-[3px] text-[11px] font-bold text-[var(--sane-text)]">
                           {s.count}
                         </span>
                       </div>

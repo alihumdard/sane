@@ -22,7 +22,7 @@ export default function BarChart({ title, icon, bars, maxValue }: Props) {
     <div className="rounded-xl border border-[var(--sane-border)] bg-white p-3">
       <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          {icon || <svg width="14" height="14" viewBox="0 0 24 24" fill="#10632D"><path d="M3 3v18h18M9 17V9m4 8V5m4 12v-4"/></svg>}
+          {icon || <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--sane-green)"><path d="M3 3v18h18M9 17V9m4 8V5m4 12v-4"/></svg>}
           <span className="text-[12px] font-bold text-[var(--sane-green-deep)]">{title}</span>
         </div>
         <select className="rounded border border-[var(--sane-border)] px-1.5 py-0.5 text-[9px] text-[var(--sane-text-light)] outline-none">

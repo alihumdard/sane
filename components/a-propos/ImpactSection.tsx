@@ -22,7 +22,7 @@ export function ImpactSection() {
     <section className="relative bg-white py-10 sm:py-12 md:py-16 overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
-        style={{ backgroundImage: "url('/vision-bg.png')" }}
+        style={{ backgroundImage: "url('/vision-bg.webp')" }}
       />
       <Container className="relative z-10">
         <div className="grid items-center gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
@@ -55,7 +55,7 @@ export function ImpactSection() {
           <div className="relative">
             <div className="relative aspect-[3/2] overflow-hidden rounded-2xl shadow-xl">
               <Image
-                src="/sane-deal3.png"
+                src="/sane-deal3.webp"
                 alt="Impact SANEM"
                 fill
                 className="object-cover object-[center_25%]"

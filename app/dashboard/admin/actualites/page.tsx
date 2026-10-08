@@ -28,100 +28,100 @@ const sidebarItems = adminNav("Actualités", 0);
 const statsData = [
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>,
-    value: "86", label: "Total des actualités", trend: "+22%", bg: "#E8F5ED", color: "#10632D",
+    value: "86", label: "Total des actualités", trend: "+22%", bg: "var(--sane-green-tint)", color: "var(--sane-green)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg>,
-    value: "12", label: "Brouillons", trend: "+8%", bg: "#FFF3E8", color: "#E57617",
+    value: "12", label: "Brouillons", trend: "+8%", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>,
-    value: "54.2K", label: "Vues totales", trend: "+35%", bg: "#E0F0FF", color: "#2563EB",
+    value: "54.2K", label: "Vues totales", trend: "+35%", bg: "var(--sane-blue-tint)", color: "var(--sane-blue)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
-    value: "320", label: "Commentaires", trend: "+18%", bg: "#F3E8FF", color: "#7C3AED",
+    value: "320", label: "Commentaires", trend: "+18%", bg: "var(--sane-purple-tint)", color: "var(--sane-purple)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
-    value: "12", label: "Actualités en vedette", trend: "+33%", bg: "#FFFBE8", color: "#D97706",
+    value: "12", label: "Actualités en vedette", trend: "+33%", bg: "var(--sane-amber-tint)", color: "var(--sane-amber-dark)",
   },
 ];
 
 /* ─── Table Data ─── */
 const actualites = [
   {
-    id: 1, titre: "Lancement officiel du Salon National de l'Emploi 2024", categorie: "Événement", catColor: "#10632D",
+    id: 1, titre: "Lancement officiel du Salon National de l'Emploi 2024", categorie: "Événement", catColor: "var(--sane-green)",
     auteur: "Admin", auteurImg: "https://randomuser.me/api/portraits/men/32.jpg",
-    date: "12 Mars 2024", vues: 2850, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    date: "12 Mars 2024", vues: 2850, statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     vedette: true, img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=80&h=56&fit=crop",
   },
   {
-    id: 2, titre: "Le Niger mise sur la formation des jeunes pour l'avenir", categorie: "Formation", catColor: "#E57617",
+    id: 2, titre: "Le Niger mise sur la formation des jeunes pour l'avenir", categorie: "Formation", catColor: "var(--sane-orange)",
     auteur: "Fatima Bello", auteurImg: "https://randomuser.me/api/portraits/women/44.jpg",
-    date: "10 Mars 2024", vues: 1920, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    date: "10 Mars 2024", vues: 1920, statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     vedette: false, img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=80&h=56&fit=crop",
   },
   {
-    id: 3, titre: "Nouveau partenariat avec l'AFD pour l'emploi des jeunes", categorie: "Partenariat", catColor: "#2563EB",
+    id: 3, titre: "Nouveau partenariat avec l'AFD pour l'emploi des jeunes", categorie: "Partenariat", catColor: "var(--sane-blue)",
     auteur: "Ibrahim Touré", auteurImg: "https://randomuser.me/api/portraits/men/45.jpg",
-    date: "08 Mars 2024", vues: 1650, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    date: "08 Mars 2024", vues: 1650, statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     vedette: false, img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=80&h=56&fit=crop",
   },
   {
-    id: 4, titre: "Focus sur les métiers du numérique au SANEM 2024", categorie: "Emploi", catColor: "#7C3AED",
+    id: 4, titre: "Focus sur les métiers du numérique au SANEM 2024", categorie: "Emploi", catColor: "var(--sane-purple)",
     auteur: "Aicha Souley", auteurImg: "https://randomuser.me/api/portraits/women/68.jpg",
-    date: "05 Mars 2024", vues: 2340, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    date: "05 Mars 2024", vues: 2340, statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     vedette: true, img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=80&h=56&fit=crop",
   },
   {
-    id: 5, titre: "Témoignages : des jeunes trouvent des opportunités grâce au SANEM", categorie: "Témoignage", catColor: "#0891B2",
+    id: 5, titre: "Témoignages : des jeunes trouvent des opportunités grâce au SANEM", categorie: "Témoignage", catColor: "var(--sane-cyan)",
     auteur: "Omar Issa", auteurImg: "https://randomuser.me/api/portraits/men/52.jpg",
-    date: "02 Mars 2024", vues: 1280, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    date: "02 Mars 2024", vues: 1280, statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     vedette: false, img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=80&h=56&fit=crop",
   },
   {
-    id: 6, titre: "Conférence : Les défis de l'emploi des jeunes au Niger", categorie: "Conférence", catColor: "#DB2777",
+    id: 6, titre: "Conférence : Les défis de l'emploi des jeunes au Niger", categorie: "Conférence", catColor: "var(--sane-pink)",
     auteur: "Nadia Saidou", auteurImg: "https://randomuser.me/api/portraits/women/33.jpg",
-    date: "28 Fév 2024", vues: 1760, statut: "En attente", statutColor: "#D97706", statutBg: "#FFFBE8",
+    date: "28 Fév 2024", vues: 1760, statut: "En attente", statutColor: "var(--sane-amber-dark)", statutBg: "var(--sane-amber-tint)",
     vedette: false, img: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=80&h=56&fit=crop",
   },
   {
-    id: 7, titre: "Atelier sur les compétences numériques pour l'emploi", categorie: "Atelier", catColor: "#D97706",
+    id: 7, titre: "Atelier sur les compétences numériques pour l'emploi", categorie: "Atelier", catColor: "var(--sane-amber-dark)",
     auteur: "Yacoubou Sani", auteurImg: "https://randomuser.me/api/portraits/men/61.jpg",
-    date: "25 Fév 2024", vues: 1450, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    date: "25 Fév 2024", vues: 1450, statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     vedette: false, img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=80&h=56&fit=crop",
   },
   {
-    id: 8, titre: "Signature d'un accord avec l'Union Européenne", categorie: "Partenariat", catColor: "#2563EB",
+    id: 8, titre: "Signature d'un accord avec l'Union Européenne", categorie: "Partenariat", catColor: "var(--sane-blue)",
     auteur: "Khadija Ali", auteurImg: "https://randomuser.me/api/portraits/women/55.jpg",
-    date: "22 Fév 2024", vues: 2120, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    date: "22 Fév 2024", vues: 2120, statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     vedette: true, img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=80&h=56&fit=crop",
   },
   {
-    id: 9, titre: "Les femmes au cœur de l'emploi : une initiative inspirante", categorie: "Inclusion", catColor: "#059669",
+    id: 9, titre: "Les femmes au cœur de l'emploi : une initiative inspirante", categorie: "Inclusion", catColor: "var(--sane-emerald)",
     auteur: "Ahmed Mahamane", auteurImg: "https://randomuser.me/api/portraits/men/36.jpg",
-    date: "20 Fév 2024", vues: 1880, statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    date: "20 Fév 2024", vues: 1880, statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     vedette: false, img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=80&h=56&fit=crop",
   },
   {
-    id: 10, titre: "Préparatifs du SANEM 2024 : les coulisses de l'organisation", categorie: "Organisation", catColor: "#61756B",
+    id: 10, titre: "Préparatifs du SANEM 2024 : les coulisses de l'organisation", categorie: "Organisation", catColor: "var(--sane-text-light)",
     auteur: "Mariama Amadou", auteurImg: "https://randomuser.me/api/portraits/women/42.jpg",
-    date: "18 Fév 2024", vues: 1320, statut: "Brouillon", statutColor: "#61756B", statutBg: "#F5F9F6",
+    date: "18 Fév 2024", vues: 1320, statut: "Brouillon", statutColor: "var(--sane-text-light)", statutBg: "var(--sane-background)",
     vedette: false, img: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=80&h=56&fit=crop",
   },
 ];
 
 /* ─── Donut chart segments ─── */
 const donutSegments = [
-  { label: "Événement", value: 22, pct: 25, color: "#10632D" },
-  { label: "Formation", value: 15, pct: 18, color: "#E57617" },
-  { label: "Partenariat", value: 14, pct: 16, color: "#2563EB" },
-  { label: "Emploi", value: 12, pct: 14, color: "#7C3AED" },
-  { label: "Témoignage", value: 9, pct: 10, color: "#0891B2" },
-  { label: "Conférence", value: 7, pct: 8, color: "#DB2777" },
-  { label: "Atelier", value: 5, pct: 6, color: "#D97706" },
-  { label: "Inclusion", value: 2, pct: 3, color: "#059669" },
+  { label: "Événement", value: 22, pct: 25, color: "var(--sane-green)" },
+  { label: "Formation", value: 15, pct: 18, color: "var(--sane-orange)" },
+  { label: "Partenariat", value: 14, pct: 16, color: "var(--sane-blue)" },
+  { label: "Emploi", value: 12, pct: 14, color: "var(--sane-purple)" },
+  { label: "Témoignage", value: 9, pct: 10, color: "var(--sane-cyan)" },
+  { label: "Conférence", value: 7, pct: 8, color: "var(--sane-pink)" },
+  { label: "Atelier", value: 5, pct: 6, color: "var(--sane-amber-dark)" },
+  { label: "Inclusion", value: 2, pct: 3, color: "var(--sane-emerald)" },
 ];
 
 /* ─── Top actualités (vues) ─── */
@@ -162,13 +162,13 @@ export default function ActualitesPage() {
           {/* Hero Banner - dark variant */}
           <div className="relative mb-4 min-h-[120px] sm:h-[160px] overflow-hidden rounded-2xl bg-[var(--sane-green-deep)]">
             <div className="absolute right-0 top-0 h-full w-full sm:w-[55%]">
-              <Image src="https://images.unsplash.com/photo-1611432579699-484f7990b127?w=800&h=400&fit=crop" alt="actualités" fill className="object-cover" />
+              <Image src="https://images.unsplash.com/photo-1611432579699-484f7990b127?w=800&h=400&fit=crop" alt="actualités" fill sizes="100vw" className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-r from-[var(--sane-green-deep)] via-[var(--sane-green-deep)]/60 to-[var(--sane-green-deep)]/20 sm:via-[var(--sane-green-deep)]/40 sm:to-transparent" />
             </div>
             <div className="absolute right-[110px] top-1/2 -translate-y-1/2 opacity-60 hidden sm:block">
               <svg width="100" height="100" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="45" fill="white" opacity="0.08" />
-                <circle cx="50" cy="50" r="45" stroke="#E57617" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
+                <circle cx="50" cy="50" r="45" stroke="var(--sane-orange)" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
                 <text x="50" y="48" textAnchor="middle" fill="white" fontSize="18" fontWeight="800">SANEM</text>
                 <text x="50" y="60" textAnchor="middle" fill="white" fontSize="5" fontWeight="600" letterSpacing="0.5">SALON NATIONAL DE L&apos;EMPLOI</text>
               </svg>
@@ -219,19 +219,19 @@ export default function ActualitesPage() {
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Image</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Titre de l&apos;actualité <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Titre de l&apos;actualité <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Catégorie</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Auteur</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Date de publication <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Date de publication <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Vues <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Vues <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Statut</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">En vedette <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">En vedette <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Actions</th>
                     </tr>
@@ -242,21 +242,21 @@ export default function ActualitesPage() {
                         <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(a._uid)} onChange={() => tbl.toggle(a._uid)} /></td>
                         <td className="px-2 py-1.5">
                           <div className="relative h-9 w-[56px] overflow-hidden rounded-md border border-[var(--sane-border)]">
-                            <Image src={a.img} alt={a.titre} fill className="object-cover object-center" />
+                            <Image src={a.img} alt={a.titre} fill sizes="100vw" className="object-cover object-center" />
                           </div>
                         </td>
                         <td className="px-2 py-2.5 min-w-[220px] max-w-[280px]">
                           <p className="text-[12px] font-semibold text-[var(--sane-green-deep)] leading-snug line-clamp-2">{a.titre}</p>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: `${a.catColor}18`, color: a.catColor }}>
+                          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: `color-mix(in srgb, ${a.catColor} 9%, transparent)`, color: a.catColor }}>
                             {a.categorie}
                           </span>
                         </td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-1.5">
                             <div className="relative h-6 w-6 shrink-0 overflow-hidden rounded-full">
-                              <Image src={a.auteurImg} alt={a.auteur} fill className="object-cover" />
+                              <Image src={a.auteurImg} alt={a.auteur} fill sizes="100vw" className="object-cover" />
                             </div>
                             <span className="text-[10px] text-[var(--sane-green-deep)] font-medium whitespace-nowrap">{a.auteur}</span>
                           </div>
@@ -274,7 +274,7 @@ export default function ActualitesPage() {
                         </td>
                         <td className="px-2 py-2 text-center">
                           {a.vedette ? (
-                            <Star size={14} className="inline text-[#D97706]" fill="#D97706" />
+                            <Star size={14} className="inline text-[var(--sane-amber-dark)]" fill="var(--sane-amber-dark)" />
                           ) : (
                             <Star size={14} className="inline text-[var(--sane-border)]" />
                           )}

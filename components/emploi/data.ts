@@ -45,11 +45,11 @@ export const emploiInfo: InfoItem[] = [
 ];
 
 export const jobs: Job[] = [
-  { company: "Enabel", companyFull: "Enabel Niger", title: "Chargé de Communication", location: "Niamey", contract: "CDI", category: "Communication", date: "12 Mars 2024", color: "#e30613" },
-  { company: "GIZ", companyFull: "GIZ Niger", title: "Développeur Web", location: "Niamey", contract: "CDD", category: "Informatique", date: "10 Mars 2024", color: "#007f3e" },
-  { company: "BM", companyFull: "Banque Mondiale", title: "Spécialiste Suivi & Évaluation", location: "Niamey", contract: "CDI", category: "Gestion de projets", date: "08 Mars 2024", color: "#0066b2" },
-  { company: "PNUD", companyFull: "PNUD Niger", title: "Assistant Administratif", location: "Niamey", contract: "CDD", category: "Administration", date: "05 Mars 2024", color: "#0068b8" },
-  { company: "AFD", companyFull: "AFD Niger", title: "Expert en Formation", location: "Niamey", contract: "Consultant", category: "Formation", date: "02 Mars 2024", color: "#e63946" },
+  { company: "Enabel", companyFull: "Enabel Niger", title: "Chargé de Communication", location: "Niamey", contract: "CDI", category: "Communication", date: "12 Mars 2024", color: "var(--sane-c-e30613)" },
+  { company: "GIZ", companyFull: "GIZ Niger", title: "Développeur Web", location: "Niamey", contract: "CDD", category: "Informatique", date: "10 Mars 2024", color: "var(--sane-c-007f3e)" },
+  { company: "BM", companyFull: "Banque Mondiale", title: "Spécialiste Suivi & Évaluation", location: "Niamey", contract: "CDI", category: "Gestion de projets", date: "08 Mars 2024", color: "var(--sane-c-0066b2)" },
+  { company: "PNUD", companyFull: "PNUD Niger", title: "Assistant Administratif", location: "Niamey", contract: "CDD", category: "Administration", date: "05 Mars 2024", color: "var(--sane-c-0068b8)" },
+  { company: "AFD", companyFull: "AFD Niger", title: "Expert en Formation", location: "Niamey", contract: "Consultant", category: "Formation", date: "02 Mars 2024", color: "var(--sane-c-e63946)" },
 ];
 
 export const cities = ["Niamey", "Zinder", "Maradi", "Agadez", "Diffa", "Tahoua"];
@@ -66,11 +66,11 @@ export const sectors: Sector[] = [
 ];
 
 export const recruitingPartners: Partner[] = [
-  { name: "République du Niger", abbr: "RN", color: "#0a4a22", logo: "/niger_ministere_emploi.png" },
-  { name: "Organisation Internationale du Travail", abbr: "OIT", color: "#1a5276", logo: "/organisation_internationale_travail.png" },
-  { name: "Enabel", abbr: "EN", color: "#e30613", logo: "/enabel.png" },
-  { name: "GIZ", abbr: "GIZ", color: "#007f3e", logo: "/giz.png" },
-  { name: "AFD", abbr: "AFD", color: "#e63946", logo: "/afd.png" },
+  { name: "République du Niger", abbr: "RN", color: "var(--sane-green-dark)", logo: "/niger_ministere_emploi.png" },
+  { name: "Organisation Internationale du Travail", abbr: "OIT", color: "var(--sane-c-1a5276)", logo: "/organisation_internationale_travail.png" },
+  { name: "Enabel", abbr: "EN", color: "var(--sane-c-e30613)", logo: "/enabel.png" },
+  { name: "GIZ", abbr: "GIZ", color: "var(--sane-c-007f3e)", logo: "/giz.png" },
+  { name: "AFD", abbr: "AFD", color: "var(--sane-c-e63946)", logo: "/afd.png" },
 ];
 
 export const secteurOptions = ["Secteur d'activité", "Administration", "Communication", "Informatique", "Formation", "Santé"];

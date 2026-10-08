@@ -35,7 +35,7 @@ function copyLink(table: Props["table"], row: Props["row"]) {
 export default function RowActions({ table, row, extra, menuItems = [] }: Props) {
   return (
     <div className="flex items-center justify-center gap-1.5">
-      <button type="button" title="Voir" onClick={() => table.openView(row)} className="text-[#2563EB] hover:opacity-80"><Eye size={13} /></button>
+      <button type="button" title="Voir" onClick={() => table.openView(row)} className="text-[var(--sane-blue)] hover:opacity-80"><Eye size={13} /></button>
       <button type="button" title="Modifier" onClick={() => table.openEdit(row)} className="text-[var(--sane-green)] hover:opacity-80"><Pencil size={13} /></button>
       {extra === "duplicate" && (
         <button type="button" title="Dupliquer" onClick={() => table.duplicate(row)} className="text-[var(--sane-text-light)] hover:opacity-80"><Copy size={13} /></button>
@@ -46,7 +46,7 @@ export default function RowActions({ table, row, extra, menuItems = [] }: Props)
       {extra === "link" && (
         <button type="button" title="Copier le lien" onClick={() => copyLink(table, row)} className="text-[var(--sane-text-light)] hover:opacity-80"><Link2 size={13} /></button>
       )}
-      <button type="button" title="Supprimer" onClick={() => table.askDelete([row._uid])} className="text-[#DC2626] hover:opacity-80"><Trash2 size={13} /></button>
+      <button type="button" title="Supprimer" onClick={() => table.askDelete([row._uid])} className="text-[var(--sane-red)] hover:opacity-80"><Trash2 size={13} /></button>
       <RowMenu
         items={[
           ...menuItems,

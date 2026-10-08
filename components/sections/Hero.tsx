@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import { ArrowRight, BriefcaseBusiness, GraduationCap, UsersRound } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
@@ -10,30 +10,29 @@ const highlights = [
 ];
 
 export function Hero() {
+  // Art direction: a dedicated portrait artwork on phones, the wide banner from sm up.
+  const common = { alt: "", fill: true, priority: true };
+  const {
+    props: { srcSet: mobile },
+  } = getImageProps({ ...common, src: "/MobileEmploymentFairHeroBackground.webp", sizes: "100vw", quality: 85 });
+  const { props: desktop } = getImageProps({ ...common, src: "/hero-bg.webp", sizes: "100vw", quality: 90 });
+
   return (
-    <section className="relative min-h-[410px] overflow-hidden bg-[#01676e] sm:min-h-0">
-      {/* Background image — same source/quality at every breakpoint, only position shifts on mobile to keep all 3 faces in frame */}
-      <div className="absolute inset-0">
-        <Image
-          src="/hero-bg.png"
-          alt=""
-          fill
-          priority
-          quality={95}
-          sizes="(max-width: 639px) 250vw, 100vw"
-          className="object-cover object-[80%_38%] sm:object-[75%_center]"
-        />
-      </div>
+    <section className="relative overflow-hidden bg-[var(--sane-c-01676e)]">
+      {/* Background art: portrait artwork on phones (anchored to the bottom so all 3 people stay visible), wide banner from sm up */}
+      <picture className="absolute inset-x-0 -bottom-[15vw] aspect-[940/1672] sm:bottom-0 sm:inset-0 sm:aspect-auto">
+        <source media="(max-width: 639px)" srcSet={mobile} />
+        <img {...desktop} alt="" className="object-cover sm:object-[75%_center]" />
+      </picture>
       {/* Readability gradient — top band behind heading/CTAs, faces stay clear, bottom band behind feature list */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[215px] bg-gradient-to-b from-[#01676e]/72 to-transparent sm:hidden" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[180px] bg-gradient-to-t from-[#01676e]/78 to-transparent sm:hidden" />
-      <div className="absolute inset-0 hidden bg-gradient-to-b from-[#01676e]/80 via-[#01676e]/55 to-[#01676e]/30 sm:block lg:hidden" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[470px] bg-gradient-to-b from-[var(--sane-c-01676e)]/90 via-[var(--sane-c-01676e)]/80 via-[70%] to-transparent sm:hidden" />
+      <div className="absolute inset-0 hidden bg-gradient-to-b from-[var(--sane-c-01676e)]/80 via-[var(--sane-c-01676e)]/55 to-[var(--sane-c-01676e)]/30 sm:block lg:hidden" />
 
       <Container className="relative">
         <div className="grid grid-cols-1 lg:min-h-[410px] lg:grid-cols-2 overflow-hidden">
           {/* ================= LEFT CONTENT ================= */}
           <div className="relative z-10 flex items-center">
-            <div className="w-full pb-3 pt-2 sm:py-10 lg:max-w-[600px] lg:pr-8">
+            <div className="w-full pb-[69vw] pt-6 sm:py-10 lg:max-w-[600px] lg:pr-8">
               {/* Label */}
               <div className="mb-1.5 sm:mb-4">
                 <span className="text-[10px] font-extrabold uppercase tracking-wide text-white sm:text-[11px]">

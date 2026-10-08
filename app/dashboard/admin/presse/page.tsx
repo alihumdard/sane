@@ -36,7 +36,7 @@ const statsData = [
         <polyline points="10 9 9 9 8 9"/>
       </svg>
     ),
-    value: "28", label: "Total des communiqués", trend: "+27%", trendLabel: "vs. mois dernier", bg: "#E8F5ED", color: "#10632D",
+    value: "28", label: "Total des communiqués", trend: "+27%", trendLabel: "vs. mois dernier", bg: "var(--sane-green-tint)", color: "var(--sane-green)",
   },
   {
     icon: (
@@ -46,7 +46,7 @@ const statsData = [
         <line x1="12" y1="17" x2="12" y2="21"/>
       </svg>
     ),
-    value: "46", label: "Couvertures médias", trend: "+18%", trendLabel: "vs. mois dernier", bg: "#FFF3E8", color: "#E57617",
+    value: "46", label: "Couvertures médias", trend: "+18%", trendLabel: "vs. mois dernier", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)",
   },
   {
     icon: (
@@ -55,7 +55,7 @@ const statsData = [
         <circle cx="12" cy="12" r="3"/>
       </svg>
     ),
-    value: "152.4K", label: "Vues totales", trend: "+35%", trendLabel: "vs. mois dernier", bg: "#E0F0FF", color: "#2563EB",
+    value: "152.4K", label: "Vues totales", trend: "+35%", trendLabel: "vs. mois dernier", bg: "var(--sane-blue-tint)", color: "var(--sane-blue)",
   },
   {
     icon: (
@@ -63,7 +63,7 @@ const statsData = [
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
       </svg>
     ),
-    value: "320", label: "Mentions médias", trend: "+22%", trendLabel: "vs. mois dernier", bg: "#F3E8FF", color: "#7C3AED",
+    value: "320", label: "Mentions médias", trend: "+22%", trendLabel: "vs. mois dernier", bg: "var(--sane-purple-tint)", color: "var(--sane-purple)",
   },
   {
     icon: (
@@ -71,7 +71,7 @@ const statsData = [
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
       </svg>
     ),
-    value: "12", label: "Communiqués en vedette", trend: "+33%", trendLabel: "vs. mois dernier", bg: "#FFFBE8", color: "#D97706",
+    value: "12", label: "Communiqués en vedette", trend: "+33%", trendLabel: "vs. mois dernier", bg: "var(--sane-amber-tint)", color: "var(--sane-amber-dark)",
   },
 ];
 
@@ -81,123 +81,123 @@ const communiques = [
     id: 1,
     image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=80&h=60&fit=crop",
     titre: "Lancement officiel du SANEM 2024",
-    categorie: "Communiqué", catColor: "#10632D",
-    typeMedia: "National", typeColor: "#10632D",
+    categorie: "Communiqué", catColor: "var(--sane-green)",
+    typeMedia: "National", typeColor: "var(--sane-green)",
     source: "RTN Niger",
     date: "12 Mars 2024",
     vues: "12,540",
-    statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
   },
   {
     id: 2,
     image: "https://images.unsplash.com/photo-1529119368496-2dfda6ec2804?w=80&h=60&fit=crop",
     titre: "Le SANEM au service de l'emploi des jeunes",
-    categorie: "Interview", catColor: "#7C3AED",
-    typeMedia: "Télévision", typeColor: "#2563EB",
+    categorie: "Interview", catColor: "var(--sane-purple)",
+    typeMedia: "Télévision", typeColor: "var(--sane-blue)",
     source: "Télé Sahel",
     date: "10 Mars 2024",
     vues: "8,230",
-    statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
   },
   {
     id: 3,
     image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=80&h=60&fit=crop",
     titre: "Partenariat avec l'AFD pour l'emploi des jeunes",
-    categorie: "Partenariat", catColor: "#E57617",
-    typeMedia: "Presse écrite", typeColor: "#61756B",
+    categorie: "Partenariat", catColor: "var(--sane-orange)",
+    typeMedia: "Presse écrite", typeColor: "var(--sane-text-light)",
     source: "Le Sahel",
     date: "08 Mars 2024",
     vues: "6,420",
-    statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
   },
   {
     id: 4,
     image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=80&h=60&fit=crop",
     titre: "Focus sur les métiers numériques",
-    categorie: "Article", catColor: "#0891B2",
-    typeMedia: "En ligne", typeColor: "#0891B2",
+    categorie: "Article", catColor: "var(--sane-cyan)",
+    typeMedia: "En ligne", typeColor: "var(--sane-cyan)",
     source: "Niger24",
     date: "05 Mars 2024",
     vues: "5,860",
-    statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
   },
   {
     id: 5,
     image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=60&fit=crop",
     titre: "Témoignages : des jeunes transforment leur avenir",
-    categorie: "Témoignage", catColor: "#D97706",
-    typeMedia: "Radio", typeColor: "#7C3AED",
+    categorie: "Témoignage", catColor: "var(--sane-amber-dark)",
+    typeMedia: "Radio", typeColor: "var(--sane-purple)",
     source: "Radio Nationale",
     date: "02 Mars 2024",
     vues: "4,920",
-    statut: "En vedette", statutColor: "#D97706", statutBg: "#FFFBE8",
+    statut: "En vedette", statutColor: "var(--sane-amber-dark)", statutBg: "var(--sane-amber-tint)",
   },
   {
     id: 6,
     image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=80&h=60&fit=crop",
     titre: "Conférence de presse : les objectifs du SANEM",
-    categorie: "Conférence", catColor: "#DB2777",
-    typeMedia: "Télévision", typeColor: "#2563EB",
+    categorie: "Conférence", catColor: "var(--sane-pink)",
+    typeMedia: "Télévision", typeColor: "var(--sane-blue)",
     source: "ORTN",
     date: "28 Fév 2024",
     vues: "7,340",
-    statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
   },
   {
     id: 7,
     image: "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=80&h=60&fit=crop",
     titre: "L'inclusion au cœur du SANEM",
-    categorie: "Article", catColor: "#0891B2",
-    typeMedia: "Presse écrite", typeColor: "#61756B",
+    categorie: "Article", catColor: "var(--sane-cyan)",
+    typeMedia: "Presse écrite", typeColor: "var(--sane-text-light)",
     source: "L'Observateur",
     date: "25 Fév 2024",
     vues: "3,980",
-    statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
   },
   {
     id: 8,
     image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=80&h=60&fit=crop",
     titre: "Signature d'un nouvel accord",
-    categorie: "Partenariat", catColor: "#E57617",
-    typeMedia: "En ligne", typeColor: "#0891B2",
+    categorie: "Partenariat", catColor: "var(--sane-orange)",
+    typeMedia: "En ligne", typeColor: "var(--sane-cyan)",
     source: "ActuNiger",
     date: "22 Fév 2024",
     vues: "5,120",
-    statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
   },
   {
     id: 9,
     image: "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=80&h=60&fit=crop",
     titre: "Portraits de jeunes talents",
-    categorie: "Témoignage", catColor: "#D97706",
-    typeMedia: "Radio", typeColor: "#7C3AED",
+    categorie: "Témoignage", catColor: "var(--sane-amber-dark)",
+    typeMedia: "Radio", typeColor: "var(--sane-purple)",
     source: "Bonferey FM",
     date: "20 Fév 2024",
     vues: "4,410",
-    statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
   },
   {
     id: 10,
     image: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=80&h=60&fit=crop",
     titre: "Le SANEM dans la presse internationale",
-    categorie: "Article", catColor: "#0891B2",
-    typeMedia: "International", typeColor: "#003399",
+    categorie: "Article", catColor: "var(--sane-cyan)",
+    typeMedia: "International", typeColor: "var(--sane-c-003399)",
     source: "RFI Afrique",
     date: "18 Fév 2024",
     vues: "6,230",
-    statut: "Publié", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Publié", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
   },
 ];
 
 /* ─── Donut segments ─── */
 const donutSegments = [
-  { label: "Communiqué", value: 7, pct: 25, color: "#10632D" },
-  { label: "Article", value: 6, pct: 20, color: "#2563EB" },
-  { label: "Interview", value: 5, pct: 18, color: "#7C3AED" },
-  { label: "Partenariat", value: 4, pct: 14, color: "#E57617" },
-  { label: "Conférence", value: 3, pct: 10, color: "#DB2777" },
-  { label: "Témoignage", value: 2, pct: 7, color: "#D97706" },
-  { label: "Autres", value: 1, pct: 6, color: "#61756B" },
+  { label: "Communiqué", value: 7, pct: 25, color: "var(--sane-green)" },
+  { label: "Article", value: 6, pct: 20, color: "var(--sane-blue)" },
+  { label: "Interview", value: 5, pct: 18, color: "var(--sane-purple)" },
+  { label: "Partenariat", value: 4, pct: 14, color: "var(--sane-orange)" },
+  { label: "Conférence", value: 3, pct: 10, color: "var(--sane-pink)" },
+  { label: "Témoignage", value: 2, pct: 7, color: "var(--sane-amber-dark)" },
+  { label: "Autres", value: 1, pct: 6, color: "var(--sane-text-light)" },
 ];
 
 /* ─── Top médias ─── */
@@ -261,10 +261,10 @@ export default function PressePage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent" />
                 <div className="absolute right-[110px] top-1/2 -translate-y-1/2 opacity-60 hidden sm:block">
                   <svg width="100" height="100" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="45" fill="#10632D" opacity="0.08" />
-                    <circle cx="50" cy="50" r="45" stroke="#E57617" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
-                    <text x="50" y="48" textAnchor="middle" fill="#10632D" fontSize="18" fontWeight="800">SANEM</text>
-                    <text x="50" y="60" textAnchor="middle" fill="#10632D" fontSize="5" fontWeight="600" letterSpacing="0.5">SALON NATIONAL DE L&apos;EMPLOI</text>
+                    <circle cx="50" cy="50" r="45" fill="var(--sane-green)" opacity="0.08" />
+                    <circle cx="50" cy="50" r="45" stroke="var(--sane-orange)" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
+                    <text x="50" y="48" textAnchor="middle" fill="var(--sane-green)" fontSize="18" fontWeight="800">SANEM</text>
+                    <text x="50" y="60" textAnchor="middle" fill="var(--sane-green)" fontSize="5" fontWeight="600" letterSpacing="0.5">SALON NATIONAL DE L&apos;EMPLOI</text>
                   </svg>
                 </div>
                 <div className="absolute right-5 bottom-3 text-right hidden sm:block">
@@ -304,21 +304,21 @@ export default function PressePage() {
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Image</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Titre du communiqué <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Titre du communiqué <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Catégorie</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Type de média</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Média / Source <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Média / Source <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Date <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Date <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Vues <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Vues <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Statut <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Statut <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Actions</th>
                     </tr>
@@ -336,12 +336,12 @@ export default function PressePage() {
                           <p className="text-[12px] font-semibold text-[var(--sane-green-deep)] leading-snug line-clamp-2">{c.titre}</p>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${c.catColor}18`, color: c.catColor }}>
+                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `color-mix(in srgb, ${c.catColor} 9%, transparent)`, color: c.catColor }}>
                             {c.categorie}
                           </span>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${c.typeColor}18`, color: c.typeColor }}>
+                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `color-mix(in srgb, ${c.typeColor} 9%, transparent)`, color: c.typeColor }}>
                             {c.typeMedia}
                           </span>
                         </td>

@@ -20,12 +20,12 @@ export function LocationSection() {
 
         <div className="grid gap-6 md:grid-cols-2 md:items-center md:gap-8 lg:gap-10">
           <div className="relative h-[200px] overflow-hidden rounded-2xl sm:h-[240px] lg:h-[280px]">
-            <Image src="/contact-bulding.png" alt="Palais des Congrès de Niamey" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover object-[center_40%]" />
+            <Image src="/contact-bulding.webp" alt="Palais des Congrès de Niamey" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover object-[center_40%]" />
           </div>
 
           <div>
             <h3 className="text-[18px] font-extrabold text-[var(--sane-green)] sm:text-[22px]">Lieu de l&apos;événement</h3>
-            <p className="mt-2 text-[13px] leading-relaxed text-[#61756B]">
+            <p className="mt-2 text-[13px] leading-relaxed text-[var(--sane-text-light)]">
               Le Salon National de l&apos;Emploi (SANEM) se tient au Palais des Congrès de Niamey, un lieu moderne et accessible,
               situé au cœur de la capitale. Rejoignez-nous pour découvrir des opportunités et rencontrer les acteurs clés de
               l&apos;emploi au Niger.
@@ -35,7 +35,7 @@ export function LocationSection() {
               {perks.map(({ icon: Icon, text }) => (
                 <li key={text} className="flex items-center gap-2.5">
                   <Icon size={15} className="shrink-0 text-[var(--sane-orange)]" />
-                  <span className="text-[13px] text-[#0a2e16]">{text}</span>
+                  <span className="text-[13px] text-[var(--sane-green-deep)]">{text}</span>
                 </li>
               ))}
             </ul>
@@ -59,9 +59,9 @@ export function LocationSection() {
         <div className="absolute left-6 top-1/2 z-10 -translate-y-1/2 w-[280px] rounded-2xl bg-white/95 px-5 py-4 shadow-lg backdrop-blur-sm max-sm:static max-sm:translate-y-0 max-sm:w-full max-sm:rounded-t-none max-sm:shadow-none lg:left-10">
           <div className="mb-1 flex items-center gap-2">
             <MapPin size={18} className="shrink-0 text-[var(--sane-orange)]" />
-            <h3 className="text-[15px] font-bold text-[#0a2e16]">Palais des Congrès de Niamey</h3>
+            <h3 className="text-[15px] font-bold text-[var(--sane-green-deep)]">Palais des Congrès de Niamey</h3>
           </div>
-          <p className="mb-3 pl-[26px] text-[13px] text-[#61756B]">Niamey, Niger</p>
+          <p className="mb-3 pl-[26px] text-[13px] text-[var(--sane-text-light)]">Niamey, Niger</p>
           <Link
             href={MAPS_LINK}
             target="_blank"

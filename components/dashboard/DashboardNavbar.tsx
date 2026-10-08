@@ -134,7 +134,7 @@ export default function DashboardNavbar({
             <Link href="/" onClick={() => setMenu(null)} className="flex items-center gap-2 px-3 py-2 text-[12px] text-[var(--sane-green-deep)] hover:bg-[var(--sane-background)]">
               <User size={13} /> Voir le site
             </Link>
-            <Link href="/connexion" className="flex items-center gap-2 px-3 py-2 text-[12px] font-semibold text-[#DC2626] hover:bg-[#FEF2F2]">
+            <Link href="/connexion" className="flex items-center gap-2 px-3 py-2 text-[12px] font-semibold text-[var(--sane-red)] hover:bg-[var(--sane-c-fef2f2)]">
               <LogOut size={13} /> Se déconnecter
             </Link>
           </div>

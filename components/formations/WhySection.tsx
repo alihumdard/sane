@@ -6,7 +6,7 @@ export function WhySection() {
   return (
     <section className="relative min-h-[480px] overflow-hidden sm:min-h-0 sm:py-16 lg:py-14">
       <Image
-        src="/why-bg2.png"
+        src="/why-bg2.webp"
         alt=""
         fill
         className="object-cover object-[25%_30%] lg:object-center"

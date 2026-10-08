@@ -23,23 +23,23 @@ const sidebarItems = adminNav("Paramètres", 0);
 const statsData = [
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>,
-    value: "8", label: "Sections de paramètres", trend: "+0", bg: "#E8F5ED", color: "#10632D",
+    value: "8", label: "Sections de paramètres", trend: "+0", bg: "var(--sane-green-tint)", color: "var(--sane-green)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="9" r="3"/><path d="M2 21v-2c0-2.2 3.1-4 7-4s7 1.8 7 4v2H2z"/><path d="M22 21v-2c0-1.5-1.4-2.8-3.5-3.4.9.7 1.5 1.7 1.5 3.4v2h2z"/></svg>,
-    value: "32", label: "Utilisateurs actifs", trend: "+12%", bg: "#E0F0FF", color: "#2563EB",
+    value: "32", label: "Utilisateurs actifs", trend: "+12%", bg: "var(--sane-blue-tint)", color: "var(--sane-blue)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>,
-    value: "100%", label: "Sécurité configurée", trend: "+5%", bg: "#E8F5ED", color: "#10632D",
+    value: "100%", label: "Sécurité configurée", trend: "+5%", bg: "var(--sane-green-tint)", color: "var(--sane-green)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>,
-    value: "6", label: "Notifications actives", trend: "+20%", bg: "#F0E8F5", color: "#6B21A8",
+    value: "6", label: "Notifications actives", trend: "+20%", bg: "var(--sane-c-f0e8f5)", color: "var(--sane-purple-dark)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg>,
-    value: "4", label: "Intégrations connectées", trend: "+33%", bg: "#FFF3E8", color: "#E57617",
+    value: "4", label: "Intégrations connectées", trend: "+33%", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)",
   },
 ];
 
@@ -64,11 +64,11 @@ const systemStatus = [
 ];
 
 const quickConfig = [
-  { icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2c0-2.2 3.1-4 7-4s7 1.8 7 4v2H2z"/></svg>, bg: "#E0F0FF", color: "#2563EB", title: "Gérer les utilisateurs", desc: "Ajouter, modifier et gérer les accès" },
-  { icon: <Bell size={16} />, bg: "#F0E8F5", color: "#6B21A8", title: "Configurer les notifications", desc: "Paramètres des emails et alertes" },
-  { icon: <Palette size={16} />, bg: "#FFF3E8", color: "#E57617", title: "Personnaliser l'apparence", desc: "Couleurs, logo et thème" },
-  { icon: <Lock size={16} />, bg: "#FFF3E8", color: "#E57617", title: "Sécuriser votre compte", desc: "Mot de passe et authentification" },
-  { icon: <Zap size={16} />, bg: "#E0F0FF", color: "#2563EB", title: "Connecter les intégrations", desc: "API, services externes" },
+  { icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2c0-2.2 3.1-4 7-4s7 1.8 7 4v2H2z"/></svg>, bg: "var(--sane-blue-tint)", color: "var(--sane-blue)", title: "Gérer les utilisateurs", desc: "Ajouter, modifier et gérer les accès" },
+  { icon: <Bell size={16} />, bg: "var(--sane-c-f0e8f5)", color: "var(--sane-purple-dark)", title: "Configurer les notifications", desc: "Paramètres des emails et alertes" },
+  { icon: <Palette size={16} />, bg: "var(--sane-orange-tint)", color: "var(--sane-orange)", title: "Personnaliser l'apparence", desc: "Couleurs, logo et thème" },
+  { icon: <Lock size={16} />, bg: "var(--sane-orange-tint)", color: "var(--sane-orange)", title: "Sécuriser votre compte", desc: "Mot de passe et authentification" },
+  { icon: <Zap size={16} />, bg: "var(--sane-blue-tint)", color: "var(--sane-blue)", title: "Connecter les intégrations", desc: "API, services externes" },
 ];
 
 const DEFAULT_FORM = {
@@ -154,7 +154,7 @@ export default function AdminParametresPage() {
 
           {/* Welcome Banner */}
           <div className="relative mb-5 min-h-[110px] sm:h-[150px] overflow-hidden rounded-2xl">
-            <Image src="/sane_deal.png" alt="Banner" fill className="object-cover object-center" />
+            <Image src="/sane_deal.webp" alt="Banner" fill sizes="100vw" className="object-cover object-center" />
             <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-transparent" />
             <div className="absolute inset-0 flex items-center px-4 sm:px-8">
               <div className="max-w-[65%] sm:max-w-[55%]">
@@ -257,12 +257,12 @@ export default function AdminParametresPage() {
                           <img src={logoUrl} alt="Logo" className="h-12 w-auto max-w-[140px] object-contain" />
                         ) : (
                         <svg width="120" height="48" viewBox="0 0 140 48">
-                          <circle cx="24" cy="24" r="22" fill="#10632D"/>
+                          <circle cx="24" cy="24" r="22" fill="var(--sane-green)"/>
                           <text x="24" y="29" textAnchor="middle" fill="white" fontSize="11" fontWeight="800" fontFamily="sans-serif">SANEM</text>
-                          <path d="M6 6 Q24 0 42 6" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                          <text x="52" y="20" fill="#0a2e16" fontSize="16" fontWeight="800" fontFamily="sans-serif">SANEM</text>
-                          <text x="52" y="31" fill="#61756B" fontSize="5.5" fontFamily="sans-serif">SALON</text>
-                          <text x="52" y="39" fill="#61756B" fontSize="5" fontFamily="sans-serif">SALON NATIONAL DE L&apos;EMPLOI</text>
+                          <path d="M6 6 Q24 0 42 6" stroke="var(--sane-orange)" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                          <text x="52" y="20" fill="var(--sane-green-deep)" fontSize="16" fontWeight="800" fontFamily="sans-serif">SANEM</text>
+                          <text x="52" y="31" fill="var(--sane-text-light)" fontSize="5.5" fontFamily="sans-serif">SALON</text>
+                          <text x="52" y="39" fill="var(--sane-text-light)" fontSize="5" fontFamily="sans-serif">SALON NATIONAL DE L&apos;EMPLOI</text>
                         </svg>
                         )}
                       </div>

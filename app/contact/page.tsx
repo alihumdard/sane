@@ -16,7 +16,7 @@ export default function ContactPage() {
           lead="Nous sommes à votre écoute."
           description="Une question, une demande d'information ou une proposition de partenariat ? Notre équipe est disponible pour vous répondre et vous accompagner."
           tagline={"Des échanges\npour un Niger\nplus fort"}
-          image="/contact-hero2.png"
+          image="/contact-hero2.webp"
           tone="dark"
           imageFit="banner"
           imagePosition="center center"

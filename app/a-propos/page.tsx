@@ -23,7 +23,7 @@ export default function AProposPage() {
           lead="Un engagement national pour l'emploi, les compétences et un Niger plus fort."
           description="Le Salon National de l'Emploi (SANEM) est un espace de rencontre entre les talents, les entreprises, les institutions et les opportunités, au service du développement socio-économique du Niger."
           imageFit="banner"
-          image="/hero-about.png"
+          image="/hero-about.webp"
           actions={[
             { href: "/inscription", label: "Participer au SANEM" },
             { href: "/programme", label: "Découvrir le programme", variant: "secondary" },

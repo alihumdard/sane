@@ -15,7 +15,7 @@ export function VenueSection() {
     <section className="relative overflow-hidden bg-white py-10 sm:py-12 md:py-16">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40"
-        style={{ backgroundImage: "url('/vision-bg.png')" }}
+        style={{ backgroundImage: "url('/vision-bg.webp')" }}
       />
       <Container className="relative z-10">
         <div className="grid items-center gap-8 md:grid-cols-2 md:gap-8 lg:gap-12">
@@ -23,7 +23,7 @@ export function VenueSection() {
           {/* Image — fills container, building centred */}
           <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl shadow-md ring-1 ring-[var(--sane-border)]">
             <Image
-              src="/programme-bd.png"
+              src="/programme-bd.webp"
               alt="Palais des Congrès de Niamey"
               fill
               className="object-cover object-[center_40%]"
@@ -81,7 +81,7 @@ export function VenueSection() {
                 xmlns="http://www.w3.org/2000/svg"
                 aria-hidden="true"
               >
-                <circle cx="21" cy="21" r="20" stroke="#dce8e1" strokeWidth="1.5" fill="white" />
+                <circle cx="21" cy="21" r="20" stroke="var(--sane-border)" strokeWidth="1.5" fill="white" />
                 <path
                   d="M21 9C16.03 9 12 13.03 12 18c0 6.56 9 15 9 15s9-8.44 9-15c0-4.97-4.03-9-9-9Z"
                   fill="var(--sane-orange)"

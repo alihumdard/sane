@@ -41,7 +41,7 @@ export function CTASection({
     <section className="relative min-h-[270px] overflow-hidden py-3 md:h-[280px] md:py-4">
       <div className="absolute inset-0">
         <Image
-          src="/SalonNationalbg.png"
+          src="/SalonNationalbg.webp"
           alt=""
           fill
           sizes="100vw"

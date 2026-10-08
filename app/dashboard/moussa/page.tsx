@@ -27,11 +27,11 @@ const sidebarItems: SidebarItem[] = [
 
 /* ─── Stats ─── */
 const statsData = [
-  { icon: <BookOpen size={20} />, value: "3", label: "Formations en cours", color: "#8B5CF6", bg: "#F3F0FF" },
-  { icon: <FileText size={20} />, value: "12", label: "Candidatures envoyées", color: "#3B82F6", bg: "#EFF6FF" },
-  { icon: <Calendar size={20} />, value: "4", label: "Entretiens planifiés", color: "#10B981", bg: "#ECFDF5" },
-  { icon: <Bookmark size={20} />, value: "2", label: "Offres sauvegardées", color: "#10632D", bg: "#E8F5ED" },
-  { icon: <MessageSquare size={20} />, value: "5", label: "Nouveaux messages", color: "#8B5CF6", bg: "#F3F0FF" },
+  { icon: <BookOpen size={20} />, value: "3", label: "Formations en cours", color: "var(--sane-purple-light)", bg: "var(--sane-c-f3f0ff)" },
+  { icon: <FileText size={20} />, value: "12", label: "Candidatures envoyées", color: "var(--sane-blue-light)", bg: "var(--sane-c-eff6ff)" },
+  { icon: <Calendar size={20} />, value: "4", label: "Entretiens planifiés", color: "var(--sane-c-10b981)", bg: "var(--sane-c-ecfdf5)" },
+  { icon: <Bookmark size={20} />, value: "2", label: "Offres sauvegardées", color: "var(--sane-green)", bg: "var(--sane-green-tint)" },
+  { icon: <MessageSquare size={20} />, value: "5", label: "Nouveaux messages", color: "var(--sane-purple-light)", bg: "var(--sane-c-f3f0ff)" },
 ];
 
 /* ─── Formations recommandées ─── */
@@ -58,11 +58,11 @@ const formations = [
 
 /* ─── Offres d'emploi ─── */
 const offres = [
-  { bg: "#1a3c8f", label: "PNUD", poste: "Assistant administratif", entreprise: "PNUD · Niamey", type: "Temps plein", domaine: "Administration", date: "Il y a 2 jours" },
-  { bg: "#009FCA", label: "UNF", poste: "Chargé de communication", entreprise: "UNICEF · Niamey", type: "CDD", domaine: "Communication", date: "Il y a 3 jours" },
-  { bg: "#10632D", label: "SN", poste: "Technicien informatique", entreprise: "Société Nationale · Niamey", type: "Temps plein", domaine: "Informatique", date: "Il y a 5 jours" },
-  { bg: "#E57617", label: "ONG", poste: "Chargé de suivi-évaluation", entreprise: "ONG Locale · Niamey", type: "CDD", domaine: "Suivi & Évaluation", date: "Il y a 1 semaine" },
-  { bg: "#004A99", label: "GIZ", poste: "Assistant projet", entreprise: "GIZ · Niamey", type: "Stage", domaine: "Gestion de projet", date: "Il y a 1 semaine" },
+  { bg: "var(--sane-c-1a3c8f)", label: "PNUD", poste: "Assistant administratif", entreprise: "PNUD · Niamey", type: "Temps plein", domaine: "Administration", date: "Il y a 2 jours" },
+  { bg: "var(--sane-c-009fca)", label: "UNF", poste: "Chargé de communication", entreprise: "UNICEF · Niamey", type: "CDD", domaine: "Communication", date: "Il y a 3 jours" },
+  { bg: "var(--sane-green)", label: "SN", poste: "Technicien informatique", entreprise: "Société Nationale · Niamey", type: "Temps plein", domaine: "Informatique", date: "Il y a 5 jours" },
+  { bg: "var(--sane-orange)", label: "ONG", poste: "Chargé de suivi-évaluation", entreprise: "ONG Locale · Niamey", type: "CDD", domaine: "Suivi & Évaluation", date: "Il y a 1 semaine" },
+  { bg: "var(--sane-c-004a99)", label: "GIZ", poste: "Assistant projet", entreprise: "GIZ · Niamey", type: "Stage", domaine: "Gestion de projet", date: "Il y a 1 semaine" },
 ];
 
 /* ─── Entretiens ─── */
@@ -74,9 +74,9 @@ const entretiens = [
 
 /* ─── Notifications ─── */
 const notifs = [
-  { color: "#10632D", bg: "#E8F5ED", icon: <CheckCircle size={14} />, title: "Votre candidature a été présélectionnée", time: "il y a 2 heures" },
-  { color: "#8B5CF6", bg: "#F3F0FF", icon: <MessageSquare size={14} />, title: "Nouveau message de l'employeur UNICEF", time: "il y a 5 heures" },
-  { color: "#E57617", bg: "#FFF3E8", icon: <Calendar size={14} />, title: "Rappel : Entretien demain à 10h", time: "il y a 1 jour" },
+  { color: "var(--sane-green)", bg: "var(--sane-green-tint)", icon: <CheckCircle size={14} />, title: "Votre candidature a été présélectionnée", time: "il y a 2 heures" },
+  { color: "var(--sane-purple-light)", bg: "var(--sane-c-f3f0ff)", icon: <MessageSquare size={14} />, title: "Nouveau message de l'employeur UNICEF", time: "il y a 5 heures" },
+  { color: "var(--sane-orange)", bg: "var(--sane-orange-tint)", icon: <Calendar size={14} />, title: "Rappel : Entretien demain à 10h", time: "il y a 1 jour" },
 ];
 
 export default function MoussaDashboard() {
@@ -103,7 +103,7 @@ export default function MoussaDashboard() {
             <Image
               src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1400&h=400&fit=crop&q=90"
               alt="Hero"
-              fill
+              fill sizes="100vw"
               className="object-cover"
               style={{ objectPosition: "center 40%" }}
             />
@@ -160,7 +160,7 @@ export default function MoussaDashboard() {
                   {formations.map((f, i) => (
                     <div key={i} className="overflow-hidden rounded-xl border border-[var(--sane-border)] bg-[var(--sane-background)]">
                       <div className="relative h-[120px]">
-                        <Image src={f.img} alt={f.titre} fill className="object-cover" />
+                        <Image src={f.img} alt={f.titre} fill sizes="100vw" className="object-cover" />
                         <span className="absolute top-2 left-2 rounded-full bg-white/90 px-2 py-0.5 text-[9px] font-semibold text-[var(--sane-green)]">
                           Formation
                         </span>
@@ -306,7 +306,7 @@ export default function MoussaDashboard() {
                         <div className="mt-0.5 flex items-center gap-2">
                           <span className="text-[9px] text-[var(--sane-text-light)] flex items-center gap-0.5"><Clock size={8} /> {e.heure}</span>
                           {e.mode === "video" ? (
-                            <span className="flex items-center gap-0.5 rounded-full bg-[#E0F0FF] px-1.5 py-0.5 text-[8px] font-semibold text-[#2563EB]">
+                            <span className="flex items-center gap-0.5 rounded-full bg-[var(--sane-blue-tint)] px-1.5 py-0.5 text-[8px] font-semibold text-[var(--sane-blue)]">
                               <Monitor size={8} /> En ligne
                             </span>
                           ) : (

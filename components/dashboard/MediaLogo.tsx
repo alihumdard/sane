@@ -3,12 +3,12 @@
 export default function MediaLogo({ source }: { source: string }) {
   const logos: Record<string, React.ReactNode> = {
     "RTN Niger": (
-      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#DC2626]">
+      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--sane-red)]">
         <span className="text-[6px] font-extrabold text-white leading-none">RTN</span>
       </div>
     ),
     "Télé Sahel": (
-      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#0891B2]">
+      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--sane-cyan)]">
         <span className="text-[5px] font-extrabold text-white leading-none">TéléS</span>
       </div>
     ),
@@ -23,32 +23,32 @@ export default function MediaLogo({ source }: { source: string }) {
       </div>
     ),
     "Radio Nationale": (
-      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#7C3AED]">
+      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--sane-purple)]">
         <span className="text-[5px] font-extrabold text-white">Radio</span>
       </div>
     ),
     "ORTN": (
-      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#2563EB]">
+      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--sane-blue)]">
         <span className="text-[6px] font-extrabold text-white">ORTN</span>
       </div>
     ),
     "L'Observateur": (
-      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#059669]">
+      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--sane-emerald)]">
         <span className="text-[5px] font-extrabold text-white">LObs</span>
       </div>
     ),
     "ActuNiger": (
-      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#D97706]">
+      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--sane-amber-dark)]">
         <span className="text-[5px] font-extrabold text-white">Actu</span>
       </div>
     ),
     "Bonferey FM": (
-      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#DB2777]">
+      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--sane-pink)]">
         <span className="text-[5px] font-extrabold text-white">BFM</span>
       </div>
     ),
     "RFI Afrique": (
-      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#003399]">
+      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--sane-c-003399)]">
         <span className="text-[5px] font-extrabold text-white">RFI</span>
       </div>
     ),

@@ -138,7 +138,7 @@ function Modal({ table, entity }: Props) {
           })}
         </div>
 
-        {error && <p className="px-5 pb-1 text-[12px] font-medium text-[#DC2626]">{error}</p>}
+        {error && <p className="px-5 pb-1 text-[12px] font-medium text-[var(--sane-red)]">{error}</p>}
 
         <div className="flex justify-end gap-2 border-t border-[var(--sane-border)] px-5 py-3">
           <button type="button" onClick={table.closeModal} className="rounded-lg border border-[var(--sane-border)] px-4 py-2 text-[12px] font-semibold text-[var(--sane-text-light)] hover:bg-[var(--sane-background)]">
@@ -181,7 +181,7 @@ export default function TableDialogs({ table, entity }: Props) {
               <button onClick={table.cancelDelete} className="rounded-lg border border-[var(--sane-border)] px-4 py-2 text-[12px] font-semibold text-[var(--sane-text-light)] hover:bg-[var(--sane-background)]">
                 Annuler
               </button>
-              <button onClick={table.doDelete} className="rounded-lg bg-[#DC2626] px-4 py-2 text-[12px] font-semibold text-white hover:bg-[#b91c1c]">
+              <button onClick={table.doDelete} className="rounded-lg bg-[var(--sane-red)] px-4 py-2 text-[12px] font-semibold text-white hover:bg-[var(--sane-red-dark)]">
                 Supprimer
               </button>
             </div>

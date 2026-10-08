@@ -91,7 +91,7 @@ export default function RowMenu({ items, label = "Plus d'actions", size = 13, cl
                   item.onClick();
                 }}
                 className={`flex w-full items-center gap-2.5 px-3 text-left text-[12px] font-medium transition-colors hover:bg-[var(--sane-background)] ${
-                  item.danger ? "text-[#DC2626]" : "text-[var(--sane-text)]"
+                  item.danger ? "text-[var(--sane-red)]" : "text-[var(--sane-text)]"
                 }`}
                 style={{ height: ITEM_HEIGHT }}
               >

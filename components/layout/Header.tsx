@@ -114,19 +114,19 @@ export function Header() {
       {searchOpen && (
         <div className="absolute left-0 right-0 top-[72px] z-40 border-b border-[var(--sane-border)] bg-white px-4 py-4 shadow-lg">
           <div className="sane-container flex items-center gap-3">
-            <Search size={20} className="shrink-0 text-[#71857A]" />
+            <Search size={20} className="shrink-0 text-[var(--sane-c-71857a)]" />
 
             <input
               ref={searchInputRef}
               type="text"
               placeholder="Rechercher un emploi, une formation..."
-              className="w-full bg-transparent text-sm text-[var(--sane-text)] outline-none placeholder:text-[#8A9A91]"
+              className="w-full bg-transparent text-sm text-[var(--sane-text)] outline-none placeholder:text-[var(--sane-c-8a9a91)]"
             />
 
             <button
               type="button"
               onClick={() => setSearchOpen(false)}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#71857A] transition-colors hover:bg-[var(--sane-green-light)] hover:text-[var(--sane-green)]"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[var(--sane-c-71857a)] transition-colors hover:bg-[var(--sane-green-light)] hover:text-[var(--sane-green)]"
             >
               <X size={18} />
             </button>

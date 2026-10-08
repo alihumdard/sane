@@ -2,8 +2,8 @@ export const SITE_CONFIG = {
   name: "SANEM",
   fullName: "Salon National de l'Emploi",
   country: "Niger",
-  primaryColor: "#10632D",
-  accentColor: "#E57617",
+  primaryColor: "var(--sane-green)",
+  accentColor: "var(--sane-orange)",
 };
 
 export const NAVIGATION = [

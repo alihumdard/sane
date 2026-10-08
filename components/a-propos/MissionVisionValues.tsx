@@ -26,7 +26,7 @@ function Card({
 
 export function MissionVisionValues() {
   return (
-    <section className="bg-[#0a3a1a] py-8 sm:py-10 md:py-12">
+    <section className="bg-[var(--sane-c-0a3a1a)] py-8 sm:py-10 md:py-12">
       <Container>
         <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-3">
           <Card icon={Target} title="Notre mission">

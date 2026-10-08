@@ -4,7 +4,7 @@ import { MapPin, Mail, Phone, ArrowUpRight } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-[#0B6630]">
+    <footer className="bg-[var(--sane-c-0b6630)]">
       {/* ================= MAIN FOOTER ================= */}
       <div className="sane-container">
         <div className="grid grid-cols-2 gap-x-5 gap-y-5 py-7 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-8 sm:py-10 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1.2fr] lg:gap-10 lg:py-16">
@@ -16,7 +16,6 @@ export function Footer() {
                   src="/new-logo.png"
                   alt="SANEM Logo"
                   fill
-                  priority
                   className="object-contain object-left brightness-0 invert"
                   sizes="140px"
                 />

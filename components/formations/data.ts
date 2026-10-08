@@ -32,13 +32,13 @@ export interface Faq {
 
 export const tagColors: Record<string, string> = {
   Management: "bg-[var(--sane-green)] text-white",
-  Digital: "bg-[#2B6CB0] text-white",
+  Digital: "bg-[var(--sane-c-2b6cb0)] text-white",
   Entrepreneuriat: "bg-[var(--sane-orange)] text-white",
-  Communication: "bg-[#6B46C1] text-white",
-  Technologie: "bg-[#0F766E] text-white",
-  Informatique: "bg-[#1D4ED8] text-white",
-  "Développement personnel": "bg-[#92400E] text-white",
-  Finance: "bg-[#B91C1C] text-white",
+  Communication: "bg-[var(--sane-c-6b46c1)] text-white",
+  Technologie: "bg-[var(--sane-c-0f766e)] text-white",
+  Informatique: "bg-[var(--sane-blue-dark)] text-white",
+  "Développement personnel": "bg-[var(--sane-c-92400e)] text-white",
+  Finance: "bg-[var(--sane-red-dark)] text-white",
 };
 
 export const formationInfo: InfoItem[] = [
@@ -49,14 +49,14 @@ export const formationInfo: InfoItem[] = [
 ];
 
 export const formations: Formation[] = [
-  { tag: "Management", title: "Leadership & Management", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership2.png", niveau: "Intermédiaire", format: "Présentiel" },
-  { tag: "Digital", title: "Transformation Digitale", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/Transformation3.png", niveau: "Intermédiaire", format: "Hybride" },
-  { tag: "Entrepreneuriat", title: "Entrepreneuriat des Jeunes", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Entrepreneuriat.png", niveau: "Débutant", format: "Présentiel" },
-  { tag: "Communication", title: "Techniques de Communication", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/sane-deal3.png", niveau: "Débutant", format: "Présentiel" },
-  { tag: "Technologie", title: "Compétences en Énergies Renouvelables", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/sane-company3.png", niveau: "Avancé", format: "Présentiel" },
-  { tag: "Informatique", title: "Compétences Digitales", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/Transformation3.png", niveau: "Débutant", format: "En ligne" },
-  { tag: "Développement personnel", title: "Préparation à l'Emploi", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/sane-cv2.png", niveau: "Débutant", format: "Hybride" },
-  { tag: "Finance", title: "Gestion de Projet", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership2.png", niveau: "Intermédiaire", format: "En ligne" },
+  { tag: "Management", title: "Leadership & Management", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership2.webp", niveau: "Intermédiaire", format: "Présentiel" },
+  { tag: "Digital", title: "Transformation Digitale", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/Transformation3.webp", niveau: "Intermédiaire", format: "Hybride" },
+  { tag: "Entrepreneuriat", title: "Entrepreneuriat des Jeunes", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Entrepreneuriat.webp", niveau: "Débutant", format: "Présentiel" },
+  { tag: "Communication", title: "Techniques de Communication", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/sane-deal3.webp", niveau: "Débutant", format: "Présentiel" },
+  { tag: "Technologie", title: "Compétences en Énergies Renouvelables", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/sane-company3.webp", niveau: "Avancé", format: "Présentiel" },
+  { tag: "Informatique", title: "Compétences Digitales", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/Transformation3.webp", niveau: "Débutant", format: "En ligne" },
+  { tag: "Développement personnel", title: "Préparation à l'Emploi", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/sane-cv2.webp", niveau: "Débutant", format: "Hybride" },
+  { tag: "Finance", title: "Gestion de Projet", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership2.webp", niveau: "Intermédiaire", format: "En ligne" },
 ];
 
 export const domaines = ["Domaine de formation", "Management", "Digital", "Entrepreneuriat", "Communication", "Technologie", "Finance"];

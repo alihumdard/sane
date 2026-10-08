@@ -35,11 +35,11 @@ const statIcons = {
 const sidebarItems = adminNav("Rapports", 0);
 
 const statsData = [
-  { icon: statIcons.chart, value: "12", label: "Rapports générés", trend: "+33%", bg: "#E0F0FF", color: "#2563EB" },
-  { icon: statIcons.people, value: "3.8K", label: "Inscriptions totales", trend: "+22%", bg: "#E8F5ED", color: "#10632D" },
-  { icon: statIcons.calendar, value: "48", label: "Événements", trend: "+18%", bg: "#E8F5ED", color: "#10632D" },
-  { icon: statIcons.graduation, value: "26", label: "Formations", trend: "+14%", bg: "#F0E8F5", color: "#6B21A8" },
-  { icon: statIcons.star, value: "15", label: "Partenaires", trend: "+20%", bg: "#FFF3E8", color: "#E57617" },
+  { icon: statIcons.chart, value: "12", label: "Rapports générés", trend: "+33%", bg: "var(--sane-blue-tint)", color: "var(--sane-blue)" },
+  { icon: statIcons.people, value: "3.8K", label: "Inscriptions totales", trend: "+22%", bg: "var(--sane-green-tint)", color: "var(--sane-green)" },
+  { icon: statIcons.calendar, value: "48", label: "Événements", trend: "+18%", bg: "var(--sane-green-tint)", color: "var(--sane-green)" },
+  { icon: statIcons.graduation, value: "26", label: "Formations", trend: "+14%", bg: "var(--sane-c-f0e8f5)", color: "var(--sane-purple-dark)" },
+  { icon: statIcons.star, value: "15", label: "Partenaires", trend: "+20%", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)" },
 ];
 
 const lineChartData = [
@@ -65,40 +65,40 @@ const barChartData = [
 ];
 
 const donutSegments = [
-  { label: "Événements", pct: 28, color: "#10632D" },
-  { label: "Inscriptions", pct: 22, color: "#1e3a5f" },
-  { label: "Emploi", pct: 18, color: "#3b82f6" },
-  { label: "Formations", pct: 12, color: "#E57617" },
-  { label: "Partenaires", pct: 8, color: "#f59e0b" },
-  { label: "Presse", pct: 6, color: "#6B21A8" },
-  { label: "Financier", pct: 4, color: "#ec4899" },
-  { label: "Autres", pct: 2, color: "#94a3b8" },
+  { label: "Événements", pct: 28, color: "var(--sane-green)" },
+  { label: "Inscriptions", pct: 22, color: "var(--sane-c-1e3a5f)" },
+  { label: "Emploi", pct: 18, color: "var(--sane-blue-light)" },
+  { label: "Formations", pct: 12, color: "var(--sane-orange)" },
+  { label: "Partenaires", pct: 8, color: "var(--sane-amber)" },
+  { label: "Presse", pct: 6, color: "var(--sane-purple-dark)" },
+  { label: "Financier", pct: 4, color: "var(--sane-pink-light)" },
+  { label: "Autres", pct: 2, color: "var(--sane-slate)" },
 ];
 
 const catColors: Record<string, string> = {
   "Général": "bg-[var(--sane-green)] text-white",
-  "Inscriptions": "bg-[#2563EB] text-white",
+  "Inscriptions": "bg-[var(--sane-blue)] text-white",
   "Événements": "bg-[var(--sane-orange)] text-white",
-  "Formations": "bg-[#6B21A8] text-white",
-  "Partenaires": "bg-[#f59e0b] text-white",
-  "Presse": "bg-[#ec4899] text-white",
-  "Financier": "bg-[#1e3a5f] text-white",
-  "Utilisateurs": "bg-[#0D7377] text-white",
-  "Personnalisée": "bg-[#94a3b8] text-white",
-  "Impact": "bg-[#DC2626] text-white",
+  "Formations": "bg-[var(--sane-purple-dark)] text-white",
+  "Partenaires": "bg-[var(--sane-amber)] text-white",
+  "Presse": "bg-[var(--sane-pink-light)] text-white",
+  "Financier": "bg-[var(--sane-c-1e3a5f)] text-white",
+  "Utilisateurs": "bg-[var(--sane-c-0d7377)] text-white",
+  "Personnalisée": "bg-[var(--sane-slate)] text-white",
+  "Impact": "bg-[var(--sane-red)] text-white",
 };
 
 const reportIcons: Record<string, React.ReactNode> = {
   "Général": <BarChart3 size={14} className="text-[var(--sane-green)]" />,
-  "Inscriptions": <Users size={14} className="text-[#2563EB]" />,
+  "Inscriptions": <Users size={14} className="text-[var(--sane-blue)]" />,
   "Événements": <Calendar size={14} className="text-[var(--sane-orange)]" />,
-  "Formations": <BookOpen size={14} className="text-[#6B21A8]" />,
-  "Partenaires": <Star size={14} className="text-[#f59e0b]" />,
-  "Presse": <Newspaper size={14} className="text-[#ec4899]" />,
-  "Financier": <BarChart3 size={14} className="text-[#1e3a5f]" />,
-  "Utilisateurs": <Users size={14} className="text-[#0D7377]" />,
-  "Personnalisée": <FileText size={14} className="text-[#94a3b8]" />,
-  "Impact": <TrendingUp size={14} className="text-[#DC2626]" />,
+  "Formations": <BookOpen size={14} className="text-[var(--sane-purple-dark)]" />,
+  "Partenaires": <Star size={14} className="text-[var(--sane-amber)]" />,
+  "Presse": <Newspaper size={14} className="text-[var(--sane-pink-light)]" />,
+  "Financier": <BarChart3 size={14} className="text-[var(--sane-c-1e3a5f)]" />,
+  "Utilisateurs": <Users size={14} className="text-[var(--sane-c-0d7377)]" />,
+  "Personnalisée": <FileText size={14} className="text-[var(--sane-slate)]" />,
+  "Impact": <TrendingUp size={14} className="text-[var(--sane-red)]" />,
 };
 
 const reports = [
@@ -115,19 +115,19 @@ const reports = [
 ];
 
 const topReports = [
-  { rank: 1, rankColor: "#10632D", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>, bg: "#E8F5ED", color: "#10632D", title: "Rapport global du SANEM 2024", downloads: "1,240 téléchargements" },
-  { rank: 2, rankColor: "#6B21A8", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6H2z"/><path d="M22 20c0-2.2-1.8-4-4.5-4-.8 0-1.5.1-2.2.4 1.3 1.2 2.2 2.8 2.2 4.6h4.5z"/></svg>, bg: "#FFE8D6", color: "#E57617", title: "Statistiques des inscriptions", downloads: "980 téléchargements" },
-  { rank: 3, rankColor: "#0891b2", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18" stroke="white" strokeWidth="1.5"/><path d="M8 2v4M16 2v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><rect x="7" y="13" width="3" height="3" rx=".5" fill="white"/><rect x="14" y="13" width="3" height="3" rx=".5" fill="white"/></svg>, bg: "#E0F0FF", color: "#2563EB", title: "Participation par événement", downloads: "760 téléchargements" },
-  { rank: 4, rankColor: "#E57617", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>, bg: "#F0E8F5", color: "#6B21A8", title: "Rapport des formations", downloads: "540 téléchargements" },
-  { rank: 5, rankColor: "#ec4899", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>, bg: "#FCE7F3", color: "#ec4899", title: "Couverture médiatique", downloads: "420 téléchargements" },
+  { rank: 1, rankColor: "var(--sane-green)", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>, bg: "var(--sane-green-tint)", color: "var(--sane-green)", title: "Rapport global du SANEM 2024", downloads: "1,240 téléchargements" },
+  { rank: 2, rankColor: "var(--sane-purple-dark)", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6H2z"/><path d="M22 20c0-2.2-1.8-4-4.5-4-.8 0-1.5.1-2.2.4 1.3 1.2 2.2 2.8 2.2 4.6h4.5z"/></svg>, bg: "var(--sane-c-ffe8d6)", color: "var(--sane-orange)", title: "Statistiques des inscriptions", downloads: "980 téléchargements" },
+  { rank: 3, rankColor: "var(--sane-cyan)", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18" stroke="white" strokeWidth="1.5"/><path d="M8 2v4M16 2v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><rect x="7" y="13" width="3" height="3" rx=".5" fill="white"/><rect x="14" y="13" width="3" height="3" rx=".5" fill="white"/></svg>, bg: "var(--sane-blue-tint)", color: "var(--sane-blue)", title: "Participation par événement", downloads: "760 téléchargements" },
+  { rank: 4, rankColor: "var(--sane-orange)", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>, bg: "var(--sane-c-f0e8f5)", color: "var(--sane-purple-dark)", title: "Rapport des formations", downloads: "540 téléchargements" },
+  { rank: 5, rankColor: "var(--sane-pink-light)", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>, bg: "var(--sane-c-fce7f3)", color: "var(--sane-pink-light)", title: "Couverture médiatique", downloads: "420 téléchargements" },
 ];
 
 const recentReports = [
-  { day: "12", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>, bg: "#E8F5ED", color: "#10632D", title: "Rapport global du SANEM 2024", desc: "Général · PDF" },
-  { day: "10", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6H2z"/><path d="M22 20c0-2.2-1.8-4-4.5-4-.8 0-1.5.1-2.2.4 1.3 1.2 2.2 2.8 2.2 4.6h4.5z"/></svg>, bg: "#FFE8D6", color: "#E57617", title: "Statistiques des inscriptions", desc: "Inscriptions · Excel" },
-  { day: "08", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18" stroke="white" strokeWidth="1.5"/><path d="M8 2v4M16 2v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>, bg: "#E0F0FF", color: "#2563EB", title: "Participation par événement", desc: "Événements · PDF" },
-  { day: "05", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>, bg: "#F0E8F5", color: "#6B21A8", title: "Rapport des formations", desc: "Formations · Excel" },
-  { day: "02", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>, bg: "#FFF3E8", color: "#f59e0b", title: "Impact des partenariats", desc: "Partenaires · PDF" },
+  { day: "12", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>, bg: "var(--sane-green-tint)", color: "var(--sane-green)", title: "Rapport global du SANEM 2024", desc: "Général · PDF" },
+  { day: "10", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6H2z"/><path d="M22 20c0-2.2-1.8-4-4.5-4-.8 0-1.5.1-2.2.4 1.3 1.2 2.2 2.8 2.2 4.6h4.5z"/></svg>, bg: "var(--sane-c-ffe8d6)", color: "var(--sane-orange)", title: "Statistiques des inscriptions", desc: "Inscriptions · Excel" },
+  { day: "08", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18" stroke="white" strokeWidth="1.5"/><path d="M8 2v4M16 2v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>, bg: "var(--sane-blue-tint)", color: "var(--sane-blue)", title: "Participation par événement", desc: "Événements · PDF" },
+  { day: "05", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>, bg: "var(--sane-c-f0e8f5)", color: "var(--sane-purple-dark)", title: "Rapport des formations", desc: "Formations · Excel" },
+  { day: "02", month: "Mar", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>, bg: "var(--sane-orange-tint)", color: "var(--sane-amber)", title: "Impact des partenariats", desc: "Partenaires · PDF" },
 ];
 
 /* ─────────────────────────────── PAGE ─────────────────────────────── */
@@ -167,10 +167,10 @@ export default function AdminRapportsPage() {
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-6">
           {/* ═══════════ WELCOME BANNER ═══════════ */}
           <div className="relative mb-6 overflow-hidden rounded-2xl min-h-[110px] sm:h-[140px]">
-            <Image src="/sane_deal.png" alt="Rapports" fill className="object-cover" style={{ objectPosition: "center 30%" }} />
+            <Image src="/sane_deal.webp" alt="Rapports" fill sizes="100vw" className="object-cover" style={{ objectPosition: "center 30%" }} />
             <div className="absolute inset-0 bg-gradient-to-r from-white from-35% via-white/60 via-50% to-transparent" />
             <div className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-20 hidden sm:flex items-center gap-3">
-              <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANEM</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
+              <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="var(--sane-green)"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANEM</text><path d="M8 8 Q20 2 32 8" stroke="var(--sane-orange)" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
               <p className="text-[16px] italic text-[var(--sane-orange)] leading-tight font-semibold" style={{ fontFamily: "Georgia, serif" }}>Un Niger<br/>de Talents</p>
             </div>
             <div className="relative z-20 p-4 sm:p-6 flex items-start justify-between">
@@ -225,29 +225,29 @@ export default function AdminRapportsPage() {
                     </select>
                   </div>
                   <div className="flex items-center gap-4 mb-2 text-[9px]">
-                    <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[#3b82f6]" /> Inscriptions</span>
+                    <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[var(--sane-blue-light)]" /> Inscriptions</span>
                     <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[var(--sane-green)]" /> Participants</span>
                   </div>
                   <svg viewBox="0 0 420 160" className="w-full">
-                    <line x1="35" y1="20" x2="35" y2="140" stroke="#DDE8E0" strokeWidth="0.5" />
+                    <line x1="35" y1="20" x2="35" y2="140" stroke="var(--sane-border-soft)" strokeWidth="0.5" />
                     {[0, 500, 1000, 1500, 2000].map((v, i) => (
                       <text key={i} x="30" y={140 - (v / maxLine) * 100} textAnchor="end" className="text-[7px] fill-[var(--sane-text-light)]">{v.toLocaleString()}</text>
                     ))}
                     {lineChartData.map((d, i) => (
                       <text key={i} x={35 + i * (350 / 11)} y="155" textAnchor="middle" className="text-[7px] fill-[var(--sane-text-light)]">{d.month}</text>
                     ))}
-                    <polygon points={`${linePoints("insc")},${35 + 11 * (350 / 11)},140 35,140`} fill="#10632D" opacity="0.08" />
-                    <polyline points={linePoints("insc")} fill="none" stroke="#3b82f6" strokeWidth="2" />
+                    <polygon points={`${linePoints("insc")},${35 + 11 * (350 / 11)},140 35,140`} fill="var(--sane-green)" opacity="0.08" />
+                    <polyline points={linePoints("insc")} fill="none" stroke="var(--sane-blue-light)" strokeWidth="2" />
                     {lineChartData.map((d, i) => {
                       const x = 35 + i * (350 / 11);
                       const y = 140 - 20 - (d.insc / maxLine) * (140 - 40);
-                      return <circle key={`i${i}`} cx={x} cy={y} r="3" fill="#3b82f6" stroke="white" strokeWidth="1.5" />;
+                      return <circle key={`i${i}`} cx={x} cy={y} r="3" fill="var(--sane-blue-light)" stroke="white" strokeWidth="1.5" />;
                     })}
-                    <polyline points={linePoints("part")} fill="none" stroke="#10632D" strokeWidth="2" />
+                    <polyline points={linePoints("part")} fill="none" stroke="var(--sane-green)" strokeWidth="2" />
                     {lineChartData.map((d, i) => {
                       const x = 35 + i * (350 / 11);
                       const y = 140 - 20 - (d.part / maxLine) * (140 - 40);
-                      return <circle key={`p${i}`} cx={x} cy={y} r="3" fill="#10632D" stroke="white" strokeWidth="1.5" />;
+                      return <circle key={`p${i}`} cx={x} cy={y} r="3" fill="var(--sane-green)" stroke="white" strokeWidth="1.5" />;
                     })}
                   </svg>
                 </div>
@@ -356,7 +356,7 @@ export default function AdminRapportsPage() {
                           <span className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold ${
                             r.status === "Terminé" ? "bg-[var(--sane-green-light)] text-[var(--sane-green)]" :
                             r.status === "En cours" ? "bg-[var(--sane-orange-light)] text-[var(--sane-orange)]" :
-                            "bg-[#F3F4F6] text-[var(--sane-text-light)]"
+                            "bg-[var(--sane-c-f3f4f6)] text-[var(--sane-text-light)]"
                           }`}>{r.status}</span>
                         </td>
                         <td className="px-2 py-2">
@@ -382,7 +382,7 @@ export default function AdminRapportsPage() {
                 <div className="flex flex-col gap-2.5">
                   {topReports.map((t, i) => (
                     <div key={i} className="flex items-center gap-2">
-                      <span className="flex h-5 w-5 items-center justify-center rounded-full text-[9px] font-bold shrink-0" style={{ backgroundColor: `${t.rankColor}18`, color: t.rankColor }}>{t.rank}</span>
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full text-[9px] font-bold shrink-0" style={{ backgroundColor: `color-mix(in srgb, ${t.rankColor} 9%, transparent)`, color: t.rankColor }}>{t.rank}</span>
                       <span className="flex h-7 w-7 items-center justify-center rounded-md shrink-0" style={{ backgroundColor: t.bg, color: t.color }}>{t.icon}</span>
                       <div className="min-w-0 flex-1">
                         <p className="text-[10px] font-bold text-[var(--sane-green-deep)] truncate">{t.title}</p>
@@ -403,7 +403,7 @@ export default function AdminRapportsPage() {
                 <div className="flex flex-col gap-2.5">
                   {recentReports.map((r, i) => (
                     <div key={i} className="flex items-center gap-2">
-                      <div className="flex h-9 w-9 shrink-0 flex-col items-center justify-center rounded-full" style={{ backgroundColor: `${r.color}15` }}>
+                      <div className="flex h-9 w-9 shrink-0 flex-col items-center justify-center rounded-full" style={{ backgroundColor: `color-mix(in srgb, ${r.color} 8%, transparent)` }}>
                         <span className="text-[11px] font-extrabold leading-none" style={{ color: r.color }}>{r.day}</span>
                         <span className="text-[7px] font-semibold" style={{ color: r.color }}>{r.month}</span>
                       </div>

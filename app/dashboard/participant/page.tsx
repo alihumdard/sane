@@ -38,24 +38,24 @@ const sidebarItems: SidebarItem[] = [
 
 /* ─── Stats ─── */
 const statsData = [
-  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1 3 3 6 3s6-2 6-3v-5"/></svg>, value: "3", label: "Formations inscrites", link: "Voir mes formations", bg: "#E8F5ED", color: "#10632D" },
-  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M12 12v3"/><path d="M2 12h20"/></svg>, value: "5", label: "Candidatures envoyées", link: "Voir mes candidatures", bg: "#FFF3E8", color: "#E57617" },
-  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><rect x="7" y="14" width="3" height="3" rx="0.5"/><rect x="14" y="14" width="3" height="3" rx="0.5"/></svg>, value: "2", label: "Rendez-vous à venir", link: "Voir mon calendrier", bg: "#E0F0FF", color: "#2563EB" },
-  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 11h6"/></svg>, value: "12", label: "Nouvelles opportunités", link: "Voir les opportunités", bg: "#FFFBE8", color: "#D97706" },
+  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1 3 3 6 3s6-2 6-3v-5"/></svg>, value: "3", label: "Formations inscrites", link: "Voir mes formations", bg: "var(--sane-green-tint)", color: "var(--sane-green)" },
+  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M12 12v3"/><path d="M2 12h20"/></svg>, value: "5", label: "Candidatures envoyées", link: "Voir mes candidatures", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)" },
+  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><rect x="7" y="14" width="3" height="3" rx="0.5"/><rect x="14" y="14" width="3" height="3" rx="0.5"/></svg>, value: "2", label: "Rendez-vous à venir", link: "Voir mon calendrier", bg: "var(--sane-blue-tint)", color: "var(--sane-blue)" },
+  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 11h6"/></svg>, value: "12", label: "Nouvelles opportunités", link: "Voir les opportunités", bg: "var(--sane-amber-tint)", color: "var(--sane-amber-dark)" },
 ];
 
 /* ─── Mes formations ─── */
 const mesFormations = [
-  { img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=120&h=80&fit=crop", titre: "Développement Web pour l'emploi", details: "En ligne · 12 - 16 Mars 2024", statut: "Inscrit", statutColor: "#10632D", statutBg: "#E8F5ED" },
-  { img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=120&h=80&fit=crop", titre: "Gestion de projet digital", details: "Niamey · 25 - 28 Mars 2024", statut: "En attente", statutColor: "#E57617", statutBg: "#FFF3E8" },
-  { img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=120&h=80&fit=crop", titre: "Compétences numériques", details: "Niamey · 10 - 12 Avril 2024", statut: "Disponible", statutColor: "#2563EB", statutBg: "#E0F0FF" },
+  { img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=120&h=80&fit=crop", titre: "Développement Web pour l'emploi", details: "En ligne · 12 - 16 Mars 2024", statut: "Inscrit", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)" },
+  { img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=120&h=80&fit=crop", titre: "Gestion de projet digital", details: "Niamey · 25 - 28 Mars 2024", statut: "En attente", statutColor: "var(--sane-orange)", statutBg: "var(--sane-orange-tint)" },
+  { img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=120&h=80&fit=crop", titre: "Compétences numériques", details: "Niamey · 10 - 12 Avril 2024", statut: "Disponible", statutColor: "var(--sane-blue)", statutBg: "var(--sane-blue-tint)" },
 ];
 
 /* ─── Mes candidatures ─── */
 const mesCandidatures = [
-  { logo: "enabel", poste: "Assistant Communication", entreprise: "Enabel Niger", date: "12 Mars 2024", statut: "En cours", statutColor: "#10632D", statutBg: "#E8F5ED" },
-  { logo: "giz", poste: "Développeur Web", entreprise: "GIZ Niger", date: "08 Mars 2024", statut: "En revue", statutColor: "#E57617", statutBg: "#FFF3E8" },
-  { logo: "pnud", poste: "Spécialiste Suivi & Évaluation", entreprise: "PNUD Niger", date: "05 Mars 2024", statut: "En cours", statutColor: "#10632D", statutBg: "#E8F5ED" },
+  { logo: "enabel", poste: "Assistant Communication", entreprise: "Enabel Niger", date: "12 Mars 2024", statut: "En cours", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)" },
+  { logo: "giz", poste: "Développeur Web", entreprise: "GIZ Niger", date: "08 Mars 2024", statut: "En revue", statutColor: "var(--sane-orange)", statutBg: "var(--sane-orange-tint)" },
+  { logo: "pnud", poste: "Spécialiste Suivi & Évaluation", entreprise: "PNUD Niger", date: "05 Mars 2024", statut: "En cours", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)" },
 ];
 
 /* ─── Prochains rendez-vous ─── */
@@ -66,17 +66,17 @@ const rdvs = [
 
 /* ─── Événements à venir ─── */
 const evenements = [
-  { day: "10", month: "Avr", titre: "Atelier : Rédaction de CV", lieu: "SANEM · Niamey", badge: "Gratuit", badgeColor: "#10632D", badgeBg: "#E8F5ED" },
-  { day: "15", month: "Avr", titre: "Conférence : Jeunes et emploi", lieu: "Palais des Congrès", badge: "Gratuit", badgeColor: "#10632D", badgeBg: "#E8F5ED" },
-  { day: "22", month: "Avr", titre: "Rencontre avec les recruteurs", lieu: "SANEM · Niamey", badge: "Sur invitation", badgeColor: "#E57617", badgeBg: "#FFF3E8" },
+  { day: "10", month: "Avr", titre: "Atelier : Rédaction de CV", lieu: "SANEM · Niamey", badge: "Gratuit", badgeColor: "var(--sane-green)", badgeBg: "var(--sane-green-tint)" },
+  { day: "15", month: "Avr", titre: "Conférence : Jeunes et emploi", lieu: "Palais des Congrès", badge: "Gratuit", badgeColor: "var(--sane-green)", badgeBg: "var(--sane-green-tint)" },
+  { day: "22", month: "Avr", titre: "Rencontre avec les recruteurs", lieu: "SANEM · Niamey", badge: "Sur invitation", badgeColor: "var(--sane-orange)", badgeBg: "var(--sane-orange-tint)" },
 ];
 
 /* ─── Bar chart data ─── */
 const barData = [
-  { label: "Formations", value: 3, color: "#10632D" },
-  { label: "Candidatures", value: 5, color: "#E57617" },
-  { label: "Rendez-vous", value: 2, color: "#2563EB" },
-  { label: "Favoris", value: 7, color: "#0a2e16" },
+  { label: "Formations", value: 3, color: "var(--sane-green)" },
+  { label: "Candidatures", value: 5, color: "var(--sane-orange)" },
+  { label: "Rendez-vous", value: 2, color: "var(--sane-blue)" },
+  { label: "Favoris", value: 7, color: "var(--sane-green-deep)" },
 ];
 
 /* ─── Calendar ─── */
@@ -90,9 +90,9 @@ const calWeeks = [
 
 /* ─── Recommendations ─── */
 const recommendations = [
-  { img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=200&fit=crop", category: "Formation", catColor: "#10632D", catBg: "#E8F5ED", titre: "Leadership et gestion d'équipe", lieu: "SANEM · Niamey", date: "18 - 20 Avril 2024" },
-  { img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=200&fit=crop", category: "Événement", catColor: "#E57617", catBg: "#FFF3E8", titre: "Salon National de l'Emploi 2024", lieu: "Palais des Congrès · Niamey", date: "12 - 14 Mai 2024" },
-  { img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=200&fit=crop", category: "Opportunité", catColor: "#2563EB", catBg: "#E0F0FF", titre: "Stagiaire en Communication", lieu: "UNICEF Niger", date: "Date limite : 25 Mars 2024" },
+  { img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=200&fit=crop", category: "Formation", catColor: "var(--sane-green)", catBg: "var(--sane-green-tint)", titre: "Leadership et gestion d'équipe", lieu: "SANEM · Niamey", date: "18 - 20 Avril 2024" },
+  { img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=200&fit=crop", category: "Événement", catColor: "var(--sane-orange)", catBg: "var(--sane-orange-tint)", titre: "Salon National de l'Emploi 2024", lieu: "Palais des Congrès · Niamey", date: "12 - 14 Mai 2024" },
+  { img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=200&fit=crop", category: "Opportunité", catColor: "var(--sane-blue)", catBg: "var(--sane-blue-tint)", titre: "Stagiaire en Communication", lieu: "UNICEF Niger", date: "Date limite : 25 Mars 2024" },
 ];
 
 export default function ParticipantDashboard() {
@@ -132,7 +132,7 @@ export default function ParticipantDashboard() {
                 {mesFormations.map((f, i) => (
                   <div key={i} className="flex items-center gap-2.5">
                     <div className="relative h-11 w-16 shrink-0 overflow-hidden rounded-lg border border-[var(--sane-border)]">
-                      <Image src={f.img} alt={f.titre} fill className="object-cover" />
+                      <Image src={f.img} alt={f.titre} fill sizes="100vw" className="object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight truncate">{f.titre}</p>
@@ -173,7 +173,7 @@ export default function ParticipantDashboard() {
                       <p className="text-[9px] text-[var(--sane-text-light)]">{r.lieu}</p>
                       <div className="mt-0.5 flex items-center gap-2">
                         <span className="text-[9px] text-[var(--sane-text-light)]">{r.heure}</span>
-                        <span className="flex items-center gap-0.5 rounded-full bg-[#E0F0FF] px-1.5 py-0.5 text-[8px] font-semibold text-[#2563EB]">
+                        <span className="flex items-center gap-0.5 rounded-full bg-[var(--sane-blue-tint)] px-1.5 py-0.5 text-[8px] font-semibold text-[var(--sane-blue)]">
                           {r.modeIcon} {r.mode}
                         </span>
                       </div>
@@ -222,7 +222,7 @@ export default function ParticipantDashboard() {
               {recommendations.map((r, i) => (
                 <div key={i} className="flex overflow-hidden rounded-xl border border-[var(--sane-border)] bg-white">
                   <div className="relative w-[120px] shrink-0">
-                    <Image src={r.img} alt={r.titre} fill className="object-cover" />
+                    <Image src={r.img} alt={r.titre} fill sizes="100vw" className="object-cover" />
                   </div>
                   <div className="flex flex-1 items-center gap-2 p-3">
                     <div className="flex-1 min-w-0">

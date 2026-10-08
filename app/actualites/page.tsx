@@ -62,55 +62,55 @@ const categoryTabs = [
 
 const articles = [
   {
-    image: "/sane_deal.png",
+    image: "/sane_deal.webp",
     date: "12 Mars 2024",
     tag: "Événement",
-    tagColor: "#E57617",
+    tagColor: "var(--sane-orange)",
     title: "Lancement officiel du SANEM 2024 à Niamey",
     description:
       "Le Ministère de l'Emploi annonce la tenue de la prochaine édition du Salon National de l'Emploi au Palais des Congrès de Niamey.",
   },
   {
-    image: "/actualites-card1.png",
+    image: "/actualites-card1.webp",
     date: "08 Mars 2024",
     tag: "Formation",
-    tagColor: "#10632D",
+    tagColor: "var(--sane-green)",
     title: "Le SANEM 2024 : un carrefour d'opportunités pour les jeunes",
     description:
       "Découvrez les objectifs, les temps forts et les innovations de cette nouvelle édition qui réunit entreprises, institutions et chercheurs d'emploi.",
   },
   {
-    image: "/sane_deal.png",
+    image: "/sane_deal.webp",
     date: "05 Mars 2024",
     tag: "Partenariat",
-    tagColor: "#E57617",
+    tagColor: "var(--sane-orange)",
     title: "Le SANEM renforce ses partenariats internationaux",
     description:
       "De nouvelles collaborations pour soutenir l'emploi, la formation et l'insertion professionnelle des jeunes nigériens.",
   },
   {
-    image: "/actualites-card1.png",
+    image: "/actualites-card1.webp",
     date: "28 Février 2024",
     tag: "Témoignage",
-    tagColor: "#10632D",
+    tagColor: "var(--sane-green)",
     title: "Ils ont trouvé leur opportunité grâce au SANEM",
     description:
       "Découvrez les témoignages inspirants des jeunes qui ont pu bénéficier d'opportunités d'emploi et de formation.",
   },
   {
-    image: "/sane_deal.png",
+    image: "/sane_deal.webp",
     date: "20 Février 2024",
     tag: "Formation",
-    tagColor: "#E57617",
+    tagColor: "var(--sane-orange)",
     title: "Des formations adaptées aux besoins du marché",
     description:
       "Le SANEM met l'accent sur des formations pratiques et certifiantes pour renforcer l'employabilité des jeunes.",
   },
   {
-    image: "/actualites-card1.png",
+    image: "/actualites-card1.webp",
     date: "15 Février 2024",
     tag: "Communiqué",
-    tagColor: "#1a5276",
+    tagColor: "var(--sane-c-1a5276)",
     title: "Communiqué officiel du SANEM",
     description:
       "Retrouvez les dernières annonces et informations importantes concernant l'organisation de l'événement.",
@@ -121,22 +121,22 @@ const popularArticles = [
   {
     title: "Lancement officiel du SANEM 2024 à Niamey",
     date: "12 Mars 2024",
-    image: "/sane-deal3.png",
+    image: "/sane-deal3.webp",
   },
   {
     title: "Des formations pour les jeunes nigériens",
     date: "05 Mars 2024",
-    image: "/sane-deal3.png",
+    image: "/sane-deal3.webp",
   },
   {
     title: "Le SANEM renforce ses partenariats",
     date: "28 Février 2024",
-    image: "/sane-deal3.png",
+    image: "/sane-deal3.webp",
   },
   {
     title: "Témoignages de participants",
     date: "20 Février 2024",
-    image: "/sane-deal3.png",
+    image: "/sane-deal3.webp",
   },
 ];
 
@@ -167,10 +167,10 @@ export default function ActualitesPage() {
       <Header />
       <main>
         {/* ═══════════════════ 1. HERO ═══════════════════ */}
-        <section className="relative min-h-[320px] overflow-hidden bg-[#0a4a22] sm:min-h-[340px] lg:min-h-[380px]">
+        <section className="relative min-h-[320px] overflow-hidden bg-[var(--sane-green-dark)] sm:min-h-[340px] lg:min-h-[380px]">
           <div className="absolute inset-0">
             <Image
-              src="/actualites2.png"
+              src="/actualites2.webp"
               alt="Actualités SANEM"
               fill
               sizes="100vw"
@@ -179,9 +179,9 @@ export default function ActualitesPage() {
               priority
             />
           </div>
-          <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0a4a22]/70 via-[#0a4a22]/40 via-[55%] to-[#0a4a22]/10 sm:from-[#0a4a22]/80 sm:via-[#0a4a22]/55 sm:to-[#0a4a22]/30 lg:bg-gradient-to-r lg:from-[#0a4a22]/80 lg:via-[#0a4a22]/25 lg:to-transparent lg:to-[60%]" />
+          <div className="absolute inset-0 z-10 bg-gradient-to-b from-[var(--sane-green-dark)]/70 via-[var(--sane-green-dark)]/40 via-[55%] to-[var(--sane-green-dark)]/10 sm:from-[var(--sane-green-dark)]/80 sm:via-[var(--sane-green-dark)]/55 sm:to-[var(--sane-green-dark)]/30 lg:bg-gradient-to-r lg:from-[var(--sane-green-dark)]/80 lg:via-[var(--sane-green-dark)]/25 lg:to-transparent lg:to-[60%]" />
 
-          <div className="absolute right-4 top-4 z-20 rounded-lg bg-white/95 px-3 py-2.5 text-[8px] font-extrabold uppercase leading-[1.8] tracking-wide text-[#0a4a22] shadow-lg backdrop-blur-sm sm:right-6 sm:top-8 sm:px-3.5 sm:py-3 sm:text-[10px]">
+          <div className="absolute right-4 top-4 z-20 rounded-lg bg-white/95 px-3 py-2.5 text-[8px] font-extrabold uppercase leading-[1.8] tracking-wide text-[var(--sane-green-dark)] shadow-lg backdrop-blur-sm sm:right-6 sm:top-8 sm:px-3.5 sm:py-3 sm:text-[10px]">
             EMPLOI
             <br />
             FORMATION
@@ -189,7 +189,7 @@ export default function ActualitesPage() {
             OPPORTUNITÉS
             <br />
             AVENIR
-            <div className="mt-1.5 h-[2px] w-6 rounded-full bg-[#E57617]" />
+            <div className="mt-1.5 h-[2px] w-6 rounded-full bg-[var(--sane-orange)]" />
           </div>
           <div className="absolute bottom-[25%] right-4 z-20 hidden text-right sm:bottom-10 sm:right-6 lg:block">
             <p className="font-serif text-[20px] font-bold italic leading-[1.3] text-white [text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
@@ -199,7 +199,7 @@ export default function ActualitesPage() {
               <br />
               plus fort
             </p>
-            <div className="ml-auto mt-2 h-[2.5px] w-8 rounded-full bg-[#E57617]" />
+            <div className="ml-auto mt-2 h-[2.5px] w-8 rounded-full bg-[var(--sane-orange)]" />
           </div>
 
           <div className="sane-container relative z-20 flex flex-col justify-center px-4 py-8 sm:min-h-[340px] sm:py-10 lg:min-h-[380px] lg:py-12">
@@ -228,7 +228,7 @@ export default function ActualitesPage() {
               <div className="flex flex-wrap gap-3">
                 <Link
                   href="/programme"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#E57617] px-5 py-2.5 text-[12px] font-semibold text-white transition-all hover:bg-[#c9600f] hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 rounded-full bg-[var(--sane-orange)] px-5 py-2.5 text-[12px] font-semibold text-white transition-all hover:bg-[var(--sane-c-c9600f)] hover:-translate-y-0.5"
                 >
                   Voir le programme <ArrowRight size={14} />
                 </Link>
@@ -256,13 +256,13 @@ export default function ActualitesPage() {
                     onClick={() => setActiveTab(tab.key)}
                     className={`flex min-h-[70px] shrink-0 items-center gap-3 rounded-xl border px-3.5 py-3 text-left transition-all sm:min-h-[80px] sm:px-4 sm:py-3.5 ${
                       active
-                        ? "border-transparent bg-[#0a4a22] text-white shadow-md"
-                        : "border-[#DDE8E0] bg-white text-[#17352a] shadow-sm hover:-translate-y-0.5 hover:shadow-md"
+                        ? "border-transparent bg-[var(--sane-green-dark)] text-white shadow-md"
+                        : "border-[var(--sane-border-soft)] bg-white text-[var(--sane-text)] shadow-sm hover:-translate-y-0.5 hover:shadow-md"
                     }`}
                   >
                     <div
                       className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${
-                        active ? "bg-white/15 text-white" : "bg-[#fff4ec] text-[#E57617]"
+                        active ? "bg-white/15 text-white" : "bg-[var(--sane-c-fff4ec)] text-[var(--sane-orange)]"
                       }`}
                     >
                       <svg
@@ -282,7 +282,7 @@ export default function ActualitesPage() {
                     <div className="min-w-0">
                       <p className="text-[14px] font-bold leading-tight">{tab.title}</p>
                       <p
-                        className={`mt-0.5 text-[11.5px] leading-snug ${active ? "text-white/70" : "text-[#61756b]"}`}
+                        className={`mt-0.5 text-[11.5px] leading-snug ${active ? "text-white/70" : "text-[var(--sane-text-light)]"}`}
                       >
                         {tab.subtitle}
                       </p>
@@ -295,15 +295,15 @@ export default function ActualitesPage() {
         </section>
 
         {/* ═══════════════════ 3. SEARCH / FILTER BAR ═══════════════════ */}
-        <section className="border-b border-[#DDE8E0] bg-[#f0f5f2] py-5 sm:py-7">
+        <section className="border-b border-[var(--sane-border-soft)] bg-[var(--sane-c-f0f5f2)] py-5 sm:py-7">
           <div className="sane-container px-4">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-6">
               <div className="shrink-0">
                 <div className="mb-0.5 flex items-center gap-2">
-                  <span className="h-[2px] w-5 bg-[#E57617]" />
-                  <span className="text-[17px] font-bold text-[#0a2e16]">Recherchez une actualité</span>
+                  <span className="h-[2px] w-5 bg-[var(--sane-orange)]" />
+                  <span className="text-[17px] font-bold text-[var(--sane-green-deep)]">Recherchez une actualité</span>
                 </div>
-                <p className="text-[12px] text-[#61756B]">
+                <p className="text-[12px] text-[var(--sane-text-light)]">
                   Trouvez rapidement les informations qui vous intéressent.
                 </p>
               </div>
@@ -311,15 +311,15 @@ export default function ActualitesPage() {
                 <div className="relative flex-1">
                   <Search
                     size={16}
-                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#61756B]"
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]"
                   />
                   <input
                     type="text"
                     placeholder="Rechercher un article, un événement..."
-                    className="h-[44px] w-full rounded-full border border-[#DDE8E0] bg-white pl-10 pr-4 text-[13px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none focus:border-[#10632D]"
+                    className="h-[44px] w-full rounded-full border border-[var(--sane-border-soft)] bg-white pl-10 pr-4 text-[13px] text-[var(--sane-green-deep)] placeholder:text-[var(--sane-text-light)]/50 outline-none focus:border-[var(--sane-green)]"
                   />
                 </div>
-                <select className="h-[44px] rounded-full border border-[#DDE8E0] bg-white px-4 text-[13px] text-[#61756B] outline-none focus:border-[#10632D]">
+                <select className="h-[44px] rounded-full border border-[var(--sane-border-soft)] bg-white px-4 text-[13px] text-[var(--sane-text-light)] outline-none focus:border-[var(--sane-green)]">
                   <option>Catégorie</option>
                   <option>Événement</option>
                   <option>Communiqué</option>
@@ -327,12 +327,12 @@ export default function ActualitesPage() {
                   <option>Partenariat</option>
                   <option>Témoignage</option>
                 </select>
-                <select className="h-[44px] rounded-full border border-[#DDE8E0] bg-white px-4 text-[13px] text-[#61756B] outline-none focus:border-[#10632D]">
+                <select className="h-[44px] rounded-full border border-[var(--sane-border-soft)] bg-white px-4 text-[13px] text-[var(--sane-text-light)] outline-none focus:border-[var(--sane-green)]">
                   <option>Date</option>
                   <option>Plus récent</option>
                   <option>Plus ancien</option>
                 </select>
-                <button className="h-[44px] rounded-full bg-[#E57617] px-6 text-[13px] font-semibold text-white transition-colors hover:bg-[#c9600f] whitespace-nowrap">
+                <button className="h-[44px] rounded-full bg-[var(--sane-orange)] px-6 text-[13px] font-semibold text-white transition-colors hover:bg-[var(--sane-c-c9600f)] whitespace-nowrap">
                   Rechercher
                 </button>
               </div>
@@ -345,17 +345,17 @@ export default function ActualitesPage() {
           <div className="sane-container px-4">
             <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <div className="mb-2 flex items-center gap-2 text-[13px] font-semibold text-[#E57617]">
-                  <span className="h-px w-6 bg-[#E57617]" />
+                <div className="mb-2 flex items-center gap-2 text-[13px] font-semibold text-[var(--sane-orange)]">
+                  <span className="h-px w-6 bg-[var(--sane-orange)]" />
                   DERNIÈRES ACTUALITÉS
                 </div>
-                <h2 className="text-xl font-bold text-[#0a2e16] sm:text-2xl lg:text-3xl">
+                <h2 className="text-xl font-bold text-[var(--sane-green-deep)] sm:text-2xl lg:text-3xl">
                   Nos dernières nouvelles
                 </h2>
               </div>
               <Link
                 href="#"
-                className="flex items-center gap-1.5 text-[13px] font-semibold text-[#10632D] hover:text-[#E57617] sm:text-[14px]"
+                className="flex items-center gap-1.5 text-[13px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] sm:text-[14px]"
               >
                 Voir toutes les actualités <ArrowRight size={15} />
               </Link>
@@ -368,13 +368,13 @@ export default function ActualitesPage() {
                   {articles.map((a, i) => (
                     <div
                       key={i}
-                      className="group overflow-hidden rounded-2xl border border-[#DDE8E0] bg-white transition-all hover:-translate-y-1 hover:shadow-lg"
+                      className="group overflow-hidden rounded-2xl border border-[var(--sane-border-soft)] bg-white transition-all hover:-translate-y-1 hover:shadow-lg"
                     >
                       <div className="relative h-[180px] overflow-hidden">
                         <Image
                           src={a.image}
                           alt={a.title}
-                          fill
+                          fill sizes="(max-width: 768px) 100vw, 33vw"
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                         <div className="absolute bottom-3 right-3">
@@ -387,19 +387,19 @@ export default function ActualitesPage() {
                         </div>
                       </div>
                       <div className="p-4">
-                        <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[#61756B]">
-                          <Calendar size={12} className="text-[#E57617]" />
+                        <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[var(--sane-text-light)]">
+                          <Calendar size={12} className="text-[var(--sane-orange)]" />
                           {a.date}
                         </div>
-                        <h3 className="mb-2 text-[14px] font-bold leading-snug text-[#0a2e16]">
+                        <h3 className="mb-2 text-[14px] font-bold leading-snug text-[var(--sane-green-deep)]">
                           {a.title}
                         </h3>
-                        <p className="mb-3 text-[12px] leading-relaxed text-[#61756B] line-clamp-3">
+                        <p className="mb-3 text-[12px] leading-relaxed text-[var(--sane-text-light)] line-clamp-3">
                           {a.description}
                         </p>
                         <Link
                           href="#"
-                          className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#10632D] hover:text-[#E57617]"
+                          className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)]"
                         >
                           Lire l'article <ArrowRight size={13} />
                         </Link>
@@ -410,24 +410,24 @@ export default function ActualitesPage() {
 
                 {/* À LA UNE */}
                 <div className="mt-10">
-                  <div className="mb-2 flex items-center gap-2 text-[12px] font-bold uppercase tracking-wider text-[#0a2e16]">
-                    <span className="h-px w-4 bg-[#E57617]" />À LA UNE
+                  <div className="mb-2 flex items-center gap-2 text-[12px] font-bold uppercase tracking-wider text-[var(--sane-green-deep)]">
+                    <span className="h-px w-4 bg-[var(--sane-orange)]" />À LA UNE
                   </div>
-                  <h2 className="mb-6 text-xl font-bold text-[#0a2e16] lg:text-2xl">
+                  <h2 className="mb-6 text-xl font-bold text-[var(--sane-green-deep)] lg:text-2xl">
                     Le SANEM, un engagement pour l'avenir du Niger
                   </h2>
 
                   <div className="grid gap-5 sm:grid-cols-2 sm:items-center sm:gap-6">
                     <div className="group relative h-[180px] overflow-hidden rounded-2xl sm:h-[220px]">
                       <Image
-                        src="/sane_deal.png"
+                        src="/sane_deal.webp"
                         alt="À la une"
-                        fill
+                        fill sizes="100vw"
                         className="object-cover"
                       />
                       <div className="absolute inset-0 bg-black/30 transition-colors group-hover:bg-black/40" />
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-[#10632D] shadow-lg transition-transform group-hover:scale-110">
+                        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-[var(--sane-green)] shadow-lg transition-transform group-hover:scale-110">
                           <Play
                             size={24}
                             className="ml-1"
@@ -437,14 +437,14 @@ export default function ActualitesPage() {
                       </div>
                     </div>
                     <div>
-                      <div className="mb-2 flex items-center gap-1.5 text-[12px] text-[#E57617]">
+                      <div className="mb-2 flex items-center gap-1.5 text-[12px] text-[var(--sane-orange)]">
                         <Calendar size={12} />
                         12 Mars 2024
                       </div>
-                      <h3 className="mb-3 text-[16px] font-bold text-[#0a2e16]">
+                      <h3 className="mb-3 text-[16px] font-bold text-[var(--sane-green-deep)]">
                         Le SANEM 2024 : Ensemble pour un Niger plus fort
                       </h3>
-                      <p className="mb-4 text-[13px] leading-relaxed text-[#61756B]">
+                      <p className="mb-4 text-[13px] leading-relaxed text-[var(--sane-text-light)]">
                         Découvrez la vision, les objectifs et les temps forts de
                         cette nouvelle édition du Salon National de l'Emploi,
                         qui place les jeunes, la formation et l'innovation au
@@ -452,7 +452,7 @@ export default function ActualitesPage() {
                       </p>
                       <Link
                         href="#"
-                        className="inline-flex items-center gap-2 rounded-full bg-[#E57617] px-5 py-2.5 text-[13px] font-semibold text-white transition-all hover:bg-[#c9600f]"
+                        className="inline-flex items-center gap-2 rounded-full bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-semibold text-white transition-all hover:bg-[var(--sane-c-c9600f)]"
                       >
                         Lire l'article complet
                         <ArrowRight size={14} />
@@ -468,14 +468,14 @@ export default function ActualitesPage() {
                       key={n}
                       className={`flex h-9 w-9 items-center justify-center rounded-lg text-[13px] font-semibold transition-colors ${
                         n === 1
-                          ? "bg-[#10632D] text-white"
-                          : "border border-[#DDE8E0] text-[#61756B] hover:border-[#10632D] hover:text-[#10632D]"
+                          ? "bg-[var(--sane-green)] text-white"
+                          : "border border-[var(--sane-border-soft)] text-[var(--sane-text-light)] hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]"
                       }`}
                     >
                       {n}
                     </button>
                   ))}
-                  <button className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#DDE8E0] text-[#61756B] hover:border-[#10632D] hover:text-[#10632D]">
+                  <button className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--sane-border-soft)] text-[var(--sane-text-light)] hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]">
                     <ChevronRight size={14} />
                   </button>
                 </div>
@@ -486,8 +486,8 @@ export default function ActualitesPage() {
                 {/* Articles populaires */}
                 <div>
                   <div className="mb-4 flex items-center gap-2">
-                    <span className="h-px w-4 bg-[#E57617]" />
-                    <h3 className="text-[14px] font-bold text-[#0a2e16]">
+                    <span className="h-px w-4 bg-[var(--sane-orange)]" />
+                    <h3 className="text-[14px] font-bold text-[var(--sane-green-deep)]">
                       Articles populaires
                     </h3>
                   </div>
@@ -496,26 +496,26 @@ export default function ActualitesPage() {
                       <Link
                         key={i}
                         href="#"
-                        className="group flex items-center gap-3 rounded-xl border border-[#DDE8E0] bg-white p-2.5 transition-shadow hover:shadow-md"
+                        className="group flex items-center gap-3 rounded-xl border border-[var(--sane-border-soft)] bg-white p-2.5 transition-shadow hover:shadow-md"
                       >
                         <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl">
                           <Image
                             src={pa.image}
                             alt={pa.title}
-                            fill
+                            fill sizes="100vw"
                             className="object-cover"
                           />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className="text-[13px] font-bold leading-snug text-[#0a2e16] group-hover:text-[#10632D]">
+                          <p className="text-[13px] font-bold leading-snug text-[var(--sane-green-deep)] group-hover:text-[var(--sane-green)]">
                             {pa.title}
                           </p>
-                          <div className="mt-1 flex items-center gap-1 text-[11px] text-[#E57617]">
+                          <div className="mt-1 flex items-center gap-1 text-[11px] text-[var(--sane-orange)]">
                             <Calendar size={11} />
                             {pa.date}
                           </div>
                         </div>
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-[#10632D] text-[#10632D] group-hover:bg-[#10632D] group-hover:text-white">
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-[var(--sane-green)] text-[var(--sane-green)] group-hover:bg-[var(--sane-green)] group-hover:text-white">
                           <ArrowRight size={14} />
                         </div>
                       </Link>
@@ -526,8 +526,8 @@ export default function ActualitesPage() {
                 {/* Prochains événements */}
                 <div>
                   <div className="mb-3 flex items-center gap-2">
-                    <span className="h-[2px] w-4 bg-[#E57617]" />
-                    <h3 className="text-[15px] font-bold text-[#0a2e16]">
+                    <span className="h-[2px] w-4 bg-[var(--sane-orange)]" />
+                    <h3 className="text-[15px] font-bold text-[var(--sane-green-deep)]">
                       Prochains événements
                     </h3>
                   </div>
@@ -535,28 +535,28 @@ export default function ActualitesPage() {
                     {upcomingEvents.map((ev, i) => (
                       <div
                         key={i}
-                        className="flex items-center gap-3 rounded-xl border border-[#DDE8E0] bg-white p-3"
+                        className="flex items-center gap-3 rounded-xl border border-[var(--sane-border-soft)] bg-white p-3"
                       >
-                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#fff4ec]">
-                          <svg className="h-5 w-5 text-[#E57617]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--sane-c-fff4ec)]">
+                          <svg className="h-5 w-5 text-[var(--sane-orange)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                             <rect x="3" y="4" width="18" height="18" rx="2" />
                             <line x1="16" y1="2" x2="16" y2="6" />
                             <line x1="8" y1="2" x2="8" y2="6" />
                             <line x1="3" y1="10" x2="21" y2="10" />
-                            <rect x="7" y="14" width="3" height="3" rx="0.5" fill="#E57617" stroke="none" />
+                            <rect x="7" y="14" width="3" height="3" rx="0.5" fill="var(--sane-orange)" stroke="none" />
                           </svg>
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className="text-[13px] font-bold text-[#0a2e16]">
+                          <p className="text-[13px] font-bold text-[var(--sane-green-deep)]">
                             {ev.title}
                           </p>
-                          <div className="mt-1 flex flex-wrap gap-3 text-[11px] text-[#61756B]">
+                          <div className="mt-1 flex flex-wrap gap-3 text-[11px] text-[var(--sane-text-light)]">
                             <span className="flex items-center gap-1">
-                              <Calendar size={11} className="text-[#E57617]" />
+                              <Calendar size={11} className="text-[var(--sane-orange)]" />
                               {ev.date}
                             </span>
                             <span className="flex items-center gap-1">
-                              <MapPin size={11} className="text-[#E57617]" />
+                              <MapPin size={11} className="text-[var(--sane-orange)]" />
                               {ev.location}
                             </span>
                           </div>
@@ -566,32 +566,32 @@ export default function ActualitesPage() {
                   </div>
                   <Link
                     href="#"
-                    className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#10632D] hover:text-[#E57617]"
+                    className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)]"
                   >
                     Voir tous les événements <ArrowRight size={13} />
                   </Link>
                 </div>
 
                 {/* Newsletter */}
-                <div className="rounded-xl border border-[#DDE8E0] bg-white p-4">
+                <div className="rounded-xl border border-[var(--sane-border-soft)] bg-white p-4">
                   <div className="mb-2 flex items-center gap-2.5">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E57617] text-white">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--sane-orange)] text-white">
                       <Mail size={18} />
                     </div>
-                    <h3 className="text-[14px] font-bold text-[#0a2e16]">
+                    <h3 className="text-[14px] font-bold text-[var(--sane-green-deep)]">
                       Abonnez-vous à notre newsletter
                     </h3>
                   </div>
-                  <p className="mb-3 text-[12px] leading-relaxed text-[#61756B]">
+                  <p className="mb-3 text-[12px] leading-relaxed text-[var(--sane-text-light)]">
                     Recevez nos dernières actualités et événements directement
                     dans votre boîte mail.
                   </p>
                   <input
                     type="email"
                     placeholder="Votre adresse email..."
-                    className="mb-2.5 w-full rounded-full border border-[#DDE8E0] bg-white px-4 py-2.5 text-[13px] text-[#0a2e16] placeholder:text-[#61756B]/50 outline-none focus:border-[#10632D]"
+                    className="mb-2.5 w-full rounded-full border border-[var(--sane-border-soft)] bg-white px-4 py-2.5 text-[13px] text-[var(--sane-green-deep)] placeholder:text-[var(--sane-text-light)]/50 outline-none focus:border-[var(--sane-green)]"
                   />
-                  <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#E57617] py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-[#c9600f]">
+                  <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[var(--sane-orange)] py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-[var(--sane-c-c9600f)]">
                     S'abonner <ArrowRight size={14} />
                   </button>
                 </div>

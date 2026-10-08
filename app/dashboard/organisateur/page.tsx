@@ -52,11 +52,11 @@ const statsIcons = {
 };
 
 const statsData = [
-  { icon: statsIcons.calendar, value: "8", label: "Événements", trend: "+14%", bg: "#FFF3E8", color: "#E57617" },
-  { icon: statsIcons.graduation, value: "12", label: "Formations", trend: "+33%", bg: "#E8F5ED", color: "#10632D" },
-  { icon: statsIcons.people, value: "2.8K", label: "Participants", trend: "+28%", bg: "#E0F2F1", color: "#0D7377" },
-  { icon: statsIcons.mic, value: "1.2K", label: "Inscriptions", trend: "+36%", bg: "#E8F5ED", color: "#10632D" },
-  { icon: statsIcons.star, value: "24", label: "Partenaires", trend: "+20%", bg: "#FFF3E8", color: "#E57617" },
+  { icon: statsIcons.calendar, value: "8", label: "Événements", trend: "+14%", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)" },
+  { icon: statsIcons.graduation, value: "12", label: "Formations", trend: "+33%", bg: "var(--sane-green-tint)", color: "var(--sane-green)" },
+  { icon: statsIcons.people, value: "2.8K", label: "Participants", trend: "+28%", bg: "var(--sane-c-e0f2f1)", color: "var(--sane-c-0d7377)" },
+  { icon: statsIcons.mic, value: "1.2K", label: "Inscriptions", trend: "+36%", bg: "var(--sane-green-tint)", color: "var(--sane-green)" },
+  { icon: statsIcons.star, value: "24", label: "Partenaires", trend: "+20%", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)" },
 ];
 
 const lineChartData = [
@@ -75,12 +75,12 @@ const lineChartData = [
 ];
 
 const donutData = [
-  { label: "Étudiants", pct: 32, color: "#1e3a5f" },
-  { label: "Jeunes diplômés", pct: 24, color: "#10632D" },
-  { label: "Professionnels", pct: 18, color: "#3b82f6" },
-  { label: "Demandeurs d'emploi", pct: 12, color: "#E57617" },
-  { label: "Entrepreneurs", pct: 8, color: "#f59e0b" },
-  { label: "Autres", pct: 6, color: "#22c55e" },
+  { label: "Étudiants", pct: 32, color: "var(--sane-c-1e3a5f)" },
+  { label: "Jeunes diplômés", pct: 24, color: "var(--sane-green)" },
+  { label: "Professionnels", pct: 18, color: "var(--sane-blue-light)" },
+  { label: "Demandeurs d'emploi", pct: 12, color: "var(--sane-orange)" },
+  { label: "Entrepreneurs", pct: 8, color: "var(--sane-amber)" },
+  { label: "Autres", pct: 6, color: "var(--sane-c-22c55e)" },
 ];
 
 const events = [
@@ -90,11 +90,11 @@ const events = [
 ];
 
 const inscriptions = [
-  { name: "Ibrahim Souley", event: "Forum Emploi 2024", type: "Événement", typeColor: "#10632D", date: "12 Mars 2024", statut: "Confirmée", statutColor: "#10632D", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
-  { name: "Fatouma Issa", event: "Gestion de projet", type: "Formation", typeColor: "#3b82f6", date: "11 Mars 2024", statut: "Confirmée", statutColor: "#10632D", avatar: "https://randomuser.me/api/portraits/women/68.jpg" },
-  { name: "Moussa Adamou", event: "Conférence d'ouverture", type: "Événement", typeColor: "#10632D", date: "10 Mars 2024", statut: "En attente", statutColor: "#E57617", avatar: "https://randomuser.me/api/portraits/men/45.jpg" },
-  { name: "Aminata Diallo", event: "Entrepreneuriat des jeunes", type: "Formation", typeColor: "#3b82f6", date: "10 Mars 2024", statut: "Confirmée", statutColor: "#10632D", avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
-  { name: "Oumar Salifou", event: "Atelier numérique", type: "Formation", typeColor: "#3b82f6", date: "09 Mars 2024", statut: "Confirmée", statutColor: "#10632D", avatar: "https://randomuser.me/api/portraits/men/55.jpg" },
+  { name: "Ibrahim Souley", event: "Forum Emploi 2024", type: "Événement", typeColor: "var(--sane-green)", date: "12 Mars 2024", statut: "Confirmée", statutColor: "var(--sane-green)", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
+  { name: "Fatouma Issa", event: "Gestion de projet", type: "Formation", typeColor: "var(--sane-blue-light)", date: "11 Mars 2024", statut: "Confirmée", statutColor: "var(--sane-green)", avatar: "https://randomuser.me/api/portraits/women/68.jpg" },
+  { name: "Moussa Adamou", event: "Conférence d'ouverture", type: "Événement", typeColor: "var(--sane-green)", date: "10 Mars 2024", statut: "En attente", statutColor: "var(--sane-orange)", avatar: "https://randomuser.me/api/portraits/men/45.jpg" },
+  { name: "Aminata Diallo", event: "Entrepreneuriat des jeunes", type: "Formation", typeColor: "var(--sane-blue-light)", date: "10 Mars 2024", statut: "Confirmée", statutColor: "var(--sane-green)", avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
+  { name: "Oumar Salifou", event: "Atelier numérique", type: "Formation", typeColor: "var(--sane-blue-light)", date: "09 Mars 2024", statut: "Confirmée", statutColor: "var(--sane-green)", avatar: "https://randomuser.me/api/portraits/men/55.jpg" },
 ];
 
 const catIcons = {
@@ -107,18 +107,18 @@ const catIcons = {
 };
 
 const categories = [
-  { icon: catIcons.student, label: "Étudiants", count: 896, pct: 32, color: "#10632D", bg: "#E8F5ED" },
-  { icon: catIcons.graduate, label: "Jeunes diplômés", count: 672, pct: 24, color: "#E57617", bg: "#FFF3E8" },
-  { icon: catIcons.pro, label: "Professionnels", count: 504, pct: 18, color: "#0D7377", bg: "#E0F2F1" },
-  { icon: catIcons.seeker, label: "Demandeurs d'emploi", count: 336, pct: 12, color: "#1e3a5f", bg: "#E8EEF5" },
-  { icon: catIcons.entrepreneur, label: "Entrepreneurs", count: 224, pct: 8, color: "#f59e0b", bg: "#FEF9E7" },
-  { icon: catIcons.other, label: "Autres", count: 168, pct: 6, color: "#6b7280", bg: "#F3F4F6" },
+  { icon: catIcons.student, label: "Étudiants", count: 896, pct: 32, color: "var(--sane-green)", bg: "var(--sane-green-tint)" },
+  { icon: catIcons.graduate, label: "Jeunes diplômés", count: 672, pct: 24, color: "var(--sane-orange)", bg: "var(--sane-orange-tint)" },
+  { icon: catIcons.pro, label: "Professionnels", count: 504, pct: 18, color: "var(--sane-c-0d7377)", bg: "var(--sane-c-e0f2f1)" },
+  { icon: catIcons.seeker, label: "Demandeurs d'emploi", count: 336, pct: 12, color: "var(--sane-c-1e3a5f)", bg: "var(--sane-c-e8eef5)" },
+  { icon: catIcons.entrepreneur, label: "Entrepreneurs", count: 224, pct: 8, color: "var(--sane-amber)", bg: "var(--sane-c-fef9e7)" },
+  { icon: catIcons.other, label: "Autres", count: 168, pct: 6, color: "var(--sane-c-6b7280)", bg: "var(--sane-c-f3f4f6)" },
 ];
 
 const activities = [
-  { icon: <ClipboardList size={14} />, iconBg: "#10632D", title: "Nouvelle inscription à la formation Gestion de projet", desc: "Ibrahim Souley s'est inscrit il y a 2 heures" },
-  { icon: <Users size={14} />, iconBg: "#3b82f6", title: "Un nouvel intervenant a été ajouté", desc: "Dr. Amadou Mahamane a été invité il y a 4 heures" },
-  { icon: <Calendar size={14} />, iconBg: "#E57617", title: "Nouvel événement créé", desc: "Forum Emploi & Entrepreneuriat a été publié il y a 1 jour" },
+  { icon: <ClipboardList size={14} />, iconBg: "var(--sane-green)", title: "Nouvelle inscription à la formation Gestion de projet", desc: "Ibrahim Souley s'est inscrit il y a 2 heures" },
+  { icon: <Users size={14} />, iconBg: "var(--sane-blue-light)", title: "Un nouvel intervenant a été ajouté", desc: "Dr. Amadou Mahamane a été invité il y a 4 heures" },
+  { icon: <Calendar size={14} />, iconBg: "var(--sane-orange)", title: "Nouvel événement créé", desc: "Forum Emploi & Entrepreneuriat a été publié il y a 1 jour" },
 ];
 
 const recentMessages = [
@@ -128,9 +128,9 @@ const recentMessages = [
 ];
 
 const recentNotifs = [
-  { icon: <Calendar size={14} />, iconBg: "#E57617", title: "Rappel : Conférence d'ouverture demain", desc: "Il vous reste 1 jour", time: "il y a 30 min" },
-  { icon: <ClipboardList size={14} />, iconBg: "#10632D", title: "50 nouvelles inscriptions", desc: "Forum Emploi & Entrepreneuriat", time: "il y a 2 heures" },
-  { icon: <Handshake size={14} />, iconBg: "#f59e0b", title: "Nouvelle demande de partenariat", desc: "ONG Locale - Niamey", time: "il y a 6 heures" },
+  { icon: <Calendar size={14} />, iconBg: "var(--sane-orange)", title: "Rappel : Conférence d'ouverture demain", desc: "Il vous reste 1 jour", time: "il y a 30 min" },
+  { icon: <ClipboardList size={14} />, iconBg: "var(--sane-green)", title: "50 nouvelles inscriptions", desc: "Forum Emploi & Entrepreneuriat", time: "il y a 2 heures" },
+  { icon: <Handshake size={14} />, iconBg: "var(--sane-amber)", title: "Nouvelle demande de partenariat", desc: "ONG Locale - Niamey", time: "il y a 6 heures" },
 ];
 
 /* ─────────────────────────────── PAGE ─────────────────────────────── */
@@ -162,10 +162,10 @@ export default function DashboardOrganisateurPage() {
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-6">
           {/* ═══════════ WELCOME BANNER ═══════════ */}
           <div className="relative mb-6 overflow-hidden rounded-2xl min-h-[110px] sm:h-[140px]">
-            <Image src="/sane_deal.png" alt="Dashboard" fill className="object-cover" style={{ objectPosition: "center 30%" }} />
+            <Image src="/sane_deal.webp" alt="Dashboard" fill sizes="100vw" className="object-cover" style={{ objectPosition: "center 30%" }} />
             <div className="absolute inset-0 bg-gradient-to-r from-white from-32% via-white/40 via-48% to-transparent" />
             <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 hidden sm:flex items-center gap-3">
-              <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#10632D"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANEM</text><path d="M8 8 Q20 2 32 8" stroke="#E57617" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
+              <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="var(--sane-green)"/><text x="20" y="24" textAnchor="middle" fill="white" fontSize="10" fontWeight="800" fontFamily="sans-serif">SANEM</text><path d="M8 8 Q20 2 32 8" stroke="var(--sane-orange)" strokeWidth="3" fill="none" strokeLinecap="round"/></svg>
               <p className="text-[16px] italic text-[var(--sane-orange)] leading-tight font-semibold" style={{ fontFamily: "Georgia, serif" }}>Un Niger<br/>de Talents</p>
             </div>
             <div className="relative z-20 p-4 sm:p-6">
@@ -231,18 +231,18 @@ export default function DashboardOrganisateurPage() {
                     {/* Inscriptions line (green) */}
                     <polyline
                       points={lineChartData.map((d, i) => `${i * 40 + 20},${maxVal - d.insc}`).join(" ")}
-                      stroke="#10632D" strokeWidth="2.5" fill="none"
+                      stroke="var(--sane-green)" strokeWidth="2.5" fill="none"
                     />
                     {lineChartData.map((d, i) => (
-                      <circle key={`i${i}`} cx={i * 40 + 20} cy={maxVal - d.insc} r="4" fill="white" stroke="#10632D" strokeWidth="2" />
+                      <circle key={`i${i}`} cx={i * 40 + 20} cy={maxVal - d.insc} r="4" fill="white" stroke="var(--sane-green)" strokeWidth="2" />
                     ))}
                     {/* Participants line (orange) */}
                     <polyline
                       points={lineChartData.map((d, i) => `${i * 40 + 20},${maxVal - d.part}`).join(" ")}
-                      stroke="#E57617" strokeWidth="2.5" fill="none"
+                      stroke="var(--sane-orange)" strokeWidth="2.5" fill="none"
                     />
                     {lineChartData.map((d, i) => (
-                      <circle key={`p${i}`} cx={i * 40 + 20} cy={maxVal - d.part} r="4" fill="white" stroke="#E57617" strokeWidth="2" />
+                      <circle key={`p${i}`} cx={i * 40 + 20} cy={maxVal - d.part} r="4" fill="white" stroke="var(--sane-orange)" strokeWidth="2" />
                     ))}
                   </svg>
                   {/* Month labels */}
@@ -389,7 +389,7 @@ export default function DashboardOrganisateurPage() {
                       {c.icon}
                     </div>
                     <span className="w-[120px] text-[11px] text-[var(--sane-green-deep)] truncate shrink-0">{c.label}</span>
-                    <div className="flex-1 h-2 rounded-full bg-[#E8EEF2] overflow-hidden">
+                    <div className="flex-1 h-2 rounded-full bg-[var(--sane-c-e8eef2)] overflow-hidden">
                       <div className="h-full rounded-full" style={{ width: `${c.pct * 2.8}%`, backgroundColor: c.color }} />
                     </div>
                     <span className="text-[12px] font-bold text-[var(--sane-green-deep)] w-8 text-right">{c.count}</span>
@@ -442,7 +442,7 @@ export default function DashboardOrganisateurPage() {
                     <div className="min-w-0 flex-1">
                       <p className="text-[12px] font-bold text-[var(--sane-green-deep)]">{m.name}</p>
                       <p className="text-[10px] text-[var(--sane-text-light)] truncate">{m.preview}</p>
-                      <p className="text-[9px] text-[#3b82f6] mt-0.5">{m.time}</p>
+                      <p className="text-[9px] text-[var(--sane-blue-light)] mt-0.5">{m.time}</p>
                     </div>
                     <span className="mt-1 h-2.5 w-2.5 rounded-full bg-[var(--sane-orange)] shrink-0" />
                   </div>

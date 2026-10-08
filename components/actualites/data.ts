@@ -24,7 +24,7 @@ export const categoryLabels: Record<string, string> = {
 
 export const tagColors: Record<string, string> = {
   evenements: "var(--sane-orange)",
-  communiques: "#1a5276",
+  communiques: "var(--sane-c-1a5276)",
   partenariats: "var(--sane-orange)",
   formations: "var(--sane-green)",
   temoignages: "var(--sane-green)",
@@ -41,7 +41,7 @@ export interface NewsArticle {
 
 export const articles: NewsArticle[] = [
   {
-    image: "/sane_deal.png",
+    image: "/sane_deal.webp",
     date: "12 Mars 2024",
     iso: "2024-03-12",
     category: "evenements",
@@ -49,7 +49,7 @@ export const articles: NewsArticle[] = [
     description: "Le Ministère de l'Emploi annonce la tenue de la prochaine édition du Salon National de l'Emploi au Palais des Congrès de Niamey.",
   },
   {
-    image: "/hero-bg.png",
+    image: "/hero-bg.webp",
     date: "08 Mars 2024",
     iso: "2024-03-08",
     category: "formations",
@@ -57,7 +57,7 @@ export const articles: NewsArticle[] = [
     description: "Découvrez les objectifs, les temps forts et les innovations de cette nouvelle édition qui réunit entreprises, institutions et chercheurs d'emploi.",
   },
   {
-    image: "/sane_deal.png",
+    image: "/sane_deal.webp",
     date: "05 Mars 2024",
     iso: "2024-03-05",
     category: "partenariats",
@@ -65,7 +65,7 @@ export const articles: NewsArticle[] = [
     description: "De nouvelles collaborations pour soutenir l'emploi, la formation et l'insertion professionnelle des jeunes nigériens.",
   },
   {
-    image: "/hero-bg.png",
+    image: "/hero-bg.webp",
     date: "28 Février 2024",
     iso: "2024-02-28",
     category: "temoignages",
@@ -73,7 +73,7 @@ export const articles: NewsArticle[] = [
     description: "Découvrez les témoignages inspirants des jeunes qui ont pu bénéficier d'opportunités d'emploi et de formation.",
   },
   {
-    image: "/sane_deal.png",
+    image: "/sane_deal.webp",
     date: "20 Février 2024",
     iso: "2024-02-20",
     category: "formations",
@@ -81,7 +81,7 @@ export const articles: NewsArticle[] = [
     description: "Le SANEM met l'accent sur des formations pratiques et certifiantes pour renforcer l'employabilité des jeunes.",
   },
   {
-    image: "/hero-bg.png",
+    image: "/hero-bg.webp",
     date: "15 Février 2024",
     iso: "2024-02-15",
     category: "communiques",
@@ -91,10 +91,10 @@ export const articles: NewsArticle[] = [
 ];
 
 export const popularArticles = [
-  { title: "Lancement officiel du SANEM 2024 à Niamey", date: "12 Mars 2024", image: "/sane_deal.png" },
-  { title: "Des formations pour les jeunes nigériens", date: "05 Mars 2024", image: "/hero-bg.png" },
-  { title: "Le SANEM renforce ses partenariats", date: "28 Février 2024", image: "/sane_deal.png" },
-  { title: "Témoignages de participants", date: "20 Février 2024", image: "/hero-bg.png" },
+  { title: "Lancement officiel du SANEM 2024 à Niamey", date: "12 Mars 2024", image: "/sane_deal.webp" },
+  { title: "Des formations pour les jeunes nigériens", date: "05 Mars 2024", image: "/hero-bg.webp" },
+  { title: "Le SANEM renforce ses partenariats", date: "28 Février 2024", image: "/sane_deal.webp" },
+  { title: "Témoignages de participants", date: "20 Février 2024", image: "/hero-bg.webp" },
 ];
 
 export const upcomingEvents = [

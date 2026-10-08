@@ -45,38 +45,12 @@ export function AboutSection() {
             {/* SANEM Collage Image */}
             <div className="relative w-full overflow-hidden rounded-xl" style={{ aspectRatio: "4/3" }}>
               <Image
-                src="/sanem_collage.png"
+                src="/sanem_collage.webp"
                 alt="SANEM Collage"
                 fill
-                priority
                 className="object-cover object-[40%_center]"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-            </div>
-
-            {/* Right Stacked Images — hidden now replaced by collage */}
-            <div className="hidden">
-
-              <div className="relative overflow-hidden rounded-xl">
-                <Image
-                  src="/sane_company.png"
-                  alt="SANEM Company"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 50vw, 25vw"
-                />
-              </div>
-
-              <div className="relative overflow-hidden rounded-xl">
-                <Image
-                  src="/sane-cv2.png"
-                  alt="SANEM CV"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 50vw, 25vw"
-                />
-              </div>
-
             </div>
           </div>
 
@@ -119,7 +93,7 @@ export function AboutSection() {
               {/* CTA */}
               <Link
                 href="/a-propos"
-                className="group mt-5 inline-flex items-center gap-3 rounded-lg bg-[var(--sane-green)] px-5 py-3 text-sm font-bold text-white !text-white transition-all duration-300 hover:bg-[#0B5124] hover:!text-white"
+                className="group mt-5 inline-flex items-center gap-3 rounded-lg bg-[var(--sane-green)] px-5 py-3 text-sm font-bold text-white !text-white transition-all duration-300 hover:bg-[var(--sane-c-0b5124)] hover:!text-white"
               >
                 <span className="text-white !text-white hover:!text-white">En savoir plus</span>
 

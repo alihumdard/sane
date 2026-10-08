@@ -9,34 +9,34 @@ const links = [
     description: "Découvrez le programme complet de l'événement.",
     action: "Voir le programme",
     href: "/programme",
-    image: "/card-img3.png",
+    image: "/card-img3.webp",
   },
   {
     title: "Intervenants",
     description: "Rencontrez nos experts et leaders.",
     action: "Voir les intervenants",
     href: "/intervenants",
-    image: "/card-img.png",
+    image: "/card-img.webp",
   },
   {
     title: "Partenaires",
     description: "Ils nous accompagnent pour l'emploi.",
     action: "Voir nos partenaires",
     href: "/partenaires",
-    image: "/card-img2.png",
+    image: "/card-img2.webp",
   },
   {
     title: "Actualités",
     description: "Restez informé des dernières nouvelles du SANEM.",
     action: "Lire les actualités",
     href: "/actualites",
-    image: "/card-img3.png",
+    image: "/card-img3.webp",
   },
 ];
 
 export function FeatureLinksSection() {
   return (
-    <section className="border-y border-[#E4ECE6] bg-white py-8 md:py-10">
+    <section className="border-y border-[var(--sane-c-e4ece6)] bg-white py-8 md:py-10">
       <Container>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {links.map((item) => (
@@ -62,7 +62,7 @@ export function FeatureLinksSection() {
                   {item.title}
                 </h3>
 
-                <p className="mt-1.5 line-clamp-2 text-[12px] leading-[1.4] text-[#718178]">
+                <p className="mt-1.5 line-clamp-2 text-[12px] leading-[1.4] text-[var(--sane-c-718178)]">
                   {item.description}
                 </p>
 

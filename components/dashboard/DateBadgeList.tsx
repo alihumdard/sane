@@ -33,7 +33,7 @@ export default function DateBadgeList({ heading, items, showViewAll = false, cla
               <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight truncate">{item.title}</p>
               <span className="text-[9px] text-[var(--sane-text-light)]">{item.subtitle}</span>
             </div>
-            <svg className="shrink-0 mt-1" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="#61756B" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
+            <svg className="shrink-0 mt-1" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="var(--sane-text-light)" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
           </div>
         ))}
       </div>

@@ -14,7 +14,7 @@ export default function HeroBanner({ title, description, imageSrc, variant = "li
     return (
       <div className="relative mb-4 h-[160px] overflow-hidden rounded-2xl bg-[var(--sane-green-deep)]">
         <div className="absolute right-0 top-0 h-full w-[55%]">
-          <Image src={imageSrc} alt={title} fill className="object-cover" />
+          <Image src={imageSrc} alt={title} fill sizes="100vw" className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--sane-green-deep)] via-[var(--sane-green-deep)]/40 to-transparent" />
         </div>
         <div className="absolute right-32 top-1/2 -translate-y-1/2 opacity-30">
@@ -45,12 +45,12 @@ export default function HeroBanner({ title, description, imageSrc, variant = "li
           <p className="mt-2 max-w-[420px] text-[12px] text-[var(--sane-text-light)] leading-relaxed">{description}</p>
         </div>
         <div className="relative flex-1 min-h-[150px]">
-          <Image src={imageSrc} alt={title} fill className="object-cover object-center" />
+          <Image src={imageSrc} alt={title} fill sizes="100vw" className="object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-r from-white via-white/30 to-transparent" />
           <div className="absolute right-24 top-1/2 -translate-y-1/2 opacity-20">
             <svg width="70" height="70" viewBox="0 0 80 80">
-              <circle cx="40" cy="40" r="36" fill="#10632D" opacity="0.3" />
-              <text x="40" y="46" textAnchor="middle" fill="#10632D" fontSize="14" fontWeight="800">SANEM</text>
+              <circle cx="40" cy="40" r="36" fill="var(--sane-green)" opacity="0.3" />
+              <text x="40" y="46" textAnchor="middle" fill="var(--sane-green)" fontSize="14" fontWeight="800">SANEM</text>
             </svg>
           </div>
           <div className="absolute right-6 top-1/2 -translate-y-1/2 text-right">

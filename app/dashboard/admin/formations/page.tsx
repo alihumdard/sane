@@ -25,120 +25,120 @@ const sidebarItems = adminNav("Formations", 0);
 const statsData = [
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 12.5L3 10.26v-.01L12 5.5l9 4.75-9 5.25zM12 16l-7-3.82v2.85l7 3.82 7-3.82v-2.85L12 16z"/></svg>,
-    value: "48", label: "Total des formations", trend: "+12%", bg: "#E8F5ED", color: "#10632D",
+    value: "48", label: "Total des formations", trend: "+12%", bg: "var(--sane-green-tint)", color: "var(--sane-green)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="9" r="3"/><path d="M2 21v-2c0-2.2 3.1-4 7-4s7 1.8 7 4v2H2z"/><path d="M22 21v-2c0-1.5-1.4-2.8-3.5-3.4.9.7 1.5 1.7 1.5 3.4v2h2z"/></svg>,
-    value: "1,286", label: "Inscriptions", trend: "+18%", bg: "#FFF3E8", color: "#E57617",
+    value: "1,286", label: "Inscriptions", trend: "+18%", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15h8v2H8zm0-4h8v2H8z"/></svg>,
-    value: "32", label: "Formations actives", trend: "+7%", bg: "#E0F0FF", color: "#2563EB",
+    value: "32", label: "Formations actives", trend: "+7%", bg: "var(--sane-blue-tint)", color: "var(--sane-blue)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>,
-    value: "8", label: "À venir cette semaine", trend: "+33%", bg: "#F3E8FF", color: "#7C3AED",
+    value: "8", label: "À venir cette semaine", trend: "+33%", bg: "var(--sane-purple-tint)", color: "var(--sane-purple)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>,
-    value: "16", label: "Formations terminées", trend: "+5%", bg: "#FFFBE8", color: "#D97706",
+    value: "16", label: "Formations terminées", trend: "+5%", bg: "var(--sane-amber-tint)", color: "var(--sane-amber-dark)",
   },
 ];
 
 /* ─── Table Data ─── */
 const formations = [
   {
-    id: "#FOR001", titre: "Développement Web pour l'emploi", categorie: "Numérique", catColor: "#7C3AED",
+    id: "#FOR001", titre: "Développement Web pour l'emploi", categorie: "Numérique", catColor: "var(--sane-purple)",
     formateur: "Moussa Diallo", fPhoto: "https://randomuser.me/api/portraits/men/11.jpg",
-    mode: "Présentiel", modeColor: "#10632D",
+    mode: "Présentiel", modeColor: "var(--sane-green)",
     dates: "12 - 16 Mars 2024\nNiamey", inscriptions: 45, maxInscriptions: 50, inscPct: 90,
-    statut: "Active", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Active", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=120&h=72&fit=crop",
   },
   {
-    id: "#FOR002", titre: "Gestion de projet digital", categorie: "Gestion", catColor: "#E57617",
+    id: "#FOR002", titre: "Gestion de projet digital", categorie: "Gestion", catColor: "var(--sane-orange)",
     formateur: "Fatima Bello", fPhoto: "https://randomuser.me/api/portraits/women/21.jpg",
-    mode: "En ligne", modeColor: "#2563EB",
+    mode: "En ligne", modeColor: "var(--sane-blue)",
     dates: "25 - 28 Mars 2024\nNiamey", inscriptions: 38, maxInscriptions: 40, inscPct: 95,
-    statut: "Active", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Active", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=120&h=72&fit=crop",
   },
   {
-    id: "#FOR003", titre: "Compétences numériques", categorie: "Numérique", catColor: "#7C3AED",
+    id: "#FOR003", titre: "Compétences numériques", categorie: "Numérique", catColor: "var(--sane-purple)",
     formateur: "Ibrahim Touré", fPhoto: "https://randomuser.me/api/portraits/men/33.jpg",
-    mode: "Présentiel", modeColor: "#10632D",
+    mode: "Présentiel", modeColor: "var(--sane-green)",
     dates: "10 - 12 Avril 2024\nNiamey", inscriptions: 28, maxInscriptions: 30, inscPct: 93,
-    statut: "Active", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Active", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=120&h=72&fit=crop",
   },
   {
-    id: "#FOR004", titre: "Leadership et gestion d'équipe", categorie: "Management", catColor: "#0891B2",
+    id: "#FOR004", titre: "Leadership et gestion d'équipe", categorie: "Management", catColor: "var(--sane-cyan)",
     formateur: "Aicha Souley", fPhoto: "https://randomuser.me/api/portraits/women/34.jpg",
-    mode: "Présentiel", modeColor: "#10632D",
+    mode: "Présentiel", modeColor: "var(--sane-green)",
     dates: "18 - 20 Avril 2024\nNiamey", inscriptions: 32, maxInscriptions: 35, inscPct: 91,
-    statut: "En cours", statutColor: "#D97706", statutBg: "#FFFBE8",
+    statut: "En cours", statutColor: "var(--sane-amber-dark)", statutBg: "var(--sane-amber-tint)",
     img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=120&h=72&fit=crop",
   },
   {
-    id: "#FOR005", titre: "Entrepreneuriat et création d'entreprise", categorie: "Entrepreneuriat", catColor: "#10632D",
+    id: "#FOR005", titre: "Entrepreneuriat et création d'entreprise", categorie: "Entrepreneuriat", catColor: "var(--sane-green)",
     formateur: "Omar Issa", fPhoto: "https://randomuser.me/api/portraits/men/55.jpg",
-    mode: "En ligne", modeColor: "#2563EB",
+    mode: "En ligne", modeColor: "var(--sane-blue)",
     dates: "05 - 08 Mai 2024\nNiamey", inscriptions: 22, maxInscriptions: 40, inscPct: 55,
-    statut: "Active", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Active", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=120&h=72&fit=crop",
   },
   {
-    id: "#FOR006", titre: "Marketing digital", categorie: "Marketing", catColor: "#DB2777",
+    id: "#FOR006", titre: "Marketing digital", categorie: "Marketing", catColor: "var(--sane-pink)",
     formateur: "Nadia Saidou", fPhoto: "https://randomuser.me/api/portraits/women/56.jpg",
-    mode: "Présentiel", modeColor: "#10632D",
+    mode: "Présentiel", modeColor: "var(--sane-green)",
     dates: "15 - 18 Mai 2024\nNiamey", inscriptions: 30, maxInscriptions: 30, inscPct: 100,
-    statut: "Complète", statutColor: "#7C3AED", statutBg: "#F3E8FF",
+    statut: "Complète", statutColor: "var(--sane-purple)", statutBg: "var(--sane-purple-tint)",
     img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=120&h=72&fit=crop",
   },
   {
-    id: "#FOR007", titre: "Préparation à l'emploi", categorie: "Emploi", catColor: "#E57617",
+    id: "#FOR007", titre: "Préparation à l'emploi", categorie: "Emploi", catColor: "var(--sane-orange)",
     formateur: "Yacoubou Sani", fPhoto: "https://randomuser.me/api/portraits/men/61.jpg",
-    mode: "Présentiel", modeColor: "#10632D",
+    mode: "Présentiel", modeColor: "var(--sane-green)",
     dates: "22 - 24 Mai 2024\nNiamey", inscriptions: 26, maxInscriptions: 30, inscPct: 87,
-    statut: "Active", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Active", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=120&h=72&fit=crop",
   },
   {
-    id: "#FOR008", titre: "Techniques de Communication", categorie: "Soft Skills", catColor: "#059669",
+    id: "#FOR008", titre: "Techniques de Communication", categorie: "Soft Skills", catColor: "var(--sane-emerald)",
     formateur: "Khadija Ali", fPhoto: "https://randomuser.me/api/portraits/women/62.jpg",
-    mode: "En ligne", modeColor: "#2563EB",
+    mode: "En ligne", modeColor: "var(--sane-blue)",
     dates: "01 - 03 Juin 2024\nNiamey", inscriptions: 18, maxInscriptions: 25, inscPct: 72,
-    statut: "Active", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Active", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     img: "https://images.unsplash.com/photo-1560439514-4e9645039924?w=120&h=72&fit=crop",
   },
   {
-    id: "#FOR009", titre: "Analyse de données", categorie: "Numérique", catColor: "#7C3AED",
+    id: "#FOR009", titre: "Analyse de données", categorie: "Numérique", catColor: "var(--sane-purple)",
     formateur: "Ahmed Mahamane", fPhoto: "https://randomuser.me/api/portraits/men/63.jpg",
-    mode: "Présentiel", modeColor: "#10632D",
+    mode: "Présentiel", modeColor: "var(--sane-green)",
     dates: "08 - 10 Juin 2024\nNiamey", inscriptions: 24, maxInscriptions: 30, inscPct: 80,
-    statut: "En cours", statutColor: "#D97706", statutBg: "#FFFBE8",
+    statut: "En cours", statutColor: "var(--sane-amber-dark)", statutBg: "var(--sane-amber-tint)",
     img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=120&h=72&fit=crop",
   },
   {
-    id: "#FOR010", titre: "Gestion financière pour PME", categorie: "Finance", catColor: "#2563EB",
+    id: "#FOR010", titre: "Gestion financière pour PME", categorie: "Finance", catColor: "var(--sane-blue)",
     formateur: "Mariama Amadou", fPhoto: "https://randomuser.me/api/portraits/women/64.jpg",
-    mode: "En ligne", modeColor: "#2563EB",
+    mode: "En ligne", modeColor: "var(--sane-blue)",
     dates: "15 - 17 Juin 2024\nNiamey", inscriptions: 14, maxInscriptions: 25, inscPct: 56,
-    statut: "Active", statutColor: "#10632D", statutBg: "#E8F5ED",
+    statut: "Active", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=120&h=72&fit=crop",
   },
 ];
 
 /* ─── Donut chart segments ─── */
 const categories = [
-  { label: "Numérique", pct: 28, color: "#10632D" },
-  { label: "Management", pct: 18, color: "#0891B2" },
-  { label: "Entrepreneuriat", pct: 15, color: "#7C3AED" },
-  { label: "Emploi", pct: 12, color: "#E57617" },
-  { label: "Marketing", pct: 10, color: "#DB2777" },
-  { label: "Finance", pct: 8, color: "#2563EB" },
-  { label: "Soft Skills", pct: 8, color: "#059669" },
-  { label: "Autres", pct: 1, color: "#94A3B8" },
+  { label: "Numérique", pct: 28, color: "var(--sane-green)" },
+  { label: "Management", pct: 18, color: "var(--sane-cyan)" },
+  { label: "Entrepreneuriat", pct: 15, color: "var(--sane-purple)" },
+  { label: "Emploi", pct: 12, color: "var(--sane-orange)" },
+  { label: "Marketing", pct: 10, color: "var(--sane-pink)" },
+  { label: "Finance", pct: 8, color: "var(--sane-blue)" },
+  { label: "Soft Skills", pct: 8, color: "var(--sane-emerald)" },
+  { label: "Autres", pct: 1, color: "var(--sane-slate)" },
 ];
 
 function buildConic(segs: { pct: number; color: string }[]) {
@@ -167,7 +167,7 @@ const topFormations = [
   { rank: 5, titre: "Analyse de données", inscrits: 24 },
 ];
 
-const rankColors = ["#E57617", "#10632D", "#2563EB", "#DB2777", "#7C3AED"];
+const rankColors = ["var(--sane-orange)", "var(--sane-green)", "var(--sane-blue)", "var(--sane-pink)", "var(--sane-purple)"];
 
 export default function FormationsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -198,7 +198,7 @@ export default function FormationsPage() {
           {/* Hero Banner */}
           <div className="relative mb-4 min-h-[110px] sm:h-[160px] overflow-hidden rounded-2xl bg-[var(--sane-green-deep)]">
             <div className="absolute inset-0">
-              <Image src="https://randomuser.me/api/portraits/women/68.jpg" alt="formations" fill className="object-cover opacity-40" />
+              <Image src="https://randomuser.me/api/portraits/women/68.jpg" alt="formations" fill sizes="100vw" className="object-cover opacity-40" />
             </div>
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--sane-green-deep)]/90 via-[var(--sane-green-deep)]/60 to-transparent" />
             <div className="absolute right-32 top-4 opacity-30 hidden sm:block">
@@ -249,21 +249,21 @@ export default function FormationsPage() {
                       <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Image</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Titre de la formation <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Titre de la formation <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Catégorie <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Catégorie <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Formateur</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Mode</th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Dates <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Dates <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Inscriptions <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Inscriptions <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Statut <svg width="8" height="8" viewBox="0 0 10 14" fill="#61756B"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
+                        <span className="flex items-center gap-0.5">Statut <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
                       </th>
                       <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Actions</th>
                     </tr>
@@ -274,7 +274,7 @@ export default function FormationsPage() {
                         <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(f._uid)} onChange={() => tbl.toggle(f._uid)} /></td>
                         <td className="px-2 py-1.5">
                           <div className="relative h-9 w-[72px] overflow-hidden rounded-md border border-[var(--sane-border)]">
-                            <Image src={f.img} alt={f.titre} fill className="object-cover object-center" />
+                            <Image src={f.img} alt={f.titre} fill sizes="100vw" className="object-cover object-center" />
                           </div>
                         </td>
                         <td className="px-2 py-2.5 min-w-[200px] max-w-[260px]">
@@ -282,7 +282,7 @@ export default function FormationsPage() {
                           <p className="text-[9px] text-[var(--sane-text-light)]">{f.id}</p>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${f.catColor}18`, color: f.catColor }}>
+                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `color-mix(in srgb, ${f.catColor} 9%, transparent)`, color: f.catColor }}>
                             {f.categorie}
                           </span>
                         </td>
@@ -295,7 +295,7 @@ export default function FormationsPage() {
                           </div>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `${f.modeColor}18`, color: f.modeColor }}>
+                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `color-mix(in srgb, ${f.modeColor} 9%, transparent)`, color: f.modeColor }}>
                             {f.mode}
                           </span>
                         </td>
@@ -386,7 +386,7 @@ export default function FormationsPage() {
                         <p className="text-[9px] text-[var(--sane-text-light)] truncate">{p.lieu}</p>
                         <p className="text-[9px] text-[var(--sane-text-light)]">{p.inscrits} inscrits</p>
                       </div>
-                      <svg className="shrink-0 mt-1" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="#61756B" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
+                      <svg className="shrink-0 mt-1" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="var(--sane-text-light)" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
                     </div>
                   ))}
                 </div>
@@ -404,14 +404,14 @@ export default function FormationsPage() {
                 <div className="flex flex-col gap-2">
                   {topFormations.map((t, i) => (
                     <div key={i} className="flex items-center gap-2">
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold" style={{ backgroundColor: `${rankColors[i]}18`, color: rankColors[i] }}>
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold" style={{ backgroundColor: `color-mix(in srgb, ${rankColors[i]} 9%, transparent)`, color: rankColors[i] }}>
                         {t.rank}
                       </span>
                       <div className="flex-1 min-w-0">
                         <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight truncate">{t.titre}</p>
                         <p className="text-[9px] text-[var(--sane-text-light)]">{t.inscrits} inscriptions</p>
                       </div>
-                      <svg className="shrink-0" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="#61756B" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
+                      <svg className="shrink-0" width="10" height="10" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="var(--sane-text-light)" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
                     </div>
                   ))}
                 </div>

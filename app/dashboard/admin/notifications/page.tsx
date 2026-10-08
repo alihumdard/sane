@@ -24,97 +24,97 @@ const sidebarItems = adminNav("Notifications", 0);
 const statsData = [
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>,
-    key: "total", label: "Total des notifications", trend: "+24%", bg: "#E8F5ED", color: "#10632D",
+    key: "total", label: "Total des notifications", trend: "+24%", bg: "var(--sane-green-tint)", color: "var(--sane-green)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
-    key: "sent", label: "Envoyées", trend: "+18%", bg: "#FFF3E8", color: "#E57617",
+    key: "sent", label: "Envoyées", trend: "+18%", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
-    key: "scheduled", label: "Planifiées", trend: "+33%", bg: "#E0F0FF", color: "#2563EB",
+    key: "scheduled", label: "Planifiées", trend: "+33%", bg: "var(--sane-blue-tint)", color: "var(--sane-blue)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>,
-    key: "drafts", label: "Brouillons", trend: "+14%", bg: "#F3E8FF", color: "#7C3AED",
+    key: "drafts", label: "Brouillons", trend: "+14%", bg: "var(--sane-purple-tint)", color: "var(--sane-purple)",
   },
   {
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
-    key: "openRate", label: "Taux d'ouverture", trend: "+6%", bg: "#FFFBE8", color: "#D97706",
+    key: "openRate", label: "Taux d'ouverture", trend: "+6%", bg: "var(--sane-amber-tint)", color: "var(--sane-amber-dark)",
   },
 ];
 
 /* ─── Category icon config ─── */
 const catConfig: Record<string, { color: string; icon: React.ReactNode }> = {
-  "Événement": { color: "#10632D", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="#10632D"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> },
-  "Emploi": { color: "#E57617", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="#E57617"><path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 4h4v2h-4V4zm10 15H4V8h16v11z"/></svg> },
-  "Formation": { color: "#2563EB", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="#2563EB"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3 1 9l11 6 9-4.91V17h2V9L12 3z"/></svg> },
-  "Presse": { color: "#7C3AED", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="#7C3AED"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg> },
-  "Partenariat": { color: "#D97706", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="#D97706"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> },
-  "Général": { color: "#0891B2", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="#0891B2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg> },
-  "Système": { color: "#DC2626", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="#DC2626"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg> },
+  "Événement": { color: "var(--sane-green)", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--sane-green)"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> },
+  "Emploi": { color: "var(--sane-orange)", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--sane-orange)"><path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 4h4v2h-4V4zm10 15H4V8h16v11z"/></svg> },
+  "Formation": { color: "var(--sane-blue)", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--sane-blue)"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3 1 9l11 6 9-4.91V17h2V9L12 3z"/></svg> },
+  "Presse": { color: "var(--sane-purple)", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--sane-purple)"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg> },
+  "Partenariat": { color: "var(--sane-amber-dark)", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--sane-amber-dark)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> },
+  "Général": { color: "var(--sane-cyan)", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--sane-cyan)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg> },
+  "Système": { color: "var(--sane-red)", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--sane-red)"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg> },
 };
 
 /* ─── Table Data ─── */
 const notifications = [
   {
     titre: "Ouverture des inscriptions SANEM 2024", subtitle: "Les inscriptions sont désormais ouvertes...",
-    categorie: "Événement", catColor: "#10632D", destinataire: "Tous les utilisateurs",
-    date: "12 Mars 2024", heure: "10:30", statut: "Envoyée", statutColor: "#10632D", statutBg: "#E8F5ED",
+    categorie: "Événement", catColor: "var(--sane-green)", destinataire: "Tous les utilisateurs",
+    date: "12 Mars 2024", heure: "10:30", statut: "Envoyée", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     ouvertures: 3240, ouverturesPct: 95,
   },
   {
     titre: "Nouvelles offres d'emploi", subtitle: "15 nouvelles opportunités disponibles",
-    categorie: "Emploi", catColor: "#E57617", destinataire: "Demandeurs d'emploi",
-    date: "10 Mars 2024", heure: "14:15", statut: "Envoyée", statutColor: "#10632D", statutBg: "#E8F5ED",
+    categorie: "Emploi", catColor: "var(--sane-orange)", destinataire: "Demandeurs d'emploi",
+    date: "10 Mars 2024", heure: "14:15", statut: "Envoyée", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     ouvertures: 2860, ouverturesPct: 88,
   },
   {
     titre: "Nouvelles formations disponibles", subtitle: "Découvrez nos formations certifiantes",
-    categorie: "Formation", catColor: "#2563EB", destinataire: "Tous les utilisateurs",
-    date: "08 Mars 2024", heure: "09:20", statut: "Envoyée", statutColor: "#10632D", statutBg: "#E8F5ED",
+    categorie: "Formation", catColor: "var(--sane-blue)", destinataire: "Tous les utilisateurs",
+    date: "08 Mars 2024", heure: "09:20", statut: "Envoyée", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     ouvertures: 2540, ouverturesPct: 92,
   },
   {
     titre: "Rappel : Conférence demain", subtitle: "Ne manquez pas la conférence sur...",
-    categorie: "Événement", catColor: "#10632D", destinataire: "Inscrits à l'événement",
-    date: "05 Mars 2024", heure: "16:45", statut: "Envoyée", statutColor: "#10632D", statutBg: "#E8F5ED",
+    categorie: "Événement", catColor: "var(--sane-green)", destinataire: "Inscrits à l'événement",
+    date: "05 Mars 2024", heure: "16:45", statut: "Envoyée", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     ouvertures: 1980, ouverturesPct: 85,
   },
   {
     titre: "Article de presse publié", subtitle: "Découvrez notre dernière couverture...",
-    categorie: "Presse", catColor: "#7C3AED", destinataire: "Tous les utilisateurs",
-    date: "02 Mars 2024", heure: "11:10", statut: "Envoyée", statutColor: "#10632D", statutBg: "#E8F5ED",
+    categorie: "Presse", catColor: "var(--sane-purple)", destinataire: "Tous les utilisateurs",
+    date: "02 Mars 2024", heure: "11:10", statut: "Envoyée", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     ouvertures: 1760, ouverturesPct: 90,
   },
   {
     titre: "Nouveau partenaire rejoint", subtitle: "Bienvenue à notre nouveau partenaire...",
-    categorie: "Partenariat", catColor: "#0891B2", destinataire: "Tous les utilisateurs",
-    date: "28 Fév 2024", heure: "13:30", statut: "Envoyée", statutColor: "#10632D", statutBg: "#E8F5ED",
+    categorie: "Partenariat", catColor: "var(--sane-cyan)", destinataire: "Tous les utilisateurs",
+    date: "28 Fév 2024", heure: "13:30", statut: "Envoyée", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     ouvertures: 1420, ouverturesPct: 78,
   },
   {
     titre: "Mise à jour importante", subtitle: "Changements dans le programme...",
-    categorie: "Général", catColor: "#61756B", destinataire: "Tous les utilisateurs",
-    date: "25 Fév 2024", heure: "10:00", statut: "Planifiée", statutColor: "#2563EB", statutBg: "#E0F0FF",
+    categorie: "Général", catColor: "var(--sane-text-light)", destinataire: "Tous les utilisateurs",
+    date: "25 Fév 2024", heure: "10:00", statut: "Planifiée", statutColor: "var(--sane-blue)", statutBg: "var(--sane-blue-tint)",
     ouvertures: 0, ouverturesPct: 0,
   },
   {
     titre: "Invitation spéciale", subtitle: "Rejoignez-nous pour un atelier exclusif...",
-    categorie: "Événement", catColor: "#10632D", destinataire: "Intervenants",
-    date: "22 Fév 2024", heure: "15:20", statut: "Envoyée", statutColor: "#10632D", statutBg: "#E8F5ED",
+    categorie: "Événement", catColor: "var(--sane-green)", destinataire: "Intervenants",
+    date: "22 Fév 2024", heure: "15:20", statut: "Envoyée", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     ouvertures: 1380, ouverturesPct: 82,
   },
   {
     titre: "Rappel de session", subtitle: "Votre session commence dans 1 heure...",
-    categorie: "Formation", catColor: "#2563EB", destinataire: "Participants",
-    date: "20 Fév 2024", heure: "08:30", statut: "Envoyée", statutColor: "#10632D", statutBg: "#E8F5ED",
+    categorie: "Formation", catColor: "var(--sane-blue)", destinataire: "Participants",
+    date: "20 Fév 2024", heure: "08:30", statut: "Envoyée", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
     ouvertures: 1120, ouverturesPct: 76,
   },
   {
     titre: "Maintenance du système", subtitle: "Le système sera en maintenance...",
-    categorie: "Système", catColor: "#DC2626", destinataire: "Tous les utilisateurs",
-    date: "18 Fév 2024", heure: "20:00", statut: "Brouillon", statutColor: "#61756B", statutBg: "#F5F9F6",
+    categorie: "Système", catColor: "var(--sane-red)", destinataire: "Tous les utilisateurs",
+    date: "18 Fév 2024", heure: "20:00", statut: "Brouillon", statutColor: "var(--sane-text-light)", statutBg: "var(--sane-background)",
     ouvertures: 0, ouverturesPct: 0,
   },
 ];
@@ -195,8 +195,8 @@ export default function NotificationsPage() {
       n._uid,
       {
         statut: "Envoyée",
-        statutColor: "#10632D",
-        statutBg: "#E8F5ED",
+        statutColor: "var(--sane-green)",
+        statutBg: "var(--sane-green-tint)",
         date: `${String(now.getDate()).padStart(2, "0")} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`,
         heure: `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`,
       },
@@ -220,13 +220,13 @@ export default function NotificationsPage() {
           {/* Hero Banner - dark variant */}
           <div className="relative mb-4 min-h-[120px] sm:h-[160px] overflow-hidden rounded-2xl bg-[var(--sane-green-deep)]">
             <div className="absolute right-0 top-0 h-full w-full sm:w-[55%]">
-              <Image src="/sane_deal.png" alt="" fill sizes="(max-width: 640px) 100vw, 55vw" className="object-cover" />
+              <Image src="/sane_deal.webp" alt="" fill sizes="(max-width: 640px) 100vw, 55vw" className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-r from-[var(--sane-green-deep)] via-[var(--sane-green-deep)]/60 to-[var(--sane-green-deep)]/20 sm:via-[var(--sane-green-deep)]/40 sm:to-transparent" />
             </div>
             <div className="absolute right-[110px] top-1/2 -translate-y-1/2 opacity-60 hidden sm:block">
               <svg width="100" height="100" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="45" fill="white" opacity="0.08" />
-                <circle cx="50" cy="50" r="45" stroke="#E57617" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
+                <circle cx="50" cy="50" r="45" stroke="var(--sane-orange)" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
                 <text x="50" y="48" textAnchor="middle" fill="white" fontSize="18" fontWeight="800">SANEM</text>
                 <text x="50" y="60" textAnchor="middle" fill="white" fontSize="5" fontWeight="600" letterSpacing="0.5">SALON NATIONAL DE L&apos;EMPLOI</text>
               </svg>
@@ -306,7 +306,7 @@ export default function NotificationsPage() {
                         <td className="px-3 py-2"><input type="checkbox" aria-label={`Sélectionner ${n.titre}`} className="h-3 w-3 rounded" checked={tbl.selected.includes(n._uid)} onChange={() => tbl.toggle(n._uid)} /></td>
                         <td className="px-2 py-2 max-w-[220px]">
                           <div className="flex items-start gap-2">
-                            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: `${(catConfig[n.categorie]?.color || "#61756B")}15` }}>
+                            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: `color-mix(in srgb, ${(catConfig[n.categorie]?.color || "var(--sane-text-light)")} 8%, transparent)` }}>
                               {catConfig[n.categorie]?.icon || <Bell size={14} className="text-[var(--sane-text-light)]" />}
                             </div>
                             <div className="min-w-0">
@@ -316,7 +316,7 @@ export default function NotificationsPage() {
                           </div>
                         </td>
                         <td className="px-2 py-2">
-                          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: `${n.catColor}18`, color: n.catColor }}>
+                          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: `color-mix(in srgb, ${n.catColor} 9%, transparent)`, color: n.catColor }}>
                             {n.categorie}
                           </span>
                         </td>

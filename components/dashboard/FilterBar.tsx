@@ -65,7 +65,7 @@ export default function FilterBar({ searchPlaceholder, filters, table }: Props) 
           <button
             type="button"
             onClick={() => table.askDelete(table.selected)}
-            className="flex items-center gap-1.5 rounded-lg bg-[#DC2626] px-3 py-1.5 text-[11px] font-semibold text-white hover:bg-[#b91c1c]"
+            className="flex items-center gap-1.5 rounded-lg bg-[var(--sane-red)] px-3 py-1.5 text-[11px] font-semibold text-white hover:bg-[var(--sane-red-dark)]"
           >
             <Trash2 size={12} /> Supprimer la sélection
           </button>

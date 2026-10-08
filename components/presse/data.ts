@@ -11,7 +11,7 @@ export const pressStats: FeatureBarItem[] = [
 
 export const pressArticles: ArticleCardData[] = [
   {
-    image: "/sane-deal3.png",
+    image: "/sane-deal3.webp",
     date: "12 Mars 2024",
     tag: "Communiqué",
     tagColor: "var(--sane-orange)",
@@ -19,7 +19,7 @@ export const pressArticles: ArticleCardData[] = [
     description: "Le Ministère de l'Emploi annonce la tenue de la prochaine édition du Salon National de l'Emploi au Palais des Congrès de Niamey.",
   },
   {
-    image: "/hero-bg.png",
+    image: "/hero-bg.webp",
     date: "08 Mars 2024",
     tag: "Événement",
     tagColor: "var(--sane-green)",
@@ -27,10 +27,10 @@ export const pressArticles: ArticleCardData[] = [
     description: "Découvrez les temps forts, les objectifs et les innovations de cette nouvelle édition qui réunit entreprises, institutions et chercheurs d'emploi.",
   },
   {
-    image: "/sane-deal3.png",
+    image: "/sane-deal3.webp",
     date: "05 Mars 2024",
     tag: "Presse",
-    tagColor: "#1a5276",
+    tagColor: "var(--sane-c-1a5276)",
     title: "Des formations pour renforcer l'employabilité des jeunes",
     description: "Le SANEM met l'accent sur le développement des compétences à travers des formations adaptées aux besoins du marché.",
   },
@@ -54,9 +54,9 @@ export const pressResources: PressResource[] = [
 
 export const mediaLogos = [
   { name: "RTN", subtitle: "Télévision Nationale", color: "var(--sane-green-dark)" },
-  { name: "Le Sahel", subtitle: "L'actualité du Niger", color: "#1a5276" },
+  { name: "Le Sahel", subtitle: "L'actualité du Niger", color: "var(--sane-c-1a5276)" },
   { name: "ANP", subtitle: "Agence Nigérienne de Presse", color: "var(--sane-green-deep)" },
-  { name: "France 24", subtitle: "", color: "#005a9c" },
-  { name: "RFI", subtitle: "", color: "#e4022a" },
-  { name: "TV5MONDE", subtitle: "", color: "#003366" },
+  { name: "France 24", subtitle: "", color: "var(--sane-c-005a9c)" },
+  { name: "RFI", subtitle: "", color: "var(--sane-c-e4022a)" },
+  { name: "TV5MONDE", subtitle: "", color: "var(--sane-c-003366)" },
 ];

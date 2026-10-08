@@ -54,12 +54,12 @@ export function Select({
         className="flex h-12 w-full items-center gap-3 rounded-lg border border-[var(--sane-border)] bg-white px-4 text-left transition-colors hover:border-[var(--sane-green)]/40"
       >
         {Icon && (
-          <Icon size={17} className="shrink-0 text-[#71857A]" />
+          <Icon size={17} className="shrink-0 text-[var(--sane-c-71857a)]" />
         )}
 
         <span
           className={`flex-1 truncate text-sm ${
-            selected ? "text-[var(--sane-text)]" : "text-[#8A9A91]"
+            selected ? "text-[var(--sane-text)]" : "text-[var(--sane-c-8a9a91)]"
           }`}
         >
           {selectedLabel || placeholder}
@@ -67,7 +67,7 @@ export function Select({
 
         <ChevronDown
           size={16}
-          className={`shrink-0 text-[#71857A] transition-transform duration-200 ${
+          className={`shrink-0 text-[var(--sane-c-71857a)] transition-transform duration-200 ${
             open ? "rotate-180" : ""
           }`}
         />
@@ -80,7 +80,7 @@ export function Select({
             type="button"
             onClick={() => handleSelect("")}
             className={`flex w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-[var(--sane-background)] ${
-              !selected ? "font-semibold text-[var(--sane-green)]" : "text-[#8A9A91]"
+              !selected ? "font-semibold text-[var(--sane-green)]" : "text-[var(--sane-c-8a9a91)]"
             }`}
           >
             {placeholder}

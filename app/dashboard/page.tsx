@@ -34,11 +34,11 @@ const sidebarItems: SidebarItem[] = [
 ];
 
 const statsData = [
-  { icon: <Briefcase size={20} />, value: "12", label: "Offres d'emploi", trend: "+20%", trendLabel: "vs. mois dernier", color: "#E57617", bg: "#E57617" },
-  { icon: <FileText size={20} />, value: "348", label: "Candidatures reçues", trend: "+35%", trendLabel: "vs. mois dernier", color: "#10632D", bg: "#10632D" },
-  { icon: <Calendar size={20} />, value: "28", label: "Entretiens planifiés", trend: "+18%", trendLabel: "vs. mois dernier", color: "#10632D", bg: "#10632D" },
-  { icon: <Star size={20} />, value: "56", label: "Candidats présélectionnés", trend: "+28%", trendLabel: "vs. mois dernier", color: "#E57617", bg: "#E57617" },
-  { icon: <Eye size={20} />, value: "12.4K", label: "Vues de l'entreprise", trend: "+42%", trendLabel: "vs. mois dernier", color: "#10632D", bg: "#10632D" },
+  { icon: <Briefcase size={20} />, value: "12", label: "Offres d'emploi", trend: "+20%", trendLabel: "vs. mois dernier", color: "var(--sane-orange)", bg: "var(--sane-orange)" },
+  { icon: <FileText size={20} />, value: "348", label: "Candidatures reçues", trend: "+35%", trendLabel: "vs. mois dernier", color: "var(--sane-green)", bg: "var(--sane-green)" },
+  { icon: <Calendar size={20} />, value: "28", label: "Entretiens planifiés", trend: "+18%", trendLabel: "vs. mois dernier", color: "var(--sane-green)", bg: "var(--sane-green)" },
+  { icon: <Star size={20} />, value: "56", label: "Candidats présélectionnés", trend: "+28%", trendLabel: "vs. mois dernier", color: "var(--sane-orange)", bg: "var(--sane-orange)" },
+  { icon: <Eye size={20} />, value: "12.4K", label: "Vues de l'entreprise", trend: "+42%", trendLabel: "vs. mois dernier", color: "var(--sane-green)", bg: "var(--sane-green)" },
 ];
 
 const chartData = [
@@ -57,27 +57,27 @@ const chartData = [
 ];
 
 const donutData = [
-  { label: "Technique", pct: 28, color: "#1e3a5f" },
-  { label: "Administration", pct: 20, color: "#10632D" },
-  { label: "Communication", pct: 15, color: "#3b82f6" },
-  { label: "Finance", pct: 12, color: "#E57617" },
-  { label: "Marketing", pct: 10, color: "#f59e0b" },
-  { label: "Stages", pct: 8, color: "#8b5cf6" },
-  { label: "Autres", pct: 7, color: "#94a3b8" },
+  { label: "Technique", pct: 28, color: "var(--sane-c-1e3a5f)" },
+  { label: "Administration", pct: 20, color: "var(--sane-green)" },
+  { label: "Communication", pct: 15, color: "var(--sane-blue-light)" },
+  { label: "Finance", pct: 12, color: "var(--sane-orange)" },
+  { label: "Marketing", pct: 10, color: "var(--sane-amber)" },
+  { label: "Stages", pct: 8, color: "var(--sane-purple-light)" },
+  { label: "Autres", pct: 7, color: "var(--sane-slate)" },
 ];
 
 const candidates = [
-  { name: "Aminata Diallo", city: "Niamey", poste: "Chargé de communication", date: "12 Mars 2024", statut: "Nouveau", statutColor: "#10632D", avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
-  { name: "Ibrahim Souley", city: "Zinder", poste: "Technicien réseau", date: "10 Mars 2024", statut: "En revue", statutColor: "#E57617", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
-  { name: "Fatouma Issa", city: "Niamey", poste: "Assistant administratif", date: "09 Mars 2024", statut: "Présélectionné", statutColor: "#3b82f6", avatar: "https://randomuser.me/api/portraits/women/68.jpg" },
-  { name: "Moussa Adamou", city: "Maradi", poste: "Stagiaire IT", date: "08 Mars 2024", statut: "Nouveau", statutColor: "#10632D", avatar: "https://randomuser.me/api/portraits/men/45.jpg" },
-  { name: "Aichatou Bello", city: "Niamey", poste: "Chargé de projet", date: "07 Mars 2024", statut: "En revue", statutColor: "#E57617", avatar: "https://randomuser.me/api/portraits/women/55.jpg" },
+  { name: "Aminata Diallo", city: "Niamey", poste: "Chargé de communication", date: "12 Mars 2024", statut: "Nouveau", statutColor: "var(--sane-green)", avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
+  { name: "Ibrahim Souley", city: "Zinder", poste: "Technicien réseau", date: "10 Mars 2024", statut: "En revue", statutColor: "var(--sane-orange)", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
+  { name: "Fatouma Issa", city: "Niamey", poste: "Assistant administratif", date: "09 Mars 2024", statut: "Présélectionné", statutColor: "var(--sane-blue-light)", avatar: "https://randomuser.me/api/portraits/women/68.jpg" },
+  { name: "Moussa Adamou", city: "Maradi", poste: "Stagiaire IT", date: "08 Mars 2024", statut: "Nouveau", statutColor: "var(--sane-green)", avatar: "https://randomuser.me/api/portraits/men/45.jpg" },
+  { name: "Aichatou Bello", city: "Niamey", poste: "Chargé de projet", date: "07 Mars 2024", statut: "En revue", statutColor: "var(--sane-orange)", avatar: "https://randomuser.me/api/portraits/women/55.jpg" },
 ];
 
 const topOffers = [
-  { count: 320, title: "Assistant administratif", views: "12.4K vues", time: "Il y a 5 jours", color: "#10632D" },
-  { count: 245, title: "Chargé de communication", views: "8.6K vues", time: "Il y a 1 semaine", color: "#E57617" },
-  { count: 189, title: "Technicien informatique", views: "6.2K vues", time: "Il y a 2 semaines", color: "#10632D" },
+  { count: 320, title: "Assistant administratif", views: "12.4K vues", time: "Il y a 5 jours", color: "var(--sane-green)" },
+  { count: 245, title: "Chargé de communication", views: "8.6K vues", time: "Il y a 1 semaine", color: "var(--sane-orange)" },
+  { count: 189, title: "Technicien informatique", views: "6.2K vues", time: "Il y a 2 semaines", color: "var(--sane-green)" },
 ];
 
 const interviews = [
@@ -91,9 +91,9 @@ const messages = [
 ];
 
 const notifications = [
-  { icon: <FileText size={14} />, iconBg: "#10632D", title: "Nouvelle candidature reçue", desc: "Aminata Diallo a postulé pour Assistant administratif", time: "il y a 1 heure" },
-  { icon: <Calendar size={14} />, iconBg: "#3b82f6", title: "Entretien planifié", desc: "Entretien avec Moussa Adamou demain à 14h", time: "il y a 3 heures" },
-  { icon: <Briefcase size={14} />, iconBg: "#E57617", title: "Nouvelle offre publiée avec succès", desc: "Votre offre a été publiée et est maintenant visible", time: "il y a 1 jour" },
+  { icon: <FileText size={14} />, iconBg: "var(--sane-green)", title: "Nouvelle candidature reçue", desc: "Aminata Diallo a postulé pour Assistant administratif", time: "il y a 1 heure" },
+  { icon: <Calendar size={14} />, iconBg: "var(--sane-blue-light)", title: "Entretien planifié", desc: "Entretien avec Moussa Adamou demain à 14h", time: "il y a 3 heures" },
+  { icon: <Briefcase size={14} />, iconBg: "var(--sane-orange)", title: "Nouvelle offre publiée avec succès", desc: "Votre offre a été publiée et est maintenant visible", time: "il y a 1 jour" },
 ];
 
 /* ─────────────────────────────── PAGE ─────────────────────────────── */
@@ -146,7 +146,7 @@ export default function DashboardPage() {
           {/* ═══════════ WELCOME BANNER ═══════════ */}
           <div className="relative mb-6 overflow-hidden rounded-2xl bg-white border border-[var(--sane-border)]">
             <div className="absolute right-0 top-0 hidden h-full w-[55%] sm:block">
-              <Image src="/sane_deal.png" alt="Dashboard" fill className="object-cover" />
+              <Image src="/sane_deal.webp" alt="Dashboard" fill sizes="100vw" className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-r from-white via-white/60 to-transparent" />
             </div>
             <p className="absolute bottom-4 right-6 z-20 hidden sm:block text-[15px] italic text-[var(--sane-orange)]" style={{ fontFamily: "serif" }}>Un Niger<br/>de Talents</p>
@@ -208,12 +208,12 @@ export default function DashboardPage() {
                   <svg className="pointer-events-none absolute inset-0 mb-5" viewBox={`0 0 ${chartData.length * 40} 120`} preserveAspectRatio="none" fill="none">
                     <polyline
                       points={chartData.map((d, i) => `${i * 40 + 20},${120 - (d.ent / 200) * 120}`).join(" ")}
-                      stroke="#E57617"
+                      stroke="var(--sane-orange)"
                       strokeWidth="2"
                       fill="none"
                     />
                     {chartData.map((d, i) => (
-                      <circle key={i} cx={i * 40 + 20} cy={120 - (d.ent / 200) * 120} r="4" fill="white" stroke="#E57617" strokeWidth="2" />
+                      <circle key={i} cx={i * 40 + 20} cy={120 - (d.ent / 200) * 120} r="4" fill="white" stroke="var(--sane-orange)" strokeWidth="2" />
                     ))}
                   </svg>
                 </div>
@@ -261,7 +261,7 @@ export default function DashboardPage() {
                 <button type="button" onClick={() => setCompanyDraft(company)} className="text-[10px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] flex items-center gap-1">Voir le profil <ArrowRight size={10} /></button>
               </div>
               <div className="mb-3 flex items-center gap-2.5">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-[#f59e0b] bg-[#f59e0b]">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-[var(--sane-amber)] bg-[var(--sane-amber)]">
                   <span className="text-[9px] font-extrabold text-white">{company.name.slice(0, 3).toUpperCase()}</span>
                 </div>
                 <div>
@@ -283,7 +283,7 @@ export default function DashboardPage() {
                   <p className="text-[8px] text-[var(--sane-text-light)]">Candidats intéressés</p>
                 </div>
                 <div className="flex flex-col items-center">
-                  <p className="flex items-center gap-1 text-[14px] font-extrabold text-[var(--sane-green-deep)]"><Star size={11} className="fill-[#f59e0b] text-[#f59e0b]" /> 4.7</p>
+                  <p className="flex items-center gap-1 text-[14px] font-extrabold text-[var(--sane-green-deep)]"><Star size={11} className="fill-[var(--sane-amber)] text-[var(--sane-amber)]" /> 4.7</p>
                   <p className="text-[8px] text-[var(--sane-text-light)]">Note moyenne</p>
                 </div>
               </div>
@@ -335,14 +335,14 @@ export default function DashboardPage() {
                     <button
                       type="button"
                       onClick={() => {
-                        selectedRows.forEach((row) => tbl.update(row._uid, { statut: "Présélectionné", statutColor: "#3b82f6" }));
+                        selectedRows.forEach((row) => tbl.update(row._uid, { statut: "Présélectionné", statutColor: "var(--sane-blue-light)" }));
                         tbl.notify(`${selectedRows.length} candidat(s) présélectionné(s)`);
                       }}
                       className="ml-auto flex items-center gap-1 hover:text-[var(--sane-orange)]"
                     >
                       <UserCheck size={12} /> Présélectionner
                     </button>
-                    <button type="button" onClick={() => tbl.askDelete(selectedRows.map((row) => row._uid))} className="flex items-center gap-1 text-[#DC2626] hover:opacity-80">
+                    <button type="button" onClick={() => tbl.askDelete(selectedRows.map((row) => row._uid))} className="flex items-center gap-1 text-[var(--sane-red)] hover:opacity-80">
                       <Trash2 size={12} /> Supprimer
                     </button>
                   </div>
@@ -390,10 +390,10 @@ export default function DashboardPage() {
                             items={[
                               { label: "Voir le profil", icon: Eye, onClick: () => tbl.openView(c) },
                               { label: "Modifier", icon: Pencil, onClick: () => tbl.openEdit(c) },
-                              { label: "Présélectionner", icon: UserCheck, onClick: () => tbl.update(c._uid, { statut: "Présélectionné", statutColor: "#3b82f6" }, `${c.name} présélectionné(e)`) },
+                              { label: "Présélectionner", icon: UserCheck, onClick: () => tbl.update(c._uid, { statut: "Présélectionné", statutColor: "var(--sane-blue-light)" }, `${c.name} présélectionné(e)`) },
                               { label: "Planifier un entretien", icon: Calendar, onClick: () => scheduleInterview(c) },
                               { label: "Envoyer un message", icon: Mail, onClick: () => tbl.notify(`Message envoyé à ${c.name}`) },
-                              { label: "Refuser la candidature", icon: XCircle, onClick: () => tbl.update(c._uid, { statut: "Refusé", statutColor: "#DC2626" }, `Candidature de ${c.name} refusée`) },
+                              { label: "Refuser la candidature", icon: XCircle, onClick: () => tbl.update(c._uid, { statut: "Refusé", statutColor: "var(--sane-red)" }, `Candidature de ${c.name} refusée`) },
                               { label: "Supprimer", icon: Trash2, danger: true, dividerBefore: true, onClick: () => tbl.askDelete([c._uid]) },
                             ]}
                           />
@@ -476,9 +476,9 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     {itv.type === "video" ? (
-                      <Video size={18} className="text-[#3b82f6] mt-1" />
+                      <Video size={18} className="text-[var(--sane-blue-light)] mt-1" />
                     ) : (
-                      <MapPin size={18} className="text-[#ef4444] mt-1" />
+                      <MapPin size={18} className="text-[var(--sane-c-ef4444)] mt-1" />
                     )}
                   </div>
                 ))}

@@ -9,7 +9,7 @@ export function EmploiHero() {
       {/* Background image (all screens) */}
       <div className="absolute inset-y-0 right-0 w-full lg:w-[85%]">
         <Image
-          src="/emploi-bg.png"
+          src="/emploi-bg.webp"
           alt=""
           fill
           priority
