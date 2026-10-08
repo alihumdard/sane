@@ -24,6 +24,7 @@ export default function FormationsPage() {
           description="Le SANEM propose des formations pratiques et adaptées aux besoins du marché du travail pour renforcer l'employabilité des jeunes et accompagner le développement des compétences au Niger."
           imageFit="banner"
           image="/formation-bg.webp"
+          mobileImage="/formation-hero-sm.webp"
           tone="light"
           actions={[
             { href: "#catalogue", label: "Voir les formations" },

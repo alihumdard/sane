@@ -9,11 +9,19 @@ export function EmploiHero() {
       {/* Background image (all screens) */}
       <div className="absolute inset-y-0 right-0 w-full lg:w-[85%]">
         <Image
+          src="/emploi-hero-sm.webp"
+          alt=""
+          fill
+          priority
+          className="object-cover sm:hidden"
+          sizes="100vw"
+        />
+        <Image
           src="/emploi-bg.webp"
           alt=""
           fill
           priority
-          className="object-cover"
+          className="hidden object-cover sm:block"
           style={{ objectPosition: "75% center" }}
           sizes="(min-width: 1024px) 85vw, 100vw"
         />

@@ -22,6 +22,10 @@ interface PageHeroProps {
   lead: string;
   description?: string;
   image: string;
+  /** Optional dedicated artwork for phones (below sm). Replaces the cropped banner there. */
+  mobileImage?: string;
+  /** CSS background-position for the mobile artwork. Defaults to "center". */
+  mobileImagePosition?: string;
   /** "dark" tints the image and uses white text; "light" keeps the artwork visible with dark text. */
   tone?: "dark" | "light";
   /** CSS object-position value, e.g. "center", "right center", "top". Defaults to "center". */
@@ -46,6 +50,8 @@ export function PageHero({
   lead,
   description,
   image,
+  mobileImage,
+  mobileImagePosition = "center",
   tone = "dark",
   imagePosition,
   imageFit = "photo",
@@ -65,7 +71,7 @@ export function PageHero({
       className={`relative overflow-hidden ${isDark ? "bg-[var(--sane-green-dark)]" : "bg-[var(--sane-background)]"}`}
     >
       {/* ===== Desktop background image ===== */}
-      <div className={`absolute inset-0 ${photo ? "lg:left-auto lg:w-[55%]" : "hidden sm:block"}`}>
+      <div className={`absolute inset-0 ${photo ? "lg:left-auto lg:w-[55%]" : "hidden sm:block"} ${mobileImage ? "hidden sm:block" : ""}`}>
         <Image
           src={image}
           alt=""
@@ -87,14 +93,14 @@ export function PageHero({
       </div>
 
       {/* ===== Mobile banner: CSS background with localized text-area overlay ===== */}
-      {!photo && (
+      {(!photo || mobileImage) && (
         <div
           className="pointer-events-none absolute inset-0 sm:hidden"
           style={{
-            backgroundImage: `url(${image})`,
+            backgroundImage: `url(${mobileImage ?? image})`,
             backgroundRepeat: "no-repeat",
-            backgroundPosition: "right center",
-            backgroundSize: "200% 100%",
+            backgroundPosition: mobileImage ? mobileImagePosition : "right center",
+            backgroundSize: mobileImage ? "cover" : "200% 100%",
           }}
         >
           {/* Localized gradient: strong behind text at top, fades to near-transparent at bottom */}

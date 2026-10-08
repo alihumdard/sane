@@ -17,6 +17,7 @@ export default function ProgrammePage() {
           description="Découvrez le programme conçu par le Salon National de l'Emploi pour inspirer, former et connecter les talents, les entreprises et les institutions engagées pour l'emploi au Niger."
           imageFit="banner"
           image="/programe-hero.webp"
+          mobileImage="/programe-hero-sm.webp"
           actions={[
             { href: "/inscription", label: "S'inscrire au SANEM" },
             { href: "#programme", label: "Voir le programme", variant: "secondary" },

@@ -17,6 +17,7 @@ export default function ContactPage() {
           description="Une question, une demande d'information ou une proposition de partenariat ? Notre équipe est disponible pour vous répondre et vous accompagner."
           tagline={"Des échanges\npour un Niger\nplus fort"}
           image="/contact-hero2.webp"
+          mobileImage="/contact-hero-sm.webp"
           tone="dark"
           imageFit="banner"
           imagePosition="center center"

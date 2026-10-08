@@ -167,21 +167,31 @@ export default function ActualitesPage() {
       <Header />
       <main>
         {/* ═══════════════════ 1. HERO ═══════════════════ */}
-        <section className="relative min-h-[320px] overflow-hidden bg-[var(--sane-green-dark)] sm:min-h-[340px] lg:min-h-[380px]">
-          <div className="absolute inset-0">
+        <section className="relative overflow-hidden bg-[var(--sane-green-dark)] sm:min-h-[340px] lg:min-h-[380px]">
+          <div className="absolute inset-x-0 -bottom-[11vw] aspect-[1065/1476] sm:hidden">
             <Image
-              src="/actualites2.webp"
+              src="/actualites-hero-sm.webp"
               alt="Actualités SANEM"
               fill
               sizes="100vw"
               className="object-cover"
+              priority
+            />
+          </div>
+          <div className="absolute inset-0 hidden sm:block">
+            <Image
+              src="/actualites2.webp"
+              alt=""
+              fill
+              sizes="100vw"
+              className="hidden object-cover sm:block"
               style={{ objectPosition: "70% center" }}
               priority
             />
           </div>
           <div className="absolute inset-0 z-10 bg-gradient-to-b from-[var(--sane-green-dark)]/70 via-[var(--sane-green-dark)]/40 via-[55%] to-[var(--sane-green-dark)]/10 sm:from-[var(--sane-green-dark)]/80 sm:via-[var(--sane-green-dark)]/55 sm:to-[var(--sane-green-dark)]/30 lg:bg-gradient-to-r lg:from-[var(--sane-green-dark)]/80 lg:via-[var(--sane-green-dark)]/25 lg:to-transparent lg:to-[60%]" />
 
-          <div className="absolute right-4 top-4 z-20 rounded-lg bg-white/95 px-3 py-2.5 text-[8px] font-extrabold uppercase leading-[1.8] tracking-wide text-[var(--sane-green-dark)] shadow-lg backdrop-blur-sm sm:right-6 sm:top-8 sm:px-3.5 sm:py-3 sm:text-[10px]">
+          <div className="absolute right-4 top-4 z-20 hidden rounded-lg bg-white/95 px-3 py-2.5 text-[8px] font-extrabold uppercase leading-[1.8] tracking-wide text-[var(--sane-green-dark)] shadow-lg backdrop-blur-sm sm:right-6 sm:top-8 sm:block sm:px-3.5 sm:py-3 sm:text-[10px]">
             EMPLOI
             <br />
             FORMATION
@@ -202,7 +212,7 @@ export default function ActualitesPage() {
             <div className="ml-auto mt-2 h-[2.5px] w-8 rounded-full bg-[var(--sane-orange)]" />
           </div>
 
-          <div className="sane-container relative z-20 flex flex-col justify-center px-4 py-8 sm:min-h-[340px] sm:py-10 lg:min-h-[380px] lg:py-12">
+          <div className="sane-container relative z-20 flex flex-col justify-center px-4 pb-[72vw] pt-8 sm:min-h-[340px] sm:py-10 lg:min-h-[380px] lg:py-12">
             <nav className="mb-3 flex items-center gap-1.5 text-[11px] text-white/60 sm:mb-4 sm:text-[12px]">
               <Link href="/" className="hover:text-white transition-colors">
                 Accueil
