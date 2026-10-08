@@ -21,7 +21,7 @@ export function Hero() {
           priority
           quality={95}
           sizes="(max-width: 639px) 250vw, 100vw"
-          className="object-cover object-[71%_40%] sm:object-[75%_center]"
+          className="object-cover object-[64%_40%] sm:object-[75%_center]"
         />
       </div>
       {/* Readability gradient — top band behind heading/CTAs, faces stay clear, bottom band behind feature list */}
