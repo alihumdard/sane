@@ -11,8 +11,8 @@ const highlights = [
 
 export function Hero() {
   return (
-    <section className="relative min-h-[460px] overflow-hidden bg-[#01676e] sm:min-h-0">
-      {/* Background image — same source/quality at every breakpoint, only position shifts on mobile to keep both faces in frame */}
+    <section className="relative min-h-[410px] overflow-hidden bg-[#01676e] sm:min-h-0">
+      {/* Background image — same source/quality at every breakpoint, only position shifts on mobile to keep all 3 faces in frame */}
       <div className="absolute inset-0">
         <Image
           src="/hero-bg.png"
@@ -21,69 +21,69 @@ export function Hero() {
           priority
           quality={95}
           sizes="(max-width: 639px) 250vw, 100vw"
-          className="object-cover object-[82%_40%] sm:object-[75%_center]"
+          className="object-cover object-[74%_38%] sm:object-[75%_center]"
         />
       </div>
       {/* Readability gradient — top band behind heading/CTAs, faces stay clear, bottom band behind feature list */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[260px] bg-gradient-to-b from-[#01676e]/70 to-transparent sm:hidden" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[220px] bg-gradient-to-t from-[#01676e]/75 to-transparent sm:hidden" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[215px] bg-gradient-to-b from-[#01676e]/72 to-transparent sm:hidden" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[180px] bg-gradient-to-t from-[#01676e]/78 to-transparent sm:hidden" />
       <div className="absolute inset-0 hidden bg-gradient-to-b from-[#01676e]/80 via-[#01676e]/55 to-[#01676e]/30 sm:block lg:hidden" />
 
       <Container className="relative">
         <div className="grid grid-cols-1 lg:min-h-[410px] lg:grid-cols-2 overflow-hidden">
           {/* ================= LEFT CONTENT ================= */}
           <div className="relative z-10 flex items-center">
-            <div className="w-full pb-4 pt-3 sm:py-10 lg:max-w-[600px] lg:pr-8">
+            <div className="w-full pb-3 pt-2 sm:py-10 lg:max-w-[600px] lg:pr-8">
               {/* Label */}
-              <div className="mb-2 sm:mb-4">
-                <span className="text-[11px] font-extrabold uppercase tracking-wide text-white">
+              <div className="mb-1.5 sm:mb-4">
+                <span className="text-[10px] font-extrabold uppercase tracking-wide text-white sm:text-[11px]">
                   Salon National de l&apos;Emploi du Niger (SANEM)
                 </span>
               </div>
 
               {/* Heading */}
-              <h1 className="sane-h1 on-dark max-w-[600px] text-[26px] sm:text-[32px] lg:text-[length:var(--fs-h1)]">
+              <h1 className="sane-h1 on-dark max-w-[600px] text-[22px] leading-[1.2] sm:text-[32px] sm:leading-normal lg:text-[length:var(--fs-h1)]">
                 Connectons les talents aux opportunités
                 <span className="text-[var(--sane-orange)]">.</span>
               </h1>
 
               {/* Description */}
-              <p className="sane-body on-dark mt-2 max-w-[520px] sm:mt-4">
+              <p className="sane-body on-dark mt-1.5 max-w-[520px] text-[13px] sm:mt-4 sm:text-[14px]">
                 Un espace de rencontre entre les talents, les entreprises et les opportunités pour un Niger plus fort.
               </p>
 
               {/* Buttons */}
-              <div className="mt-3 flex flex-wrap gap-2 sm:mt-5 sm:gap-3">
+              <div className="mt-2.5 flex flex-wrap gap-2 sm:mt-5 sm:gap-3">
                 <Link
                   href="/inscription"
-                  className="group inline-flex h-[36px] items-center justify-center gap-2 rounded-full bg-[var(--sane-orange)] px-4 text-[12px] font-bold !text-white transition-colors hover:bg-[var(--sane-orange-dark)] sm:h-[44px] sm:px-6 sm:text-[13px]"
+                  className="group inline-flex h-[34px] items-center justify-center gap-2 rounded-full bg-[var(--sane-orange)] px-4 text-[12px] font-bold !text-white transition-colors hover:bg-[var(--sane-orange-dark)] sm:h-[44px] sm:px-6 sm:text-[13px]"
                 >
                   Participer au SANEM
-                  <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
+                  <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
                 <Link
                   href="/emploi"
-                  className="group inline-flex h-[36px] items-center justify-center gap-2 rounded-full border-2 border-white bg-white px-4 text-[12px] font-bold text-[var(--sane-green)] transition-colors hover:bg-transparent hover:!text-white sm:h-[44px] sm:px-6 sm:text-[13px] whitespace-nowrap"
+                  className="group inline-flex h-[34px] items-center justify-center gap-2 rounded-full border-2 border-white bg-white px-4 text-[12px] font-bold text-[var(--sane-green)] transition-colors hover:bg-transparent hover:!text-white sm:h-[44px] sm:px-6 sm:text-[13px] whitespace-nowrap"
                 >
                   Découvrir les opportunités
                 </Link>
               </div>
 
               {/* Highlights */}
-              <ul className="mt-4 grid grid-cols-1 gap-2 border-t border-white/30 pt-3 xs:grid-cols-2 sm:mt-7 sm:gap-3 sm:pt-5 sm:flex sm:max-w-[600px] sm:items-center sm:gap-6 md:gap-8">
+              <ul className="mt-3 grid grid-cols-1 gap-1.5 border-t border-white/30 pt-2.5 xs:grid-cols-2 sm:mt-7 sm:gap-3 sm:pt-5 sm:flex sm:max-w-[600px] sm:items-center sm:gap-6 md:gap-8">
                 {highlights.map(({ icon: Icon, title, short, long, accent }, i) => (
-                  <li key={title} className="flex items-center gap-2.5 sm:gap-3">
+                  <li key={title} className="flex items-center gap-2 sm:gap-3">
                     {i > 0 && <span className="hidden h-8 w-px bg-white/20 sm:-ml-3 sm:mr-3 sm:block md:-ml-4 md:mr-4" />}
                     <span
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg sm:h-9 sm:w-9 ${
+                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg sm:h-9 sm:w-9 ${
                         accent ? "bg-[var(--sane-orange)]/20" : "bg-white/15"
                       }`}
                     >
-                      <Icon size={16} strokeWidth={2} className={accent ? "text-[var(--sane-orange)]" : "text-white"} />
+                      <Icon size={14} strokeWidth={2} className={`sm:h-4 sm:w-4 ${accent ? "text-[var(--sane-orange)]" : "text-white"}`} />
                     </span>
                     <div>
-                      <p className="text-[11px] font-bold text-white sm:text-[12px]">{title}</p>
-                      <p className="sane-small on-dark">
+                      <p className="text-[10px] font-bold text-white sm:text-[12px]">{title}</p>
+                      <p className="sane-small on-dark !text-[10px] sm:!text-[length:var(--fs-small)]">
                         <span className="sm:hidden">{short}</span>
                         <span className="hidden sm:inline">{long}</span>
                       </p>
