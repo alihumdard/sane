@@ -126,6 +126,20 @@ export function Footer() {
               >
                 Emploi
               </Link>
+
+              <Link
+                href="/inscription"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
+              >
+                Inscription
+              </Link>
+
+              <Link
+                href="/connexion"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
+              >
+                Connexion
+              </Link>
             </div>
           </div>
 
