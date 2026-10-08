@@ -24,18 +24,18 @@ export function Hero() {
           style={{ objectPosition: "80% center" }}
         />
       </div>
-      {/* Mobile: image positioned in bottom-right, showing the people + building */}
-      <div className="pointer-events-none absolute bottom-0 right-0 h-[75%] w-[85%] sm:hidden">
+      {/* Mobile: image covers full hero, focal point on all 3 people */}
+      <div className="pointer-events-none absolute inset-0 sm:hidden">
         <Image
           src="/hero-bg.png"
           alt=""
           fill
           priority
-          sizes="85vw"
-          className="object-cover object-[60%_top]"
+          sizes="100vw"
+          className="object-cover object-[75%_center]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#01676e] via-[#01676e]/50 via-[25%] to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#01676e] via-[#01676e]/40 via-[30%] to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#01676e] via-[#01676e]/60 via-[35%] to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#01676e]/70 via-transparent via-[45%] to-transparent" />
       </div>
       {/* Desktop readability gradient */}
       <div className="absolute inset-0 hidden bg-gradient-to-b from-[#01676e]/80 via-[#01676e]/55 to-[#01676e]/30 sm:block lg:hidden" />
