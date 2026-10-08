@@ -11,7 +11,7 @@ const highlights = [
 
 export function Hero() {
   return (
-    <section className="relative min-h-[460px] overflow-hidden bg-[#01676e] sm:min-h-0">
+    <section className="relative min-h-[700px] overflow-hidden bg-[#01676e] sm:min-h-0">
       {/* Background image — same source/quality at every breakpoint, only position shifts on mobile to keep both faces in frame */}
       <div className="absolute inset-0">
         <Image
@@ -21,7 +21,7 @@ export function Hero() {
           priority
           quality={95}
           sizes="(max-width: 639px) 250vw, 100vw"
-          className="object-cover object-[88%_40%] sm:object-[75%_center]"
+          className="object-cover object-[71%_center] sm:object-[75%_center]"
         />
       </div>
       {/* Readability gradient — top band behind heading/CTAs, faces stay clear, bottom band behind feature list */}
