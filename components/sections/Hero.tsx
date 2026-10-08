@@ -11,7 +11,7 @@ const highlights = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[#01676e] sm:min-h-0">
+    <section className="relative min-h-[520px] overflow-hidden bg-[#01676e] sm:min-h-0">
       {/* Background image — desktop: full bleed */}
       <div className="absolute inset-0 hidden sm:block">
         <Image
@@ -24,20 +24,20 @@ export function Hero() {
           style={{ objectPosition: "80% center" }}
         />
       </div>
-      {/* Mobile: background-size 200% so right half of image (all 3 people) fits in viewport */}
+      {/* Mobile: shows all 3 people with natural proportions */}
       <div
         className="pointer-events-none absolute inset-0 sm:hidden"
         style={{
           backgroundImage: "url(/hero-bg.png)",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "65% center",
-          backgroundSize: "200% 100%",
+          backgroundPosition: "62% 20%",
+          backgroundSize: "220% auto",
         }}
       >
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(to bottom, rgba(1,103,110,0.70) 0%, rgba(1,103,110,0.35) 45%, rgba(1,103,110,0.50) 70%, rgba(1,103,110,0.65) 100%)",
+            background: "linear-gradient(to bottom, rgba(1,103,110,0.75) 0%, rgba(1,103,110,0.40) 40%, rgba(1,103,110,0.15) 55%, rgba(1,103,110,0.45) 75%, rgba(1,103,110,0.70) 100%)",
           }}
         />
       </div>
@@ -48,7 +48,7 @@ export function Hero() {
         <div className="grid grid-cols-1 lg:min-h-[410px] lg:grid-cols-2 overflow-hidden">
           {/* ================= LEFT CONTENT ================= */}
           <div className="relative z-10 flex items-center">
-            <div className="w-full pb-4 pt-3 sm:py-10 lg:max-w-[600px] lg:pr-8">
+            <div className="w-full pb-6 pt-3 sm:py-10 lg:max-w-[600px] lg:pr-8">
               {/* Label */}
               <div className="mb-2 sm:mb-4">
                 <span className="text-[11px] font-extrabold uppercase tracking-wide text-white">
