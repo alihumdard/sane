@@ -30,8 +30,8 @@ export function Hero() {
         style={{
           backgroundImage: "url(/hero-bg.png)",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "right bottom",
-          backgroundSize: "200% auto",
+          backgroundPosition: "right center",
+          backgroundSize: "200% 100%",
         }}
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#01676e] via-[#01676e]/70 via-[45%] to-[#01676e]/15 sm:hidden" />
