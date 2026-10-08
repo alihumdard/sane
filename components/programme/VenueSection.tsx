@@ -14,7 +14,7 @@ export function VenueSection() {
   return (
     <section className="relative overflow-hidden bg-white py-10 sm:py-12 md:py-16">
       <div
-        className="absolute inset-0 bg-cover bg-right bg-no-repeat opacity-40"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40"
         style={{ backgroundImage: "url('/vision-bg.png')" }}
       />
       <Container className="relative z-10">
@@ -26,7 +26,7 @@ export function VenueSection() {
               src="/programme-bd.png"
               alt="Palais des Congrès de Niamey"
               fill
-              className="object-cover object-[48%_center]"
+              className="object-cover object-center"
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 50vw"
             />
           </div>

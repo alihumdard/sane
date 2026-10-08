@@ -58,7 +58,7 @@ export function ImpactSection() {
                 src="/sane-deal3.png"
                 alt="Impact SANEM"
                 fill
-                className="object-cover"
+                className="object-cover object-center"
                 sizes="(max-width: 1024px) 100vw, 45vw"
               />
               <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/50 to-transparent" />
