@@ -86,7 +86,7 @@ export function PageHero({
         )}
       </div>
 
-      {/* ===== Mobile banner: CSS background for precise sizing (shows right half of wide image) ===== */}
+      {/* ===== Mobile banner: CSS background with localized text-area overlay ===== */}
       {!photo && (
         <div
           className="pointer-events-none absolute inset-0 sm:hidden"
@@ -96,16 +96,26 @@ export function PageHero({
             backgroundPosition: "right center",
             backgroundSize: "200% 100%",
           }}
-        />
+        >
+          {/* Localized gradient: strong behind text at top, fades to near-transparent at bottom */}
+          {isDark && (
+            <div
+              className="absolute inset-0"
+              style={{
+                background: "linear-gradient(to bottom, rgba(6,40,18,0.72) 0%, rgba(6,40,18,0.40) 40%, rgba(6,40,18,0.08) 65%, transparent 80%)",
+              }}
+            />
+          )}
+        </div>
       )}
 
-      {/* Readability overlay */}
+      {/* Readability overlay (desktop + photo mode) */}
       {isDark ? (
         <div
           className={`absolute inset-0 ${
             photo
               ? "bg-gradient-to-b from-[var(--sane-green-dark)]/70 via-[var(--sane-green-dark)]/40 via-[55%] to-[var(--sane-green-dark)]/10 lg:hidden"
-              : "bg-gradient-to-b from-[var(--sane-green-dark)]/95 via-[var(--sane-green-dark)]/60 via-[50%] to-[var(--sane-green-dark)]/10 sm:from-[var(--sane-green-dark)]/60 sm:via-[var(--sane-green-dark)]/30 sm:to-[var(--sane-green-dark)]/10 lg:bg-none lg:bg-[var(--sane-green-dark)]/20"
+              : "hidden sm:block sm:bg-gradient-to-b sm:from-[var(--sane-green-dark)]/60 sm:via-[var(--sane-green-dark)]/30 sm:to-[var(--sane-green-dark)]/10 lg:bg-none lg:bg-[var(--sane-green-dark)]/20"
           }`}
         />
       ) : (
@@ -118,11 +128,14 @@ export function PageHero({
         />
       )}
 
+      {/* Bottom edge fade — clean transition to white content below (mobile only) */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-4 bg-gradient-to-t from-white/30 to-transparent sm:hidden" />
+
       {/* ===== CONTENT ===== */}
       <Container className="relative z-10">
         {/* Breadcrumb */}
         {isDark ? (
-          <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/99 px-4 py-1.5 text-[12px] backdrop-blur-sm sm:mt-10 sm:px-5 sm:py-2 sm:text-[13px]">
+          <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-white/99 px-4 py-1.5 text-[12px] backdrop-blur-sm sm:mt-10 sm:px-5 sm:py-2 sm:text-[13px]">
             <Link href="/" className="font-medium text-[var(--sane-green)] transition-colors hover:text-[var(--sane-green-dark)]">Accueil</Link>
             <ChevronRight size={16} className="text-[var(--sane-text-light)]" />
             <span className="font-bold text-[var(--sane-orange)]">{breadcrumb}</span>
@@ -135,7 +148,7 @@ export function PageHero({
           </div>
         )}
 
-        <div className={`relative grid grid-cols-1 items-center gap-4 sm:gap-8 lg:grid-cols-2 ${isDark ? "pb-3 pt-2 sm:pb-10 sm:pt-6 lg:min-h-[380px]" : "pb-3 pt-1 sm:pb-8 sm:pt-4 lg:min-h-[300px]"}`}>
+        <div className={`relative grid grid-cols-1 items-center gap-4 sm:gap-8 lg:grid-cols-2 ${isDark ? "pb-4 pt-3 sm:pb-10 sm:pt-6 lg:min-h-[380px]" : "pb-3 pt-1 sm:pb-8 sm:pt-4 lg:min-h-[300px]"}`}>
           {/* Floating card + tagline — right side */}
           {(floatingCardText || tagline) && (
             <div className="absolute right-0 top-0 hidden flex-col items-end gap-4 lg:flex lg:right-[-40px]">
@@ -163,7 +176,7 @@ export function PageHero({
             </div>
           )}
           <div className={`min-w-0 ${tagline ? "pr-[120px] sm:pr-[140px] lg:pr-0" : ""}`}>
-            <div className="mb-2 flex items-center gap-2">
+            <div className="mb-1.5 flex items-center gap-2 sm:mb-2">
               <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
               <span className={`sane-eyebrow ${isDark ? "on-dark" : ""}`}>
                 {eyebrow}
@@ -189,14 +202,14 @@ export function PageHero({
             )}
 
             {actions.length > 0 && (
-              <div className={`flex flex-wrap gap-3 ${isDark ? "mt-4 sm:mt-8" : "mt-3 sm:mt-5"}`}>
+              <div className={`flex flex-wrap gap-2.5 sm:gap-3 ${isDark ? "mt-3 sm:mt-8" : "mt-3 sm:mt-5"}`}>
                 {actions.map((action) => (
                   <Link
                     key={action.href}
                     href={action.href}
                     className={`group inline-flex w-fit items-center justify-center gap-2 font-bold transition-all ${
                       isDark
-                        ? "h-[44px] rounded-full px-7 text-[13px] shadow-lg hover:shadow-xl sm:h-[46px] sm:px-8 sm:text-[14px]"
+                        ? "h-[40px] rounded-full px-6 text-[12px] shadow-lg hover:shadow-xl sm:h-[46px] sm:px-8 sm:text-[14px]"
                         : "h-[38px] rounded-lg px-5 text-[13px] sm:h-[40px] sm:px-6"
                     } ${
                       action.variant !== "secondary"
@@ -214,12 +227,12 @@ export function PageHero({
             )}
 
             {stats.length > 0 && (
-              <div className="mt-7 flex flex-wrap gap-5">
+              <div className={`mt-3 flex flex-wrap gap-4 border-t pt-3 sm:mt-7 sm:gap-5 sm:border-t-0 sm:pt-0 ${isDark ? "border-white/20" : "border-[var(--sane-border)]"}`}>
                 {stats.map((stat) => (
-                  <div key={stat.label} className="flex items-center gap-2">
-                    <span className="text-[18px] font-extrabold text-[var(--sane-orange)]">{stat.value}</span>
+                  <div key={stat.label} className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="text-[16px] font-extrabold text-[var(--sane-orange)] sm:text-[18px]">{stat.value}</span>
                     <span
-                      className={`text-[13px] font-medium ${isDark ? "text-white/80" : "text-[var(--sane-text)] opacity-70"}`}
+                      className={`text-[11px] font-medium sm:text-[13px] ${isDark ? "text-white/80" : "text-[var(--sane-text)] opacity-70"}`}
                     >
                       {stat.label}
                     </span>
