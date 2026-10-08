@@ -29,6 +29,29 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[180px] bg-gradient-to-t from-[#01676e]/78 to-transparent sm:hidden" />
       <div className="absolute inset-0 hidden bg-gradient-to-b from-[#01676e]/80 via-[#01676e]/55 to-[#01676e]/30 sm:block lg:hidden" />
 
+      {/* ================= FLOATING DECORATION (mobile + tablet) ================= */}
+      <div className="absolute right-3 top-3 z-20 w-[108px] rounded-lg bg-white px-2.5 py-2.5 shadow-lg sm:right-4 sm:top-4 sm:w-[130px] sm:px-3.5 sm:py-3.5 lg:hidden">
+        <p className="text-[8px] font-extrabold uppercase leading-[1.6] text-[var(--sane-green)] sm:text-[10px] sm:leading-5">
+          Emploi
+          <br />
+          Formation
+          <br />
+          Opportunités
+          <br />
+          Avenir
+        </p>
+        <div className="mt-1.5 h-[2px] w-6 rounded-full bg-[var(--sane-orange)] sm:mt-2.5 sm:w-8" />
+      </div>
+
+      <div className="absolute bottom-[150px] right-3 z-20 text-right xs:bottom-[130px] sm:bottom-24 sm:right-4 lg:hidden">
+        <p className="font-serif text-xs italic leading-4 text-white sm:text-lg sm:leading-6">
+          Un Niger
+          <br />
+          de Talents
+        </p>
+        <div className="ml-auto mt-1 h-[2px] w-8 bg-[var(--sane-orange)] sm:mt-2 sm:w-12" />
+      </div>
+
       <Container className="relative">
         <div className="grid grid-cols-1 lg:min-h-[410px] lg:grid-cols-2 overflow-hidden">
           {/* ================= LEFT CONTENT ================= */}
