@@ -53,17 +53,17 @@ export function Hero() {
               </p>
 
               {/* Buttons */}
-              <div className="mt-3 flex flex-wrap gap-3 sm:mt-5">
+              <div className="mt-3 flex flex-wrap gap-2 sm:mt-5 sm:gap-3">
                 <Link
                   href="/inscription"
-                  className="group inline-flex h-[42px] items-center justify-center gap-2 rounded-full bg-[var(--sane-orange)] px-6 text-[13px] font-bold !text-white transition-colors hover:bg-[var(--sane-orange-dark)] sm:h-[44px]"
+                  className="group inline-flex h-[36px] items-center justify-center gap-2 rounded-full bg-[var(--sane-orange)] px-4 text-[12px] font-bold !text-white transition-colors hover:bg-[var(--sane-orange-dark)] sm:h-[44px] sm:px-6 sm:text-[13px]"
                 >
                   Participer au SANEM
-                  <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-1" />
+                  <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
                 <Link
                   href="/emploi"
-                  className="group inline-flex h-[42px] items-center justify-center gap-2 rounded-full border-2 border-white bg-white px-6 text-[13px] font-bold text-[var(--sane-green)] transition-colors hover:bg-transparent hover:!text-white sm:h-[44px] whitespace-nowrap"
+                  className="group inline-flex h-[36px] items-center justify-center gap-2 rounded-full border-2 border-white bg-white px-4 text-[12px] font-bold text-[var(--sane-green)] transition-colors hover:bg-transparent hover:!text-white sm:h-[44px] sm:px-6 sm:text-[13px] whitespace-nowrap"
                 >
                   Découvrir les opportunités
                 </Link>
