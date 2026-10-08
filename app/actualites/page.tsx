@@ -167,18 +167,18 @@ export default function ActualitesPage() {
       <Header />
       <main>
         {/* ═══════════════════ 1. HERO ═══════════════════ */}
-        <section className="relative min-h-[300px] overflow-hidden bg-[#0a4a22] sm:min-h-[340px] lg:min-h-[380px]">
-          <div className="absolute inset-0">
+        <section className="relative overflow-hidden bg-[#0a4a22] sm:min-h-[340px] lg:min-h-[380px]">
+          <div className="absolute inset-0 hidden sm:block">
             <Image
               src="/actualites2.png"
               alt="Actualités SANEM"
               fill
               sizes="100vw"
-              className="object-cover object-[70%_center] lg:object-center"
+              className="object-cover object-center"
               priority
             />
           </div>
-          <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0a4a22]/85 via-[#0a4a22]/60 to-[#0a4a22]/35 lg:bg-gradient-to-r lg:from-[#0a4a22]/80 lg:via-[#0a4a22]/25 lg:to-transparent lg:to-[60%]" />
+          <div className="absolute inset-0 z-10 hidden sm:block sm:bg-gradient-to-b sm:from-[#0a4a22]/85 sm:via-[#0a4a22]/60 sm:to-[#0a4a22]/35 lg:bg-gradient-to-r lg:from-[#0a4a22]/80 lg:via-[#0a4a22]/25 lg:to-transparent lg:to-[60%]" />
 
           <div className="absolute right-4 top-4 z-20 rounded-lg bg-white/95 px-3 py-2.5 text-[8px] font-extrabold uppercase leading-[1.8] tracking-wide text-[#0a4a22] shadow-lg backdrop-blur-sm sm:right-6 sm:top-8 sm:px-3.5 sm:py-3 sm:text-[10px]">
             EMPLOI
@@ -201,7 +201,7 @@ export default function ActualitesPage() {
             <div className="ml-auto mt-2 h-[2.5px] w-8 rounded-full bg-[#E57617]" />
           </div>
 
-          <div className="sane-container relative z-20 flex min-h-[300px] flex-col justify-center px-4 py-8 sm:min-h-[340px] sm:py-10 lg:min-h-[380px] lg:py-12">
+          <div className="sane-container relative z-20 flex flex-col justify-center px-4 py-8 sm:min-h-[340px] sm:py-10 lg:min-h-[380px] lg:py-12">
             <nav className="mb-3 flex items-center gap-1.5 text-[11px] text-white/60 sm:mb-4 sm:text-[12px]">
               <Link href="/" className="hover:text-white transition-colors">
                 Accueil
@@ -239,6 +239,19 @@ export default function ActualitesPage() {
                 </Link>
               </div>
             </div>
+          </div>
+
+          {/* Mobile: visible image strip */}
+          <div className="relative h-[180px] sm:hidden">
+            <Image
+              src="/actualites2.png"
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-cover"
+              style={{ objectPosition: "70% center" }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0a4a22] via-transparent to-transparent to-[25%]" />
           </div>
         </section>
 

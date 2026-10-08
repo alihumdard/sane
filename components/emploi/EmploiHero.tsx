@@ -6,19 +6,19 @@ import { Container } from "@/components/ui/Container";
 export function EmploiHero() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-r from-[var(--sane-background)] via-[var(--sane-green-light)] to-transparent sm:min-h-[400px] lg:min-h-[420px]">
-      {/* Background image — full width and height behind the content on mobile, right 85% on desktop */}
-      <div className="absolute inset-y-0 right-0 w-full lg:w-[85%]">
+      {/* Background image — hidden on small mobile, visible from sm+ */}
+      <div className="absolute inset-y-0 right-0 hidden w-full sm:block lg:w-[85%]">
         <Image
           src="/emploi-bg.png"
           alt=""
           fill
           priority
-          className="object-cover object-[75%_center] sm:object-[center_bottom]"
+          className="object-cover object-[center_bottom]"
           sizes="(min-width: 1024px) 85vw, 100vw"
         />
       </div>
-      {/* Readability fade — only behind the text on mobile (top), so the people at the bottom stay clear; from the left on desktop */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[var(--sane-background)]/85 via-[var(--sane-background)]/45 via-[48%] to-transparent sm:bg-gradient-to-r sm:from-[var(--sane-background)] sm:via-[var(--sane-background)] sm:via-[25%] sm:to-[var(--sane-background)]/0 sm:to-[40%]" />
+      {/* Readability fade */}
+      <div className="absolute inset-0 hidden sm:block sm:bg-gradient-to-r sm:from-[var(--sane-background)] sm:via-[var(--sane-background)] sm:via-[25%] sm:to-[var(--sane-background)]/0 sm:to-[40%]" />
 
       {/* Floating card — top right, relative to section */}
       <div className="absolute right-4 top-10 z-20 hidden w-[130px] rounded-xl bg-white/95 px-4 py-3.5 shadow-lg ring-1 ring-[var(--sane-border)] backdrop-blur-sm lg:block xl:right-6">
@@ -44,7 +44,7 @@ export function EmploiHero() {
           <span className="font-medium text-[var(--sane-text-light)]">Emploi</span>
         </div>
 
-        <div className="relative pb-[120px] pt-2 sm:pb-8 sm:pt-3 lg:grid lg:grid-cols-[45%_55%] lg:items-center lg:gap-4">
+        <div className="relative pb-4 pt-2 sm:pb-8 sm:pt-3 lg:grid lg:grid-cols-[45%_55%] lg:items-center lg:gap-4">
 
           {/* Content */}
           <div className="min-w-0">
@@ -86,6 +86,19 @@ export function EmploiHero() {
           </div>
         </div>
       </Container>
+
+      {/* Mobile: visible image strip */}
+      <div className="relative h-[200px] sm:hidden">
+        <Image
+          src="/emploi-bg.png"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: "75% center" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--sane-background)] via-transparent to-transparent to-[25%]" />
+      </div>
     </section>
   );
 }

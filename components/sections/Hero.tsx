@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, BriefcaseBusiness, GraduationCap, UsersRound } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
@@ -10,9 +11,21 @@ const highlights = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[#01676e] bg-[url('/hero-bg.png')] bg-cover bg-[position:80%_center] lg:bg-center">
-      {/* mobile: solid color behind the text fading out so the artwork shows underneath */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#01676e]/75 via-[#01676e]/50 to-[#01676e]/20 lg:hidden" />
+    <section className="relative overflow-hidden bg-[#01676e]">
+      {/* Desktop: full-bleed background image */}
+      <div className="absolute inset-0 hidden sm:block">
+        <Image
+          src="/hero-bg.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
+      {/* Desktop gradient */}
+      <div className="absolute inset-0 hidden bg-gradient-to-b from-[#01676e]/75 via-[#01676e]/50 to-[#01676e]/20 sm:block lg:hidden" />
+
       <Container className="relative">
         <div className="grid grid-cols-1 lg:min-h-[410px] lg:grid-cols-2 overflow-hidden">
           {/* ================= LEFT CONTENT ================= */}
@@ -105,6 +118,19 @@ export function Hero() {
         </div>
       </Container>
 
+      {/* Mobile: visible image strip below content */}
+      <div className="relative h-[200px] sm:hidden">
+        <Image
+          src="/hero-bg.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: "80% center" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#01676e] via-transparent to-transparent to-[30%]" />
+      </div>
     </section>
   );
 }

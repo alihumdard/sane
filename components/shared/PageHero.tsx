@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -58,14 +58,14 @@ export function PageHero({
   const isDark = tone === "dark";
   const photo = imageFit === "photo";
   const light = overlayStrength === "light";
+  const pos = imagePosition ?? imageFocus(image, photo ? "center 20%" : "center");
 
   return (
     <section
-      className={`relative overflow-hidden lg:min-h-[400px] ${isDark ? "bg-[var(--sane-green-dark)]" : "bg-[var(--sane-background)]"}`}
+      className={`relative overflow-hidden ${isDark ? "bg-[var(--sane-green-dark)]" : "bg-[var(--sane-background)]"}`}
     >
-      {/* Artwork: always the full-bleed background (full width and height of the hero) */}
-      {/* wide banners fill the hero; square/portrait photos sit in the right 55% on desktop so they are not zoomed and cut */}
-      <div className={`absolute inset-0 ${photo ? "lg:left-auto lg:w-[55%]" : ""}`}>
+      {/* ===== DESKTOP: full-bleed background image (unchanged) ===== */}
+      <div className={`absolute inset-0 ${photo ? "lg:left-auto lg:w-[55%]" : ""} ${!photo ? "hidden sm:block" : ""}`}>
         <Image
           src={image}
           alt=""
@@ -73,7 +73,7 @@ export function PageHero({
           priority
           sizes={photo ? "(min-width: 1024px) 55vw, 100vw" : "100vw"}
           className="object-cover"
-          style={{ objectPosition: imagePosition ?? imageFocus(image, photo ? "center 20%" : "center") }}
+          style={{ objectPosition: pos }}
         />
         {photo && (
           <div
@@ -85,10 +85,11 @@ export function PageHero({
           />
         )}
       </div>
-      {/* Readability overlay: from the top on mobile (text sits on top, artwork shows below), from the left on desktop */}
+
+      {/* Readability overlay */}
       {isDark ? (
         <div
-          className={`absolute inset-0 bg-gradient-to-b ${
+          className={`absolute inset-0 ${!photo ? "hidden sm:block" : ""} bg-gradient-to-b ${
             light
               ? "from-[var(--sane-green-dark)]/70 via-[var(--sane-green-dark)]/40 to-[var(--sane-green-dark)]/15"
               : "from-[var(--sane-green-dark)]/80 via-[var(--sane-green-dark)]/55 to-[var(--sane-green-dark)]/30"
@@ -102,12 +103,13 @@ export function PageHero({
         />
       ) : (
         <div
-          className={`absolute inset-0 bg-gradient-to-b from-[var(--sane-background)]/95 via-[var(--sane-background)]/80 to-[var(--sane-background)]/60 ${
+          className={`absolute inset-0 ${!photo ? "hidden sm:block" : ""} bg-gradient-to-b from-[var(--sane-background)]/95 via-[var(--sane-background)]/80 to-[var(--sane-background)]/60 ${
             photo ? "lg:hidden" : "lg:bg-white/15 lg:bg-none"
           }`}
         />
       )}
 
+      {/* ===== CONTENT ===== */}
       <Container className="relative z-10">
         {/* Breadcrumb */}
         {isDark ? (
@@ -219,6 +221,27 @@ export function PageHero({
           </div>
         </div> {/* end inner grid */}
       </Container>
+
+      {/* ===== MOBILE BANNER IMAGE: visible strip below content ===== */}
+      {!photo && (
+        <div className="relative h-[180px] sm:hidden">
+          <Image
+            src={image}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+            style={{ objectPosition: pos }}
+          />
+          <div
+            className={`absolute inset-0 bg-gradient-to-b ${
+              isDark
+                ? "from-[var(--sane-green-dark)] via-transparent to-transparent"
+                : "from-[var(--sane-background)] via-transparent to-transparent"
+            } to-[30%]`}
+          />
+        </div>
+      )}
     </section>
   );
 }
