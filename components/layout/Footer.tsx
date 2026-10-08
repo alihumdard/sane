@@ -7,9 +7,9 @@ export function Footer() {
     <footer className="bg-[#0B6630]">
       {/* ================= MAIN FOOTER ================= */}
       <div className="sane-container">
-        <div className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-x-6 gap-y-6 py-8 sm:gap-y-8 sm:py-10 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1.2fr] lg:gap-10 lg:py-16">
+        <div className="grid grid-cols-2 gap-x-5 gap-y-5 py-7 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-8 sm:py-10 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1.2fr] lg:gap-10 lg:py-16">
           {/* ================= 1. BRAND ================= */}
-          <div className="min-[480px]:col-span-2 flex flex-col sm:col-span-2 lg:col-span-1">
+          <div className="col-span-2 flex flex-col lg:col-span-1">
             <Link href="/" className="inline-block">
               <div className="relative h-12 w-[135px]">
                 <Image
@@ -23,13 +23,13 @@ export function Footer() {
               </div>
             </Link>
 
-            <p className="mt-4 max-w-[280px] text-[13px] leading-[1.6] text-[var(--sane-green-muted)]">
+            <p className="mt-3 max-w-[280px] text-[12px] leading-[1.6] text-[var(--sane-green-muted)] sm:mt-4 sm:text-[13px]">
               Le Salon National de l&apos;Emploi, un espace de rencontre entre
               les talents, les entreprises et les opportunités professionnelles
               au Niger.
             </p>
 
-            <div className="mt-5 flex items-center gap-2.5">
+            <div className="mt-4 flex items-center gap-2 sm:mt-5 sm:gap-2.5">
               {/* Facebook */}
               <a
                 href="#"
@@ -91,38 +91,38 @@ export function Footer() {
           <div>
             <h3 className="sane-h3 on-dark mb-3 sm:mb-5">Liens rapides</h3>
 
-            <div className="grid grid-cols-2 gap-x-5 gap-y-1 text-[13px] text-[var(--sane-green-muted)] lg:flex lg:flex-col lg:gap-1">
+            <div className="flex flex-col gap-0.5 text-[13px] text-[var(--sane-green-muted)] lg:gap-1">
               <Link
                 href="/"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Accueil
               </Link>
 
               <Link
                 href="/a-propos"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 À propos
               </Link>
 
               <Link
                 href="/programme"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Programme
               </Link>
 
               <Link
                 href="/formations"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Formations
               </Link>
 
               <Link
                 href="/emploi"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Emploi
               </Link>
@@ -133,45 +133,45 @@ export function Footer() {
           <div>
             <h3 className="sane-h3 on-dark mb-3 sm:mb-5">Découvrir</h3>
 
-            <div className="grid grid-cols-2 gap-x-5 gap-y-1 text-[13px] text-[var(--sane-green-muted)] lg:flex lg:flex-col lg:gap-1">
+            <div className="flex flex-col gap-0.5 text-[13px] text-[var(--sane-green-muted)] lg:gap-1">
               <Link
                 href="/intervenants"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Intervenants
               </Link>
 
               <Link
                 href="/partenaires"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Partenaires
               </Link>
 
               <Link
                 href="/actualites"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Actualités
               </Link>
 
               <Link
                 href="/contact"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Contact
               </Link>
 
               <Link
                 href="/faq"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 FAQ
               </Link>
 
               <Link
                 href="/presse"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Presse
               </Link>
@@ -182,31 +182,31 @@ export function Footer() {
           <div>
             <h3 className="sane-h3 on-dark mb-3 sm:mb-5">Emploi</h3>
 
-            <div className="grid grid-cols-2 gap-x-5 gap-y-1 text-[13px] text-[var(--sane-green-muted)] lg:flex lg:flex-col lg:gap-1">
+            <div className="flex flex-col gap-0.5 text-[13px] text-[var(--sane-green-muted)] lg:gap-1">
               <Link
                 href="/emploi"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Offres d&apos;emploi
               </Link>
 
               <Link
                 href="/demandeur-emploi"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Demandeur d&apos;emploi
               </Link>
 
               <Link
                 href="/recruteur"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Recruteur
               </Link>
 
               <Link
                 href="/matching"
-                className="py-1.5 transition-colors hover:text-white"
+                className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Matching
               </Link>
@@ -217,7 +217,7 @@ export function Footer() {
           <div>
             <h3 className="sane-h3 on-dark mb-3 sm:mb-5">Contact</h3>
 
-            <div className="grid grid-cols-2 gap-x-5 gap-y-3.5 text-[13px] text-[var(--sane-green-muted)] lg:flex lg:flex-col lg:gap-3.5">
+            <div className="flex flex-col gap-2.5 text-[13px] text-[var(--sane-green-muted)] sm:gap-3 lg:gap-3.5">
               <div className="flex items-center gap-2.5 break-words">
                 <MapPin
                   size={15}
