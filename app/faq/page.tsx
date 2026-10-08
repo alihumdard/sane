@@ -37,6 +37,7 @@ export default function FAQPage() {
           lead="Vos questions, nos réponses"
           description="Retrouvez ici les réponses aux questions les plus fréquentes sur le Salon National de l'Emploi, son programme, les formations, les inscriptions et la participation."
           image="/faq-hero.webp"
+          mobileImage="/faq-hero-sm.webp"
           imageFit="banner"
           tone="dark"
           actions={[
