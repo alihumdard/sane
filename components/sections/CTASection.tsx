@@ -42,7 +42,7 @@ export function CTASection({
       style={{
         backgroundImage: "url('/SalonNationalbg.png')",
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
       }}
     >
