@@ -19,13 +19,14 @@ export function Hero() {
           alt=""
           fill
           priority
-          quality={90}
-          sizes="100vw"
+          quality={95}
+          sizes="(max-width: 639px) 250vw, 100vw"
           className="object-cover object-[71%_40%] sm:object-[75%_center]"
         />
       </div>
-      {/* Readability gradient — lighter on mobile so the photo reads clearly, same technique on desktop */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#01676e]/65 via-[#01676e]/30 via-40% to-[#01676e]/10 sm:from-[#01676e]/80 sm:via-[#01676e]/55 sm:to-[#01676e]/30 lg:hidden" />
+      {/* Readability gradient — only behind the text block, not over the people */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[260px] bg-gradient-to-b from-[#01676e]/70 to-transparent sm:hidden" />
+      <div className="absolute inset-0 hidden bg-gradient-to-b from-[#01676e]/80 via-[#01676e]/55 to-[#01676e]/30 sm:block lg:hidden" />
 
       <Container className="relative">
         <div className="grid grid-cols-1 lg:min-h-[410px] lg:grid-cols-2 overflow-hidden">
