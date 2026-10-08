@@ -11,27 +11,29 @@ const highlights = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[#01676e]">
-      {/* Background image — desktop/tablet only: full bleed behind the content */}
-      <div className="absolute inset-0 hidden sm:block">
+    <section className="relative min-h-[460px] overflow-hidden bg-[#01676e] sm:min-h-0">
+      {/* Background image — same source/quality at every breakpoint, only position shifts on mobile to keep both faces in frame */}
+      <div className="absolute inset-0">
         <Image
           src="/hero-bg.png"
           alt=""
           fill
           priority
-          sizes="100vw"
-          className="object-cover"
-          style={{ objectPosition: "80% center" }}
+          quality={95}
+          sizes="(max-width: 639px) 250vw, 100vw"
+          className="object-cover object-[64%_40%] sm:object-[75%_center]"
         />
       </div>
-      {/* Desktop readability gradient */}
+      {/* Readability gradient — top band behind heading/CTAs, faces stay clear, bottom band behind feature list */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[260px] bg-gradient-to-b from-[#01676e]/70 to-transparent sm:hidden" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[220px] bg-gradient-to-t from-[#01676e]/75 to-transparent sm:hidden" />
       <div className="absolute inset-0 hidden bg-gradient-to-b from-[#01676e]/80 via-[#01676e]/55 to-[#01676e]/30 sm:block lg:hidden" />
 
       <Container className="relative">
         <div className="grid grid-cols-1 lg:min-h-[410px] lg:grid-cols-2 overflow-hidden">
           {/* ================= LEFT CONTENT ================= */}
           <div className="relative z-10 flex items-center">
-            <div className="w-full pb-0 pt-3 sm:py-10 lg:max-w-[600px] lg:pr-8">
+            <div className="w-full pb-4 pt-3 sm:py-10 lg:max-w-[600px] lg:pr-8">
               {/* Label */}
               <div className="mb-2 sm:mb-4">
                 <span className="text-[11px] font-extrabold uppercase tracking-wide text-white">
@@ -118,21 +120,6 @@ export function Hero() {
           </div>
         </div>
       </Container>
-
-      {/* Mobile-only: full composition image shown below the text, sharp and ungradiented */}
-      <div className="relative mt-4 sm:hidden">
-        <div className="relative aspect-[4/5] w-full">
-          <Image
-            src="/hero-bg.png"
-            alt="Trois professionnels nigériens représentant les talents, entreprises et opportunités du SANEM"
-            fill
-            priority
-            sizes="100vw"
-            quality={95}
-            className="object-cover object-[70%_center]"
-          />
-        </div>
-      </div>
 
     </section>
   );
