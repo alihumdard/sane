@@ -34,8 +34,8 @@ export function Hero() {
           sizes="85vw"
           className="object-cover object-right-top"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#01676e] via-[#01676e]/40 via-[20%] to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#01676e] via-[#01676e]/30 via-[25%] to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#01676e] via-[#01676e]/50 via-[25%] to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#01676e] via-[#01676e]/40 via-[30%] to-transparent" />
       </div>
       {/* Desktop readability gradient */}
       <div className="absolute inset-0 hidden bg-gradient-to-b from-[#01676e]/80 via-[#01676e]/55 to-[#01676e]/30 sm:block lg:hidden" />
