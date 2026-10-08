@@ -62,7 +62,7 @@ export function PageHero({
 
   return (
     <section
-      className={`relative min-h-[320px] overflow-hidden sm:min-h-0 ${isDark ? "bg-[var(--sane-green-dark)]" : "bg-[var(--sane-background)]"}`}
+      className={`relative overflow-hidden ${isDark ? "bg-[var(--sane-green-dark)]" : "bg-[var(--sane-background)]"}`}
     >
       {/* ===== Desktop background image ===== */}
       <div className={`absolute inset-0 ${photo ? "lg:left-auto lg:w-[55%]" : "hidden sm:block"}`}>
@@ -122,7 +122,7 @@ export function PageHero({
       <Container className="relative z-10">
         {/* Breadcrumb */}
         {isDark ? (
-          <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-white/99 px-4 py-1.5 text-[12px] backdrop-blur-sm sm:mt-10 sm:px-5 sm:py-2 sm:text-[13px]">
+          <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/99 px-4 py-1.5 text-[12px] backdrop-blur-sm sm:mt-10 sm:px-5 sm:py-2 sm:text-[13px]">
             <Link href="/" className="font-medium text-[var(--sane-green)] transition-colors hover:text-[var(--sane-green-dark)]">Accueil</Link>
             <ChevronRight size={16} className="text-[var(--sane-text-light)]" />
             <span className="font-bold text-[var(--sane-orange)]">{breadcrumb}</span>
@@ -135,7 +135,7 @@ export function PageHero({
           </div>
         )}
 
-        <div className={`relative grid grid-cols-1 items-center gap-8 lg:grid-cols-2 ${isDark ? "pb-6 pt-3 sm:pb-10 sm:pt-6 lg:min-h-[380px]" : "pb-5 pt-2 sm:pb-8 sm:pt-4 lg:min-h-[300px]"}`}>
+        <div className={`relative grid grid-cols-1 items-center gap-4 sm:gap-8 lg:grid-cols-2 ${isDark ? "pb-3 pt-2 sm:pb-10 sm:pt-6 lg:min-h-[380px]" : "pb-3 pt-1 sm:pb-8 sm:pt-4 lg:min-h-[300px]"}`}>
           {/* Floating card + tagline — right side */}
           {(floatingCardText || tagline) && (
             <div className="absolute right-0 top-0 hidden flex-col items-end gap-4 lg:flex lg:right-[-40px]">

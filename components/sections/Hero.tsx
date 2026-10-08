@@ -42,7 +42,7 @@ export function Hero() {
         <div className="grid grid-cols-1 lg:min-h-[410px] lg:grid-cols-2 overflow-hidden">
           {/* ================= LEFT CONTENT ================= */}
           <div className="relative z-10 flex items-center">
-            <div className="w-full pb-10 pt-5 sm:py-10 lg:max-w-[600px] lg:pr-8">
+            <div className="w-full pb-4 pt-3 sm:py-10 lg:max-w-[600px] lg:pr-8">
               {/* Label */}
               <div className="mb-2 sm:mb-4">
                 <span className="text-[11px] font-extrabold uppercase tracking-wide text-white">
@@ -57,12 +57,12 @@ export function Hero() {
               </h1>
 
               {/* Description */}
-              <p className="sane-body on-dark mt-4 max-w-[520px]">
+              <p className="sane-body on-dark mt-2 max-w-[520px] sm:mt-4">
                 Un espace de rencontre entre les talents, les entreprises et les opportunités pour un Niger plus fort.
               </p>
 
               {/* Buttons */}
-              <div className="mt-5 flex flex-wrap gap-3">
+              <div className="mt-3 flex flex-wrap gap-3 sm:mt-5">
                 <Link
                   href="/inscription"
                   className="group inline-flex h-[42px] items-center justify-center gap-2 rounded-full bg-[var(--sane-orange)] px-6 text-[13px] font-bold !text-white transition-colors hover:bg-[var(--sane-orange-dark)] sm:h-[44px]"
@@ -79,7 +79,7 @@ export function Hero() {
               </div>
 
               {/* Highlights */}
-              <ul className="mt-7 grid grid-cols-1 gap-3 border-t border-white/30 pt-5 xs:grid-cols-2 sm:flex sm:max-w-[600px] sm:items-center sm:gap-6 md:gap-8">
+              <ul className="mt-4 grid grid-cols-1 gap-2 border-t border-white/30 pt-3 xs:grid-cols-2 sm:mt-7 sm:gap-3 sm:pt-5 sm:flex sm:max-w-[600px] sm:items-center sm:gap-6 md:gap-8">
                 {highlights.map(({ icon: Icon, title, short, long, accent }, i) => (
                   <li key={title} className="flex items-center gap-2.5 sm:gap-3">
                     {i > 0 && <span className="hidden h-8 w-px bg-white/20 sm:-ml-3 sm:mr-3 sm:block md:-ml-4 md:mr-4" />}
