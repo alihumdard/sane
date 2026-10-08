@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
@@ -37,15 +38,16 @@ export function CTASection({
   const dark = tone === "dark";
 
   return (
-    <section
-      className="relative min-h-[270px] overflow-hidden py-3 md:h-[280px] md:py-4"
-      style={{
-        backgroundImage: "url('/SalonNationalbg.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
+    <section className="relative min-h-[270px] overflow-hidden py-3 md:h-[280px] md:py-4">
+      <div className="absolute inset-0">
+        <Image
+          src="/SalonNationalbg.png"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
       {dark && <div className="absolute inset-0 bg-[var(--sane-green-deep)]/80" />}
 
       <Container className="relative h-full">
