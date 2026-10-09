@@ -48,7 +48,7 @@ export function CTASection({
           className="object-cover object-[70%_center] lg:object-center"
         />
       </div>
-      {dark && <div className="absolute inset-0 bg-[var(--sane-green-deep)]/80" />}
+      {dark && <div className="absolute inset-0 bg-[var(--sane-green-deep)]/0" />}
 
       <Container className="relative h-full">
         <div className="relative z-20 flex h-full items-center py-2 md:py-0">
