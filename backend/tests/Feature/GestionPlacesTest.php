@@ -112,6 +112,19 @@ class GestionPlacesTest extends TestCase
         $this->assertSame(5, $formation->fresh()->inscriptions_count);
     }
 
+    public function test_les_attributs_derives_survivent_a_une_selection_partielle(): void
+    {
+        $edition = Edition::factory()->active()->create();
+        Formation::factory()->for($edition)->avecPlaces(50, 10)->create();
+
+        // A partial select leaves max_inscriptions null; the derived attributes
+        // must degrade to zero rather than dividing by it.
+        $partielle = Formation::select('id', 'titre')->first();
+
+        $this->assertSame(0, $partielle->taux_remplissage);
+        $this->assertSame(0, $partielle->places_restantes);
+    }
+
     public function test_la_contrainte_base_de_donnees_empeche_la_survente(): void
     {
         $edition = Edition::factory()->active()->create();

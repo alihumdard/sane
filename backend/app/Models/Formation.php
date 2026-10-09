@@ -67,7 +67,7 @@ class Formation extends Model
 
     public function getPlacesRestantesAttribute(): int
     {
-        return max(0, $this->max_inscriptions - $this->inscriptions_count);
+        return max(0, (int) $this->max_inscriptions - (int) $this->inscriptions_count);
     }
 
     public function getCompleteAttribute(): bool
@@ -75,10 +75,14 @@ class Formation extends Model
         return $this->places_restantes === 0;
     }
 
-    /** Percentage filled, rounded — the admin table's `inscPct`, derived rather than stored. */
+    /**
+     * Percentage filled, rounded — the admin table's `inscPct`, derived rather
+     * than stored. Guards against null as well as zero, since a partial select
+     * can leave the counts absent.
+     */
     public function getTauxRemplissageAttribute(): int
     {
-        if ($this->max_inscriptions === 0) {
+        if (empty($this->max_inscriptions)) {
             return 0;
         }
 
