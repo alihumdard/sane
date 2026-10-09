@@ -1,8 +1,18 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\FormationController;
+use App\Http\Controllers\Api\InscriptionController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+/*
+|--------------------------------------------------------------------------
+| Routes publiques
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/formations', [FormationController::class, 'index']);
+Route::get('/formations/{formation}', [FormationController::class, 'show']);
+
+Route::post('/inscriptions', [InscriptionController::class, 'store'])
+    ->middleware('throttle:10,1');
+Route::get('/inscriptions/{reference}', [InscriptionController::class, 'show']);
