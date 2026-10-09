@@ -42,7 +42,7 @@ export function Header() {
             alt="ANPE Logo"
             width={48}
             height={48}
-            className="h-16 w-16 object-contain"
+            className="h-[72px] w-[72px] object-contain"
           />
         </Link>
 
