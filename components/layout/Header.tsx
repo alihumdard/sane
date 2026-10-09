@@ -28,17 +28,22 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-[var(--sane-border)] bg-white/95 backdrop-blur">
       <div className="sane-container flex h-[72px] items-center justify-between gap-4 lg:gap-6">
         {/* Logo */}
-        <Link href="/" className="shrink-0">
-          <div className="relative h-10 w-32">
-            <Image
-              src="/new-logo.png"
-              alt="SANEM Logo"
-              fill
-              priority
-              className="object-contain object-left"
-              sizes="130px"
-            />
-          </div>
+        <Link href="/" className="flex shrink-0 items-center lg:-ml-4">
+          <Image
+            src="/new-logo.png"
+            alt="SANEM Logo"
+            width={100}
+            height={34}
+            priority
+            className="h-10 w-auto"
+          />
+          <Image
+            src="/sane-logo.png"
+            alt="ANPE Logo"
+            width={48}
+            height={48}
+            className="h-10 w-10 object-contain lg:h-16 lg:w-16"
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -79,7 +84,7 @@ export function Header() {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-2 lg:gap-3">
+        <div className="flex items-center gap-2 lg:gap-3 -mr-4">
           {/* Search — visible on all screens */}
           <button
             type="button"

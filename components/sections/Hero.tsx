@@ -95,26 +95,18 @@ export function Hero() {
 
           {/* ================= RIGHT (desktop decoration) ================= */}
           <div className="relative hidden min-h-[410px] lg:block">
-            <div className="absolute right-0 top-20 z-10 w-[145px] rounded-xl bg-white px-4 py-4 shadow-lg">
-              <p className="text-[11px] font-extrabold uppercase leading-5 text-[var(--sane-green)]">
-                Emploi
-                <br />
-                Formation
-                <br />
-                Opportunités
-                <br />
-                Avenir
+            <div className="absolute -right-4 top-4 z-10 w-[130px] rounded-xl bg-white/95 px-4 py-3.5 shadow-lg ring-1 ring-[var(--sane-border)] backdrop-blur-sm xl:-right-2">
+              <p className="whitespace-pre-line text-[9px] font-extrabold uppercase leading-[1.7] tracking-wide text-[var(--sane-green)]">
+                {"EMPLOI\nFORMATION\nOPPORTUNITÉS\nAVENIR"}
               </p>
-              <div className="mt-3 h-[3px] w-8 rounded-full bg-[var(--sane-orange)]" />
+              <div className="mt-2 h-[2.5px] w-6 rounded-full bg-[var(--sane-orange)]" />
             </div>
 
-            <div className="absolute bottom-12 right-2 z-10 text-right">
-              <p className="font-serif text-xl italic leading-6 text-white">
-                Un Niger
-                <br />
-                de Talents
+            <div className="absolute -right-4 top-[150px] z-10 w-[130px] text-center xl:-right-2">
+              <p className="font-[family-name:var(--font-caveat)] text-[22px] font-bold leading-[1] tracking-normal text-[var(--sane-green-dark)] drop-shadow-sm xl:text-[24px]">
+                Un Niger<br />de Talents
               </p>
-              <div className="ml-auto mt-2 h-[3px] w-12 bg-[var(--sane-orange)]" />
+              <div className="mx-auto mt-1.5 h-[2px] w-8 rounded-full bg-[var(--sane-orange)]" />
             </div>
           </div>
         </div>

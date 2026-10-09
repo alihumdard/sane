@@ -30,7 +30,7 @@ export function EmploiHero() {
       <div className="absolute inset-0 bg-gradient-to-b from-[var(--sane-background)]/85 via-[var(--sane-background)]/45 via-[55%] to-[var(--sane-background)]/15 sm:bg-gradient-to-r sm:from-[var(--sane-background)] sm:via-[var(--sane-background)] sm:via-[25%] sm:to-[var(--sane-background)]/0 sm:to-[40%]" />
 
       {/* Floating card — top right, relative to section */}
-      <div className="absolute right-4 top-10 z-20 hidden w-[130px] rounded-xl bg-white/95 px-4 py-3.5 shadow-lg ring-1 ring-[var(--sane-border)] backdrop-blur-sm lg:block xl:right-6">
+      <div className="absolute right-4 top-4 z-20 hidden w-[130px] rounded-xl bg-white/95 px-4 py-3.5 shadow-lg ring-1 ring-[var(--sane-border)] backdrop-blur-sm lg:block xl:right-6">
         <p className="whitespace-pre-line text-[9px] font-extrabold uppercase leading-[1.7] tracking-wide text-[var(--sane-green)]">
           {"EMPLOI\nFORMATION\nOPPORTUNITÉS\nAVENIR"}
         </p>
@@ -38,7 +38,7 @@ export function EmploiHero() {
       </div>
 
       {/* Tagline — right side, relative to section */}
-      <div className="absolute right-4 top-[168px] z-20 hidden w-[130px] text-center lg:block xl:right-6">
+      <div className="absolute right-4 top-[150px] z-20 hidden w-[130px] text-center lg:block xl:right-6">
         <p className="font-[family-name:var(--font-caveat)] text-[22px] font-bold leading-[1] tracking-normal text-[var(--sane-green-dark)] drop-shadow-sm xl:text-[24px]">
           Un Niger<br />de Talents
         </p>
