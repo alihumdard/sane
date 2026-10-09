@@ -18,6 +18,16 @@ export class ApiError extends Error {
 
 type RequestOptions = Omit<RequestInit, "body"> & { body?: unknown };
 
+/**
+ * Held in memory rather than read from storage per request, so the one place
+ * that owns the session (AuthProvider) decides what the client sends.
+ */
+let authToken: string | null = null;
+
+export function setAuthToken(token: string | null) {
+  authToken = token;
+}
+
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { body, headers, ...rest } = options;
 
@@ -26,6 +36,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
     headers: {
       Accept: "application/json",
       ...(body !== undefined && { "Content-Type": "application/json" }),
+      ...(authToken && { Authorization: `Bearer ${authToken}` }),
       ...headers,
     },
     ...(body !== undefined && { body: JSON.stringify(body) }),

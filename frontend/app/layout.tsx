@@ -2,6 +2,7 @@
 import { Caveat, Montserrat } from "next/font/google";
 import "./globals.css";
 import TableLabels from "@/components/dashboard/TableLabels";
+import { AuthProvider } from "@/lib/auth";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -36,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${montserrat.variable} ${caveat.variable}`} suppressHydrationWarning>
-        {children}
+        <AuthProvider>{children}</AuthProvider>
         <TableLabels />
       </body>
     </html>

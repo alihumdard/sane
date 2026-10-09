@@ -32,6 +32,7 @@ const ADMIN_ROUTES: Record<string, string> = {
 };
 const ADMIN_SUB_ROUTES: Record<string, string> = {
   "Candidatures": "/dashboard/admin/candidatures",
+  "Inscriptions": "/dashboard/admin/inscriptions",
 };
 /* "Ajouter ..." entries open the add form of the matching section */
 const ADMIN_ADD_ROUTES: Record<string, string> = {

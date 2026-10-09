@@ -37,6 +37,11 @@ class FormationResource extends JsonResource
                 'photo' => $this->formateur->photo,
             ]),
 
+            'edition' => $this->whenLoaded('edition', fn () => [
+                'id' => $this->edition->id,
+                'annee' => $this->edition->annee,
+            ]),
+
             'max_inscriptions' => $this->max_inscriptions,
             'inscriptions_count' => $this->inscriptions_count,
             'places_restantes' => $this->places_restantes,
