@@ -52,7 +52,14 @@ export function InterestsStep({
   set,
   interests,
   onToggle,
-}: StepProps & { interests: string[]; onToggle: (interest: string) => void }) {
+  newsletter,
+  onNewsletter,
+}: StepProps & {
+  interests: string[];
+  onToggle: (interest: string) => void;
+  newsletter: boolean;
+  onNewsletter: (v: boolean) => void;
+}) {
   return (
     <>
       <fieldset>
@@ -81,7 +88,13 @@ export function InterestsStep({
       </fieldset>
       <SelectField id="source" label="Comment avez-vous connu le SANEM ?" placeholder="Sélectionnez une réponse" list={options.source} value={data.source} onChange={set("source")} />
       <label className="sane-small flex cursor-pointer items-start gap-2.5">
-        <input type="checkbox" name="newsletter" defaultChecked className="mt-0.5 h-4 w-4 shrink-0 rounded accent-[var(--sane-green)]" />
+        <input
+          type="checkbox"
+          name="newsletter"
+          checked={newsletter}
+          onChange={(e) => onNewsletter(e.target.checked)}
+          className="mt-0.5 h-4 w-4 shrink-0 rounded accent-[var(--sane-green)]"
+        />
         Je souhaite recevoir les actualités et les rappels du SANEM par email.
       </label>
     </>

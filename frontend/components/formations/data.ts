@@ -6,18 +6,6 @@ import {
 import type { LucideIcon } from "lucide-react";
 import type { InfoItem } from "@/components/shared";
 
-export interface Formation {
-  tag: string;
-  title: string;
-  duree: string;
-  places: string;
-  lieu: string;
-  img: string;
-  /** sample values: edit them to match the real sessions */
-  niveau: string;
-  format: string;
-}
-
 export interface Step {
   num: string;
   icon: LucideIcon;
@@ -48,20 +36,23 @@ export const formationInfo: InfoItem[] = [
   { icon: Award, title: "Certificats", description: "reconnus" },
 ];
 
-export const formations: Formation[] = [
-  { tag: "Management", title: "Leadership & Management", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership2.webp", niveau: "Intermédiaire", format: "Présentiel" },
-  { tag: "Digital", title: "Transformation Digitale", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/Transformation3.webp", niveau: "Intermédiaire", format: "Hybride" },
-  { tag: "Entrepreneuriat", title: "Entrepreneuriat des Jeunes", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Entrepreneuriat.webp", niveau: "Débutant", format: "Présentiel" },
-  { tag: "Communication", title: "Techniques de Communication", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/sane-deal3.webp", niveau: "Débutant", format: "Présentiel" },
-  { tag: "Technologie", title: "Compétences en Énergies Renouvelables", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/sane-company3.webp", niveau: "Avancé", format: "Présentiel" },
-  { tag: "Informatique", title: "Compétences Digitales", duree: "3 jours", places: "Places limitées", lieu: "Niamey", img: "/Transformation3.webp", niveau: "Débutant", format: "En ligne" },
-  { tag: "Développement personnel", title: "Préparation à l'Emploi", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/sane-cv2.webp", niveau: "Débutant", format: "Hybride" },
-  { tag: "Finance", title: "Gestion de Projet", duree: "2 jours", places: "Places limitées", lieu: "Niamey", img: "/Leadership2.webp", niveau: "Intermédiaire", format: "En ligne" },
-];
-
 export const domaines = ["Domaine de formation", "Management", "Digital", "Entrepreneuriat", "Communication", "Technologie", "Finance"];
 export const niveaux = ["Niveau", "Débutant", "Intermédiaire", "Avancé"];
 export const formats = ["Format", "Présentiel", "En ligne", "Hybride"];
+
+/** Until the API serves uploaded images, fall back to a local one per category. */
+export const imagesParCategorie: Record<string, string> = {
+  Management: "/Leadership2.webp",
+  Digital: "/Transformation3.webp",
+  Entrepreneuriat: "/Entrepreneuriat.webp",
+  Communication: "/sane-deal3.webp",
+  Technologie: "/sane-company3.webp",
+  Informatique: "/Transformation3.webp",
+  "Développement personnel": "/sane-cv2.webp",
+  Finance: "/Leadership2.webp",
+};
+
+export const imageParDefaut = "/Leadership2.webp";
 
 export const whyItems: { icon: LucideIcon; label: string }[] = [
   { icon: GraduationCap, label: "Formations pratiques et adaptées au marché" },
@@ -80,7 +71,7 @@ export const steps: Step[] = [
 export const faqs: Faq[] = [
   { q: "Qui peut s'inscrire aux formations ?", a: "Toute personne intéressée par le développement de ses compétences peut s'inscrire — demandeurs d'emploi, étudiants, professionnels." },
   { q: "Comment obtenir un certificat ?", a: "Un certificat de participation est remis à chaque participant ayant suivi l'intégralité de la formation." },
-  { q: "Les formations sont-elles payantes ?", a: "Certaines formations sont gratuites, d'autres sont payantes. Les tarifs sont indiqués sur chaque fiche formation." },
+  { q: "Les formations sont-elles payantes ?", a: "Non, toutes les formations du SANEM sont entièrement gratuites. Seul le nombre de places est limité." },
   { q: "Les formations sont-elles en ligne ?", a: "Nous proposons des formations en présentiel, en ligne et en format hybride selon les sessions." },
   { q: "Où se déroulent les formations ?", a: "Les formations en présentiel se déroulent au Palais des Congrès de Niamey et dans différentes salles partenaires." },
   { q: "Comment être informé des prochaines sessions ?", a: "Inscrivez-vous à notre newsletter ou suivez-nous sur les réseaux sociaux pour être informé en premier." },
