@@ -7,11 +7,15 @@ use App\Exceptions\PlacesEpuiseesException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInscriptionRequest;
 use App\Http\Resources\InscriptionResource;
+use App\Mail\InscriptionRecue;
 use App\Models\Edition;
 use App\Models\Inscription;
 use App\Services\GestionPlaces;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Throwable;
 
 class InscriptionController extends Controller
 {
@@ -52,7 +56,18 @@ class InscriptionController extends Controller
             ], 409);
         }
 
-        $inscription->load(['formations.categorie', 'formations.formateur']);
+        $inscription->load(['formations.categorie', 'formations.formateur', 'edition']);
+
+        // The registration is already committed, so a mail failure must not fail
+        // the request — the participant would retry and hit the unique email rule.
+        try {
+            Mail::send(new InscriptionRecue($inscription));
+        } catch (Throwable $e) {
+            Log::error('Envoi de l\'email de confirmation échoué', [
+                'inscription' => $inscription->reference,
+                'erreur' => $e->getMessage(),
+            ]);
+        }
 
         return response()->json([
             'message' => 'Votre inscription a bien été enregistrée. Vous recevrez un email de confirmation.',

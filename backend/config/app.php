@@ -55,6 +55,12 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     /*
+    | Where the public site lives. Links in outgoing mail point here, not at
+    | the API, since the API serves no pages.
+    */
+    'frontend_url' => env('FRONTEND_URL', 'http://localhost:3000'),
+
+    /*
     |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
