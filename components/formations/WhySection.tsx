@@ -4,12 +4,12 @@ import { whyItems } from "./data";
 
 export function WhySection() {
   return (
-    <section className="relative min-h-[480px] overflow-hidden sm:min-h-0 sm:py-16 lg:py-14">
+    <section className="relative min-h-[480px] overflow-hidden sm:min-h-0 sm:py-16 lg:py-20">
       <Image
         src="/why-bg2.webp"
         alt=""
         fill
-        className="object-cover object-[25%_30%] lg:object-center"
+        className="object-cover object-[25%_30%] lg:object-[center_20%]"
         sizes="100vw"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-[var(--sane-green-dark)]/60 via-[var(--sane-green-dark)]/40 to-[var(--sane-green-dark)]/10 sm:bg-none sm:bg-gradient-to-r sm:from-[var(--sane-green-dark)]/20 sm:from-[20%] sm:to-[var(--sane-green-dark)]/50" />
