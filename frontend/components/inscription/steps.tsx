@@ -1,7 +1,7 @@
 ﻿import { Calendar, Check, Mail, User } from "lucide-react";
 import { PhoneField, SelectField, TextAreaField, TextField } from "@/components/ui/FormFields";
 import { labelClass } from "@/components/ui/styles";
-import { interestOptions, options, type RegistrationData } from "./data";
+import { interestOptions, options, typeParticipationOptions, type RegistrationData } from "./data";
 
 interface StepProps {
   data: RegistrationData;
@@ -101,19 +101,24 @@ export function InterestsStep({
   );
 }
 
-/** Step 4 */
+/** Final step */
 export function ConfirmStep({
   data,
   interests,
+  formationTitres,
   consent,
   onConsent,
 }: {
   data: RegistrationData;
   interests: string[];
+  formationTitres: string[];
   consent: boolean;
   onConsent: (v: boolean) => void;
 }) {
+  const typeLabel = typeParticipationOptions.find((o) => o.value === data.type_participation)?.titre ?? "";
+
   const rows: [string, string][] = [
+    ["Participation", typeLabel],
     ["Nom", data.nom],
     ["Email", data.email],
     ["Téléphone", data.telephone && `+227 ${data.telephone}`],
@@ -121,6 +126,9 @@ export function ConfirmStep({
     ["Situation", data.statut],
     ["Domaine", data.domaine],
     ["Intérêts", interests.join(", ")],
+    ...(formationTitres.length > 0
+      ? ([["Formations", formationTitres.join(", ")]] as [string, string][])
+      : []),
   ];
 
   return (

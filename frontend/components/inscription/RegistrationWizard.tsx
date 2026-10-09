@@ -1,19 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { AlertCircle, ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { primaryBtn, secondaryBtn } from "@/components/ui/styles";
 import { api, ApiError } from "@/lib/api";
-import type { ApiInscription, InscriptionPayload, InscriptionResponse } from "@/lib/types";
+import type { ApiInscription, InscriptionPayload, InscriptionResponse, TypeParticipation } from "@/lib/types";
 import { StepProgress } from "./StepProgress";
+import { ParticipationStep } from "./ParticipationStep";
+import { FormationsStep } from "./FormationsStep";
 import { ConfirmStep, InterestsStep, PersonalStep, ProfileStep } from "./steps";
-import { emptyRegistration, steps } from "./data";
+import { emptyRegistration, steps, STEP_FORMATIONS } from "./data";
 
-/** 4-step registration form (state lives here; each step is its own component). */
+/** 6-step registration form (state lives here; each step is its own component). */
 export function RegistrationWizard() {
   const [step, setStep] = useState(1);
   const [data, setData] = useState(emptyRegistration);
+  const [formations, setFormations] = useState<number[]>([]);
+  const [formationTitres, setFormationTitres] = useState<Record<number, string>>({});
   const [interests, setInterests] = useState<string[]>([]);
   const [newsletter, setNewsletter] = useState(true);
   const [consent, setConsent] = useState(false);
@@ -21,9 +25,27 @@ export function RegistrationWizard() {
   const [error, setError] = useState<string | null>(null);
   const [inscription, setInscription] = useState<ApiInscription | null>(null);
 
-  const set = (key: string) => (value: string) => setData((d) => ({ ...d, [key]: value }));
-  const toggleInterest = (i: string) => setInterests((list) => (list.includes(i) ? list.filter((x) => x !== i) : [...list, i]));
+  const choisitFormations = data.type_participation === "participant_formation";
+
+  /** Steps actually shown, in order — the formations step applies to one type only. */
+  const parcours = useMemo(
+    () => steps.filter((s) => s.num !== STEP_FORMATIONS || choisitFormations).map((s) => s.num),
+    [choisitFormations]
+  );
+
+  const position = parcours.indexOf(step);
+  const dernier = position === parcours.length - 1;
   const current = steps[step - 1];
+
+  const set = (key: string) => (value: string) => setData((d) => ({ ...d, [key]: value }));
+
+  const toggleInterest = (i: string) =>
+    setInterests((list) => (list.includes(i) ? list.filter((x) => x !== i) : [...list, i]));
+
+  const toggleFormation = (id: number, titre: string) => {
+    setFormations((list) => (list.includes(id) ? list.filter((x) => x !== id) : [...list, id]));
+    setFormationTitres((map) => ({ ...map, [id]: titre }));
+  };
 
   const scrollToForm = () => document.getElementById("form")?.scrollIntoView({ behavior: "smooth", block: "start" });
 
@@ -33,17 +55,25 @@ export function RegistrationWizard() {
     scrollToForm();
   }
 
+  function choisirType(type: string) {
+    set("type_participation")(type);
+    // Dropping out of the formations path must not leave stale selections behind.
+    if (type !== "participant_formation") {
+      setFormations([]);
+      setFormationTitres({});
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (step < steps.length) return goTo(step + 1);
+    if (!dernier) return goTo(parcours[position + 1]);
 
     setSubmitting(true);
     setError(null);
 
     const payload: InscriptionPayload = {
-      // Until the participation-type step exists, everyone registers as a visitor.
-      type_participation: "visiteur",
+      type_participation: data.type_participation as TypeParticipation,
       nom: data.nom,
       naissance: data.naissance || undefined,
       email: data.email,
@@ -60,6 +90,7 @@ export function RegistrationWizard() {
       source: data.source || undefined,
       newsletter,
       consentement: consent,
+      ...(formations.length > 0 && { formations }),
     };
 
     try {
@@ -80,6 +111,8 @@ export function RegistrationWizard() {
 
   function restart() {
     setData(emptyRegistration);
+    setFormations([]);
+    setFormationTitres({});
     setInterests([]);
     setNewsletter(true);
     setConsent(false);
@@ -90,7 +123,7 @@ export function RegistrationWizard() {
 
   return (
     <div className="flex min-w-0 flex-col">
-      <StepProgress step={step} done={inscription !== null} />
+      <StepProgress step={step} done={inscription !== null} parcours={parcours} />
 
       <div className="flex flex-1 flex-col rounded-2xl bg-white p-6 shadow-md sm:p-8">
         {inscription ? (
@@ -115,7 +148,7 @@ export function RegistrationWizard() {
         ) : (
           <>
             <p className="sane-eyebrow mb-1">
-              Étape {step} sur {steps.length}
+              Étape {position + 1} sur {parcours.length}
             </p>
             <h3 className="sane-h3 mb-1">{current.title}</h3>
             <p className="sane-body mb-6">{current.desc}</p>
@@ -128,9 +161,11 @@ export function RegistrationWizard() {
             )}
 
             <form onSubmit={handleSubmit} className="flex flex-1 flex-col gap-5">
-              {step === 1 && <PersonalStep data={data} set={set} />}
-              {step === 2 && <ProfileStep data={data} set={set} />}
-              {step === 3 && (
+              {step === 1 && <ParticipationStep value={data.type_participation} onChange={choisirType} />}
+              {step === 2 && <PersonalStep data={data} set={set} />}
+              {step === 3 && <ProfileStep data={data} set={set} />}
+              {step === 4 && <FormationsStep selected={formations} onToggle={toggleFormation} />}
+              {step === 5 && (
                 <InterestsStep
                   data={data}
                   set={set}
@@ -140,24 +175,41 @@ export function RegistrationWizard() {
                   onNewsletter={setNewsletter}
                 />
               )}
-              {step === 4 && <ConfirmStep data={data} interests={interests} consent={consent} onConsent={setConsent} />}
+              {step === 6 && (
+                <ConfirmStep
+                  data={data}
+                  interests={interests}
+                  formationTitres={formations.map((id) => formationTitres[id]).filter(Boolean)}
+                  consent={consent}
+                  onConsent={setConsent}
+                />
+              )}
 
               <div className="mt-auto flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-between">
-                {step > 1 ? (
-                  <button type="button" onClick={() => goTo(step - 1)} disabled={submitting} className={secondaryBtn}>
+                {position > 0 ? (
+                  <button
+                    type="button"
+                    onClick={() => goTo(parcours[position - 1])}
+                    disabled={submitting}
+                    className={secondaryBtn}
+                  >
                     <ArrowLeft size={16} /> Précédent
                   </button>
                 ) : (
                   <span />
                 )}
-                <button type="submit" disabled={submitting} className={`${primaryBtn} sm:min-w-[200px] disabled:opacity-60`}>
+                <button
+                  type="submit"
+                  disabled={submitting || (step === 1 && !data.type_participation)}
+                  className={`${primaryBtn} sm:min-w-[200px] disabled:opacity-60`}
+                >
                   {submitting ? (
                     <>
                       Envoi en cours… <Loader2 size={16} className="animate-spin" />
                     </>
                   ) : (
                     <>
-                      {step < steps.length ? "Étape suivante" : "Valider mon inscription"} <ArrowRight size={16} />
+                      {dernier ? "Valider mon inscription" : "Étape suivante"} <ArrowRight size={16} />
                     </>
                   )}
                 </button>

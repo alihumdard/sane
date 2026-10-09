@@ -10,10 +10,55 @@ export const perks: FeatureBarItem[] = [
 ];
 
 export const steps = [
-  { num: 1, label: "Informations personnelles", title: "Informations personnelles", desc: "Veuillez renseigner vos informations personnelles." },
-  { num: 2, label: "Profil et parcours", title: "Profil et parcours", desc: "Dites-nous en plus sur votre situation et votre parcours." },
-  { num: 3, label: "Centres d'intérêt", title: "Centres d'intérêt", desc: "Choisissez les activités qui vous intéressent." },
-  { num: 4, label: "Confirmation", title: "Confirmation", desc: "Vérifiez vos informations avant de valider." },
+  { num: 1, label: "Participation", title: "Type de participation", desc: "Comment souhaitez-vous participer au SANEM ?" },
+  { num: 2, label: "Informations personnelles", title: "Informations personnelles", desc: "Veuillez renseigner vos informations personnelles." },
+  { num: 3, label: "Profil et parcours", title: "Profil et parcours", desc: "Dites-nous en plus sur votre situation et votre parcours." },
+  { num: 4, label: "Formations", title: "Choix des formations", desc: "Sélectionnez les formations qui vous intéressent." },
+  { num: 5, label: "Centres d'intérêt", title: "Centres d'intérêt", desc: "Choisissez les activités qui vous intéressent." },
+  { num: 6, label: "Confirmation", title: "Confirmation", desc: "Vérifiez vos informations avant de valider." },
+];
+
+/** The formation step only applies to one type, so it is skipped for the others. */
+export const STEP_FORMATIONS = 4;
+
+export interface TypeParticipationOption {
+  value: TypeParticipationValue;
+  titre: string;
+  description: string;
+  icon: LucideIcon;
+}
+
+export type TypeParticipationValue =
+  | "visiteur"
+  | "participant_formation"
+  | "entreprise"
+  | "recruteur";
+
+export const typeParticipationOptions: TypeParticipationOption[] = [
+  {
+    value: "visiteur",
+    titre: "Visiteur",
+    description: "Découvrir le salon, les stands et les conférences.",
+    icon: Ticket,
+  },
+  {
+    value: "participant_formation",
+    titre: "Participant aux formations",
+    description: "Suivre une ou plusieurs formations gratuites.",
+    icon: GraduationCap,
+  },
+  {
+    value: "entreprise",
+    titre: "Entreprise",
+    description: "Présenter votre entreprise et rencontrer des talents.",
+    icon: BriefcaseBusiness,
+  },
+  {
+    value: "recruteur",
+    titre: "Recruteur",
+    description: "Accéder aux profils et organiser des entretiens.",
+    icon: Handshake,
+  },
 ];
 
 export const options = {
@@ -70,6 +115,6 @@ export const faqs: FaqEntry[] = [
 export type RegistrationData = Record<string, string>;
 
 export const emptyRegistration: RegistrationData = {
-  nom: "", naissance: "", email: "", telephone: "", genre: "", nationalite: "Niger", ville: "", niveau: "",
-  statut: "", domaine: "", experience: "", parcours: "", source: "",
+  type_participation: "", nom: "", naissance: "", email: "", telephone: "", genre: "", nationalite: "Niger",
+  ville: "", niveau: "", statut: "", domaine: "", experience: "", parcours: "", source: "",
 };
