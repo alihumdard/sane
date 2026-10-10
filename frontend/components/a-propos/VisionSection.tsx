@@ -11,12 +11,12 @@ export function VisionSection() {
         style={{ backgroundImage: "url('/vision-bg.webp')" }}
       />
       <Container className="relative z-10">
-        <div className="grid items-start gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-[1fr_1.1fr] lg:gap-10">
-          <div className="relative h-[380px] overflow-hidden rounded-2xl ring-1 ring-black/5 sm:h-[430px] md:h-[480px]">
+        <div className="grid items-start gap-6 md:grid-cols-2 md:gap-8 lg:gap-12">
+          <div className="relative h-[320px] overflow-hidden rounded-2xl ring-1 ring-black/5 sm:h-[380px] md:h-full md:min-h-[420px]">
             <Image src="/À-propos-cards.webp" alt="SANEM événement" fill className="object-cover object-center" sizes="(max-width: 1024px) 100vw, 45vw" />
           </div>
 
-          <div className="pt-2 lg:pt-12">
+          <div>
             <div className="flex items-center gap-2">
               <span className="sane-eyebrow-bar" />
               <span className="sane-eyebrow">Qui sommes-nous ?</span>
@@ -32,6 +32,12 @@ export function VisionSection() {
               et à promouvoir l&apos;entrepreneuriat au Niger. Il réunit chaque année
               des entreprises, des institutions, des experts et des jeunes talents
               autour d&apos;un objectif commun : bâtir un Niger plus fort.
+            </p>
+            <p className="sane-body mt-3">
+              À travers des conférences, des ateliers pratiques, des sessions de
+              recrutement et des formations certifiantes, le SANEM offre un cadre
+              unique pour connecter les talents aux opportunités et accompagner
+              chaque participant dans son parcours professionnel.
             </p>
             <div className="mt-5 flex items-end justify-between">
               <Link

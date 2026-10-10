@@ -3,9 +3,11 @@ import Link from "next/link";
 import {
   ArrowRight,
   Clock3,
+  GraduationCap,
   Users,
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { imageFocus } from "@/components/shared/imageFocus";
 
 const trainings = [
@@ -36,27 +38,16 @@ export function TrainingSection() {
 
         {/* HEADER */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div className="mb-2 flex items-center gap-2">
-              <span className="h-[3px] w-6 rounded-full bg-[var(--sane-orange)]" />
-              <span className="text-xs font-bold uppercase tracking-wide text-[var(--sane-green)]">
-                Formations
-              </span>
-            </div>
-
-            <h2 className="sane-h2">
-              Développez vos compétences
-            </h2>
-
-            <p className="sane-body mt-2 max-w-2xl">
-              Participez à des formations conçues pour renforcer vos
-              compétences et préparer votre avenir professionnel.
-            </p>
-          </div>
+          <SectionHeading
+            eyebrow="Formations"
+            icon={GraduationCap}
+            title="Développez vos compétences"
+            description="Participez à des formations conçues pour renforcer vos compétences et préparer votre avenir professionnel."
+          />
 
           <Link
             href="/formations"
-            className="group inline-flex items-center gap-2 text-sm font-bold text-[var(--sane-green)]"
+            className="group inline-flex shrink-0 items-center gap-2 text-sm font-bold text-[var(--sane-green)]"
           >
             Voir toutes les formations
             <ArrowRight
@@ -92,12 +83,12 @@ export function TrainingSection() {
                 </h3>
 
                 <div className="mt-3 flex items-center gap-4">
-                  <div className="flex items-center gap-1.5 text-[12px] text-[var(--sane-c-718178)]">
+                  <div className="flex items-center gap-1.5 text-[12px] text-[var(--sane-text-light)]">
                     <Clock3 size={13} className="text-[var(--sane-orange)]" />
                     {training.duration}
                   </div>
 
-                  <div className="flex items-center gap-1.5 text-[12px] text-[var(--sane-c-718178)]">
+                  <div className="flex items-center gap-1.5 text-[12px] text-[var(--sane-text-light)]">
                     <Users size={13} className="text-[var(--sane-orange)]" />
                     {training.seats}
                   </div>

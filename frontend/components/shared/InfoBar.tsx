@@ -1,5 +1,6 @@
 ﻿import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { AnimatedCounter } from "./AnimatedCounter";
 
 export interface InfoItem {
   icon: LucideIcon;
@@ -39,10 +40,15 @@ export function InfoBar({ items }: { items: InfoItem[] }) {
                   />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-[19px] font-extrabold leading-[1.15] tracking-tight text-[var(--sane-green)] sm:text-[21px] md:text-[23px]">
-                    {item.description}
-                  </p>
-                  <p className="mt-0.5 whitespace-nowrap text-[12px] font-medium leading-snug text-[var(--sane-green)] sm:text-[13px]">
+                  <AnimatedCounter
+                    value={item.description}
+                    className={`font-extrabold leading-tight tracking-tight text-[var(--sane-green)] ${
+                      item.description.length > 25
+                        ? "text-[15px] sm:text-[16px]"
+                        : "text-[19px] sm:text-[21px] md:text-[23px]"
+                    }`}
+                  />
+                  <p className="mt-0.5 text-[12px] font-medium leading-snug text-[var(--sane-text-light)] sm:text-[13px]">
                     {item.title}
                   </p>
                 </div>

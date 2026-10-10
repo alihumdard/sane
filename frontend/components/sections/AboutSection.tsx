@@ -5,10 +5,13 @@ import {
   BriefcaseBusiness,
   Building2,
   GraduationCap,
+  Target,
   UsersRound,
 } from "lucide-react";
 
 import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { AnimatedCounter } from "@/components/shared/AnimatedCounter";
 
 const stats = [
   {
@@ -35,7 +38,7 @@ const stats = [
 
 export function AboutSection() {
   return (
-    <section className="bg-white py-12 md:py-16">
+    <section className="bg-white py-14 md:py-16">
       <Container>
         <div className="grid items-center gap-10 md:grid-cols-2 md:gap-10 lg:gap-14">
 
@@ -60,30 +63,19 @@ export function AboutSection() {
             {/* Unified Content Wrapper */}
             <div>
 
-              {/* Label */}
-              <div className="mb-2.5 flex items-center gap-2">
-                <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
+              <SectionHeading
+                eyebrow="À propos"
+                icon={Target}
+                title={<>Le SANEM, un engagement<br />pour l&apos;avenir professionnel</>}
+              />
 
-                <span className="text-xs font-bold uppercase tracking-wide text-[var(--sane-green)]">
-                  À PROPOS
-                </span>
-              </div>
-
-              {/* Heading */}
-              <h2 className="sane-h2">
-                Le SANEM, un engagement
-                <br />
-                pour l&apos;avenir professionnel
-              </h2>
-
-              {/* Description */}
-              <p className="sane-body mt-3 md:mt-4">
+              <p className="sane-body mt-3 max-w-xl md:mt-4">
                 Le Salon National de l&apos;Emploi du Niger (SANEM) est un espace de rencontre
                 entre les talents, les entreprises et les opportunités
                 professionnelles.
               </p>
 
-              <p className="sane-body mt-2 md:mt-3">
+              <p className="sane-body mt-2 max-w-xl md:mt-3">
                 Le SANEM vise à favoriser l&apos;insertion professionnelle,
                 renforcer les compétences et promouvoir l&apos;emploi au Niger à
                 travers des rencontres, des formations et un accompagnement
@@ -93,13 +85,12 @@ export function AboutSection() {
               {/* CTA */}
               <Link
                 href="/a-propos"
-                className="group mt-5 inline-flex items-center gap-3 rounded-lg bg-[var(--sane-green)] px-5 py-3 text-sm font-bold text-white !text-white transition-all duration-300 hover:bg-[var(--sane-c-0b5124)] hover:!text-white"
+                className="group mt-5 inline-flex items-center gap-3 rounded-lg bg-[var(--sane-green)] px-5 py-3 text-sm font-bold !text-white transition-all duration-300 hover:bg-[var(--sane-c-0b5124)]"
               >
-                <span className="text-white !text-white hover:!text-white">En savoir plus</span>
-
+                En savoir plus
                 <ArrowRight
                   size={17}
-                  className="text-white !text-white transition-transform duration-300 group-hover:translate-x-1 group-hover:!text-white"
+                  className="transition-transform duration-300 group-hover:translate-x-1"
                 />
               </Link>
 
@@ -129,9 +120,7 @@ export function AboutSection() {
                         className="text-[var(--sane-orange)]"
                       />
 
-                      <span className="text-lg font-extrabold text-[var(--sane-green)]">
-                        {stat.value}
-                      </span>
+                      <AnimatedCounter value={stat.value} className="text-lg font-extrabold text-[var(--sane-green)]" />
                     </div>
 
                     <p className="sane-small mt-1">

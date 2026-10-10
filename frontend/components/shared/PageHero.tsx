@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { imageFocus } from "./imageFocus";
+import { AnimatedCounter } from "./AnimatedCounter";
 
 interface HeroStat {
   value: string;
@@ -236,7 +237,7 @@ export function PageHero({
               <div className={`mt-3 flex flex-wrap gap-4 border-t pt-3 sm:mt-7 sm:gap-5 sm:border-t-0 sm:pt-0 ${isDark ? "border-white/20" : "border-[var(--sane-border)]"}`}>
                 {stats.map((stat) => (
                   <div key={stat.label} className="flex items-center gap-1.5 sm:gap-2">
-                    <span className="text-[16px] font-extrabold text-[var(--sane-orange)] sm:text-[18px]">{stat.value}</span>
+                    <AnimatedCounter value={stat.value} className="text-[16px] font-extrabold text-[var(--sane-orange)] sm:text-[18px]" />
                     <span
                       className={`text-[11px] font-medium sm:text-[13px] ${isDark ? "text-white/80" : "text-[var(--sane-text)] opacity-70"}`}
                     >

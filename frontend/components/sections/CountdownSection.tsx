@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ArrowRight, CalendarDays, MapPin } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { CountdownTimer } from "./CountdownTimer";
@@ -27,10 +27,8 @@ export function CountdownSection() {
 
           {/* MIDDLE — countdown + meta */}
           <div className="flex flex-1 flex-col gap-2.5">
-            {/* Countdown boxes */}
             <CountdownTimer />
 
-            {/* Location / Date */}
             <div className="flex flex-wrap items-center gap-4 text-[12px] text-white/75">
               <div className="flex items-center gap-1.5">
                 <MapPin size={13} className="text-[var(--sane-orange)]" />
@@ -38,7 +36,7 @@ export function CountdownSection() {
               </div>
               <div className="flex items-center gap-1.5">
                 <CalendarDays size={13} className="text-[var(--sane-orange)]" />
-                <span>Date de l&apos;événement à confirmer</span>
+                <span>12 Décembre 2026</span>
               </div>
             </div>
           </div>

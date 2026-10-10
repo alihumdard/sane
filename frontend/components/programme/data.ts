@@ -50,7 +50,7 @@ export const tagStyles: Record<SessionTag, string> = {
 };
 
 export const eventInfo: InfoItem[] = [
-  { icon: CalendarDays, title: "Date", description: "À confirmer" },
+  { icon: CalendarDays, title: "Date", description: "12 Décembre 2026" },
   { icon: MapPin, title: "Lieu", description: "Niamey, Niger" },
   { icon: UsersRound, title: "Participants", description: "+1000 attendus" },
   { icon: Mic, title: "Sessions", description: "Conférences, formations, réseautage, recrutement" },

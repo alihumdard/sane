@@ -8,6 +8,7 @@ import {
   Search,
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Select } from "@/components/ui/Select";
 
 const jobs = [
@@ -62,22 +63,15 @@ export function JobsSection() {
 
         {/* HEADER */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div className="mb-2 flex items-center gap-2">
-              <span className="h-[3px] w-6 rounded-full bg-[var(--sane-orange)]" />
-              <span className="text-xs font-bold uppercase tracking-wide text-[var(--sane-green)]">
-                Offres d&apos;emploi
-              </span>
-            </div>
-
-            <h2 className="sane-h2">
-              Trouvez une opportunité
-            </h2>
-          </div>
+          <SectionHeading
+            eyebrow="Offres d'emploi"
+            icon={BriefcaseBusiness}
+            title="Trouvez une opportunité"
+          />
 
           <Link
             href="/emploi"
-            className="group inline-flex items-center gap-2 text-sm font-bold text-[var(--sane-green)]"
+            className="group inline-flex shrink-0 items-center gap-2 text-sm font-bold text-[var(--sane-green)]"
           >
             Voir toutes les offres
             <ArrowRight
@@ -138,11 +132,11 @@ export function JobsSection() {
                   {job.title}
                 </h3>
 
-                <p className="mt-1 text-xs text-[var(--sane-c-718178)]">
+                <p className="mt-1 text-xs text-[var(--sane-text-light)]">
                   {job.company}
                 </p>
 
-                <div className="mt-3 flex items-center justify-between gap-1.5 text-xs text-[var(--sane-c-718178)]">
+                <div className="mt-3 flex items-center justify-between gap-1.5 text-xs text-[var(--sane-text-light)]">
                   <div className="flex items-center gap-1.5">
                     <MapPin size={13} className="text-[var(--sane-orange)]" />
                     {job.location}

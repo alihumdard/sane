@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -30,12 +31,24 @@ export function PartnerLogosSection() {
               key={p.name}
               className="flex flex-col items-center justify-center gap-3 bg-white p-5 transition-colors hover:bg-[var(--sane-background)] sm:p-6"
             >
-              <span
-                className="flex h-16 w-16 items-center justify-center rounded-full text-[length:var(--fs-small)] font-bold text-white shadow-sm"
-                style={{ backgroundColor: p.color }}
-              >
-                {p.abbr}
-              </span>
+              {p.logo ? (
+                <div className="relative h-14 w-14 sm:h-16 sm:w-16">
+                  <Image
+                    src={p.logo}
+                    alt={p.name}
+                    fill
+                    sizes="64px"
+                    className="object-contain"
+                  />
+                </div>
+              ) : (
+                <span
+                  className="flex h-14 w-14 items-center justify-center rounded-full text-[length:var(--fs-small)] font-bold text-white shadow-sm sm:h-16 sm:w-16"
+                  style={{ backgroundColor: p.color }}
+                >
+                  {p.abbr}
+                </span>
+              )}
               <span className="text-center text-[length:var(--fs-small)] font-medium leading-tight text-[var(--sane-text)]">{p.name}</span>
             </div>
           ))}

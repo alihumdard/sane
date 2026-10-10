@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
@@ -20,12 +20,14 @@ import {
 const categoryTabs = [
   {
     key: "tous",
+    tag: "",
     title: "Tous",
     subtitle: "Les actualités",
     iconPath: "M4 4h16v12H4zm0 12l4-4 2 2 4-4 6 6",
   },
   {
     key: "evenements",
+    tag: "Événement",
     title: "Événements",
     subtitle: "Conférences et rencontres",
     iconPath:
@@ -33,6 +35,7 @@ const categoryTabs = [
   },
   {
     key: "communiques",
+    tag: "Communiqué",
     title: "Communiqués",
     subtitle: "Annonces officielles",
     iconPath:
@@ -40,6 +43,7 @@ const categoryTabs = [
   },
   {
     key: "partenariats",
+    tag: "Partenariat",
     title: "Partenariats",
     subtitle: "Collaborations",
     iconPath:
@@ -47,18 +51,29 @@ const categoryTabs = [
   },
   {
     key: "formations",
+    tag: "Formation",
     title: "Formations",
     subtitle: "Programmes et sessions",
     iconPath: "M12 14l9-5-9-5-9 5 9 5zm0 0v6m-4-3l4 2 4-2",
   },
   {
     key: "temoignages",
+    tag: "Témoignage",
     title: "Témoignages",
     subtitle: "Parcours inspirants",
     iconPath:
       "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z",
   },
 ];
+
+function parseDate(d: string): number {
+  const months: Record<string, number> = {
+    Janvier: 0, Février: 1, Mars: 2, Avril: 3, Mai: 4, Juin: 5,
+    Juillet: 6, Août: 7, Septembre: 8, Octobre: 9, Novembre: 10, Décembre: 11,
+  };
+  const [day, month, year] = d.split(" ");
+  return new Date(+year, months[month] ?? 0, +day).getTime();
+}
 
 const articles = [
   {
@@ -161,6 +176,28 @@ const upcomingEvents = [
 /* ─────────────────────────────── PAGE ─────────────────────────────── */
 export default function ActualitesPage() {
   const [activeTab, setActiveTab] = useState("tous");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [dateSort, setDateSort] = useState("");
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterSent, setNewsletterSent] = useState(false);
+
+  const filteredArticles = useMemo(() => {
+    let result = [...articles];
+
+    const activeTag = categoryTabs.find((t) => t.key === activeTab)?.tag;
+    if (activeTag) result = result.filter((a) => a.tag === activeTag);
+
+    if (categoryFilter) result = result.filter((a) => a.tag === categoryFilter);
+
+    const q = searchQuery.trim().toLowerCase();
+    if (q) result = result.filter((a) => a.title.toLowerCase().includes(q) || a.description.toLowerCase().includes(q));
+
+    if (dateSort === "recent") result.sort((a, b) => parseDate(b.date) - parseDate(a.date));
+    else if (dateSort === "ancien") result.sort((a, b) => parseDate(a.date) - parseDate(b.date));
+
+    return result;
+  }, [activeTab, searchQuery, categoryFilter, dateSort]);
 
   return (
     <>
@@ -212,7 +249,7 @@ export default function ActualitesPage() {
             <div className="ml-auto mt-2 h-[2.5px] w-8 rounded-full bg-[var(--sane-orange)]" />
           </div>
 
-          <div className="sane-container relative z-20 flex flex-col justify-center px-4 pb-[72vw] pt-8 sm:min-h-[340px] sm:py-10 lg:min-h-[380px] lg:py-12">
+          <div className="sane-container relative z-20 flex flex-col justify-center pb-[72vw] pt-8 sm:min-h-[340px] sm:py-10 lg:min-h-[380px] lg:py-12">
             <nav className="mb-3 flex items-center gap-1.5 text-[11px] text-white/60 sm:mb-4 sm:text-[12px]">
               <Link href="/" className="hover:text-white transition-colors">
                 Accueil
@@ -224,13 +261,13 @@ export default function ActualitesPage() {
               SALON NATIONAL DE L'EMPLOI
             </p>
             <div className="max-w-[480px]">
-              <h1 className="mb-1 text-2xl font-extrabold text-white sm:text-3xl lg:text-4xl">
+              <h1 className="sane-h1 on-dark mb-1">
                 Actualités du SANEM
               </h1>
-              <p className="mb-2 text-base font-bold text-white/90 sm:text-lg">
+              <p className="sane-lead on-dark mb-2">
                 Restez informé des dernières nouvelles.
               </p>
-              <p className="mb-4 text-[12px] leading-relaxed text-white/65 max-w-[400px] sm:mb-6 sm:text-[13px]">
+              <p className="sane-body on-dark mb-4 max-w-[400px] sm:mb-6">
                 Découvrez nos actualités, annonces, événements et initiatives
                 autour de l'emploi, de la formation et du développement des
                 compétences au Niger.
@@ -256,7 +293,7 @@ export default function ActualitesPage() {
 
         {/* ═══════════════════ 2. CATEGORY TABS BAR ═══════════════════ */}
         <section className="bg-white py-4 sm:py-5">
-          <div className="sane-container px-4">
+          <div className="sane-container">
             <div className="flex gap-2.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-3 xl:grid-cols-6 sm:gap-3">
               {categoryTabs.map((tab) => {
                 const active = activeTab === tab.key;
@@ -306,7 +343,7 @@ export default function ActualitesPage() {
 
         {/* ═══════════════════ 3. SEARCH / FILTER BAR ═══════════════════ */}
         <section className="border-b border-[var(--sane-border-soft)] bg-[var(--sane-c-f0f5f2)] py-5 sm:py-7">
-          <div className="sane-container px-4">
+          <div className="sane-container">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-6">
               <div className="shrink-0">
                 <div className="mb-0.5 flex items-center gap-2">
@@ -325,25 +362,38 @@ export default function ActualitesPage() {
                   />
                   <input
                     type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Rechercher un article, un événement..."
                     className="h-[44px] w-full rounded-full border border-[var(--sane-border-soft)] bg-white pl-10 pr-4 text-[13px] text-[var(--sane-green-deep)] placeholder:text-[var(--sane-text-light)]/50 outline-none focus:border-[var(--sane-green)]"
                   />
                 </div>
-                <select className="h-[44px] rounded-full border border-[var(--sane-border-soft)] bg-white px-4 text-[13px] text-[var(--sane-text-light)] outline-none focus:border-[var(--sane-green)]">
-                  <option>Catégorie</option>
-                  <option>Événement</option>
-                  <option>Communiqué</option>
-                  <option>Formation</option>
-                  <option>Partenariat</option>
-                  <option>Témoignage</option>
+                <select
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                  className="h-[44px] rounded-full border border-[var(--sane-border-soft)] bg-white px-4 text-[13px] text-[var(--sane-text-light)] outline-none focus:border-[var(--sane-green)]"
+                >
+                  <option value="">Catégorie</option>
+                  <option value="Événement">Événement</option>
+                  <option value="Communiqué">Communiqué</option>
+                  <option value="Formation">Formation</option>
+                  <option value="Partenariat">Partenariat</option>
+                  <option value="Témoignage">Témoignage</option>
                 </select>
-                <select className="h-[44px] rounded-full border border-[var(--sane-border-soft)] bg-white px-4 text-[13px] text-[var(--sane-text-light)] outline-none focus:border-[var(--sane-green)]">
-                  <option>Date</option>
-                  <option>Plus récent</option>
-                  <option>Plus ancien</option>
+                <select
+                  value={dateSort}
+                  onChange={(e) => setDateSort(e.target.value)}
+                  className="h-[44px] rounded-full border border-[var(--sane-border-soft)] bg-white px-4 text-[13px] text-[var(--sane-text-light)] outline-none focus:border-[var(--sane-green)]"
+                >
+                  <option value="">Date</option>
+                  <option value="recent">Plus récent</option>
+                  <option value="ancien">Plus ancien</option>
                 </select>
-                <button className="h-[44px] rounded-full bg-[var(--sane-orange)] px-6 text-[13px] font-semibold text-white transition-colors hover:bg-[var(--sane-c-c9600f)] whitespace-nowrap">
-                  Rechercher
+                <button
+                  onClick={() => { setSearchQuery(""); setCategoryFilter(""); setDateSort(""); setActiveTab("tous"); }}
+                  className="h-[44px] rounded-full bg-[var(--sane-orange)] px-6 text-[13px] font-semibold text-white transition-colors hover:bg-[var(--sane-c-c9600f)] whitespace-nowrap"
+                >
+                  Réinitialiser
                 </button>
               </div>
             </div>
@@ -352,14 +402,14 @@ export default function ActualitesPage() {
 
         {/* ═══════════════════ 4. NEWS GRID + SIDEBAR ═══════════════════ */}
         <section className="bg-white py-8 sm:py-10 lg:py-14">
-          <div className="sane-container px-4">
+          <div className="sane-container">
             <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <div className="mb-2 flex items-center gap-2 text-[13px] font-semibold text-[var(--sane-orange)]">
-                  <span className="h-px w-6 bg-[var(--sane-orange)]" />
-                  DERNIÈRES ACTUALITÉS
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="sane-eyebrow-bar" />
+                  <span className="sane-eyebrow">Dernières actualités</span>
                 </div>
-                <h2 className="text-xl font-bold text-[var(--sane-green-deep)] sm:text-2xl lg:text-3xl">
+                <h2 className="sane-h2">
                   Nos dernières nouvelles
                 </h2>
               </div>
@@ -374,8 +424,15 @@ export default function ActualitesPage() {
             <div className="grid gap-8 lg:grid-cols-[1fr_300px] lg:gap-10">
               {/* LEFT — Article Grid + À La Une + Pagination */}
               <div>
+                {filteredArticles.length === 0 && (
+                  <div className="rounded-2xl border border-[var(--sane-border-soft)] bg-[var(--sane-c-f0f5f2)] px-6 py-10 text-center">
+                    <Search size={32} className="mx-auto mb-3 text-[var(--sane-text-light)]" />
+                    <p className="text-[15px] font-semibold text-[var(--sane-green-deep)]">Aucun résultat trouvé</p>
+                    <p className="mt-1 text-[13px] text-[var(--sane-text-light)]">Essayez avec d&apos;autres mots-clés ou filtres.</p>
+                  </div>
+                )}
                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
-                  {articles.map((a, i) => (
+                  {filteredArticles.map((a, i) => (
                     <div
                       key={i}
                       className="group overflow-hidden rounded-2xl border border-[var(--sane-border-soft)] bg-white transition-all hover:-translate-y-1 hover:shadow-lg"
@@ -420,10 +477,11 @@ export default function ActualitesPage() {
 
                 {/* À LA UNE */}
                 <div className="mt-10">
-                  <div className="mb-2 flex items-center gap-2 text-[12px] font-bold uppercase tracking-wider text-[var(--sane-green-deep)]">
-                    <span className="h-px w-4 bg-[var(--sane-orange)]" />À LA UNE
+                  <div className="mb-2 flex items-center gap-2">
+                    <span className="sane-eyebrow-bar" />
+                    <span className="sane-eyebrow">À la une</span>
                   </div>
-                  <h2 className="mb-6 text-xl font-bold text-[var(--sane-green-deep)] lg:text-2xl">
+                  <h2 className="sane-h2 mb-6">
                     Le SANEM, un engagement pour l'avenir du Niger
                   </h2>
 
@@ -598,12 +656,23 @@ export default function ActualitesPage() {
                   </p>
                   <input
                     type="email"
+                    value={newsletterEmail}
+                    onChange={(e) => { setNewsletterEmail(e.target.value); setNewsletterSent(false); }}
                     placeholder="Votre adresse email..."
                     className="mb-2.5 w-full rounded-full border border-[var(--sane-border-soft)] bg-white px-4 py-2.5 text-[13px] text-[var(--sane-green-deep)] placeholder:text-[var(--sane-text-light)]/50 outline-none focus:border-[var(--sane-green)]"
                   />
-                  <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[var(--sane-orange)] py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-[var(--sane-c-c9600f)]">
-                    S'abonner <ArrowRight size={14} />
-                  </button>
+                  {newsletterSent ? (
+                    <p className="py-2.5 text-center text-[13px] font-semibold text-[var(--sane-green)]">
+                      Merci pour votre inscription !
+                    </p>
+                  ) : (
+                    <button
+                      onClick={() => { if (newsletterEmail.includes("@")) { setNewsletterSent(true); setNewsletterEmail(""); } }}
+                      className="flex w-full items-center justify-center gap-2 rounded-full bg-[var(--sane-orange)] py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-[var(--sane-c-c9600f)]"
+                    >
+                      S&apos;abonner <ArrowRight size={14} />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

@@ -32,7 +32,7 @@
   --sane-black: #10231a;
 
   --sane-text: #17352a;
-  --sane-text-light: #61756b;
+  --sane-text-light: #4d6359;
 
   --sane-border: #dce8e1;
   --sane-background: #f5f9f6;
@@ -171,8 +171,8 @@
   --fs-small: clamp(12px, 0.15vw + 11.3px, 13px);
   --fs-eyebrow: 11px;
 
-  --lh-heading: 1.15;
-  --lh-body: 1.65;
+  --lh-heading: 1.2;
+  --lh-body: 1.75;
 
   --heading-color: var(--sane-text);
   --heading-color-on-dark: #ffffff;
@@ -288,12 +288,14 @@ img {
 .sane-body {
   font-size: var(--fs-body);
   line-height: var(--lh-body);
+  letter-spacing: 0.005em;
   color: var(--body-color);
 }
 
 .sane-small {
   font-size: var(--fs-small);
-  line-height: 1.5;
+  line-height: 1.6;
+  letter-spacing: 0.005em;
   color: var(--body-color);
 }
 

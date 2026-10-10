@@ -28,21 +28,22 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-[var(--sane-border)] bg-white/95 backdrop-blur">
       <div className="sane-container flex h-[72px] items-center justify-between gap-4 lg:gap-6">
         {/* Logo */}
-        <Link href="/" className="flex shrink-0 items-center lg:-ml-4">
+        <Link href="/" className="flex shrink-0 items-center gap-1.5 lg:-ml-4">
           <Image
             src="/new-logo.png"
             alt="SANEM Logo"
             width={100}
             height={34}
             priority
-            className="h-10 w-auto"
+            className="h-9 w-auto sm:h-10"
           />
+          <span className="h-8 w-px bg-[var(--sane-border)] hidden sm:block" />
           <Image
             src="/sane-logo.png"
             alt="ANPE Logo"
             width={48}
             height={48}
-            className="h-[74px] w-[74px] object-contain lg:h-[72px] lg:w-[72px]"
+            className="h-10 w-10 object-contain sm:h-11 sm:w-11"
           />
         </Link>
 

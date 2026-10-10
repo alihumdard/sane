@@ -69,20 +69,19 @@ export function Hero() {
               </div>
 
               {/* Highlights */}
-              <ul className="mt-3 grid grid-cols-1 gap-1.5 border-t border-white/30 pt-2.5 xs:grid-cols-2 sm:mt-7 sm:gap-3 sm:pt-5 sm:flex sm:max-w-[600px] sm:items-center sm:gap-6 md:gap-8">
-                {highlights.map(({ icon: Icon, title, short, long, accent }, i) => (
-                  <li key={title} className="flex items-center gap-2 sm:gap-3">
-                    {i > 0 && <span className="hidden h-8 w-px bg-white/20 sm:-ml-3 sm:mr-3 sm:block md:-ml-4 md:mr-4" />}
+              <ul className="mt-3 grid grid-cols-3 gap-3 border-t border-white/30 pt-3 sm:mt-7 sm:gap-5 sm:pt-5 sm:max-w-[600px]">
+                {highlights.map(({ icon: Icon, title, short, long, accent }) => (
+                  <li key={title} className="flex items-start gap-2.5 sm:gap-3">
                     <span
-                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg sm:h-9 sm:w-9 ${
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg sm:h-10 sm:w-10 ${
                         accent ? "bg-[var(--sane-orange)]/20" : "bg-white/15"
                       }`}
                     >
-                      <Icon size={14} strokeWidth={2} className={`sm:h-4 sm:w-4 ${accent ? "text-[var(--sane-orange)]" : "text-white"}`} />
+                      <Icon size={15} strokeWidth={2} className={`sm:h-[18px] sm:w-[18px] ${accent ? "text-[var(--sane-orange)]" : "text-white"}`} />
                     </span>
-                    <div>
-                      <p className="text-[10px] font-bold text-white sm:text-[12px]">{title}</p>
-                      <p className="sane-small on-dark !text-[10px] sm:!text-[length:var(--fs-small)]">
+                    <div className="min-w-0">
+                      <p className="text-[11px] font-bold leading-tight text-white sm:text-[13px]">{title}</p>
+                      <p className="mt-0.5 text-[10px] leading-snug text-white/75 sm:text-[12px]">
                         <span className="sm:hidden">{short}</span>
                         <span className="hidden sm:inline">{long}</span>
                       </p>

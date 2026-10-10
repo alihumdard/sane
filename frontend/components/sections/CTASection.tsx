@@ -77,7 +77,7 @@ export function CTASection({
         </div>
 
         <div className="absolute right-12 top-1/2 z-20 hidden -translate-y-1/2 text-center md:block">
-          <p className={`font-serif text-xl italic leading-[1.2] ${dark ? "text-white" : "text-[var(--sane-green)]"}`}>
+          <p className={`font-serif text-xl italic leading-[1.2] ${dark ? "text-white" : "text-[var(--sane-green-deep)]"} drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)]`}>
             Des talents
             <br />
             pour un Niger

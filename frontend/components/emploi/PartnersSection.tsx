@@ -20,15 +20,20 @@ export function PartnersSection() {
           {recruitingPartners.map((p) => (
             <div
               key={p.abbr}
-              className="relative flex h-[76px] w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--sane-border)] bg-white px-3 py-3 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md sm:h-[88px] sm:px-4"
+              className="group flex flex-col items-center justify-center gap-2.5 rounded-xl border border-[var(--sane-border)] bg-white px-3 py-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md sm:px-4 sm:py-5"
             >
-              <Image
-                src={p.logo}
-                alt={p.name}
-                fill
-                sizes="(min-width: 768px) 20vw, (min-width: 640px) 33vw, 50vw"
-                className="object-contain p-3"
-              />
+              <div className="relative h-12 w-full sm:h-14">
+                <Image
+                  src={p.logo}
+                  alt={p.name}
+                  fill
+                  sizes="(min-width: 768px) 20vw, (min-width: 640px) 33vw, 50vw"
+                  className="object-contain"
+                />
+              </div>
+              <span className="text-center text-[10px] font-semibold leading-tight text-[var(--sane-text-light)] sm:text-[11px]">
+                {p.name}
+              </span>
             </div>
           ))}
         </div>

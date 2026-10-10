@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowRight, BriefcaseBusiness, Building2, GraduationCap, UsersRound } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { AnimatedCounter } from "@/components/shared/AnimatedCounter";
 
 interface Stat {
   icon: LucideIcon;
@@ -25,7 +26,7 @@ export function ImpactSection() {
         style={{ backgroundImage: "url('/vision-bg.webp')" }}
       />
       <Container className="relative z-10">
-        <div className="grid items-center gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
+        <div className="grid items-start gap-8 lg:grid-cols-2 lg:gap-12">
           <div>
             <div className="mb-2 flex items-center gap-2">
               <span className="sane-eyebrow-bar" />
@@ -41,6 +42,12 @@ export function ImpactSection() {
               de l&apos;emploi et de la formation au Niger. Grâce à une mobilisation nationale,
               il contribue chaque année à créer des passerelles concrètes entre les jeunes
               talents et le monde professionnel.
+            </p>
+            <p className="sane-body mt-3">
+              En réunissant entreprises, institutions publiques et acteurs de la
+              formation, le SANEM favorise un dialogue direct entre l&apos;offre et la
+              demande d&apos;emploi, tout en valorisant les compétences locales et
+              l&apos;innovation entrepreneuriale.
             </p>
 
             <Link
@@ -83,7 +90,7 @@ export function ImpactSection() {
               <div key={stat.label} className="rounded-2xl border border-[var(--sane-border)] bg-[var(--sane-background)] px-4 py-3.5 sm:px-5 sm:py-4">
                 <div className="flex items-center gap-2.5">
                   <Icon size={22} strokeWidth={1.5} className="shrink-0 text-[var(--sane-orange)]" />
-                  <span className="text-[length:var(--fs-h3)] font-extrabold text-[var(--sane-green)] sm:text-[22px]">{stat.value}</span>
+                  <AnimatedCounter value={stat.value} className="text-[length:var(--fs-h3)] font-extrabold text-[var(--sane-green)] sm:text-[22px]" />
                 </div>
                 <p className="sane-small mt-1">{stat.label}</p>
               </div>

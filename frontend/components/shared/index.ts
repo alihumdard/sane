@@ -9,3 +9,4 @@ export { ArticleCard } from "./ArticleCard";
 export type { ArticleCardData } from "./ArticleCard";
 export { NewsletterForm } from "./NewsletterForm";
 export { imageFocus } from "./imageFocus";
+export { AnimatedCounter } from "./AnimatedCounter";

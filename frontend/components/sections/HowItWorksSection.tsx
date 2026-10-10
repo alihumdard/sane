@@ -6,33 +6,34 @@
   ArrowRight,
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 const steps = [
   {
     number: "01",
     title: "Créez votre profil",
-    description: "Inscrivez-vous et complétez votre profil.",
+    description: "Inscrivez-vous et complétez votre profil professionnel en quelques minutes.",
     icon: UserRound,
     orange: false,
   },
   {
     number: "02",
     title: "Découvrez les opportunités",
-    description: "Accédez aux offres d'emploi et formations.",
+    description: "Accédez aux offres d'emploi, formations et événements disponibles.",
     icon: UsersRound,
     orange: true,
   },
   {
     number: "03",
     title: "Connectez-vous aux recruteurs",
-    description: "Postulez et échangez avec les entreprises.",
+    description: "Postulez et échangez directement avec les entreprises qui recrutent.",
     icon: CalendarCheck2,
     orange: false,
   },
   {
     number: "04",
     title: "Organisez votre entretien",
-    description: "Planifiez vos entretiens et suivez votre progression.",
+    description: "Planifiez vos entretiens et suivez l'état de votre candidature.",
     icon: MapPinned,
     orange: true,
   },
@@ -44,29 +45,22 @@ export function HowItWorksSection() {
       <Container>
 
         {/* HEADING */}
-        <div className="mb-10">
-          <div className="mb-2 flex items-center gap-2">
-            <span className="h-[3px] w-6 rounded-full bg-[var(--sane-orange)]" />
-            <span className="text-xs font-bold uppercase tracking-wide text-[var(--sane-green)]">
-              Comment ça marche ?
-            </span>
-          </div>
-
-          <h2 className="sane-h2">
-            Un processus simple pour plus d&apos;opportunités
-          </h2>
-        </div>
+        <SectionHeading
+          eyebrow="Comment ça marche ?"
+          title="Un processus simple en 4 étapes"
+          className="mb-10"
+        />
 
         {/* STEPS */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-5 md:grid-cols-4 md:gap-6">
           {steps.map((step, index) => {
             const Icon = step.icon;
 
             return (
-              <div key={step.number} className="relative flex flex-col items-start">
+              <div key={step.number} className="relative flex flex-col">
                 {/* Arrow connector — hidden on last item and on mobile */}
                 {index < steps.length - 1 && (
-                  <div className="absolute right-0 top-6 hidden translate-x-1/2 text-[var(--sane-c-d4e1d8)] md:block">
+                  <div className="absolute right-0 top-7 hidden translate-x-1/2 text-[var(--sane-c-d4e1d8)] md:block">
                     <ArrowRight size={20} />
                   </div>
                 )}
@@ -74,7 +68,7 @@ export function HowItWorksSection() {
                 {/* Icon + Number row */}
                 <div className="flex items-center gap-3">
                   <div
-                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white sm:h-[52px] sm:w-[52px] ${
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white sm:h-[52px] sm:w-[52px] ${
                       step.orange ? "bg-[var(--sane-orange)]" : "bg-[var(--sane-green)]"
                     }`}
                   >
@@ -94,7 +88,7 @@ export function HowItWorksSection() {
                 </h3>
 
                 {/* Description */}
-                <p className="mt-2 text-[13px] leading-5 text-[var(--sane-c-718178)]">
+                <p className="sane-small mt-2">
                   {step.description}
                 </p>
               </div>

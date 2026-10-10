@@ -1,5 +1,6 @@
 ﻿import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { AnimatedCounter } from "./AnimatedCounter";
 
 export interface FeatureBarItem {
   icon?: LucideIcon;
@@ -30,7 +31,7 @@ export function FeatureBar({ items, variant = "soft" }: Props) {
           {items.map(({ icon: Icon, value, label, color }) =>
             variant === "plain" ? (
               <div key={label} className="flex flex-col items-center justify-center gap-1 px-4 py-8 text-center">
-                <span className="text-[length:var(--fs-h1)] font-extrabold leading-none text-[var(--sane-green)]">{value}</span>
+                <AnimatedCounter value={value} className="text-[length:var(--fs-h1)] font-extrabold leading-none text-[var(--sane-green)]" />
                 <span className="sane-small">{label}</span>
               </div>
             ) : (
@@ -48,7 +49,7 @@ export function FeatureBar({ items, variant = "soft" }: Props) {
                   </span>
                 )}
                 <div className="min-w-0 [overflow-wrap:anywhere]">
-                  <span className="block text-[length:var(--fs-body)] font-extrabold leading-snug text-[var(--sane-text)] sm:text-[length:var(--fs-lead)]">{value}</span>
+                  <AnimatedCounter value={value} className="block text-[length:var(--fs-body)] font-extrabold leading-snug text-[var(--sane-text)] sm:text-[length:var(--fs-lead)]" />
                   <span className="sane-small">{label}</span>
                 </div>
               </div>

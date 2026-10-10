@@ -1,15 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CalendarRange, Mic2, Handshake, Newspaper } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
-const links = [
+const links: { title: string; description: string; action: string; href: string; image: string; icon: LucideIcon }[] = [
   {
     title: "Programme du salon",
     description: "Découvrez le programme complet de l'événement.",
     action: "Voir le programme",
     href: "/programme",
     image: "/card-img3.webp",
+    icon: CalendarRange,
   },
   {
     title: "Intervenants",
@@ -17,6 +19,7 @@ const links = [
     action: "Voir les intervenants",
     href: "/intervenants",
     image: "/card-img.webp",
+    icon: Mic2,
   },
   {
     title: "Partenaires",
@@ -24,6 +27,7 @@ const links = [
     action: "Voir nos partenaires",
     href: "/partenaires",
     image: "/card-img2.webp",
+    icon: Handshake,
   },
   {
     title: "Actualités",
@@ -31,6 +35,7 @@ const links = [
     action: "Lire les actualités",
     href: "/actualites",
     image: "/card-img3.webp",
+    icon: Newspaper,
   },
 ];
 
@@ -58,11 +63,12 @@ export function FeatureLinksSection() {
 
               {/* CONTENT */}
               <div className="flex min-w-0 flex-1 flex-col">
-                <h3 className="sane-h3">
+                <h3 className="sane-h3 flex items-center gap-1.5">
+                  <item.icon size={14} strokeWidth={2.2} className="shrink-0 text-[var(--sane-orange)]" />
                   {item.title}
                 </h3>
 
-                <p className="mt-1.5 line-clamp-2 text-[12px] leading-[1.4] text-[var(--sane-c-718178)]">
+                <p className="mt-1.5 line-clamp-2 text-[12px] leading-[1.5] text-[var(--sane-text-light)]">
                   {item.description}
                 </p>
 
