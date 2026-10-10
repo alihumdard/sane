@@ -2,35 +2,15 @@
 
 namespace App\Mail;
 
-use App\Models\Inscription;
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
-
-class InscriptionRecue extends Mailable
+class InscriptionRecue extends InscriptionMail
 {
-    use Queueable, SerializesModels;
-
-    public function __construct(public readonly Inscription $inscription) {}
-
-    public function envelope(): Envelope
+    protected function objet(): string
     {
-        return new Envelope(
-            to: [$this->inscription->email],
-            subject: "Votre inscription au SANEM — {$this->inscription->reference}",
-        );
+        return 'Votre inscription au SANEM';
     }
 
-    public function content(): Content
+    protected function vue(): string
     {
-        return new Content(
-            markdown: 'emails.inscription-recue',
-            with: [
-                'inscription' => $this->inscription,
-                'formations' => $this->inscription->formations,
-            ],
-        );
+        return 'emails.inscription-recue';
     }
 }

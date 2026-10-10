@@ -11,15 +11,16 @@ use App\Mail\InscriptionRecue;
 use App\Models\Edition;
 use App\Models\Inscription;
 use App\Services\GestionPlaces;
+use App\Services\Notificateur;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Throwable;
 
 class InscriptionController extends Controller
 {
-    public function __construct(private readonly GestionPlaces $places) {}
+    public function __construct(
+        private readonly GestionPlaces $places,
+        private readonly Notificateur $notificateur,
+    ) {}
 
     public function store(StoreInscriptionRequest $request): JsonResponse
     {
@@ -58,16 +59,10 @@ class InscriptionController extends Controller
 
         $inscription->load(['formations.categorie', 'formations.formateur', 'edition']);
 
-        // The registration is already committed, so a mail failure must not fail
-        // the request — the participant would retry and hit the unique email rule.
-        try {
-            Mail::send(new InscriptionRecue($inscription));
-        } catch (Throwable $e) {
-            Log::error('Envoi de l\'email de confirmation échoué', [
-                'inscription' => $inscription->reference,
-                'erreur' => $e->getMessage(),
-            ]);
-        }
+        $this->notificateur->envoyer(
+            new InscriptionRecue($inscription),
+            ['inscription' => $inscription->reference]
+        );
 
         return response()->json([
             'message' => 'Votre inscription a bien été enregistrée. Vous recevrez un email de confirmation.',

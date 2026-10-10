@@ -7,9 +7,12 @@ use App\Enums\TypeParticipation;
 use App\Http\Concerns\FiltreLesListes;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InscriptionResource;
+use App\Mail\InscriptionAnnulee;
+use App\Mail\InscriptionConfirmee;
 use App\Models\Edition;
 use App\Models\Inscription;
 use App\Services\GestionPlaces;
+use App\Services\Notificateur;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -18,7 +21,10 @@ class InscriptionAdminController extends Controller
 {
     use FiltreLesListes;
 
-    public function __construct(private readonly GestionPlaces $places) {}
+    public function __construct(
+        private readonly GestionPlaces $places,
+        private readonly Notificateur $notificateur,
+    ) {}
 
     public function index(Request $request): JsonResponse
     {
@@ -86,10 +92,23 @@ class InscriptionAdminController extends Controller
             'confirmee_par' => $nouveau === StatutInscription::Confirmee ? $request->user()->id : null,
         ]);
 
-        $inscription->load(['formations.categorie', 'documents']);
+        $inscription->load(['formations.categorie', 'documents', 'edition']);
+
+        $mail = match ($nouveau) {
+            StatutInscription::Confirmee => new InscriptionConfirmee($inscription),
+            StatutInscription::Annulee => new InscriptionAnnulee($inscription),
+            default => null,
+        };
+
+        $envoye = $mail === null || $this->notificateur->envoyer(
+            $mail,
+            ['inscription' => $inscription->reference]
+        );
 
         return response()->json([
-            'message' => "Inscription « {$nouveau->label()} ».",
+            'message' => $envoye
+                ? "Inscription « {$nouveau->label()} ». Le participant a été notifié par email."
+                : "Inscription « {$nouveau->label()} ». L'email n'a pas pu être envoyé.",
             'data' => new InscriptionResource($inscription),
         ]);
     }
