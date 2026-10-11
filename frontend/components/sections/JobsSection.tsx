@@ -128,9 +128,16 @@ export function JobsSection() {
                   <BriefcaseBusiness size={19} />
                 </div>
 
-                <h3 className="sane-h3 mt-4">
-                  {job.title}
-                </h3>
+                <div className="mt-4 flex w-full items-center justify-between gap-2">
+                  <h3 className="sane-h3">{job.title}</h3>
+                  <Link
+                    href="/emploi"
+                    aria-label={`Voir l'offre — ${job.title}`}
+                    className="group flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--sane-green)]/30 text-[var(--sane-green)] transition hover:border-[var(--sane-green)] hover:bg-[var(--sane-green)] hover:text-white"
+                  >
+                    <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
+                  </Link>
+                </div>
 
                 <p className="mt-1 text-xs text-[var(--sane-text-light)]">
                   {job.company}
@@ -146,17 +153,6 @@ export function JobsSection() {
                     {job.type}
                   </span>
                 </div>
-
-                <Link
-                  href="/emploi"
-                  className="group mt-4 inline-flex items-center gap-2 rounded-full border border-[var(--sane-green)]/30 px-3.5 py-2 text-xs font-bold text-[var(--sane-green)] transition hover:border-[var(--sane-green)] hover:bg-[var(--sane-green)] hover:!text-white"
-                >
-                  <span className="group-hover:!text-white">Voir l&apos;offre</span>
-                  <ArrowRight
-                    size={13}
-                    className="transition-transform group-hover:translate-x-1 group-hover:!text-white"
-                  />
-                </Link>
               </article>
             ))}
           </div>

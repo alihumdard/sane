@@ -19,7 +19,16 @@ export function PartnerTypesSection() {
               <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl text-white" style={{ backgroundColor: color }}>
                 <Icon size={22} />
               </span>
-              <h3 className="sane-h3 mb-4">{title}</h3>
+              <div className="mb-4 flex w-full items-center justify-between gap-2">
+                <h3 className="sane-h3">{title}</h3>
+                <Link
+                  href="/contact"
+                  aria-label={`Devenir partenaire — ${title}`}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-[var(--sane-green)] text-[var(--sane-green)] transition-colors group-hover:bg-[var(--sane-green)] group-hover:text-white"
+                >
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
               <ul className="flex flex-1 flex-col gap-2.5">
                 {items.map((item) => (
                   <li key={item} className="sane-small flex items-start gap-2">
@@ -28,15 +37,6 @@ export function PartnerTypesSection() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-6 flex justify-end">
-                <Link
-                  href="/contact"
-                  aria-label={`Devenir partenaire — ${title}`}
-                  className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[var(--sane-green)] text-[var(--sane-green)] transition-colors group-hover:bg-[var(--sane-green)] group-hover:text-white"
-                >
-                  <ArrowRight size={14} />
-                </Link>
-              </div>
             </div>
           ))}
         </div>

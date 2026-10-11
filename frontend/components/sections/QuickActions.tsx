@@ -60,22 +60,19 @@ export function QuickActions() {
                     <Icon size={20} strokeWidth={2} />
                   </div>
 
-                  <h3 className="sane-h3 mt-5">
-                    {action.title}
-                  </h3>
+                  <div className="mt-5 flex w-full items-center justify-between gap-2">
+                    <h3 className="sane-h3">{action.title}</h3>
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--sane-c-d7e5db)] text-[var(--sane-green)] transition-all group-hover:border-[var(--sane-green)] group-hover:bg-[var(--sane-green)] group-hover:text-white">
+                      <ArrowRight
+                        size={16}
+                        className="transition-transform group-hover:translate-x-0.5"
+                      />
+                    </div>
+                  </div>
 
                   <p className="sane-body mt-2">
                     {action.description}
                   </p>
-                </div>
-
-                <div className="mt-5 flex justify-end">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--sane-c-d7e5db)] text-[var(--sane-green)] transition-all group-hover:border-[var(--sane-green)] group-hover:bg-[var(--sane-green)] group-hover:text-white">
-                    <ArrowRight
-                      size={16}
-                      className="transition-transform group-hover:translate-x-0.5"
-                    />
-                  </div>
                 </div>
               </Link>
             );
