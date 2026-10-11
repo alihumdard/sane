@@ -6,6 +6,7 @@ import { AlertCircle, ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucid
 import { primaryBtn, secondaryBtn } from "@/components/ui/styles";
 import { api, ApiError } from "@/lib/api";
 import type { ApiInscription, InscriptionPayload, InscriptionResponse, TypeParticipation } from "@/lib/types";
+import { DocumentsPanel } from "./DocumentsPanel";
 import { StepProgress } from "./StepProgress";
 import { ParticipationStep } from "./ParticipationStep";
 import { FormationsStep } from "./FormationsStep";
@@ -136,6 +137,11 @@ export function RegistrationWizard() {
             <p className="sane-small mb-6">
               Votre référence : <strong className="text-[var(--sane-green)]">{inscription.reference}</strong>
             </p>
+
+            <div className="mb-6 w-full border-t border-[var(--sane-border)] pt-6">
+              <DocumentsPanel reference={inscription.reference} email={inscription.email} />
+            </div>
+
             <div className="flex flex-wrap justify-center gap-3">
               <Link href="/programme" className={primaryBtn}>
                 Voir le programme <ArrowRight size={14} />

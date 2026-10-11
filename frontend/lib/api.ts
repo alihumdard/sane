@@ -31,15 +31,20 @@ export function setAuthToken(token: string | null) {
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { body, headers, ...rest } = options;
 
+  // FormData carries its own multipart boundary, so the browser must set
+  // Content-Type itself — naming it here would omit the boundary and the
+  // request would arrive with no parsable fields.
+  const estFormData = typeof FormData !== "undefined" && body instanceof FormData;
+
   const response = await fetch(`${BASE_URL}${path}`, {
     ...rest,
     headers: {
       Accept: "application/json",
-      ...(body !== undefined && { "Content-Type": "application/json" }),
+      ...(body !== undefined && !estFormData && { "Content-Type": "application/json" }),
       ...(authToken && { Authorization: `Bearer ${authToken}` }),
       ...headers,
     },
-    ...(body !== undefined && { body: JSON.stringify(body) }),
+    ...(body !== undefined && { body: estFormData ? body : JSON.stringify(body) }),
   });
 
   const payload = await response.json().catch(() => null);

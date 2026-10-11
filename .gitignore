@@ -46,3 +46,12 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 node_modules
+
+# ---------- Artefacts à la racine (antérieurs au passage en monorepo) ----------
+/.next/
+/next-env.d.ts
+/*.tsbuildinfo
+
+# ---------- Données personnelles : ne jamais versionner ----------
+backend/storage/app/private/
+backend/storage/app/public/

@@ -38,12 +38,7 @@ class InscriptionResource extends JsonResource
             'newsletter' => $this->newsletter,
 
             'formations' => FormationResource::collection($this->whenLoaded('formations')),
-            'documents' => $this->whenLoaded('documents', fn () => $this->documents->map(fn ($d) => [
-                'type' => $d->type->value,
-                'type_label' => $d->type->label(),
-                'nom_original' => $d->nom_original,
-                'url' => $d->url(),
-            ])),
+            'documents' => DocumentResource::collection($this->whenLoaded('documents')),
 
             'confirmee_le' => $this->confirmee_le?->toIso8601String(),
             'created_at' => $this->created_at->toIso8601String(),

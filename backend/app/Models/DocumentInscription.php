@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Enums\TypeDocument;
+use App\Services\GestionDocuments;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DocumentInscription extends Model
 {
@@ -36,8 +38,23 @@ class DocumentInscription extends Model
         return $this->belongsTo(Inscription::class);
     }
 
-    public function url(): string
+    /**
+     * Documents hold personal data, so they live on the private disk and are
+     * never addressable by URL — reading one goes through the authenticated
+     * download route, which is why no url() accessor is offered here.
+     */
+    public function contenu(): StreamedResponse
     {
-        return Storage::url($this->chemin);
+        return Storage::disk(GestionDocuments::DISQUE)->download(
+            $this->chemin,
+            $this->nom_original,
+        );
+    }
+
+    public function tailleLisible(): string
+    {
+        return $this->taille >= 1048576
+            ? round($this->taille / 1048576, 1).' Mo'
+            : max(1, (int) round($this->taille / 1024)).' Ko';
     }
 }

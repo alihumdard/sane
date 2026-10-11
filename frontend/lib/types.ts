@@ -85,6 +85,7 @@ export interface ApiInscription {
   source: string | null;
   newsletter: boolean;
   formations?: ApiFormation[];
+  documents?: ApiDocument[];
   confirmee_le: string | null;
   created_at: string;
 }
@@ -92,6 +93,41 @@ export interface ApiInscription {
 export interface InscriptionResponse {
   message: string;
   data: ApiInscription;
+}
+
+/* ─── Pièces justificatives ─── */
+
+export type TypeDocument = "piece_identite" | "cv" | "lettre_motivation" | "photo";
+
+export interface ApiDocument {
+  id: number;
+  type: TypeDocument;
+  type_label: string;
+  nom_original: string;
+  mime: string;
+  taille: number;
+  taille_lisible: string;
+  televerse_le: string;
+}
+
+/** Describes one expected document, as the API advertises it. */
+export interface DocumentRequis {
+  value: TypeDocument;
+  label: string;
+  obligatoire: boolean;
+  /** Comma-separated extension list, e.g. "pdf,jpg,jpeg". */
+  formats: string;
+  taille_max_ko: number;
+}
+
+export interface DocumentsResponse {
+  data: ApiDocument[];
+  requis: DocumentRequis[];
+}
+
+export interface DocumentUploadResponse {
+  message: string;
+  data: ApiDocument;
 }
 
 /* ─── Back-office ─── */

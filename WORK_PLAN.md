@@ -1,286 +1,326 @@
-# SANEM — Plan de Travail / Work Plan
+# SANEM — Plan de Travail
 
-> **Statut actuel :** Frontend Next.js 16 complet mais 100 % statique (aucun appel API, aucune authentification, aucune base de données). Backend à créer de zéro en Laravel.
-
----
-
-## 0. Restructuration du dépôt (Repo Restructure)
-
-### Structure cible
-
-```
-sane/
-├── frontend/              # Next.js 16 (code existant déplacé ici)
-│   ├── app/
-│   ├── components/
-│   ├── lib/
-│   ├── public/
-│   ├── package.json
-│   └── .env.local         # NEXT_PUBLIC_API_URL=http://localhost:8000/api
-│
-├── backend/               # Laravel 12 (nouveau)
-│   ├── app/
-│   │   ├── Http/Controllers/Api/
-│   │   ├── Models/
-│   │   ├── Services/
-│   │   └── Enums/
-│   ├── database/migrations/
-│   ├── routes/api.php
-│   └── .env               # DB_*, MAIL_*, SANCTUM_*
-│
-├── .gitignore
-├── README.md
-└── WORK_PLAN.md
-```
-
-### Étapes
-
-| # | Tâche | Détail |
-|---|-------|--------|
-| 0.1 | Créer `frontend/` | `git mv` de app, components, lib, public, package.json, tsconfig, next.config, postcss, eslint |
-| 0.2 | Vérifier le build | `cd frontend && npm run dev` — le site doit fonctionner à l'identique |
-| 0.3 | Installer Composer | PHP 8.2.12 déjà présent (XAMPP). Composer manquant → à installer |
-| 0.4 | Créer `backend/` | `composer create-project laravel/laravel backend` |
-| 0.5 | Créer la base | MariaDB 10.4 (XAMPP) → base `sanem` |
-| 0.6 | `.gitignore` racine | Ignorer `backend/vendor`, `backend/.env`, `frontend/node_modules`, `frontend/.next` |
-| 0.7 | Commit | « Restructure repo into frontend/ and backend/ » |
-
-**Durée estimée : 1 jour**
+> **Mis à jour :** 11 octobre 2026
+> **Contrat :** 900 USD · 9 phases · 100 USD par phase
+> **Événement :** Niamey, 10–12 décembre 2026
+> **Avancement réel :** Phases 1–4 livrées · Phases 5–9 à faire
 
 ---
 
-## 1. Fondations Backend (Backend Foundations)
+## 1. État des lieux (vérifié, pas estimé)
 
-À faire **avant** la Phase 4 — c'est l'infrastructure dont toutes les phases dépendent.
+| Phase | Module | État | Détail vérifié |
+|---|---|---|---|
+| 1 | Analyse & Architecture | ✅ **Livrée** | 7 modèles, 4 enums, 13 migrations, Sanctum + rôles |
+| 2 | UI/UX & Design | ✅ **Livrée** | Design system, responsive, 30+ pages |
+| 3 | Site public | ✅ **Livrée** | Toutes les pages publiques en ligne |
+| 4 | Inscriptions & Formations | ✅ **Livrée** | Bout en bout + upload documents · 77 tests passent |
+| 5 | Espace Demandeur d'emploi | ⬜ **0 %** | Aucun modèle, aucune API. `/emploi` = 1 page statique |
+| 6 | Espace Recruteur | ⬜ **0 %** | Aucun modèle, aucune API |
+| 7 | Matching & Entretiens | ⬜ **0 %** | Aucun modèle, aucune API |
+| 8 | Back-office Admin | 🟨 **~15 %** | 13 pages existent · **2 seulement** branchées (formations, inscriptions) |
+| 9 | Sécurité & Mise en production | ⬜ **0 %** | Backend non déployé. `MAIL_MAILER=log` |
 
-| # | Tâche | Détail |
-|---|-------|--------|
-| 1.1 | Packages | `laravel/sanctum` (auth SPA), `spatie/laravel-permission` (rôles), `maatwebsite/excel` (export Phase 8) |
-| 1.2 | CORS | `config/cors.php` → autoriser `http://localhost:3000` + domaine Vercel |
-| 1.3 | Enums PHP | `RoleUtilisateur`, `StatutInscription`, `TypeParticipation`, `StatutCandidature`, `StatutEntretien`, `TypeContrat`, `NiveauFormation`, `FormatFormation` |
-| 1.4 | Table `users` étendue | `nom`, `email`, `telephone`, `role`, `statut`, `photo`, `email_verified_at` |
-| 1.5 | 5 rôles | `participant`, `entreprise`, `recruteur`, `organisateur`, `administrateur` |
-| 1.6 | Réponses API standardisées | `ApiResponse::success($data, $meta)` / `::error($message, $code)` |
-| 1.7 | Trait de requête | `HasApiQuery` — gère `?q=`, `?page=`, `?per_page=`, `?sort=`, `?dir=`, filtres exacts. **Doit correspondre au hook `useTable` existant** |
-| 1.8 | Client API frontend | `frontend/lib/api.ts` — wrapper fetch, gestion token, typage |
-| 1.9 | Seeder de base | Édition 2026, rôles, 1 compte admin |
+**Lecture honnête :** 4 phases sur 9 sont payées et livrées, mais elles représentent la partie la
+plus simple. Les phases 5 à 7 sont le cœur métier (emploi) et sont à zéro. En volume de travail
+réel, le projet est à environ **40 %**, pas à 44 %.
 
-**Point critique :** le hook `useTable` (`components/dashboard/useTable.ts`) définit déjà le contrat de requête côté client. L'API doit retourner :
+### Existant réutilisable
 
-```json
-{
-  "data": [...],
-  "meta": { "total": 120, "page": 1, "per_page": 10, "last_page": 12 },
-  "filters": { "Catégorie": ["Numérique", "Management"], "Statut": ["Active"] }
-}
-```
-
-**Durée estimée : 3 jours**
-
----
-
-## 2. Authentification (Auth) — prérequis Phases 4-5
-
-Le frontend a déjà l'UI de connexion (`components/connexion/LoginCard.tsx`) mais `onSubmit` est un no-op.
-
-| # | Tâche | Backend | Frontend |
-|---|-------|---------|----------|
-| 2.1 | Inscription compte | `POST /api/auth/register` | — |
-| 2.2 | Connexion | `POST /api/auth/login` → token Sanctum | Brancher `LoginCard` |
-| 2.3 | Déconnexion | `POST /api/auth/logout` | Bouton « Déconnexion » |
-| 2.4 | Utilisateur courant | `GET /api/auth/me` | Context React `useAuth()` |
-| 2.5 | Mot de passe oublié | `POST /api/auth/forgot-password` + reset | Page `/mot-de-passe-oublie` |
-| 2.6 | Vérification email | Signed URL Laravel | Page de confirmation |
-| 2.7 | Protection des routes | Middleware `auth:sanctum` + `role:` | `middleware.ts` Next.js |
-| 2.8 | Redirection par rôle | — | participant→`/dashboard/participant`, entreprise/recruteur→`/dashboard`, organisateur→`/dashboard/organisateur`, admin→`/dashboard/admin` |
-
-**Hors périmètre pour l'instant :** Google/LinkedIn OAuth (boutons présents mais à confirmer avec le client).
-
-**Durée estimée : 3 jours**
+| Brique | Où | Réutilisée par |
+|---|---|---|
+| `FiltreLesListes` (recherche/tri/pagination) | `app/Http/Concerns/` | Phases 5, 6, 8 |
+| `Notificateur` (email sans casser l'action) | `app/Services/` | Phases 5, 6, 7 |
+| `GestionDocuments` (upload privé sécurisé) | `app/Services/` | Phase 5 (CV) |
+| `VerifierRole` (middleware rôles) | `app/Http/Middleware/` | Phases 5, 6, 8 |
+| `api.ts` (client typé + multipart) | `frontend/lib/` | Tout le frontend |
+| Pattern FormRequest + Resource + Service | partout | Tout le backend |
 
 ---
 
-## 3. PHASE 4 — Inscriptions & Gestion des Formations
+## 2. Règle de périmètre
 
-> Référence doc : *Three-step participant registration; participation type selection; available training selection; seat/capacity and quota management; participant information; validation; registration confirmation; automatic confirmation email; registration summary and training selection. **No online payment** (formations gratuites).*
+**Ce plan suit strictement la proposition signée (900 USD · 9 phases · 100 USD par phase).**
+Chaque ligne ci-dessous correspond à une exigence du document contractuel : rien n'y est ajouté.
 
-### 3.1 Base de données
+Si le client demande plus tard une fonctionnalité hors de ce document (IA, CMS complet, paiement,
+OAuth…), ce plan sera mis à jour **à ce moment-là**, et l'ajout fera l'objet d'un avenant chiffré.
+Tant que cela n'arrive pas, on livre exactement ce qui est écrit ici — ni plus, ni moins.
+
+---
+
+## 3. Décisions actées
+
+| Sujet | Décision | Conséquence |
+|---|---|---|
+| **Matching (Phase 7)** | **Par critères**, pas IA | Score pondéré en SQL, explicable, sans coût récurrent. L'IA fera l'objet d'un devis séparé (phase 10). |
+| **Périmètre admin (Phase 8)** | **Périmètre contractuel** | CRUD complet sur le métier ; CRUD simple sur l'éditorial. |
+| **Stockage documents** | Disque privé + route authentifiée | Déjà en place (Phase 4). Les CV suivront le même chemin. |
+| **Langue du code** | Français | Modèles, colonnes, routes, messages. Sans exception. |
+| **Paiement** | **Hors périmètre** | Formations gratuites — retiré du contrat. |
+
+---
+
+## 4. Phase 5 — Espace Demandeur d'emploi
+
+> *Inscription/connexion ; profil ; CV ; compétences ; formation ; expérience ; secteur ;
+> localisation ; type d'emploi ; recherche et filtres des offres ; détails des offres ;
+> candidatures et historique ; notifications ; entretiens.*
+
+### 5.1 Base de données — 8 migrations
 
 | Table | Champs clés |
-|-------|-------------|
-| `editions` | `annee` (unique), `nom`, `date_debut`, `date_fin`, `active` |
-| `categories_formation` | `nom`, `slug`, `couleur` |
-| `formateurs` | `nom`, `email`, `telephone`, `bio`, `photo` |
-| `formations` | `edition_id`, `categorie_id`, `formateur_id`, `titre`, `description`, `duree`, `lieu`, `niveau`, `format`, `date_debut`, `date_fin`, `prerequis`, `image`, **`max_inscriptions`**, **`inscriptions_count`**, `statut` |
-| `inscriptions` | `edition_id`, `user_id` (nullable), `type_participation`, `statut`, + tous les champs du formulaire, `interets` (JSON), `newsletter`, `consentement`, `seats_released`, `seats_released_at` |
-| `inscription_formation` | `inscription_id`, `formation_id`, unique composite |
-| `documents_inscription` | `inscription_id`, `type` (piece_identite/cv/lettre_motivation/photo), `chemin`, `taille`, `mime` |
-
-**Contrainte clé :** `unique(edition_id, email)` sur `inscriptions` — une inscription par email par édition.
-
-**Gestion des places (concurrence) :**
-```php
-DB::transaction(function () use ($formationIds) {
-    foreach ($formationIds as $id) {
-        $ok = Formation::where('id', $id)
-            ->whereColumn('inscriptions_count', '<', 'max_inscriptions')
-            ->increment('inscriptions_count');
-        if (!$ok) throw new PlacesEpuiseesException($id);
-    }
-});
-```
-
-### 3.2 API Endpoints
-
-**Public**
-- `GET /api/formations` — liste + filtres (domaine, niveau, format) + places restantes
-- `GET /api/formations/{id}` — détail
-- `POST /api/inscriptions` — soumettre l'inscription (+ formations sélectionnées)
-- `POST /api/inscriptions/{id}/documents` — upload (max 2 Mo, PDF/JPG/PNG)
-- `GET /api/inscriptions/{id}/confirmation` — récapitulatif
-
-**Participant (auth)**
-- `GET /api/mes-inscriptions`
-- `GET /api/mes-formations`
-- `DELETE /api/mes-inscriptions/{id}` — annulation + libération des places
-
-**Admin (auth + rôle)**
-- `GET|POST|PUT|DELETE /api/admin/formations`
-- `GET|PUT /api/admin/inscriptions` (validation : `en_attente` → `confirmee` / `annulee`)
-- `POST /api/admin/inscriptions/bulk-delete`
-- `GET /api/admin/formations/{id}/inscrits`
-
-### 3.3 Emails
-
-| Email | Déclencheur |
-|-------|-------------|
-| `InscriptionRecue` | À la soumission |
-| `InscriptionConfirmee` | Validation admin |
-| `InscriptionAnnulee` | Annulation |
-| `RappelFormation` | J-3 avant la formation (scheduler) |
-
-### 3.4 Travaux Frontend
-
-| # | Tâche | Fichier |
-|---|-------|---------|
-| a | Ajouter l'étape « Type de participation » | `RegistrationWizard.tsx` — passe de 4 à 5 étapes |
-| b | Ajouter l'étape « Sélection des formations » | Nouveau composant, affiche places restantes, désactive si complet |
-| c | Remonter `newsletter` dans l'état | `steps.tsx:84` — actuellement non contrôlé |
-| d | Brancher `handleSubmit` | `RegistrationWizard.tsx:30-35` — remplacer par POST |
-| e | Upload de documents | 4 champs fichier (actuellement informatifs seulement) |
-| f | Gestion erreurs/chargement | Nouveau — validation serveur, places épuisées |
-| g | Formations dynamiques | `components/formations/data.ts` → API |
-| h | Places numériques | `places: "Places limitées"` → calculé depuis l'API |
-| i | Admin formations → API | `app/dashboard/admin/formations/page.tsx` |
-| j | Admin inscriptions (nouveau) | `app/dashboard/admin/inscriptions/page.tsx` |
-| k | Dashboard participant → API | `app/dashboard/participant/page.tsx` |
-
-**Durée estimée : 8-10 jours**
-
----
-
-## 4. PHASE 5 — Portail Demandeur d'Emploi
-
-> Référence doc : *Registration/login; profile; personal information; CV/professional profile; skills; education; experience; sector; location; job type; job search and filters; job details; applications and history; notifications; interviews.*
-
-### 4.1 Base de données
-
-| Table | Champs clés |
-|-------|-------------|
-| `profils_demandeur` | `user_id`, `titre_professionnel`, `resume`, `secteur`, `ville`, `type_emploi_recherche`, `disponibilite`, `cv_chemin`, `photo`, `linkedin`, `portfolio` |
-| `competences` | `nom`, `slug` (référentiel) |
+|---|---|
+| `profils_demandeur` | `user_id`, `titre_pro`, `resume`, `secteur`, `ville`, `type_emploi`, `disponibilite`, `linkedin`, `portfolio`, `visible` |
+| `competences` | `nom`, `slug` *(référentiel partagé)* |
 | `competence_profil` | `profil_id`, `competence_id`, `niveau` |
 | `formations_academiques` | `profil_id`, `diplome`, `etablissement`, `domaine`, `annee_debut`, `annee_fin`, `en_cours` |
 | `experiences` | `profil_id`, `poste`, `entreprise`, `lieu`, `date_debut`, `date_fin`, `en_poste`, `description` |
 | `entreprises` | `user_id`, `nom`, `secteur`, `taille`, `logo`, `site_web`, `description`, `ville`, `verifiee` |
 | `offres_emploi` | `entreprise_id`, `titre`, `description`, `missions`, `profil_recherche`, `type_contrat`, `secteur`, `ville`, `salaire_min/max`, `experience_requise`, `niveau_etude`, `date_limite`, `statut`, `vues` |
-| `candidatures` | `offre_id`, `profil_id`, `statut`, `lettre_motivation`, `cv_chemin`, `note_recruteur`, `date_candidature` |
-| `favoris` | `user_id`, `offre_id` |
-| `notifications` | (table Laravel standard) |
+| `candidatures` | `offre_id`, `profil_id`, `statut`, `lettre_motivation`, `cv_document_id`, `note_recruteur`, unique(`offre_id`,`profil_id`) |
 
-**Workflow candidature :** `envoyee` → `en_revue` → `preselectionnee` → `entretien` → `acceptee` / `refusee`
+**Nouveaux enums :** `StatutCandidature`, `TypeContrat`, `StatutOffre`, `NiveauCompetence`.
 
-### 4.2 API Endpoints
+**Workflow candidature :**
+`envoyee → en_revue → preselectionnee → entretien → acceptee | refusee`
+
+> Le CV réutilise `documents_inscription`/`GestionDocuments` plutôt qu'un second système de
+> fichiers : même disque privé, même validation, même route de téléchargement authentifiée.
+
+### 5.2 API
 
 **Public**
-- `GET /api/offres` — recherche + filtres (secteur, ville, contrat, mot-clé)
-- `GET /api/offres/{id}` — détail (incrémente `vues`)
-- `GET /api/secteurs` — avec compteurs
+```
+GET  /api/offres                     recherche + filtres (secteur, ville, contrat, q)
+GET  /api/offres/{offre}             détail (incrémente vues)
+GET  /api/secteurs                   référentiel + compteurs
+```
 
-**Demandeur (auth)**
-- `GET|PUT /api/profil`
-- `POST /api/profil/cv` — upload CV
-- `CRUD /api/profil/competences|formations|experiences`
-- `POST /api/offres/{id}/postuler`
-- `GET /api/mes-candidatures` + `GET /api/mes-candidatures/{id}`
-- `POST|DELETE /api/offres/{id}/favori`
-- `GET /api/notifications` + `POST /api/notifications/{id}/lue`
+**Demandeur (`auth:sanctum` + rôle)**
+```
+GET|PUT /api/profil
+POST    /api/profil/cv
+CRUD    /api/profil/competences|formations|experiences
+POST    /api/offres/{offre}/postuler
+GET     /api/mes-candidatures
+GET     /api/notifications    POST /api/notifications/{id}/lue
+```
 
-### 4.3 Travaux Frontend
+### 5.3 Frontend
 
-| # | Tâche | Statut actuel |
-|---|-------|---------------|
-| a | Page détail offre `/emploi/[id]` | **N'existe pas** |
+| # | Tâche | État actuel |
+|---|---|---|
+| a | `/emploi/[offre]` page détail | **N'existe pas** |
 | b | Formulaire de candidature | **N'existe pas** |
-| c | Recherche/filtres côté serveur | Actuellement client-side (`JobsGrid.tsx:16-22`) |
-| d | Pages profil demandeur | **N'existent pas** — profil, compétences, formations, expériences |
+| c | Recherche/filtres côté serveur | Actuellement client-side (`JobsGrid.tsx`) |
+| d | Pages profil (profil, compétences, formations, expériences) | **N'existent pas** |
 | e | Upload CV | **N'existe pas** |
 | f | Mes candidatures + historique | Mock dans `dashboard/participant` |
-| g | Favoris | Lien mort dans la sidebar |
-| h | Notifications | Mock dans `DashboardNavbar:9-15` |
-| i | Admin candidatures → API | `app/dashboard/admin/candidatures/page.tsx` (colonnes CV/Lettre actuellement **simulées** par index de ligne) |
+| g | Notifications | Mock dans `DashboardNavbar` |
 
-**Durée estimée : 10-12 jours**
+### 5.4 Critère de fin
+Un demandeur crée un compte, complète son profil, dépose son CV, cherche une offre,
+postule, et suit sa candidature. Tests backend verts.
 
----
-
-## 5. Phases suivantes (aperçu)
-
-| Phase | Contenu | Durée est. |
-|-------|---------|-----------|
-| **6 — Portail Recruteur** | Profil entreprise, CRUD offres, recherche candidats, gestion candidatures, suivi recrutement | 8-10 j |
-| **7 — Matching & Entretiens** | Tableau de bord matching, critères, créneaux, calendrier, statuts entretien, emails/rappels. ⚠️ *Approche matching (critères vs IA) à confirmer avec le client* | 8-10 j |
-| **8 — Back-office Admin** | Compléter les 13 sections + ~85 sous-pages du `adminNav`, export Excel/CSV, rôles & permissions, statistiques | 12-15 j |
-| **9 — Intégrations, Sécurité, QA, Déploiement** | GA4, service email, carte interactive, HTTPS/SSL, sauvegardes, optimisation, tests navigateurs, QA fonctionnelle, serveur de production | 8-10 j |
+**Estimation : 10–12 jours**
 
 ---
 
-## 6. Points à confirmer avec le client
+## 5. Phase 6 — Espace Recruteur
 
-1. **Hébergement backend** — Laravel ne tourne pas sur Vercel. Options : VPS (Hostinger/DigitalOcean/OVH), Laravel Forge, ou hébergement mutualisé cPanel.
-2. **Base de données en production** — MySQL/MariaDB (par défaut avec Laravel + cPanel) ou PostgreSQL.
-3. **Service email** — SMTP du client, Mailgun, Resend ou Brevo. Nécessaire dès la Phase 4.
-4. **Approche de matching** (Phase 7) — par critères ou IA.
-5. **OAuth Google/LinkedIn** — les boutons existent dans l'UI. À implémenter ou retirer ?
-6. **Contenu réel** — catalogue de formations, capacités, dates, intervenants, partenaires.
-7. **Nom de domaine** — pour le déploiement final.
+> *Inscription/connexion ; profil entreprise ; tableau de bord ; création et gestion des offres ;
+> statut des offres ; recherche de profils ; gestion des candidatures ; suivi du recrutement.*
 
----
+### 6.1 Base de données
+Tables `entreprises` et `offres_emploi` créées en Phase 5. Ajouts :
 
-## 7. Décisions techniques
+| Table | Champs clés |
+|---|---|
+| `membres_entreprise` | `entreprise_id`, `user_id`, `role_interne` *(plusieurs recruteurs par entreprise)* |
+| `favoris_candidat` | `entreprise_id`, `profil_id`, `note` |
 
-| Sujet | Décision | Raison |
-|-------|----------|--------|
-| Laravel | **12.x** | Dernière version LTS, PHP 8.2 suffisant (8.2.12 présent) |
-| Auth | **Sanctum (token)** | Plus simple que SPA cookie-based pour un frontend séparé/déployé ailleurs |
-| Base dev | **MariaDB 10.4 (XAMPP)** | Déjà installé localement |
-| Dates API | **ISO 8601** | Le frontend formate en français. Les chaînes actuelles (`"12 Mars 2024"`) ne sont pas triables |
-| Clés de style | **Jamais renvoyées par l'API** | `catColor`, `statutBg`, etc. restent côté client (voir `STYLE_KEY` dans `useTable.ts:9`) |
-| `inscPct` | **Calculé côté serveur** | Dérivé de `inscriptions_count / max_inscriptions` |
-| Fichiers | **Laravel Storage** + hostname ajouté à `next.config.ts` `remotePatterns` | Les 3 hôtes actuels sont des placeholders |
-
----
-
-## 8. Ordre d'exécution
-
+### 6.2 API
 ```
-Étape 0  : Restructuration du dépôt          →  1 j
-Étape 1  : Fondations backend                →  3 j
-Étape 2  : Authentification                  →  3 j
-Étape 3  : PHASE 4 — Inscriptions/Formations →  8-10 j
-Étape 4  : PHASE 5 — Portail Demandeur       →  10-12 j
-──────────────────────────────────────────────────────
-Sous-total jusqu'à fin Phase 5               :  25-29 j
+GET|PUT /api/entreprise                     profil entreprise
+CRUD    /api/entreprise/offres              + changement de statut
+GET     /api/entreprise/offres/{o}/candidatures
+PUT     /api/entreprise/candidatures/{c}/statut
+GET     /api/entreprise/candidats           recherche de profils (visible = true)
+GET     /api/entreprise/tableau-de-bord     compteurs
 ```
 
-Chaque étape se termine par : migrations testées + endpoints testés + frontend branché + commit.
+### 6.3 Points de vigilance
+- **Cloisonnement strict :** une entreprise ne doit jamais lire les candidatures d'une autre.
+  Policy Laravel + test dédié, pas seulement un `where`.
+- **Consentement :** seuls les profils `visible = true` sortent dans la recherche candidats.
+- Le CV d'un candidat n'est téléchargeable **que** s'il a postulé chez ce recruteur.
+
+### 6.4 Critère de fin
+Un recruteur publie une offre, reçoit des candidatures, consulte les profils, fait évoluer
+les statuts. Un second recruteur ne voit rien de tout cela.
+
+**Estimation : 8–10 jours**
+
+---
+
+## 6. Phase 7 — Matching & Entretiens
+
+> *Tableau de bord de mise en relation ; critères ; candidats et offres correspondants ;
+> planification des entretiens ; créneaux ; confirmations ; calendrier ; statuts ; rappels.*
+
+### 7.1 Matching — par critères (décidé)
+
+```
+score = 30×secteur + 25×compétences + 20×ville
+      + 15×expérience + 10×type_contrat        → 0–100
+```
+
+Calculé en SQL, stocké dans `correspondances` et rafraîchi à la publication d'une offre ou à la
+mise à jour d'un profil. **Explicable** : chaque score s'accompagne de ses raisons
+(« 85 % — même secteur, 3 compétences communes, même ville »), ce qu'un score IA ne donne pas.
+
+| Table | Champs clés |
+|---|---|
+| `correspondances` | `offre_id`, `profil_id`, `score`, `details` (jsonb), `statut`, unique(`offre_id`,`profil_id`) |
+| `creneaux_entretien` | `entreprise_id`, `debut`, `fin`, `lieu`, `mode`, `reserve` |
+| `entretiens` | `candidature_id`, `creneau_id`, `statut`, `lien_visio`, `note`, `rappel_envoye_le` |
+
+**Statuts entretien :** `en_attente → confirme → termine | annule`
+
+### 7.2 API
+```
+GET  /api/entreprise/matching/offres/{offre}    candidats correspondants + score
+GET  /api/matching/mes-correspondances          côté demandeur
+CRUD /api/entreprise/creneaux
+POST /api/entreprise/candidatures/{c}/entretien proposer un créneau
+POST /api/entretiens/{e}/confirmer|annuler
+GET  /api/entretiens/calendrier
+```
+
+### 7.3 Rappels
+Commande planifiée (`schedule:run`) : rappel J-1 par email aux deux parties via `Notificateur`.
+
+### 7.4 Critère de fin
+Un recruteur ouvre une offre, voit les candidats classés par score avec justification, propose
+un créneau ; le candidat confirme ; les deux reçoivent un rappel la veille.
+
+**Estimation : 8–10 jours**
+
+---
+
+## 7. Phase 8 — Back-office Administrateur
+
+> *Tableau de bord ; participants ; inscriptions ; export Excel/CSV ; formations ; contenus ;
+> demandeurs ; recruteurs ; entreprises ; offres ; candidatures ; matching ; rendez-vous ;
+> utilisateurs ; rôles ; permissions ; statistiques.*
+
+**Point de départ réel : 2 pages sur 13 branchées.** Les 11 autres sont des maquettes statiques.
+
+### 8.1 Métier — CRUD complet + API
+
+| Page | Travail |
+|---|---|
+| `inscriptions` | ✅ déjà fait |
+| `formations` | ✅ déjà fait |
+| `utilisateurs` | CRUD, rôles, permissions, activation/suspension |
+| `emploi` | Offres : modération, statut, suppression |
+| `candidatures` | Suivi global *(colonnes CV/Lettre actuellement simulées par index de ligne — à brancher)* |
+| `rapports` | Statistiques + **export Excel/CSV** |
+| `evenements` | Éditions, dates, ouverture des inscriptions |
+| `intervenants` | CRUD formateurs |
+| `notifications` | Historique d'envoi, renvoi manuel |
+
+### 8.2 Éditorial — CRUD simple
+
+`actualites`, `faq`, `presse`, `partenaires`, `parametres` — remplacent les `data.ts` figés
+du frontend (12 fichiers de contenu statique aujourd'hui).
+
+### 8.3 Export
+`maatwebsite/excel` — inscriptions, candidatures, offres, participants par formation.
+
+### 8.4 Critère de fin
+Un administrateur gère l'ensemble de la plateforme sans toucher au code, et exporte ses listes.
+
+**Estimation : 12–15 jours**
+
+---
+
+## 8. Phase 9 — Intégrations, Sécurité, Tests & Mise en production
+
+### 9.1 Sécurité
+- [ ] HTTPS/SSL + redirection forcée
+- [ ] En-têtes : HSTS, CSP, X-Frame-Options, X-Content-Type-Options
+- [ ] Rate limiting sur **toutes** les routes d'écriture publiques
+- [ ] Policies Laravel sur chaque ressource (pas seulement du `where`)
+- [ ] Audit : aucune donnée personnelle exposée par URL *(déjà appliqué aux documents)*
+- [ ] Sauvegardes quotidiennes base + fichiers, avec **restauration testée**
+- [ ] `APP_DEBUG=false`, secrets hors dépôt
+
+### 9.2 Intégrations
+- [ ] Google Analytics 4
+- [ ] Service email réel — **aujourd'hui `MAIL_MAILER=log`, rien ne part**
+- [ ] Carte interactive (lieu de l'événement)
+
+### 9.3 Qualité
+- [ ] Tests navigateurs (Chrome, Firefox, Safari, mobile Android/iOS)
+- [ ] Parcours fonctionnels de bout en bout
+- [ ] Performance : index DB, requêtes N+1, images, cache
+- [ ] Accessibilité WCAG 2.1 (engagement de la Phase 2)
+
+### 9.4 Déploiement
+- [ ] Frontend → Vercel (**Root Directory = `frontend`**)
+- [ ] Backend → Railway / Render / Fly.io / VPS — **Vercel n'héberge pas PHP**
+- [ ] PostgreSQL managé + domaine + SSL
+- [ ] Vérification finale en production
+
+**Estimation : 8–10 jours**
+
+---
+
+## 9. Calendrier
+
+| Phase | Module | Durée | Cumul |
+|---|---|---|---|
+| 5 | Espace Demandeur d'emploi | 10–12 j | 12 j |
+| 6 | Espace Recruteur | 8–10 j | 22 j |
+| 7 | Matching & Entretiens | 8–10 j | 32 j |
+| 8 | Back-office Administrateur | 12–15 j | 47 j |
+| 9 | Intégrations, Sécurité, Production | 8–10 j | **57 j** |
+
+**Reste à livrer : 46–57 jours de travail** pour 500 USD (5 phases).
+
+> ⚠️ **À savoir avant de s'engager sur une date.** Le rythme des phases 1–4 ne prédit pas celui
+> des phases 5–9 : le site public est surtout de l'affichage, alors que les espaces emploi sont
+> du métier avec droits d'accès, états et règles de cloisonnement. La Phase 8 à elle seule
+> (11 pages à brancher) pèse plus lourd que la Phase 4 entière.
+
+### Ordre d'exécution
+5 → 6 → 7 → 8 → 9, sans réordonnancement possible : la 6 a besoin des tables de la 5,
+la 7 a besoin des candidatures de la 6, la 8 administre tout ce qui précède, la 9 déploie l'ensemble.
+
+### Protocole par phase
+1. Se mettre d'accord sur le périmètre **avant** d'écrire du code
+2. Migrations + enums + modèles
+3. FormRequest → Service → Resource → Controller → routes
+4. Tests backend (sécurité et cloisonnement compris)
+5. Frontend branché sur l'API réelle
+6. Vérification sur serveurs lancés, puis commit
+
+---
+
+## 10. À confirmer avec le client
+
+| # | Point | Bloque | Pourquoi c'est urgent |
+|---|---|---|---|
+| 1 | **Service email** (SMTP, Mailgun, Resend, Brevo) | Phases 5–7, 9 | `MAIL_MAILER=log` : **aucun email ne part réellement aujourd'hui** |
+| 2 | **Hébergement backend + domaine** | Phase 9 | Vercel n'exécute pas PHP. À prévoir bien avant la fin. |
+| 3 | Matching par critères — **confirmer par écrit** | Phase 7 | Décision prise ; à faire acter pour éviter une demande d'IA en fin de parcours |
+| 4 | OAuth Google/LinkedIn | Phase 5 | Les boutons sont déjà dans l'UI : à implémenter ou à retirer |
+| 5 | Contenu réel (formations, intervenants, partenaires) | Phase 8 | 12 fichiers `data.ts` figés attendent du contenu officiel |
+| 6 | Réouverture des documents après annulation | — | Aujourd'hui seul le statut `en_attente` autorise l'envoi |
+
+### Risque commercial à surveiller
+Les phases 5 à 9 représentent **la moitié du contrat en argent mais nettement plus de la moitié
+du travail**. Toute demande d'IA en Phase 7, ou de CMS complet en Phase 8, sort du périmètre
+convenu et doit faire l'objet d'un avenant.
