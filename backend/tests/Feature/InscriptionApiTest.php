@@ -143,7 +143,7 @@ class InscriptionApiTest extends TestCase
             ->assertCreated()
             ->json('data.reference');
 
-        $this->getJson("/api/inscriptions/".urlencode($reference))
+        $this->getJson('/api/inscriptions/'.urlencode($reference))
             ->assertOk()
             ->assertJsonPath('data.email', 'aminata@example.com');
     }

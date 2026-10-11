@@ -130,6 +130,166 @@ export interface DocumentUploadResponse {
   data: ApiDocument;
 }
 
+/* ─── Portail emploi (Phase 5) ─── */
+
+export type TypeContrat = "cdi" | "cdd" | "stage" | "consultant" | "alternance";
+export type StatutOffre = "brouillon" | "publiee" | "pourvue" | "expiree" | "fermee";
+export type NiveauCompetence = "debutant" | "intermediaire" | "avance" | "expert";
+
+export type StatutCandidature =
+  | "envoyee"
+  | "en_revue"
+  | "preselectionnee"
+  | "entretien"
+  | "acceptee"
+  | "refusee";
+
+export interface ApiEntreprise {
+  id: number;
+  nom: string;
+  slug: string;
+  secteur: string | null;
+  taille: string | null;
+  logo: string | null;
+  site_web: string | null;
+  description: string | null;
+  ville: string | null;
+  verifiee: boolean;
+}
+
+export interface ApiOffre {
+  id: number;
+  titre: string;
+  slug: string;
+  description: string;
+  missions: string | null;
+  profil_recherche: string | null;
+  type_contrat: TypeContrat;
+  type_contrat_label: string;
+  statut: StatutOffre;
+  statut_label: string;
+  secteur: string;
+  ville: string;
+  salaire_min: number | null;
+  salaire_max: number | null;
+  experience_requise: string | null;
+  niveau_etude: string | null;
+  date_limite: string | null;
+  publiee_le: string | null;
+  expiree: boolean;
+  ouverte: boolean;
+  vues: number;
+  candidatures_count: number;
+  entreprise?: ApiEntreprise;
+  deja_postule?: boolean;
+  en_favori?: boolean;
+}
+
+/** One filter value with its live count, as the API reports it. */
+export interface FiltreValeur {
+  valeur: string;
+  total: number;
+}
+
+export interface OffresResponse {
+  data: ApiOffre[];
+  meta: PaginationMeta;
+  filtres: {
+    secteur: FiltreValeur[];
+    ville: FiltreValeur[];
+    type_contrat: FiltreValeur[];
+  };
+}
+
+export interface ApiCompetence {
+  id: number;
+  nom: string;
+  niveau: NiveauCompetence;
+}
+
+export interface ApiFormationAcademique {
+  id: number;
+  diplome: string;
+  etablissement: string;
+  domaine: string | null;
+  annee_debut: number | null;
+  annee_fin: number | null;
+  en_cours: boolean;
+}
+
+export interface ApiExperience {
+  id: number;
+  poste: string;
+  entreprise: string;
+  lieu: string | null;
+  date_debut: string;
+  date_fin: string | null;
+  en_poste: boolean;
+  description: string | null;
+}
+
+export interface ApiProfilDemandeur {
+  id: number;
+  nom?: string;
+  email?: string;
+  telephone?: string | null;
+  photo?: string | null;
+  titre_pro: string | null;
+  resume: string | null;
+  secteur: string | null;
+  ville: string | null;
+  type_emploi: string | null;
+  disponibilite: string | null;
+  linkedin: string | null;
+  portfolio: string | null;
+  visible: boolean;
+  competences?: ApiCompetence[];
+  formations?: ApiFormationAcademique[];
+  experiences?: ApiExperience[];
+  documents?: ApiDocumentCandidature[];
+  taux_completion?: number;
+}
+
+export interface ApiDocumentCandidature {
+  id: number;
+  type: TypeDocument;
+  type_label: string;
+  nom_original: string;
+  taille_lisible: string;
+  principal: boolean;
+  televerse_le: string;
+}
+
+export interface ApiCandidature {
+  id: number;
+  reference: string;
+  statut: StatutCandidature;
+  statut_label: string;
+  est_final: boolean;
+  peut_etre_retiree: boolean;
+  lettre_motivation: string | null;
+  offre?: ApiOffre;
+  profil?: ApiProfilDemandeur;
+  cv?: ApiDocumentCandidature;
+  note_recruteur?: string | null;
+  statut_modifie_le: string | null;
+  created_at: string;
+}
+
+export interface CandidaturesResponse {
+  data: ApiCandidature[];
+  meta: PaginationMeta;
+}
+
+export interface CompteInscriptionPayload {
+  nom: string;
+  email: string;
+  telephone?: string;
+  password: string;
+  password_confirmation: string;
+  role: "demandeur" | "recruteur";
+}
+
 /* ─── Back-office ─── */
 
 export type StatutInscription = "en_attente" | "confirmee" | "annulee";

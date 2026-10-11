@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Enums\TypeDocument;
+use App\Models\DocumentCandidature;
 use App\Models\DocumentInscription;
 use App\Models\Inscription;
+use App\Models\ProfilDemandeur;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -61,6 +63,47 @@ class GestionDocuments
         });
 
         return $document;
+    }
+
+    /**
+     * Same storage guarantees for a jobseeker's CV, but kept as history rather
+     * than replaced: a candidate may hold several CVs and pick one per
+     * application, and an older one must stay readable by the recruiters who
+     * already received it.
+     */
+    public function enregistrerPourProfil(
+        ProfilDemandeur $profil,
+        TypeDocument $type,
+        UploadedFile $fichier,
+    ): DocumentCandidature {
+        $chemin = $fichier->storeAs(
+            'documents/profils/'.$profil->id,
+            $this->nomDeFichier($fichier),
+            ['disk' => self::DISQUE]
+        );
+
+        return DB::transaction(function () use ($profil, $type, $fichier, $chemin) {
+            // Newest upload of a type becomes the default one offered.
+            $profil->documents()->where('type', $type->value)->update(['principal' => false]);
+
+            return $profil->documents()->create([
+                'type' => $type->value,
+                'nom_original' => $this->nomPropre($fichier->getClientOriginalName()),
+                'chemin' => $chemin,
+                'mime' => $fichier->getClientMimeType(),
+                'taille' => $fichier->getSize(),
+                'principal' => true,
+            ]);
+        });
+    }
+
+    public function supprimerDocument(DocumentCandidature $document): void
+    {
+        $chemin = $document->chemin;
+
+        $document->delete();
+
+        Storage::disk(self::DISQUE)->delete($chemin);
     }
 
     public function supprimer(DocumentInscription $document): void

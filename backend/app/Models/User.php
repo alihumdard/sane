@@ -6,6 +6,7 @@ use App\Enums\RoleUtilisateur;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -45,6 +46,22 @@ class User extends Authenticatable
     public function inscriptions(): HasMany
     {
         return $this->hasMany(Inscription::class);
+    }
+
+    public function profilDemandeur(): HasOne
+    {
+        return $this->hasOne(ProfilDemandeur::class);
+    }
+
+    public function entreprise(): HasOne
+    {
+        return $this->hasOne(Entreprise::class);
+    }
+
+    /** Created on demand: a jobseeker account has no profile until it is first opened. */
+    public function profilDemandeurOuCreer(): ProfilDemandeur
+    {
+        return $this->profilDemandeur()->firstOrCreate([]);
     }
 
     public function estAdministrateur(): bool

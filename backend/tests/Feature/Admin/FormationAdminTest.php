@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Models\CategorieFormation;
 use App\Models\Edition;
 use App\Models\Formation;
 use App\Models\Inscription;

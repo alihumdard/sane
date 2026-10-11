@@ -2,13 +2,14 @@
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { api, ApiError, setAuthToken } from "./api";
+import type { CompteInscriptionPayload } from "./types";
 
 export interface AuthUser {
   id: number;
   nom: string;
   email: string;
   telephone: string | null;
-  role: "participant" | "entreprise" | "recruteur" | "organisateur" | "administrateur";
+  role: "participant" | "demandeur" | "entreprise" | "recruteur" | "organisateur" | "administrateur";
   role_label: string;
   photo: string | null;
 }
@@ -17,6 +18,7 @@ interface AuthState {
   user: AuthUser | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<AuthUser>;
+  inscrire: (payload: CompteInscriptionPayload) => Promise<AuthUser>;
   logout: () => Promise<void>;
 }
 
@@ -76,6 +78,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return res.user;
   }, []);
 
+  /** Self-service signup; the account is live immediately, as at login. */
+  const inscrire = useCallback(async (payload: CompteInscriptionPayload) => {
+    const res = await api.post<{ token: string; user: AuthUser }>("/auth/inscription", payload);
+
+    ecrireToken(res.token);
+    setAuthToken(res.token);
+    setUser(res.user);
+
+    return res.user;
+  }, []);
+
   const logout = useCallback(async () => {
     try {
       await api.post("/auth/logout");
@@ -89,7 +102,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  return <AuthContext value={{ user, loading, login, logout }}>{children}</AuthContext>;
+  return <AuthContext value={{ user, loading, login, inscrire, logout }}>{children}</AuthContext>;
 }
 
 export function useAuth(): AuthState {

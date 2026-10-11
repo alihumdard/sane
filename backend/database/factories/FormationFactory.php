@@ -3,10 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\Edition;
+use App\Models\Formation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-/** @extends Factory<\App\Models\Formation> */
+/** @extends Factory<Formation> */
 class FormationFactory extends Factory
 {
     public function definition(): array

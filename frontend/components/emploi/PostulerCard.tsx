@@ -1,0 +1,168 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { AlertCircle, CheckCircle2, Loader2, LogIn, Send } from "lucide-react";
+import { primaryBtn } from "@/components/ui/styles";
+import { api, ApiError } from "@/lib/api";
+import { useAuth } from "@/lib/auth";
+import type { ApiCandidature, ApiOffre } from "@/lib/types";
+
+/**
+ * Application panel on an offer page.
+ *
+ * Only a jobseeker may apply, so the card shows the state that fits the
+ * visitor: a prompt to sign in, the form, or a confirmation.
+ */
+export function PostulerCard({ offre }: { offre: ApiOffre }) {
+  const { user, loading } = useAuth();
+
+  const [lettre, setLettre] = useState("");
+  const [envoi, setEnvoi] = useState(false);
+  const [erreur, setErreur] = useState<string | null>(null);
+  const [candidature, setCandidature] = useState<ApiCandidature | null>(null);
+
+  const peutPostuler = user?.role === "demandeur" || user?.role === "participant";
+
+  async function postuler(e: React.FormEvent) {
+    e.preventDefault();
+
+    setEnvoi(true);
+    setErreur(null);
+
+    try {
+      const res = await api.post<{ message: string; data: ApiCandidature }>(
+        `/offres/${encodeURIComponent(offre.slug)}/postuler`,
+        { lettre_motivation: lettre || undefined }
+      );
+      setCandidature(res.data);
+    } catch (e) {
+      setErreur(
+        e instanceof ApiError
+          ? e.fieldError("lettre_motivation") ?? e.message
+          : "Impossible d'envoyer votre candidature. Réessayez."
+      );
+    } finally {
+      setEnvoi(false);
+    }
+  }
+
+  const carte = "rounded-2xl border border-[var(--sane-border)] bg-white p-5 shadow-sm";
+
+  if (candidature) {
+    return (
+      <div className={carte} role="status">
+        <CheckCircle2 size={28} className="mb-2 text-[var(--sane-green)]" />
+        <h3 className="sane-h3 mb-1">Candidature envoyée</h3>
+        <p className="sane-small mb-3">
+          Votre référence : <strong className="text-[var(--sane-green)]">{candidature.reference}</strong>
+        </p>
+        <Link href="/dashboard/participant" className="text-[13px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)]">
+          Suivre mes candidatures →
+        </Link>
+      </div>
+    );
+  }
+
+  if (!offre.ouverte) {
+    return (
+      <div className={carte}>
+        <h3 className="sane-h3 mb-1">Candidatures closes</h3>
+        <p className="sane-small">
+          Cette offre n&apos;accepte plus de candidatures. Consultez les autres offres disponibles.
+        </p>
+        <Link href="/emploi" className="mt-3 inline-block text-[13px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)]">
+          Voir les offres →
+        </Link>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className={carte}>
+        <p className="flex items-center gap-2">
+          <Loader2 size={16} className="animate-spin text-[var(--sane-green)]" />
+          <span className="sane-small">Chargement…</span>
+        </p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className={carte}>
+        <h3 className="sane-h3 mb-1">Postuler à cette offre</h3>
+        <p className="sane-small mb-4">
+          Connectez-vous ou créez un compte demandeur d&apos;emploi pour envoyer votre candidature.
+        </p>
+        <Link href={`/connexion?suite=/emploi/${offre.slug}`} className={`${primaryBtn} w-full`}>
+          <LogIn size={15} /> Se connecter
+        </Link>
+      </div>
+    );
+  }
+
+  if (offre.deja_postule) {
+    return (
+      <div className={carte} role="status">
+        <CheckCircle2 size={28} className="mb-2 text-[var(--sane-green)]" />
+        <h3 className="sane-h3 mb-1">Déjà postulé</h3>
+        <p className="sane-small">Vous avez déjà envoyé une candidature pour cette offre.</p>
+      </div>
+    );
+  }
+
+  if (!peutPostuler) {
+    return (
+      <div className={carte}>
+        <h3 className="sane-h3 mb-1">Postuler à cette offre</h3>
+        <p className="sane-small">
+          Seuls les comptes demandeur d&apos;emploi peuvent postuler aux offres.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={postuler} className={carte}>
+      <h3 className="sane-h3 mb-1">Postuler à cette offre</h3>
+      <p className="sane-small mb-4">
+        Votre profil et votre CV seront transmis au recruteur.
+      </p>
+
+      <label htmlFor="lettre" className="mb-2 block text-[13px] font-semibold text-[var(--sane-text)]">
+        Lettre de motivation <span className="font-normal opacity-70">(facultatif)</span>
+      </label>
+      <textarea
+        id="lettre"
+        value={lettre}
+        onChange={(e) => setLettre(e.target.value)}
+        rows={6}
+        maxLength={5000}
+        placeholder="Présentez en quelques lignes votre motivation pour ce poste…"
+        className="mb-1 w-full rounded-lg border border-[var(--sane-border)] p-3 text-[13px] outline-none transition-colors focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10"
+      />
+      <p className="sane-small mb-4 text-right opacity-60">{lettre.length}/5000</p>
+
+      {erreur && (
+        <p role="alert" className="mb-3 flex items-start gap-2 text-[var(--sane-red-dark)]">
+          <AlertCircle size={15} className="mt-0.5 shrink-0" />
+          <span className="text-[13px] text-[var(--sane-red-dark)]">{erreur}</span>
+        </p>
+      )}
+
+      <button type="submit" disabled={envoi} className={`${primaryBtn} w-full disabled:opacity-60`}>
+        {envoi ? (
+          <>
+            Envoi en cours… <Loader2 size={15} className="animate-spin" />
+          </>
+        ) : (
+          <>
+            Envoyer ma candidature <Send size={15} />
+          </>
+        )}
+      </button>
+    </form>
+  );
+}

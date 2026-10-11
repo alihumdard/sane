@@ -1,0 +1,313 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Enums\RoleUtilisateur;
+use App\Enums\StatutCandidature;
+use App\Enums\StatutOffre;
+use App\Enums\TypeContrat;
+use App\Models\Candidature;
+use App\Models\Entreprise;
+use App\Models\OffreEmploi;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class EmploiApiTest extends TestCase
+{
+    use RefreshDatabase;
+
+    private function demandeur(string $email = 'demandeur@example.com'): User
+    {
+        $user = User::factory()->create([
+            'email' => $email,
+            'role' => RoleUtilisateur::Demandeur,
+            'statut' => 'actif',
+        ]);
+
+        $user->profilDemandeur()->create();
+
+        return $user;
+    }
+
+    private function offre(array $surcharges = []): OffreEmploi
+    {
+        $recruteur = User::factory()->create(['role' => RoleUtilisateur::Recruteur, 'statut' => 'actif']);
+
+        $entreprise = Entreprise::create([
+            'user_id' => $recruteur->id,
+            'nom' => 'Entreprise Test '.uniqid(),
+            'secteur' => 'Informatique & Digital',
+            'ville' => 'Niamey',
+            'verifiee' => true,
+        ]);
+
+        return OffreEmploi::create([
+            'entreprise_id' => $entreprise->id,
+            'titre' => 'Développeur Web '.uniqid(),
+            'description' => 'Une description de poste.',
+            'type_contrat' => TypeContrat::Cdi->value,
+            'secteur' => 'Informatique & Digital',
+            'ville' => 'Niamey',
+            'statut' => StatutOffre::Publiee->value,
+            'publiee_le' => now(),
+            ...$surcharges,
+        ]);
+    }
+
+    /* ─── Création de compte ─── */
+
+    public function test_un_demandeur_peut_creer_un_compte(): void
+    {
+        $this->postJson('/api/auth/inscription', [
+            'nom' => 'Ibrahim Moussa',
+            'email' => 'ibrahim@example.com',
+            'password' => 'sanem2026',
+            'password_confirmation' => 'sanem2026',
+            'role' => 'demandeur',
+        ])->assertCreated()->assertJsonPath('user.role', 'demandeur');
+
+        $user = User::where('email', 'ibrahim@example.com')->sole();
+
+        // The profile must exist straight away: the rest of the space hangs off it.
+        $this->assertNotNull($user->profilDemandeur);
+    }
+
+    public function test_un_role_privilegie_ne_peut_pas_etre_choisi(): void
+    {
+        $this->postJson('/api/auth/inscription', [
+            'nom' => 'Intrus',
+            'email' => 'intrus@example.com',
+            'password' => 'sanem2026',
+            'password_confirmation' => 'sanem2026',
+            'role' => 'administrateur',
+        ])->assertStatus(422)->assertJsonValidationErrors('role');
+
+        $this->assertDatabaseMissing('users', ['email' => 'intrus@example.com']);
+    }
+
+    public function test_un_mot_de_passe_faible_est_refuse(): void
+    {
+        $this->postJson('/api/auth/inscription', [
+            'nom' => 'Test',
+            'email' => 'faible@example.com',
+            'password' => 'abc',
+            'password_confirmation' => 'abc',
+            'role' => 'demandeur',
+        ])->assertStatus(422)->assertJsonValidationErrors('password');
+    }
+
+    /* ─── Recherche publique ─── */
+
+    public function test_seules_les_offres_publiees_sont_visibles(): void
+    {
+        $this->offre(['titre' => 'Poste publie']);
+        $this->offre(['titre' => 'Poste brouillon', 'statut' => StatutOffre::Brouillon->value]);
+
+        $response = $this->getJson('/api/offres')->assertOk();
+
+        $this->assertSame(1, $response->json('meta.total'));
+        $this->assertSame('Poste publie', $response->json('data.0.titre'));
+    }
+
+    public function test_une_offre_expiree_est_exclue(): void
+    {
+        $this->offre(['titre' => 'Poste expire', 'date_limite' => now()->subDay()->toDateString()]);
+
+        $this->getJson('/api/offres')->assertOk()->assertJsonPath('meta.total', 0);
+    }
+
+    public function test_la_recherche_filtre_par_ville_et_contrat(): void
+    {
+        $this->offre(['ville' => 'Zinder']);
+        $this->offre(['ville' => 'Niamey', 'type_contrat' => TypeContrat::Stage->value]);
+
+        $this->getJson('/api/offres?ville=Zinder')->assertOk()->assertJsonPath('meta.total', 1);
+        $this->getJson('/api/offres?type_contrat=stage')->assertOk()->assertJsonPath('meta.total', 1);
+    }
+
+    public function test_les_filtres_renvoient_des_compteurs(): void
+    {
+        $this->offre(['ville' => 'Niamey']);
+        $this->offre(['ville' => 'Niamey']);
+
+        $filtres = $this->getJson('/api/offres')->assertOk()->json('filtres.ville');
+
+        $this->assertSame(['valeur' => 'Niamey', 'total' => 2], $filtres[0]);
+    }
+
+    public function test_la_consultation_incremente_les_vues(): void
+    {
+        $offre = $this->offre();
+
+        $this->getJson('/api/offres/'.$offre->slug)->assertOk();
+
+        $this->assertSame(1, $offre->refresh()->vues);
+    }
+
+    /* ─── Profil ─── */
+
+    public function test_le_profil_exige_une_authentification(): void
+    {
+        $this->getJson('/api/profil')->assertUnauthorized();
+    }
+
+    public function test_un_demandeur_met_a_jour_son_profil(): void
+    {
+        $this->actingAs($this->demandeur())
+            ->putJson('/api/profil', [
+                'titre_pro' => 'Développeur Web',
+                'ville' => 'Niamey',
+                'visible' => true,
+            ])
+            ->assertOk()
+            ->assertJsonPath('data.titre_pro', 'Développeur Web');
+    }
+
+    public function test_une_competence_reajoutee_met_a_jour_son_niveau(): void
+    {
+        $user = $this->demandeur();
+
+        $this->actingAs($user)->postJson('/api/profil/competences', [
+            'nom' => 'PHP', 'niveau' => 'debutant',
+        ])->assertCreated();
+
+        $this->actingAs($user)->postJson('/api/profil/competences', [
+            'nom' => 'PHP', 'niveau' => 'expert',
+        ])->assertCreated();
+
+        $competences = $user->profilDemandeur->competences()->get();
+
+        $this->assertCount(1, $competences);
+        $this->assertSame('expert', $competences->first()->pivot->niveau);
+    }
+
+    public function test_une_experience_dun_autre_profil_est_inaccessible(): void
+    {
+        $proprietaire = $this->demandeur('proprietaire@example.com');
+        $intrus = $this->demandeur('intrus@example.com');
+
+        $experience = $proprietaire->profilDemandeur->experiences()->create([
+            'poste' => 'Développeur',
+            'entreprise' => 'ACME',
+            'date_debut' => '2023-01-01',
+        ]);
+
+        $this->actingAs($intrus)
+            ->deleteJson('/api/profil/experiences/'.$experience->id)
+            ->assertForbidden();
+
+        $this->assertDatabaseHas('experiences', ['id' => $experience->id]);
+    }
+
+    /* ─── Candidatures ─── */
+
+    public function test_un_demandeur_postule_a_une_offre(): void
+    {
+        $user = $this->demandeur();
+        $offre = $this->offre();
+
+        $this->actingAs($user)
+            ->postJson('/api/offres/'.$offre->slug.'/postuler', [
+                'lettre_motivation' => 'Je suis motivé.',
+            ])
+            ->assertCreated()
+            ->assertJsonPath('data.statut', StatutCandidature::Envoyee->value);
+
+        $this->assertSame(1, $offre->refresh()->candidatures_count);
+    }
+
+    public function test_on_ne_peut_pas_postuler_deux_fois(): void
+    {
+        $user = $this->demandeur();
+        $offre = $this->offre();
+
+        $this->actingAs($user)->postJson('/api/offres/'.$offre->slug.'/postuler')->assertCreated();
+        $this->actingAs($user)->postJson('/api/offres/'.$offre->slug.'/postuler')->assertStatus(409);
+
+        // The duplicate must not have inflated the counter.
+        $this->assertSame(1, $offre->refresh()->candidatures_count);
+    }
+
+    public function test_on_ne_peut_pas_postuler_a_une_offre_fermee(): void
+    {
+        $user = $this->demandeur();
+        $offre = $this->offre(['statut' => StatutOffre::Fermee->value]);
+
+        $this->actingAs($user)
+            ->postJson('/api/offres/'.$offre->slug.'/postuler')
+            ->assertNotFound();
+    }
+
+    public function test_une_candidature_dun_autre_demandeur_est_inaccessible(): void
+    {
+        $proprietaire = $this->demandeur('proprietaire@example.com');
+        $intrus = $this->demandeur('intrus@example.com');
+        $offre = $this->offre();
+
+        $this->actingAs($proprietaire)->postJson('/api/offres/'.$offre->slug.'/postuler')->assertCreated();
+
+        $candidature = Candidature::sole();
+
+        $this->actingAs($intrus)->getJson('/api/mes-candidatures/'.$candidature->id)->assertForbidden();
+        $this->actingAs($intrus)->deleteJson('/api/mes-candidatures/'.$candidature->id)->assertForbidden();
+
+        $this->assertDatabaseHas('candidatures', ['id' => $candidature->id]);
+    }
+
+    public function test_la_liste_ne_montre_que_ses_propres_candidatures(): void
+    {
+        $premier = $this->demandeur('premier@example.com');
+        $second = $this->demandeur('second@example.com');
+
+        $this->actingAs($premier)->postJson('/api/offres/'.$this->offre()->slug.'/postuler')->assertCreated();
+
+        $this->actingAs($second)->getJson('/api/mes-candidatures')
+            ->assertOk()
+            ->assertJsonPath('meta.total', 0);
+    }
+
+    public function test_une_candidature_traitee_ne_peut_plus_etre_retiree(): void
+    {
+        $user = $this->demandeur();
+        $offre = $this->offre();
+
+        $this->actingAs($user)->postJson('/api/offres/'.$offre->slug.'/postuler')->assertCreated();
+
+        $candidature = Candidature::sole();
+        $candidature->update(['statut' => StatutCandidature::Acceptee]);
+
+        $this->actingAs($user)
+            ->deleteJson('/api/mes-candidatures/'.$candidature->id)
+            ->assertStatus(409);
+    }
+
+    public function test_retirer_une_candidature_decremente_le_compteur(): void
+    {
+        $user = $this->demandeur();
+        $offre = $this->offre();
+
+        $this->actingAs($user)->postJson('/api/offres/'.$offre->slug.'/postuler')->assertCreated();
+        $this->assertSame(1, $offre->refresh()->candidatures_count);
+
+        $this->actingAs($user)->deleteJson('/api/mes-candidatures/'.Candidature::sole()->id)->assertOk();
+
+        $this->assertSame(0, $offre->refresh()->candidatures_count);
+    }
+
+    /* ─── Favoris ─── */
+
+    public function test_un_favori_se_pose_et_se_retire(): void
+    {
+        $user = $this->demandeur();
+        $offre = $this->offre();
+
+        $this->actingAs($user)->postJson('/api/offres/'.$offre->id.'/favori')
+            ->assertOk()->assertJsonPath('en_favori', true);
+
+        $this->actingAs($user)->getJson('/api/mes-favoris')->assertOk()->assertJsonCount(1, 'data');
+
+        $this->actingAs($user)->postJson('/api/offres/'.$offre->id.'/favori')
+            ->assertOk()->assertJsonPath('en_favori', false);
+    }
+}

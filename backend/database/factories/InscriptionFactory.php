@@ -5,9 +5,10 @@ namespace Database\Factories;
 use App\Enums\StatutInscription;
 use App\Enums\TypeParticipation;
 use App\Models\Edition;
+use App\Models\Inscription;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/** @extends Factory<\App\Models\Inscription> */
+/** @extends Factory<Inscription> */
 class InscriptionFactory extends Factory
 {
     public function definition(): array

@@ -1,27 +1,9 @@
 import {
   Briefcase, Building2, UserSearch, GraduationCap,
   UserPlus, Search as SearchIcon, Mail, ClipboardCheck,
-  MessageCircle, MonitorSmartphone, HeartPulse, Sprout, LayoutGrid,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { InfoItem } from "@/components/shared";
-
-export interface Job {
-  company: string;
-  companyFull: string;
-  title: string;
-  location: string;
-  contract: string;
-  category: string;
-  date: string;
-  color: string;
-}
-
-export interface Sector {
-  name: string;
-  count: number;
-  icon: LucideIcon;
-}
 
 export interface Partner {
   name: string;
@@ -44,27 +26,6 @@ export const emploiInfo: InfoItem[] = [
   { icon: GraduationCap, title: "Secteurs d'activité", description: "+15" },
 ];
 
-export const jobs: Job[] = [
-  { company: "Enabel", companyFull: "Enabel Niger", title: "Chargé de Communication", location: "Niamey", contract: "CDI", category: "Communication", date: "12 Mars 2024", color: "var(--sane-c-e30613)" },
-  { company: "GIZ", companyFull: "GIZ Niger", title: "Développeur Web", location: "Niamey", contract: "CDD", category: "Informatique", date: "10 Mars 2024", color: "var(--sane-c-007f3e)" },
-  { company: "BM", companyFull: "Banque Mondiale", title: "Spécialiste Suivi & Évaluation", location: "Niamey", contract: "CDI", category: "Gestion de projets", date: "08 Mars 2024", color: "var(--sane-c-0066b2)" },
-  { company: "PNUD", companyFull: "PNUD Niger", title: "Assistant Administratif", location: "Niamey", contract: "CDD", category: "Administration", date: "05 Mars 2024", color: "var(--sane-c-0068b8)" },
-  { company: "AFD", companyFull: "AFD Niger", title: "Expert en Formation", location: "Niamey", contract: "Consultant", category: "Formation", date: "02 Mars 2024", color: "var(--sane-c-e63946)" },
-];
-
-export const cities = ["Niamey", "Zinder", "Maradi", "Agadez", "Diffa", "Tahoua"];
-
-export const sectors: Sector[] = [
-  { name: "Administration & Gestion", count: 125, icon: Building2 },
-  { name: "Communication", count: 80, icon: MessageCircle },
-  { name: "Informatique & Digital", count: 95, icon: MonitorSmartphone },
-  { name: "Éducation & Formation", count: 70, icon: GraduationCap },
-  { name: "Santé", count: 60, icon: HeartPulse },
-  { name: "Agriculture & Environnement", count: 55, icon: Sprout },
-  { name: "Projets & Développement", count: 110, icon: Briefcase },
-  { name: "Autres secteurs", count: 45, icon: LayoutGrid },
-];
-
 export const recruitingPartners: Partner[] = [
   { name: "République du Niger", abbr: "RN", color: "var(--sane-green-dark)", logo: "/niger_ministere_emploi.png" },
   { name: "Organisation Internationale du Travail", abbr: "OIT", color: "var(--sane-c-1a5276)", logo: "/organisation_internationale_travail.png" },
@@ -72,10 +33,6 @@ export const recruitingPartners: Partner[] = [
   { name: "GIZ", abbr: "GIZ", color: "var(--sane-c-007f3e)", logo: "/giz.png" },
   { name: "AFD", abbr: "AFD", color: "var(--sane-c-e63946)", logo: "/afd.png" },
 ];
-
-export const secteurOptions = ["Secteur d'activité", "Administration", "Communication", "Informatique", "Formation", "Santé"];
-export const lieuOptions = ["Lieu", "Niamey", "Zinder", "Maradi", "Agadez", "Diffa", "Tahoua"];
-export const contratOptions = ["Type de contrat", "CDI", "CDD", "Consultant", "Stage"];
 
 export const steps: Step[] = [
   { num: "01", icon: UserPlus, title: "Créez votre profil", desc: "Inscrivez-vous et complétez votre profil." },

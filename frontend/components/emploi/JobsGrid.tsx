@@ -1,28 +1,165 @@
-﻿"use client";
+"use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, MapPin, Calendar, Search, ChevronDown } from "lucide-react";
+import { AlertCircle, ArrowRight, Calendar, ChevronDown, Loader2, MapPin, Search } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { jobs, cities, sectors, secteurOptions, lieuOptions, contratOptions } from "./data";
+import { api, ApiError } from "@/lib/api";
+import type { ApiOffre, FiltreValeur, OffresResponse } from "@/lib/types";
 
+/** "12 mars 2026" — the API sends ISO, the UI reads French. */
+function formatDate(iso: string | null): string {
+  if (!iso) return "";
+
+  return new Date(iso).toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+/** Colour is presentation, so it is derived here rather than stored server-side. */
+const PALETTE = [
+  "var(--sane-green)",
+  "var(--sane-orange)",
+  "var(--sane-c-0066b2)",
+  "var(--sane-c-e30613)",
+  "var(--sane-c-1a5276)",
+];
+
+function couleur(id: number): string {
+  return PALETTE[id % PALETTE.length];
+}
+
+function Select({
+  value,
+  onChange,
+  placeholder,
+  options,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+  options: FiltreValeur[];
+}) {
+  return (
+    <div className="relative lg:min-w-[150px] lg:flex-1">
+      <ChevronDown size={15} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        aria-label={placeholder}
+        className="h-[46px] w-full cursor-pointer appearance-none rounded-xl bg-white pl-4 pr-10 text-[13px] text-[var(--sane-text)] shadow-sm outline-none ring-1 ring-black/[0.04] transition-shadow focus:ring-2 focus:ring-[var(--sane-green)] sm:h-[52px] sm:text-[14px]"
+      >
+        <option value="">{placeholder}</option>
+        {options.map((o) => (
+          <option key={o.valeur} value={o.valeur}>
+            {o.valeur} ({o.total})
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+/**
+ * Job board, served by the API.
+ *
+ * Searching and filtering happen server-side so the browser never holds the
+ * whole table: only the current page of results crosses the wire, and the
+ * query runs against the database indexes.
+ */
 export function JobsGrid() {
-  const [search, setSearch] = useState("");
+  const [offres, setOffres] = useState<ApiOffre[]>([]);
+  const [filtres, setFiltres] = useState<OffresResponse["filtres"]>({
+    secteur: [],
+    ville: [],
+    type_contrat: [],
+  });
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [dernierePage, setDernierePage] = useState(1);
+
+  const [recherche, setRecherche] = useState("");
   const [secteur, setSecteur] = useState("");
-  const [lieu, setLieu] = useState("");
+  const [ville, setVille] = useState("");
   const [contrat, setContrat] = useState("");
 
-  const filtered = jobs.filter((j) => {
-    const matchSearch = j.title.toLowerCase().includes(search.toLowerCase());
-    const matchSecteur = !secteur || secteur === "Secteur d'activité" || j.category === secteur;
-    const matchLieu = !lieu || lieu === "Lieu" || j.location === lieu;
-    const matchContrat = !contrat || contrat === "Type de contrat" || j.contract === contrat;
-    return matchSearch && matchSecteur && matchLieu && matchContrat;
-  });
+  const [chargement, setChargement] = useState(true);
+  const [erreur, setErreur] = useState<string | null>(null);
+
+  // Debounced so typing does not fire a request per keystroke.
+  const [rechercheActive, setRechercheActive] = useState("");
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setRechercheActive(recherche);
+      setPage(1);
+    }, 350);
+
+    return () => clearTimeout(t);
+  }, [recherche]);
+
+  const requete = useMemo(() => {
+    const params = new URLSearchParams();
+    if (rechercheActive) params.set("q", rechercheActive);
+    if (secteur) params.set("secteur", secteur);
+    if (ville) params.set("ville", ville);
+    if (contrat) params.set("type_contrat", contrat);
+    params.set("page", String(page));
+
+    return params.toString();
+  }, [rechercheActive, secteur, ville, contrat, page]);
+
+  // Guards against an earlier, slower response overwriting a newer one.
+  const requeteEnCours = useRef(0);
+
+  const charger = useCallback(async () => {
+    const jeton = ++requeteEnCours.current;
+
+    try {
+      setChargement(true);
+      setErreur(null);
+
+      const res = await api.get<OffresResponse>(`/offres?${requete}`);
+
+      if (jeton !== requeteEnCours.current) return;
+
+      setOffres(res.data);
+      setFiltres(res.filtres);
+      setTotal(res.meta.total);
+      setDernierePage(res.meta.last_page);
+    } catch (e) {
+      if (jeton !== requeteEnCours.current) return;
+
+      setErreur(
+        e instanceof ApiError
+          ? e.message
+          : "Impossible de charger les offres. Vérifiez votre connexion et réessayez."
+      );
+    } finally {
+      if (jeton === requeteEnCours.current) setChargement(false);
+    }
+  }, [requete]);
+
+  useEffect(() => {
+    // Deferred to a microtask so the first state update happens after the
+    // effect's synchronous body, avoiding a cascading render.
+    void Promise.resolve().then(charger);
+  }, [charger]);
+
+  function reinitialiser() {
+    setRecherche("");
+    setSecteur("");
+    setVille("");
+    setContrat("");
+    setPage(1);
+  }
+
+  const filtreActif = Boolean(rechercheActive || secteur || ville || contrat);
 
   return (
     <>
-      {/* Search / filters */}
       <section className="bg-[var(--sane-green-light)] py-8 sm:py-10 md:py-12">
         <Container>
           <div className="mb-1 flex items-center gap-2">
@@ -35,197 +172,139 @@ export function JobsGrid() {
             Trouvez l&apos;offre qui vous correspond
           </h2>
           <p className="mb-4 text-[13px] text-[var(--sane-text-light)] sm:mb-6 sm:text-[length:var(--fs-body)]">
-            Recherchez parmi des centaines d&apos;offres d&apos;emploi publiées par nos partenaires.
+            Recherchez parmi les offres d&apos;emploi publiées par nos partenaires.
           </p>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:flex-nowrap">
             <div className="relative sm:col-span-2 lg:min-w-[180px] lg:flex-1">
               <Search size={16} strokeWidth={2.2} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
               <input
-                type="text"
+                type="search"
                 placeholder="Intitulé du poste, compétence..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={recherche}
+                onChange={(e) => setRecherche(e.target.value)}
+                aria-label="Rechercher une offre"
                 className="h-[46px] w-full rounded-xl bg-white pl-11 pr-4 text-[13px] text-[var(--sane-text)] shadow-sm outline-none ring-1 ring-black/[0.04] transition-shadow placeholder:text-[var(--sane-text-light)] focus:ring-2 focus:ring-[var(--sane-green)] sm:h-[52px] sm:text-[14px]"
               />
             </div>
-            {[
-              { value: secteur, setter: setSecteur, options: secteurOptions },
-              { value: lieu, setter: setLieu, options: lieuOptions },
-              { value: contrat, setter: setContrat, options: contratOptions },
-            ].map(({ value, setter, options }) => (
-              <div key={options[0]} className="relative lg:min-w-[150px] lg:flex-1">
-                <Search size={16} strokeWidth={2.2} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
-                <ChevronDown size={15} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
-                <select
-                  value={value}
-                  onChange={(e) => setter(e.target.value)}
-                  className="h-[46px] w-full appearance-none rounded-xl bg-white pl-11 pr-10 text-[13px] text-[var(--sane-text-light)] shadow-sm outline-none ring-1 ring-black/[0.04] transition-shadow focus:ring-2 focus:ring-[var(--sane-green)] sm:h-[52px] sm:text-[14px]"
-                >
-                  {options.map((o) => <option key={o}>{o}</option>)}
-                </select>
-              </div>
-            ))}
-            <button className="h-[46px] w-full shrink-0 rounded-xl bg-[var(--sane-orange)] px-9 text-[13px] font-bold text-white shadow-sm transition-colors hover:bg-[var(--sane-orange-dark)] sm:col-span-2 sm:h-[52px] sm:text-[14px] lg:w-auto">
-              Rechercher
-            </button>
+
+            <Select value={secteur} onChange={(v) => { setSecteur(v); setPage(1); }} placeholder="Secteur d'activité" options={filtres.secteur} />
+            <Select value={ville} onChange={(v) => { setVille(v); setPage(1); }} placeholder="Lieu" options={filtres.ville} />
+            <Select value={contrat} onChange={(v) => { setContrat(v); setPage(1); }} placeholder="Type de contrat" options={filtres.type_contrat} />
           </div>
         </Container>
       </section>
 
-      {/* Job Listings + Sidebar */}
-      <section className="bg-[var(--sane-background)] pb-8 pt-10 sm:pb-10 sm:pt-12 md:pb-12 md:pt-16">
+      <section className="bg-white py-10 sm:py-12 md:py-16">
         <Container>
-          <div className="mb-6 flex items-end justify-between gap-3 sm:mb-8 sm:gap-4">
-            <div>
-              <div className="mb-1 flex items-center gap-2">
-                <span className="h-[2px] w-6 bg-[var(--sane-orange)]" />
-                <span className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--sane-green)]">
-                  Offres d&apos;emploi
-                </span>
-              </div>
-              <h2 className="sane-h2">
-                Offres récemment publiées
-              </h2>
-            </div>
-            <Link
-              href="#"
-              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap text-[12px] font-semibold text-[var(--sane-c-178040)] hover:underline sm:text-[14px]"
-            >
-              Voir toutes les offres <ArrowRight size={14} />
-            </Link>
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-[13px] text-[var(--sane-text-light)] sm:text-[length:var(--fs-body)]">
+              {chargement ? "Recherche en cours…" : `${total} offre${total > 1 ? "s" : ""} disponible${total > 1 ? "s" : ""}`}
+            </p>
+            {filtreActif && (
+              <button
+                type="button"
+                onClick={reinitialiser}
+                className="text-[13px] font-semibold text-[var(--sane-green)] transition-colors hover:text-[var(--sane-orange)]"
+              >
+                Réinitialiser les filtres
+              </button>
+            )}
           </div>
 
-          <div className="grid items-start gap-5 md:grid-cols-[1fr_250px] lg:grid-cols-[1fr_265px] xl:grid-cols-[1fr_280px]">
-            {/* Job List */}
-            <div className="flex flex-col gap-2.5">
-              {filtered.length > 0 ? (
-                filtered.map((j, i) => (
-                  <div
-                    key={i}
-                    className="flex flex-col gap-2 rounded-xl bg-white p-3 shadow-sm ring-1 ring-black/[0.04] transition-shadow hover:shadow-md sm:flex-row sm:items-center sm:gap-4 sm:p-3.5 sm:pl-4"
-                  >
-                    <div className="hidden h-[44px] w-[76px] shrink-0 items-center justify-center overflow-hidden border-r border-[var(--sane-border)] pr-4 sm:flex">
-                      <span
-                        className="max-w-full text-center text-[13px] font-extrabold leading-tight tracking-tight"
-                        style={{ color: j.color }}
-                      >
-                        {j.company}
-                      </span>
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="text-[14px] font-bold text-[var(--sane-text)] sm:text-[length:var(--fs-h3)]">{j.title}</h3>
-                      <p className="text-[12px] text-[var(--sane-text-light)] sm:text-[length:var(--fs-body)]">{j.companyFull}</p>
-                      <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-[11px] sm:mt-2 sm:gap-x-3 sm:text-[12px]">
-                        <span className="flex shrink-0 items-center gap-1 text-[var(--sane-text-light)]">
-                          <MapPin size={13} className="shrink-0 text-[var(--sane-orange)]" />{j.location}
-                        </span>
-                        <span className="shrink-0 whitespace-nowrap rounded-full bg-[var(--sane-orange-light)] px-2 py-[3px] text-center text-[11px] font-bold text-[var(--sane-orange)]">
-                          {j.contract}
-                        </span>
-                        <span className="shrink-0 rounded-full bg-[var(--sane-c-eef4f1)] px-2 py-[3px] text-center text-[11px] font-medium text-[var(--sane-text-light)]">
-                          {j.category}
-                        </span>
-                        <span className="flex shrink-0 items-center gap-1.5 text-[var(--sane-text-light)]">
-                          <Calendar size={13} className="shrink-0 text-[var(--sane-orange)]" />{j.date}
-                        </span>
-                      </div>
-                    </div>
-                    <Link
-                      href="#"
-                      className="group inline-flex w-full shrink-0 items-center justify-center gap-1.5 rounded-lg border border-[var(--sane-green)] px-4 py-2 text-[12px] font-bold text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green-light)] sm:w-fit sm:text-[13px]"
+          {erreur && (
+            <p role="alert" className="flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] p-4">
+              <AlertCircle size={16} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
+              <span className="text-[13px] text-[var(--sane-red-dark)]">{erreur}</span>
+            </p>
+          )}
+
+          {chargement && offres.length === 0 && (
+            <p className="flex items-center justify-center gap-2 py-12">
+              <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
+              <span className="text-[13px] text-[var(--sane-text-light)]">Chargement des offres…</span>
+            </p>
+          )}
+
+          {!chargement && !erreur && offres.length === 0 && (
+            <p className="py-12 text-center text-[13px] text-[var(--sane-text-light)]">
+              Aucune offre ne correspond à votre recherche.
+            </p>
+          )}
+
+          {offres.length > 0 && (
+            <div className={`grid grid-cols-1 gap-4 transition-opacity sm:grid-cols-2 lg:grid-cols-3 ${chargement ? "opacity-60" : ""}`}>
+              {offres.map((offre) => (
+                <article
+                  key={offre.id}
+                  className="flex flex-col rounded-2xl border border-[var(--sane-border)] bg-white p-5 transition-shadow hover:shadow-md"
+                >
+                  <div className="mb-3 flex items-center gap-3">
+                    <span
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-[13px] font-bold text-white"
+                      style={{ backgroundColor: couleur(offre.id) }}
                     >
-                      Voir l&apos;offre
-                      <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5" />
-                    </Link>
+                      {(offre.entreprise?.nom ?? "?").slice(0, 2).toUpperCase()}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="truncate text-[13px] font-semibold text-[var(--sane-text)]">
+                        {offre.entreprise?.nom}
+                      </p>
+                      <p className="truncate text-[12px] text-[var(--sane-text-light)]">{offre.secteur}</p>
+                    </div>
                   </div>
-                ))
-              ) : (
-                <p className="sane-body rounded-xl bg-white py-12 text-center shadow-sm ring-1 ring-black/[0.04]">
-                  Aucune offre trouvée pour cette recherche.
-                </p>
-              )}
+
+                  <h3 className="mb-2 text-[15px] font-bold leading-snug text-[var(--sane-text)]">
+                    {offre.titre}
+                  </h3>
+
+                  <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[12px] text-[var(--sane-text-light)]">
+                    <span className="inline-flex items-center gap-1.5">
+                      <MapPin size={13} /> {offre.ville}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <Calendar size={13} /> {formatDate(offre.publiee_le)}
+                    </span>
+                  </div>
+
+                  <span className="mb-4 inline-flex w-fit rounded-full bg-[var(--sane-green-light)] px-3 py-1 text-[11px] font-semibold text-[var(--sane-green)]">
+                    {offre.type_contrat_label}
+                  </span>
+
+                  <Link
+                    href={`/emploi/${offre.slug}`}
+                    className="mt-auto inline-flex items-center gap-1.5 text-[13px] font-semibold text-[var(--sane-green)] transition-colors hover:text-[var(--sane-orange)]"
+                  >
+                    Voir l&apos;offre <ArrowRight size={14} />
+                  </Link>
+                </article>
+              ))}
             </div>
+          )}
 
-            {/* Sidebar */}
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-1">
-              {/* Map card */}
-              <div className="relative overflow-hidden rounded-xl border border-[var(--sane-border)] bg-[var(--sane-c-f7fbf9)] p-4 shadow-sm">
-                {/* Niger map — right side, natural proportions */}
-                <svg
-                  viewBox="0 0 200 140"
-                  preserveAspectRatio="xMidYMid meet"
-                  className="pointer-events-none absolute right-0 top-3 h-auto w-[62%]"
-                  aria-hidden
-                >
-                  <path
-                    d="M8 92 L14 62 L30 50 L34 34 L58 30 L74 20 L96 16 L118 10 L140 14 L152 26 L168 30 L186 44 L192 62 L178 76 L172 96 L156 104 L140 100 L120 108 L104 122 L84 126 L66 118 L50 120 L34 112 L18 106 Z"
-                    className="fill-[var(--sane-green)]/[0.17]"
-                  />
-                  <g transform="translate(100, 68)">
-                    <path
-                      d="M0 16 C0 16 -9 5 -9 -2 A9 9 0 1 1 9 -2 C9 5 0 16 0 16 Z"
-                      className="fill-[var(--sane-orange)]"
-                    />
-                    <circle cx="0" cy="-2" r="3.2" className="fill-white" />
-                  </g>
-                </svg>
-
-                <div className="relative">
-                  <p className="font-[family-name:var(--font-caveat)] text-[19px] font-bold leading-[1.15] text-[var(--sane-green-dark)]">
-                    Des opportunités<br />dans tout le Niger
-                  </p>
-                  <div className="mt-1 h-[2px] w-11 rounded-full bg-[var(--sane-orange)]" />
-                </div>
-
-                <div className="relative mt-3.5 flex w-fit flex-col gap-0.5">
-                  {cities.map((city, i) => (
-                    <div
-                      key={city}
-                      className={`flex items-center gap-1.5 rounded-full py-[3px] pl-1.5 pr-2.5 text-[12px] ${
-                        i === 0 ? "w-fit bg-[var(--sane-orange-light)]" : ""
-                      }`}
-                    >
-                      <MapPin size={12} className="shrink-0 text-[var(--sane-orange)]" />
-                      <span className={i === 0 ? "font-bold text-[var(--sane-green)]" : "text-[var(--sane-text-light)]"}>
-                        {city}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                <Link
-                  href="#"
-                  className="group relative mt-3 inline-flex items-center gap-1.5 rounded-lg border border-[var(--sane-green)] bg-white/80 px-3.5 py-[7px] text-[11px] font-bold text-[var(--sane-green)] backdrop-blur-sm transition-colors hover:bg-[var(--sane-green-light)]"
-                >
-                  Voir les offres par région
-                  <ArrowRight size={12} className="transition-transform duration-200 group-hover:translate-x-0.5" />
-                </Link>
-              </div>
-
-              {/* Secteurs */}
-              <div className="rounded-xl border border-[var(--sane-border)] bg-white p-4 shadow-sm">
-                <div className="mb-2.5 flex items-center gap-2">
-                  <span className="h-[2px] w-4 bg-[var(--sane-orange)]" />
-                  <h3 className="sane-h3">Secteurs qui recrutent</h3>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {sectors.map((s) => {
-                    const SectorIcon = s.icon;
-                    return (
-                      <div key={s.name} className="flex items-center gap-2.5 text-[12px]">
-                        <SectorIcon size={15} strokeWidth={1.9} className="shrink-0 text-[var(--sane-green)]" />
-                        <span className="min-w-0 flex-1 truncate text-[var(--sane-text-light)]">{s.name}</span>
-                        <span className="shrink-0 rounded-md bg-[var(--sane-c-f1f5f3)] px-2 py-[3px] text-[11px] font-bold text-[var(--sane-text)]">
-                          {s.count}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
+          {dernierePage > 1 && (
+            <nav className="mt-8 flex items-center justify-center gap-2" aria-label="Pagination">
+              <button
+                type="button"
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page === 1 || chargement}
+                className="rounded-lg border border-[var(--sane-border)] px-4 py-2 text-[13px] font-semibold transition-colors hover:border-[var(--sane-green)] disabled:opacity-40"
+              >
+                Précédent
+              </button>
+              <span className="px-2 text-[13px] text-[var(--sane-text-light)]">
+                Page {page} sur {dernierePage}
+              </span>
+              <button
+                type="button"
+                onClick={() => setPage((p) => Math.min(dernierePage, p + 1))}
+                disabled={page === dernierePage || chargement}
+                className="rounded-lg border border-[var(--sane-border)] px-4 py-2 text-[13px] font-semibold transition-colors hover:border-[var(--sane-green)] disabled:opacity-40"
+              >
+                Suivant
+              </button>
+            </nav>
+          )}
         </Container>
       </section>
     </>

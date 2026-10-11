@@ -14,8 +14,8 @@ trait FiltreLesListes
 {
     /**
      * @param  array<string>  $recherchables  columns a free-text query matches against
-     * @param  array<string>  $filtrables     columns accepting an exact-match filter
-     * @param  array<string>  $triables       columns that may be sorted on
+     * @param  array<string>  $filtrables  columns accepting an exact-match filter
+     * @param  array<string>  $triables  columns that may be sorted on
      */
     protected function listePaginee(
         Builder $query,

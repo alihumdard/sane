@@ -7,6 +7,7 @@ use App\Models\Edition;
 use App\Models\Formation;
 use App\Models\Inscription;
 use App\Services\GestionPlaces;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -131,7 +132,7 @@ class GestionPlacesTest extends TestCase
         $formation = Formation::factory()->for($edition)->avecPlaces(10, 10)->create();
 
         // Even bypassing the service entirely, the database refuses.
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
 
         DB::table('formations')
             ->where('id', $formation->id)
