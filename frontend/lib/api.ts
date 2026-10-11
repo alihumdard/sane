@@ -60,6 +60,46 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   return payload as T;
 }
 
+/**
+ * Downloads a file from an authenticated endpoint.
+ *
+ * A plain <a href> cannot carry the bearer token, so the bytes are fetched
+ * with it and handed to the browser as a blob. The object URL is revoked
+ * straight after to avoid leaking it for the life of the page.
+ */
+export async function telecharger(path: string, nomFichier: string): Promise<void> {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    headers: {
+      Accept: "application/octet-stream",
+      ...(authToken && { Authorization: `Bearer ${authToken}` }),
+    },
+  });
+
+  if (!response.ok) {
+    const payload = await response.json().catch(() => null);
+
+    throw new ApiError(
+      payload?.message ?? `Erreur ${response.status}`,
+      response.status,
+      payload?.errors ?? {}
+    );
+  }
+
+  const blob = await response.blob();
+  const url = URL.createObjectURL(blob);
+
+  try {
+    const lien = document.createElement("a");
+    lien.href = url;
+    lien.download = nomFichier;
+    document.body.appendChild(lien);
+    lien.click();
+    lien.remove();
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+
 export const api = {
   get: <T>(path: string, options?: RequestOptions) => request<T>(path, { ...options, method: "GET" }),
   post: <T>(path: string, body?: unknown, options?: RequestOptions) =>

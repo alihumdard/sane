@@ -3,7 +3,7 @@
 > **Mis à jour :** 11 octobre 2026
 > **Contrat :** 900 USD · 9 phases · 100 USD par phase
 > **Événement :** Niamey, 10–12 décembre 2026
-> **Avancement réel :** Phases 1–5 livrées · Phases 6–9 à faire
+> **Avancement réel :** Phases 1–6 livrées · Phases 7–9 à faire
 
 ---
 
@@ -16,7 +16,7 @@
 | 3 | Site public | ✅ **Livrée** | Toutes les pages publiques en ligne |
 | 4 | Inscriptions & Formations | ✅ **Livrée** | Bout en bout + upload documents · 77 tests passent |
 | 5 | Espace Demandeur d'emploi | ✅ **Livrée** | 10 migrations, 23 routes, recherche indexée · 20 tests |
-| 6 | Espace Recruteur | 🟨 **~25 %** | Tables `entreprises` + `offres_emploi` créées en Phase 5 ; API recruteur à faire |
+| 6 | Espace Recruteur | ✅ **Livrée** | 16 routes cloisonnées par policies · 5 pages · 21 tests |
 | 7 | Matching & Entretiens | ⬜ **0 %** | Aucun modèle, aucune API |
 | 8 | Back-office Admin | 🟨 **~15 %** | 13 pages existent · **2 seulement** branchées (formations, inscriptions) |
 | 9 | Sécurité & Mise en production | ⬜ **0 %** | Backend non déployé. `MAIL_MAILER=log` |

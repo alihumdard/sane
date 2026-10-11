@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\RoleUtilisateur;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -63,6 +64,34 @@ class User extends Authenticatable
     {
         return $this->profilDemandeur()->firstOrCreate([]);
     }
+
+    public function entreprisesMembre(): BelongsToMany
+    {
+        return $this->belongsToMany(Entreprise::class, 'membres_entreprise')
+            ->withPivot('role_interne')
+            ->withTimestamps();
+    }
+
+    /**
+     * The company this user acts for — either the one they own, or one they
+     * were added to as a recruiter. Every company-scoped authorization check
+     * resolves through here, so there is a single definition of "my company".
+     *
+     * Memoised per instance: the policies call it on each check within a
+     * request, and it must not re-query every time.
+     */
+    public function entrepriseActive(): ?Entreprise
+    {
+        if (! array_key_exists('entreprise_active', $this->memo)) {
+            $this->memo['entreprise_active'] = $this->entreprise
+                ?? $this->entreprisesMembre()->first();
+        }
+
+        return $this->memo['entreprise_active'];
+    }
+
+    /** @var array<string, mixed> Not persisted; request-scoped lookups only. */
+    protected array $memo = [];
 
     public function estAdministrateur(): bool
     {

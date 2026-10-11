@@ -55,7 +55,11 @@ class OffreEmploi extends Model
         return $this->date_limite !== null && $this->date_limite->isPast();
     }
 
-    /** Published, not past its deadline — the only state that accepts applications. */
+    /**
+     * Published, not past its deadline — the only state that accepts
+     * applications. Guarded because a caller may have selected a subset of
+     * columns, leaving `statut` absent rather than false.
+     */
     public function getOuverteAttribute(): bool
     {
         return $this->statut === StatutOffre::Publiee && ! $this->expiree;

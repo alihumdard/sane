@@ -7,6 +7,10 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CandidatureController;
 use App\Http\Controllers\Api\DocumentCandidatureController;
 use App\Http\Controllers\Api\DocumentController;
+use App\Http\Controllers\Api\Entreprise\CandidatureEntrepriseController;
+use App\Http\Controllers\Api\Entreprise\EntrepriseController;
+use App\Http\Controllers\Api\Entreprise\OffreEntrepriseController;
+use App\Http\Controllers\Api\Entreprise\TableauBordController;
 use App\Http\Controllers\Api\FormationController;
 use App\Http\Controllers\Api\InscriptionController;
 use App\Http\Controllers\Api\OffreController;
@@ -87,6 +91,39 @@ Route::middleware(['auth:sanctum', 'role:demandeur,participant'])->group(functio
     Route::get('/mes-favoris', [CandidatureController::class, 'favoris']);
     Route::post('/offres/{offre}/favori', [CandidatureController::class, 'basculerFavori']);
 });
+
+/*
+|--------------------------------------------------------------------------
+| Espace recruteur — Phase 6
+|--------------------------------------------------------------------------
+| Chaque route est cloisonnée par entreprise : les policies OffrePolicy et
+| CandidaturePolicy refusent tout accès aux données d'une autre entreprise.
+*/
+
+Route::middleware(['auth:sanctum', 'role:recruteur,entreprise'])
+    ->prefix('entreprise')
+    ->group(function () {
+        Route::get('/tableau-de-bord', TableauBordController::class);
+
+        Route::get('/', [EntrepriseController::class, 'show']);
+        Route::post('/', [EntrepriseController::class, 'store']);
+
+        Route::get('/offres', [OffreEntrepriseController::class, 'index']);
+        Route::post('/offres', [OffreEntrepriseController::class, 'store']);
+        Route::get('/offres/{offre}', [OffreEntrepriseController::class, 'show']);
+        Route::put('/offres/{offre}', [OffreEntrepriseController::class, 'update']);
+        Route::delete('/offres/{offre}', [OffreEntrepriseController::class, 'destroy']);
+        Route::put('/offres/{offre}/statut', [OffreEntrepriseController::class, 'changerStatut']);
+        Route::get('/offres/{offre}/candidatures', [CandidatureEntrepriseController::class, 'parOffre']);
+
+        Route::get('/candidatures', [CandidatureEntrepriseController::class, 'index']);
+        Route::get('/candidatures/{candidature}', [CandidatureEntrepriseController::class, 'show']);
+        Route::put('/candidatures/{candidature}/statut', [CandidatureEntrepriseController::class, 'changerStatut']);
+        Route::get('/candidatures/{candidature}/cv', [CandidatureEntrepriseController::class, 'telechargerCv']);
+
+        Route::get('/candidats', [CandidatureEntrepriseController::class, 'candidats']);
+        Route::get('/candidats/{profil}', [CandidatureEntrepriseController::class, 'candidat']);
+    });
 
 // Lecture d'un CV : le contrôleur décide qui y a droit (candidat, recruteur
 // destinataire d'une candidature, ou organisateur).

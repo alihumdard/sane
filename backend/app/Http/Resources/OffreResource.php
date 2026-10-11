@@ -19,10 +19,12 @@ class OffreResource extends JsonResource
             'missions' => $this->missions,
             'profil_recherche' => $this->profil_recherche,
 
-            'type_contrat' => $this->type_contrat->value,
-            'type_contrat_label' => $this->type_contrat->label(),
-            'statut' => $this->statut->value,
-            'statut_label' => $this->statut->label(),
+            // Nullable because callers may select a subset of columns when the
+            // offer is only a label on another record (an application row).
+            'type_contrat' => $this->type_contrat?->value,
+            'type_contrat_label' => $this->type_contrat?->label(),
+            'statut' => $this->statut?->value,
+            'statut_label' => $this->statut?->label(),
 
             'secteur' => $this->secteur,
             'ville' => $this->ville,

@@ -281,6 +281,66 @@ export interface CandidaturesResponse {
   meta: PaginationMeta;
 }
 
+/* ─── Espace recruteur (Phase 6) ─── */
+
+export interface TableauBordEntreprise {
+  entreprise: { nom: string; verifiee: boolean } | null;
+  message?: string;
+  offres?: { total: number; publiees: number; brouillons: number; vues: number };
+  candidatures?: {
+    total: number;
+    nouvelles: number;
+    en_revue: number;
+    entretien: number;
+    acceptees: number;
+  };
+  recentes?: ApiCandidature[];
+}
+
+export interface OffresEntrepriseResponse {
+  data: ApiOffre[];
+  meta: PaginationMeta;
+  resume: { total: number; publiees: number; brouillons: number; candidatures: number };
+}
+
+export interface CandidaturesEntrepriseResponse {
+  data: ApiCandidature[];
+  meta: PaginationMeta;
+  resume: Record<string, number>;
+  filtres: { statut: { value: StatutCandidature; label: string }[] };
+}
+
+export interface CandidatsResponse {
+  data: ApiProfilDemandeur[];
+  meta: PaginationMeta;
+}
+
+export interface OffrePayload {
+  titre: string;
+  description: string;
+  missions?: string;
+  profil_recherche?: string;
+  type_contrat: TypeContrat;
+  secteur: string;
+  ville: string;
+  salaire_min?: number;
+  salaire_max?: number;
+  experience_requise?: string;
+  niveau_etude?: string;
+  date_limite?: string;
+  statut?: StatutOffre;
+}
+
+export interface EntreprisePayload {
+  nom: string;
+  secteur?: string;
+  taille?: string;
+  site_web?: string;
+  description?: string;
+  ville?: string;
+  telephone?: string;
+}
+
 export interface CompteInscriptionPayload {
   nom: string;
   email: string;
