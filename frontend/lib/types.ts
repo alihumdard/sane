@@ -469,3 +469,47 @@ export interface FormationPayload {
   max_inscriptions: number;
   publiee: boolean;
 }
+
+/* ─── Contenus éditoriaux (Phase 8) ─── */
+
+export interface ApiActualite {
+  id: number;
+  titre: string;
+  slug: string;
+  categorie: string;
+  extrait: string | null;
+  contenu?: string;
+  image: string | null;
+  auteur: string | null;
+  publiee_le: string | null;
+  vues?: number;
+}
+
+export interface ApiFaqEntree {
+  id: number;
+  categorie: string;
+  question: string;
+  reponse: string;
+  ordre: number;
+}
+
+export interface ApiPartenaire {
+  id: number;
+  nom: string;
+  slug: string;
+  type: string;
+  logo: string | null;
+  site_web: string | null;
+  description: string | null;
+}
+
+export interface ApiArticlePresse {
+  id: number;
+  titre: string;
+  media: string;
+  type: string;
+  date_publication: string;
+  lien: string | null;
+  fichier: string | null;
+  resume: string | null;
+}

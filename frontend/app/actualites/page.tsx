@@ -1,5 +1,7 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { api } from "@/lib/api";
+import type { ApiActualite } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
@@ -75,62 +77,32 @@ function parseDate(d: string): number {
   return new Date(+year, months[month] ?? 0, +day).getTime();
 }
 
-const articles = [
-  {
-    image: "/sane_deal.webp",
-    date: "12 Mars 2024",
-    tag: "Événement",
-    tagColor: "var(--sane-orange)",
-    title: "Lancement officiel du SANEM 2024 à Niamey",
-    description:
-      "Le Ministère de l'Emploi annonce la tenue de la prochaine édition du Salon National de l'Emploi au Palais des Congrès de Niamey.",
-  },
-  {
-    image: "/actualites-card1.webp",
-    date: "08 Mars 2024",
-    tag: "Formation",
-    tagColor: "var(--sane-green)",
-    title: "Le SANEM 2024 : un carrefour d'opportunités pour les jeunes",
-    description:
-      "Découvrez les objectifs, les temps forts et les innovations de cette nouvelle édition qui réunit entreprises, institutions et chercheurs d'emploi.",
-  },
-  {
-    image: "/sane_deal.webp",
-    date: "05 Mars 2024",
-    tag: "Partenariat",
-    tagColor: "var(--sane-orange)",
-    title: "Le SANEM renforce ses partenariats internationaux",
-    description:
-      "De nouvelles collaborations pour soutenir l'emploi, la formation et l'insertion professionnelle des jeunes nigériens.",
-  },
-  {
-    image: "/actualites-card1.webp",
-    date: "28 Février 2024",
-    tag: "Témoignage",
-    tagColor: "var(--sane-green)",
-    title: "Ils ont trouvé leur opportunité grâce au SANEM",
-    description:
-      "Découvrez les témoignages inspirants des jeunes qui ont pu bénéficier d'opportunités d'emploi et de formation.",
-  },
-  {
-    image: "/sane_deal.webp",
-    date: "20 Février 2024",
-    tag: "Formation",
-    tagColor: "var(--sane-orange)",
-    title: "Des formations adaptées aux besoins du marché",
-    description:
-      "Le SANEM met l'accent sur des formations pratiques et certifiantes pour renforcer l'employabilité des jeunes.",
-  },
-  {
-    image: "/actualites-card1.webp",
-    date: "15 Février 2024",
-    tag: "Communiqué",
-    tagColor: "var(--sane-c-1a5276)",
-    title: "Communiqué officiel du SANEM",
-    description:
-      "Retrouvez les dernières annonces et informations importantes concernant l'organisation de l'événement.",
-  },
-];
+/** Shape the layout below already expects; the API supplies the values. */
+interface ArticleAffiche {
+  slug: string;
+  image: string;
+  date: string;
+  tag: string;
+  tagColor: string;
+  title: string;
+  description: string;
+}
+
+const COULEUR_TAG: Record<string, string> = {
+  evenements: "var(--sane-orange)",
+  communiques: "var(--sane-c-1a5276)",
+  partenariats: "var(--sane-orange)",
+  formations: "var(--sane-green)",
+  temoignages: "var(--sane-green)",
+};
+
+const LIBELLE_TAG: Record<string, string> = {
+  evenements: "Événement",
+  communiques: "Communiqué",
+  partenariats: "Partenariat",
+  formations: "Formation",
+  temoignages: "Témoignage",
+};
 
 const popularArticles = [
   {
@@ -182,6 +154,39 @@ export default function ActualitesPage() {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterSent, setNewsletterSent] = useState(false);
 
+  const [articles, setArticles] = useState<ArticleAffiche[]>([]);
+  const [chargement, setChargement] = useState(true);
+
+  useEffect(() => {
+    let actif = true;
+
+    api
+      .get<{ data: ApiActualite[] }>("/actualites?per_page=30")
+      .then((res) => {
+        if (!actif) return;
+
+        setArticles(
+          res.data.map((a) => ({
+            slug: a.slug,
+            image: a.image ?? "/sane_deal.webp",
+            date: a.publiee_le
+              ? new Date(a.publiee_le).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })
+              : "",
+            tag: LIBELLE_TAG[a.categorie] ?? a.categorie,
+            tagColor: COULEUR_TAG[a.categorie] ?? "var(--sane-green)",
+            title: a.titre,
+            description: a.extrait ?? "",
+          }))
+        );
+      })
+      .catch(() => actif && setArticles([]))
+      .finally(() => actif && setChargement(false));
+
+    return () => {
+      actif = false;
+    };
+  }, []);
+
   const filteredArticles = useMemo(() => {
     let result = [...articles];
 
@@ -197,7 +202,7 @@ export default function ActualitesPage() {
     else if (dateSort === "ancien") result.sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
     return result;
-  }, [activeTab, searchQuery, categoryFilter, dateSort]);
+  }, [articles, activeTab, searchQuery, categoryFilter, dateSort]);
 
   return (
     <>
@@ -424,7 +429,12 @@ export default function ActualitesPage() {
             <div className="grid gap-8 lg:grid-cols-[1fr_300px] lg:gap-10">
               {/* LEFT — Article Grid + À La Une + Pagination */}
               <div>
-                {filteredArticles.length === 0 && (
+                {chargement && (
+                  <div className="rounded-2xl border border-[var(--sane-border-soft)] bg-[var(--sane-c-f0f5f2)] px-6 py-10 text-center">
+                    <p className="text-[13px] text-[var(--sane-text-light)]">Chargement des actualités…</p>
+                  </div>
+                )}
+                {!chargement && filteredArticles.length === 0 && (
                   <div className="rounded-2xl border border-[var(--sane-border-soft)] bg-[var(--sane-c-f0f5f2)] px-6 py-10 text-center">
                     <Search size={32} className="mx-auto mb-3 text-[var(--sane-text-light)]" />
                     <p className="text-[15px] font-semibold text-[var(--sane-green-deep)]">Aucun résultat trouvé</p>

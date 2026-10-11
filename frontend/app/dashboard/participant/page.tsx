@@ -1,249 +1,290 @@
-﻿"use client";
-
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import {
-  Home, User, ClipboardList, BookOpen, Star, Briefcase,
-  FileText, Calendar, Heart, MessageSquare, Bell,
-  Settings, HelpCircle, LogOut, ChevronRight, Monitor, Video,
+  AlertCircle, Briefcase, Calendar, CheckCircle2, FileText,
+  Heart, Loader2, Sparkles, UserRound,
 } from "lucide-react";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { Container } from "@/components/ui/Container";
+import { RoleGuard } from "@/components/dashboard/RoleGuard";
+import { api, ApiError } from "@/lib/api";
+import { useAuth } from "@/lib/auth";
+import type {
+  ApiCandidature,
+  ApiCorrespondance,
+  ApiEntretien,
+  ApiOffre,
+  ApiProfilDemandeur,
+  CandidaturesResponse,
+} from "@/lib/types";
 
-import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
-import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
-import HeroBanner from "@/components/dashboard/HeroBanner";
-import EnterpriseLogo from "@/components/dashboard/EnterpriseLogo";
-import ParticipantStatsCard from "@/components/dashboard/ParticipantStatsCard";
-import BarChart from "@/components/dashboard/BarChart";
-import MiniCalendar from "@/components/dashboard/MiniCalendar";
-import SectionCard from "@/components/dashboard/SectionCard";
+const STATUT_COULEUR: Record<string, string> = {
+  envoyee: "bg-[var(--sane-background)] text-[var(--sane-text-light)]",
+  en_revue: "bg-[#eef4ff] text-[#0066b2]",
+  preselectionnee: "bg-[#fff8ed] text-[var(--sane-orange)]",
+  entretien: "bg-[var(--sane-green-light)] text-[var(--sane-green)]",
+  acceptee: "bg-[var(--sane-green-light)] text-[var(--sane-green)]",
+  refusee: "bg-[#fdf1f1] text-[var(--sane-red-dark)]",
+};
 
-/* ─── Sidebar ─── */
-const sidebarItems: SidebarItem[] = [
-  { icon: <Home size={18} />, label: "Tableau de bord", active: true },
-  { icon: <User size={18} />, label: "Mon profil" },
-  { icon: <ClipboardList size={18} />, label: "Mes inscriptions" },
-  { icon: <BookOpen size={18} />, label: "Mes formations" },
-  { icon: <Briefcase size={18} />, label: "Mes opportunités" },
-  { icon: <FileText size={18} />, label: "Mes candidatures" },
-  { icon: <Calendar size={18} />, label: "Mes rendez-vous" },
-  { icon: <Heart size={18} />, label: "Mes favoris" },
-  { icon: <MessageSquare size={18} />, label: "Messages", badge: 3 },
-  { icon: <Bell size={18} />, label: "Notifications", badge: 5 },
-  { icon: <Settings size={18} />, label: "Paramètres" },
-  { icon: <HelpCircle size={18} />, label: "Aide & FAQ" },
-  { icon: <LogOut size={18} />, label: "Déconnexion", dividerBefore: true },
-];
+function Tuile({
+  icone: Icone,
+  valeur,
+  label,
+  href,
+}: {
+  icone: typeof Briefcase;
+  valeur: number;
+  label: string;
+  href?: string;
+}) {
+  const contenu = (
+    <div className="rounded-2xl border border-[var(--sane-border)] bg-white p-5 transition-shadow hover:shadow-md">
+      <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--sane-green-light)] text-[var(--sane-green)]">
+        <Icone size={19} />
+      </span>
+      <p className="text-[24px] font-bold leading-none text-[var(--sane-text)]">{valeur}</p>
+      <p className="mt-1 text-[12px] text-[var(--sane-text-light)]">{label}</p>
+    </div>
+  );
 
-/* ─── Stats ─── */
-const statsData = [
-  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1 3 3 6 3s6-2 6-3v-5"/></svg>, value: "3", label: "Formations inscrites", link: "Voir mes formations", bg: "var(--sane-green-tint)", color: "var(--sane-green)" },
-  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M12 12v3"/><path d="M2 12h20"/></svg>, value: "5", label: "Candidatures envoyées", link: "Voir mes candidatures", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)" },
-  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><rect x="7" y="14" width="3" height="3" rx="0.5"/><rect x="14" y="14" width="3" height="3" rx="0.5"/></svg>, value: "2", label: "Rendez-vous à venir", link: "Voir mon calendrier", bg: "var(--sane-blue-tint)", color: "var(--sane-blue)" },
-  { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 11h6"/></svg>, value: "12", label: "Nouvelles opportunités", link: "Voir les opportunités", bg: "var(--sane-amber-tint)", color: "var(--sane-amber-dark)" },
-];
+  return href ? <Link href={href}>{contenu}</Link> : contenu;
+}
 
-/* ─── Mes formations ─── */
-const mesFormations = [
-  { img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=120&h=80&fit=crop", titre: "Développement Web pour l'emploi", details: "En ligne · 12 - 16 Mars 2024", statut: "Inscrit", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)" },
-  { img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=120&h=80&fit=crop", titre: "Gestion de projet digital", details: "Niamey · 25 - 28 Mars 2024", statut: "En attente", statutColor: "var(--sane-orange)", statutBg: "var(--sane-orange-tint)" },
-  { img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=120&h=80&fit=crop", titre: "Compétences numériques", details: "Niamey · 10 - 12 Avril 2024", statut: "Disponible", statutColor: "var(--sane-blue)", statutBg: "var(--sane-blue-tint)" },
-];
+function Contenu() {
+  const { user } = useAuth();
 
-/* ─── Mes candidatures ─── */
-const mesCandidatures = [
-  { logo: "enabel", poste: "Assistant Communication", entreprise: "Enabel Niger", date: "12 Mars 2024", statut: "En cours", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)" },
-  { logo: "giz", poste: "Développeur Web", entreprise: "GIZ Niger", date: "08 Mars 2024", statut: "En revue", statutColor: "var(--sane-orange)", statutBg: "var(--sane-orange-tint)" },
-  { logo: "pnud", poste: "Spécialiste Suivi & Évaluation", entreprise: "PNUD Niger", date: "05 Mars 2024", statut: "En cours", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)" },
-];
+  const [profil, setProfil] = useState<ApiProfilDemandeur | null>(null);
+  const [candidatures, setCandidatures] = useState<ApiCandidature[]>([]);
+  const [entretiens, setEntretiens] = useState<ApiEntretien[]>([]);
+  const [favoris, setFavoris] = useState<ApiOffre[]>([]);
+  const [correspondances, setCorrespondances] = useState<ApiCorrespondance[]>([]);
+  const [chargement, setChargement] = useState(true);
+  const [erreur, setErreur] = useState<string | null>(null);
 
-/* ─── Prochains rendez-vous ─── */
-const rdvs = [
-  { day: "15", month: "Mars", titre: "Entretien - Assistant Communication", lieu: "Enabel Niger", heure: "10h00 - 11h00", mode: "En ligne", modeIcon: <Monitor size={10} /> },
-  { day: "22", month: "Mars", titre: "Webinaire : Préparation à l'emploi", lieu: "SANEM", heure: "14h00 - 16h00", mode: "En ligne", modeIcon: <Video size={10} /> },
-];
+  const charger = useCallback(async () => {
+    try {
+      setChargement(true);
+      setErreur(null);
 
-/* ─── Événements à venir ─── */
-const evenements = [
-  { day: "10", month: "Avr", titre: "Atelier : Rédaction de CV", lieu: "SANEM · Niamey", badge: "Gratuit", badgeColor: "var(--sane-green)", badgeBg: "var(--sane-green-tint)" },
-  { day: "15", month: "Avr", titre: "Conférence : Jeunes et emploi", lieu: "Palais des Congrès", badge: "Gratuit", badgeColor: "var(--sane-green)", badgeBg: "var(--sane-green-tint)" },
-  { day: "22", month: "Avr", titre: "Rencontre avec les recruteurs", lieu: "SANEM · Niamey", badge: "Sur invitation", badgeColor: "var(--sane-orange)", badgeBg: "var(--sane-orange-tint)" },
-];
+      // Fired together rather than in sequence: five independent reads
+      // should cost one round trip of latency, not five.
+      const [p, c, e, f, m] = await Promise.all([
+        api.get<{ data: ApiProfilDemandeur }>("/profil"),
+        api.get<CandidaturesResponse>("/mes-candidatures"),
+        api.get<{ data: ApiEntretien[] }>("/mes-entretiens"),
+        api.get<{ data: ApiOffre[] }>("/mes-favoris"),
+        api.get<{ data: ApiCorrespondance[] }>("/mes-correspondances"),
+      ]);
 
-/* ─── Bar chart data ─── */
-const barData = [
-  { label: "Formations", value: 3, color: "var(--sane-green)" },
-  { label: "Candidatures", value: 5, color: "var(--sane-orange)" },
-  { label: "Rendez-vous", value: 2, color: "var(--sane-blue)" },
-  { label: "Favoris", value: 7, color: "var(--sane-green-deep)" },
-];
+      setProfil(p.data);
+      setCandidatures(c.data);
+      setEntretiens(e.data);
+      setFavoris(f.data);
+      setCorrespondances(m.data);
+    } catch (err) {
+      setErreur(err instanceof ApiError ? err.message : "Impossible de charger votre espace.");
+    } finally {
+      setChargement(false);
+    }
+  }, []);
 
-/* ─── Calendar ─── */
-const calWeeks = [
-  [26, 27, 28, 29, 1, 2, 3],
-  [4, 5, 6, 7, 8, 9, 10],
-  [11, 12, 13, 14, 15, 16, 17],
-  [18, 19, 20, 21, 22, 23, 24],
-  [25, 26, 27, 28, 29, 30, 31],
-];
+  useEffect(() => {
+    void Promise.resolve().then(charger);
+  }, [charger]);
 
-/* ─── Recommendations ─── */
-const recommendations = [
-  { img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=200&fit=crop", category: "Formation", catColor: "var(--sane-green)", catBg: "var(--sane-green-tint)", titre: "Leadership et gestion d'équipe", lieu: "SANEM · Niamey", date: "18 - 20 Avril 2024" },
-  { img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=200&fit=crop", category: "Événement", catColor: "var(--sane-orange)", catBg: "var(--sane-orange-tint)", titre: "Salon National de l'Emploi 2024", lieu: "Palais des Congrès · Niamey", date: "12 - 14 Mai 2024" },
-  { img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=200&fit=crop", category: "Opportunité", catColor: "var(--sane-blue)", catBg: "var(--sane-blue-tint)", titre: "Stagiaire en Communication", lieu: "UNICEF Niger", date: "Date limite : 25 Mars 2024" },
-];
+  if (chargement) {
+    return (
+      <p className="flex items-center justify-center gap-2 py-16">
+        <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
+        <span className="sane-small">Chargement de votre espace…</span>
+      </p>
+    );
+  }
 
-export default function ParticipantDashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  if (erreur) {
+    return (
+      <p role="alert" className="flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] p-4">
+        <AlertCircle size={16} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
+        <span className="sane-small text-[var(--sane-red-dark)]">{erreur}</span>
+      </p>
+    );
+  }
+
+  const completion = profil?.taux_completion ?? 0;
+  const entretiensAVenir = entretiens.filter((e) => !e.est_final);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
-      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
-      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
-        <DashboardNavbar
-          searchPlaceholder="Rechercher une formation, un événement..."
-          notificationCount={5}
-          userName="Aicha Mohamed"
-          userRole="Participant"
-          onMenuClick={() => setSidebarOpen(true)}
-        />
-
-        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4">
-          <HeroBanner
-            title="Bienvenue Aicha !"
-            description="Accédez à vos formations, opportunités et événements depuis votre espace personnel."
-            imageSrc="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1200&h=600&fit=crop&q=90"
-          />
-
-          {/* Stats */}
-          <div className="mb-4 grid grid-cols-1 min-[480px]:grid-cols-2 xl:grid-cols-4 gap-3">
-            {statsData.map((s, i) => (
-              <ParticipantStatsCard key={i} {...s} />
-            ))}
-          </div>
-
-          {/* Row 1: 3 columns */}
-          <div className="mb-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-            <SectionCard icon={<BookOpen size={14} className="text-[var(--sane-green)]" />} title="Mes formations" viewAllText="Voir toutes">
-              <div className="flex flex-col gap-2.5">
-                {mesFormations.map((f, i) => (
-                  <div key={i} className="flex items-center gap-2.5">
-                    <div className="relative h-11 w-16 shrink-0 overflow-hidden rounded-lg border border-[var(--sane-border)]">
-                      <Image src={f.img} alt={f.titre} fill sizes="100vw" className="object-cover" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight truncate">{f.titre}</p>
-                      <p className="text-[9px] text-[var(--sane-text-light)]">{f.details}</p>
-                    </div>
-                    <span className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-semibold" style={{ backgroundColor: f.statutBg, color: f.statutColor }}>{f.statut}</span>
-                  </div>
-                ))}
-              </div>
-            </SectionCard>
-
-            <SectionCard icon={<FileText size={14} className="text-[var(--sane-green)]" />} title="Mes candidatures" viewAllText="Voir toutes">
-              <div className="flex flex-col gap-2.5">
-                {mesCandidatures.map((c, i) => (
-                  <div key={i} className="flex items-center gap-2.5">
-                    <EnterpriseLogo code={c.logo} size={36} />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight truncate">{c.poste}</p>
-                      <p className="text-[9px] text-[var(--sane-text-light)]">{c.entreprise}</p>
-                      <p className="text-[9px] text-[var(--sane-text-light)]">{c.date}</p>
-                    </div>
-                    <span className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-semibold" style={{ backgroundColor: c.statutBg, color: c.statutColor }}>{c.statut}</span>
-                  </div>
-                ))}
-              </div>
-            </SectionCard>
-
-            <SectionCard icon={<Calendar size={14} className="text-[var(--sane-green)]" />} title="Prochains rendez-vous" viewAllText="Voir tous">
-              <div className="flex flex-col gap-3">
-                {rdvs.map((r, i) => (
-                  <div key={i} className="flex items-start gap-2.5">
-                    <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-[var(--sane-green-light)]">
-                      <span className="text-[14px] font-extrabold text-[var(--sane-green)] leading-none">{r.day}</span>
-                      <span className="text-[8px] font-semibold text-[var(--sane-green)]">{r.month}</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight">{r.titre}</p>
-                      <p className="text-[9px] text-[var(--sane-text-light)]">{r.lieu}</p>
-                      <div className="mt-0.5 flex items-center gap-2">
-                        <span className="text-[9px] text-[var(--sane-text-light)]">{r.heure}</span>
-                        <span className="flex items-center gap-0.5 rounded-full bg-[var(--sane-blue-tint)] px-1.5 py-0.5 text-[8px] font-semibold text-[var(--sane-blue)]">
-                          {r.modeIcon} {r.mode}
-                        </span>
-                      </div>
-                    </div>
-                    <button className="shrink-0 mt-2 flex h-6 w-6 items-center justify-center rounded-full border border-[var(--sane-border)]">
-                      <ChevronRight size={12} className="text-[var(--sane-text-light)]" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </SectionCard>
-          </div>
-
-          {/* Row 2: 3 columns */}
-          <div className="mb-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-            <SectionCard icon={<Calendar size={14} className="text-[var(--sane-green)]" />} title="Événements à venir" viewAllText="Voir tous">
-              <div className="flex flex-col gap-2.5">
-                {evenements.map((e, i) => (
-                  <div key={i} className="flex items-center gap-2.5">
-                    <div className="flex h-11 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-[var(--sane-green-light)]">
-                      <span className="text-[13px] font-extrabold text-[var(--sane-green)] leading-none">{e.day}</span>
-                      <span className="text-[8px] font-semibold text-[var(--sane-green)]">{e.month}</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[10px] font-semibold text-[var(--sane-green-deep)] leading-tight truncate">{e.titre}</p>
-                      <p className="text-[9px] text-[var(--sane-text-light)]">{e.lieu}</p>
-                    </div>
-                    <span className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-semibold" style={{ backgroundColor: e.badgeBg, color: e.badgeColor }}>{e.badge}</span>
-                  </div>
-                ))}
-              </div>
-            </SectionCard>
-
-            <BarChart title="Statistiques de mon activité" bars={barData} maxValue={10} />
-
-            <MiniCalendar month="Mars" year={2024} weeks={calWeeks} highlightDays={[8, 15, 22]} today={10} />
-          </div>
-
-          {/* Recommendations */}
-          <div className="mb-4">
-            <div className="mb-3 flex items-center gap-1.5">
-              <Star size={14} className="text-[var(--sane-orange)]" />
-              <span className="text-[14px] font-bold text-[var(--sane-green-deep)]">Recommendations pour vous</span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
-              {recommendations.map((r, i) => (
-                <div key={i} className="flex overflow-hidden rounded-xl border border-[var(--sane-border)] bg-white">
-                  <div className="relative w-[120px] shrink-0">
-                    <Image src={r.img} alt={r.titre} fill sizes="100vw" className="object-cover" />
-                  </div>
-                  <div className="flex flex-1 items-center gap-2 p-3">
-                    <div className="flex-1 min-w-0">
-                      <span className="inline-block rounded-full px-2 py-0.5 text-[8px] font-semibold mb-1" style={{ backgroundColor: r.catBg, color: r.catColor }}>{r.category}</span>
-                      <p className="text-[11px] font-semibold text-[var(--sane-green-deep)] leading-tight">{r.titre}</p>
-                      <p className="text-[9px] text-[var(--sane-text-light)] mt-0.5">{r.lieu}</p>
-                      <div className="mt-1 flex items-center gap-1 text-[9px] text-[var(--sane-text-light)]">
-                        <Calendar size={9} />
-                        <span>{r.date}</span>
-                      </div>
-                    </div>
-                    <button className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full border border-[var(--sane-border)]">
-                      <ChevronRight size={13} className="text-[var(--sane-text-light)]" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </main>
+    <>
+      <div className="mb-6">
+        <h1 className="sane-h2 mb-1">Bonjour {user?.nom?.split(" ")[0]}</h1>
+        <p className="sane-body">Voici où en sont vos candidatures et vos entretiens.</p>
       </div>
-    </div>
+
+      {completion < 100 && (
+        <section className="mb-6 rounded-2xl border border-[var(--sane-orange)] bg-[#fff8ed] p-5">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <p className="text-[14px] font-bold text-[var(--sane-text)]">
+              Votre profil est complété à {completion}%
+            </p>
+            <Link href="/dashboard/profil" className="text-[13px] font-semibold text-[var(--sane-green)]">
+              Compléter mon profil →
+            </Link>
+          </div>
+          <div className="h-2 overflow-hidden rounded-full bg-white">
+            <div className="h-full rounded-full bg-[var(--sane-orange)]" style={{ width: `${completion}%` }} />
+          </div>
+          <p className="mt-2 text-[12px] text-[var(--sane-text-light)]">
+            Un profil complet et visible est proposé aux recruteurs et améliore vos correspondances.
+          </p>
+        </section>
+      )}
+
+      <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <Tuile icone={FileText} valeur={candidatures.length} label="Candidatures" />
+        <Tuile icone={Calendar} valeur={entretiensAVenir.length} label="Entretiens à venir" href="/dashboard/entretiens" />
+        <Tuile icone={Heart} valeur={favoris.length} label="Offres favorites" />
+        <Tuile icone={Sparkles} valeur={correspondances.length} label="Offres suggérées" href="/dashboard/entretiens" />
+      </div>
+
+      {entretiensAVenir.length > 0 && (
+        <section className="mb-6 rounded-2xl border border-[var(--sane-green)] bg-[var(--sane-green-light)] p-5">
+          <h2 className="sane-h3 mb-3">Vos prochains entretiens</h2>
+          <ul className="flex flex-col gap-2">
+            {entretiensAVenir.map((e) => (
+              <li key={e.id} className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-white p-3">
+                <div className="min-w-0">
+                  <p className="text-[13px] font-semibold text-[var(--sane-text)]">
+                    {e.candidature?.offre?.titre}
+                  </p>
+                  <p className="text-[12px] text-[var(--sane-text-light)]">
+                    {e.creneau &&
+                      new Date(e.creneau.debut).toLocaleString("fr-FR", {
+                        weekday: "long",
+                        day: "2-digit",
+                        month: "long",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                  </p>
+                </div>
+                <Link href="/dashboard/entretiens" className="text-[12px] font-semibold text-[var(--sane-green)]">
+                  {e.statut === "en_attente" ? "Confirmer →" : "Voir →"}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section className="mb-6">
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="sane-h3">Mes candidatures</h2>
+          <Link href="/emploi" className="text-[13px] font-semibold text-[var(--sane-green)]">
+            Voir les offres →
+          </Link>
+        </div>
+
+        {candidatures.length === 0 ? (
+          <div className="rounded-2xl border border-[var(--sane-border)] bg-white py-10 text-center">
+            <Briefcase size={24} className="mx-auto mb-2 text-[var(--sane-text-light)]" />
+            <p className="sane-small mb-3">Vous n&apos;avez pas encore postulé à une offre.</p>
+            <Link
+              href="/emploi"
+              className="inline-block rounded-lg bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white"
+            >
+              Parcourir les offres
+            </Link>
+          </div>
+        ) : (
+          <ul className="flex flex-col gap-2">
+            {candidatures.map((c) => (
+              <li
+                key={c.id}
+                className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--sane-border)] bg-white p-4"
+              >
+                <div className="min-w-0">
+                  <p className="text-[13px] font-semibold text-[var(--sane-text)]">{c.offre?.titre}</p>
+                  <p className="text-[12px] text-[var(--sane-text-light)]">
+                    {c.offre?.entreprise?.nom} · {c.reference}
+                  </p>
+                </div>
+                <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ${STATUT_COULEUR[c.statut]}`}>
+                  {c.statut_label}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      {correspondances.length > 0 && (
+        <section>
+          <h2 className="sane-h3 mb-1">Offres qui vous correspondent</h2>
+          <p className="sane-small mb-3">
+            Classées selon votre secteur, vos compétences, votre ville et votre expérience.
+          </p>
+          <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {correspondances.slice(0, 4).map((m) => (
+              <li key={m.id} className="rounded-2xl border border-[var(--sane-border)] bg-white p-4">
+                <div className="mb-2 flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-[13px] font-bold text-[var(--sane-text)]">{m.offre?.titre}</p>
+                    <p className="text-[12px] text-[var(--sane-text-light)]">{m.offre?.entreprise?.nom}</p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-[var(--sane-green-light)] px-2.5 py-1 text-[12px] font-bold text-[var(--sane-green)]">
+                    {m.score}%
+                  </span>
+                </div>
+                {m.offre && (
+                  <Link href={`/emploi/${m.offre.slug}`} className="text-[12px] font-semibold text-[var(--sane-green)]">
+                    Voir l&apos;offre →
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {profil && !profil.visible && (
+        <p className="mt-6 flex items-start gap-2 rounded-xl border border-[var(--sane-border)] bg-white p-4">
+          <UserRound size={16} className="mt-0.5 shrink-0 text-[var(--sane-orange)]" />
+          <span className="sane-small">
+            Votre profil n&apos;est pas visible par les recruteurs.{" "}
+            <Link href="/dashboard/profil" className="font-semibold text-[var(--sane-green)]">
+              Le rendre visible
+            </Link>{" "}
+            vous permet d&apos;être contacté directement.
+          </span>
+        </p>
+      )}
+
+      {profil?.visible && completion === 100 && (
+        <p className="mt-6 flex items-center gap-2 sane-small">
+          <CheckCircle2 size={15} className="text-[var(--sane-green)]" />
+          Votre profil est complet et visible par les recruteurs.
+        </p>
+      )}
+    </>
+  );
+}
+
+export default function ParticipantDashboardPage() {
+  return (
+    <>
+      <Header />
+      <main className="bg-[var(--sane-background)] py-10 sm:py-14">
+        <Container>
+          <RoleGuard roles={["demandeur", "participant"]} espace="votre espace candidat">
+            <Contenu />
+          </RoleGuard>
+        </Container>
+      </main>
+      <Footer />
+    </>
   );
 }
