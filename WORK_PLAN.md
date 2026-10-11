@@ -3,7 +3,7 @@
 > **Mis à jour :** 11 octobre 2026
 > **Contrat :** 900 USD · 9 phases · 100 USD par phase
 > **Événement :** Niamey, 10–12 décembre 2026
-> **Avancement réel :** Phases 1–7 livrées · Phases 8–9 à faire
+> **Avancement réel :** Phases 1–8 livrées · Phase 9 à faire
 
 ---
 
@@ -18,7 +18,7 @@
 | 5 | Espace Demandeur d'emploi | ✅ **Livrée** | 10 migrations, 23 routes, recherche indexée · 20 tests |
 | 6 | Espace Recruteur | ✅ **Livrée** | 16 routes cloisonnées par policies · 5 pages · 21 tests |
 | 7 | Matching & Entretiens | ✅ **Livrée** | Score par critères explicable · rappels planifiés · 19 tests |
-| 8 | Back-office Admin | 🟨 **~15 %** | 13 pages existent · **2 seulement** branchées (formations, inscriptions) |
+| 8 | Back-office Administrateur | ✅ **Livrée** | 10 pages branchées · statistiques · export CSV · 17 tests |
 | 9 | Sécurité & Mise en production | ⬜ **0 %** | Backend non déployé. `MAIL_MAILER=log` |
 
 **Lecture honnête :** 4 phases sur 9 sont payées et livrées, mais elles représentent la partie la

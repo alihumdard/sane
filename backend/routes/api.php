@@ -1,10 +1,18 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\ActualiteAdminController;
 use App\Http\Controllers\Api\Admin\DocumentAdminController;
+use App\Http\Controllers\Api\Admin\EmploiAdminController;
+use App\Http\Controllers\Api\Admin\FaqAdminController;
 use App\Http\Controllers\Api\Admin\FormationAdminController;
 use App\Http\Controllers\Api\Admin\InscriptionAdminController;
+use App\Http\Controllers\Api\Admin\PartenaireAdminController;
+use App\Http\Controllers\Api\Admin\PresseAdminController;
+use App\Http\Controllers\Api\Admin\RapportAdminController;
+use App\Http\Controllers\Api\Admin\UtilisateurAdminController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CandidatureController;
+use App\Http\Controllers\Api\ContenuPublicController;
 use App\Http\Controllers\Api\DocumentCandidatureController;
 use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\Entreprise\CandidatureEntrepriseController;
@@ -37,6 +45,13 @@ Route::get('/inscriptions/{reference}', [InscriptionController::class, 'show']);
 Route::get('/inscriptions/{reference}/documents', [DocumentController::class, 'index']);
 Route::post('/inscriptions/{reference}/documents', [DocumentController::class, 'store'])
     ->middleware('throttle:20,1');
+
+// Contenus éditoriaux — alimentent le site public depuis la base.
+Route::get('/actualites', [ContenuPublicController::class, 'actualites']);
+Route::get('/actualites/{slug}', [ContenuPublicController::class, 'actualite']);
+Route::get('/faq', [ContenuPublicController::class, 'faq']);
+Route::get('/partenaires', [ContenuPublicController::class, 'partenaires']);
+Route::get('/presse', [ContenuPublicController::class, 'presse']);
 
 Route::post('/auth/login', [AuthController::class, 'login'])
     ->middleware('throttle:5,1');
@@ -171,6 +186,40 @@ Route::middleware(['auth:sanctum', 'role:administrateur,organisateur'])
         Route::get('/inscriptions/{inscription}/documents', [DocumentAdminController::class, 'index']);
         Route::get('/documents/{document}/telecharger', [DocumentAdminController::class, 'download']);
         Route::delete('/documents/{document}', [DocumentAdminController::class, 'destroy']);
+
+        // Back-office — Phase 8
+        Route::get('/statistiques', [RapportAdminController::class, 'statistiques']);
+        Route::get('/exports/inscriptions', [RapportAdminController::class, 'exporterInscriptions']);
+        Route::get('/exports/candidatures', [RapportAdminController::class, 'exporterCandidatures']);
+        Route::get('/exports/offres', [RapportAdminController::class, 'exporterOffres']);
+        Route::get('/exports/formations/{formation}/inscrits', [RapportAdminController::class, 'exporterInscritsFormation']);
+
+        Route::get('/utilisateurs', [UtilisateurAdminController::class, 'index']);
+        Route::post('/utilisateurs', [UtilisateurAdminController::class, 'store']);
+        Route::get('/utilisateurs/{utilisateur}', [UtilisateurAdminController::class, 'show']);
+        Route::put('/utilisateurs/{utilisateur}', [UtilisateurAdminController::class, 'update']);
+        Route::delete('/utilisateurs/{utilisateur}', [UtilisateurAdminController::class, 'destroy']);
+
+        Route::get('/emploi/offres', [EmploiAdminController::class, 'offres']);
+        Route::put('/emploi/offres/{offre}/statut', [EmploiAdminController::class, 'changerStatutOffre']);
+        Route::delete('/emploi/offres/{offre}', [EmploiAdminController::class, 'supprimerOffre']);
+        Route::get('/emploi/entreprises', [EmploiAdminController::class, 'entreprises']);
+        Route::put('/emploi/entreprises/{entreprise}/verification', [EmploiAdminController::class, 'verifierEntreprise']);
+        Route::get('/emploi/candidatures', [EmploiAdminController::class, 'candidatures']);
+
+        // Contenus : même CRUD, quatre ressources.
+        foreach ([
+            'actualites' => ActualiteAdminController::class,
+            'faq' => FaqAdminController::class,
+            'partenaires' => PartenaireAdminController::class,
+            'presse' => PresseAdminController::class,
+        ] as $chemin => $controleur) {
+            Route::get("/{$chemin}", [$controleur, 'index']);
+            Route::post("/{$chemin}", [$controleur, 'store']);
+            Route::get("/{$chemin}/{id}", [$controleur, 'show']);
+            Route::put("/{$chemin}/{id}", [$controleur, 'update']);
+            Route::delete("/{$chemin}/{id}", [$controleur, 'destroy']);
+        }
 
         Route::apiResource('/formations', FormationAdminController::class);
         Route::get('/formations/{formation}/inscrits', [FormationAdminController::class, 'inscrits']);
