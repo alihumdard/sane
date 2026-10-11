@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Candidature extends Model
 {
@@ -33,6 +34,11 @@ class Candidature extends Model
     public function profil(): BelongsTo
     {
         return $this->belongsTo(ProfilDemandeur::class, 'profil_id');
+    }
+
+    public function entretiens(): HasMany
+    {
+        return $this->hasMany(Entretien::class);
     }
 
     public function cv(): BelongsTo

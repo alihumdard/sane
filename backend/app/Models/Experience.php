@@ -32,6 +32,8 @@ class Experience extends Model
     /** Whole months worked, used by the Phase 7 experience criterion. */
     public function dureeEnMois(): int
     {
-        return $this->date_debut->diffInMonths($this->date_fin ?? now());
+        // diffInMonths returns a float in Carbon 3; floor rather than let PHP
+        // truncate implicitly, which is deprecated.
+        return (int) floor($this->date_debut->diffInMonths($this->date_fin ?? now()));
     }
 }

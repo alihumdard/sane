@@ -9,8 +9,11 @@ use App\Http\Controllers\Api\DocumentCandidatureController;
 use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\Entreprise\CandidatureEntrepriseController;
 use App\Http\Controllers\Api\Entreprise\EntrepriseController;
+use App\Http\Controllers\Api\Entreprise\EntretienEntrepriseController;
+use App\Http\Controllers\Api\Entreprise\MatchingController;
 use App\Http\Controllers\Api\Entreprise\OffreEntrepriseController;
 use App\Http\Controllers\Api\Entreprise\TableauBordController;
+use App\Http\Controllers\Api\EntretienController;
 use App\Http\Controllers\Api\FormationController;
 use App\Http\Controllers\Api\InscriptionController;
 use App\Http\Controllers\Api\OffreController;
@@ -89,6 +92,12 @@ Route::middleware(['auth:sanctum', 'role:demandeur,participant'])->group(functio
     Route::delete('/mes-candidatures/{candidature}', [CandidatureController::class, 'retirer']);
 
     Route::get('/mes-favoris', [CandidatureController::class, 'favoris']);
+
+    // Entretiens et correspondances — Phase 7
+    Route::get('/mes-entretiens', [EntretienController::class, 'index']);
+    Route::post('/entretiens/{entretien}/confirmer', [EntretienController::class, 'confirmer']);
+    Route::post('/entretiens/{entretien}/annuler', [EntretienController::class, 'annuler']);
+    Route::get('/mes-correspondances', [EntretienController::class, 'correspondances']);
     Route::post('/offres/{offre}/favori', [CandidatureController::class, 'basculerFavori']);
 });
 
@@ -120,6 +129,20 @@ Route::middleware(['auth:sanctum', 'role:recruteur,entreprise'])
         Route::get('/candidatures/{candidature}', [CandidatureEntrepriseController::class, 'show']);
         Route::put('/candidatures/{candidature}/statut', [CandidatureEntrepriseController::class, 'changerStatut']);
         Route::get('/candidatures/{candidature}/cv', [CandidatureEntrepriseController::class, 'telechargerCv']);
+
+        // Matching & entretiens — Phase 7
+        Route::get('/offres/{offre}/matching', [MatchingController::class, 'index']);
+        Route::post('/offres/{offre}/matching/recalculer', [MatchingController::class, 'recalculer']);
+        Route::put('/matching/{correspondance}/statut', [MatchingController::class, 'changerStatut']);
+
+        Route::get('/creneaux', [EntretienEntrepriseController::class, 'creneaux']);
+        Route::post('/creneaux', [EntretienEntrepriseController::class, 'creerCreneau']);
+        Route::delete('/creneaux/{creneau}', [EntretienEntrepriseController::class, 'supprimerCreneau']);
+
+        Route::get('/entretiens', [EntretienEntrepriseController::class, 'index']);
+        Route::post('/candidatures/{candidature}/entretien', [EntretienEntrepriseController::class, 'proposer']);
+        Route::post('/entretiens/{entretien}/annuler', [EntretienEntrepriseController::class, 'annuler']);
+        Route::post('/entretiens/{entretien}/terminer', [EntretienEntrepriseController::class, 'terminer']);
 
         Route::get('/candidats', [CandidatureEntrepriseController::class, 'candidats']);
         Route::get('/candidats/{profil}', [CandidatureEntrepriseController::class, 'candidat']);

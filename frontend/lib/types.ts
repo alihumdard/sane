@@ -341,6 +341,75 @@ export interface EntreprisePayload {
   telephone?: string;
 }
 
+/* ─── Matching & entretiens (Phase 7) ─── */
+
+export type StatutEntretien = "en_attente" | "confirme" | "termine" | "annule";
+export type ModeEntretien = "presentiel" | "visio" | "telephone";
+export type StatutCorrespondance = "suggere" | "retenu" | "ecarte";
+
+/** One scoring criterion, with the reason it scored what it did. */
+export interface CritereMatching {
+  obtenu: number;
+  max: number;
+  raison: string;
+  communes?: string[];
+}
+
+export interface ApiCorrespondance {
+  id: number;
+  score: number;
+  statut: StatutCorrespondance;
+  details: Record<string, CritereMatching>;
+  offre?: ApiOffre;
+  profil?: ApiProfilDemandeur;
+  calcule_le: string;
+}
+
+export interface CorrespondancesResponse {
+  data: ApiCorrespondance[];
+  meta: PaginationMeta;
+  offre: { id: number; titre: string };
+}
+
+export interface ApiCreneau {
+  id: number;
+  debut: string;
+  fin: string;
+  duree_minutes: number;
+  mode: ModeEntretien;
+  mode_label: string;
+  lieu: string | null;
+  reserve: boolean;
+  passe: boolean;
+}
+
+export interface ApiEntretien {
+  id: number;
+  reference: string;
+  statut: StatutEntretien;
+  statut_label: string;
+  est_final: boolean;
+  lien_visio: string | null;
+  motif_annulation: string | null;
+  confirme_le: string | null;
+  creneau?: ApiCreneau;
+  candidature?: ApiCandidature;
+  note?: string | null;
+  created_at: string;
+}
+
+export interface EntretiensResponse {
+  data: ApiEntretien[];
+  meta: PaginationMeta;
+}
+
+export interface CreneauPayload {
+  debut: string;
+  fin: string;
+  mode: ModeEntretien;
+  lieu?: string;
+}
+
 export interface CompteInscriptionPayload {
   nom: string;
   email: string;

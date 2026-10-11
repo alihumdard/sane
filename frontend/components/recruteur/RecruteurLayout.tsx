@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Briefcase, Building2, FileText, Home, LogOut, Users } from "lucide-react";
+import { Briefcase, Building2, CalendarClock, FileText, Home, LogOut, Sparkles, Users } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
 const LIENS = [
   { href: "/dashboard/recruteur", label: "Tableau de bord", icon: Home },
   { href: "/dashboard/recruteur/offres", label: "Mes offres", icon: Briefcase },
   { href: "/dashboard/recruteur/candidatures", label: "Candidatures", icon: FileText },
+  { href: "/dashboard/recruteur/matching", label: "Candidats correspondants", icon: Sparkles },
+  { href: "/dashboard/recruteur/entretiens", label: "Entretiens", icon: CalendarClock },
   { href: "/dashboard/recruteur/candidats", label: "Rechercher des profils", icon: Users },
   { href: "/dashboard/recruteur/entreprise", label: "Mon entreprise", icon: Building2 },
 ];
