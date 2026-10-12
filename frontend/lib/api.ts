@@ -61,23 +61,22 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
 }
 
 /**
- * Downloads a file from an authenticated endpoint.
- *
- * A plain <a href> cannot carry the bearer token, so the bytes are fetched
- * with it and handed to the browser as a blob. The object URL is revoked
- * straight after to avoid leaking it for the life of the page.
+ * Multipart upload. Deliberately does not set Content-Type: the browser has to
+ * generate it, because only it knows the multipart boundary.
  */
-export async function telecharger(path: string, nomFichier: string): Promise<void> {
+async function upload<T>(path: string, body: FormData): Promise<T> {
   const response = await fetch(`${BASE_URL}${path}`, {
+    method: "POST",
     headers: {
-      Accept: "application/octet-stream",
+      Accept: "application/json",
       ...(authToken && { Authorization: `Bearer ${authToken}` }),
     },
+    body,
   });
 
-  if (!response.ok) {
-    const payload = await response.json().catch(() => null);
+  const payload = await response.json().catch(() => null);
 
+  if (!response.ok) {
     throw new ApiError(
       payload?.message ?? `Erreur ${response.status}`,
       response.status,
@@ -85,7 +84,37 @@ export async function telecharger(path: string, nomFichier: string): Promise<voi
     );
   }
 
-  const blob = await response.blob();
+  return payload as T;
+}
+
+/**
+ * Fetches a protected file as a blob. Takes an absolute URL, since the API
+ * hands these back already built, and goes through fetch rather than a link
+ * because the endpoint requires the bearer token.
+ */
+async function download(url: string): Promise<Blob> {
+  const response = await fetch(url, {
+    headers: {
+      ...(authToken && { Authorization: `Bearer ${authToken}` }),
+    },
+  });
+
+  if (!response.ok) {
+    throw new ApiError(`Téléchargement impossible (${response.status})`, response.status);
+  }
+
+  return response.blob();
+}
+
+/**
+ * Downloads a file from an authenticated endpoint and hands it to the browser.
+ *
+ * Takes an API path rather than an absolute URL, and saves the result itself:
+ * a plain <a href> cannot carry the bearer token. The object URL is revoked
+ * straight after so it does not leak for the life of the page.
+ */
+export async function telecharger(path: string, nomFichier: string): Promise<void> {
+  const blob = await download(`${BASE_URL}${path}`);
   const url = URL.createObjectURL(blob);
 
   try {
@@ -101,6 +130,8 @@ export async function telecharger(path: string, nomFichier: string): Promise<voi
 }
 
 export const api = {
+  upload,
+  download,
   get: <T>(path: string, options?: RequestOptions) => request<T>(path, { ...options, method: "GET" }),
   post: <T>(path: string, body?: unknown, options?: RequestOptions) =>
     request<T>(path, { ...options, method: "POST", body }),

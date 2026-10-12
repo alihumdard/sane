@@ -39,10 +39,19 @@ class DocumentInscription extends Model
     }
 
     /**
-     * Documents hold personal data, so they live on the private disk and are
-     * never addressable by URL — reading one goes through the authenticated
-     * download route, which is why no url() accessor is offered here.
+     * Served through the API rather than linked directly: these are identity
+     * papers and CVs, and the storage disk is private so a guessed path leads
+     * nowhere.
      */
+    public function url(): string
+    {
+        return route('documents.telecharger', [
+            'inscription' => $this->inscription_id,
+            'document' => $this->id,
+        ]);
+    }
+
+    /** The bytes themselves, for the route that url() points at. */
     public function contenu(): StreamedResponse
     {
         return Storage::disk(GestionDocuments::DISQUE)->download(

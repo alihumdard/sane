@@ -28,11 +28,18 @@ export function SpacesSection({ onSelectRole }: Props) {
               <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl text-white" style={{ backgroundColor: color }}>
                 <Icon size={24} />
               </span>
-              <h3 className="sane-h3 mb-2">{title}</h3>
-              <p className="sane-small mb-4 flex-1">{desc}</p>
-              <a href="#login-form" onClick={() => onSelectRole(key)} className={textLink}>
-                Se connecter <ArrowRight size={13} />
-              </a>
+              <div className="mb-2 flex w-full items-center justify-between gap-2">
+                <h3 className="sane-h3">{title}</h3>
+                <a
+                  href="#login-form"
+                  onClick={() => onSelectRole(key)}
+                  aria-label={`Se connecter — ${title}`}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--sane-border)] text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green)] hover:text-white"
+                >
+                  <ArrowRight size={14} />
+                </a>
+              </div>
+              <p className="sane-small flex-1">{desc}</p>
             </div>
           ))}
         </div>

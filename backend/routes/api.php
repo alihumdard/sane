@@ -41,10 +41,12 @@ Route::post('/inscriptions', [InscriptionController::class, 'store'])
     ->middleware('throttle:10,1');
 Route::get('/inscriptions/{reference}', [InscriptionController::class, 'show']);
 
-// Pièces justificatives — l'email d'inscription fait office de preuve d'identité.
+// Pièces justificatives : la référence seule est devinable, donc l'email
+// d'inscription est exigé en plus comme preuve d'identité.
 Route::get('/inscriptions/{reference}/documents', [DocumentController::class, 'index']);
 Route::post('/inscriptions/{reference}/documents', [DocumentController::class, 'store'])
     ->middleware('throttle:20,1');
+Route::delete('/inscriptions/{reference}/documents/{document}', [DocumentController::class, 'destroy']);
 
 // Contenus éditoriaux — alimentent le site public depuis la base.
 Route::get('/actualites', [ContenuPublicController::class, 'actualites']);
@@ -224,3 +226,8 @@ Route::middleware(['auth:sanctum', 'role:administrateur,organisateur'])
         Route::apiResource('/formations', FormationAdminController::class);
         Route::get('/formations/{formation}/inscrits', [FormationAdminController::class, 'inscrits']);
     });
+
+// Identity papers and CVs — staff only, and streamed rather than linked.
+Route::middleware(['auth:sanctum', 'role:administrateur,organisateur'])
+    ->get('/admin/inscriptions/{inscription}/documents/{document}', [DocumentController::class, 'telecharger'])
+    ->name('documents.telecharger');

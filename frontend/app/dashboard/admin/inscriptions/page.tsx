@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { AlertCircle, Check, CheckCircle2, Clock, Loader2, RefreshCw, Users, X, XCircle } from "lucide-react";
+import { AlertCircle, Check, CheckCircle2, Clock, FileDown, Loader2, RefreshCw, Users, X, XCircle } from "lucide-react";
 
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
@@ -13,7 +13,7 @@ import { AdminGuard } from "@/components/dashboard/AdminGuard";
 import { adminNav } from "@/lib/adminNav";
 import { api, ApiError } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
-import type { AdminInscriptionsResponse, ApiInscription, StatutInscription } from "@/lib/types";
+import type { AdminInscriptionsResponse, ApiInscription, DocumentUpload, StatutInscription } from "@/lib/types";
 
 const sidebarItems = adminNav("Formations", 5);
 
@@ -32,6 +32,8 @@ interface LigneInscription {
   date: string;
   statutColor: string;
   statutBg: string;
+  /** Three of the four slots are required; the cover letter is optional. */
+  documents: DocumentUpload[];
 }
 
 const COULEURS: Record<StatutInscription, { statutColor: string; statutBg: string }> = {
@@ -53,6 +55,7 @@ function enLigne(i: ApiInscription): LigneInscription {
     statut: i.statut_label,
     statutCode: i.statut,
     date: new Date(i.created_at).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" }),
+    documents: i.documents ?? [],
     ...COULEURS[i.statut],
   };
 }
@@ -228,7 +231,7 @@ function Tableau({
         <table className="w-full min-w-[1000px]">
           <thead>
             <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
-              {["Référence", "Participant", "Contact", "Participation", "Formations", "Statut", "Date", "Actions"].map((h) => (
+              {["Référence", "Participant", "Contact", "Participation", "Formations", "Documents", "Statut", "Date", "Actions"].map((h) => (
                 <th
                   key={h}
                   className={`px-2 py-2.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--sane-text-light)] ${
@@ -243,7 +246,7 @@ function Tableau({
           <tbody>
             {tbl.pageRows.length === 0 ? (
               <tr>
-                <td colSpan={8} className="px-4 py-12 text-center text-[12px] text-[var(--sane-text-light)]">
+                <td colSpan={9} className="px-4 py-12 text-center text-[12px] text-[var(--sane-text-light)]">
                   Aucune inscription ne correspond à votre recherche.
                 </td>
               </tr>
@@ -268,6 +271,9 @@ function Tableau({
                     <p className="truncate text-[11px] text-[var(--sane-text-light)]" title={r.formations}>
                       {r.formations}
                     </p>
+                  </td>
+                  <td className="px-2 py-2.5">
+                    <Documents documents={r.documents} />
                   </td>
                   <td className="px-2 py-2.5">
                     <span
@@ -304,6 +310,60 @@ function Tableau({
     </div>
   );
 }
+
+/**
+ * Three required slots plus an optional cover letter. Downloads go through
+ * fetch rather than a plain link, because the endpoint needs the bearer token
+ * and the files are deliberately not publicly reachable.
+ */
+function Documents({ documents }: { documents: DocumentUpload[] }) {
+  const [enCours, setEnCours] = useState<number | null>(null);
+
+  if (documents.length === 0) {
+    return <span className="whitespace-nowrap text-[10px] text-[var(--sane-text-light)]">Aucun</span>;
+  }
+
+  async function telecharger(doc: DocumentUpload) {
+    setEnCours(doc.id);
+
+    try {
+      const blob = await api.download(doc.url);
+      const url = URL.createObjectURL(blob);
+      const lien = document.createElement("a");
+      lien.href = url;
+      lien.download = doc.nom_original;
+      lien.click();
+      URL.revokeObjectURL(url);
+    } finally {
+      setEnCours(null);
+    }
+  }
+
+  return (
+    <div className="flex flex-wrap gap-1">
+      {documents.map((d) => (
+        <button
+          key={d.id}
+          type="button"
+          onClick={() => telecharger(d)}
+          disabled={enCours === d.id}
+          title={`${d.type_label} — ${d.nom_original}`}
+          className="flex items-center gap-1 rounded bg-[var(--sane-green-tint)] px-1.5 py-0.5 text-[9px] font-semibold text-[var(--sane-green)] transition-opacity hover:opacity-70 disabled:opacity-50"
+        >
+          {enCours === d.id ? <Loader2 size={9} className="animate-spin" /> : <FileDown size={9} />}
+          {ABREVIATIONS[d.type]}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+const ABREVIATIONS: Record<string, string> = {
+  piece_identite: "CNI",
+  cv: "CV",
+  lettre_motivation: "LM",
+  photo: "Photo",
+};
 
 function ActionsStatut({
   ligne,

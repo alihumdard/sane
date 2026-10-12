@@ -6,10 +6,10 @@ import { AlertCircle, ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucid
 import { primaryBtn, secondaryBtn } from "@/components/ui/styles";
 import { api, ApiError } from "@/lib/api";
 import type { ApiInscription, InscriptionPayload, InscriptionResponse, TypeParticipation } from "@/lib/types";
-import { DocumentsPanel } from "./DocumentsPanel";
 import { StepProgress } from "./StepProgress";
 import { ParticipationStep } from "./ParticipationStep";
 import { FormationsStep } from "./FormationsStep";
+import { DocumentsUpload } from "./DocumentsUpload";
 import { ConfirmStep, InterestsStep, PersonalStep, ProfileStep } from "./steps";
 import { emptyRegistration, steps, STEP_FORMATIONS } from "./data";
 
@@ -138,9 +138,6 @@ export function RegistrationWizard() {
               Votre référence : <strong className="text-[var(--sane-green)]">{inscription.reference}</strong>
             </p>
 
-            <div className="mb-6 w-full border-t border-[var(--sane-border)] pt-6">
-              <DocumentsPanel reference={inscription.reference} email={inscription.email} />
-            </div>
 
             <div className="flex flex-wrap justify-center gap-3">
               <Link href="/programme" className={primaryBtn}>
@@ -150,6 +147,8 @@ export function RegistrationWizard() {
                 Nouvelle inscription
               </button>
             </div>
+
+            <DocumentsUpload reference={inscription.reference} email={inscription.email} />
           </div>
         ) : (
           <>

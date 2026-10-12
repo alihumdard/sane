@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Deliberately omits `chemin`: the storage path is never useful to a client and
- * knowing it is of no help anyway, since the file is served only through the
- * authenticated download route.
+ * Deliberately omits `chemin`: the storage path is never useful to a client,
+ * and the file is served only through the authenticated download route, which
+ * `url` points at.
  *
  * @mixin DocumentInscription
  */
@@ -25,6 +25,7 @@ class DocumentResource extends JsonResource
             'mime' => $this->mime,
             'taille' => $this->taille,
             'taille_lisible' => $this->tailleLisible(),
+            'url' => $this->url(),
             'televerse_le' => $this->created_at->toIso8601String(),
         ];
     }

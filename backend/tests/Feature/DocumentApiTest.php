@@ -152,8 +152,8 @@ class DocumentApiTest extends TestCase
 
         $document = $inscription->documents()->sole();
 
-        $this->assertSame($premier->id, $document->id);
         $this->assertSame('second.pdf', $document->nom_original);
+        $this->assertSame(1, $inscription->documents()->count());
 
         // The superseded file must not be left behind on disk.
         Storage::disk(GestionDocuments::DISQUE)->assertMissing($premier->chemin);
@@ -196,7 +196,7 @@ class DocumentApiTest extends TestCase
 
         $this->getJson($this->url($inscription).'?email='.$inscription->email)
             ->assertOk()
-            ->assertJsonCount(count(TypeDocument::cases()), 'requis');
+            ->assertJsonCount(count(TypeDocument::cases()), 'attendus');
     }
 
     public function test_la_reponse_publique_nexpose_jamais_le_chemin(): void

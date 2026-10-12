@@ -102,7 +102,7 @@ export function FormationsStep({ selected, onToggle }: Props) {
                   on ? "border-[var(--sane-green)] bg-[var(--sane-green)] text-white" : "border-[var(--sane-border)]"
                 }`}
               >
-                {on && <Check size={13} />}
+                <Check size={13} className={on ? "" : "hidden"} />
               </span>
 
               <span className="min-w-0 flex-1">

@@ -79,8 +79,11 @@ export function InterestsStep({
                     : "border-[var(--sane-border)] bg-white text-[var(--sane-text)] hover:border-[var(--sane-green)]"
                 }`}
               >
-                {on && <Check size={13} />}
-                {i}
+                {/* Always rendered, only hidden: toggling the node in and out
+                    breaks if a browser translation extension has rewritten the
+                    sibling text node React measures against. */}
+                <Check size={13} className={on ? "" : "hidden"} />
+                <span>{i}</span>
               </button>
             );
           })}

@@ -59,8 +59,8 @@ export function SpeakerCard({ speaker, view }: { speaker: Speaker; view: "grid" 
         <p className="sane-h3">{speaker.name}</p>
         <p className="text-[length:var(--fs-small)] font-semibold text-[var(--sane-green)]">{speaker.title}</p>
         <p className="sane-small">{speaker.org}</p>
-        <Tags tags={speaker.tags} />
-        <div className="mt-auto pt-3">
+        <div className="mt-auto flex items-center justify-between gap-2 pt-3">
+          <Tags tags={speaker.tags} />
           <button type="button" aria-label={`Voir ${speaker.name}`} className={arrowBtn}>
             <ArrowRight size={14} />
           </button>

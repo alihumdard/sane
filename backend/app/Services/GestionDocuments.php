@@ -17,8 +17,8 @@ use Illuminate\Support\Str;
  *
  * Identity papers and CVs are personal data, so they are kept on the private
  * disk (storage/app/private) and never exposed by URL — reading one goes
- * through an authenticated route that streams it. Stored names are random:
- * the original name is kept in the database for display only, so a crafted
+ * through an authorised route that streams it. Stored names are random: the
+ * original name is kept in the database for display only, so a crafted
  * filename can never influence the path written to.
  */
 class GestionDocuments
@@ -26,9 +26,13 @@ class GestionDocuments
     public const DISQUE = 'local';
 
     /**
-     * Replaces any document the inscription already has of this type — the
-     * table is unique on (inscription_id, type), and a participant correcting
-     * a bad scan should not be blocked by their first attempt.
+     * Store a file in one of the registration's four slots, replacing whatever
+     * was there.
+     *
+     * The old file is deleted only after the new row is committed, so a failure
+     * mid-way cannot leave the record pointing at nothing; and the newly
+     * written file is removed if the transaction rolls back, so a failure
+     * cannot leave an orphan on disk either.
      */
     public function enregistrer(
         Inscription $inscription,
@@ -41,28 +45,53 @@ class GestionDocuments
             ['disk' => self::DISQUE]
         );
 
-        $document = DB::transaction(function () use ($inscription, $type, $fichier, $chemin) {
-            $ancien = $inscription->documents()->where('type', $type->value)->first();
+        $ancien = null;
 
-            $document = $inscription->documents()->updateOrCreate(
-                ['type' => $type->value],
-                [
+        try {
+            $document = DB::transaction(function () use ($inscription, $type, $fichier, $chemin, &$ancien) {
+                $ancien = $inscription->documents()->where('type', $type->value)->first();
+                $ancien?->delete();
+
+                return $inscription->documents()->create([
+                    'type' => $type,
                     'nom_original' => $this->nomPropre($fichier->getClientOriginalName()),
                     'chemin' => $chemin,
                     'mime' => $fichier->getClientMimeType(),
                     'taille' => $fichier->getSize(),
-                ],
-            );
+                ]);
+            });
+        } catch (\Throwable $e) {
+            Storage::disk(self::DISQUE)->delete($chemin);
 
-            // Only once the row is safely pointing at the new file.
-            if ($ancien && $ancien->chemin !== $chemin) {
-                Storage::disk(self::DISQUE)->delete($ancien->chemin);
-            }
+            throw $e;
+        }
 
-            return $document;
-        });
+        if ($ancien && $ancien->chemin !== $chemin) {
+            Storage::disk(self::DISQUE)->delete($ancien->chemin);
+        }
 
         return $document;
+    }
+
+    public function supprimer(DocumentInscription $document): void
+    {
+        $chemin = $document->chemin;
+
+        $document->delete();
+
+        Storage::disk(self::DISQUE)->delete($chemin);
+    }
+
+    /** Which of the required slots are still empty. */
+    public function manquants(Inscription $inscription): array
+    {
+        $fournis = $inscription->documents->pluck('type.value')->all();
+
+        return collect(TypeDocument::cases())
+            ->filter(fn (TypeDocument $t) => $t->obligatoire() && ! in_array($t->value, $fournis, true))
+            ->map(fn (TypeDocument $t) => ['type' => $t->value, 'label' => $t->label()])
+            ->values()
+            ->all();
     }
 
     /**
@@ -82,31 +111,28 @@ class GestionDocuments
             ['disk' => self::DISQUE]
         );
 
-        return DB::transaction(function () use ($profil, $type, $fichier, $chemin) {
-            // Newest upload of a type becomes the default one offered.
-            $profil->documents()->where('type', $type->value)->update(['principal' => false]);
+        try {
+            return DB::transaction(function () use ($profil, $type, $fichier, $chemin) {
+                // Newest upload of a type becomes the default one offered.
+                $profil->documents()->where('type', $type->value)->update(['principal' => false]);
 
-            return $profil->documents()->create([
-                'type' => $type->value,
-                'nom_original' => $this->nomPropre($fichier->getClientOriginalName()),
-                'chemin' => $chemin,
-                'mime' => $fichier->getClientMimeType(),
-                'taille' => $fichier->getSize(),
-                'principal' => true,
-            ]);
-        });
+                return $profil->documents()->create([
+                    'type' => $type->value,
+                    'nom_original' => $this->nomPropre($fichier->getClientOriginalName()),
+                    'chemin' => $chemin,
+                    'mime' => $fichier->getClientMimeType(),
+                    'taille' => $fichier->getSize(),
+                    'principal' => true,
+                ]);
+            });
+        } catch (\Throwable $e) {
+            Storage::disk(self::DISQUE)->delete($chemin);
+
+            throw $e;
+        }
     }
 
     public function supprimerDocument(DocumentCandidature $document): void
-    {
-        $chemin = $document->chemin;
-
-        $document->delete();
-
-        Storage::disk(self::DISQUE)->delete($chemin);
-    }
-
-    public function supprimer(DocumentInscription $document): void
     {
         $chemin = $document->chemin;
 

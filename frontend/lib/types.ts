@@ -85,7 +85,7 @@ export interface ApiInscription {
   source: string | null;
   newsletter: boolean;
   formations?: ApiFormation[];
-  documents?: ApiDocument[];
+  documents?: DocumentUpload[];
   confirmee_le: string | null;
   created_at: string;
 }
@@ -99,7 +99,7 @@ export interface InscriptionResponse {
 
 export type TypeDocument = "piece_identite" | "cv" | "lettre_motivation" | "photo";
 
-export interface ApiDocument {
+export interface DocumentUpload {
   id: number;
   type: TypeDocument;
   type_label: string;
@@ -107,27 +107,23 @@ export interface ApiDocument {
   mime: string;
   taille: number;
   taille_lisible: string;
+  url: string;
   televerse_le: string;
 }
 
-/** Describes one expected document, as the API advertises it. */
-export interface DocumentRequis {
-  value: TypeDocument;
-  label: string;
-  obligatoire: boolean;
-  /** Comma-separated extension list, e.g. "pdf,jpg,jpeg". */
-  formats: string;
-  taille_max_ko: number;
-}
+/** Kept as an alias: both names are in use across the app. */
+export type ApiDocument = DocumentUpload;
 
 export interface DocumentsResponse {
-  data: ApiDocument[];
-  requis: DocumentRequis[];
+  data: DocumentUpload[];
+  manquants: { type: TypeDocument; label: string }[];
+  attendus: DocumentAttendu[];
 }
 
 export interface DocumentUploadResponse {
   message: string;
-  data: ApiDocument;
+  data: DocumentUpload;
+  manquants: { type: TypeDocument; label: string }[];
 }
 
 /* ─── Portail emploi (Phase 5) ─── */
@@ -417,6 +413,15 @@ export interface CompteInscriptionPayload {
   password: string;
   password_confirmation: string;
   role: "demandeur" | "recruteur";
+}
+
+export interface DocumentAttendu {
+  type: TypeDocument;
+  label: string;
+  obligatoire: boolean;
+  /** Human-readable, e.g. "PDF, JPG, JPEG". */
+  formats: string;
+  taille_max_mo: number;
 }
 
 /* ─── Back-office ─── */

@@ -67,7 +67,16 @@ export function ProjectSection() {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--sane-green)] sm:h-11 sm:w-11">
                 <card.icon size={20} strokeWidth={2} className="text-white" />
               </div>
-              <h3 className="sane-h3">{card.title}</h3>
+              <div className="flex w-full items-center justify-between gap-2">
+                <h3 className="sane-h3">{card.title}</h3>
+                <Link
+                  href={card.href}
+                  aria-label={card.title}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--sane-border)] text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green)] hover:!text-white"
+                >
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
               <ul className="flex flex-col gap-2">
                 {card.items.map((item) => (
                   <li key={item} className="sane-small flex items-start gap-2">
@@ -76,15 +85,6 @@ export function ProjectSection() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-auto">
-                <Link
-                  href={card.href}
-                  aria-label={card.title}
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--sane-border)] text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green)] hover:!text-white"
-                >
-                  <ArrowRight size={14} />
-                </Link>
-              </div>
             </div>
           ))}
         </div>
