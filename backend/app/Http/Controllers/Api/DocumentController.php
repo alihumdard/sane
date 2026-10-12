@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Enums\TypeDocument;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDocumentRequest;
+use App\Http\Resources\DocumentResource;
 use App\Models\DocumentInscription;
 use App\Models\Inscription;
 use App\Services\GestionDocuments;
@@ -37,7 +38,7 @@ class DocumentController extends Controller
 
         return response()->json([
             'message' => "« {$document->type->label()} » enregistré.",
-            'data' => $this->presenter($document),
+            'data' => new DocumentResource($document),
             'manquants' => $this->documents->manquants($inscription),
         ], 201);
     }
@@ -50,7 +51,7 @@ class DocumentController extends Controller
             ->firstOrFail();
 
         return response()->json([
-            'data' => $inscription->documents->map(fn ($d) => $this->presenter($d)),
+            'data' => DocumentResource::collection($inscription->documents),
             'manquants' => $this->documents->manquants($inscription),
             'attendus' => collect(TypeDocument::cases())->map(fn (TypeDocument $t) => [
                 'type' => $t->value,
@@ -89,16 +90,4 @@ class DocumentController extends Controller
         );
     }
 
-    private function presenter(DocumentInscription $document): array
-    {
-        return [
-            'id' => $document->id,
-            'type' => $document->type->value,
-            'type_label' => $document->type->label(),
-            'nom_original' => $document->nom_original,
-            'taille' => $document->taille,
-            'url' => $document->url(),
-            'created_at' => $document->created_at->toIso8601String(),
-        ];
-    }
 }

@@ -25,7 +25,8 @@ export function StepProgress({ step, done, parcours }: Props) {
                   complete || active ? "bg-[var(--sane-orange)] text-white" : "bg-[var(--sane-border)] text-[var(--sane-text-light)]"
                 }`}
               >
-                {complete ? <Check size={14} /> : i + 1}
+                <Check size={14} className={complete ? "" : "hidden"} />
+                <span className={complete ? "hidden" : ""}>{i + 1}</span>
               </span>
               <span className="sane-small mt-1.5 hidden max-w-[96px] text-center text-[11px] font-medium !text-[var(--sane-text)] sm:block">
                 {s.label}

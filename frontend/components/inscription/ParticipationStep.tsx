@@ -32,7 +32,8 @@ export function ParticipationStep({ value, onChange }: Props) {
                   selected ? "bg-[var(--sane-green)] text-white" : "bg-[var(--sane-green-light)] text-[var(--sane-green)]"
                 }`}
               >
-                {selected ? <Check size={18} /> : <Icon size={18} />}
+                <Check size={18} className={selected ? "" : "hidden"} />
+                <Icon size={18} className={selected ? "hidden" : ""} />
               </span>
               <span className="min-w-0">
                 <span className="block text-[length:var(--fs-small)] font-bold text-[var(--sane-text)]">{titre}</span>

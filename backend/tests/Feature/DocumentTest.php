@@ -224,6 +224,24 @@ class DocumentTest extends TestCase
         $this->assertDatabaseCount('documents_inscription', 1);
     }
 
+    /**
+     * The admin table keys its download buttons on the document id, so the
+     * registration payload has to carry it — not just the upload response.
+     */
+    public function test_les_documents_de_linscription_portent_leur_id(): void
+    {
+        $this->postJson($this->url(), [
+            'type' => TypeDocument::Cv->value,
+            'fichier' => $this->pdf(),
+        ])->assertCreated();
+
+        $this->actingAs(User::factory()->administrateur()->create())
+            ->getJson('/api/admin/inscriptions')
+            ->assertOk()
+            ->assertJsonPath('data.0.documents.0.id', DocumentInscription::first()->id)
+            ->assertJsonPath('data.0.documents.0.type', TypeDocument::Cv->value);
+    }
+
     // --- Download ----------------------------------------------------------
 
     public function test_le_telechargement_exige_une_authentification(): void
