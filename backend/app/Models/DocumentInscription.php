@@ -6,7 +6,6 @@ use App\Enums\TypeDocument;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Facades\Storage;
 
 class DocumentInscription extends Model
 {
@@ -36,8 +35,16 @@ class DocumentInscription extends Model
         return $this->belongsTo(Inscription::class);
     }
 
+    /**
+     * Served through the API rather than linked directly: these are identity
+     * papers and CVs, and the storage disk is private so a guessed path leads
+     * nowhere.
+     */
     public function url(): string
     {
-        return Storage::url($this->chemin);
+        return route('documents.telecharger', [
+            'inscription' => $this->inscription_id,
+            'document' => $this->id,
+        ]);
     }
 }

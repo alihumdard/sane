@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Admin\FormationAdminController;
 use App\Http\Controllers\Api\Admin\InscriptionAdminController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\FormationController;
 use App\Http\Controllers\Api\InscriptionController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,12 @@ Route::get('/formations/{formation}', [FormationController::class, 'show']);
 Route::post('/inscriptions', [InscriptionController::class, 'store'])
     ->middleware('throttle:10,1');
 Route::get('/inscriptions/{reference}', [InscriptionController::class, 'show']);
+
+// Keyed by the reference, which only the participant who registered is given.
+Route::get('/inscriptions/{reference}/documents', [DocumentController::class, 'index']);
+Route::post('/inscriptions/{reference}/documents', [DocumentController::class, 'store'])
+    ->middleware('throttle:20,1');
+Route::delete('/inscriptions/{reference}/documents/{document}', [DocumentController::class, 'destroy']);
 
 Route::post('/auth/login', [AuthController::class, 'login'])
     ->middleware('throttle:5,1');
@@ -52,3 +59,8 @@ Route::middleware(['auth:sanctum', 'role:administrateur,organisateur'])
         Route::apiResource('/formations', FormationAdminController::class);
         Route::get('/formations/{formation}/inscrits', [FormationAdminController::class, 'inscrits']);
     });
+
+// Identity papers and CVs — staff only, and streamed rather than linked.
+Route::middleware(['auth:sanctum', 'role:administrateur,organisateur'])
+    ->get('/admin/inscriptions/{inscription}/documents/{document}', [DocumentController::class, 'telecharger'])
+    ->name('documents.telecharger');

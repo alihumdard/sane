@@ -89,11 +89,16 @@ class Inscription extends Model
         return $query->where('statut', $statut->value);
     }
 
-    /** Sequential per edition: #INS2026-0001. */
+    /**
+     * Sequential per edition: INS2026-0001.
+     *
+     * No leading "#" — the reference appears in URLs, where a hash would be
+     * read as a fragment and never reach the server.
+     */
     public static function genererReference(Edition $edition): string
     {
         $dernier = static::where('edition_id', $edition->id)->max('id') ?? 0;
 
-        return sprintf('#INS%d-%04d', $edition->annee, $dernier + 1);
+        return sprintf('INS%d-%04d', $edition->annee, $dernier + 1);
     }
 }

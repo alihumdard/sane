@@ -85,6 +85,7 @@ export interface ApiInscription {
   source: string | null;
   newsletter: boolean;
   formations?: ApiFormation[];
+  documents?: DocumentUpload[];
   confirmee_le: string | null;
   created_at: string;
 }
@@ -92,6 +93,35 @@ export interface ApiInscription {
 export interface InscriptionResponse {
   message: string;
   data: ApiInscription;
+}
+
+/* ─── Documents ─── */
+
+export type TypeDocument = "piece_identite" | "cv" | "lettre_motivation" | "photo";
+
+export interface DocumentUpload {
+  id: number;
+  type: TypeDocument;
+  type_label: string;
+  nom_original: string;
+  taille: number;
+  url: string;
+  created_at: string;
+}
+
+export interface DocumentAttendu {
+  type: TypeDocument;
+  label: string;
+  obligatoire: boolean;
+  /** Human-readable, e.g. "PDF, JPG, JPEG". */
+  formats: string;
+  taille_max_mo: number;
+}
+
+export interface DocumentsResponse {
+  data: DocumentUpload[];
+  manquants: { type: TypeDocument; label: string }[];
+  attendus: DocumentAttendu[];
 }
 
 /* ─── Back-office ─── */

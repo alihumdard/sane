@@ -9,6 +9,7 @@ import type { ApiInscription, InscriptionPayload, InscriptionResponse, TypeParti
 import { StepProgress } from "./StepProgress";
 import { ParticipationStep } from "./ParticipationStep";
 import { FormationsStep } from "./FormationsStep";
+import { DocumentsUpload } from "./DocumentsUpload";
 import { ConfirmStep, InterestsStep, PersonalStep, ProfileStep } from "./steps";
 import { emptyRegistration, steps, STEP_FORMATIONS } from "./data";
 
@@ -144,6 +145,8 @@ export function RegistrationWizard() {
                 Nouvelle inscription
               </button>
             </div>
+
+            <DocumentsUpload reference={inscription.reference} />
           </div>
         ) : (
           <>

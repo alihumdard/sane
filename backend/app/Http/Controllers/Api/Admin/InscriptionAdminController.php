@@ -28,7 +28,7 @@ class InscriptionAdminController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $query = Inscription::query()->with(['formations.categorie', 'edition:id,annee']);
+        $query = Inscription::query()->with(['formations.categorie', 'documents', 'edition:id,annee']);
 
         if ($editionId = $request->integer('edition_id')) {
             $query->where('edition_id', $editionId);

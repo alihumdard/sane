@@ -13,7 +13,7 @@ class InscriptionFactory extends Factory
     public function definition(): array
     {
         return [
-            'reference' => '#INS'.fake()->unique()->numberBetween(100000, 999999),
+            'reference' => 'INS'.fake()->unique()->numberBetween(100000, 999999),
             'edition_id' => Edition::factory(),
             'type_participation' => TypeParticipation::ParticipantFormation,
             'statut' => StatutInscription::EnAttente,
