@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import { RoleGuard } from "@/components/dashboard/RoleGuard";
 
 /* ─────────────────────────────── DATA ─────────────────────────────── */
 
@@ -136,6 +137,14 @@ const recentNotifs = [
 /* ─────────────────────────────── PAGE ─────────────────────────────── */
 
 export default function DashboardOrganisateurPage() {
+  return (
+    <RoleGuard roles={["organisateur", "administrateur"]} espace="l'espace organisateur">
+      <OrganisateurContent />
+    </RoleGuard>
+  );
+}
+
+function OrganisateurContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const maxVal = 450;
 

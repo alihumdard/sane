@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Bell, ChevronDown, LogOut, Menu, Search, Settings, User } from "lucide-react";
+import { useAuth } from "@/lib/auth";
 
 const SAMPLE_NOTIFICATIONS = [
   { title: "Nouvelle candidature reçue", time: "Il y a 5 min" },
@@ -34,6 +35,8 @@ export default function DashboardNavbar({
   onMenuClick,
 }: Props) {
   const pathname = usePathname() ?? "";
+  const router = useRouter();
+  const { logout } = useAuth();
   const isAdmin = pathname.startsWith("/dashboard/admin");
   const [count, setCount] = useState(notificationCount);
   const [menu, setMenu] = useState<"bell" | "user" | null>(null);
@@ -46,6 +49,22 @@ export default function DashboardNavbar({
     document.addEventListener("mousedown", close);
     return () => document.removeEventListener("mousedown", close);
   }, []);
+
+  /**
+   * Revokes the token server-side before navigating. A plain link to
+   * /connexion would leave the session live: the token would still be in
+   * localStorage and still valid, so the next visitor on a shared machine
+   * would be signed in again on load.
+   */
+  async function seDeconnecter() {
+    setMenu(null);
+
+    try {
+      await logout();
+    } finally {
+      router.replace("/connexion");
+    }
+  }
 
   return (
     <header ref={ref} className="relative z-30 flex items-center gap-2 sm:gap-4 border-b border-[var(--sane-border)] bg-white px-3 sm:px-6 py-3">
@@ -134,9 +153,13 @@ export default function DashboardNavbar({
             <Link href="/" onClick={() => setMenu(null)} className="flex items-center gap-2 px-3 py-2 text-[12px] text-[var(--sane-green-deep)] hover:bg-[var(--sane-background)]">
               <User size={13} /> Voir le site
             </Link>
-            <Link href="/connexion" className="flex items-center gap-2 px-3 py-2 text-[12px] font-semibold text-[var(--sane-red)] hover:bg-[var(--sane-c-fef2f2)]">
+            <button
+              type="button"
+              onClick={seDeconnecter}
+              className="flex w-full items-center gap-2 px-3 py-2 text-left text-[12px] font-semibold text-[var(--sane-red)] hover:bg-[var(--sane-c-fef2f2)]"
+            >
               <LogOut size={13} /> Se déconnecter
-            </Link>
+            </button>
           </div>
         )}
       </div>

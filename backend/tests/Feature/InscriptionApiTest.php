@@ -147,4 +147,34 @@ class InscriptionApiTest extends TestCase
             ->assertOk()
             ->assertJsonPath('data.email', 'aminata@example.com');
     }
+
+    public function test_la_reference_ne_contient_aucun_caractere_reserve_aux_urls(): void
+    {
+        Edition::factory()->active()->create();
+
+        $reference = $this->postJson('/api/inscriptions', $this->donneesValides())
+            ->json('data.reference');
+
+        // A "#" would be read as a fragment and never reach the server, so the
+        // reference-keyed routes would 404 for every registration.
+        $this->assertSame($reference, rawurlencode($reference));
+    }
+
+    /**
+     * References are derived from the row's own id, so a batch of registrations
+     * gets a distinct one each. Generating from max(id) took no lock and would
+     * collide here, failing the unique index with a 500 rather than a 422.
+     */
+    public function test_des_inscriptions_successives_obtiennent_des_references_distinctes(): void
+    {
+        Edition::factory()->active()->create();
+
+        $references = collect(range(1, 5))->map(
+            fn (int $i) => $this->postJson('/api/inscriptions', $this->donneesValides([
+                'email' => "participant{$i}@example.com",
+            ]))->assertCreated()->json('data.reference')
+        );
+
+        $this->assertCount(5, $references->unique());
+    }
 }

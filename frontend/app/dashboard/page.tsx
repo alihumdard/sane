@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { useTable } from "@/components/dashboard/useTable";
 import TableDialogs from "@/components/dashboard/TableDialogs";
 import RowMenu from "@/components/dashboard/RowMenu";
@@ -99,6 +100,14 @@ const notifications = [
 /* ─────────────────────────────── PAGE ─────────────────────────────── */
 
 export default function DashboardPage() {
+  return (
+    <RoleGuard roles={["entreprise", "recruteur"]} espace="l'espace entreprise">
+      <DashboardContent />
+    </RoleGuard>
+  );
+}
+
+function DashboardContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const tbl = useTable(candidates, { filterKeys: { Statut: "statut" }, pageSize: 5 });
   const [interviewList, setInterviewList] = useState(interviews);

@@ -68,7 +68,7 @@ class EntrepriseApiTest extends TestCase
         $offre ??= $this->offre($entreprise);
 
         return Candidature::create([
-            'reference' => Candidature::genererReference(),
+            'reference' => 'CAN'.fake()->unique()->numberBetween(100000, 999999),
             'offre_id' => $offre->id,
             'profil_id' => $candidat->profilDemandeur->id,
             'statut' => StatutCandidature::Envoyee,

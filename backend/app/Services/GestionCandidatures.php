@@ -9,6 +9,7 @@ use App\Models\OffreEmploi;
 use App\Models\ProfilDemandeur;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 /** Creating, withdrawing and re-staging an application. */
 class GestionCandidatures
@@ -28,7 +29,8 @@ class GestionCandidatures
         try {
             return DB::transaction(function () use ($profil, $offre, $lettre, $cvDocumentId) {
                 $candidature = Candidature::create([
-                    'reference' => Candidature::genererReference(),
+                    // Replaced below with the id-derived reference.
+                    'reference' => (string) Str::uuid(),
                     'offre_id' => $offre->id,
                     'profil_id' => $profil->id,
                     'statut' => StatutCandidature::Envoyee,
@@ -36,6 +38,8 @@ class GestionCandidatures
                     'cv_document_id' => $cvDocumentId,
                     'statut_modifie_le' => now(),
                 ]);
+
+                $candidature->update(['reference' => $candidature->construireReference()]);
 
                 // Incremented in SQL rather than read-modify-write, so parallel
                 // applications to the same offer cannot lose a count.

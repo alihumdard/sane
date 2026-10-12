@@ -14,6 +14,7 @@ use App\Services\GestionPlaces;
 use App\Services\Notificateur;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class InscriptionController extends Controller
 {
@@ -42,9 +43,14 @@ class InscriptionController extends Controller
                     ...$donnees,
                     'edition_id' => $edition->id,
                     'user_id' => auth()->id(),
-                    'reference' => Inscription::genererReference($edition),
+                    // Placeholder: the real reference needs the row's own id,
+                    // which only exists once the insert has run.
+                    'reference' => (string) Str::uuid(),
                     'statut' => StatutInscription::EnAttente,
                 ]);
+
+                $inscription->setRelation('edition', $edition);
+                $inscription->update(['reference' => $inscription->construireReference()]);
 
                 $this->places->reserver($inscription, $formationIds);
 

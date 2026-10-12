@@ -12,6 +12,7 @@ use App\Models\Candidature;
 use App\Models\CreneauEntretien;
 use App\Models\Entretien;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 /** Scheduling, confirming and cancelling interviews. */
 class GestionEntretiens
@@ -59,12 +60,15 @@ class GestionEntretiens
             }
 
             $entretien = Entretien::create([
-                'reference' => Entretien::genererReference(),
+                // Replaced below with the id-derived reference.
+                'reference' => (string) Str::uuid(),
                 'candidature_id' => $candidature->id,
                 'creneau_id' => $creneau->id,
                 'statut' => StatutEntretien::EnAttente,
                 'lien_visio' => $lienVisio,
             ]);
+
+            $entretien->update(['reference' => $entretien->construireReference()]);
 
             // Scheduling an interview is itself a stage of the application.
             $this->candidatures->changerStatut($candidature, StatutCandidature::Entretien);

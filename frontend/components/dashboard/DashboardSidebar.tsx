@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, ChevronUp, X } from "lucide-react";
 import type { ReactNode } from "react";
+import { useAuth } from "@/lib/auth";
 
 /*
  * The sidebar only shows pages that really exist.
@@ -102,11 +103,22 @@ interface SubEntry {
 export default function DashboardSidebar({ items, open = false, onClose }: Props) {
   const pathname = usePathname() ?? "";
   const router = useRouter();
+  const { logout } = useAuth();
   const isAdmin = pathname.startsWith("/dashboard/admin");
   const fallback = FALLBACK_ROUTES[pathname] ?? {};
   const [toggled, setToggled] = useState<Record<number, boolean>>({});
 
   const resolveHref = (item: SidebarItem) => item.href ?? (isAdmin ? ADMIN_ROUTES[item.label] : fallback[item.label]);
+
+  async function seDeconnecter() {
+    onClose?.();
+
+    try {
+      await logout();
+    } finally {
+      router.replace("/connexion");
+    }
+  }
 
   /** dropdown entries that have a page; the first entry is the section's own list page */
   const resolveSubs = (item: SidebarItem, sectionHref?: string): SubEntry[] => {
@@ -207,7 +219,13 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
               <div key={item.label}>
                 {item.dividerBefore && <div className="my-2 border-t border-[var(--sane-border)]" />}
 
-                {href && href !== pathname ? (
+                {item.label === "Déconnexion" ? (
+                  // Not a link: the token has to be revoked server-side, and
+                  // navigating alone would leave the session live.
+                  <button type="button" className={cls} onClick={seDeconnecter}>
+                    {inner}
+                  </button>
+                ) : href && href !== pathname ? (
                   <Link href={href} onClick={onClose} className={cls}>{inner}</Link>
                 ) : (
                   <button

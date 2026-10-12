@@ -48,8 +48,12 @@ class Entretien extends Model
                 ->whereBetween('debut', [now(), now()->addDay()]));
     }
 
-    public static function genererReference(): string
+    /**
+     * ENT2026-0001, derived from the row's own primary key — see
+     * Inscription::construireReference() for why this runs after the insert.
+     */
+    public function construireReference(): string
     {
-        return sprintf('#ENT%d-%04d', now()->year, (static::max('id') ?? 0) + 1);
+        return sprintf('ENT%d-%04d', $this->created_at->year, $this->id);
     }
 }

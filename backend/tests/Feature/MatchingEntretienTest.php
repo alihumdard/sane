@@ -103,7 +103,7 @@ class MatchingEntretienTest extends TestCase
     private function candidature(OffreEmploi $offre, ProfilDemandeur $profil): Candidature
     {
         return Candidature::create([
-            'reference' => Candidature::genererReference(),
+            'reference' => 'CAN'.fake()->unique()->numberBetween(100000, 999999),
             'offre_id' => $offre->id,
             'profil_id' => $profil->id,
             'statut' => StatutCandidature::Envoyee,

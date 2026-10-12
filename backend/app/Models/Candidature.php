@@ -51,8 +51,12 @@ class Candidature extends Model
         return $query->where('statut', $statut->value);
     }
 
-    public static function genererReference(): string
+    /**
+     * CAN2026-0001, derived from the row's own primary key — see
+     * Inscription::construireReference() for why this runs after the insert.
+     */
+    public function construireReference(): string
     {
-        return sprintf('#CAN%d-%04d', now()->year, (static::max('id') ?? 0) + 1);
+        return sprintf('CAN%d-%04d', $this->created_at->year, $this->id);
     }
 }

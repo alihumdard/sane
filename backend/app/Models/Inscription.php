@@ -90,15 +90,19 @@ class Inscription extends Model
     }
 
     /**
-     * Sequential per edition: INS2026-0001.
+     * INS2026-0001, derived from the row's own primary key.
+     *
+     * Built after the insert rather than before it: reading `max(id)` first
+     * takes no lock, so two simultaneous registrations would compute the same
+     * reference and the second would fail the unique index with a 500. The
+     * sequence already guarantees a distinct id, so the reference inherits
+     * that guarantee for free.
      *
      * No leading "#" — the reference appears in URLs, where a hash would be
      * read as a fragment and never reach the server.
      */
-    public static function genererReference(Edition $edition): string
+    public function construireReference(): string
     {
-        $dernier = static::where('edition_id', $edition->id)->max('id') ?? 0;
-
-        return sprintf('INS%d-%04d', $edition->annee, $dernier + 1);
+        return sprintf('INS%d-%04d', $this->edition->annee, $this->id);
     }
 }
