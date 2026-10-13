@@ -32,7 +32,10 @@ class EmploiSeeder extends Seeder
                 ['email' => $donnees['email']],
                 [
                     'name' => $donnees['nom'],
-                    'password' => 'sanem2026',
+                    // Same placeholder as the administrator seeded alongside:
+                    // one password to remember while testing, and one obvious
+                    // thing to change before anyone real signs in.
+                    'password' => 'changeme',
                     'role' => RoleUtilisateur::Recruteur,
                     'statut' => 'actif',
                 ],
