@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   AlertCircle, CalendarDays, CheckCircle2, Loader2,
   Lock, MapPin, Pencil, Plus, Trash2, Unlock, X,
@@ -32,6 +33,10 @@ const vide: EditionPayload = {
 };
 
 function Contenu() {
+  // The sidebar's "Ajouter un événement" entry links here with ?nouveau=1, so
+  // the link opens the form rather than merely landing on the list.
+  const params = useSearchParams();
+
   const [editions, setEditions] = useState<ApiEdition[]>([]);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
@@ -62,6 +67,12 @@ function Contenu() {
     // effect's synchronous body, avoiding a cascading render.
     void Promise.resolve().then(charger);
   }, [charger]);
+
+  useEffect(() => {
+    if (params.get("nouveau")) {
+      void Promise.resolve().then(() => ouvrir("nouvelle"));
+    }
+  }, [params]);
 
   function ouvrir(e: ApiEdition | "nouvelle") {
     setEdition(e);
@@ -388,7 +399,9 @@ export default function EvenementsAdminPage() {
       titre="Éditions du SANEM"
       description="Dates, lieu et ouverture des inscriptions de l'événement"
     >
-      <Contenu />
+      <Suspense fallback={null}>
+        <Contenu />
+      </Suspense>
     </AdminPage>
   );
 }

@@ -39,7 +39,7 @@ const ADMIN_SUB_ROUTES: Record<string, string> = {
 const ADMIN_ADD_ROUTES: Record<string, string> = {
   "Ajouter une offre": "/dashboard/admin/emploi",
   "Ajouter une formation": "/dashboard/admin/formations",
-  "Ajouter un événement": "/dashboard/admin/evenements",
+  "Ajouter un événement": "/dashboard/admin/evenements?nouveau=1",
   "Ajouter un intervenant": "/dashboard/admin/intervenants",
   "Ajouter un partenaire": "/dashboard/admin/partenaires",
   "Ajouter une actualité": "/dashboard/admin/actualites",
