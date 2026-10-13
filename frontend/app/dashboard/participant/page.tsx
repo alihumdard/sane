@@ -3,9 +3,10 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import {
-  AlertCircle, Briefcase, Calendar, CheckCircle2, FileText,
-  Heart, Loader2, Sparkles, UserRound,
+  AlertCircle, Briefcase, Calendar, CheckCircle2, ExternalLink, FileText,
+  Heart, Loader2, Sparkles, Trash2, UserRound,
 } from "lucide-react";
+import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
@@ -64,6 +65,7 @@ function Contenu() {
   const [correspondances, setCorrespondances] = useState<ApiCorrespondance[]>([]);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
+  const [retrait, setRetrait] = useState<number | null>(null);
 
   const charger = useCallback(async () => {
     try {
@@ -95,6 +97,25 @@ function Contenu() {
   useEffect(() => {
     void Promise.resolve().then(charger);
   }, [charger]);
+
+  /**
+   * Withdrawing is refused by the server once a recruiter has acted on the
+   * application, so the row only offers it while it is still untouched — and
+   * reloads afterwards, because the offer's own counter moves with it.
+   */
+  async function retirer(c: ApiCandidature) {
+    if (!confirm(`Retirer votre candidature ${c.reference} ?`)) return;
+
+    try {
+      setRetrait(c.id);
+      await api.delete(`/mes-candidatures/${c.id}`);
+      await charger();
+    } catch (err) {
+      setErreur(err instanceof ApiError ? err.message : "Impossible de retirer cette candidature.");
+    } finally {
+      setRetrait(null);
+    }
+  }
 
   if (chargement) {
     return (
@@ -146,8 +167,8 @@ function Contenu() {
       <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
         <Tuile icone={FileText} valeur={candidatures.length} label="Candidatures" />
         <Tuile icone={Calendar} valeur={entretiensAVenir.length} label="Entretiens à venir" href="/dashboard/entretiens" />
-        <Tuile icone={Heart} valeur={favoris.length} label="Offres favorites" />
-        <Tuile icone={Sparkles} valeur={correspondances.length} label="Offres suggérées" href="/dashboard/entretiens" />
+        <Tuile icone={Heart} valeur={favoris.length} label="Offres favorites" href="#favoris" />
+        <Tuile icone={Sparkles} valeur={correspondances.length} label="Offres suggérées" href="#suggerees" />
       </div>
 
       {entretiensAVenir.length > 0 && (
@@ -212,17 +233,70 @@ function Contenu() {
                     {c.offre?.entreprise?.nom} · {c.reference}
                   </p>
                 </div>
-                <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ${STATUT_COULEUR[c.statut]}`}>
-                  {c.statut_label}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ${STATUT_COULEUR[c.statut]}`}>
+                    {c.statut_label}
+                  </span>
+
+                  {c.offre?.slug && (
+                    <Link
+                      href={`/emploi/${c.offre.slug}`}
+                      aria-label={`Voir l'offre ${c.offre.titre}`}
+                      className="rounded-lg border border-[var(--sane-border)] p-2 text-[var(--sane-green)] hover:border-[var(--sane-green)]"
+                    >
+                      <ExternalLink size={14} />
+                    </Link>
+                  )}
+
+                  {/* Mirrors the server's rule: nothing to withdraw once decided. */}
+                  {c.statut !== "acceptee" && c.statut !== "refusee" && (
+                    <button
+                      type="button"
+                      onClick={() => retirer(c)}
+                      disabled={retrait === c.id}
+                      aria-label={`Retirer la candidature ${c.reference}`}
+                      className="rounded-lg border border-[var(--sane-border)] p-2 text-[var(--sane-red-dark)] hover:border-[var(--sane-red-dark)] disabled:opacity-50"
+                    >
+                      <SpinnerOu actif={retrait === c.id} size={14}><Trash2 size={14} /></SpinnerOu>
+                    </button>
+                  )}
+                </div>
               </li>
             ))}
           </ul>
         )}
       </section>
 
+      {favoris.length > 0 && (
+        <section id="favoris" className="mb-8">
+          <h2 className="sane-h3 mb-3">Mes offres favorites</h2>
+          <ul className="flex flex-col gap-2">
+            {favoris.map((o) => (
+              <li
+                key={o.id}
+                className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--sane-border)] bg-white p-4"
+              >
+                <div className="min-w-0">
+                  <p className="text-[13px] font-semibold text-[var(--sane-text)]">{o.titre}</p>
+                  <p className="text-[12px] text-[var(--sane-text-light)]">
+                    {o.entreprise?.nom}
+                    {o.ville ? ` · ${o.ville}` : ""}
+                  </p>
+                </div>
+                <Link
+                  href={`/emploi/${o.slug}`}
+                  className="text-[12px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)]"
+                >
+                  Voir l&apos;offre →
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {correspondances.length > 0 && (
-        <section>
+        <section id="suggerees">
           <h2 className="sane-h3 mb-1">Offres qui vous correspondent</h2>
           <p className="sane-small mb-3">
             Classées selon votre secteur, vos compétences, votre ville et votre expérience.

@@ -5,6 +5,7 @@ import { ArrowLeft, Banknote, Briefcase, Building2, Calendar, Clock, GraduationC
 import { Container } from "@/components/ui/Container";
 import type { ApiOffre } from "@/lib/types";
 import { PostulerCard } from "./PostulerCard";
+import { FavoriBouton } from "./FavoriBouton";
 
 function formatDate(iso: string | null): string {
   if (!iso) return "—";
@@ -142,6 +143,7 @@ export function OffreDetail({ offre }: { offre: ApiOffre }) {
 
             <aside className="lg:sticky lg:top-6 lg:self-start">
               <PostulerCard offre={offre} />
+              <FavoriBouton offre={offre} />
             </aside>
           </div>
         </Container>
