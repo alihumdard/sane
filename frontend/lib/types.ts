@@ -520,3 +520,28 @@ export interface ApiArticlePresse {
   fichier: string | null;
   resume: string | null;
 }
+
+/* ─── Éditions (Phase 8) ─── */
+
+export interface ApiEdition {
+  id: number;
+  annee: number;
+  nom: string;
+  date_debut: string;
+  date_fin: string;
+  lieu: string | null;
+  active: boolean;
+  inscriptions_ouvertes: boolean;
+  formations_count: number;
+  inscriptions_count: number;
+}
+
+export interface EditionPayload {
+  annee: number;
+  nom: string;
+  date_debut: string;
+  date_fin: string;
+  lieu?: string;
+  active?: boolean;
+  inscriptions_ouvertes?: boolean;
+}

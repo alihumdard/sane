@@ -1,314 +1,394 @@
-﻿"use client";
+"use client";
 
-import { useState } from "react";
-import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
 import {
-  Home, Users, Briefcase, BookOpen, Calendar,
-  Newspaper, BarChart3, Settings, Share2,
-  Eye, Pencil, Link2, Trash2, MoreVertical,
+  AlertCircle, CalendarDays, CheckCircle2, Loader2,
+  Lock, MapPin, Pencil, Plus, Trash2, Unlock, X,
 } from "lucide-react";
+import { AdminPage } from "@/components/dashboard/AdminPage";
+import { api, ApiError } from "@/lib/api";
+import type { ApiEdition, EditionPayload } from "@/lib/types";
 
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import { adminNav } from "@/lib/adminNav";
-import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
-import { useTable } from "@/components/dashboard/useTable";
-import RowActions from "@/components/dashboard/RowActions";
-import TableDialogs from "@/components/dashboard/TableDialogs";
-import StatsCard from "@/components/dashboard/StatsCard";
-import FilterBar from "@/components/dashboard/FilterBar";
-import Pagination from "@/components/dashboard/Pagination";
-import DonutChart from "@/components/dashboard/DonutChart";
-import RankedList from "@/components/dashboard/RankedList";
-import DateBadgeList from "@/components/dashboard/DateBadgeList";
+const champ =
+  "w-full rounded-lg border border-[var(--sane-border)] px-3 py-2.5 text-[13px] outline-none transition-colors focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10";
+const etiquette = "mb-1.5 block text-[12px] font-semibold text-[var(--sane-text)]";
 
-/* ─── Sidebar ─── */
-const sidebarItems = adminNav("Événements", 0);
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+}
 
-/* ─── Stats ─── */
-const statsData = [
-  {
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/></svg>,
-    value: "12", label: "Événements", trend: "+20%", trendLabel: "vs. année dernière", bg: "var(--sane-green-tint)", color: "var(--sane-green)",
-  },
-  {
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="9" r="3"/><path d="M2 21v-2c0-2.2 3.1-4 7-4s7 1.8 7 4v2H2z"/><path d="M22 21v-2c0-1.5-1.4-2.8-3.5-3.4.9.7 1.5 1.7 1.5 3.4v2h2z"/></svg>,
-    value: "5,860", label: "Inscriptions", trend: "+35%", trendLabel: "vs. année dernière", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)",
-  },
-  {
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>,
-    value: "46", label: "Intervenants", trend: "+12%", trendLabel: "vs. année dernière", bg: "var(--sane-blue-tint)", color: "var(--sane-blue)",
-  },
-  {
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>,
-    value: "8", label: "Lieux", trend: "+14%", trendLabel: "vs. année dernière", bg: "var(--sane-purple-tint)", color: "var(--sane-purple)",
-  },
-  {
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>,
-    value: "36", label: "Sessions", trend: "+28%", trendLabel: "vs. année dernière", bg: "var(--sane-amber-tint)", color: "var(--sane-amber-dark)",
-  },
-];
+const vide: EditionPayload = {
+  annee: new Date().getFullYear(),
+  nom: "",
+  date_debut: "",
+  date_fin: "",
+  lieu: "",
+  active: false,
+  inscriptions_ouvertes: false,
+};
 
-/* ─── Table Data ─── */
-const evenements = [
-  {
-    id: "#EVT001", titre: "Salon National de l'Emploi 2024", categorie: "Salon", catColor: "var(--sane-green)",
-    lieu: "Palais des Congrès\nNiamey", date: "12 - 14 Mai 2024",
-    inscriptions: 2860, maxInscriptions: 3000, inscPct: 95,
-    statut: "Actif", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
-    img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=120&h=72&fit=crop",
-  },
-  {
-    id: "#EVT002", titre: "Forum sur l'Entrepreneuriat", categorie: "Forum", catColor: "var(--sane-orange)",
-    lieu: "Centre de Conférences\nNiamey", date: "22 Mars 2024",
-    inscriptions: 420, maxInscriptions: 500, inscPct: 84,
-    statut: "En cours", statutColor: "var(--sane-amber-dark)", statutBg: "var(--sane-amber-tint)",
-    img: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=120&h=72&fit=crop",
-  },
-  {
-    id: "#EVT003", titre: "Conférence : Jeunes et Emploi", categorie: "Conférence", catColor: "var(--sane-blue)",
-    lieu: "Université de Niamey\nNiamey", date: "18 Avril 2024",
-    inscriptions: 320, maxInscriptions: 400, inscPct: 80,
-    statut: "Actif", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
-    img: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=120&h=72&fit=crop",
-  },
-  {
-    id: "#EVT004", titre: "Atelier : Compétences Numériques", categorie: "Atelier", catColor: "var(--sane-purple)",
-    lieu: "Maison des Jeunes\nNiamey", date: "05 Mai 2024",
-    inscriptions: 180, maxInscriptions: 200, inscPct: 90,
-    statut: "Complet", statutColor: "var(--sane-purple)", statutBg: "var(--sane-purple-tint)",
-    img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=120&h=72&fit=crop",
-  },
-  {
-    id: "#EVT005", titre: "Rencontre avec les Recruteurs", categorie: "Rencontre", catColor: "var(--sane-cyan)",
-    lieu: "Palais des Congrès\nNiamey", date: "28 Mai 2024",
-    inscriptions: 610, maxInscriptions: 800, inscPct: 76,
-    statut: "En cours", statutColor: "var(--sane-amber-dark)", statutBg: "var(--sane-amber-tint)",
-    img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=120&h=72&fit=crop",
-  },
-  {
-    id: "#EVT006", titre: "Journée de l'Innovation", categorie: "Innovation", catColor: "var(--sane-emerald)",
-    lieu: "SANEM\nNiamey", date: "12 Juin 2024",
-    inscriptions: 220, maxInscriptions: 300, inscPct: 73,
-    statut: "Actif", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
-    img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=120&h=72&fit=crop",
-  },
-  {
-    id: "#EVT007", titre: "Panel : Women in Tech", categorie: "Panel", catColor: "var(--sane-pink)",
-    lieu: "Centre de Conférences\nNiamey", date: "25 Juin 2024",
-    inscriptions: 150, maxInscriptions: 250, inscPct: 60,
-    statut: "Planifié", statutColor: "var(--sane-blue)", statutBg: "var(--sane-blue-tint)",
-    img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=120&h=72&fit=crop",
-  },
-  {
-    id: "#EVT008", titre: "Formation des Formateurs", categorie: "Formation", catColor: "var(--sane-amber-dark)",
-    lieu: "Université de Niamey\nNiamey", date: "08 Juillet 2024",
-    inscriptions: 90, maxInscriptions: 100, inscPct: 90,
-    statut: "Actif", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
-    img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=120&h=72&fit=crop",
-  },
-  {
-    id: "#EVT009", titre: "Sommet de l'Emploi Vert", categorie: "Sommet", catColor: "var(--sane-green)",
-    lieu: "Palais des Congrès\nNiamey", date: "18 Juillet 2024",
-    inscriptions: 240, maxInscriptions: 400, inscPct: 60,
-    statut: "En cours", statutColor: "var(--sane-amber-dark)", statutBg: "var(--sane-amber-tint)",
-    img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=120&h=72&fit=crop",
-  },
-  {
-    id: "#EVT010", titre: "Cérémonie de Clôture SANEM 2024", categorie: "Cérémonie", catColor: "var(--sane-orange)",
-    lieu: "Palais des Congrès\nNiamey", date: "14 Mai 2024",
-    inscriptions: 980, maxInscriptions: 1000, inscPct: 98,
-    statut: "Actif", statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)",
-    img: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=120&h=72&fit=crop",
-  },
-];
+function Contenu() {
+  const [editions, setEditions] = useState<ApiEdition[]>([]);
+  const [chargement, setChargement] = useState(true);
+  const [erreur, setErreur] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+  const [enCours, setEnCours] = useState<number | null>(null);
 
-/* ─── Donut chart segments ─── */
-const donutSegments = [
-  { label: "Salon", value: 3, pct: 25, color: "var(--sane-green)" },
-  { label: "Conférence", value: 2, pct: 20, color: "var(--sane-blue)" },
-  { label: "Atelier", value: 2, pct: 15, color: "var(--sane-purple)" },
-  { label: "Forum", value: 2, pct: 15, color: "var(--sane-orange)" },
-  { label: "Rencontre", value: 1, pct: 10, color: "var(--sane-cyan)" },
-  { label: "Sommet", value: 1, pct: 8, color: "var(--sane-emerald)" },
-  { label: "Cérémonie", value: 1, pct: 7, color: "var(--sane-pink)" },
-];
+  const [edition, setEdition] = useState<ApiEdition | "nouvelle" | null>(null);
+  const [form, setForm] = useState<EditionPayload>(vide);
+  const [envoi, setEnvoi] = useState(false);
+  const [champsEnErreur, setChampsEnErreur] = useState<Record<string, string>>({});
 
-/* ─── Prochains événements ─── */
-const prochainsData = [
-  { day: "12", month: "Mai", title: "Salon National de l'Emploi 2024", subtitle: "Palais des Congrès · Niamey\n2,860 inscrits" },
-  { day: "22", month: "Mar", title: "Forum sur l'Entrepreneuriat", subtitle: "Centre de Conférences · Niamey\n420 inscrits" },
-  { day: "18", month: "Avr", title: "Conférence : Jeunes et Emploi", subtitle: "Université de Niamey\n320 inscrits" },
-  { day: "05", month: "Mai", title: "Atelier : Compétences Numériques", subtitle: "Maison des Jeunes · Niamey\n180 inscrits" },
-];
+  const charger = useCallback(async () => {
+    try {
+      setChargement(true);
+      setErreur(null);
 
-/* ─── Top événements ─── */
-const topEvenementsData = [
-  { rank: 1, title: "Salon National de l'Emploi 2024", subtitle: "2,860 inscrits" },
-  { rank: 2, title: "Cérémonie de Clôture", subtitle: "980 inscrits" },
-  { rank: 3, title: "Rencontre avec les Recruteurs", subtitle: "610 inscrits" },
-  { rank: 4, title: "Forum sur l'Entrepreneuriat", subtitle: "420 inscrits" },
-  { rank: 5, title: "Conférence : Jeunes et Emploi", subtitle: "320 inscrits" },
-];
+      const res = await api.get<{ data: ApiEdition[] }>("/admin/editions");
+      setEditions(res.data);
+    } catch (e) {
+      setErreur(e instanceof ApiError ? e.message : "Impossible de charger les éditions.");
+    } finally {
+      setChargement(false);
+    }
+  }, []);
 
-export default function EvenementsPage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const tbl = useTable(evenements, { filterKeys: {"Catégorie":"categorie","Statut":"statut","Lieu":"lieu"} });
+  useEffect(() => {
+    // Deferred to a microtask so the first state update lands outside the
+    // effect's synchronous body, avoiding a cascading render.
+    void Promise.resolve().then(charger);
+  }, [charger]);
+
+  function ouvrir(e: ApiEdition | "nouvelle") {
+    setEdition(e);
+    setChampsEnErreur({});
+    setForm(
+      e === "nouvelle"
+        ? vide
+        : {
+            annee: e.annee,
+            nom: e.nom,
+            date_debut: e.date_debut,
+            date_fin: e.date_fin,
+            lieu: e.lieu ?? "",
+            active: e.active,
+            inscriptions_ouvertes: e.inscriptions_ouvertes,
+          }
+    );
+  }
+
+  async function enregistrer(ev: React.FormEvent) {
+    ev.preventDefault();
+    setEnvoi(true);
+    setChampsEnErreur({});
+    setErreur(null);
+
+    try {
+      const res =
+        edition === "nouvelle"
+          ? await api.post<{ message: string }>("/admin/editions", form)
+          : await api.put<{ message: string }>(`/admin/editions/${(edition as ApiEdition).id}`, form);
+
+      setMessage(res.message);
+      setEdition(null);
+      await charger();
+    } catch (e) {
+      if (e instanceof ApiError) {
+        setErreur(e.message);
+        setChampsEnErreur(Object.fromEntries(Object.entries(e.errors).map(([k, v]) => [k, v[0]])));
+      } else {
+        setErreur("Enregistrement impossible.");
+      }
+    } finally {
+      setEnvoi(false);
+    }
+  }
+
+  async function action(e: ApiEdition, quoi: "activer" | "inscriptions") {
+    setEnCours(e.id);
+    setErreur(null);
+
+    try {
+      const res = await api.put<{ message: string }>(`/admin/editions/${e.id}/${quoi}`);
+      setMessage(res.message);
+      await charger();
+    } catch (err) {
+      setErreur(err instanceof ApiError ? err.message : "Action impossible.");
+    } finally {
+      setEnCours(null);
+    }
+  }
+
+  async function supprimer(e: ApiEdition) {
+    if (!confirm(`Supprimer l'édition ${e.annee} ? Cette action est définitive.`)) return;
+
+    setEnCours(e.id);
+    setErreur(null);
+
+    try {
+      const res = await api.delete<{ message: string }>(`/admin/editions/${e.id}`);
+      setMessage(res.message);
+      await charger();
+    } catch (err) {
+      setErreur(err instanceof ApiError ? err.message : "Suppression impossible.");
+    } finally {
+      setEnCours(null);
+    }
+  }
+
+  if (edition !== null) {
+    return (
+      <form onSubmit={enregistrer} className="max-w-[680px] rounded-2xl border border-[var(--sane-border)] bg-white p-5 sm:p-6">
+        <div className="mb-5 flex items-center justify-between">
+          <h2 className="text-[16px] font-bold text-[var(--sane-text)]">
+            {edition === "nouvelle" ? "Nouvelle édition" : `Modifier l'édition ${(edition as ApiEdition).annee}`}
+          </h2>
+          <button type="button" onClick={() => setEdition(null)} aria-label="Fermer" className="rounded-lg p-2 hover:bg-[var(--sane-background)]">
+            <X size={16} />
+          </button>
+        </div>
+
+        {erreur && (
+          <p role="alert" className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] p-3">
+            <AlertCircle size={15} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
+            <span className="text-[13px] text-[var(--sane-red-dark)]">{erreur}</span>
+          </p>
+        )}
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="annee" className={etiquette}>Année *</label>
+            <input
+              id="annee" type="number" required min={2020} max={2100}
+              value={form.annee}
+              onChange={(e) => setForm((f) => ({ ...f, annee: Number(e.target.value) }))}
+              className={champ}
+            />
+            {champsEnErreur.annee && <p className="mt-1 text-[12px] text-[var(--sane-red-dark)]">{champsEnErreur.annee}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="lieu" className={etiquette}>Lieu</label>
+            <input
+              id="lieu" value={form.lieu ?? ""}
+              onChange={(e) => setForm((f) => ({ ...f, lieu: e.target.value }))}
+              className={champ}
+            />
+          </div>
+
+          <div className="sm:col-span-2">
+            <label htmlFor="nom" className={etiquette}>Nom de l&apos;événement *</label>
+            <input
+              id="nom" required value={form.nom}
+              onChange={(e) => setForm((f) => ({ ...f, nom: e.target.value }))}
+              className={champ}
+            />
+            {champsEnErreur.nom && <p className="mt-1 text-[12px] text-[var(--sane-red-dark)]">{champsEnErreur.nom}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="date_debut" className={etiquette}>Date de début *</label>
+            <input
+              id="date_debut" type="date" required value={form.date_debut}
+              onChange={(e) => setForm((f) => ({ ...f, date_debut: e.target.value }))}
+              className={champ}
+            />
+            {champsEnErreur.date_debut && <p className="mt-1 text-[12px] text-[var(--sane-red-dark)]">{champsEnErreur.date_debut}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="date_fin" className={etiquette}>Date de fin *</label>
+            <input
+              id="date_fin" type="date" required value={form.date_fin}
+              onChange={(e) => setForm((f) => ({ ...f, date_fin: e.target.value }))}
+              className={champ}
+            />
+            {champsEnErreur.date_fin && <p className="mt-1 text-[12px] text-[var(--sane-red-dark)]">{champsEnErreur.date_fin}</p>}
+          </div>
+
+          <label className="flex items-start gap-2.5 rounded-xl bg-[var(--sane-background)] p-3 sm:col-span-2">
+            <input
+              type="checkbox" checked={Boolean(form.active)}
+              onChange={(e) => setForm((f) => ({ ...f, active: e.target.checked }))}
+              className="mt-0.5 h-4 w-4 accent-[var(--sane-green)]"
+            />
+            <span className="text-[13px]">
+              <strong>Édition active.</strong> Les inscriptions et les formations du site public
+              portent sur cette édition. Une seule peut être active à la fois.
+            </span>
+          </label>
+
+          <label className="flex items-start gap-2.5 rounded-xl bg-[var(--sane-background)] p-3 sm:col-span-2">
+            <input
+              type="checkbox" checked={Boolean(form.inscriptions_ouvertes)}
+              onChange={(e) => setForm((f) => ({ ...f, inscriptions_ouvertes: e.target.checked }))}
+              className="mt-0.5 h-4 w-4 accent-[var(--sane-green)]"
+            />
+            <span className="text-[13px]">
+              <strong>Inscriptions ouvertes.</strong> Décochez pour fermer le formulaire
+              d&apos;inscription du site public.
+            </span>
+          </label>
+        </div>
+
+        <button
+          type="submit" disabled={envoi}
+          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
+        >
+          {envoi && <Loader2 size={15} className="animate-spin" />}
+          Enregistrer
+        </button>
+      </form>
+    );
+  }
+
   return (
-    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
-      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
-      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
-        <DashboardNavbar
-          searchPlaceholder="Rechercher un événement, une session, un intervenant..."
-          notificationCount={5}
-          userName="Admin"
-          userRole="Administrateur"
-          onMenuClick={() => setSidebarOpen(true)}
-        />
-
-        <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
-          {/* Hero Banner - light variant */}
-          <div className="relative mb-4 overflow-hidden rounded-2xl bg-white border border-[var(--sane-border)]">
-            <div className="flex flex-col sm:flex-row">
-              <div className="flex flex-col justify-center px-5 sm:px-8 py-5 relative z-10 sm:min-w-[45%]">
-                <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[var(--sane-text-light)]">
-                  <span>Accueil</span><span>&rsaquo;</span><span>Événements</span><span>&rsaquo;</span>
-                  <span className="font-semibold text-[var(--sane-green-deep)]">Tous les événements</span>
-                </div>
-                <h1 className="text-[22px] sm:text-[28px] font-extrabold text-[var(--sane-green-deep)] leading-tight">Gestion des événements</h1>
-                <p className="mt-1.5 max-w-[420px] text-[11px] text-[var(--sane-text-light)] leading-relaxed hidden sm:block">
-                  Créez, organisez et gérez tous les événements du SANEM. Suivez les inscriptions, les sessions, les intervenants et évaluez l&apos;impact de chaque événement.
-                </p>
-                <button type="button" onClick={tbl.openAdd} className="mt-3 self-start flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow sm:hidden">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                  Ajouter un événement
-                </button>
-              </div>
-              <div className="relative h-[110px] sm:h-auto sm:flex-1 sm:min-h-[160px]">
-                <Image src="https://images.unsplash.com/photo-1613005341945-35e159e522f1?w=800&h=400&fit=crop&crop=faces&facepad=3" alt="événements" fill sizes="100vw" className="object-cover object-center" />
-                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent" />
-                <div className="absolute right-[110px] top-1/2 -translate-y-1/2 opacity-60 hidden sm:block">
-                  <svg width="100" height="100" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="45" fill="var(--sane-green)" opacity="0.08" />
-                    <circle cx="50" cy="50" r="45" stroke="var(--sane-orange)" strokeWidth="2.5" fill="none" opacity="0.6" strokeDasharray="6 3" />
-                    <text x="50" y="48" textAnchor="middle" fill="var(--sane-green)" fontSize="18" fontWeight="800">SANEM</text>
-                    <text x="50" y="60" textAnchor="middle" fill="var(--sane-green)" fontSize="5" fontWeight="600" letterSpacing="0.5">SALON NATIONAL DE L&apos;EMPLOI</text>
-                  </svg>
-                </div>
-                <div className="absolute right-5 bottom-3 text-right hidden sm:block">
-                  <p className="text-[18px] italic font-bold text-[var(--sane-green)] leading-snug" style={{ fontFamily: "Georgia, serif" }}>
-                    Un Niger<br />de Talents
-                  </p>
-                </div>
-              </div>
-            </div>
-            <button type="button" onClick={tbl.openAdd} className="absolute right-10 top-5 z-10 hidden sm:flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white shadow">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-              Ajouter un événement
-            </button>
-          </div>
-
-          {/* Stats */}
-          <div className="mb-4 grid grid-cols-2 lg:grid-cols-5 gap-3">
-            {statsData.map((s, i) => (
-              <StatsCard key={i} icon={s.icon} value={s.value} label={s.label} trend={s.trend} trendLabel="vs. année dernière" bg={s.bg} color={s.color} />
-            ))}
-          </div>
-
-          {/* Main content grid */}
-          <div className="grid gap-3 grid-cols-1 2xl:grid-cols-[minmax(0,1fr)_280px]">
-            {/* Left: filter + table */}
-            <div className="flex flex-col gap-3 min-w-0">
-              <FilterBar searchPlaceholder="Rechercher un événement..." filters={["Catégorie", "Statut", "Lieu", "Date"]}  table={tbl} />
-
-              {/* Table */}
-              <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
-                <table className="w-full min-w-[1000px]">
-                  <thead>
-                    <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
-                      <th className="px-3 py-2.5 text-left"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} /></th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Image</th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Titre de l&apos;événement <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
-                      </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Catégorie <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
-                      </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Lieu <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
-                      </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Date <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
-                      </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Inscriptions <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
-                      </th>
-                      <th className="px-2 py-2.5 text-left text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">
-                        <span className="flex items-center gap-0.5">Statut <svg width="8" height="8" viewBox="0 0 10 14" fill="var(--sane-text-light)"><path d="M5 0L9 5H1L5 0zm0 14L1 9h8L5 14z"/></svg></span>
-                      </th>
-                      <th className="px-2 py-2.5 text-center text-[10px] font-semibold text-[var(--sane-text-light)] uppercase tracking-wide">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {tbl.pageRows.map((e, i) => (
-                      <tr key={i} className="border-b border-[var(--sane-border)] last:border-0 hover:bg-[var(--sane-background)]/50">
-                        <td className="px-3 py-2"><input type="checkbox" className="h-3 w-3 rounded" checked={tbl.selected.includes(e._uid)} onChange={() => tbl.toggle(e._uid)} /></td>
-                        <td className="px-2 py-1.5">
-                          <div className="relative h-9 w-[72px] overflow-hidden rounded-md border border-[var(--sane-border)]">
-                            <Image src={e.img} alt={e.titre} fill sizes="100vw" className="object-cover object-center" />
-                          </div>
-                        </td>
-                        <td className="px-2 py-2.5 min-w-[220px] max-w-[280px]">
-                          <p className="text-[12px] font-semibold text-[var(--sane-green-deep)] leading-snug">{e.titre}</p>
-                          <p className="text-[9px] text-[var(--sane-text-light)]">{e.id}</p>
-                        </td>
-                        <td className="px-2 py-2">
-                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: `color-mix(in srgb, ${e.catColor} 9%, transparent)`, color: e.catColor }}>
-                            {e.categorie}
-                          </span>
-                        </td>
-                        <td className="px-2 py-2">
-                          {e.lieu.split("\n").map((line, li) => (
-                            <p key={li} className={`whitespace-nowrap text-[11px] ${li === 0 ? "text-[var(--sane-green-deep)] font-medium" : "text-[var(--sane-text-light)]"}`}>{line}</p>
-                          ))}
-                        </td>
-                        <td className="px-2 py-2">
-                          <p className="whitespace-nowrap text-[11px] text-[var(--sane-green-deep)] font-medium">{e.date}</p>
-                        </td>
-                        <td className="px-2 py-2">
-                          <p className="whitespace-nowrap text-[11px] font-semibold text-[var(--sane-green-deep)]">{e.inscriptions.toLocaleString()} / {e.maxInscriptions.toLocaleString()}</p>
-                          <div className="mt-0.5 h-1.5 w-16 overflow-hidden rounded-full bg-[var(--sane-border)]">
-                            <div className="h-full rounded-full bg-[var(--sane-green)]" style={{ width: `${e.inscPct}%` }} />
-                          </div>
-                        </td>
-                        <td className="px-2 py-2">
-                          <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap" style={{ backgroundColor: e.statutBg, color: e.statutColor }}>
-                            {e.statut}
-                          </span>
-                        </td>
-                        <td className="px-2 py-2">
-                          <RowActions table={tbl} row={e} extra="link" />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-
-                <Pagination current={tbl.page} totalPages={tbl.totalPages} totalItems={tbl.total} pageSize={tbl.pageSize} itemLabel="événements" onPageChange={tbl.setPage} onPageSizeChange={tbl.setPageSize} />
-              </div>
-            </div>
-
-            {/* Right sidebar */}
-            <div className="grid grid-cols-1 md:grid-cols-3 2xl:flex 2xl:flex-col gap-3 min-w-0">
-              <DonutChart title="Répartition par catégorie" segments={donutSegments} centerValue="12" centerLabel="Événements" />
-              <DateBadgeList heading="Prochains événements" items={prochainsData} showViewAll />
-              <RankedList heading="Top événements par inscriptions" items={topEvenementsData} showViewAll className="flex-1" />
-            </div>
-          </div>
-        </main>
+    <>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <p className="text-[13px] text-[var(--sane-text-light)]">
+          {editions.length} édition(s). L&apos;édition active porte les inscriptions du site public.
+        </p>
+        <button
+          type="button"
+          onClick={() => ouvrir("nouvelle")}
+          className="inline-flex items-center gap-2 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[13px] font-bold text-white"
+        >
+          <Plus size={15} /> Nouvelle édition
+        </button>
       </div>
 
-      <TableDialogs table={tbl} entity="événement" />
-    </div>
+      {message && (
+        <p role="status" className="mb-4 rounded-xl bg-[var(--sane-green-light)] p-3 text-[13px] text-[var(--sane-green)]">
+          {message}
+        </p>
+      )}
+
+      {erreur && (
+        <p role="alert" className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] p-4">
+          <AlertCircle size={16} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
+          <span className="text-[13px] text-[var(--sane-red-dark)]">{erreur}</span>
+        </p>
+      )}
+
+      {chargement ? (
+        <p className="flex items-center gap-2 py-10">
+          <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
+          <span className="text-[13px] text-[var(--sane-text-light)]">Chargement…</span>
+        </p>
+      ) : editions.length === 0 ? (
+        <p className="rounded-2xl border border-[var(--sane-border)] bg-white py-12 text-center text-[13px] text-[var(--sane-text-light)]">
+          Aucune édition. Créez-en une pour ouvrir les inscriptions.
+        </p>
+      ) : (
+        <ul className="flex flex-col gap-3">
+          {editions.map((e) => (
+            <li
+              key={e.id}
+              className={`rounded-2xl border bg-white p-5 ${
+                e.active ? "border-[var(--sane-green)]" : "border-[var(--sane-border)]"
+              }`}
+            >
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <div className="mb-1 flex flex-wrap items-center gap-2">
+                    <h2 className="text-[15px] font-bold text-[var(--sane-text)]">{e.nom}</h2>
+                    {e.active && (
+                      <span className="rounded-full bg-[var(--sane-green-light)] px-2.5 py-1 text-[11px] font-semibold text-[var(--sane-green)]">
+                        Active
+                      </span>
+                    )}
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+                        e.inscriptions_ouvertes
+                          ? "bg-[var(--sane-green-light)] text-[var(--sane-green)]"
+                          : "bg-[#fdf1f1] text-[var(--sane-red-dark)]"
+                      }`}
+                    >
+                      {e.inscriptions_ouvertes ? "Inscriptions ouvertes" : "Inscriptions fermées"}
+                    </span>
+                  </div>
+
+                  <p className="mb-1 inline-flex items-center gap-1.5 text-[13px] text-[var(--sane-text)]">
+                    <CalendarDays size={14} className="text-[var(--sane-green)]" />
+                    du {formatDate(e.date_debut)} au {formatDate(e.date_fin)}
+                  </p>
+
+                  {e.lieu && (
+                    <p className="inline-flex items-center gap-1.5 text-[12px] text-[var(--sane-text-light)] sm:ml-4">
+                      <MapPin size={13} /> {e.lieu}
+                    </p>
+                  )}
+
+                  <p className="mt-2 text-[12px] text-[var(--sane-text-light)]">
+                    {e.formations_count} formation(s) · {e.inscriptions_count} inscription(s)
+                  </p>
+                </div>
+
+                <div className="flex shrink-0 flex-wrap items-center gap-1">
+                  {enCours === e.id && <Loader2 size={15} className="animate-spin text-[var(--sane-green)]" />}
+
+                  <button
+                    type="button"
+                    onClick={() => action(e, "inscriptions")}
+                    disabled={enCours === e.id}
+                    title={e.inscriptions_ouvertes ? "Fermer les inscriptions" : "Ouvrir les inscriptions"}
+                    className="rounded-lg p-2 text-[var(--sane-text-light)] hover:bg-[var(--sane-background)]"
+                  >
+                    {e.inscriptions_ouvertes ? <Unlock size={15} /> : <Lock size={15} />}
+                  </button>
+
+                  {!e.active && (
+                    <button
+                      type="button"
+                      onClick={() => action(e, "activer")}
+                      disabled={enCours === e.id}
+                      title="Activer cette édition"
+                      className="rounded-lg p-2 text-[var(--sane-green)] hover:bg-[var(--sane-green-light)]"
+                    >
+                      <CheckCircle2 size={15} />
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => ouvrir(e)}
+                    title="Modifier"
+                    className="rounded-lg p-2 text-[var(--sane-text-light)] hover:bg-[var(--sane-background)]"
+                  >
+                    <Pencil size={15} />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => supprimer(e)}
+                    disabled={enCours === e.id}
+                    title="Supprimer"
+                    className="rounded-lg p-2 text-[var(--sane-red-dark)] hover:bg-[#fdf1f1]"
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+}
+
+export default function EvenementsAdminPage() {
+  return (
+    <AdminPage
+      section="Événements"
+      titre="Éditions du SANEM"
+      description="Dates, lieu et ouverture des inscriptions de l'événement"
+    >
+      <Contenu />
+    </AdminPage>
   );
 }

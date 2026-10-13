@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Admin\ActualiteAdminController;
 use App\Http\Controllers\Api\Admin\DocumentAdminController;
+use App\Http\Controllers\Api\Admin\EditionAdminController;
 use App\Http\Controllers\Api\Admin\EmploiAdminController;
 use App\Http\Controllers\Api\Admin\FaqAdminController;
 use App\Http\Controllers\Api\Admin\FormationAdminController;
@@ -195,6 +196,15 @@ Route::middleware(['auth:sanctum', 'role:administrateur,organisateur'])
         Route::get('/exports/candidatures', [RapportAdminController::class, 'exporterCandidatures']);
         Route::get('/exports/offres', [RapportAdminController::class, 'exporterOffres']);
         Route::get('/exports/formations/{formation}/inscrits', [RapportAdminController::class, 'exporterInscritsFormation']);
+
+        // Éditions : l'événement lui-même — dates, lieu, ouverture des inscriptions.
+        Route::get('/editions', [EditionAdminController::class, 'index']);
+        Route::post('/editions', [EditionAdminController::class, 'store']);
+        Route::get('/editions/{edition}', [EditionAdminController::class, 'show']);
+        Route::put('/editions/{edition}', [EditionAdminController::class, 'update']);
+        Route::delete('/editions/{edition}', [EditionAdminController::class, 'destroy']);
+        Route::put('/editions/{edition}/inscriptions', [EditionAdminController::class, 'basculerInscriptions']);
+        Route::put('/editions/{edition}/activer', [EditionAdminController::class, 'activer']);
 
         Route::get('/utilisateurs', [UtilisateurAdminController::class, 'index']);
         Route::post('/utilisateurs', [UtilisateurAdminController::class, 'store']);
