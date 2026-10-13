@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { api, ApiError, setAuthToken } from "./api";
+import { api, ApiError, setAuthToken, setSessionExpireeHandler } from "./api";
 import type { CompteInscriptionPayload } from "./types";
 
 export interface AuthUser {
@@ -46,6 +46,22 @@ function ecrireToken(token: string | null) {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
+
+  /*
+   * A token can stop being valid while the visitor is still on the page — it
+   * expires, or is revoked elsewhere. The client reports that back here, so
+   * the session ends once instead of every page showing "Authentification
+   * requise" while still looking signed in.
+   */
+  useEffect(() => {
+    setSessionExpireeHandler(() => {
+      ecrireToken(null);
+      setAuthToken(null);
+      setUser(null);
+    });
+
+    return () => setSessionExpireeHandler(null);
+  }, []);
 
   // Restore the session on mount: a stored token is only trusted once /me confirms it.
   useEffect(() => {

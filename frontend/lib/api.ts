@@ -28,6 +28,40 @@ export function setAuthToken(token: string | null) {
   authToken = token;
 }
 
+/**
+ * Called when the server rejects the token we hold.
+ *
+ * A session can end between two clicks — the token expires, or is revoked
+ * elsewhere. Without this, every page keeps its stale `user` and simply shows
+ * "Authentification requise" on each request, leaving the visitor signed in as
+ * far as the interface is concerned and with nothing to click to recover.
+ * AuthProvider registers the handler that clears the session.
+ */
+let surSessionExpiree: (() => void) | null = null;
+
+export function setSessionExpireeHandler(handler: (() => void) | null) {
+  surSessionExpiree = handler;
+}
+
+/**
+ * Turns a failed response into an ApiError, ending the local session first
+ * when the server rejected the token we were holding.
+ */
+function erreurDepuis(
+  response: Response,
+  payload: { message?: string; errors?: Record<string, string[]> } | null
+): ApiError {
+  // Only when we actually sent a token: a 401 on a public page just means the
+  // caller is not signed in, which is not a session to end.
+  if (response.status === 401 && authToken) surSessionExpiree?.();
+
+  return new ApiError(
+    payload?.message ?? `Erreur ${response.status}`,
+    response.status,
+    payload?.errors ?? {}
+  );
+}
+
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { body, headers, ...rest } = options;
 
@@ -49,13 +83,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
 
   const payload = await response.json().catch(() => null);
 
-  if (!response.ok) {
-    throw new ApiError(
-      payload?.message ?? `Erreur ${response.status}`,
-      response.status,
-      payload?.errors ?? {}
-    );
-  }
+  if (!response.ok) throw erreurDepuis(response, payload);
 
   return payload as T;
 }
@@ -76,13 +104,7 @@ async function upload<T>(path: string, body: FormData): Promise<T> {
 
   const payload = await response.json().catch(() => null);
 
-  if (!response.ok) {
-    throw new ApiError(
-      payload?.message ?? `Erreur ${response.status}`,
-      response.status,
-      payload?.errors ?? {}
-    );
-  }
+  if (!response.ok) throw erreurDepuis(response, payload);
 
   return payload as T;
 }
