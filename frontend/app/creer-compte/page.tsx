@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AlertCircle, ArrowRight, Briefcase, Loader2, UserRound } from "lucide-react";
+import { Alerte } from "@/components/ui/Alerte";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
@@ -125,12 +126,7 @@ export default function CreerComptePage() {
             </div>
 
             <form onSubmit={creer} className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
-              {erreur && (
-                <p role="alert" className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] bg-[#fef2f2] p-3">
-                  <AlertCircle size={15} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
-                  <span className="sane-small text-[var(--sane-red-dark)]">{erreur}</span>
-                </p>
-              )}
+              <Alerte texte={erreur} className="mb-4" />
 
               <div className="flex flex-col gap-4">
                 <div>

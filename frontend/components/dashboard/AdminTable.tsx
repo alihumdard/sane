@@ -1,6 +1,7 @@
 "use client";
 
 import { AlertCircle, Loader2, Search } from "lucide-react";
+import { Alerte } from "@/components/ui/Alerte";
 import type { PaginationMeta } from "@/lib/types";
 
 export interface Colonne<T> {
@@ -63,12 +64,7 @@ export function AdminTable<T>({
         {actions}
       </div>
 
-      {erreur && (
-        <p role="alert" className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] p-4">
-          <AlertCircle size={16} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
-          <span className="text-[13px] text-[var(--sane-red-dark)]">{erreur}</span>
-        </p>
-      )}
+      <Alerte texte={erreur} className="mb-4" />
 
       <div className="overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white">
         <div className="overflow-x-auto">

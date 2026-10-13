@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AlertCircle, ArrowRight, Loader2, Mail } from "lucide-react";
+import { AlertCircle, ArrowRight, Mail } from "lucide-react";
+import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { PasswordField, TextField } from "@/components/ui/FormFields";
 import { primaryBtn, textLink } from "@/components/ui/styles";
 import { ApiError } from "@/lib/api";
@@ -75,12 +76,18 @@ export function LoginCard({ activeRole, onRoleChange }: Props) {
         })}
       </div>
 
-      {erreur && (
-        <p role="alert" className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] bg-[#fef2f2] p-3">
-          <AlertCircle size={15} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
-          <span className="sane-small text-[var(--sane-red-dark)]">{erreur}</span>
-        </p>
-      )}
+      {/*
+        Kept in the tree and hidden rather than mounted on demand: Google
+        Translate holds references into this subtree, and adding or removing a
+        node around them kills the page with removeChild.
+      */}
+      <p
+        role="alert"
+        className={`mb-4 items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] bg-[#fef2f2] p-3 ${erreur ? "flex" : "hidden"}`}
+      >
+        <AlertCircle size={15} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
+        <span className="sane-small text-[var(--sane-red-dark)]">{erreur}</span>
+      </p>
 
       <form onSubmit={connecter} className="flex flex-col gap-4">
         <TextField id="email" label="Email" icon={Mail} required type="email" autoComplete="email" placeholder="votre@email.com" value={email} onChange={setEmail} />
@@ -97,15 +104,8 @@ export function LoginCard({ activeRole, onRoleChange }: Props) {
         </div>
 
         <button type="submit" disabled={envoi} className={`${primaryBtn} w-full disabled:opacity-60`}>
-          {envoi ? (
-            <>
-              Connexion… <Loader2 size={16} className="animate-spin" />
-            </>
-          ) : (
-            <>
-              Se connecter <ArrowRight size={16} />
-            </>
-          )}
+          {envoi ? "Connexion…" : "Se connecter"}
+          <SpinnerOu actif={envoi} size={16}><ArrowRight size={16} /></SpinnerOu>
         </button>
       </form>
 

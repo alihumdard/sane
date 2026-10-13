@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AlertCircle, ArrowRight, Calendar, ChevronDown, Loader2, MapPin, Search } from "lucide-react";
+import { Alerte } from "@/components/ui/Alerte";
 import { Container } from "@/components/ui/Container";
 import { api, ApiError } from "@/lib/api";
 import type { ApiOffre, FiltreValeur, OffresResponse } from "@/lib/types";
@@ -212,12 +213,7 @@ export function JobsGrid() {
             )}
           </div>
 
-          {erreur && (
-            <p role="alert" className="flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] p-4">
-              <AlertCircle size={16} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
-              <span className="text-[13px] text-[var(--sane-red-dark)]">{erreur}</span>
-            </p>
-          )}
+          <Alerte texte={erreur} className="" />
 
           {chargement && offres.length === 0 && (
             <p className="flex items-center justify-center gap-2 py-12">

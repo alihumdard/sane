@@ -5,6 +5,7 @@ import {
   AlertCircle, Download, Eye, EyeOff,
   FileText, Loader2, Plus, Save, Trash2, Upload,
 } from "lucide-react";
+import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -129,18 +130,9 @@ function Contenu() {
         </span>
       </div>
 
-      {message && (
-        <p role="status" className="mb-4 rounded-xl bg-[var(--sane-green-light)] p-3 sane-small text-[var(--sane-green)]">
-          {message}
-        </p>
-      )}
+      <Alerte texte={message} ton="succes" className="mb-4" />
 
-      {erreur && (
-        <p role="alert" className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] p-3">
-          <AlertCircle size={15} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
-          <span className="sane-small text-[var(--sane-red-dark)]">{erreur}</span>
-        </p>
-      )}
+      <Alerte texte={erreur} className="mb-4" />
 
       <form onSubmit={enregistrer} className={`${carte} mb-5`}>
         <h2 className="sane-h3 mb-4">Informations professionnelles</h2>
@@ -282,7 +274,7 @@ function Cv({ documents, onChange }: { documents: ApiDocumentCandidature[]; onCh
         />
       </div>
 
-      {erreur && <p role="alert" className="mb-3 sane-small text-[var(--sane-red-dark)]">{erreur}</p>}
+      <p role="alert" className={`mb-3 sane-small text-[var(--sane-red-dark)] ${erreur ? "" : "hidden"}`}>{erreur}</p>
 
       {documents.length === 0 ? (
         <p className="sane-small">
@@ -441,7 +433,7 @@ function Experiences({ experiences, onChange }: { experiences: ApiExperience[]; 
             <input type="checkbox" checked={form.en_poste} onChange={(e) => setForm((f) => ({ ...f, en_poste: e.target.checked }))} className="h-4 w-4 accent-[var(--sane-green)]" />
             Poste actuel
           </label>
-          {erreur && <p className="sm:col-span-2 sane-small text-[var(--sane-red-dark)]">{erreur}</p>}
+          <p className={`sm:col-span-2 sane-small text-[var(--sane-red-dark)] ${erreur ? "" : "hidden"}`}>{erreur}</p>
           <button type="submit" disabled={envoi} className="rounded-lg bg-[var(--sane-green)] px-4 py-2.5 text-[13px] font-bold text-white disabled:opacity-60 sm:col-span-2">
             {envoi ? "Enregistrement…" : "Ajouter cette expérience"}
           </button>

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AlertCircle, MapPin, Search, UserRound } from "lucide-react";
+import { Alerte } from "@/components/ui/Alerte";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { api, ApiError } from "@/lib/api";
@@ -60,12 +61,7 @@ function Contenu() {
         {chargement ? "Recherche…" : `${total} profil(s) disponible(s)`}
       </p>
 
-      {erreur && (
-        <p role="alert" className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] p-4">
-          <AlertCircle size={16} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
-          <span className="text-[13px] text-[var(--sane-red-dark)]">{erreur}</span>
-        </p>
-      )}
+      <Alerte texte={erreur} className="mb-4" />
 
       {!chargement && profils.length === 0 && !erreur && (
         <p className="rounded-2xl border border-[var(--sane-border)] bg-white py-12 text-center text-[13px] text-[var(--sane-text-light)]">

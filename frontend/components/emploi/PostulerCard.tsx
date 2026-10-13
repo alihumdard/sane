@@ -181,12 +181,10 @@ export function PostulerCard({ offre }: { offre: ApiOffre }) {
       />
       <p className="sane-small mb-4 text-right opacity-60">{lettre.length}/5000</p>
 
-      {erreur && (
-        <p role="alert" className="mb-3 flex items-start gap-2 text-[var(--sane-red-dark)]">
-          <AlertCircle size={15} className="mt-0.5 shrink-0" />
-          <span className="text-[13px] text-[var(--sane-red-dark)]">{erreur}</span>
-        </p>
-      )}
+      <p role="alert" className={`mb-3 items-start gap-2 text-[var(--sane-red-dark)] ${erreur ? "flex" : "hidden"}`}>
+        <AlertCircle size={15} className="mt-0.5 shrink-0" />
+        <span className="text-[13px] text-[var(--sane-red-dark)]">{erreur}</span>
+      </p>
 
       <button type="submit" disabled={envoi} className={`${primaryBtn} w-full disabled:opacity-60`}>
         {envoi ? (

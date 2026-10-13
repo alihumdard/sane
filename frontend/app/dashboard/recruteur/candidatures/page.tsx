@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AlertCircle, Download, Loader2 } from "lucide-react";
+import { Alerte } from "@/components/ui/Alerte";
 import { Spinner } from "@/components/dashboard/Spinner";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
@@ -89,12 +90,7 @@ function Contenu() {
         ))}
       </div>
 
-      {erreur && (
-        <p role="alert" className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] p-4">
-          <AlertCircle size={16} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
-          <span className="text-[13px] text-[var(--sane-red-dark)]">{erreur}</span>
-        </p>
-      )}
+      <Alerte texte={erreur} className="mb-4" />
 
       {chargement ? (
         <p className="flex items-center gap-2 py-10">

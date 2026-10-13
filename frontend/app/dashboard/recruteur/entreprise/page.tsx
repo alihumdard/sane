@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AlertCircle, CheckCircle2, Loader2, Save, ShieldAlert } from "lucide-react";
+import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
@@ -116,18 +117,9 @@ function Contenu() {
         </p>
       )}
 
-      {erreur && (
-        <p role="alert" className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] p-3">
-          <AlertCircle size={15} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
-          <span className="text-[13px] text-[var(--sane-red-dark)]">{erreur}</span>
-        </p>
-      )}
+      <Alerte texte={erreur} className="mb-4" />
 
-      {succes && (
-        <p role="status" className="mb-4 rounded-xl bg-[var(--sane-green-light)] p-3 text-[13px] text-[var(--sane-green)]">
-          {succes}
-        </p>
-      )}
+      <Alerte texte={succes} ton="succes" className="mb-4" />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">

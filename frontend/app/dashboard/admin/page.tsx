@@ -6,6 +6,7 @@ import {
   AlertCircle, BookOpen, Briefcase, CalendarDays,
   FileText, Mic, Users,
 } from "lucide-react";
+import { Alerte } from "@/components/ui/Alerte";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { Spinner } from "@/components/dashboard/Spinner";
 import { api, ApiError } from "@/lib/api";
@@ -75,12 +76,7 @@ function Contenu() {
         ))}
       </div>
 
-      {erreur && (
-        <p role="alert" className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] p-4">
-          <AlertCircle size={16} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
-          <span className="text-[13px] text-[var(--sane-red-dark)]">{erreur}</span>
-        </p>
-      )}
+      <Alerte texte={erreur} className="mb-4" />
 
       <p className="mb-3 flex items-center gap-2 text-[15px] font-bold text-[var(--sane-text)]">
         En un coup d&apos;œil

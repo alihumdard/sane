@@ -172,14 +172,12 @@ function InscriptionsContent() {
             ))}
           </div>
 
-          {message && (
-            <div className="mb-3 flex items-center justify-between gap-3 rounded-lg border border-[var(--sane-border)] bg-white px-4 py-2.5">
-              <p className="text-[12px] text-[var(--sane-green-deep)]">{message}</p>
-              <button type="button" onClick={() => setMessage(null)} aria-label="Fermer">
-                <X size={14} className="text-[var(--sane-text-light)]" />
-              </button>
-            </div>
-          )}
+          <div className={`mb-3 items-center justify-between gap-3 rounded-lg border border-[var(--sane-border)] bg-white px-4 py-2.5 ${message ? "flex" : "hidden"}`}>
+            <p className="text-[12px] text-[var(--sane-green-deep)]">{message}</p>
+            <button type="button" onClick={() => setMessage(null)} aria-label="Fermer">
+              <X size={14} className="text-[var(--sane-text-light)]" />
+            </button>
+          </div>
 
           {loading ? (
             <div className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-[var(--sane-border)] bg-white py-16">

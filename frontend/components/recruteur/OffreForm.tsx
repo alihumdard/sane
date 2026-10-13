@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AlertCircle, ArrowLeft, Save, Send } from "lucide-react";
+import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { api, ApiError } from "@/lib/api";
 import type { ApiOffre, OffrePayload, TypeContrat } from "@/lib/types";
@@ -113,12 +114,7 @@ export function OffreForm({ offre, onAnnuler, onEnregistre }: OffreFormProps) {
         {offre ? "Modifier l'offre" : "Nouvelle offre"}
       </h2>
 
-      {erreur && (
-        <p role="alert" className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] p-3">
-          <AlertCircle size={15} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
-          <span className="text-[13px] text-[var(--sane-red-dark)]">{erreur}</span>
-        </p>
-      )}
+      <Alerte texte={erreur} className="mb-4" />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">

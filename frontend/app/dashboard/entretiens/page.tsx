@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { AlertCircle, Calendar, CheckCircle2, Loader2, MapPin, Video, X } from "lucide-react";
+import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { Container } from "@/components/ui/Container";
 import { Header } from "@/components/layout/Header";
@@ -83,12 +84,7 @@ function Contenu() {
 
   return (
     <>
-      {erreur && (
-        <p role="alert" className="mb-5 flex items-start gap-2 rounded-xl border border-[var(--sane-red-dark)] p-4">
-          <AlertCircle size={16} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
-          <span className="sane-small text-[var(--sane-red-dark)]">{erreur}</span>
-        </p>
-      )}
+      <Alerte texte={erreur} className="mb-5" />
 
       <h2 className="sane-h3 mb-3">Mes entretiens</h2>
 

@@ -185,12 +185,10 @@ function Emplacement({
             </p>
           )}
 
-          {erreur && (
-            <p className="mt-1.5 flex items-start gap-1 text-[11px] text-[var(--sane-red-dark)]">
-              <AlertCircle size={12} className="mt-0.5 shrink-0" />
-              {erreur}
-            </p>
-          )}
+          <p className={`mt-1.5 items-start gap-1 text-[11px] text-[var(--sane-red-dark)] ${erreur ? "flex" : "hidden"}`}>
+            <AlertCircle size={12} className="mt-0.5 shrink-0" />
+            {erreur}
+          </p>
         </div>
 
         <input
