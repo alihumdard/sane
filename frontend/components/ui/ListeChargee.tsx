@@ -29,7 +29,14 @@ export function ListeChargee({
   children: ReactNode;
 }) {
   return (
-    <>
+    /*
+      One wrapper around all three states, not a fragment. Google Translate
+      inserts its own nodes between siblings as readily as inside them, and a
+      fragment would leave React reordering children of whatever happens to be
+      the parent — which is how insertBefore fails. With a container of our
+      own, nothing is ever added or removed at this level.
+    */
+    <div>
       <p className={`items-center gap-2 py-10 ${premierChargement ? "flex" : "hidden"}`}>
         <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
         <span className="text-[13px] text-[var(--sane-text-light)]">Chargement…</span>
@@ -51,6 +58,6 @@ export function ListeChargee({
       >
         {children}
       </div>
-    </>
+    </div>
   );
 }

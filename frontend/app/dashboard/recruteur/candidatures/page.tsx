@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { AlertCircle, CalendarPlus, Download, Loader2 } from "lucide-react";
+import { ListeChargee } from "@/components/ui/ListeChargee";
 import { Alerte } from "@/components/ui/Alerte";
 import { Spinner, SpinnerOu } from "@/components/dashboard/Spinner";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
@@ -150,26 +151,13 @@ function Contenu() {
         the page under Google Translate — it keeps references into the rows it
         rewrote. Reloading only dims what is already there.
       */}
-      <p className={`items-center gap-2 py-10 ${premierChargement ? "flex" : "hidden"}`}>
-        <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
-        <span className="text-[13px] text-[var(--sane-text-light)]">Chargement…</span>
-      </p>
-
-      <p
-        className={`rounded-2xl border border-[var(--sane-border)] bg-white py-12 text-center text-[13px] text-[var(--sane-text-light)] ${
-          !premierChargement && candidatures.length === 0 ? "block" : "hidden"
-        }`}
+      <ListeChargee
+        premierChargement={premierChargement}
+        chargement={chargement}
+        vide={candidatures.length === 0}
+        messageVide={<>Aucune candidature {filtre ? "à cette étape" : ""}.</>}
       >
-        Aucune candidature {filtre ? "à cette étape" : ""}.
-      </p>
-
-      {(
-        <ul
-          aria-busy={chargement}
-          className={`flex-col gap-3 transition-opacity ${chargement ? "opacity-50" : ""} ${
-            candidatures.length > 0 ? "flex" : "hidden"
-          }`}
-        >
+        <ul className="flex flex-col gap-3">
           {candidatures.map((c) => (
             <li key={c.id} className="rounded-2xl border border-[var(--sane-border)] bg-white p-4">
               <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
@@ -282,7 +270,7 @@ function Contenu() {
             </li>
           ))}
         </ul>
-      )}
+      </ListeChargee>
     </>
   );
 }
