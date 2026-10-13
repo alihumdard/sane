@@ -27,6 +27,9 @@ function Contenu() {
   const [resume, setResume] = useState<Record<string, number>>({});
   const [filtre, setFiltre] = useState<string>("");
   const [chargement, setChargement] = useState(true);
+  // Distinguishes "nothing on screen yet" from "refreshing what is shown":
+  // only the first needs the page to wait.
+  const [premierChargement, setPremierChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
   const [enCours, setEnCours] = useState<number | null>(null);
 
@@ -44,6 +47,7 @@ function Contenu() {
       setErreur(e instanceof ApiError ? e.message : "Impossible de charger les candidatures.");
     } finally {
       setChargement(false);
+      setPremierChargement(false);
     }
   }, [filtre]);
 
@@ -92,17 +96,32 @@ function Contenu() {
 
       <Alerte texte={erreur} className="mb-4" />
 
-      {chargement ? (
-        <p className="flex items-center gap-2 py-10">
-          <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
-          <span className="text-[13px] text-[var(--sane-text-light)]">Chargement…</span>
-        </p>
-      ) : candidatures.length === 0 ? (
-        <p className="rounded-2xl border border-[var(--sane-border)] bg-white py-12 text-center text-[13px] text-[var(--sane-text-light)]">
-          Aucune candidature {filtre && "à cette étape"}.
-        </p>
-      ) : (
-        <ul className="flex flex-col gap-3">
+      {/*
+        The list is never torn down to show progress. Advancing a stage reloads
+        it, and swapping the whole subtree for a spinner each time is what kills
+        the page under Google Translate — it keeps references into the rows it
+        rewrote. Reloading only dims what is already there.
+      */}
+      <p className={`items-center gap-2 py-10 ${premierChargement ? "flex" : "hidden"}`}>
+        <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
+        <span className="text-[13px] text-[var(--sane-text-light)]">Chargement…</span>
+      </p>
+
+      <p
+        className={`rounded-2xl border border-[var(--sane-border)] bg-white py-12 text-center text-[13px] text-[var(--sane-text-light)] ${
+          !premierChargement && candidatures.length === 0 ? "block" : "hidden"
+        }`}
+      >
+        Aucune candidature {filtre ? "à cette étape" : ""}.
+      </p>
+
+      {(
+        <ul
+          aria-busy={chargement}
+          className={`flex-col gap-3 transition-opacity ${chargement ? "opacity-50" : ""} ${
+            candidatures.length > 0 ? "flex" : "hidden"
+          }`}
+        >
           {candidatures.map((c) => (
             <li key={c.id} className="rounded-2xl border border-[var(--sane-border)] bg-white p-4">
               <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
@@ -118,22 +137,19 @@ function Contenu() {
                   </p>
                 </div>
 
-                {c.cv && (
-                  <button
-                    type="button"
-                    onClick={() => telecharger(`/entreprise/candidatures/${c.id}/cv`, c.cv!.nom_original)}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--sane-border)] px-3 py-1.5 text-[12px] font-semibold hover:border-[var(--sane-green)]"
-                  >
-                    <Download size={13} /> CV
-                  </button>
-                )}
+                <button
+                  type="button"
+                  disabled={!c.cv}
+                  onClick={() => c.cv && telecharger(`/entreprise/candidatures/${c.id}/cv`, c.cv.nom_original)}
+                  className={`items-center gap-1.5 rounded-lg border border-[var(--sane-border)] px-3 py-1.5 text-[12px] font-semibold hover:border-[var(--sane-green)] ${c.cv ? "inline-flex" : "hidden"}`}
+                >
+                  <Download size={13} /> CV
+                </button>
               </div>
 
-              {c.lettre_motivation && (
-                <p className="mb-3 rounded-lg bg-[var(--sane-background)] p-3 text-[12px] text-[var(--sane-text)]">
-                  {c.lettre_motivation}
-                </p>
-              )}
+              <p className={`mb-3 rounded-lg bg-[var(--sane-background)] p-3 text-[12px] text-[var(--sane-text)] ${c.lettre_motivation ? "block" : "hidden"}`}>
+                {c.lettre_motivation}
+              </p>
 
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-[12px] text-[var(--sane-text-light)]">Étape :</span>

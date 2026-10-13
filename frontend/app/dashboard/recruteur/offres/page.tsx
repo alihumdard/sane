@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AlertCircle, Eye, Loader2, Pencil, Plus, Trash2, Users } from "lucide-react";
+import { ListeChargee } from "@/components/ui/ListeChargee";
 import { Alerte } from "@/components/ui/Alerte";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
@@ -21,6 +22,9 @@ function Contenu() {
   const [offres, setOffres] = useState<ApiOffre[]>([]);
   const [resume, setResume] = useState<OffresEntrepriseResponse["resume"] | null>(null);
   const [chargement, setChargement] = useState(true);
+  // Distinguishes "nothing on screen yet" from "refreshing what is shown":
+  // only the first needs the list to be absent.
+  const [premierChargement, setPremierChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
   const [edition, setEdition] = useState<ApiOffre | null | "nouvelle">(null);
 
@@ -40,6 +44,7 @@ function Contenu() {
       );
     } finally {
       setChargement(false);
+      setPremierChargement(false);
     }
   }, []);
 
@@ -105,16 +110,16 @@ function Contenu() {
 
       <Alerte texte={erreur} className="mb-4" />
 
-      {chargement ? (
-        <p className="flex items-center gap-2 py-10">
-          <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
-          <span className="text-[13px] text-[var(--sane-text-light)]">Chargement…</span>
-        </p>
-      ) : offres.length === 0 ? (
-        <p className="rounded-2xl border border-[var(--sane-border)] bg-white py-12 text-center text-[13px] text-[var(--sane-text-light)]">
+      <ListeChargee
+        premierChargement={premierChargement}
+        chargement={chargement}
+        vide={offres.length === 0}
+        messageVide={
+          <p className="rounded-2xl border border-[var(--sane-border)] bg-white py-12 text-center text-[13px] text-[var(--sane-text-light)]">
           Vous n&apos;avez pas encore créé d&apos;offre.
         </p>
-      ) : (
+        }
+      >
         <div className="overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white">
           <table className="w-full text-left">
             <thead className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
@@ -180,7 +185,7 @@ function Contenu() {
             </tbody>
           </table>
         </div>
-      )}
+      </ListeChargee>
     </>
   );
 }

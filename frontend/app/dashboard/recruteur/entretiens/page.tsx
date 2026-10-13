@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AlertCircle, CalendarPlus, Loader2, Trash2, Video } from "lucide-react";
+import { ListeChargee } from "@/components/ui/ListeChargee";
 import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
@@ -30,6 +31,9 @@ function Contenu() {
   const [entretiens, setEntretiens] = useState<ApiEntretien[]>([]);
   const [creneaux, setCreneaux] = useState<ApiCreneau[]>([]);
   const [chargement, setChargement] = useState(true);
+  // Distinguishes "nothing on screen yet" from "refreshing what is shown":
+  // only the first needs the list to be absent.
+  const [premierChargement, setPremierChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
   const [nouveau, setNouveau] = useState({ debut: "", fin: "", mode: "visio" as ModeEntretien, lieu: "" });
   const [ajout, setAjout] = useState(false);
@@ -50,6 +54,7 @@ function Contenu() {
       setErreur(err instanceof ApiError ? err.message : "Chargement impossible.");
     } finally {
       setChargement(false);
+      setPremierChargement(false);
     }
   }, []);
 
@@ -181,16 +186,16 @@ function Contenu() {
 
       <h2 className="mb-3 text-[15px] font-bold text-[var(--sane-text)]">Entretiens planifiés</h2>
 
-      {chargement ? (
-        <p className="flex items-center gap-2 py-8">
-          <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
-          <span className="text-[13px] text-[var(--sane-text-light)]">Chargement…</span>
-        </p>
-      ) : entretiens.length === 0 ? (
-        <p className="rounded-2xl border border-[var(--sane-border)] bg-white py-10 text-center text-[13px] text-[var(--sane-text-light)]">
+      <ListeChargee
+        premierChargement={premierChargement}
+        chargement={chargement}
+        vide={entretiens.length === 0}
+        messageVide={
+          <p className="rounded-2xl border border-[var(--sane-border)] bg-white py-10 text-center text-[13px] text-[var(--sane-text-light)]">
           Aucun entretien planifié. Proposez un créneau depuis une candidature.
         </p>
-      ) : (
+        }
+      >
         <ul className="flex flex-col gap-3">
           {entretiens.map((e) => (
             <li key={e.id} className="rounded-2xl border border-[var(--sane-border)] bg-white p-4">
@@ -235,7 +240,7 @@ function Contenu() {
             </li>
           ))}
         </ul>
-      )}
+      </ListeChargee>
     </>
   );
 }

@@ -6,6 +6,7 @@ import {
   AlertCircle, CalendarDays, CheckCircle2, Loader2,
   Lock, MapPin, Pencil, Plus, Trash2, Unlock, X,
 } from "lucide-react";
+import { ListeChargee } from "@/components/ui/ListeChargee";
 import { Alerte } from "@/components/ui/Alerte";
 import { Spinner } from "@/components/dashboard/Spinner";
 import { AdminPage } from "@/components/dashboard/AdminPage";
@@ -41,6 +42,9 @@ function Contenu() {
 
   const [editions, setEditions] = useState<ApiEdition[]>([]);
   const [chargement, setChargement] = useState(true);
+  // Distinguishes "nothing on screen yet" from "refreshing what is shown":
+  // only the first needs the list to be absent.
+  const [premierChargement, setPremierChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [enCours, setEnCours] = useState<number | null>(null);
@@ -61,6 +65,7 @@ function Contenu() {
       setErreur(e instanceof ApiError ? e.message : "Impossible de charger les éditions.");
     } finally {
       setChargement(false);
+      setPremierChargement(false);
     }
   }, []);
 
@@ -273,16 +278,16 @@ function Contenu() {
 
       <Alerte texte={erreur} className="mb-4" />
 
-      {chargement ? (
-        <p className="flex items-center gap-2 py-10">
-          <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
-          <span className="text-[13px] text-[var(--sane-text-light)]">Chargement…</span>
-        </p>
-      ) : editions.length === 0 ? (
-        <p className="rounded-2xl border border-[var(--sane-border)] bg-white py-12 text-center text-[13px] text-[var(--sane-text-light)]">
+      <ListeChargee
+        premierChargement={premierChargement}
+        chargement={chargement}
+        vide={editions.length === 0}
+        messageVide={
+          <p className="rounded-2xl border border-[var(--sane-border)] bg-white py-12 text-center text-[13px] text-[var(--sane-text-light)]">
           Aucune édition. Créez-en une pour ouvrir les inscriptions.
         </p>
-      ) : (
+        }
+      >
         <ul className="flex flex-col gap-3">
           {editions.map((e) => (
             <li
@@ -375,7 +380,7 @@ function Contenu() {
             </li>
           ))}
         </ul>
-      )}
+      </ListeChargee>
     </>
   );
 }

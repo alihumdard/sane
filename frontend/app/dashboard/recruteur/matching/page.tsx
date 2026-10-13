@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AlertCircle, Loader2, RefreshCw, Sparkles, UserRound } from "lucide-react";
+import { ListeChargee } from "@/components/ui/ListeChargee";
 import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
@@ -20,6 +21,9 @@ function Contenu() {
   const [offreId, setOffreId] = useState<number | null>(null);
   const [correspondances, setCorrespondances] = useState<ApiCorrespondance[]>([]);
   const [chargement, setChargement] = useState(true);
+  // Distinguishes "nothing on screen yet" from "refreshing what is shown":
+  // only the first needs the list to be absent.
+  const [premierChargement, setPremierChargement] = useState(true);
   const [recalcul, setRecalcul] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -56,6 +60,7 @@ function Contenu() {
       setErreur(e instanceof ApiError ? e.message : "Impossible de charger les correspondances.");
     } finally {
       setChargement(false);
+      setPremierChargement(false);
     }
   }, [offreId]);
 
@@ -125,20 +130,20 @@ function Contenu() {
 
       <Alerte texte={erreur} className="mb-4" />
 
-      {chargement ? (
-        <p className="flex items-center gap-2 py-10">
-          <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
-          <span className="text-[13px] text-[var(--sane-text-light)]">Chargement…</span>
-        </p>
-      ) : correspondances.length === 0 ? (
-        <div className="rounded-2xl border border-[var(--sane-border)] bg-white py-12 text-center">
+      <ListeChargee
+        premierChargement={premierChargement}
+        chargement={chargement}
+        vide={correspondances.length === 0}
+        messageVide={
+          <div className="rounded-2xl border border-[var(--sane-border)] bg-white py-12 text-center">
           <Sparkles size={26} className="mx-auto mb-3 text-[var(--sane-text-light)]" />
           <p className="text-[13px] text-[var(--sane-text-light)]">
             Aucun candidat correspondant pour l&apos;instant. Lancez un recalcul après avoir
             modifié l&apos;offre.
           </p>
         </div>
-      ) : (
+        }
+      >
         <ul className="flex flex-col gap-3">
           {correspondances.map((c) => (
             <li key={c.id} className="rounded-2xl border border-[var(--sane-border)] bg-white p-5">
@@ -185,7 +190,7 @@ function Contenu() {
             </li>
           ))}
         </ul>
-      )}
+      </ListeChargee>
     </>
   );
 }

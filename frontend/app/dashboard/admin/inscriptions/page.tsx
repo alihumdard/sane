@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { AlertCircle, Check, CheckCircle2, Clock, FileDown, Loader2, RefreshCw, Users, X, XCircle } from "lucide-react";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 
@@ -75,12 +75,16 @@ function InscriptionsContent() {
   const [lignes, setLignes] = useState<LigneInscription[]>([]);
   const [resume, setResume] = useState({ total: 0, en_attente: 0, confirmee: 0, annulee: 0 });
   const [loading, setLoading] = useState(true);
+  const dejaCharge = useRef(false);
   const [error, setError] = useState<string | null>(null);
   const [enCours, setEnCours] = useState<number | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
   const charger = useCallback(async () => {
-    setLoading(true);
+    // Only while there is nothing on screen yet. A refresh must not swap the
+    // rows for a spinner: Google Translate holds references into them, and
+    // replacing the subtree kills the page with removeChild.
+    setLoading((actuel) => actuel || !dejaCharge.current);
     setError(null);
 
     try {
@@ -92,6 +96,7 @@ function InscriptionsContent() {
     } catch (e) {
       setError(e instanceof ApiError ? e.message : "Impossible de charger les inscriptions.");
     } finally {
+      dejaCharge.current = true;
       setLoading(false);
     }
   }, []);

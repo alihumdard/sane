@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { AlertCircle, BookOpen, CheckCircle2, EyeOff, Loader2, RefreshCw, Users, X } from "lucide-react";
 
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
@@ -87,11 +87,15 @@ function FormationsContent() {
   const [categories, setCategories] = useState<{ id: number; nom: string }[]>([]);
   const [formateurs, setFormateurs] = useState<{ id: number; nom: string; libelle: string }[]>([]);
   const [loading, setLoading] = useState(true);
+  const dejaCharge = useRef(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
   const charger = useCallback(async () => {
-    setLoading(true);
+    // Only while there is nothing on screen yet. A refresh must not swap the
+    // rows for a spinner: Google Translate holds references into them, and
+    // replacing the subtree kills the page with removeChild.
+    setLoading((actuel) => actuel || !dejaCharge.current);
     setError(null);
 
     try {
@@ -102,6 +106,7 @@ function FormationsContent() {
     } catch (e) {
       setError(e instanceof ApiError ? e.message : "Impossible de charger les formations.");
     } finally {
+      dejaCharge.current = true;
       setLoading(false);
     }
   }, []);
