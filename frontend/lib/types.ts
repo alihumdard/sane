@@ -454,7 +454,7 @@ export interface AdminInscriptionsResponse {
 export interface AdminFormationsResponse {
   /** Available categories and speakers, so the form can map names back to ids. */
   categories?: { id: number; nom: string }[];
-  formateurs?: { id: number; nom: string }[];
+  formateurs?: { id: number; nom: string; libelle: string }[];
   data: ApiFormation[];
   meta: PaginationMeta;
 }

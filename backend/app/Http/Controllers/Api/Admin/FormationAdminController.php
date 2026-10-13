@@ -42,7 +42,14 @@ class FormationAdminController extends Controller
             'categories' => CategorieFormation::orderBy('ordre')->orderBy('nom')
                 ->get(['id', 'nom']),
             // Same reason as categories: the form needs ids to post back.
-            'formateurs' => Formateur::orderBy('nom')->get(['id', 'nom']),
+            // Two speakers may share a name, so the label carries the
+            // organisation to tell them apart in a dropdown.
+            'formateurs' => Formateur::orderBy('nom')->get(['id', 'nom', 'organisation'])
+                ->map(fn (Formateur $f) => [
+                    'id' => $f->id,
+                    'nom' => $f->nom,
+                    'libelle' => $f->organisation ? $f->nom.' — '.$f->organisation : $f->nom,
+                ]),
         ]);
     }
 

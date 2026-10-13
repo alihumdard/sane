@@ -84,7 +84,7 @@ function FormationsContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [formations, setFormations] = useState<ApiFormation[]>([]);
   const [categories, setCategories] = useState<{ id: number; nom: string }[]>([]);
-  const [formateurs, setFormateurs] = useState<{ id: number; nom: string }[]>([]);
+  const [formateurs, setFormateurs] = useState<{ id: number; nom: string; libelle: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -216,7 +216,7 @@ function Tableau({
 }: {
   formations: ApiFormation[];
   categories: { id: number; nom: string }[];
-  formateurs: { id: number; nom: string }[];
+  formateurs: { id: number; nom: string; libelle: string }[];
   onRecharger: () => Promise<void>;
   onMessage: (m: string) => void;
 }) {
@@ -240,8 +240,12 @@ function Tableau({
     const nom = String(row.categorie ?? "").trim().toLowerCase();
     const trouvee = categories.find((c) => c.nom.toLowerCase() === nom);
 
-    const nomIntervenant = String(row.intervenant ?? "").trim().toLowerCase();
-    const intervenant = formateurs.find((f) => f.nom.toLowerCase() === nomIntervenant);
+    // Matched against both forms: the dropdown offers the label ("name —
+    // organisation"), while an existing row still carries the bare name.
+    const choisi = String(row.intervenant ?? "").trim().toLowerCase();
+    const intervenant = formateurs.find(
+      (f) => f.libelle.toLowerCase() === choisi || f.nom.toLowerCase() === choisi
+    );
 
     return {
       edition_id: editionId,
@@ -392,6 +396,10 @@ function Tableau({
           },
         }}
         entity="formation"
+        choix={{
+          categorie: categories.map((c) => c.nom),
+          intervenant: formateurs.map((f) => f.libelle),
+        }}
       />
     </div>
   );

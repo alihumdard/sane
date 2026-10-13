@@ -11,6 +11,14 @@ interface Props {
   table: TableApi<any>;
   /** singular noun used in titles, e.g. "actualité" */
   entity: string;
+  /**
+   * Fields that are a choice rather than free text, keyed by row property.
+   *
+   * Without this the dialog renders every field as a text input, so a value
+   * that the API stores as a foreign key — a category, a speaker — has to be
+   * typed exactly, and a typo silently saves nothing.
+   */
+  choix?: Record<string, string[]>;
 }
 
 const LABELS: Record<string, string> = {
@@ -27,7 +35,7 @@ function label(key: string) {
   return spaced.charAt(0).toUpperCase() + spaced.slice(1);
 }
 
-function Modal({ table, entity }: Props) {
+function Modal({ table, entity, choix = {} }: Props) {
   const modal = table.modal!;
   const mode = modal.mode;
   const sample = (modal.row ?? table.rows[0] ?? {}) as Rec;
@@ -57,6 +65,10 @@ function Modal({ table, entity }: Props) {
 
   // keys with a few repeated values get suggestions (category, status ...)
   const suggestions = (k: string): string[] => {
+    // An explicit list wins: it holds every option the API accepts, not just
+    // the ones already used by a row.
+    if (choix[k]) return choix[k];
+
     if (typeof sample[k] !== "string") return [];
     const vals = table.rows.map((r) => String((r as Rec)[k] ?? ""));
     const uniq = Array.from(new Set(vals)).filter(Boolean);
@@ -114,6 +126,18 @@ function Modal({ table, entity }: Props) {
                     onChange={(e) => setData({ ...data, [k]: e.target.value })}
                     className={common}
                   />
+                ) : choix[k] ? (
+                  <select
+                    disabled={readOnly}
+                    value={v === undefined || v === null ? "" : String(v)}
+                    onChange={(e) => setData({ ...data, [k]: e.target.value })}
+                    className={common}
+                  >
+                    <option value="">—</option>
+                    {choix[k].map((o) => (
+                      <option key={o} value={o}>{o}</option>
+                    ))}
+                  </select>
                 ) : (
                   <>
                     <input
@@ -163,10 +187,10 @@ function Modal({ table, entity }: Props) {
   );
 }
 
-export default function TableDialogs({ table, entity }: Props) {
+export default function TableDialogs({ table, entity, choix }: Props) {
   return (
     <>
-      {table.modal && <Modal key={`${table.modal.mode}-${table.modal.row?._uid ?? "new"}`} table={table} entity={entity} />}
+      {table.modal && <Modal key={`${table.modal.mode}-${table.modal.row?._uid ?? "new"}`} table={table} entity={entity} choix={choix} />}
 
       {table.confirm && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4" onMouseDown={table.cancelDelete}>
