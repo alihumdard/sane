@@ -62,7 +62,7 @@ class Formation extends Model
 
     public function inscriptions(): BelongsToMany
     {
-        return $this->belongsToMany(Inscription::class, 'inscription_formation')->withTimestamps();
+        return $this->belongsToMany(Inscription::class, 'inscription_formation')->withPivot('rappel_envoye_le')->withTimestamps();
     }
 
     public function getPlacesRestantesAttribute(): int

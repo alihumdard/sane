@@ -20,3 +20,8 @@ Artisan::command('inspire', function () {
 Schedule::command('sanem:rappels-entretiens')
     ->hourly()
     ->withoutOverlapping();
+
+// A course date is a day, not a time, so once each morning is enough.
+Schedule::command('sanem:rappels-formations')
+    ->dailyAt('08:00')
+    ->withoutOverlapping();

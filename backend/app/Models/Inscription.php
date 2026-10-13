@@ -76,7 +76,7 @@ class Inscription extends Model
 
     public function formations(): BelongsToMany
     {
-        return $this->belongsToMany(Formation::class, 'inscription_formation')->withTimestamps();
+        return $this->belongsToMany(Formation::class, 'inscription_formation')->withPivot('rappel_envoye_le')->withTimestamps();
     }
 
     public function documents(): HasMany
