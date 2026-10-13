@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Loader2, Lock } from "lucide-react";
+import { Spinner } from "./Spinner";
 import { useAuth } from "@/lib/auth";
 import { ApiError } from "@/lib/api";
 
@@ -112,7 +113,7 @@ function LoginPanel() {
           disabled={submitting}
           className="flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--sane-orange)] py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
         >
-          {submitting && <Loader2 size={14} className="animate-spin" />}
+          <Spinner actif={submitting} size={14} />
           {submitting ? "Connexion…" : "Se connecter"}
         </button>
       </form>

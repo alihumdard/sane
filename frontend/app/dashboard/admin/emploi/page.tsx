@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { BadgeCheck, Loader2, ShieldOff, Trash2 } from "lucide-react";
+import { Spinner } from "@/components/dashboard/Spinner";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { AdminTable, type Colonne } from "@/components/dashboard/AdminTable";
 import { useApiTable } from "@/components/dashboard/useApiTable";
@@ -89,7 +90,7 @@ function Offres() {
       entete: "",
       rendu: (o) => (
         <div className="flex items-center justify-end gap-1">
-          {action === o.id && <Loader2 size={14} className="animate-spin text-[var(--sane-green)]" />}
+          <Spinner actif={action === o.id} size={14} className="text-[var(--sane-green)]" />
           <button type="button" onClick={() => supprimer(o)} title="Supprimer" className="rounded-lg p-2 text-[var(--sane-red-dark)] hover:bg-[#fdf1f1]">
             <Trash2 size={15} />
           </button>

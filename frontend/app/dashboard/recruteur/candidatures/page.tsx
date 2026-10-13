@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AlertCircle, Download, Loader2 } from "lucide-react";
+import { Spinner } from "@/components/dashboard/Spinner";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { api, ApiError, telecharger } from "@/lib/api";
@@ -155,7 +156,7 @@ function Contenu() {
                     {e.label}
                   </button>
                 ))}
-                {enCours === c.id && <Loader2 size={13} className="animate-spin text-[var(--sane-green)]" />}
+                <Spinner actif={enCours === c.id} size={13} className="text-[var(--sane-green)]" />
               </div>
             </li>
           ))}

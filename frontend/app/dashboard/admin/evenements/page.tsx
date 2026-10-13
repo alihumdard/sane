@@ -6,6 +6,7 @@ import {
   AlertCircle, CalendarDays, CheckCircle2, Loader2,
   Lock, MapPin, Pencil, Plus, Trash2, Unlock, X,
 } from "lucide-react";
+import { Spinner } from "@/components/dashboard/Spinner";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { api, ApiError } from "@/lib/api";
 import type { ApiEdition, EditionPayload } from "@/lib/types";
@@ -250,7 +251,7 @@ function Contenu() {
           type="submit" disabled={envoi}
           className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
         >
-          {envoi && <Loader2 size={15} className="animate-spin" />}
+          <Spinner actif={envoi} />
           Enregistrer
         </button>
       </form>
@@ -340,7 +341,7 @@ function Contenu() {
                 </div>
 
                 <div className="flex shrink-0 flex-wrap items-center gap-1">
-                  {enCours === e.id && <Loader2 size={15} className="animate-spin text-[var(--sane-green)]" />}
+                  <Spinner actif={enCours === e.id} className="text-[var(--sane-green)]" />
 
                   <button
                     type="button"

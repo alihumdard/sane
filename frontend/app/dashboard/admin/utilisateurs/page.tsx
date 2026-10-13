@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, Pencil, ShieldCheck, Trash2, UserPlus } from "lucide-react";
+import {Pencil, ShieldCheck, Trash2, UserPlus} from "lucide-react";
+import { Spinner } from "@/components/dashboard/Spinner";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import { AdminGuard } from "@/components/dashboard/AdminGuard";
@@ -149,7 +150,7 @@ function Contenu() {
       entete: "",
       rendu: (u) => (
         <div className="flex items-center justify-end gap-1">
-          {action === u.id && <Loader2 size={14} className="animate-spin text-[var(--sane-green)]" />}
+          <Spinner actif={action === u.id} size={14} className="text-[var(--sane-green)]" />
           <button
             type="button"
             onClick={() => supprimer(u)}

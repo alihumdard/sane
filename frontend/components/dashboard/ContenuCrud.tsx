@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, Pencil, Plus, Trash2, X } from "lucide-react";
+import {Pencil, Plus, Trash2, X} from "lucide-react";
+import { Spinner } from "./Spinner";
 import { AdminTable, type Colonne } from "./AdminTable";
 import { useApiTable } from "./useApiTable";
 import { api, ApiError } from "@/lib/api";
@@ -182,7 +183,7 @@ export function ContenuCrud<T>({
           type="submit" disabled={envoi}
           className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
         >
-          {envoi && <Loader2 size={15} className="animate-spin" />}
+          <Spinner actif={envoi} />
           Enregistrer
         </button>
       </form>
