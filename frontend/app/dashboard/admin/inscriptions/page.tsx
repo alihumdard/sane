@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AlertCircle, Check, CheckCircle2, Clock, FileDown, Loader2, RefreshCw, Users, X, XCircle } from "lucide-react";
+import { SpinnerOu } from "@/components/dashboard/Spinner";
 
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
@@ -350,7 +351,7 @@ function Documents({ documents }: { documents: DocumentUpload[] }) {
           title={`${d.type_label} — ${d.nom_original}`}
           className="flex items-center gap-1 rounded bg-[var(--sane-green-tint)] px-1.5 py-0.5 text-[9px] font-semibold text-[var(--sane-green)] transition-opacity hover:opacity-70 disabled:opacity-50"
         >
-          {enCours === d.id ? <Loader2 size={9} className="animate-spin" /> : <FileDown size={9} />}
+          <SpinnerOu actif={enCours === d.id} size={9}><FileDown size={9} /></SpinnerOu>
           {ABREVIATIONS[d.type]}
         </button>
       ))}

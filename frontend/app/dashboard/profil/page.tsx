@@ -5,6 +5,7 @@ import {
   AlertCircle, Download, Eye, EyeOff,
   FileText, Loader2, Plus, Save, Trash2, Upload,
 } from "lucide-react";
+import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
@@ -203,7 +204,7 @@ function Contenu() {
         </div>
 
         <button type="submit" disabled={envoi} className="mt-5 inline-flex items-center gap-2 rounded-lg bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white disabled:opacity-60">
-          {envoi ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+          <SpinnerOu actif={envoi}><Save size={15} /></SpinnerOu>
           Enregistrer
         </button>
       </form>
@@ -272,7 +273,7 @@ function Cv({ documents, onChange }: { documents: ApiDocumentCandidature[]; onCh
           htmlFor="cv"
           className={`inline-flex cursor-pointer items-center gap-2 rounded-lg border border-[var(--sane-border)] px-4 py-2 text-[13px] font-semibold hover:border-[var(--sane-green)] ${envoi ? "pointer-events-none opacity-60" : ""}`}
         >
-          {envoi ? <Loader2 size={15} className="animate-spin" /> : <Upload size={15} />}
+          <SpinnerOu actif={envoi}><Upload size={15} /></SpinnerOu>
           {documents.length ? "Remplacer" : "Déposer mon CV"}
         </label>
         <input
@@ -359,7 +360,7 @@ function Competences({ competences, onChange }: { competences: ApiCompetence[]; 
           ))}
         </select>
         <button type="submit" disabled={envoi} className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--sane-green)] px-4 py-2.5 text-[13px] font-bold text-white disabled:opacity-60">
-          {envoi ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />} Ajouter
+          <SpinnerOu actif={envoi} size={14}><Plus size={14} /></SpinnerOu> Ajouter
         </button>
       </form>
 

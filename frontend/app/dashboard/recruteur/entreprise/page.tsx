@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AlertCircle, CheckCircle2, Loader2, Save, ShieldAlert } from "lucide-react";
+import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { api, ApiError } from "@/lib/api";
@@ -172,7 +173,7 @@ function Contenu() {
         disabled={envoi}
         className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
       >
-        {envoi ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+        <SpinnerOu actif={envoi}><Save size={15} /></SpinnerOu>
         {existe ? "Enregistrer les modifications" : "Créer mon entreprise"}
       </button>
     </form>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AlertCircle, Check, FileText, Loader2, Trash2, Upload } from "lucide-react";
+import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { api, ApiError } from "@/lib/api";
 import type { DocumentAttendu, DocumentsResponse, DocumentUpload } from "@/lib/types";
 
@@ -163,7 +164,7 @@ function Emplacement({
             document ? "bg-[var(--sane-green)] text-white" : "bg-[var(--sane-background)] text-[var(--sane-text-light)]"
           }`}
         >
-          {occupe ? <Loader2 size={16} className="animate-spin" /> : document ? <Check size={16} /> : <FileText size={16} />}
+          <SpinnerOu actif={occupe} size={16}>{document ? <Check size={16} /> : <FileText size={16} />}</SpinnerOu>
         </span>
 
         <div className="min-w-0 flex-1">

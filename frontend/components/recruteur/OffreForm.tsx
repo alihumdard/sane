@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { AlertCircle, ArrowLeft, Loader2, Save, Send } from "lucide-react";
+import { AlertCircle, ArrowLeft, Save, Send } from "lucide-react";
+import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { api, ApiError } from "@/lib/api";
 import type { ApiOffre, OffrePayload, TypeContrat } from "@/lib/types";
 
@@ -203,7 +204,7 @@ export function OffreForm({ offre, onAnnuler, onEnregistre }: OffreFormProps) {
           disabled={envoi !== null}
           className="inline-flex items-center justify-center gap-2 rounded-lg border border-[var(--sane-border)] px-5 py-2.5 text-[13px] font-semibold disabled:opacity-60"
         >
-          {envoi === "brouillon" ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+          <SpinnerOu actif={envoi === "brouillon"}><Save size={15} /></SpinnerOu>
           Enregistrer en brouillon
         </button>
 
@@ -213,7 +214,7 @@ export function OffreForm({ offre, onAnnuler, onEnregistre }: OffreFormProps) {
           disabled={envoi !== null}
           className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
         >
-          {envoi === "publiee" ? <Loader2 size={15} className="animate-spin" /> : <Send size={15} />}
+          <SpinnerOu actif={envoi === "publiee"}><Send size={15} /></SpinnerOu>
           Publier l&apos;offre
         </button>
       </div>

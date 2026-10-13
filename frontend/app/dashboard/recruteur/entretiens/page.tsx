@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AlertCircle, CalendarPlus, Loader2, Trash2, Video } from "lucide-react";
+import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { api, ApiError } from "@/lib/api";
@@ -154,7 +155,7 @@ function Contenu() {
             type="submit" disabled={ajout}
             className="inline-flex items-center justify-center gap-2 self-end rounded-lg bg-[var(--sane-orange)] px-4 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
           >
-            {ajout ? <Loader2 size={15} className="animate-spin" /> : <CalendarPlus size={15} />}
+            <SpinnerOu actif={ajout}><CalendarPlus size={15} /></SpinnerOu>
             Ajouter
           </button>
         </form>

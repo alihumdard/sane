@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { AlertCircle, Calendar, CheckCircle2, Loader2, MapPin, Video, X } from "lucide-react";
+import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { Container } from "@/components/ui/Container";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -153,7 +154,7 @@ function Contenu() {
                       onClick={() => repondre(e, "confirmer")}
                       className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--sane-green)] px-4 py-2 text-[13px] font-bold text-white disabled:opacity-60"
                     >
-                      {enCours === e.id ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}
+                      <SpinnerOu actif={enCours === e.id} size={14}><CheckCircle2 size={14} /></SpinnerOu>
                       Confirmer ma présence
                     </button>
                   )}

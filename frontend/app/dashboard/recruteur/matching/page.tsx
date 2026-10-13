@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AlertCircle, Loader2, RefreshCw, Sparkles, UserRound } from "lucide-react";
+import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { ScoreBadge } from "@/components/recruteur/ScoreBadge";
@@ -114,7 +115,7 @@ function Contenu() {
           disabled={recalcul || !offreId}
           className="inline-flex items-center gap-2 rounded-lg border border-[var(--sane-border)] px-4 py-2.5 text-[13px] font-semibold hover:border-[var(--sane-green)] disabled:opacity-60"
         >
-          {recalcul ? <Loader2 size={15} className="animate-spin" /> : <RefreshCw size={15} />}
+          <SpinnerOu actif={recalcul}><RefreshCw size={15} /></SpinnerOu>
           Recalculer
         </button>
       </div>
