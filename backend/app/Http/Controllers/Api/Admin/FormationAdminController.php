@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\FormationRequest;
 use App\Http\Resources\FormationResource;
 use App\Http\Resources\InscriptionResource;
+use App\Models\CategorieFormation;
 use App\Models\Formation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -35,6 +36,10 @@ class FormationAdminController extends Controller
         return response()->json([
             'data' => FormationResource::collection($page->items()),
             'meta' => $this->meta($page),
+            // The form needs the ids to post back; a category is a row, not a
+            // free-text label.
+            'categories' => CategorieFormation::orderBy('ordre')->orderBy('nom')
+                ->get(['id', 'nom']),
         ]);
     }
 

@@ -452,6 +452,8 @@ export interface AdminInscriptionsResponse {
 }
 
 export interface AdminFormationsResponse {
+  /** Available categories, so the form can map a name back to its id. */
+  categories?: { id: number; nom: string }[];
   data: ApiFormation[];
   meta: PaginationMeta;
 }

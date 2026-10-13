@@ -31,6 +31,8 @@ interface LigneFormation {
   id: number;
   titre: string;
   categorie: string;
+  /** Hidden from the form (STYLE_KEY matches `id`), but needed to save. */
+  categorieId: number | null;
   duree: string;
   lieu: string;
   niveau: string;
@@ -55,6 +57,7 @@ function enLigne(f: ApiFormation): LigneFormation {
     id: f.id,
     titre: f.titre,
     categorie: f.categorie?.nom ?? "—",
+    categorieId: f.categorie?.id ?? null,
     duree: f.duree,
     lieu: f.lieu,
     niveau: f.niveau,
@@ -78,6 +81,7 @@ function FormationsContent() {
   const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [formations, setFormations] = useState<ApiFormation[]>([]);
+  const [categories, setCategories] = useState<{ id: number; nom: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -89,6 +93,7 @@ function FormationsContent() {
     try {
       const res = await api.get<AdminFormationsResponse>("/admin/formations?per_page=100");
       setFormations(res.data);
+      setCategories(res.categories ?? []);
     } catch (e) {
       setError(e instanceof ApiError ? e.message : "Impossible de charger les formations.");
     } finally {
@@ -97,7 +102,9 @@ function FormationsContent() {
   }, []);
 
   useEffect(() => {
-    charger();
+    // Deferred to a microtask so the first state update lands outside the
+    // effect's synchronous body, avoiding a cascading render.
+    void Promise.resolve().then(charger);
   }, [charger]);
 
   const total = formations.length;
@@ -184,6 +191,7 @@ function FormationsContent() {
           ) : (
             <Tableau
               formations={formations}
+              categories={categories}
               onRecharger={charger}
               onMessage={setMessage}
             />
@@ -196,10 +204,12 @@ function FormationsContent() {
 
 function Tableau({
   formations,
+  categories,
   onRecharger,
   onMessage,
 }: {
   formations: ApiFormation[];
+  categories: { id: number; nom: string }[];
   onRecharger: () => Promise<void>;
   onMessage: (m: string) => void;
 }) {
@@ -217,8 +227,15 @@ function Tableau({
 
   /** TableDialogs edits the flattened row; translate it back into an API payload. */
   function versPayload(row: Record<string, unknown>): FormationPayload {
+    // The dialog edits the category as text, but the API stores a foreign key,
+    // so the name is matched back to a row. An unknown name clears it rather
+    // than silently keeping the old one.
+    const nom = String(row.categorie ?? "").trim().toLowerCase();
+    const trouvee = categories.find((c) => c.nom.toLowerCase() === nom);
+
     return {
       edition_id: editionId,
+      categorie_id: trouvee?.id ?? null,
       titre: String(row.titre ?? ""),
       duree: String(row.duree ?? ""),
       lieu: String(row.lieu ?? "Niamey"),
