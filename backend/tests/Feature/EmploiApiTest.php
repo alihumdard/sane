@@ -217,6 +217,32 @@ class EmploiApiTest extends TestCase
         $this->assertSame(1, $offre->refresh()->candidatures_count);
     }
 
+    public function test_loffre_signale_au_demandeur_quil_a_deja_postule(): void
+    {
+        $user = $this->demandeur();
+        $offre = $this->offre();
+
+        // The offer stays public, so the route carries no `auth:sanctum`. It
+        // must still read the token when one is sent, or the page offers to
+        // apply a second time to someone who already has.
+        $this->actingAs($user)->postJson('/api/offres/'.$offre->slug.'/postuler')->assertCreated();
+
+        $this->actingAs($user)
+            ->getJson('/api/offres/'.$offre->slug)
+            ->assertOk()
+            ->assertJsonPath('data.deja_postule', true);
+    }
+
+    public function test_un_visiteur_ne_recoit_pas_les_indicateurs_personnels(): void
+    {
+        $offre = $this->offre();
+
+        $this->getJson('/api/offres/'.$offre->slug)
+            ->assertOk()
+            ->assertJsonMissingPath('data.deja_postule')
+            ->assertJsonMissingPath('data.en_favori');
+    }
+
     public function test_on_ne_peut_pas_postuler_deux_fois(): void
     {
         $user = $this->demandeur();

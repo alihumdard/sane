@@ -62,10 +62,15 @@ Route::post('/auth/login', [AuthController::class, 'login'])
 Route::post('/auth/inscription', [AuthController::class, 'inscription'])
     ->middleware('throttle:5,1');
 
-// Portail emploi — consultable sans compte.
-Route::get('/offres', [OffreController::class, 'index']);
+// Portail emploi — consultable sans compte. `auth.facultatif` n'exige pas de
+// jeton, mais le lit s'il est présent : l'offre peut alors indiquer au
+// demandeur qu'il a déjà postulé ou mis l'offre en favori.
+Route::middleware('auth.facultatif')->group(function () {
+    Route::get('/offres', [OffreController::class, 'index']);
+    Route::get('/offres/{slug}', [OffreController::class, 'show']);
+});
+
 Route::get('/secteurs', [OffreController::class, 'secteurs']);
-Route::get('/offres/{slug}', [OffreController::class, 'show']);
 
 /*
 |--------------------------------------------------------------------------
