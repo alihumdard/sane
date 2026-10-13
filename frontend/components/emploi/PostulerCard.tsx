@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AlertCircle, CheckCircle2, Loader2, LogIn, Send } from "lucide-react";
 import { primaryBtn } from "@/components/ui/styles";
@@ -21,8 +21,36 @@ export function PostulerCard({ offre }: { offre: ApiOffre }) {
   const [envoi, setEnvoi] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
   const [candidature, setCandidature] = useState<ApiCandidature | null>(null);
+  const [dejaPostule, setDejaPostule] = useState(offre.deja_postule ?? false);
 
   const peutPostuler = user?.role === "demandeur" || user?.role === "participant";
+
+  /*
+   * The page itself is rendered on the server and cached, so it is fetched
+   * without anyone's token: `offre.deja_postule` is therefore never set for a
+   * signed-in visitor, and a reload would offer the form again to someone who
+   * had already applied. Asking once from the browser, where the token is,
+   * settles it — the server copy stays shared and indexable.
+   */
+  useEffect(() => {
+    if (!user || !peutPostuler) return;
+
+    let annule = false;
+
+    api
+      .get<{ data: ApiOffre }>(`/offres/${encodeURIComponent(offre.slug)}`)
+      .then((res) => {
+        if (!annule && res.data.deja_postule) setDejaPostule(true);
+      })
+      .catch(() => {
+        // Nothing to show the visitor: the form stays, and a duplicate is
+        // still refused by the server with a 409.
+      });
+
+    return () => {
+      annule = true;
+    };
+  }, [user, peutPostuler, offre.slug]);
 
   async function postuler(e: React.FormEvent) {
     e.preventDefault();
@@ -37,6 +65,14 @@ export function PostulerCard({ offre }: { offre: ApiOffre }) {
       );
       setCandidature(res.data);
     } catch (e) {
+      // 409 means the server refused a duplicate: say so as a state, not as an
+      // error the visitor could retry their way out of.
+      if (e instanceof ApiError && e.status === 409) {
+        setDejaPostule(true);
+
+        return;
+      }
+
       setErreur(
         e instanceof ApiError
           ? e.fieldError("lettre_motivation") ?? e.message
@@ -103,7 +139,7 @@ export function PostulerCard({ offre }: { offre: ApiOffre }) {
     );
   }
 
-  if (offre.deja_postule) {
+  if (dejaPostule) {
     return (
       <div className={carte} role="status">
         <CheckCircle2 size={28} className="mb-2 text-[var(--sane-green)]" />
