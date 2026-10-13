@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { ContenuCrud, type ChampFormulaire } from "@/components/dashboard/ContenuCrud";
 import type { Colonne } from "@/components/dashboard/AdminTable";
@@ -80,7 +81,8 @@ export default function PresseAdminPage() {
       titre="Espace presse"
       description="Communiqués, dossiers et couverture médiatique"
     >
-      <ContenuCrud<ArticlePresse>
+      <Suspense fallback={null}>
+        <ContenuCrud<ArticlePresse>
         endpoint="/admin/presse"
         colonnes={colonnes}
         champs={champs}
@@ -96,7 +98,8 @@ export default function PresseAdminPage() {
           resume: a.resume ?? "",
           publie: a.publie,
         })}
-      />
+        />
+      </Suspense>
     </AdminPage>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { ContenuCrud, type ChampFormulaire } from "@/components/dashboard/ContenuCrud";
 import type { Colonne } from "@/components/dashboard/AdminTable";
@@ -78,7 +79,8 @@ export default function ActualitesAdminPage() {
       titre="Actualités"
       description="Articles et communiqués affichés sur le site public"
     >
-      <ContenuCrud<Actualite>
+      <Suspense fallback={null}>
+        <ContenuCrud<Actualite>
         endpoint="/admin/actualites"
         colonnes={colonnes}
         champs={champs}
@@ -93,7 +95,8 @@ export default function ActualitesAdminPage() {
           contenu: a.contenu,
           publiee: a.publiee,
         })}
-      />
+        />
+      </Suspense>
     </AdminPage>
   );
 }

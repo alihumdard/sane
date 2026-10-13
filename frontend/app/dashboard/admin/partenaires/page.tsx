@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { ContenuCrud, type ChampFormulaire } from "@/components/dashboard/ContenuCrud";
 import type { Colonne } from "@/components/dashboard/AdminTable";
@@ -76,7 +77,8 @@ export default function PartenairesAdminPage() {
       titre="Partenaires"
       description="Partenaires et sponsors affichés sur le site"
     >
-      <ContenuCrud<Partenaire>
+      <Suspense fallback={null}>
+        <ContenuCrud<Partenaire>
         endpoint="/admin/partenaires"
         colonnes={colonnes}
         champs={champs}
@@ -92,7 +94,8 @@ export default function PartenairesAdminPage() {
           description: p.description ?? "",
           publie: p.publie,
         })}
-      />
+        />
+      </Suspense>
     </AdminPage>
   );
 }

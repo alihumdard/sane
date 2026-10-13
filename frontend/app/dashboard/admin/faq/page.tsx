@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { ContenuCrud, type ChampFormulaire } from "@/components/dashboard/ContenuCrud";
 import type { Colonne } from "@/components/dashboard/AdminTable";
@@ -63,7 +64,8 @@ const champs: ChampFormulaire[] = [
 export default function FaqAdminPage() {
   return (
     <AdminPage section="FAQ" titre="FAQ" description="Questions fréquentes affichées sur le site public">
-      <ContenuCrud<FaqEntree>
+      <Suspense fallback={null}>
+        <ContenuCrud<FaqEntree>
         endpoint="/admin/faq"
         colonnes={colonnes}
         champs={champs}
@@ -77,7 +79,8 @@ export default function FaqAdminPage() {
           reponse: f.reponse,
           publiee: f.publiee,
         })}
-      />
+        />
+      </Suspense>
     </AdminPage>
   );
 }

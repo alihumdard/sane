@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { Mail, Phone } from "lucide-react";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { ContenuCrud, type ChampFormulaire } from "@/components/dashboard/ContenuCrud";
@@ -78,7 +79,8 @@ export default function IntervenantsAdminPage() {
       titre="Intervenants"
       description="Formateurs et intervenants qui animent les sessions"
     >
-      <ContenuCrud<ApiFormateur>
+      <Suspense fallback={null}>
+        <ContenuCrud<ApiFormateur>
         endpoint="/admin/formateurs"
         colonnes={colonnes}
         champs={champs}
@@ -94,7 +96,8 @@ export default function IntervenantsAdminPage() {
           photo: f.photo ?? "",
           bio: f.bio ?? "",
         })}
-      />
+        />
+      </Suspense>
     </AdminPage>
   );
 }

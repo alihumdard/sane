@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import {Pencil, Plus, Trash2, X} from "lucide-react";
 import { Spinner } from "./Spinner";
 import { AdminTable, type Colonne } from "./AdminTable";
@@ -47,10 +48,22 @@ export function ContenuCrud<T>({
 }: ContenuCrudProps<T>) {
   const table = useApiTable<T>(endpoint);
 
+  // The sidebar's "Ajouter ..." entries link here with ?nouveau=1, so the link
+  // opens the form rather than merely landing on the list.
+  const params = useSearchParams();
+
   const [edition, setEdition] = useState<T | "nouveau" | null>(null);
   const [form, setForm] = useState<Record<string, unknown>>({});
   const [envoi, setEnvoi] = useState(false);
   const [erreurs, setErreurs] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    if (params.get("nouveau")) {
+      void Promise.resolve().then(() => ouvrir("nouveau"));
+    }
+    // ouvrir only resets local form state, so it is stable enough to omit.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params]);
 
   function ouvrir(ligne: T | "nouveau") {
     setEdition(ligne);
