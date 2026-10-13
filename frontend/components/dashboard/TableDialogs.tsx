@@ -25,6 +25,7 @@ const LABELS: Record<string, string> = {
   categorie: "Catégorie", cat: "Catégorie", titre: "Titre", auteur: "Auteur", vues: "Vues", lieu: "Lieu",
   entreprise: "Entreprise", fonction: "Fonction", inscriptions: "Inscriptions", maxInscriptions: "Inscriptions max.",
   evenement: "Événement", telephone: "Téléphone", tel: "Téléphone", org: "Organisation", nom: "Nom",
+  dateDebut: "Date de début", dateFin: "Date de fin", intervenant: "Intervenant",
   role: "Rôle", typeMedia: "Type de média", formateur: "Formateur", sessions: "Sessions", pays: "Pays",
   ville: "Ville", poste: "Poste", candidatures: "Candidatures", contrat: "Contrat",
 };
@@ -141,7 +142,13 @@ function Modal({ table, entity, choix = {} }: Props) {
                 ) : (
                   <>
                     <input
-                      type={typeof v === "number" ? "number" : "text"}
+                      type={
+                        typeof v === "number"
+                          ? "number"
+                          : /^date/i.test(k) || /date$/i.test(k)
+                            ? "date"
+                            : "text"
+                      }
                       disabled={readOnly}
                       list={opts.length ? `opts-${k}` : undefined}
                       value={v === undefined || v === null ? "" : String(v)}

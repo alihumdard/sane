@@ -32,8 +32,8 @@ interface LigneFormation {
   titre: string;
   categorie: string;
   intervenant: string;
-  /** Hidden from the form (STYLE_KEY matches `id`), but needed to save. */
-  categorieId: number | null;
+  dateDebut: string;
+  dateFin: string;
   duree: string;
   lieu: string;
   niveau: string;
@@ -58,8 +58,9 @@ function enLigne(f: ApiFormation): LigneFormation {
     id: f.id,
     titre: f.titre,
     categorie: f.categorie?.nom ?? "—",
-    categorieId: f.categorie?.id ?? null,
     intervenant: f.formateur?.nom ?? "—",
+    dateDebut: f.date_debut ?? "",
+    dateFin: f.date_fin ?? "",
     duree: f.duree,
     lieu: f.lieu,
     niveau: f.niveau,
@@ -256,6 +257,8 @@ function Tableau({
       lieu: String(row.lieu ?? "Niamey"),
       niveau: String(row.niveau ?? ""),
       format: String(row.format ?? ""),
+      date_debut: String(row.dateDebut ?? "").trim() || null,
+      date_fin: String(row.dateFin ?? "").trim() || null,
       max_inscriptions: Number(row.maxInscriptions) || 0,
       publiee: row.statut !== "Brouillon",
     };
