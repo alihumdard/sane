@@ -1,14 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { AlertCircle, Download, Loader2 } from "lucide-react";
+import Link from "next/link";
+import { AlertCircle, CalendarPlus, Download, Loader2 } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
-import { Spinner } from "@/components/dashboard/Spinner";
+import { Spinner, SpinnerOu } from "@/components/dashboard/Spinner";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { api, ApiError, telecharger } from "@/lib/api";
 import type {
   ApiCandidature,
+  ApiCreneau,
   CandidaturesEntrepriseResponse,
   StatutCandidature,
 } from "@/lib/types";
@@ -31,7 +33,14 @@ function Contenu() {
   // only the first needs the page to wait.
   const [premierChargement, setPremierChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   const [enCours, setEnCours] = useState<number | null>(null);
+
+  // Free slots, so a candidate reaching the interview stage can be offered one
+  // without leaving the page.
+  const [creneaux, setCreneaux] = useState<ApiCreneau[]>([]);
+  const [creneauChoisi, setCreneauChoisi] = useState<Record<number, string>>({});
+  const [propose, setPropose] = useState<number | null>(null);
 
   const charger = useCallback(async () => {
     try {
@@ -39,10 +48,17 @@ function Contenu() {
       setErreur(null);
 
       const params = filtre ? `?statut=${filtre}` : "";
-      const res = await api.get<CandidaturesEntrepriseResponse>(`/entreprise/candidatures${params}`);
+
+      // Fetched together: the slots are only needed to fill the dropdowns on
+      // rows that have reached the interview stage.
+      const [res, cr] = await Promise.all([
+        api.get<CandidaturesEntrepriseResponse>(`/entreprise/candidatures${params}`),
+        api.get<{ data: ApiCreneau[] }>("/entreprise/creneaux"),
+      ]);
 
       setCandidatures(res.data);
       setResume(res.resume);
+      setCreneaux(cr.data.filter((c) => !c.reserve && !c.passe));
     } catch (e) {
       setErreur(e instanceof ApiError ? e.message : "Impossible de charger les candidatures.");
     } finally {
@@ -65,6 +81,37 @@ function Contenu() {
       setErreur(e instanceof ApiError ? e.message : "Changement de statut impossible.");
     } finally {
       setEnCours(null);
+    }
+  }
+
+  /**
+   * Offers one of the company's free slots to a candidate.
+   *
+   * The server mails the invitation and marks the slot taken, so the list is
+   * reloaded afterwards: the slot must disappear from every other dropdown.
+   */
+  async function proposerEntretien(c: ApiCandidature) {
+    const creneauId = creneauChoisi[c.id];
+
+    if (!creneauId) return;
+
+    setPropose(c.id);
+    setErreur(null);
+    setMessage(null);
+
+    try {
+      const res = await api.post<{ message: string }>(
+        `/entreprise/candidatures/${c.id}/entretien`,
+        { creneau_id: Number(creneauId) }
+      );
+
+      setMessage(res.message);
+      setCreneauChoisi((choix) => ({ ...choix, [c.id]: "" }));
+      await charger();
+    } catch (e) {
+      setErreur(e instanceof ApiError ? e.message : "Impossible de proposer ce créneau.");
+    } finally {
+      setPropose(null);
     }
   }
 
@@ -94,6 +141,7 @@ function Contenu() {
         ))}
       </div>
 
+      <Alerte texte={message} ton="succes" className="mb-4" />
       <Alerte texte={erreur} className="mb-4" />
 
       {/*
@@ -169,6 +217,67 @@ function Contenu() {
                   </button>
                 ))}
                 <Spinner actif={enCours === c.id} size={13} className="text-[var(--sane-green)]" />
+              </div>
+
+              {/*
+                Shown once the candidate reaches the interview stage. Hidden
+                rather than unmounted, like everything else that appears on a
+                reload — Google Translate keeps references into this subtree.
+              */}
+              <div
+                className={`mt-3 flex-wrap items-center gap-2 border-t border-[var(--sane-border)] pt-3 ${
+                  c.statut === "entretien" ? "flex" : "hidden"
+                }`}
+              >
+                <label htmlFor={`creneau-${c.id}`} className="text-[12px] text-[var(--sane-text-light)]">
+                  Créneau :
+                </label>
+
+                <select
+                  id={`creneau-${c.id}`}
+                  value={creneauChoisi[c.id] ?? ""}
+                  onChange={(e) =>
+                    setCreneauChoisi((choix) => ({ ...choix, [c.id]: e.target.value }))
+                  }
+                  className="rounded-lg border border-[var(--sane-border)] px-2.5 py-1.5 text-[12px] outline-none focus:border-[var(--sane-green)]"
+                >
+                  <option value="">
+                    {creneaux.length === 0 ? "Aucun créneau libre" : "Choisir un créneau…"}
+                  </option>
+                  {creneaux.map((cr) => (
+                    <option key={cr.id} value={cr.id}>
+                      {new Date(cr.debut).toLocaleString("fr-FR", {
+                        weekday: "short",
+                        day: "numeric",
+                        month: "short",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                      {" — "}
+                      {cr.mode_label}
+                      {cr.lieu ? ` · ${cr.lieu}` : ""}
+                    </option>
+                  ))}
+                </select>
+
+                <button
+                  type="button"
+                  onClick={() => proposerEntretien(c)}
+                  disabled={!creneauChoisi[c.id] || propose === c.id}
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--sane-green)] px-3 py-1.5 text-[12px] font-semibold text-white disabled:opacity-50"
+                >
+                  <SpinnerOu actif={propose === c.id} size={13}>
+                    <CalendarPlus size={13} />
+                  </SpinnerOu>
+                  Proposer l&apos;entretien
+                </button>
+
+                <Link
+                  href="/dashboard/recruteur/entretiens"
+                  className="text-[12px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)]"
+                >
+                  Gérer les créneaux →
+                </Link>
               </div>
             </li>
           ))}
