@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Search, ChevronDown, X } from "lucide-react";
 import { NAVIGATION } from "@/lib/constants";
 import { MobileMenu } from "./MobileMenu";
+import { MenuCompte } from "./MenuCompte";
 
 export function Header() {
   const pathname = usePathname();
@@ -96,20 +97,8 @@ export function Header() {
             <Search size={18} />
           </button>
 
-          {/* Buttons — desktop only */}
-          <Link
-            href="/connexion"
-            className="hidden h-10 items-center justify-center rounded-full border-2 border-[var(--sane-green)] px-4 text-[13px] font-bold text-[var(--sane-green)] transition-all duration-200 hover:bg-[var(--sane-green)] hover:!text-white lg:inline-flex xl:px-5"
-          >
-            Se connecter
-          </Link>
-
-          <Link
-            href="/inscription"
-            className="hidden h-10 items-center justify-center rounded-full bg-[var(--sane-orange)] px-4 text-[13px] font-bold text-white !text-white transition-all duration-200 hover:bg-[var(--sane-orange-dark)] hover:!text-white lg:inline-flex xl:px-5"
-          >
-            S&apos;inscrire
-          </Link>
+          {/* Account — desktop only: sign-in buttons, or the visitor's own menu */}
+          <MenuCompte />
 
           {/* Mobile menu */}
           <MobileMenu />

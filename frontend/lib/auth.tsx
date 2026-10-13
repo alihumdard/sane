@@ -110,3 +110,18 @@ export function useAuth(): AuthState {
   if (!ctx) throw new Error("useAuth doit être utilisé dans un AuthProvider.");
   return ctx;
 }
+
+/**
+ * Where each role lands once signed in.
+ *
+ * Shared because two places need it: the login form, which redirects here, and
+ * the public header, whose account menu links to the visitor's own space.
+ */
+export const ACCUEIL_PAR_ROLE: Record<AuthUser["role"], string> = {
+  administrateur: "/dashboard/admin",
+  organisateur: "/dashboard/organisateur",
+  recruteur: "/dashboard/recruteur",
+  entreprise: "/dashboard/recruteur",
+  demandeur: "/dashboard/participant",
+  participant: "/dashboard/participant",
+};

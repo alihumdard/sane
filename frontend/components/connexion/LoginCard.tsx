@@ -7,23 +7,13 @@ import { AlertCircle, ArrowRight, Loader2, Mail } from "lucide-react";
 import { PasswordField, TextField } from "@/components/ui/FormFields";
 import { primaryBtn, textLink } from "@/components/ui/styles";
 import { ApiError } from "@/lib/api";
-import { useAuth, type AuthUser } from "@/lib/auth";
+import { ACCUEIL_PAR_ROLE, useAuth } from "@/lib/auth";
 import { roles } from "./data";
 
 interface Props {
   activeRole: string;
   onRoleChange: (key: string) => void;
 }
-
-/** Where each role lands once signed in. */
-const ACCUEIL: Record<AuthUser["role"], string> = {
-  administrateur: "/dashboard/admin",
-  organisateur: "/dashboard/organisateur",
-  recruteur: "/dashboard/recruteur",
-  entreprise: "/dashboard/recruteur",
-  demandeur: "/dashboard/participant",
-  participant: "/dashboard/participant",
-};
 
 /** Role tabs + email/password form. The selected role is owned by the parent (the "Espaces" cards can change it). */
 export function LoginCard({ activeRole, onRoleChange }: Props) {
@@ -47,7 +37,7 @@ export function LoginCard({ activeRole, onRoleChange }: Props) {
 
       // Back to wherever the visitor was sent from, else their own space.
       const suite = params.get("suite");
-      router.push(suite && suite.startsWith("/") ? suite : ACCUEIL[user.role]);
+      router.push(suite && suite.startsWith("/") ? suite : ACCUEIL_PAR_ROLE[user.role]);
     } catch (err) {
       setErreur(
         err instanceof ApiError

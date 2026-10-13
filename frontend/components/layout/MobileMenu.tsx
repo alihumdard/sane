@@ -3,10 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { NAVIGATION } from "@/lib/constants";
+import { ACCUEIL_PAR_ROLE, useAuth } from "@/lib/auth";
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const router = useRouter();
 
   return (
     <div className="lg:hidden">
@@ -33,23 +37,50 @@ export function MobileMenu() {
               </Link>
             ))}
 
-            <div className="mt-4 grid grid-cols-2 gap-3">
-              <Link
-                href="/connexion"
-                onClick={() => setOpen(false)}
-                className="rounded-lg border border-[var(--sane-green)] px-4 py-3 text-center text-sm font-bold text-[var(--sane-green)]"
-              >
-                Se connecter
-              </Link>
+            {user ? (
+              <div className="mt-4">
+                <p className="truncate text-sm font-bold text-[var(--sane-text)]">{user.nom}</p>
+                <p className="mb-3 truncate text-[12px] opacity-70">{user.role_label}</p>
 
-              <Link
-                href="/inscription"
-                onClick={() => setOpen(false)}
-                className="rounded-lg bg-[var(--sane-orange)] px-4 py-3 text-center text-sm font-bold text-white !text-white"
-              >
-                S&apos;inscrire
-              </Link>
-            </div>
+                <Link
+                  href={ACCUEIL_PAR_ROLE[user.role]}
+                  onClick={() => setOpen(false)}
+                  className="block rounded-lg border border-[var(--sane-green)] px-4 py-3 text-center text-sm font-bold text-[var(--sane-green)]"
+                >
+                  Mon espace
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={async () => {
+                    setOpen(false);
+                    await logout();
+                    router.push("/");
+                  }}
+                  className="mt-3 w-full rounded-lg border border-[var(--sane-border)] px-4 py-3 text-center text-sm font-bold text-[var(--sane-red-dark)]"
+                >
+                  Se déconnecter
+                </button>
+              </div>
+            ) : (
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                <Link
+                  href="/connexion"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg border border-[var(--sane-green)] px-4 py-3 text-center text-sm font-bold text-[var(--sane-green)]"
+                >
+                  Se connecter
+                </Link>
+
+                <Link
+                  href="/creer-compte"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg bg-[var(--sane-orange)] px-4 py-3 text-center text-sm font-bold text-white !text-white"
+                >
+                  S&apos;inscrire
+                </Link>
+              </div>
+            )}
           </nav>
         </div>
       )}
