@@ -51,9 +51,15 @@ export function SpinnerOu({
   return (
     <>
       <Spinner actif={actif} size={size} className={className} />
+      {/*
+        `align-middle` and `leading-none` matter on an icon-only button: an
+        inline box otherwise sits on the text baseline and reserves a line's
+        worth of descender below it, making the button visibly taller than the
+        icon it holds.
+      */}
       <span
         aria-hidden={actif}
-        className={`inline-flex transition-opacity ${actif ? "w-0 opacity-0" : "opacity-100"}`}
+        className={`inline-flex items-center align-middle leading-none transition-opacity ${actif ? "w-0 opacity-0" : "opacity-100"}`}
       >
         {children}
       </span>

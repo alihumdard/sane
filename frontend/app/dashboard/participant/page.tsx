@@ -242,7 +242,7 @@ function Contenu() {
                     <Link
                       href={`/emploi/${c.offre.slug}`}
                       aria-label={`Voir l'offre ${c.offre.titre}`}
-                      className="rounded-lg border border-[var(--sane-border)] p-2 text-[var(--sane-green)] hover:border-[var(--sane-green)]"
+                      className="inline-flex items-center rounded-lg border border-[var(--sane-border)] p-2 text-[var(--sane-green)] hover:border-[var(--sane-green)]"
                     >
                       <ExternalLink size={14} />
                     </Link>
@@ -255,7 +255,7 @@ function Contenu() {
                       onClick={() => retirer(c)}
                       disabled={retrait === c.id}
                       aria-label={`Retirer la candidature ${c.reference}`}
-                      className="rounded-lg border border-[var(--sane-border)] p-2 text-[var(--sane-red-dark)] hover:border-[var(--sane-red-dark)] disabled:opacity-50"
+                      className="inline-flex items-center rounded-lg border border-[var(--sane-border)] p-2 text-[var(--sane-red-dark)] hover:border-[var(--sane-red-dark)] disabled:opacity-50"
                     >
                       <SpinnerOu actif={retrait === c.id} size={14}><Trash2 size={14} /></SpinnerOu>
                     </button>
