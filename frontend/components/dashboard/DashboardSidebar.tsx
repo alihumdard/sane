@@ -32,8 +32,9 @@ const ADMIN_ROUTES: Record<string, string> = {
   "Actualités": "/dashboard/admin/actualites",
 };
 const ADMIN_SUB_ROUTES: Record<string, string> = {
-  "Candidatures": "/dashboard/admin/candidatures",
-  "Inscriptions": "/dashboard/admin/inscriptions",
+  "Emploi/Candidatures": "/dashboard/admin/candidatures",
+  "Formations/Inscriptions": "/dashboard/admin/inscriptions",
+  "Événements/Tous les événements": "/dashboard/admin/evenements",
 };
 /* "Ajouter ..." entries open the add form of the matching section */
 const ADMIN_ADD_ROUTES: Record<string, string> = {
@@ -128,7 +129,7 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
         label,
         idx,
         addRoute: ADMIN_ADD_ROUTES[label],
-        href: idx === 0 ? sectionHref : ADMIN_SUB_ROUTES[label],
+        href: idx === 0 ? sectionHref : ADMIN_SUB_ROUTES[`${item.label}/${label}`],
       }))
       .filter((s) => s.href || s.addRoute);
   };
