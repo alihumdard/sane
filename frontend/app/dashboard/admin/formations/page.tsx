@@ -42,6 +42,12 @@ interface LigneFormation {
   statutBg: string;
 }
 
+/** One assignable category, as /admin/formations/categories returns it. */
+interface Categorie {
+  id: number;
+  nom: string;
+}
+
 const STATUTS = {
   Brouillon: { statutColor: "var(--sane-text-light)", statutBg: "var(--sane-background)" },
   Complète: { statutColor: "var(--sane-purple)", statutBg: "var(--sane-purple-tint)" },
@@ -78,6 +84,7 @@ function FormationsContent() {
   const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [formations, setFormations] = useState<ApiFormation[]>([]);
+  const [categories, setCategories] = useState<Categorie[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -94,6 +101,19 @@ function FormationsContent() {
     } finally {
       setLoading(false);
     }
+  }, []);
+
+  /*
+   * Fetched separately from the formations: a category nobody has used yet
+   * appears on no row, so deriving the list from the table would silently
+   * hide it from the dialog. Loaded once — the list barely changes.
+   */
+  useEffect(() => {
+    api
+      .get<{ data: Categorie[] }>("/admin/formations/categories")
+      .then((res) => setCategories(res.data))
+      // The dialog falls back to a plain text field; the table still works.
+      .catch(() => setCategories([]));
   }, []);
 
   useEffect(() => {
@@ -184,6 +204,7 @@ function FormationsContent() {
           ) : (
             <Tableau
               formations={formations}
+              categories={categories}
               onRecharger={charger}
               onMessage={setMessage}
             />
@@ -196,16 +217,19 @@ function FormationsContent() {
 
 function Tableau({
   formations,
+  categories,
   onRecharger,
   onMessage,
 }: {
   formations: ApiFormation[];
+  categories: Categorie[];
   onRecharger: () => Promise<void>;
   onMessage: (m: string) => void;
 }) {
   const lignes = formations.map(enLigne);
   const editionId = formations[0]?.edition?.id ?? 0;
   const inscritsParId = new Map(formations.map((f) => [f.id, f.inscriptions_count]));
+  const idParCategorie = new Map(categories.map((c) => [c.nom, c.id]));
 
   const tbl = useTable(lignes, {
     filterKeys: { Catégorie: "categorie", Statut: "statut", Niveau: "niveau", Format: "format" },
@@ -219,6 +243,11 @@ function Tableau({
   function versPayload(row: Record<string, unknown>): FormationPayload {
     return {
       edition_id: editionId,
+      // The row carries the category's name, the API takes its id. Leaving
+      // this out of the payload is what made the field a silent no-op: the
+      // admin picked a category, got "Formation mise à jour", and nothing
+      // changed. "—" is the placeholder enLigne() uses for "no category".
+      categorie_id: idParCategorie.get(String(row.categorie ?? "")) ?? null,
       titre: String(row.titre ?? ""),
       duree: String(row.duree ?? ""),
       lieu: String(row.lieu ?? "Niamey"),
@@ -364,6 +393,8 @@ function Tableau({
           },
         }}
         entity="formation"
+        // Resolved by name server-side, so a typed value has to match exactly.
+        choices={categories.length ? { categorie: categories.map((c) => c.nom) } : undefined}
       />
     </div>
   );

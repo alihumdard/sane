@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\FormationRequest;
 use App\Http\Resources\FormationResource;
 use App\Http\Resources\InscriptionResource;
+use App\Models\CategorieFormation;
 use App\Models\Formation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -35,6 +36,22 @@ class FormationAdminController extends Controller
         return response()->json([
             'data' => FormationResource::collection($page->items()),
             'meta' => $this->meta($page),
+        ]);
+    }
+
+    /**
+     * The categories an admin may assign, for the edit dialog's dropdown.
+     *
+     * The dialog used to show the category as free text taken from the row,
+     * which it could never send back: the API takes `categorie_id`, not a
+     * name. Admins changed it, saw "Formation mise à jour", and the category
+     * stayed as it was. The list has to come from the server because a
+     * category nobody has used yet appears on no row.
+     */
+    public function categories(): JsonResponse
+    {
+        return response()->json([
+            'data' => CategorieFormation::orderBy('ordre')->orderBy('nom')->get(['id', 'nom']),
         ]);
     }
 

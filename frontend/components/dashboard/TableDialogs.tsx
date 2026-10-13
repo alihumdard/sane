@@ -11,6 +11,14 @@ interface Props {
   table: TableApi<any>;
   /** singular noun used in titles, e.g. "actualité" */
   entity: string;
+  /**
+   * Keys that must be picked from a fixed list rather than typed.
+   *
+   * Without this a key the server resolves by name is a free-text input, so a
+   * typo is indistinguishable from a real value and the field is dropped on
+   * save with no error shown.
+   */
+  choices?: Record<string, string[]>;
 }
 
 const LABELS: Record<string, string> = {
@@ -27,7 +35,7 @@ function label(key: string) {
   return spaced.charAt(0).toUpperCase() + spaced.slice(1);
 }
 
-function Modal({ table, entity }: Props) {
+function Modal({ table, entity, choices }: Props) {
   const modal = table.modal!;
   const mode = modal.mode;
   const sample = (modal.row ?? table.rows[0] ?? {}) as Rec;
@@ -95,10 +103,21 @@ function Modal({ table, entity }: Props) {
             const long = typeof v === "string" && (v.includes("\n") || v.length > 60);
             const common = "w-full rounded-lg border border-[var(--sane-border)] px-3 py-2 text-[13px] text-[var(--sane-green-deep)] outline-none focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10 disabled:bg-[var(--sane-background)]";
             const opts = suggestions(k);
+            const fixed = choices?.[k];
             return (
               <label key={k} className={`flex flex-col gap-1.5 ${long ? "sm:col-span-2" : ""} ${typeof v === "boolean" ? "flex-row items-center" : ""}`}>
                 <span className="text-[12px] font-semibold text-[var(--sane-green-deep)]">{label(k)}</span>
-                {typeof v === "boolean" ? (
+                {fixed ? (
+                  <select
+                    disabled={readOnly}
+                    value={String(v ?? "")}
+                    onChange={(e) => setData({ ...data, [k]: e.target.value })}
+                    className={common}
+                  >
+                    <option value="">—</option>
+                    {fixed.map((o) => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                ) : typeof v === "boolean" ? (
                   <input
                     type="checkbox"
                     disabled={readOnly}
@@ -163,10 +182,10 @@ function Modal({ table, entity }: Props) {
   );
 }
 
-export default function TableDialogs({ table, entity }: Props) {
+export default function TableDialogs({ table, entity, choices }: Props) {
   return (
     <>
-      {table.modal && <Modal key={`${table.modal.mode}-${table.modal.row?._uid ?? "new"}`} table={table} entity={entity} />}
+      {table.modal && <Modal key={`${table.modal.mode}-${table.modal.row?._uid ?? "new"}`} table={table} entity={entity} choices={choices} />}
 
       {table.confirm && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4" onMouseDown={table.cancelDelete}>
