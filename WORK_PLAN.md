@@ -228,7 +228,7 @@ un créneau ; le candidat confirme ; les deux reçoivent un rappel la veille.
 | `candidatures` | Suivi global *(colonnes CV/Lettre actuellement simulées par index de ligne — à brancher)* |
 | `rapports` | Statistiques + **export Excel/CSV** |
 | `evenements` | ✅ Éditions, dates, ouverture des inscriptions |
-| `intervenants` | CRUD formateurs |
+| `intervenants` | ✅ CRUD formateurs |
 | `notifications` | Historique d'envoi, renvoi manuel |
 
 ### 8.2 Éditorial — CRUD simple

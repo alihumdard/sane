@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Admin\DocumentAdminController;
 use App\Http\Controllers\Api\Admin\EditionAdminController;
 use App\Http\Controllers\Api\Admin\EmploiAdminController;
 use App\Http\Controllers\Api\Admin\FaqAdminController;
+use App\Http\Controllers\Api\Admin\FormateurAdminController;
 use App\Http\Controllers\Api\Admin\FormationAdminController;
 use App\Http\Controllers\Api\Admin\InscriptionAdminController;
 use App\Http\Controllers\Api\Admin\PartenaireAdminController;
@@ -205,6 +206,13 @@ Route::middleware(['auth:sanctum', 'role:administrateur,organisateur'])
         Route::delete('/editions/{edition}', [EditionAdminController::class, 'destroy']);
         Route::put('/editions/{edition}/inscriptions', [EditionAdminController::class, 'basculerInscriptions']);
         Route::put('/editions/{edition}/activer', [EditionAdminController::class, 'activer']);
+
+        // Intervenants : les personnes qui animent les formations.
+        Route::get('/formateurs', [FormateurAdminController::class, 'index']);
+        Route::post('/formateurs', [FormateurAdminController::class, 'store']);
+        Route::get('/formateurs/{formateur}', [FormateurAdminController::class, 'show']);
+        Route::put('/formateurs/{formateur}', [FormateurAdminController::class, 'update']);
+        Route::delete('/formateurs/{formateur}', [FormateurAdminController::class, 'destroy']);
 
         Route::get('/utilisateurs', [UtilisateurAdminController::class, 'index']);
         Route::post('/utilisateurs', [UtilisateurAdminController::class, 'store']);

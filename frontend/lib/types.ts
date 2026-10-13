@@ -452,8 +452,9 @@ export interface AdminInscriptionsResponse {
 }
 
 export interface AdminFormationsResponse {
-  /** Available categories, so the form can map a name back to its id. */
+  /** Available categories and speakers, so the form can map names back to ids. */
   categories?: { id: number; nom: string }[];
+  formateurs?: { id: number; nom: string }[];
   data: ApiFormation[];
   meta: PaginationMeta;
 }
@@ -544,4 +545,29 @@ export interface EditionPayload {
   lieu?: string;
   active?: boolean;
   inscriptions_ouvertes?: boolean;
+}
+
+/* ─── Intervenants (Phase 8) ─── */
+
+export interface ApiFormateur {
+  id: number;
+  nom: string;
+  email: string | null;
+  telephone: string | null;
+  fonction: string | null;
+  organisation: string | null;
+  bio: string | null;
+  photo: string | null;
+  formations_count: number;
+  created_at: string;
+}
+
+export interface FormateurPayload {
+  nom: string;
+  email?: string;
+  telephone?: string;
+  fonction?: string;
+  organisation?: string;
+  bio?: string;
+  photo?: string;
 }

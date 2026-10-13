@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\FormationRequest;
 use App\Http\Resources\FormationResource;
 use App\Http\Resources\InscriptionResource;
 use App\Models\CategorieFormation;
+use App\Models\Formateur;
 use App\Models\Formation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -40,6 +41,8 @@ class FormationAdminController extends Controller
             // free-text label.
             'categories' => CategorieFormation::orderBy('ordre')->orderBy('nom')
                 ->get(['id', 'nom']),
+            // Same reason as categories: the form needs ids to post back.
+            'formateurs' => Formateur::orderBy('nom')->get(['id', 'nom']),
         ]);
     }
 
