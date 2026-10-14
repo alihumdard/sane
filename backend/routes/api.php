@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\FormationController;
 use App\Http\Controllers\Api\InscriptionController;
 use App\Http\Controllers\Api\OffreController;
 use App\Http\Controllers\Api\ProfilController;
+use App\Http\Controllers\Api\ReferentielController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,6 +72,10 @@ Route::middleware('auth.facultatif')->group(function () {
 });
 
 Route::get('/secteurs', [OffreController::class, 'secteurs']);
+
+// Les listes proposées par les formulaires. Publiques : l'inscription se
+// remplit sans compte.
+Route::get('/referentiels', [ReferentielController::class, 'index']);
 
 /*
 |--------------------------------------------------------------------------

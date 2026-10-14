@@ -95,7 +95,7 @@ class EmploiSeeder extends Seeder
             [
                 'nom' => 'Enabel Niger',
                 'email' => 'recrutement@enabel.example.ne',
-                'secteur' => 'Projets & Développement',
+                'secteur' => 'Humanitaire & ONG',
                 'description' => "Agence belge de développement, active au Niger dans l'éducation, la santé et l'agriculture.",
                 'offres' => [
                     [
@@ -104,7 +104,7 @@ class EmploiSeeder extends Seeder
                         'missions' => 'Élaborer le plan de communication annuel ; produire les contenus web et réseaux sociaux ; organiser les événements ; appuyer les équipes projet dans la capitalisation.',
                         'profil' => "Bac+3 minimum en communication ou journalisme, 3 ans d'expérience, excellente expression écrite en français.",
                         'contrat' => TypeContrat::Cdi->value,
-                        'secteur' => 'Communication',
+                        'secteur' => 'Communication, Médias & Culture',
                         'ville' => 'Niamey',
                         'salaire_min' => 450000, 'salaire_max' => 650000,
                         'experience' => '3 ans', 'niveau' => 'Bac+3',
@@ -115,7 +115,7 @@ class EmploiSeeder extends Seeder
             [
                 'nom' => 'GIZ Niger',
                 'email' => 'recrutement@giz.example.ne',
-                'secteur' => 'Projets & Développement',
+                'secteur' => 'Humanitaire & ONG',
                 'description' => 'Coopération allemande au développement, présente au Niger depuis plus de quarante ans.',
                 'offres' => [
                     [
@@ -124,7 +124,7 @@ class EmploiSeeder extends Seeder
                         'missions' => 'Développer des applications web ; maintenir les bases de données ; rédiger la documentation technique ; former les utilisateurs.',
                         'profil' => 'Bac+3 en informatique, maîtrise de PHP et JavaScript, connaissance des bases de données relationnelles.',
                         'contrat' => TypeContrat::Cdd->value,
-                        'secteur' => 'Informatique & Digital',
+                        'secteur' => 'Informatique & Numérique',
                         'ville' => 'Niamey',
                         'salaire_min' => 400000, 'salaire_max' => 600000,
                         'experience' => '2 ans', 'niveau' => 'Bac+3',
@@ -135,7 +135,7 @@ class EmploiSeeder extends Seeder
             [
                 'nom' => 'Banque Mondiale Niger',
                 'email' => 'recrutement@bm.example.ne',
-                'secteur' => 'Projets & Développement',
+                'secteur' => 'Humanitaire & ONG',
                 'description' => 'Institution financière internationale appuyant les programmes de développement du Niger.',
                 'offres' => [
                     [
@@ -144,7 +144,7 @@ class EmploiSeeder extends Seeder
                         'missions' => "Définir les indicateurs ; collecter et analyser les données ; produire les rapports périodiques ; former les partenaires d'exécution.",
                         'profil' => "Bac+5 en statistiques, économie ou domaine connexe, 5 ans d'expérience en suivi-évaluation.",
                         'contrat' => TypeContrat::Cdi->value,
-                        'secteur' => 'Projets & Développement',
+                        'secteur' => 'Humanitaire & ONG',
                         'ville' => 'Niamey',
                         'salaire_min' => 800000, 'salaire_max' => 1200000,
                         'experience' => '5 ans', 'niveau' => 'Bac+5',
@@ -155,7 +155,7 @@ class EmploiSeeder extends Seeder
             [
                 'nom' => 'PNUD Niger',
                 'email' => 'recrutement@pnud.example.ne',
-                'secteur' => 'Administration & Gestion',
+                'secteur' => 'Administration publique',
                 'description' => 'Programme des Nations Unies pour le développement, bureau du Niger.',
                 'offres' => [
                     [
@@ -164,7 +164,7 @@ class EmploiSeeder extends Seeder
                         'missions' => 'Gérer les agendas et la correspondance ; organiser les missions ; suivre les commandes ; archiver les dossiers.',
                         'profil' => "Bac+2 en administration ou gestion, 2 ans d'expérience, bonne maîtrise de la suite bureautique.",
                         'contrat' => TypeContrat::Cdd->value,
-                        'secteur' => 'Administration & Gestion',
+                        'secteur' => 'Administration publique',
                         'ville' => 'Niamey',
                         'salaire_min' => 300000, 'salaire_max' => 420000,
                         'experience' => '2 ans', 'niveau' => 'Bac+2',
@@ -195,7 +195,7 @@ class EmploiSeeder extends Seeder
             [
                 'nom' => 'Hôpital Général de Référence',
                 'email' => 'recrutement@hgr.example.ne',
-                'secteur' => 'Santé',
+                'secteur' => 'Santé & Action sociale',
                 'description' => 'Établissement public de santé de référence régionale.',
                 'offres' => [
                     [
@@ -204,7 +204,7 @@ class EmploiSeeder extends Seeder
                         'missions' => "Dispenser les soins ; surveiller l'état des patients ; tenir les dossiers de soins ; encadrer les stagiaires.",
                         'profil' => "Diplôme d'État d'infirmier, inscription à l'ordre, disponibilité pour le travail en roulement.",
                         'contrat' => TypeContrat::Cdi->value,
-                        'secteur' => 'Santé',
+                        'secteur' => 'Santé & Action sociale',
                         'ville' => 'Zinder',
                         'salaire_min' => 250000, 'salaire_max' => 350000,
                         'experience' => '1 an', 'niveau' => 'Bac+3',
@@ -215,7 +215,7 @@ class EmploiSeeder extends Seeder
             [
                 'nom' => 'Coopérative Agricole du Sahel',
                 'email' => 'recrutement@cas.example.ne',
-                'secteur' => 'Agriculture & Environnement',
+                'secteur' => 'Agriculture & Élevage',
                 'description' => 'Coopérative appuyant les producteurs des régions de Maradi et Tahoua.',
                 'offres' => [
                     [
@@ -224,7 +224,7 @@ class EmploiSeeder extends Seeder
                         'missions' => 'Conseiller les producteurs ; suivre les parcelles de démonstration ; animer les sessions techniques ; collecter les données de campagne.',
                         'profil' => 'Bac+2 en agronomie, maîtrise du haoussa, permis moto apprécié.',
                         'contrat' => TypeContrat::Cdd->value,
-                        'secteur' => 'Agriculture & Environnement',
+                        'secteur' => 'Agriculture & Élevage',
                         'ville' => 'Maradi',
                         'salaire_min' => 200000, 'salaire_max' => 300000,
                         'experience' => '1 an', 'niveau' => 'Bac+2',
@@ -235,7 +235,7 @@ class EmploiSeeder extends Seeder
             [
                 'nom' => 'Niger Telecom',
                 'email' => 'recrutement@nigertelecom.example.ne',
-                'secteur' => 'Informatique & Digital',
+                'secteur' => 'Informatique & Numérique',
                 'description' => 'Opérateur national de télécommunications.',
                 'offres' => [
                     [
@@ -244,7 +244,7 @@ class EmploiSeeder extends Seeder
                         'missions' => 'Préparer les jeux de données ; produire les tableaux de bord ; documenter les traitements.',
                         'profil' => "Étudiant en dernière année (statistiques, informatique), bonne maîtrise de SQL et d'Excel.",
                         'contrat' => TypeContrat::Stage->value,
-                        'secteur' => 'Informatique & Digital',
+                        'secteur' => 'Informatique & Numérique',
                         'ville' => 'Niamey',
                         'salaire_min' => 100000, 'salaire_max' => 150000,
                         'experience' => 'Débutant', 'niveau' => 'Bac+4',

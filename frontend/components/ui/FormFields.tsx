@@ -134,21 +134,41 @@ export function SelectField({
   label: string;
   value: string;
   onChange: (value: string) => void;
-  list: string[];
+  /**
+   * The options, flat or grouped under headings.
+   *
+   * Grouped matters once a list is long: the nationalities run to nearly
+   * eighty, and a flat list of those is something to scroll rather than
+   * something to choose from.
+   */
+  list: string[] | Record<string, string[]>;
   placeholder: string;
   required?: boolean;
 }) {
+  const plates = Array.isArray(list) ? list : null;
+  const groupes = plates ? null : Object.entries(list as Record<string, string[]>);
+
   return (
     <Field id={id} label={label} required={required}>
       <select id={id} name={id} required={required} value={value} onChange={(e) => onChange(e.target.value)} className={selectClass}>
         <option value="" disabled>
           {placeholder}
         </option>
-        {list.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
+        {groupes
+          ? groupes.map(([titre, valeurs]) => (
+              <optgroup key={titre} label={titre}>
+                {valeurs.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </optgroup>
+            ))
+          : plates!.map((o) => (
+              <option key={o} value={o}>
+                {o}
+              </option>
+            ))}
       </select>
     </Field>
   );

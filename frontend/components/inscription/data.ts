@@ -61,16 +61,37 @@ export const typeParticipationOptions: TypeParticipationOption[] = [
   },
 ];
 
+/**
+ * Fallbacks for the three lists the server owns.
+ *
+ * The form fetches /referentiels on mount, but it must be usable before that
+ * answers and if it never does: an empty dropdown on a required field would
+ * block the registration entirely. These are the short versions the form
+ * shipped with — enough for the Nigerien participants who are the majority,
+ * with the full lists arriving a moment later.
+ */
+const REPLI = {
+  nationalite: ["Nigérienne", "Nigériane", "Malienne", "Burkinabè", "Autre"],
+  ville: ["Niamey", "Zinder", "Maradi", "Tahoua", "Agadez", "Autre"],
+  secteur: ["Informatique & Numérique", "Agriculture & Élevage", "Santé & Action sociale", "Autre"],
+};
+
 export const options = {
   genre: ["Homme", "Femme"],
-  nationalite: ["Niger", "Nigeria", "Mali", "Burkina Faso", "Autre"],
-  ville: ["Niamey", "Zinder", "Maradi", "Tahoua", "Agadez", "Autre"],
+  nationalite: REPLI.nationalite as string[] | Record<string, string[]>,
+  ville: REPLI.ville,
   niveau: ["Baccalauréat", "Licence", "Master", "Doctorat"],
   statut: ["Étudiant", "Demandeur d'emploi", "Salarié", "Entrepreneur", "Autre"],
-  domaine: ["Informatique et numérique", "Gestion et finance", "Santé", "Agriculture", "Éducation", "Autre"],
+  domaine: REPLI.secteur,
   experience: ["Aucune", "Moins de 2 ans", "2 à 5 ans", "Plus de 5 ans"],
   source: ["Réseaux sociaux", "Presse", "Bouche-à-oreille", "Établissement ou employeur", "Autre"],
 };
+
+export interface Referentiels {
+  secteurs: string[];
+  nationalites: Record<string, string[]>;
+  villes: string[];
+}
 
 export const interestOptions = [
   "Offres d'emploi",

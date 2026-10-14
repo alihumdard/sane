@@ -6,10 +6,19 @@ import { interestOptions, options, typeParticipationOptions, type RegistrationDa
 interface StepProps {
   data: RegistrationData;
   set: (key: string) => (value: string) => void;
+  /**
+   * The three lists the server owns. Defaults to the fallbacks in data.ts, so
+   * a step rendered before the fetch answers still has something to offer.
+   */
+  listes?: {
+    nationalite: string[] | Record<string, string[]>;
+    ville: string[];
+    domaine: string[];
+  };
 }
 
 /** Step 1 */
-export function PersonalStep({ data, set }: StepProps) {
+export function PersonalStep({ data, set, listes = options }: StepProps) {
   return (
     <>
       <div className="grid gap-5 sm:grid-cols-2">
@@ -22,10 +31,10 @@ export function PersonalStep({ data, set }: StepProps) {
       </div>
       <div className="grid gap-5 sm:grid-cols-2">
         <SelectField id="genre" label="Genre" required placeholder="Sélectionnez votre genre" list={options.genre} value={data.genre} onChange={set("genre")} />
-        <SelectField id="nationalite" label="Nationalité" required placeholder="Sélectionnez votre nationalité" list={options.nationalite} value={data.nationalite} onChange={set("nationalite")} />
+        <SelectField id="nationalite" label="Nationalité" required placeholder="Sélectionnez votre nationalité" list={listes.nationalite} value={data.nationalite} onChange={set("nationalite")} />
       </div>
       <div className="grid gap-5 sm:grid-cols-2">
-        <SelectField id="ville" label="Ville de résidence" required placeholder="Sélectionnez votre ville" list={options.ville} value={data.ville} onChange={set("ville")} />
+        <SelectField id="ville" label="Ville de résidence" required placeholder="Sélectionnez votre ville" list={listes.ville} value={data.ville} onChange={set("ville")} />
         <SelectField id="niveau" label="Niveau d'études" required placeholder="Sélectionnez votre niveau" list={options.niveau} value={data.niveau} onChange={set("niveau")} />
       </div>
     </>
@@ -33,12 +42,12 @@ export function PersonalStep({ data, set }: StepProps) {
 }
 
 /** Step 2 */
-export function ProfileStep({ data, set }: StepProps) {
+export function ProfileStep({ data, set, listes = options }: StepProps) {
   return (
     <>
       <div className="grid gap-5 sm:grid-cols-2">
         <SelectField id="statut" label="Situation actuelle" required placeholder="Sélectionnez votre situation" list={options.statut} value={data.statut} onChange={set("statut")} />
-        <SelectField id="domaine" label="Domaine d'activité" required placeholder="Sélectionnez votre domaine" list={options.domaine} value={data.domaine} onChange={set("domaine")} />
+        <SelectField id="domaine" label="Domaine d'activité" required placeholder="Sélectionnez votre domaine" list={listes.domaine} value={data.domaine} onChange={set("domaine")} />
       </div>
       <SelectField id="experience" label="Expérience professionnelle" required placeholder="Sélectionnez votre expérience" list={options.experience} value={data.experience} onChange={set("experience")} />
       <TextAreaField id="parcours" label="Parcours en quelques mots" rows={4} placeholder="Formation, expériences, projets..." value={data.parcours} onChange={set("parcours")} />

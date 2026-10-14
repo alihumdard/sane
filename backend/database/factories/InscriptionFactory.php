@@ -23,7 +23,7 @@ class InscriptionFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'telephone' => fake()->numerify('## ## ## ##'),
             'genre' => fake()->randomElement(['Homme', 'Femme']),
-            'nationalite' => 'Niger',
+            'nationalite' => 'Nigérienne',
             'ville' => 'Niamey',
             'niveau' => 'Licence',
             'consentement' => true,

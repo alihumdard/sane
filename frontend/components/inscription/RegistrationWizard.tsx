@@ -11,10 +11,12 @@ import { ParticipationStep } from "./ParticipationStep";
 import { FormationsStep } from "./FormationsStep";
 import { DocumentsUpload } from "./DocumentsUpload";
 import { ConfirmStep, InterestsStep, PersonalStep, ProfileStep } from "./steps";
+import { useReferentiels } from "./useReferentiels";
 import { emptyRegistration, steps, STEP_FORMATIONS } from "./data";
 
 /** 6-step registration form (state lives here; each step is its own component). */
 export function RegistrationWizard() {
+  const listes = useReferentiels();
   const [step, setStep] = useState(1);
   const [data, setData] = useState(emptyRegistration);
   const [formations, setFormations] = useState<number[]>([]);
@@ -167,8 +169,8 @@ export function RegistrationWizard() {
 
             <form onSubmit={handleSubmit} className="flex flex-1 flex-col gap-5">
               {step === 1 && <ParticipationStep value={data.type_participation} onChange={choisirType} />}
-              {step === 2 && <PersonalStep data={data} set={set} />}
-              {step === 3 && <ProfileStep data={data} set={set} />}
+              {step === 2 && <PersonalStep data={data} set={set} listes={listes} />}
+              {step === 3 && <ProfileStep data={data} set={set} listes={listes} />}
               {step === 4 && <FormationsStep selected={formations} onToggle={toggleFormation} />}
               {step === 5 && (
                 <InterestsStep
