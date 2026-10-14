@@ -172,6 +172,9 @@ final class Referentiels
         'Birni-N\'Konni',
         'Gaya',
         'Tessaoua',
+        'Guidan Roumdji',
+        'Madaoua',
+        'Téra',
         'Autre',
     ];
 
