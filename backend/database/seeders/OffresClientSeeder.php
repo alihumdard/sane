@@ -31,6 +31,7 @@ class OffresClientSeeder extends Seeder
         $this->soges();
         $this->cosef();
         $this->banqueAtlantique();
+        $this->pathfinder();
     }
 
     /**
@@ -253,6 +254,90 @@ class OffresClientSeeder extends Seeder
             'experience_requise' => '3 ans minimum en institution financière',
             'niveau_etude' => 'Bac+4/5 en comptabilité ou finance',
             'date_limite' => '2026-10-23',
+        ]);
+    }
+
+    /**
+     * Pathfinder International — four drivers, one per region.
+     *
+     * The first advert that is not for one place: a post each in Niamey,
+     * Maradi, Tahoua and Zinder. `ville` holds one value, so it carries Niamey
+     * — where the office is, and what the regional filter will match — while
+     * the title and the description name all four. Splitting it into four
+     * listings would be closer to the data model and further from the notice,
+     * which is one vacancy with four seats.
+     *
+     * Pathfinder's safeguarding policy and its encouragement of women
+     * applicants are kept in full: an NGO publishes those as a condition of
+     * employment, not as decoration.
+     */
+    private function pathfinder(): void
+    {
+        $entreprise = $this->entreprise(
+            nom: 'Pathfinder International',
+            secteur: 'Humanitaire & ONG',
+            description: "Organisation internationale de santé. Pathfinder envisage un monde qui "
+                ."valorise et investit dans le leadership, la santé et la résilience des femmes "
+                ."et des filles, et catalyse des solutions durables, menées par des femmes et "
+                ."ancrées localement.",
+            telephone: '+227 20 37 26 26 / 80 08 44 44',
+            siteWeb: 'https://www.pathfinder.org',
+        );
+
+        $this->offre($entreprise, [
+            'titre' => 'Chauffeur — 4 postes (Niamey, Maradi, Tahoua, Zinder)',
+            'description' => <<<'TEXTE'
+            Pathfinder International recrute quatre (04) chauffeurs dans le cadre de la mise en œuvre de ses activités.
+
+            LIEUX DE TRAVAIL
+            Un poste à Niamey, un à Maradi, un à Tahoua et un à Zinder.
+
+            RESPONSABILITÉS PRINCIPALES
+            Les chauffeurs assurent le transport du personnel dans le cadre des missions et de toute autre activité nécessitant des déplacements en véhicule, dans les meilleures conditions de sécurité, de confort et de ponctualité. Ils veillent à l'entretien courant des véhicules qui leur sont assignés et au bon état des équipements, conformément aux procédures et normes établies par l'organisation. Les titulaires du poste devront assurer le strict respect du Code de la route en vigueur au Niger ainsi que des politiques et consignes de sécurité de Pathfinder International.
+
+            DOSSIER DE CANDIDATURE
+            • Une lettre de motivation
+            • Un curriculum vitae actualisé comprenant trois (03) références professionnelles
+            • Une photocopie légalisée du permis de conduire
+            • Les copies des diplômes obtenus
+            • Les copies des certificats ou attestations de travail justifiant l'expérience professionnelle
+
+            Date limite de soumission : le 16 octobre 2026.
+
+            SAUVEGARDE ET PROTECTION
+            Pathfinder s'engage à assurer la sauvegarde et la protection des personnes qu'elle sert et de son personnel, et applique une tolérance zéro à l'égard de tout comportement susceptible de nuire aux enfants, aux jeunes, aux adultes, à son personnel et à ses partenaires — y compris les abus sexuels, le harcèlement, les brimades et l'exploitation. Cet emploi est soumis à une série de vérifications de sécurité, conformément à la législation en vigueur dans le pays où le candidat est recruté.
+
+            Pathfinder International encourage vivement les candidatures féminines et est fière d'être un employeur ayant une action positive et d'égalité d'opportunité pour tous.
+
+            Avis enregistré auprès de l'Agence Nationale pour la Promotion de l'Emploi (ANPE Niamey).
+            TEXTE,
+            'missions' => <<<'TEXTE'
+            • Assurer le transport du personnel et des visiteurs dans le cadre des activités de l'organisation
+            • Effectuer les courses administratives et autres déplacements logistiques nécessaires au fonctionnement du bureau
+            • Tenir à jour les carnets de bord des véhicules et tous les outils de suivi requis
+            • Veiller à ce que toutes les procédures requises soient respectées en cas d'accident ou d'incident impliquant le véhicule
+            • Contrôler régulièrement l'état général du véhicule (huile, eau, batterie, freins, pneus) et signaler toute défectuosité mécanique
+            • Effectuer les réparations mineures lorsque nécessaire et faciliter la réalisation des réparations majeures
+            • Veiller à la propreté et au bon entretien du véhicule qui lui est confié
+            • Respecter en tout temps les règles de sécurité routière et les procédures internes de Pathfinder International
+            • Exécuter toute autre tâche confiée par son superviseur dans le cadre de ses fonctions
+            TEXTE,
+            'profil_recherche' => <<<'TEXTE'
+            • Être titulaire d'un permis de conduire valide obtenu depuis au moins cinq (05) ans
+            • Avoir au minimum le niveau de la classe de troisième (3e)
+            • Justifier d'au moins cinq (05) années d'expérience professionnelle en qualité de chauffeur
+            • Une expérience au sein d'une ONG internationale ou d'un organisme de développement constituera un atout
+            • Avoir des connaissances de base en entretien et réparations mineures de véhicules
+            • Faire preuve de disponibilité, de flexibilité, de discrétion et d'un bon sens du service
+            • Avoir une aptitude à travailler en équipe dans un environnement multiculturel
+            • Posséder des compétences de base en informatique
+            TEXTE,
+            'type_contrat' => TypeContrat::Cdd->value,
+            'secteur' => 'Logistique & Transport',
+            'ville' => 'Niamey',
+            'experience_requise' => '5 ans minimum comme chauffeur',
+            'niveau_etude' => 'Niveau classe de 3e',
+            'date_limite' => '2026-10-16',
         ]);
     }
 
