@@ -53,6 +53,22 @@ class FormationAdminController extends Controller
         ]);
     }
 
+    /**
+     * The categories an admin may assign, for the edit dialog's dropdown.
+     *
+     * The dialog used to show the category as free text taken from the row,
+     * which it could never send back: the API takes `categorie_id`, not a
+     * name. Admins changed it, saw "Formation mise à jour", and the category
+     * stayed as it was. The list has to come from the server because a
+     * category nobody has used yet appears on no row.
+     */
+    public function categories(): JsonResponse
+    {
+        return response()->json([
+            'data' => CategorieFormation::orderBy('ordre')->orderBy('nom')->get(['id', 'nom']),
+        ]);
+    }
+
     public function store(FormationRequest $request): JsonResponse
     {
         $donnees = $request->validated();

@@ -246,6 +246,10 @@ Route::middleware(['auth:sanctum', 'role:administrateur,organisateur'])
             Route::delete("/{$chemin}/{id}", [$controleur, 'destroy']);
         }
 
+        // Declared before the resource: apiResource would otherwise match
+        // "categories" as a {formation} and try to look it up by id.
+        Route::get('/formations/categories', [FormationAdminController::class, 'categories']);
+
         Route::apiResource('/formations', FormationAdminController::class);
         Route::get('/formations/{formation}/inscrits', [FormationAdminController::class, 'inscrits']);
     });

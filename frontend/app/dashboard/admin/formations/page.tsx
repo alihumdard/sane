@@ -45,6 +45,24 @@ interface LigneFormation {
   statutBg: string;
 }
 
+/** One assignable category, as /admin/formations/categories returns it. */
+interface Categorie {
+  id: number;
+  nom: string;
+}
+
+/**
+ * One assignable speaker, as the formations list returns it.
+ *
+ * `libelle` carries the organisation alongside the name, because two speakers
+ * may share one and a dropdown of bare names could not tell them apart.
+ */
+interface Formateur {
+  id: number;
+  nom: string;
+  libelle: string;
+}
+
 const STATUTS = {
   Brouillon: { statutColor: "var(--sane-text-light)", statutBg: "var(--sane-background)" },
   Complète: { statutColor: "var(--sane-purple)", statutBg: "var(--sane-purple-tint)" },
@@ -84,8 +102,8 @@ function FormationsContent() {
   const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [formations, setFormations] = useState<ApiFormation[]>([]);
-  const [categories, setCategories] = useState<{ id: number; nom: string }[]>([]);
-  const [formateurs, setFormateurs] = useState<{ id: number; nom: string; libelle: string }[]>([]);
+  const [categories, setCategories] = useState<Categorie[]>([]);
+  const [formateurs, setFormateurs] = useState<Formateur[]>([]);
   const [loading, setLoading] = useState(true);
   const dejaCharge = useRef(false);
   const [error, setError] = useState<string | null>(null);
@@ -109,6 +127,19 @@ function FormationsContent() {
       dejaCharge.current = true;
       setLoading(false);
     }
+  }, []);
+
+  /*
+   * Fetched separately from the formations: a category nobody has used yet
+   * appears on no row, so deriving the list from the table would silently
+   * hide it from the dialog. Loaded once — the list barely changes.
+   */
+  useEffect(() => {
+    api
+      .get<{ data: Categorie[] }>("/admin/formations/categories")
+      .then((res) => setCategories(res.data))
+      // The dialog falls back to a plain text field; the table still works.
+      .catch(() => setCategories([]));
   }, []);
 
   useEffect(() => {
@@ -219,14 +250,15 @@ function Tableau({
   onMessage,
 }: {
   formations: ApiFormation[];
-  categories: { id: number; nom: string }[];
-  formateurs: { id: number; nom: string; libelle: string }[];
+  categories: Categorie[];
+  formateurs: Formateur[];
   onRecharger: () => Promise<void>;
   onMessage: (m: string) => void;
 }) {
   const lignes = formations.map(enLigne);
   const editionId = formations[0]?.edition?.id ?? 0;
   const inscritsParId = new Map(formations.map((f) => [f.id, f.inscriptions_count]));
+  const idParCategorie = new Map(categories.map((c) => [c.nom.toLowerCase(), c.id]));
 
   const tbl = useTable(lignes, {
     filterKeys: { Catégorie: "categorie", Statut: "statut", Niveau: "niveau", Format: "format" },
@@ -238,11 +270,11 @@ function Tableau({
 
   /** TableDialogs edits the flattened row; translate it back into an API payload. */
   function versPayload(row: Record<string, unknown>): FormationPayload {
-    // The dialog edits the category as text, but the API stores a foreign key,
-    // so the name is matched back to a row. An unknown name clears it rather
-    // than silently keeping the old one.
+    // The row carries the category's name, the API takes its id. Leaving this
+    // out of the payload is what made the field a silent no-op: the admin
+    // picked a category, got "Formation mise à jour", and nothing changed.
+    // An unknown name clears it rather than silently keeping the old one.
     const nom = String(row.categorie ?? "").trim().toLowerCase();
-    const trouvee = categories.find((c) => c.nom.toLowerCase() === nom);
 
     // Matched against both forms: the dropdown offers the label ("name —
     // organisation"), while an existing row still carries the bare name.
@@ -253,7 +285,7 @@ function Tableau({
 
     return {
       edition_id: editionId,
-      categorie_id: trouvee?.id ?? null,
+      categorie_id: idParCategorie.get(nom) ?? null,
       formateur_id: intervenant?.id ?? null,
       titre: String(row.titre ?? ""),
       duree: String(row.duree ?? ""),
@@ -402,9 +434,12 @@ function Tableau({
           },
         }}
         entity="formation"
+        // Both are resolved by name, so they have to be picked, not typed. A
+        // list that came back empty is left as free text rather than as a
+        // dropdown with nothing in it.
         choix={{
-          categorie: categories.map((c) => c.nom),
-          intervenant: formateurs.map((f) => f.libelle),
+          ...(categories.length && { categorie: categories.map((c) => c.nom) }),
+          ...(formateurs.length && { intervenant: formateurs.map((f) => f.libelle) }),
         }}
       />
     </div>

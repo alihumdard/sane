@@ -15,8 +15,9 @@ interface Props {
    * Fields that are a choice rather than free text, keyed by row property.
    *
    * Without this the dialog renders every field as a text input, so a value
-   * that the API stores as a foreign key — a category, a speaker — has to be
-   * typed exactly, and a typo silently saves nothing.
+   * the server resolves by name — a category, a speaker — has to be typed
+   * exactly: a typo is indistinguishable from a real value, and the field is
+   * dropped on save with no error shown.
    */
   choix?: Record<string, string[]>;
 }

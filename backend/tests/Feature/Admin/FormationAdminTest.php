@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Models\CategorieFormation;
 use App\Models\Edition;
 use App\Models\Formation;
 use App\Models\Inscription;
@@ -128,6 +129,84 @@ class FormationAdminTest extends TestCase
             ->assertJsonValidationErrors('max_inscriptions');
 
         $this->assertSame(50, $formation->fresh()->max_inscriptions);
+    }
+
+    public function test_la_categorie_peut_etre_changee(): void
+    {
+        $management = CategorieFormation::factory()->create(['nom' => 'Management']);
+        $technologie = CategorieFormation::factory()->create(['nom' => 'Technologie']);
+        $formation = Formation::factory()->for($this->edition)->create(['categorie_id' => $management->id]);
+
+        $this->actingAs($this->admin())
+            ->putJson("/api/admin/formations/{$formation->id}", $this->donneesValides([
+                'categorie_id' => $technologie->id,
+            ]))
+            ->assertOk()
+            ->assertJsonPath('data.categorie.nom', 'Technologie');
+
+        $this->assertSame($technologie->id, $formation->fresh()->categorie_id);
+    }
+
+    /**
+     * The edit dialog sends only the fields it displays. Anything it omits has
+     * to survive the save: the admin never saw those values, so silently
+     * blanking them would destroy data without any warning on screen.
+     */
+    public function test_une_modification_partielle_ne_vide_pas_les_champs_absents(): void
+    {
+        $formation = Formation::factory()->for($this->edition)->create([
+            'description' => 'Programme détaillé de la formation.',
+            'prerequis' => 'Aucun prérequis.',
+            'date_debut' => '2026-11-10',
+            'date_fin' => '2026-11-12',
+        ]);
+
+        $this->actingAs($this->admin())
+            ->putJson("/api/admin/formations/{$formation->id}", $this->donneesValides([
+                'titre' => 'Titre seulement modifié',
+            ]))
+            ->assertOk();
+
+        $apres = $formation->fresh();
+
+        $this->assertSame('Titre seulement modifié', $apres->titre);
+        $this->assertSame('Programme détaillé de la formation.', $apres->description);
+        $this->assertSame('Aucun prérequis.', $apres->prerequis);
+        $this->assertNotNull($apres->date_debut);
+        $this->assertNotNull($apres->date_fin);
+    }
+
+    // --- Categories --------------------------------------------------------
+
+    public function test_ladmin_peut_lister_les_categories(): void
+    {
+        CategorieFormation::factory()->create(['nom' => 'Management', 'ordre' => 2]);
+        CategorieFormation::factory()->create(['nom' => 'Digital', 'ordre' => 1]);
+
+        $this->actingAs($this->admin())
+            ->getJson('/api/admin/formations/categories')
+            ->assertOk()
+            ->assertJsonCount(2, 'data')
+            ->assertJsonPath('data.0.nom', 'Digital');
+    }
+
+    /**
+     * The route is declared before the resource; were it after, apiResource
+     * would match "categories" as a {formation} and this would 404.
+     */
+    public function test_la_route_categories_nest_pas_captee_par_la_resource(): void
+    {
+        $this->actingAs($this->admin())
+            ->getJson('/api/admin/formations/categories')
+            ->assertOk()
+            ->assertJsonStructure(['data']);
+    }
+
+    public function test_un_participant_ne_peut_pas_lister_les_categories(): void
+    {
+        $this->actingAs(User::factory()->create())
+            ->getJson('/api/admin/formations/categories')
+            ->assertForbidden();
     }
 
     // --- Delete ------------------------------------------------------------
