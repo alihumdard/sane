@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Eye, EyeOff, Lock } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { fieldClass, inputClass, inputWrap, labelClass, selectClass } from "./styles";
+import { fieldClass, inputClass, inputWrap, labelClass } from "./styles";
+import { ComboBox, type Options } from "./ComboBox";
 
 export function Field({
   id,
@@ -141,35 +142,13 @@ export function SelectField({
    * eighty, and a flat list of those is something to scroll rather than
    * something to choose from.
    */
-  list: string[] | Record<string, string[]>;
+  list: Options;
   placeholder: string;
   required?: boolean;
 }) {
-  const plates = Array.isArray(list) ? list : null;
-  const groupes = plates ? null : Object.entries(list as Record<string, string[]>);
-
   return (
     <Field id={id} label={label} required={required}>
-      <select id={id} name={id} required={required} value={value} onChange={(e) => onChange(e.target.value)} className={selectClass}>
-        <option value="" disabled>
-          {placeholder}
-        </option>
-        {groupes
-          ? groupes.map(([titre, valeurs]) => (
-              <optgroup key={titre} label={titre}>
-                {valeurs.map((o) => (
-                  <option key={o} value={o}>
-                    {o}
-                  </option>
-                ))}
-              </optgroup>
-            ))
-          : plates!.map((o) => (
-              <option key={o} value={o}>
-                {o}
-              </option>
-            ))}
-      </select>
+      <ComboBox id={id} options={list} value={value} onChange={onChange} placeholder={placeholder} required={required} />
     </Field>
   );
 }
