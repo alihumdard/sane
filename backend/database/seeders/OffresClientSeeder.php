@@ -30,6 +30,7 @@ class OffresClientSeeder extends Seeder
     {
         $this->soges();
         $this->cosef();
+        $this->banqueAtlantique();
     }
 
     /**
@@ -167,6 +168,91 @@ class OffresClientSeeder extends Seeder
             'experience_requise' => '3 ans minimum à un poste similaire',
             'niveau_etude' => 'Bac+3 (DTS ou Licence)',
             'date_limite' => '2026-10-20',
+        ]);
+    }
+
+    /**
+     * Banque Atlantique — one reporting accountant, closing 23 October.
+     *
+     * An internal vacancy sheet rather than a press advert: it is laid out as
+     * a job description, with reporting lines, a grade (C1-1) and separate
+     * columns for technical and behavioural competencies.
+     *
+     * The sheet itself says only "une Banque de la place" — the employer is
+     * named in the file the client sent, not in the notice. Filed under the
+     * bank, since that is what the client called it.
+     *
+     * It gives no address and no email, only a closing date. Nothing is
+     * invented to fill the gap: the listing says what the notice says, and a
+     * candidate applies through the site.
+     */
+    private function banqueAtlantique(): void
+    {
+        $entreprise = $this->entreprise(
+            nom: 'Banque Atlantique Niger',
+            secteur: 'Banque, Assurance & Microfinance',
+            description: 'Établissement bancaire de la place, membre d\'un groupe bancaire régional.',
+        );
+
+        $this->offre($entreprise, [
+            'titre' => 'Chargé Reporting Comptable',
+            'description' => <<<'TEXTE'
+            Publication de poste vacant n° 05102026 — zone de publication : Niger.
+
+            Direction financière et comptable. Catégorie : cadre, classification C1-1.
+            Rattachement hiérarchique : Chef de Service Comptable. Responsable fonctionnel : Directeur Financier et Comptable, en lien avec toutes les directions de la banque.
+
+            MISSION
+            Contribuer à la production des états financiers du Holding et assurer le reporting aux entités concernées — Holding, autorités de tutelle et de contrôle — selon le cadre établi.
+
+            DOSSIER DE CANDIDATURE
+            • La copie scannée du ou des diplômes requis
+            • Le curriculum vitae portant la mention « certifié sincère »
+
+            Date de forclusion : 23 octobre 2026.
+
+            Avis enregistré auprès de l'Agence Nationale pour la Promotion de l'Emploi (ANPE Niamey).
+            TEXTE,
+            'missions' => <<<'TEXTE'
+            • Effectuer les reportings comptables et réglementaires : situations périodiques, FODEP et ratios prudentiels
+            • Préparer les justificatifs et la documentation à remettre aux autorités de tutelle
+            • Produire les statistiques et les tableaux de bord : réserves obligatoires, emplois et ressources APB, évolution des dépôts en banque, ratio de solvabilité et de liquidité
+            • Assurer le suivi et l'analyse des comptes généraux
+            • Assurer et saisir les pièces comptables de journées complémentaires et de déséquilibres, et imputer les bordereaux de mouvements comptables relatifs aux titres
+            • Veiller au classement des états périodiques et au maintien de l'ordre dans la conservation de la documentation
+            • Veiller au respect des échéances et des délais de reporting, notamment auprès de la Banque Centrale
+            • Assurer le contrôle interne de premier niveau de ses activités, en conformité avec les règles du Groupe
+            • Veiller à la transmission des informations afin d'assurer la continuité de l'activité du service
+            • Assister et participer aux réunions du service et aux autres réunions selon les besoins du groupe
+            TEXTE,
+            'profil_recherche' => <<<'TEXTE'
+            CONDITIONS D'ÉLIGIBILITÉ
+            • Trois (3) ans d'expérience professionnelle au minimum dans une institution financière
+            • Réunir les qualités minimales requises pour le poste
+
+            FORMATION ET COMPÉTENCES TECHNIQUES
+            • Bac+4/5 en comptabilité ou finance
+            • Bonne connaissance du Groupe, de ses métiers et de son organisation
+            • Bonne connaissance des normes comptables et de la réglementation
+            • Bonne connaissance de la réglementation prudentielle
+            • Bonne culture financière
+            • Très bonne maîtrise des outils informatiques et bureautiques
+
+            COMPÉTENCES COMPORTEMENTALES
+            • Capacité à analyser et interpréter les chiffres
+            • Rigueur, organisation, réactivité
+            • Initiative et anticipation
+            • Communication écrite et orale
+            • Maîtrise de soi et résistance à la pression
+            • Sens pédagogique et disponibilité
+            • Intégrité, confidentialité, fiabilité
+            TEXTE,
+            'type_contrat' => TypeContrat::Cdi->value,
+            'secteur' => 'Banque, Assurance & Microfinance',
+            'ville' => 'Niamey',
+            'experience_requise' => '3 ans minimum en institution financière',
+            'niveau_etude' => 'Bac+4/5 en comptabilité ou finance',
+            'date_limite' => '2026-10-23',
         ]);
     }
 
