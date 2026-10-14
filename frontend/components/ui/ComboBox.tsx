@@ -104,9 +104,20 @@ export function ComboBox({
 
   // Focus the search box as soon as the panel opens, so typing just works.
   useEffect(() => {
-    if (ouvert) champ.current?.focus();
-    else setRecherche("");
-  }, [ouvert]);
+    if (!ouvert) {
+      setRecherche("");
+
+      return;
+    }
+
+    champ.current?.focus();
+
+    // Open on what is already chosen, not on the top of the list: with
+    // seventy-seven options, landing at "Nigérienne" when "Sénégalaise" is
+    // selected hides the current answer forty rows down.
+    const choisi = entrees.findIndex((e) => e.valeur === value);
+    setSurvole(choisi === -1 ? 0 : choisi);
+  }, [ouvert, entrees, value]);
 
   // Keep the highlighted row in view when arrowing through a long list.
   useEffect(() => {
