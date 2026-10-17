@@ -83,6 +83,16 @@ class GestionEntretiens
             ['entretien' => $entretien->reference]
         );
 
+        if ($utilisateur = $entretien->candidature->profil->user ?? null) {
+            $this->notificateur->notifier(
+                $utilisateur,
+                'Entretien proposé',
+                sprintf('Un entretien vous a été proposé pour « %s ».', $entretien->candidature->offre->titre),
+                '/dashboard/entretiens',
+                'entretien',
+            );
+        }
+
         return $entretien;
     }
 

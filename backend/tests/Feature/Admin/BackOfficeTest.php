@@ -247,12 +247,12 @@ class BackOfficeTest extends TestCase
             ->assertJsonPath('emploi.offres.total', 1);
     }
 
-    public function test_lexport_csv_renvoie_un_fichier(): void
+    public function test_lexport_renvoie_un_fichier_excel(): void
     {
         $response = $this->actingAs($this->admin())->get('/api/admin/exports/offres');
 
         $response->assertOk()
-            ->assertHeader('content-type', 'text/csv; charset=UTF-8');
+            ->assertHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
         $this->assertStringContainsString('attachment;', $response->headers->get('content-disposition'));
     }
@@ -262,12 +262,31 @@ class BackOfficeTest extends TestCase
         $entreprise = $this->entreprise();
         $this->offre($entreprise, ['titre' => 'Poste exporté']);
 
-        $csv = $this->actingAs($this->admin())->get('/api/admin/exports/offres')->streamedContent();
+        $response = $this->actingAs($this->admin())->get('/api/admin/exports/offres');
+        $response->assertOk();
 
-        $this->assertStringContainsString('Titre;Entreprise', $csv);
-        $this->assertStringContainsString('Poste exporté', $csv);
-        // BOM, so Excel reads the accents as UTF-8 rather than mojibake.
-        $this->assertStringStartsWith("\xEF\xBB\xBF", $csv);
+        $lignes = $this->lireFeuilleExcel($response->streamedContent());
+
+        $this->assertSame('Titre', $lignes[0][0]);
+        $this->assertSame('Entreprise', $lignes[0][1]);
+        $this->assertTrue(
+            collect($lignes)->contains(fn (array $ligne) => in_array('Poste exporté', $ligne, true)),
+        );
+    }
+
+    /** Reads an in-memory xlsx response back into rows, for asserting on content. */
+    private function lireFeuilleExcel(string $contenu): array
+    {
+        $chemin = tempnam(sys_get_temp_dir(), 'xlsx');
+        file_put_contents($chemin, $contenu);
+
+        try {
+            return \PhpOffice\PhpSpreadsheet\IOFactory::load($chemin)
+                ->getActiveSheet()
+                ->toArray();
+        } finally {
+            unlink($chemin);
+        }
     }
 
     /* ─── Réconciliation des compteurs ─── */

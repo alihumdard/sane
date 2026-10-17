@@ -16,17 +16,17 @@ use App\Models\Inscription;
 use App\Models\OffreEmploi;
 use App\Models\ProfilDemandeur;
 use App\Models\User;
-use App\Services\ExportCsv;
+use App\Services\ExportExcel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-/** Platform-wide statistics and CSV exports. */
+/** Platform-wide statistics and Excel exports. */
 class RapportAdminController extends Controller
 {
     public function __construct(
-        private readonly ExportCsv $export,
+        private readonly ExportExcel $export,
     ) {}
 
     /**
@@ -161,7 +161,7 @@ class RapportAdminController extends Controller
 
     /* ─── Exports ─── */
 
-    public function exporterInscriptions(Request $request): StreamedResponse
+    public function exporterInscriptions(Request $request): BinaryFileResponse
     {
         $query = Inscription::query()
             ->with(['edition:id,annee', 'formations:id,titre'])
@@ -185,7 +185,7 @@ class RapportAdminController extends Controller
                 'Formations' => 'formations',
                 'Inscrit le' => 'created_at',
             ],
-            'inscriptions-'.now()->format('Y-m-d').'.csv',
+            'inscriptions-'.now()->format('Y-m-d').'.xlsx',
             fn (Inscription $i) => [
                 ...$i->toArray(),
                 'type_participation' => $i->type_participation->label(),
@@ -196,7 +196,7 @@ class RapportAdminController extends Controller
         );
     }
 
-    public function exporterCandidatures(Request $request): StreamedResponse
+    public function exporterCandidatures(Request $request): BinaryFileResponse
     {
         $query = Candidature::query()
             ->with(['offre:id,titre,entreprise_id', 'offre.entreprise:id,nom', 'profil.user:id,name,email'])
@@ -214,7 +214,7 @@ class RapportAdminController extends Controller
                 'Statut' => 'statut',
                 'Postulé le' => 'created_at',
             ],
-            'candidatures-'.now()->format('Y-m-d').'.csv',
+            'candidatures-'.now()->format('Y-m-d').'.xlsx',
             fn (Candidature $c) => [
                 ...$c->toArray(),
                 'candidat' => $c->profil?->user?->name,
@@ -225,7 +225,7 @@ class RapportAdminController extends Controller
         );
     }
 
-    public function exporterOffres(Request $request): StreamedResponse
+    public function exporterOffres(Request $request): BinaryFileResponse
     {
         $query = OffreEmploi::query()
             ->with('entreprise:id,nom')
@@ -245,7 +245,7 @@ class RapportAdminController extends Controller
                 'Vues' => 'vues',
                 'Publiée le' => 'publiee_le',
             ],
-            'offres-'.now()->format('Y-m-d').'.csv',
+            'offres-'.now()->format('Y-m-d').'.xlsx',
             fn (OffreEmploi $o) => [
                 ...$o->toArray(),
                 'type_contrat' => $o->type_contrat?->label(),
@@ -256,7 +256,7 @@ class RapportAdminController extends Controller
     }
 
     /** Attendee list for one course — what an organiser prints on the day. */
-    public function exporterInscritsFormation(Formation $formation): StreamedResponse
+    public function exporterInscritsFormation(Formation $formation): BinaryFileResponse
     {
         $query = $formation->inscriptions()->orderBy('nom');
 
@@ -270,7 +270,7 @@ class RapportAdminController extends Controller
                 'Ville' => 'ville',
                 'Statut' => 'statut',
             ],
-            'inscrits-'.$formation->slug.'.csv',
+            'inscrits-'.$formation->slug.'.xlsx',
             fn (Inscription $i) => [...$i->toArray(), 'statut' => $i->statut->label()],
         );
     }

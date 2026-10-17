@@ -4,8 +4,10 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   AlertCircle, Briefcase, Calendar, CheckCircle2, ExternalLink, FileText,
-  Heart, Loader2, Sparkles, Trash2, UserRound,
+  Heart, Loader2, MessageSquareText, Sparkles, Trash2, UserRound,
 } from "lucide-react";
+import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
+import Pagination from "@/components/dashboard/Pagination";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -20,6 +22,7 @@ import type {
   ApiOffre,
   ApiProfilDemandeur,
   CandidaturesResponse,
+  PaginationMeta,
 } from "@/lib/types";
 
 const STATUT_COULEUR: Record<string, string> = {
@@ -30,30 +33,6 @@ const STATUT_COULEUR: Record<string, string> = {
   acceptee: "bg-[var(--sane-green-light)] text-[var(--sane-green)]",
   refusee: "bg-[#fdf1f1] text-[var(--sane-red-dark)]",
 };
-
-function Tuile({
-  icone: Icone,
-  valeur,
-  label,
-  href,
-}: {
-  icone: typeof Briefcase;
-  valeur: number;
-  label: string;
-  href?: string;
-}) {
-  const contenu = (
-    <div className="rounded-2xl border border-[var(--sane-border)] bg-white p-5 transition-shadow hover:shadow-md">
-      <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--sane-green-light)] text-[var(--sane-green)]">
-        <Icone size={19} />
-      </span>
-      <p className="text-[24px] font-bold leading-none text-[var(--sane-text)]">{valeur}</p>
-      <p className="mt-1 text-[12px] text-[var(--sane-text-light)]">{label}</p>
-    </div>
-  );
-
-  return href ? <Link href={href}>{contenu}</Link> : contenu;
-}
 
 function Contenu() {
   const { user } = useAuth();
@@ -66,6 +45,10 @@ function Contenu() {
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
   const [retrait, setRetrait] = useState<number | null>(null);
+  const [lettreOuverte, setLettreOuverte] = useState<number | null>(null);
+  const [pageCandidatures, setPageCandidatures] = useState(1);
+  const [tailleCandidatures, setTailleCandidatures] = useState(10);
+  const [metaCandidatures, setMetaCandidatures] = useState<PaginationMeta | null>(null);
 
   const charger = useCallback(async () => {
     try {
@@ -76,7 +59,7 @@ function Contenu() {
       // should cost one round trip of latency, not five.
       const [p, c, e, f, m] = await Promise.all([
         api.get<{ data: ApiProfilDemandeur }>("/profil"),
-        api.get<CandidaturesResponse>("/mes-candidatures"),
+        api.get<CandidaturesResponse>(`/mes-candidatures?page=${pageCandidatures}&par_page=${tailleCandidatures}`),
         api.get<{ data: ApiEntretien[] }>("/mes-entretiens"),
         api.get<{ data: ApiOffre[] }>("/mes-favoris"),
         api.get<{ data: ApiCorrespondance[] }>("/mes-correspondances"),
@@ -84,6 +67,7 @@ function Contenu() {
 
       setProfil(p.data);
       setCandidatures(c.data);
+      setMetaCandidatures(c.meta);
       setEntretiens(e.data);
       setFavoris(f.data);
       setCorrespondances(m.data);
@@ -92,7 +76,7 @@ function Contenu() {
     } finally {
       setChargement(false);
     }
-  }, []);
+  }, [pageCandidatures, tailleCandidatures]);
 
   useEffect(() => {
     void Promise.resolve().then(charger);
@@ -140,9 +124,11 @@ function Contenu() {
 
   return (
     <>
-      <div className="mb-6">
-        <h1 className="sane-h2 mb-1">Bonjour {user?.nom?.split(" ")[0]}</h1>
-        <p className="sane-body">Voici où en sont vos candidatures et vos entretiens.</p>
+      <div className="mb-6 rounded-2xl bg-[var(--sane-green-deep)] p-6 text-white">
+        <h1 className="text-[22px] font-extrabold leading-tight sm:text-[26px]">
+          Bonjour {user?.nom?.split(" ")[0]} 👋
+        </h1>
+        <p className="mt-1 text-[13px] text-white/75">Voici où en sont vos candidatures et vos entretiens.</p>
       </div>
 
       {completion < 100 && (
@@ -165,10 +151,10 @@ function Contenu() {
       )}
 
       <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <Tuile icone={FileText} valeur={candidatures.length} label="Candidatures" />
-        <Tuile icone={Calendar} valeur={entretiensAVenir.length} label="Entretiens à venir" href="/dashboard/entretiens" />
-        <Tuile icone={Heart} valeur={favoris.length} label="Offres favorites" href="#favoris" />
-        <Tuile icone={Sparkles} valeur={correspondances.length} label="Offres suggérées" href="#suggerees" />
+        <DashboardStatCard icon={<FileText size={20} />} value={candidatures.length} label="Candidatures" accent="green" href="/emploi" />
+        <DashboardStatCard icon={<Calendar size={20} />} value={entretiensAVenir.length} label="Entretiens à venir" accent="orange" href="/dashboard/entretiens" />
+        <DashboardStatCard icon={<Heart size={20} />} value={favoris.length} label="Offres favorites" accent="blue" href="#favoris" />
+        <DashboardStatCard icon={<Sparkles size={20} />} value={correspondances.length} label="Offres suggérées" accent="teal" href="#suggerees" />
       </div>
 
       {entretiensAVenir.length > 0 && (
@@ -225,45 +211,87 @@ function Contenu() {
             {candidatures.map((c) => (
               <li
                 key={c.id}
-                className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--sane-border)] bg-white p-4"
+                className="rounded-2xl border border-[var(--sane-border)] bg-white p-4"
               >
-                <div className="min-w-0">
-                  <p className="text-[13px] font-semibold text-[var(--sane-text)]">{c.offre?.titre}</p>
-                  <p className="text-[12px] text-[var(--sane-text-light)]">
-                    {c.offre?.entreprise?.nom} · {c.reference}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ${STATUT_COULEUR[c.statut]}`}>
-                    {c.statut_label}
-                  </span>
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-[13px] font-semibold text-[var(--sane-text)]">{c.offre?.titre}</p>
+                    <p className="text-[12px] text-[var(--sane-text-light)]">
+                      {c.offre?.entreprise?.nom} · {c.reference}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ${STATUT_COULEUR[c.statut]}`}>
+                      {c.statut_label}
+                    </span>
 
-                  {c.offre?.slug && (
-                    <Link
-                      href={`/emploi/${c.offre.slug}`}
-                      aria-label={`Voir l'offre ${c.offre.titre}`}
-                      className="inline-flex items-center rounded-lg border border-[var(--sane-border)] p-2 text-[var(--sane-green)] hover:border-[var(--sane-green)]"
-                    >
-                      <ExternalLink size={14} />
-                    </Link>
-                  )}
+                    {c.lettre_motivation && (
+                      <button
+                        type="button"
+                        onClick={() => setLettreOuverte((id) => (id === c.id ? null : c.id))}
+                        aria-label={`Voir ma lettre de motivation pour ${c.offre?.titre}`}
+                        aria-expanded={lettreOuverte === c.id}
+                        className={`inline-flex items-center rounded-lg border p-2 ${
+                          lettreOuverte === c.id
+                            ? "border-[var(--sane-green)] text-[var(--sane-green)]"
+                            : "border-[var(--sane-border)] text-[var(--sane-text-light)] hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]"
+                        }`}
+                      >
+                        <MessageSquareText size={14} />
+                      </button>
+                    )}
 
-                  {/* Mirrors the server's rule: nothing to withdraw once decided. */}
-                  {c.statut !== "acceptee" && c.statut !== "refusee" && (
-                    <button
-                      type="button"
-                      onClick={() => retirer(c)}
-                      disabled={retrait === c.id}
-                      aria-label={`Retirer la candidature ${c.reference}`}
-                      className="inline-flex items-center rounded-lg border border-[var(--sane-border)] p-2 text-[var(--sane-red-dark)] hover:border-[var(--sane-red-dark)] disabled:opacity-50"
-                    >
-                      <SpinnerOu actif={retrait === c.id} size={14}><Trash2 size={14} /></SpinnerOu>
-                    </button>
-                  )}
+                    {c.offre?.slug && (
+                      <Link
+                        href={`/emploi/${c.offre.slug}`}
+                        aria-label={`Voir l'offre ${c.offre.titre}`}
+                        className="inline-flex items-center rounded-lg border border-[var(--sane-border)] p-2 text-[var(--sane-green)] hover:border-[var(--sane-green)]"
+                      >
+                        <ExternalLink size={14} />
+                      </Link>
+                    )}
+
+                    {/* Mirrors the server's rule: nothing to withdraw once decided. */}
+                    {c.statut !== "acceptee" && c.statut !== "refusee" && (
+                      <button
+                        type="button"
+                        onClick={() => retirer(c)}
+                        disabled={retrait === c.id}
+                        aria-label={`Retirer la candidature ${c.reference}`}
+                        className="inline-flex items-center rounded-lg border border-[var(--sane-border)] p-2 text-[var(--sane-red-dark)] hover:border-[var(--sane-red-dark)] disabled:opacity-50"
+                      >
+                        <SpinnerOu actif={retrait === c.id} size={14}><Trash2 size={14} /></SpinnerOu>
+                      </button>
+                    )}
+                  </div>
                 </div>
+
+                {/* Hidden rather than unmounted: toggling a subtree in and out
+                    of the DOM is what breaks under a page-translation
+                    extension, per the pattern used elsewhere in this app. */}
+                <p className={`mt-3 whitespace-pre-wrap rounded-xl bg-[var(--sane-background)] p-3 text-[12px] text-[var(--sane-text)] ${lettreOuverte === c.id ? "block" : "hidden"}`}>
+                  {c.lettre_motivation}
+                </p>
               </li>
             ))}
           </ul>
+        )}
+
+        {metaCandidatures && metaCandidatures.last_page > 1 && (
+          <div className="mt-2 rounded-2xl border border-[var(--sane-border)] bg-white">
+            <Pagination
+              current={metaCandidatures.page}
+              totalPages={metaCandidatures.last_page}
+              totalItems={metaCandidatures.total}
+              pageSize={metaCandidatures.per_page}
+              itemLabel="candidatures"
+              onPageChange={setPageCandidatures}
+              onPageSizeChange={(taille) => {
+                setTailleCandidatures(taille);
+                setPageCandidatures(1);
+              }}
+            />
+          </div>
         )}
       </section>
 

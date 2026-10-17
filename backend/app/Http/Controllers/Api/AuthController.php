@@ -5,10 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Enums\RoleUtilisateur;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InscriptionCompteRequest;
+use App\Mail\MotDePasseOublie;
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -75,6 +81,64 @@ class AuthController extends Controller
             'token' => $user->createToken('api')->plainTextToken,
             'user' => $this->profil($user),
         ]);
+    }
+
+    /**
+     * Always reports success, whether or not the email matches an account —
+     * confirming it would let anyone probe which emails have accounts here.
+     */
+    public function motDePasseOublie(Request $request): JsonResponse
+    {
+        $request->validate(['email' => ['required', 'email']]);
+
+        $user = User::where('email', $request->input('email'))->first();
+
+        if ($user) {
+            $token = Password::broker()->createToken($user);
+            $lien = sprintf(
+                '%s/reinitialiser-mot-de-passe?token=%s&email=%s',
+                rtrim(config('app.frontend_url'), '/'),
+                $token,
+                urlencode($user->email),
+            );
+
+            Mail::to($user->email)->send(new MotDePasseOublie($user, $lien));
+        }
+
+        return response()->json([
+            'message' => 'Si cet email correspond à un compte, un lien de réinitialisation vient de lui être envoyé.',
+        ]);
+    }
+
+    public function motDePasseReinitialiser(Request $request): JsonResponse
+    {
+        $valide = $request->validate([
+            'token' => ['required', 'string'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/'],
+        ]);
+
+        $statut = Password::broker()->reset(
+            [
+                'email' => $valide['email'],
+                'token' => $valide['token'],
+                'password' => $valide['password'],
+                'password_confirmation' => $request->input('password_confirmation'),
+            ],
+            function (User $user, string $password) {
+                $user->forceFill(['password' => Hash::make($password)])->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($statut !== Password::PASSWORD_RESET) {
+            throw ValidationException::withMessages([
+                'token' => [__($statut)],
+            ]);
+        }
+
+        return response()->json(['message' => 'Votre mot de passe a été réinitialisé. Vous pouvez vous connecter.']);
     }
 
     public function logout(Request $request): JsonResponse

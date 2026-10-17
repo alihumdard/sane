@@ -4,6 +4,8 @@ use App\Http\Controllers\Api\Admin\ActualiteAdminController;
 use App\Http\Controllers\Api\Admin\DocumentAdminController;
 use App\Http\Controllers\Api\Admin\EditionAdminController;
 use App\Http\Controllers\Api\Admin\EmploiAdminController;
+use App\Http\Controllers\Api\Admin\EnvoiNotificationAdminController;
+use App\Http\Controllers\Api\Admin\ParametreAdminController;
 use App\Http\Controllers\Api\Admin\FaqAdminController;
 use App\Http\Controllers\Api\Admin\FormateurAdminController;
 use App\Http\Controllers\Api\Admin\FormationAdminController;
@@ -26,6 +28,7 @@ use App\Http\Controllers\Api\Entreprise\TableauBordController;
 use App\Http\Controllers\Api\EntretienController;
 use App\Http\Controllers\Api\FormationController;
 use App\Http\Controllers\Api\InscriptionController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\OffreController;
 use App\Http\Controllers\Api\ProfilController;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +64,10 @@ Route::post('/auth/login', [AuthController::class, 'login'])
     ->middleware('throttle:5,1');
 Route::post('/auth/inscription', [AuthController::class, 'inscription'])
     ->middleware('throttle:5,1');
+Route::post('/auth/mot-de-passe/oublie', [AuthController::class, 'motDePasseOublie'])
+    ->middleware('throttle:5,1');
+Route::post('/auth/mot-de-passe/reinitialiser', [AuthController::class, 'motDePasseReinitialiser'])
+    ->middleware('throttle:5,1');
 
 // Portail emploi — consultable sans compte. `auth.facultatif` n'exige pas de
 // jeton, mais le lit s'il est présent : l'offre peut alors indiquer au
@@ -81,6 +88,10 @@ Route::get('/secteurs', [OffreController::class, 'secteurs']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/me', [AuthController::class, 'me']);
+
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/{notification}/lue', [NotificationController::class, 'marquerLue']);
+    Route::post('/notifications/tout-lu', [NotificationController::class, 'marquerToutesLues']);
 });
 
 /*
@@ -231,6 +242,13 @@ Route::middleware(['auth:sanctum', 'role:administrateur,organisateur'])
         Route::get('/emploi/entreprises', [EmploiAdminController::class, 'entreprises']);
         Route::put('/emploi/entreprises/{entreprise}/verification', [EmploiAdminController::class, 'verifierEntreprise']);
         Route::get('/emploi/candidatures', [EmploiAdminController::class, 'candidatures']);
+        Route::get('/emploi/entretiens', [EmploiAdminController::class, 'entretiens']);
+
+        Route::get('/notifications', [EnvoiNotificationAdminController::class, 'index']);
+        Route::post('/notifications/{envoi}/renvoyer', [EnvoiNotificationAdminController::class, 'renvoyer']);
+
+        Route::get('/parametres', [ParametreAdminController::class, 'show']);
+        Route::post('/parametres', [ParametreAdminController::class, 'update']);
 
         // Contenus : même CRUD, quatre ressources.
         foreach ([

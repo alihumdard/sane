@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { AlertCircle, MapPin, Search, UserRound } from "lucide-react";
+import Link from "next/link";
+import { MapPin, Search, UserRound } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
@@ -71,7 +72,11 @@ function Contenu() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {profils.map((p) => (
-          <article key={p.id} className="rounded-2xl border border-[var(--sane-border)] bg-white p-5">
+          <Link
+            key={p.id}
+            href={`/dashboard/recruteur/candidats/${p.id}`}
+            className="block rounded-2xl border border-[var(--sane-border)] bg-white p-5 transition-colors hover:border-[var(--sane-green)]"
+          >
             <span className="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-[var(--sane-green-light)] text-[var(--sane-green)]">
               <UserRound size={20} />
             </span>
@@ -97,7 +102,7 @@ function Contenu() {
                 ))}
               </ul>
             )}
-          </article>
+          </Link>
         ))}
       </div>
 

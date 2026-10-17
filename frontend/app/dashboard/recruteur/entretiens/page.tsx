@@ -5,6 +5,7 @@ import { AlertCircle, CalendarPlus, Loader2, Trash2, Video } from "lucide-react"
 import { ListeChargee } from "@/components/ui/ListeChargee";
 import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
+import { EntretiensCalendrier } from "@/components/shared/EntretiensCalendrier";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { api, ApiError } from "@/lib/api";
@@ -105,6 +106,51 @@ function Contenu() {
     }
   }
 
+  function carteEntretien(e: ApiEntretien) {
+    return (
+      <div className="rounded-2xl border border-[var(--sane-border)] bg-white p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[14px] font-bold text-[var(--sane-text)]">
+              {e.candidature?.profil?.nom ?? "Candidat"}
+            </p>
+            <p className="text-[12px] text-[var(--sane-text-light)]">
+              {e.candidature?.offre?.titre}
+            </p>
+            {e.creneau && (
+              <p className="mt-1 text-[12px] text-[var(--sane-text)]">
+                {formatCreneau(e.creneau.debut)} · {e.creneau.mode_label}
+                {e.creneau.lieu && ` — ${e.creneau.lieu}`}
+              </p>
+            )}
+            {e.lien_visio && (
+              <a href={e.lien_visio} target="_blank" rel="noreferrer" className="mt-1 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[var(--sane-green)]">
+                <Video size={12} /> Rejoindre
+              </a>
+            )}
+          </div>
+
+          <div className="flex flex-col items-end gap-2">
+            <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${COULEUR[e.statut]}`}>
+              {e.statut_label}
+            </span>
+
+            {!e.est_final && (
+              <div className="flex gap-2">
+                <button type="button" onClick={() => action(e, "terminer")} className="text-[12px] font-semibold text-[var(--sane-green)]">
+                  Terminer
+                </button>
+                <button type="button" onClick={() => action(e, "annuler")} className="text-[12px] font-semibold text-[var(--sane-red-dark)]">
+                  Annuler
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Alerte texte={erreur} className="mb-4" />
@@ -184,7 +230,15 @@ function Contenu() {
         )}
       </section>
 
-      <h2 className="mb-3 text-[15px] font-bold text-[var(--sane-text)]">Entretiens planifiés</h2>
+      <h2 className="mb-3 text-[15px] font-bold text-[var(--sane-text)]">Calendrier</h2>
+
+      {!premierChargement && (
+        <div className="mb-6">
+          <EntretiensCalendrier entretiens={entretiens} renderEntretien={carteEntretien} />
+        </div>
+      )}
+
+      <h2 className="mb-3 text-[15px] font-bold text-[var(--sane-text)]">Tous les entretiens</h2>
 
       <ListeChargee
         premierChargement={premierChargement}
@@ -198,46 +252,7 @@ function Contenu() {
       >
         <ul className="flex flex-col gap-3">
           {entretiens.map((e) => (
-            <li key={e.id} className="rounded-2xl border border-[var(--sane-border)] bg-white p-4">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="text-[14px] font-bold text-[var(--sane-text)]">
-                    {e.candidature?.profil?.nom ?? "Candidat"}
-                  </p>
-                  <p className="text-[12px] text-[var(--sane-text-light)]">
-                    {e.candidature?.offre?.titre}
-                  </p>
-                  {e.creneau && (
-                    <p className="mt-1 text-[12px] text-[var(--sane-text)]">
-                      {formatCreneau(e.creneau.debut)} · {e.creneau.mode_label}
-                      {e.creneau.lieu && ` — ${e.creneau.lieu}`}
-                    </p>
-                  )}
-                  {e.lien_visio && (
-                    <a href={e.lien_visio} target="_blank" rel="noreferrer" className="mt-1 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[var(--sane-green)]">
-                      <Video size={12} /> Rejoindre
-                    </a>
-                  )}
-                </div>
-
-                <div className="flex flex-col items-end gap-2">
-                  <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${COULEUR[e.statut]}`}>
-                    {e.statut_label}
-                  </span>
-
-                  {!e.est_final && (
-                    <div className="flex gap-2">
-                      <button type="button" onClick={() => action(e, "terminer")} className="text-[12px] font-semibold text-[var(--sane-green)]">
-                        Terminer
-                      </button>
-                      <button type="button" onClick={() => action(e, "annuler")} className="text-[12px] font-semibold text-[var(--sane-red-dark)]">
-                        Annuler
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </li>
+            <li key={e.id}>{carteEntretien(e)}</li>
           ))}
         </ul>
       </ListeChargee>

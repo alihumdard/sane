@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
-  AlertCircle, BookOpen, Briefcase, CalendarDays,
-  FileText, Mic, Users,
+  AlertCircle, Award, BookOpen, Briefcase, Building2,
+  CalendarDays, FileText, Mic, UserCheck, Users,
 } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { AdminPage } from "@/components/dashboard/AdminPage";
+import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
 import { Spinner } from "@/components/dashboard/Spinner";
 import { api, ApiError } from "@/lib/api";
 
@@ -33,15 +34,6 @@ const RACCOURCIS = [
   { href: "/dashboard/admin/emploi", label: "Offres d'emploi", icone: Briefcase },
   { href: "/dashboard/admin/utilisateurs", label: "Utilisateurs", icone: Users },
 ];
-
-function Tuile({ valeur, label }: { valeur: string | number; label: string }) {
-  return (
-    <div className="rounded-2xl border border-[var(--sane-border)] bg-white p-4">
-      <p className="text-[24px] font-bold leading-none text-[var(--sane-text)]">{valeur}</p>
-      <p className="mt-1 text-[12px] text-[var(--sane-text-light)]">{label}</p>
-    </div>
-  );
-}
 
 function Contenu() {
   const [stats, setStats] = useState<Statistiques | null>(null);
@@ -83,18 +75,37 @@ function Contenu() {
         {chargement && <Spinner actif className="text-[var(--sane-green)]" />}
       </p>
 
-      <div className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Tuile valeur={stats?.inscriptions.total ?? 0} label="Inscriptions" />
-        <Tuile valeur={stats?.inscriptions.en_attente ?? 0} label="À valider" />
-        <Tuile valeur={stats?.formations.total ?? 0} label="Formations" />
-        <Tuile
-          valeur={`${stats?.formations.places_prises ?? 0}/${stats?.formations.places_totales ?? 0}`}
-          label="Places prises"
+      <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <DashboardStatCard
+          icon={<FileText size={20} />} value={stats?.inscriptions.total ?? 0} label="Inscriptions"
+          accent="green" href="/dashboard/admin/inscriptions"
+          note={stats?.inscriptions.en_attente ? `${stats.inscriptions.en_attente} à valider` : undefined}
         />
-        <Tuile valeur={stats?.emploi.offres.publiees ?? 0} label="Offres publiées" />
-        <Tuile valeur={stats?.emploi.candidatures.total ?? 0} label="Candidatures" />
-        <Tuile valeur={stats?.emploi.entretiens ?? 0} label="Entretiens" />
-        <Tuile valeur={stats?.utilisateurs.total ?? 0} label="Utilisateurs" />
+        <DashboardStatCard
+          icon={<BookOpen size={20} />} value={stats?.formations.total ?? 0} label="Formations"
+          accent="orange" href="/dashboard/admin/formations"
+          note={stats ? `${stats.formations.places_prises}/${stats.formations.places_totales} places prises` : undefined}
+        />
+        <DashboardStatCard
+          icon={<Briefcase size={20} />} value={stats?.emploi.offres.publiees ?? 0} label="Offres d'emploi publiées"
+          accent="blue" href="/dashboard/admin/emploi"
+        />
+        <DashboardStatCard
+          icon={<UserCheck size={20} />} value={stats?.emploi.candidatures.total ?? 0} label="Candidatures"
+          accent="teal" href="/dashboard/admin/candidatures"
+          note={stats?.emploi.entretiens ? `${stats.emploi.entretiens} entretien(s)` : undefined}
+        />
+        <DashboardStatCard
+          icon={<Building2 size={20} />} value={stats?.emploi.entreprises.total ?? 0} label="Entreprises"
+          accent="green" href="/dashboard/admin/emploi"
+          note={stats?.emploi.entreprises.verifiees ? `${stats.emploi.entreprises.verifiees} vérifiée(s)` : undefined}
+        />
+        <DashboardStatCard icon={<Mic size={20} />} value={stats?.emploi.entretiens ?? 0} label="Entretiens planifiés" accent="orange" href="/dashboard/admin/emploi" />
+        <DashboardStatCard icon={<Users size={20} />} value={stats?.utilisateurs.total ?? 0} label="Utilisateurs" accent="blue" href="/dashboard/admin/utilisateurs" />
+        <DashboardStatCard
+          icon={<Award size={20} />} value={stats?.edition?.annee ?? "—"} label="Édition en cours"
+          accent="teal" href="/dashboard/admin/evenements"
+        />
       </div>
 
       <p className="text-[12px] text-[var(--sane-text-light)]">

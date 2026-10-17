@@ -14,6 +14,10 @@ use Illuminate\Support\Str;
 /** Creating, withdrawing and re-staging an application. */
 class GestionCandidatures
 {
+    public function __construct(
+        private readonly Notificateur $notificateur,
+    ) {}
+
     public function postuler(
         ProfilDemandeur $profil,
         OffreEmploi $offre,
@@ -84,6 +88,18 @@ class GestionCandidatures
             'statut' => $statut,
             'statut_modifie_le' => now(),
         ]);
+
+        $candidature->loadMissing('profil.user', 'offre');
+
+        if ($utilisateur = $candidature->profil->user ?? null) {
+            $this->notificateur->notifier(
+                $utilisateur,
+                'Candidature mise à jour',
+                sprintf('Votre candidature pour « %s » est maintenant « %s ».', $candidature->offre->titre, $statut->label()),
+                '/dashboard/participant',
+                'candidature',
+            );
+        }
 
         return $candidature->refresh();
     }

@@ -6,11 +6,14 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Search, ChevronDown, X } from "lucide-react";
 import { NAVIGATION } from "@/lib/constants";
+import { NotificationBell } from "@/components/shared/NotificationBell";
+import { useAuth } from "@/lib/auth";
 import { MobileMenu } from "./MobileMenu";
 import { MenuCompte } from "./MenuCompte";
 
 export function Header() {
   const pathname = usePathname();
+  const { user } = useAuth();
   const [mounted, setMounted] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -96,6 +99,11 @@ export function Header() {
           >
             <Search size={18} />
           </button>
+
+          {/* Bell shown only once the session is confirmed, to match
+              MenuCompte below it — an unauthenticated flash before the
+              session loads would fetch notifications for no one. */}
+          {user && <NotificationBell iconClassName="text-[var(--sane-green)]" />}
 
           {/* Account — desktop only: sign-in buttons, or the visitor's own menu */}
           <MenuCompte />

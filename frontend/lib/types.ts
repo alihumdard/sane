@@ -571,3 +571,18 @@ export interface FormateurPayload {
   bio?: string;
   photo?: string;
 }
+
+export interface ApiNotification {
+  id: string;
+  titre: string;
+  message: string;
+  lien: string | null;
+  type: string;
+  lue: boolean;
+  created_at: string;
+}
+
+export interface NotificationsResponse {
+  data: ApiNotification[];
+  non_lues: number;
+}

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AlertCircle, Download, Eye, EyeOff,
-  FileText, Loader2, Plus, Save, Trash2, Upload,
+  FileText, Loader2, Pencil, Plus, Save, Trash2, Upload,
 } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
@@ -379,28 +379,58 @@ function Competences({ competences, onChange }: { competences: ApiCompetence[]; 
 
 /* ─── Expériences ─── */
 
+const EXPERIENCE_VIDE = { poste: "", entreprise: "", lieu: "", date_debut: "", date_fin: "", en_poste: false };
+
 function Experiences({ experiences, onChange }: { experiences: ApiExperience[]; onChange: () => void }) {
   const [ouvert, setOuvert] = useState(false);
-  const [form, setForm] = useState({ poste: "", entreprise: "", lieu: "", date_debut: "", date_fin: "", en_poste: false });
+  // null = creating a new one; a number = editing that experience's id.
+  const [edition, setEdition] = useState<number | null>(null);
+  const [form, setForm] = useState(EXPERIENCE_VIDE);
   const [envoi, setEnvoi] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
 
-  async function ajouter(e: React.FormEvent) {
+  function ouvrirAjout() {
+    setEdition(null);
+    setForm(EXPERIENCE_VIDE);
+    setOuvert(true);
+  }
+
+  function ouvrirEdition(x: ApiExperience) {
+    setEdition(x.id);
+    setForm({
+      poste: x.poste,
+      entreprise: x.entreprise,
+      lieu: x.lieu ?? "",
+      date_debut: x.date_debut.slice(0, 10),
+      date_fin: x.date_fin ? x.date_fin.slice(0, 10) : "",
+      en_poste: x.en_poste,
+    });
+    setOuvert(true);
+  }
+
+  async function enregistrer(e: React.FormEvent) {
     e.preventDefault();
     setEnvoi(true);
     setErreur(null);
 
+    const payload = {
+      ...form,
+      date_fin: form.en_poste ? undefined : form.date_fin || undefined,
+      lieu: form.lieu || undefined,
+    };
+
     try {
-      await api.post("/profil/experiences", {
-        ...form,
-        date_fin: form.en_poste ? undefined : form.date_fin || undefined,
-        lieu: form.lieu || undefined,
-      });
-      setForm({ poste: "", entreprise: "", lieu: "", date_debut: "", date_fin: "", en_poste: false });
+      if (edition === null) {
+        await api.post("/profil/experiences", payload);
+      } else {
+        await api.put(`/profil/experiences/${edition}`, payload);
+      }
+      setForm(EXPERIENCE_VIDE);
+      setEdition(null);
       setOuvert(false);
       onChange();
     } catch (err) {
-      setErreur(err instanceof ApiError ? err.message : "Ajout impossible.");
+      setErreur(err instanceof ApiError ? err.message : "Enregistrement impossible.");
     } finally {
       setEnvoi(false);
     }
@@ -415,13 +445,13 @@ function Experiences({ experiences, onChange }: { experiences: ApiExperience[]; 
     <section className={`${carte} mb-5`}>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="sane-h3">Mon expérience</h2>
-        <button type="button" onClick={() => setOuvert((o) => !o)} className="text-[13px] font-semibold text-[var(--sane-green)]">
+        <button type="button" onClick={() => (ouvert ? setOuvert(false) : ouvrirAjout())} className="text-[13px] font-semibold text-[var(--sane-green)]">
           {ouvert ? "Annuler" : "+ Ajouter"}
         </button>
       </div>
 
       {ouvert && (
-        <form onSubmit={ajouter} className="mb-4 grid grid-cols-1 gap-3 rounded-xl bg-[var(--sane-background)] p-4 sm:grid-cols-2">
+        <form onSubmit={enregistrer} className="mb-4 grid grid-cols-1 gap-3 rounded-xl bg-[var(--sane-background)] p-4 sm:grid-cols-2">
           <input required placeholder="Poste *" value={form.poste} onChange={(e) => setForm((f) => ({ ...f, poste: e.target.value }))} aria-label="Poste" className={champ} />
           <input required placeholder="Entreprise *" value={form.entreprise} onChange={(e) => setForm((f) => ({ ...f, entreprise: e.target.value }))} aria-label="Entreprise" className={champ} />
           <input placeholder="Lieu" value={form.lieu} onChange={(e) => setForm((f) => ({ ...f, lieu: e.target.value }))} aria-label="Lieu" className={champ} />
@@ -435,7 +465,7 @@ function Experiences({ experiences, onChange }: { experiences: ApiExperience[]; 
           </label>
           <p className={`sm:col-span-2 sane-small text-[var(--sane-red-dark)] ${erreur ? "" : "hidden"}`}>{erreur}</p>
           <button type="submit" disabled={envoi} className="rounded-lg bg-[var(--sane-green)] px-4 py-2.5 text-[13px] font-bold text-white disabled:opacity-60 sm:col-span-2">
-            {envoi ? "Enregistrement…" : "Ajouter cette expérience"}
+            {envoi ? "Enregistrement…" : edition === null ? "Ajouter cette expérience" : "Enregistrer les modifications"}
           </button>
         </form>
       )}
@@ -455,9 +485,14 @@ function Experiences({ experiences, onChange }: { experiences: ApiExperience[]; 
                   {x.en_poste ? "aujourd'hui" : x.date_fin ? new Date(x.date_fin).getFullYear() : "—"}
                 </p>
               </div>
-              <button type="button" onClick={() => supprimer(x.id)} aria-label="Supprimer" className="shrink-0 text-[var(--sane-red-dark)]">
-                <Trash2 size={14} />
-              </button>
+              <div className="flex shrink-0 items-center gap-2">
+                <button type="button" onClick={() => ouvrirEdition(x)} aria-label="Modifier" className="text-[var(--sane-text-light)] hover:text-[var(--sane-green)]">
+                  <Pencil size={14} />
+                </button>
+                <button type="button" onClick={() => supprimer(x.id)} aria-label="Supprimer" className="text-[var(--sane-red-dark)]">
+                  <Trash2 size={14} />
+                </button>
+              </div>
             </li>
           ))}
         </ul>
@@ -468,27 +503,60 @@ function Experiences({ experiences, onChange }: { experiences: ApiExperience[]; 
 
 /* ─── Formations ─── */
 
+const FORMATION_VIDE = { diplome: "", etablissement: "", domaine: "", annee_debut: "", annee_fin: "", en_cours: false };
+
 function Formations({ formations, onChange }: { formations: ApiFormationAcademique[]; onChange: () => void }) {
   const [ouvert, setOuvert] = useState(false);
-  const [form, setForm] = useState({ diplome: "", etablissement: "", domaine: "", annee_debut: "", annee_fin: "", en_cours: false });
+  const [edition, setEdition] = useState<number | null>(null);
+  const [form, setForm] = useState(FORMATION_VIDE);
   const [envoi, setEnvoi] = useState(false);
+  const [erreur, setErreur] = useState<string | null>(null);
 
-  async function ajouter(e: React.FormEvent) {
+  function ouvrirAjout() {
+    setEdition(null);
+    setForm(FORMATION_VIDE);
+    setOuvert(true);
+  }
+
+  function ouvrirEdition(f: ApiFormationAcademique) {
+    setEdition(f.id);
+    setForm({
+      diplome: f.diplome,
+      etablissement: f.etablissement,
+      domaine: f.domaine ?? "",
+      annee_debut: f.annee_debut ? String(f.annee_debut) : "",
+      annee_fin: f.annee_fin ? String(f.annee_fin) : "",
+      en_cours: f.en_cours,
+    });
+    setOuvert(true);
+  }
+
+  async function enregistrer(e: React.FormEvent) {
     e.preventDefault();
     setEnvoi(true);
+    setErreur(null);
+
+    const payload = {
+      diplome: form.diplome,
+      etablissement: form.etablissement,
+      domaine: form.domaine || undefined,
+      annee_debut: form.annee_debut ? Number(form.annee_debut) : undefined,
+      annee_fin: form.en_cours || !form.annee_fin ? undefined : Number(form.annee_fin),
+      en_cours: form.en_cours,
+    };
 
     try {
-      await api.post("/profil/formations", {
-        diplome: form.diplome,
-        etablissement: form.etablissement,
-        domaine: form.domaine || undefined,
-        annee_debut: form.annee_debut ? Number(form.annee_debut) : undefined,
-        annee_fin: form.en_cours || !form.annee_fin ? undefined : Number(form.annee_fin),
-        en_cours: form.en_cours,
-      });
-      setForm({ diplome: "", etablissement: "", domaine: "", annee_debut: "", annee_fin: "", en_cours: false });
+      if (edition === null) {
+        await api.post("/profil/formations", payload);
+      } else {
+        await api.put(`/profil/formations/${edition}`, payload);
+      }
+      setForm(FORMATION_VIDE);
+      setEdition(null);
       setOuvert(false);
       onChange();
+    } catch (err) {
+      setErreur(err instanceof ApiError ? err.message : "Enregistrement impossible.");
     } finally {
       setEnvoi(false);
     }
@@ -503,13 +571,13 @@ function Formations({ formations, onChange }: { formations: ApiFormationAcademiq
     <section className={carte}>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="sane-h3">Ma formation</h2>
-        <button type="button" onClick={() => setOuvert((o) => !o)} className="text-[13px] font-semibold text-[var(--sane-green)]">
+        <button type="button" onClick={() => (ouvert ? setOuvert(false) : ouvrirAjout())} className="text-[13px] font-semibold text-[var(--sane-green)]">
           {ouvert ? "Annuler" : "+ Ajouter"}
         </button>
       </div>
 
       {ouvert && (
-        <form onSubmit={ajouter} className="mb-4 grid grid-cols-1 gap-3 rounded-xl bg-[var(--sane-background)] p-4 sm:grid-cols-2">
+        <form onSubmit={enregistrer} className="mb-4 grid grid-cols-1 gap-3 rounded-xl bg-[var(--sane-background)] p-4 sm:grid-cols-2">
           <input required placeholder="Diplôme *" value={form.diplome} onChange={(e) => setForm((f) => ({ ...f, diplome: e.target.value }))} aria-label="Diplôme" className={champ} />
           <input required placeholder="Établissement *" value={form.etablissement} onChange={(e) => setForm((f) => ({ ...f, etablissement: e.target.value }))} aria-label="Établissement" className={champ} />
           <input placeholder="Domaine" value={form.domaine} onChange={(e) => setForm((f) => ({ ...f, domaine: e.target.value }))} aria-label="Domaine" className={champ} />
@@ -521,8 +589,9 @@ function Formations({ formations, onChange }: { formations: ApiFormationAcademiq
             <input type="checkbox" checked={form.en_cours} onChange={(e) => setForm((f) => ({ ...f, en_cours: e.target.checked }))} className="h-4 w-4 accent-[var(--sane-green)]" />
             En cours
           </label>
+          <p className={`sm:col-span-2 sane-small text-[var(--sane-red-dark)] ${erreur ? "" : "hidden"}`}>{erreur}</p>
           <button type="submit" disabled={envoi} className="rounded-lg bg-[var(--sane-green)] px-4 py-2.5 text-[13px] font-bold text-white disabled:opacity-60 sm:col-span-2">
-            {envoi ? "Enregistrement…" : "Ajouter cette formation"}
+            {envoi ? "Enregistrement…" : edition === null ? "Ajouter cette formation" : "Enregistrer les modifications"}
           </button>
         </form>
       )}
@@ -541,9 +610,14 @@ function Formations({ formations, onChange }: { formations: ApiFormationAcademiq
                   {f.annee_debut && ` · ${f.annee_debut} – ${f.en_cours ? "en cours" : (f.annee_fin ?? "—")}`}
                 </p>
               </div>
-              <button type="button" onClick={() => supprimer(f.id)} aria-label="Supprimer" className="shrink-0 text-[var(--sane-red-dark)]">
-                <Trash2 size={14} />
-              </button>
+              <div className="flex shrink-0 items-center gap-2">
+                <button type="button" onClick={() => ouvrirEdition(f)} aria-label="Modifier" className="text-[var(--sane-text-light)] hover:text-[var(--sane-green)]">
+                  <Pencil size={14} />
+                </button>
+                <button type="button" onClick={() => supprimer(f.id)} aria-label="Supprimer" className="text-[var(--sane-red-dark)]">
+                  <Trash2 size={14} />
+                </button>
+              </div>
             </li>
           ))}
         </ul>
