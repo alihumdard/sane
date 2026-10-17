@@ -98,7 +98,7 @@ export function LoginCard({ activeRole, onRoleChange }: Props) {
             <input type="checkbox" className="h-3.5 w-3.5 rounded accent-[var(--sane-green)]" />
             Se souvenir de moi
           </label>
-          <Link href="#" className={textLink}>
+          <Link href="/mot-de-passe-oublie" className={textLink}>
             Mot de passe oublié ?
           </Link>
         </div>

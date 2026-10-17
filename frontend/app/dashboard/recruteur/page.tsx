@@ -3,35 +3,20 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AlertCircle, Briefcase, CheckCircle2, Eye, FileText, Loader2, ShieldAlert, Users } from "lucide-react";
+import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { api, ApiError } from "@/lib/api";
 import type { TableauBordEntreprise } from "@/lib/types";
 
-function Stat({
-  icon: Icon,
-  valeur,
-  label,
-  accent,
-}: {
-  icon: typeof Briefcase;
-  valeur: number;
-  label: string;
-  accent: string;
-}) {
-  return (
-    <div className="rounded-2xl border border-[var(--sane-border)] bg-white p-5">
-      <span
-        className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl"
-        style={{ backgroundColor: `${accent}1a`, color: accent }}
-      >
-        <Icon size={20} />
-      </span>
-      <p className="text-[24px] font-bold leading-none text-[var(--sane-text)]">{valeur}</p>
-      <p className="mt-1 text-[12px] text-[var(--sane-text-light)]">{label}</p>
-    </div>
-  );
-}
+const STATUT_COULEUR: Record<string, string> = {
+  envoyee: "bg-[var(--sane-background)] text-[var(--sane-text-light)]",
+  en_revue: "bg-[var(--sane-blue-tint)] text-[var(--sane-blue)]",
+  preselectionnee: "bg-[var(--sane-orange-tint)] text-[var(--sane-orange)]",
+  entretien: "bg-[var(--sane-green-tint)] text-[var(--sane-green)]",
+  acceptee: "bg-[var(--sane-green-tint)] text-[var(--sane-green)]",
+  refusee: "bg-[#fdf1f1] text-[var(--sane-red-dark)]",
+};
 
 function Contenu() {
   const [data, setData] = useState<TableauBordEntreprise | null>(null);
@@ -107,10 +92,17 @@ function Contenu() {
       )}
 
       <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <Stat icon={Briefcase} valeur={data.offres?.publiees ?? 0} label="Offres publiées" accent="var(--sane-green)" />
-        <Stat icon={FileText} valeur={data.candidatures?.total ?? 0} label="Candidatures reçues" accent="var(--sane-orange)" />
-        <Stat icon={Users} valeur={data.candidatures?.nouvelles ?? 0} label="Nouvelles" accent="#0066b2" />
-        <Stat icon={Eye} valeur={data.offres?.vues ?? 0} label="Vues des offres" accent="#1a5276" />
+        <DashboardStatCard
+          icon={<Briefcase size={20} />} value={data.offres?.publiees ?? 0} label="Offres publiées"
+          accent="green" href="/dashboard/recruteur/offres"
+        />
+        <DashboardStatCard
+          icon={<FileText size={20} />} value={data.candidatures?.total ?? 0} label="Candidatures reçues"
+          accent="orange" href="/dashboard/recruteur/candidatures"
+          note={data.candidatures?.nouvelles ? `${data.candidatures.nouvelles} nouvelle(s)` : undefined}
+        />
+        <DashboardStatCard icon={<Users size={20} />} value={data.candidatures?.nouvelles ?? 0} label="Nouvelles candidatures" accent="blue" href="/dashboard/recruteur/candidatures" />
+        <DashboardStatCard icon={<Eye size={20} />} value={data.offres?.vues ?? 0} label="Vues des offres" accent="teal" href="/dashboard/recruteur/offres" />
       </div>
 
       <section className="rounded-2xl border border-[var(--sane-border)] bg-white p-5">
@@ -128,14 +120,19 @@ function Contenu() {
         ) : (
           <ul className="flex flex-col divide-y divide-[var(--sane-border)]">
             {data.recentes.map((c) => (
-              <li key={c.id} className="flex flex-wrap items-center justify-between gap-2 py-3">
-                <div className="min-w-0">
-                  <p className="text-[13px] font-semibold text-[var(--sane-text)]">
-                    {c.profil?.nom ?? "Candidat"}
-                  </p>
-                  <p className="text-[12px] text-[var(--sane-text-light)]">{c.offre?.titre}</p>
+              <li key={c.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
+                <div className="flex min-w-0 items-center gap-3">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--sane-green-tint)] text-[12px] font-bold text-[var(--sane-green)]">
+                    {(c.profil?.nom ?? "C").charAt(0).toUpperCase()}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="truncate text-[13px] font-semibold text-[var(--sane-text)]">
+                      {c.profil?.nom ?? "Candidat"}
+                    </p>
+                    <p className="truncate text-[12px] text-[var(--sane-text-light)]">{c.offre?.titre}</p>
+                  </div>
                 </div>
-                <span className="rounded-full bg-[var(--sane-green-light)] px-2.5 py-1 text-[11px] font-semibold text-[var(--sane-green)]">
+                <span className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ${STATUT_COULEUR[c.statut] ?? STATUT_COULEUR.envoyee}`}>
                   {c.statut_label}
                 </span>
               </li>

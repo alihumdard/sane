@@ -3,16 +3,19 @@
 namespace App\Console\Commands;
 
 use App\Mail\EntretienRappel;
+use App\Mail\EntretienRappelRecruteur;
 use App\Models\Entretien;
 use App\Services\Notificateur;
 use Illuminate\Console\Command;
 
 /**
- * Day-before reminder for confirmed interviews.
+ * Day-before reminder for confirmed interviews, sent to both the candidate
+ * and the recruiting company — the contract calls for reminders on both
+ * sides, not just the candidate's.
  *
  * Scheduled hourly rather than once a day: an interview confirmed late still
  * gets its reminder, and `rappel_envoye_le` makes the command idempotent, so
- * running it twice never mails a candidate twice.
+ * running it twice never mails either side twice.
  */
 class EnvoyerRappelsEntretiens extends Command
 {
@@ -23,7 +26,7 @@ class EnvoyerRappelsEntretiens extends Command
     public function handle(Notificateur $notificateur): int
     {
         $entretiens = Entretien::aRappeler()
-            ->with(['creneau', 'candidature.offre.entreprise', 'candidature.profil.user'])
+            ->with(['creneau', 'candidature.offre.entreprise.user', 'candidature.profil.user'])
             ->get();
 
         if ($entretiens->isEmpty()) {
@@ -35,19 +38,30 @@ class EnvoyerRappelsEntretiens extends Command
         $envoyes = 0;
 
         foreach ($entretiens as $entretien) {
-            // A candidate whose account was deleted leaves nobody to write to.
-            if (! $entretien->candidature?->profil?->user) {
+            // No one to write to on either side leaves nothing worth sending.
+            $candidatOk = (bool) $entretien->candidature?->profil?->user;
+            $recruteurOk = (bool) $entretien->candidature?->offre?->entreprise?->user;
+
+            if (! $candidatOk && ! $recruteurOk) {
                 continue;
             }
 
-            $ok = $notificateur->envoyer(
+            // Each side is independent: a missing recruiter account must not
+            // block the candidate's reminder, and vice versa.
+            $candidatEnvoye = ! $candidatOk || $notificateur->envoyer(
                 new EntretienRappel($entretien),
-                ['entretien' => $entretien->reference]
+                ['entretien' => $entretien->reference, 'destinataire' => 'candidat']
             );
 
-            // Stamped only on success, so a transient mail failure is retried
-            // on the next run rather than silently skipped.
-            if ($ok) {
+            $recruteurEnvoye = ! $recruteurOk || $notificateur->envoyer(
+                new EntretienRappelRecruteur($entretien),
+                ['entretien' => $entretien->reference, 'destinataire' => 'recruteur']
+            );
+
+            // Stamped only once both sides succeeded (or had no one to mail),
+            // so a transient failure on either side is retried next run
+            // rather than silently skipped.
+            if ($candidatEnvoye && $recruteurEnvoye) {
                 $entretien->update(['rappel_envoye_le' => now()]);
                 $envoyes++;
             }

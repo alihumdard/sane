@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Enums\StatutCandidature;
+use App\Enums\StatutEntretien;
 use App\Enums\StatutOffre;
 use App\Http\Concerns\FiltreLesListes;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CandidatureResource;
+use App\Http\Resources\EntretienResource;
 use App\Http\Resources\OffreResource;
 use App\Models\Candidature;
 use App\Models\Entreprise;
+use App\Models\Entretien;
 use App\Models\OffreEmploi;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -147,6 +150,47 @@ class EmploiAdminController extends Controller
             ],
             'resume' => $this->resumeCandidatures(),
         ]);
+    }
+
+    /** Every interview across every company — organiser oversight, not a recruiter's own calendar. */
+    public function entretiens(Request $request): JsonResponse
+    {
+        $page = $this->listePaginee(
+            Entretien::query()->with([
+                'creneau',
+                'candidature.offre:id,titre,entreprise_id',
+                'candidature.offre.entreprise:id,nom',
+                'candidature.profil.user:id,name',
+            ]),
+            $request,
+            recherchables: ['reference'],
+            filtrables: ['statut'],
+            triables: ['statut', 'created_at'],
+        );
+
+        return response()->json([
+            'data' => EntretienResource::collection($page->items()),
+            'meta' => $this->meta($page),
+            'filtres' => [
+                'statut' => collect(StatutEntretien::cases())
+                    ->map(fn ($s) => ['value' => $s->value, 'label' => $s->label()]),
+            ],
+            'resume' => $this->resumeEntretiens(),
+        ]);
+    }
+
+    private function resumeEntretiens(): array
+    {
+        $parStatut = Entretien::selectRaw('statut, count(*) as total')
+            ->groupBy('statut')
+            ->pluck('total', 'statut');
+
+        return [
+            'total' => (int) $parStatut->sum(),
+            ...collect(StatutEntretien::cases())
+                ->mapWithKeys(fn ($s) => [$s->value => (int) ($parStatut[$s->value] ?? 0)])
+                ->all(),
+        ];
     }
 
     private function resumeOffres(): array

@@ -110,9 +110,9 @@ function Contenu() {
     <>
       <div className="mb-6 flex flex-wrap gap-2">
         {[
-          { label: "Inscriptions", url: "/admin/exports/inscriptions", fichier: "inscriptions.csv" },
-          { label: "Candidatures", url: "/admin/exports/candidatures", fichier: "candidatures.csv" },
-          { label: "Offres", url: "/admin/exports/offres", fichier: "offres.csv" },
+          { label: "Inscriptions", url: "/admin/exports/inscriptions", fichier: "inscriptions.xlsx" },
+          { label: "Candidatures", url: "/admin/exports/candidatures", fichier: "candidatures.xlsx" },
+          { label: "Offres", url: "/admin/exports/offres", fichier: "offres.xlsx" },
         ].map((e) => (
           <button
             key={e.label}

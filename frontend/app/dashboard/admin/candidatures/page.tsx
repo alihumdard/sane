@@ -120,10 +120,10 @@ function Contenu() {
         actions={
           <button
             type="button"
-            onClick={() => telecharger("/admin/exports/candidatures", "candidatures.csv")}
+            onClick={() => telecharger("/admin/exports/candidatures", "candidatures.xlsx")}
             className="inline-flex items-center gap-2 rounded-lg border border-[var(--sane-border)] bg-white px-4 py-2 text-[13px] font-semibold hover:border-[var(--sane-green)]"
           >
-            <Download size={15} /> Exporter CSV
+            <Download size={15} /> Exporter Excel
           </button>
         }
       />

@@ -7,7 +7,14 @@ import { AdminPage } from "@/components/dashboard/AdminPage";
 import { AdminTable, type Colonne } from "@/components/dashboard/AdminTable";
 import { useApiTable } from "@/components/dashboard/useApiTable";
 import { api, ApiError } from "@/lib/api";
-import type { ApiOffre } from "@/lib/types";
+import type { ApiEntretien, ApiOffre } from "@/lib/types";
+
+const STATUTS_ENTRETIEN = [
+  { value: "en_attente", label: "En attente" },
+  { value: "confirme", label: "Confirmé" },
+  { value: "termine", label: "Terminé" },
+  { value: "annule", label: "Annulé" },
+];
 
 interface AdminEntreprise {
   id: number;
@@ -208,13 +215,83 @@ function Entreprises() {
   );
 }
 
-export default function EmploiAdminPage() {
-  const [onglet, setOnglet] = useState<"offres" | "entreprises">("offres");
+function Entretiens() {
+  const [filtreStatut, setFiltreStatut] = useState("");
+  const table = useApiTable<ApiEntretien>("/admin/emploi/entretiens", { filtres: { statut: filtreStatut } });
+
+  const colonnes: Colonne<ApiEntretien>[] = [
+    {
+      cle: "candidat",
+      entete: "Candidat",
+      rendu: (e) => (
+        <>
+          <p className="font-semibold">{e.candidature?.profil?.nom ?? "—"}</p>
+          <p className="text-[12px] text-[var(--sane-text-light)]">{e.candidature?.offre?.titre}</p>
+        </>
+      ),
+    },
+    {
+      cle: "entreprise",
+      entete: "Entreprise",
+      masquer: "sm",
+      rendu: (e) => e.candidature?.offre?.entreprise?.nom ?? "—",
+    },
+    {
+      cle: "creneau",
+      entete: "Créneau",
+      masquer: "md",
+      rendu: (e) =>
+        e.creneau
+          ? `${new Date(e.creneau.debut).toLocaleString("fr-FR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })} · ${e.creneau.mode_label}`
+          : "—",
+    },
+    {
+      cle: "statut",
+      entete: "Statut",
+      rendu: (e) => (
+        <span className="rounded-full bg-[var(--sane-background)] px-2.5 py-1 text-[11px] font-semibold text-[var(--sane-text)]">
+          {e.statut_label}
+        </span>
+      ),
+    },
+  ];
 
   return (
-    <AdminPage section="Emploi" titre="Emploi" description="Modération des offres et vérification des entreprises">
+    <AdminTable
+      colonnes={colonnes}
+      lignes={table.lignes}
+      meta={table.meta}
+      chargement={table.chargement}
+      erreur={table.erreur}
+      recherche={table.recherche}
+      onRecherche={table.setRecherche}
+      onPage={table.setPage}
+      cle={(e) => e.id}
+      vide="Aucun entretien."
+      actions={
+        <select
+          value={filtreStatut}
+          onChange={(e) => setFiltreStatut(e.target.value)}
+          aria-label="Filtrer par statut"
+          className="rounded-lg border border-[var(--sane-border)] bg-white px-3 py-2 text-[13px] outline-none focus:border-[var(--sane-green)]"
+        >
+          <option value="">Tous les statuts</option>
+          {STATUTS_ENTRETIEN.map((s) => (
+            <option key={s.value} value={s.value}>{s.label}</option>
+          ))}
+        </select>
+      }
+    />
+  );
+}
+
+export default function EmploiAdminPage() {
+  const [onglet, setOnglet] = useState<"offres" | "entreprises" | "entretiens">("offres");
+
+  return (
+    <AdminPage section="Emploi" titre="Emploi" description="Modération des offres, vérification des entreprises et suivi des entretiens">
       <div className="mb-4 flex gap-2">
-        {([["offres", "Offres"], ["entreprises", "Entreprises"]] as const).map(([cle, label]) => (
+        {([["offres", "Offres"], ["entreprises", "Entreprises"], ["entretiens", "Entretiens"]] as const).map(([cle, label]) => (
           <button
             key={cle}
             type="button"
@@ -228,7 +305,7 @@ export default function EmploiAdminPage() {
         ))}
       </div>
 
-      {onglet === "offres" ? <Offres /> : <Entreprises />}
+      {onglet === "offres" ? <Offres /> : onglet === "entreprises" ? <Entreprises /> : <Entretiens />}
     </AdminPage>
   );
 }

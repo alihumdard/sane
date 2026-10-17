@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AlertCircle, Calendar, CheckCircle2, Loader2, MapPin, Video, X } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
+import { EntretiensCalendrier } from "@/components/shared/EntretiensCalendrier";
 import { Container } from "@/components/ui/Container";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -73,6 +74,81 @@ function Contenu() {
     }
   }
 
+  function carteEntretien(e: ApiEntretien) {
+    return (
+      <div className="rounded-2xl border border-[var(--sane-border)] bg-white p-5">
+        <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[15px] font-bold text-[var(--sane-text)]">
+              {e.candidature?.offre?.titre}
+            </p>
+            <p className="sane-small">
+              {e.candidature?.offre?.entreprise?.nom} · Réf. {e.reference}
+            </p>
+          </div>
+          <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ${COULEUR[e.statut]}`}>
+            {e.statut_label}
+          </span>
+        </div>
+
+        {e.creneau && (
+          <div className="mb-3 flex flex-wrap gap-x-5 gap-y-1.5">
+            <span className="inline-flex items-center gap-1.5 sane-small">
+              <Calendar size={14} className="text-[var(--sane-green)]" />
+              {formatCreneau(e.creneau.debut)}
+            </span>
+            <span className="inline-flex items-center gap-1.5 sane-small">
+              <MapPin size={14} className="text-[var(--sane-green)]" />
+              {e.creneau.mode_label}
+              {e.creneau.lieu && ` — ${e.creneau.lieu}`}
+            </span>
+          </div>
+        )}
+
+        {e.lien_visio && e.statut === "confirme" && (
+          <a
+            href={e.lien_visio}
+            target="_blank"
+            rel="noreferrer"
+            className="mb-3 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[var(--sane-green)]"
+          >
+            <Video size={14} /> Rejoindre la visioconférence
+          </a>
+        )}
+
+        {e.motif_annulation && (
+          <p className="mb-3 rounded-lg bg-[#fdf1f1] p-3 text-[12px] text-[var(--sane-red-dark)]">
+            Motif : {e.motif_annulation}
+          </p>
+        )}
+
+        {!e.est_final && (
+          <div className="flex flex-wrap gap-2">
+            {e.statut === "en_attente" && (
+              <button
+                type="button"
+                disabled={enCours === e.id}
+                onClick={() => repondre(e, "confirmer")}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--sane-green)] px-4 py-2 text-[13px] font-bold text-white disabled:opacity-60"
+              >
+                <SpinnerOu actif={enCours === e.id} size={14}><CheckCircle2 size={14} /></SpinnerOu>
+                Confirmer ma présence
+              </button>
+            )}
+            <button
+              type="button"
+              disabled={enCours === e.id}
+              onClick={() => repondre(e, "annuler")}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--sane-border)] px-4 py-2 text-[13px] font-semibold text-[var(--sane-red-dark)] disabled:opacity-60"
+            >
+              <X size={14} /> Annuler
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   if (chargement) {
     return (
       <p className="flex items-center justify-center gap-2 py-16">
@@ -86,6 +162,14 @@ function Contenu() {
     <>
       <Alerte texte={erreur} className="mb-5" />
 
+      <h2 className="sane-h3 mb-3">Calendrier</h2>
+
+      {entretiens.length > 0 && (
+        <div className="mb-8">
+          <EntretiensCalendrier entretiens={entretiens} renderEntretien={carteEntretien} />
+        </div>
+      )}
+
       <h2 className="sane-h3 mb-3">Mes entretiens</h2>
 
       {entretiens.length === 0 ? (
@@ -95,76 +179,7 @@ function Contenu() {
       ) : (
         <ul className="mb-10 flex flex-col gap-3">
           {entretiens.map((e) => (
-            <li key={e.id} className="rounded-2xl border border-[var(--sane-border)] bg-white p-5">
-              <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="text-[15px] font-bold text-[var(--sane-text)]">
-                    {e.candidature?.offre?.titre}
-                  </p>
-                  <p className="sane-small">
-                    {e.candidature?.offre?.entreprise?.nom} · Réf. {e.reference}
-                  </p>
-                </div>
-                <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ${COULEUR[e.statut]}`}>
-                  {e.statut_label}
-                </span>
-              </div>
-
-              {e.creneau && (
-                <div className="mb-3 flex flex-wrap gap-x-5 gap-y-1.5">
-                  <span className="inline-flex items-center gap-1.5 sane-small">
-                    <Calendar size={14} className="text-[var(--sane-green)]" />
-                    {formatCreneau(e.creneau.debut)}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 sane-small">
-                    <MapPin size={14} className="text-[var(--sane-green)]" />
-                    {e.creneau.mode_label}
-                    {e.creneau.lieu && ` — ${e.creneau.lieu}`}
-                  </span>
-                </div>
-              )}
-
-              {e.lien_visio && e.statut === "confirme" && (
-                <a
-                  href={e.lien_visio}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mb-3 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[var(--sane-green)]"
-                >
-                  <Video size={14} /> Rejoindre la visioconférence
-                </a>
-              )}
-
-              {e.motif_annulation && (
-                <p className="mb-3 rounded-lg bg-[#fdf1f1] p-3 text-[12px] text-[var(--sane-red-dark)]">
-                  Motif : {e.motif_annulation}
-                </p>
-              )}
-
-              {!e.est_final && (
-                <div className="flex flex-wrap gap-2">
-                  {e.statut === "en_attente" && (
-                    <button
-                      type="button"
-                      disabled={enCours === e.id}
-                      onClick={() => repondre(e, "confirmer")}
-                      className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--sane-green)] px-4 py-2 text-[13px] font-bold text-white disabled:opacity-60"
-                    >
-                      <SpinnerOu actif={enCours === e.id} size={14}><CheckCircle2 size={14} /></SpinnerOu>
-                      Confirmer ma présence
-                    </button>
-                  )}
-                  <button
-                    type="button"
-                    disabled={enCours === e.id}
-                    onClick={() => repondre(e, "annuler")}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--sane-border)] px-4 py-2 text-[13px] font-semibold text-[var(--sane-red-dark)] disabled:opacity-60"
-                  >
-                    <X size={14} /> Annuler
-                  </button>
-                </div>
-              )}
-            </li>
+            <li key={e.id}>{carteEntretien(e)}</li>
           ))}
         </ul>
       )}
