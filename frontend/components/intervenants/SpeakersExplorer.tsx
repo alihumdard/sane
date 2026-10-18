@@ -14,6 +14,7 @@ interface ApiIntervenant {
   nom: string;
   fonction: string | null;
   organisation: string | null;
+  bio: string | null;
   photo: string | null;
 }
 
@@ -46,6 +47,7 @@ export function SpeakersExplorer() {
             org: i.organisation ?? "",
             tags: [],
             img: i.photo ?? "/sane-deal3.webp",
+            bio: i.bio ?? undefined,
           }))
         );
       })
