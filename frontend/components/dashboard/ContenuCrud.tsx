@@ -75,7 +75,10 @@ export function ContenuCrud<T>({
 
   function ouvrir(ligne: T | "nouveau") {
     setEdition(ligne);
-    setForm(ligne === "nouveau" ? {} : versFormulaire(ligne));
+    // The record's own id rides along: the image field needs it to address
+    // the upload, and versFormulaire describes the fields the admin edits,
+    // which an id is not. A new record has none until it is saved.
+    setForm(ligne === "nouveau" ? {} : { ...versFormulaire(ligne), id: cle(ligne) });
     setErreurs({});
   }
 
@@ -85,8 +88,12 @@ export function ContenuCrud<T>({
     setErreurs({});
 
     try {
-      if (edition === "nouveau") await api.post(endpoint, form);
-      else if (edition) await api.put(`${endpoint}/${cle(edition)}`, form);
+      // The id is carried for the image field's benefit, not for the server,
+      // which takes it from the URL.
+      const { id: _ignore, ...payload } = form;
+
+      if (edition === "nouveau") await api.post(endpoint, payload);
+      else if (edition) await api.put(`${endpoint}/${cle(edition)}`, payload);
 
       setEdition(null);
       await table.recharger();
