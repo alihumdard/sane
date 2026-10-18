@@ -29,6 +29,7 @@ use App\Http\Controllers\Api\Entreprise\TableauBordController;
 use App\Http\Controllers\Api\EntretienController;
 use App\Http\Controllers\Api\FormationController;
 use App\Http\Controllers\Api\InscriptionController;
+use App\Http\Controllers\Api\IntervenantController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\OffreController;
 use App\Http\Controllers\Api\ProfilController;
@@ -84,6 +85,9 @@ Route::get('/secteurs', [OffreController::class, 'secteurs']);
 // Les listes proposées par les formulaires. Publiques : l'inscription se
 // remplit sans compte.
 Route::get('/referentiels', [ReferentielController::class, 'index']);
+
+// Les intervenants affiches sur le site public.
+Route::get('/intervenants', [IntervenantController::class, 'index']);
 
 /*
 |--------------------------------------------------------------------------

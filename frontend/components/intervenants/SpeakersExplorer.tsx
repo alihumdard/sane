@@ -1,31 +1,77 @@
 ﻿"use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { LayoutGrid, List } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SpeakerSearch } from "./SpeakerSearch";
 import { SpeakerCard } from "./SpeakerCard";
-import { ALL_DOMAINS, ALL_SECTORS, speakers } from "./data";
+import { ALL_DOMAINS, ALL_SECTORS, speakers, type Speaker } from "./data";
+import { api } from "@/lib/api";
+
+interface ApiIntervenant {
+  id: number;
+  nom: string;
+  fonction: string | null;
+  organisation: string | null;
+  photo: string | null;
+}
 
 /** Search state + the speaker list (grid or list view). */
 export function SpeakersExplorer() {
   const [view, setView] = useState<"grid" | "list">("grid");
+  const [ajoutes, setAjoutes] = useState<Speaker[]>([]);
+
+  /*
+   * Speakers entered from the administration, alongside the ones written into
+   * this file. The page used to show only the latter, so an organiser could
+   * fill in a speaker and find them nowhere on the site.
+   *
+   * They carry no tags — the admin form has no such field — so the sector and
+   * domain filters leave them out. They appear in the unfiltered list and in a
+   * name search, which is what the organiser entering them expects to see.
+   */
+  useEffect(() => {
+    let annule = false;
+
+    api
+      .get<{ data: ApiIntervenant[] }>("/intervenants")
+      .then((r) => {
+        if (annule) return;
+
+        setAjoutes(
+          r.data.map((i) => ({
+            name: i.nom,
+            title: i.fonction ?? "",
+            org: i.organisation ?? "",
+            tags: [],
+            img: i.photo ?? "/sane-deal3.webp",
+          }))
+        );
+      })
+      .catch(() => {
+        // The written-in list still fills the page.
+      });
+
+    return () => {
+      annule = true;
+    };
+  }, []);
   const [search, setSearch] = useState("");
   const [secteur, setSecteur] = useState(ALL_SECTORS);
   const [domaine, setDomaine] = useState(ALL_DOMAINS);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    const hasTag = (value: string) => (p: (typeof speakers)[number]) =>
+    const hasTag = (value: string) => (p: Speaker) =>
       p.tags.some((t) => t.toLowerCase().includes(value.toLowerCase()));
-    return speakers.filter(
+    return [...ajoutes, ...speakers].filter(
       (p) =>
         (!q || p.name.toLowerCase().includes(q) || p.org.toLowerCase().includes(q)) &&
         (secteur === ALL_SECTORS || hasTag(secteur)(p)) &&
         (domaine === ALL_DOMAINS || hasTag(domaine)(p))
     );
-  }, [search, secteur, domaine]);
+  }, [search, secteur, domaine, ajoutes]);
 
   const toggle = (active: boolean) =>
     `flex h-8 w-8 items-center justify-center rounded-lg border transition-colors ${
