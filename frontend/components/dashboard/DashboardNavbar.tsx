@@ -15,7 +15,6 @@ interface Props {
   userName?: string;
   userRole?: string;
   userImage?: string;
-  language?: string;
   onMenuClick?: () => void;
 }
 
@@ -24,7 +23,6 @@ export default function DashboardNavbar({
   userName = "Admin",
   userRole = "Administrateur",
   userImage = "https://randomuser.me/api/portraits/men/32.jpg",
-  language = "FR",
   onMenuClick,
 }: Props) {
   const pathname = usePathname() ?? "";
@@ -79,12 +77,6 @@ export default function DashboardNavbar({
       </div>
 
       <NotificationBell />
-
-      {/* Language - hidden on small mobile */}
-      <div className="hidden sm:flex items-center gap-1 rounded-lg border border-[var(--sane-border)] px-2 py-1.5 shrink-0">
-        <span className="text-[12px] font-semibold text-[var(--sane-green-deep)]">{language}</span>
-        <ChevronDown size={12} className="text-[var(--sane-text-light)]" />
-      </div>
 
       {/* User */}
       <div className="relative shrink-0">
