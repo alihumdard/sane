@@ -110,4 +110,24 @@ class InscriptionMailTest extends TestCase
 
         $this->assertDatabaseHas('inscriptions', ['email' => 'aminata@example.com']);
     }
+
+    /**
+     * The send history is the admin's record of who was written to; a row
+     * naming nobody is no record at all.
+     *
+     * Envelope keeps `to:` in whichever form it was given — an Address for
+     * `to: [$user]`, a plain string for `to: [$email]` — and every Mailable
+     * here passes the string.
+     */
+    public function test_lenvoi_enregistre_le_destinataire(): void
+    {
+        Edition::factory()->active()->create();
+
+        $this->postJson('/api/inscriptions', $this->donneesValides())->assertCreated();
+
+        $this->assertDatabaseHas('envoi_notifications', [
+            'destinataire_email' => 'aminata@example.com',
+            'statut' => 'envoyee',
+        ]);
+    }
 }

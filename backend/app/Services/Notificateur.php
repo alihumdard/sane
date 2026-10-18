@@ -94,7 +94,15 @@ class Notificateur
                 return [null, null];
             }
 
-            return [$to[0]->address, $to[0]->name ?: null];
+            // Envelope accepts both forms and keeps whichever it was given:
+            // `to: [$user]` becomes an Address, `to: [$email]` stays a string.
+            // Reading ->address on the latter threw, and every registration
+            // confirmation was logged with no recipient at all.
+            $premier = $to[0];
+
+            return is_string($premier)
+                ? [$premier, null]
+                : [$premier->address, $premier->name ?: null];
         } catch (Throwable) {
             return [null, null];
         }
