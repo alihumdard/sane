@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Admin\ParametreAdminController;
 use App\Http\Controllers\Api\Admin\FaqAdminController;
 use App\Http\Controllers\Api\Admin\FormateurAdminController;
 use App\Http\Controllers\Api\Admin\FormationAdminController;
+use App\Http\Controllers\Api\Admin\ImageAdminController;
 use App\Http\Controllers\Api\Admin\InscriptionAdminController;
 use App\Http\Controllers\Api\Admin\PartenaireAdminController;
 use App\Http\Controllers\Api\Admin\PresseAdminController;
@@ -234,6 +235,12 @@ Route::middleware(['auth:sanctum', 'role:administrateur,organisateur'])
         Route::get('/formateurs/{formateur}', [FormateurAdminController::class, 'show']);
         Route::put('/formateurs/{formateur}', [FormateurAdminController::class, 'update']);
         Route::delete('/formateurs/{formateur}', [FormateurAdminController::class, 'destroy']);
+
+        // L'image d'un contenu éditorial — portrait d'intervenant, logo de
+        // partenaire, visuel d'actualité ou de formation. `{type}` est
+        // restreint à cette liste côté contrôleur.
+        Route::post('/images/{type}/{id}', [ImageAdminController::class, 'store']);
+        Route::delete('/images/{type}/{id}', [ImageAdminController::class, 'destroy']);
 
         Route::get('/utilisateurs', [UtilisateurAdminController::class, 'index']);
         Route::post('/utilisateurs', [UtilisateurAdminController::class, 'store']);

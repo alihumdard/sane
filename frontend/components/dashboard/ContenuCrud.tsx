@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {Pencil, Plus, Trash2, X} from "lucide-react";
 import { Spinner } from "./Spinner";
+import { ChampImage } from "./ChampImage";
 import { AdminTable, type Colonne } from "./AdminTable";
 import { useApiTable } from "./useApiTable";
 import { api, ApiError } from "@/lib/api";
@@ -11,7 +12,7 @@ import { api, ApiError } from "@/lib/api";
 export interface ChampFormulaire {
   nom: string;
   label: string;
-  type?: "text" | "textarea" | "select" | "number" | "date" | "url" | "checkbox";
+  type?: "text" | "textarea" | "select" | "number" | "date" | "url" | "checkbox" | "image";
   options?: { value: string; label: string }[];
   requis?: boolean;
   pleineLargeur?: boolean;
@@ -19,6 +20,12 @@ export interface ChampFormulaire {
 
 interface ContenuCrudProps<T> {
   endpoint: string;
+  /**
+   * The collection an uploaded image belongs to — formateurs, partenaires,
+   * actualites. Required by any resource declaring an "image" field, since
+   * the upload endpoint is addressed by collection and record id.
+   */
+  typeImage?: string;
   colonnes: Colonne<T>[];
   champs: ChampFormulaire[];
   /** Pre-fills the form when editing; omit a field to leave it blank. */
@@ -39,6 +46,7 @@ const champClass =
  */
 export function ContenuCrud<T>({
   endpoint,
+  typeImage,
   colonnes,
   champs,
   versFormulaire,
@@ -138,11 +146,21 @@ export function ContenuCrud<T>({
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {champs.map((c) => (
             <div key={c.nom} className={c.pleineLargeur || c.type === "textarea" ? "sm:col-span-2" : ""}>
-              <label htmlFor={c.nom} className="mb-1.5 block text-[12px] font-semibold text-[var(--sane-text)]">
+              <label
+                htmlFor={c.nom}
+                className={`mb-1.5 block text-[12px] font-semibold text-[var(--sane-text)] ${c.type === "image" ? "hidden" : ""}`}
+              >
                 {c.label} {c.requis && "*"}
               </label>
 
-              {c.type === "textarea" ? (
+              {c.type === "image" ? (
+                <ChampImage
+                  type={typeImage ?? ""}
+                  id={typeof form.id === "number" ? form.id : null}
+                  valeur={String(form[c.nom] ?? "")}
+                  onChange={(chemin) => setForm((f) => ({ ...f, [c.nom]: chemin }))}
+                />
+              ) : c.type === "textarea" ? (
                 <textarea
                   id={c.nom} rows={5} required={c.requis}
                   value={String(form[c.nom] ?? "")}

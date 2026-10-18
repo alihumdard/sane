@@ -63,7 +63,7 @@ const colonnes: Colonne<Partenaire>[] = [
 const champs: ChampFormulaire[] = [
   { nom: "nom", label: "Nom", requis: true },
   { nom: "type", label: "Type", type: "select", options: TYPES, requis: true },
-  { nom: "logo", label: "Logo (chemin)" },
+  { nom: "logo", label: "Logo", type: "image", pleineLargeur: true },
   { nom: "site_web", label: "Site web", type: "url" },
   { nom: "ordre", label: "Ordre d'affichage", type: "number" },
   { nom: "description", label: "Description", type: "textarea" },
@@ -80,6 +80,7 @@ export default function PartenairesAdminPage() {
       <Suspense fallback={null}>
         <ContenuCrud<Partenaire>
         endpoint="/admin/partenaires"
+        typeImage="partenaires"
         colonnes={colonnes}
         champs={champs}
         cle={(p) => p.id}

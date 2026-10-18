@@ -68,7 +68,7 @@ const champs: ChampFormulaire[] = [
   { nom: "organisation", label: "Organisation", pleineLargeur: true },
   { nom: "email", label: "Email" },
   { nom: "telephone", label: "Téléphone" },
-  { nom: "photo", label: "Photo (chemin)", pleineLargeur: true },
+  { nom: "photo", label: "Photo", type: "image", pleineLargeur: true },
   { nom: "bio", label: "Biographie", type: "textarea" },
 ];
 
@@ -82,6 +82,7 @@ export default function IntervenantsAdminPage() {
       <Suspense fallback={null}>
         <ContenuCrud<ApiFormateur>
         endpoint="/admin/formateurs"
+        typeImage="formateurs"
         colonnes={colonnes}
         champs={champs}
         cle={(f) => f.id}

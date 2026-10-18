@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { STYLE_KEY, type TableApi } from "./useTable";
+import { ChampImage } from "./ChampImage";
 
 type Rec = Record<string, unknown>;
 
@@ -20,6 +21,12 @@ interface Props {
    * dropped on save with no error shown.
    */
   choix?: Record<string, string[]>;
+  /**
+   * The collection an uploaded image belongs to — formateurs, formations,
+   * actualites, partenaires. Given, the dialog offers a file picker for the
+   * record's image instead of asking for a path only the server could supply.
+   */
+  typeImage?: string;
 }
 
 const LABELS: Record<string, string> = {
@@ -37,7 +44,7 @@ function label(key: string) {
   return spaced.charAt(0).toUpperCase() + spaced.slice(1);
 }
 
-function Modal({ table, entity, choix = {} }: Props) {
+function Modal({ table, entity, choix = {}, typeImage }: Props) {
   const modal = table.modal!;
   const mode = modal.mode;
   const sample = (modal.row ?? table.rows[0] ?? {}) as Rec;
@@ -118,6 +125,15 @@ function Modal({ table, entity, choix = {} }: Props) {
         </div>
 
         <div className="grid grid-cols-1 gap-4 overflow-y-auto px-5 py-4 sm:grid-cols-2">
+          {typeImage && (
+            <ChampImage
+              type={typeImage}
+              id={typeof data.id === "number" ? data.id : null}
+              valeur={String(data.image ?? data.photo ?? data.logo ?? "")}
+              onChange={(chemin) => setData({ ...data, image: chemin })}
+              readOnly={readOnly}
+            />
+          )}
           {keys.map((k) => {
             const v = data[k];
             const long = typeof v === "string" && (v.includes("\n") || v.length > 60);
@@ -209,10 +225,10 @@ function Modal({ table, entity, choix = {} }: Props) {
   );
 }
 
-export default function TableDialogs({ table, entity, choix }: Props) {
+export default function TableDialogs({ table, entity, choix, typeImage }: Props) {
   return (
     <>
-      {table.modal && <Modal key={`${table.modal.mode}-${table.modal.row?._uid ?? "new"}`} table={table} entity={entity} choix={choix} />}
+      {table.modal && <Modal key={`${table.modal.mode}-${table.modal.row?._uid ?? "new"}`} table={table} entity={entity} choix={choix} typeImage={typeImage} />}
 
       {table.confirm && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4" onMouseDown={table.cancelDelete}>

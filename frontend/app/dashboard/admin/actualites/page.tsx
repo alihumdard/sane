@@ -68,7 +68,7 @@ const champs: ChampFormulaire[] = [
   { nom: "auteur", label: "Auteur" },
   { nom: "extrait", label: "Extrait", type: "textarea" },
   { nom: "contenu", label: "Contenu", type: "textarea", requis: true },
-  { nom: "image", label: "Image (chemin)", pleineLargeur: true },
+  { nom: "image", label: "Image", type: "image", pleineLargeur: true },
   { nom: "publiee", label: "Publier cette actualité", type: "checkbox", pleineLargeur: true },
 ];
 
@@ -82,6 +82,7 @@ export default function ActualitesAdminPage() {
       <Suspense fallback={null}>
         <ContenuCrud<Actualite>
         endpoint="/admin/actualites"
+        typeImage="actualites"
         colonnes={colonnes}
         champs={champs}
         cle={(a) => a.id}
