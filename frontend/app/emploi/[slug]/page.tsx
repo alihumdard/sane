@@ -5,7 +5,20 @@ import { Footer } from "@/components/layout/Footer";
 import { OffreDetail } from "@/components/emploi/OffreDetail";
 import type { ApiOffre } from "@/lib/types";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api";
+/**
+ * Where this page reaches the API from, which is not where the browser does.
+ *
+ * NEXT_PUBLIC_API_URL is the address baked into the bundle for the browser —
+ * the public one, over TLS. Rendering happens on the server, which sits beside
+ * the API: going back out through the public hostname means a round trip
+ * through nginx and, behind a self-signed certificate, a TLS failure Node
+ * refuses outright. Every offer page then renders as "Une erreur est survenue".
+ *
+ * API_INTERNE names the local address instead; without it the public one still
+ * works for a conventional deployment.
+ */
+const BASE_URL =
+  process.env.API_INTERNE ?? process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api";
 
 /**
  * Fetched on the server so the page is indexable and reaches the visitor as
