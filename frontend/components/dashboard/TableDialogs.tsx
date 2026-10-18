@@ -77,14 +77,28 @@ function Modal({ table, entity, choix = {} }: Props) {
     return uniq.length > 1 && uniq.length <= 12 && uniq.length < vals.length ? uniq : [];
   };
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const firstText = keys.find((k) => typeof sample[k] === "string");
     if (firstText && !String(data[firstText] ?? "").trim()) {
       setError(`Le champ « ${label(firstText)} » est obligatoire.`);
       return;
     }
-    table.save(data);
+
+    setError("");
+
+    /*
+     * A page may hand us a save that talks to the server, and the server may
+     * refuse. Awaiting it means the refusal lands here, inside the dialog the
+     * admin is looking at, rather than in a message bar behind it: until now a
+     * rejected save left the form open with nothing to explain why, which read
+     * as "the form does not work".
+     */
+    try {
+      await table.save(data);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "L'enregistrement a échoué.");
+    }
   };
 
   const title = mode === "add" ? `Ajouter : ${entity}` : mode === "edit" ? `Modifier : ${entity}` : `Détails : ${entity}`;

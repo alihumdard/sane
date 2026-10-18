@@ -312,8 +312,17 @@ function Tableau({
       onMessage(res.message);
       await onRecharger();
     } catch (e) {
-      // Keep the dialog open so the admin can correct the field the server rejected.
-      onMessage(e instanceof ApiError ? e.message : "L'enregistrement a échoué.");
+      // Rethrown so the dialog shows it where the admin is looking, instead of
+      // in a message bar behind the form. Every rejected field is named: the
+      // summary alone says "et 3 erreurs en plus" and leaves the admin to
+      // guess which three.
+      if (e instanceof ApiError) {
+        const champs = Object.values(e.errors ?? {}).flat();
+
+        throw new Error(champs.length ? champs.join(" ") : e.message);
+      }
+
+      throw new Error("L'enregistrement a échoué.");
     }
   }
 
