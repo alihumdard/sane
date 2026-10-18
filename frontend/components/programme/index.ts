@@ -1,4 +1,4 @@
 export { ScheduleSection } from "./ScheduleSection";
 export { VenueSection } from "./VenueSection";
 export { DocumentsSection } from "./DocumentsSection";
-export { eventInfo } from "./data";
+export { eventInfo, DATES_SALON } from "./data";

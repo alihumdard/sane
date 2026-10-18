@@ -3,10 +3,11 @@ import Image from "next/image";
 import { ArrowRight, CalendarDays, Car, MapPin } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { DATES_SALON } from "./data";
 
 const venueFeatures: { icon: LucideIcon; label: string }[] = [
   { icon: MapPin, label: "Niamey, Niger" },
-  { icon: CalendarDays, label: "Date à confirmer" },
+  { icon: CalendarDays, label: DATES_SALON },
   { icon: Car, label: "Accès facile et parking disponible" },
 ];
 

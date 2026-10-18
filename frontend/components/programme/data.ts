@@ -49,8 +49,11 @@ export const tagStyles: Record<SessionTag, string> = {
   Recrutement: "bg-[var(--sane-c-fee2e2)] text-[var(--sane-red-dark)]",
 };
 
+/** The fair's dates, as every public page states them. */
+export const DATES_SALON = "10 – 12 décembre 2026";
+
 export const eventInfo: InfoItem[] = [
-  { icon: CalendarDays, title: "Date", description: "10- 12 décembre 2026" },
+  { icon: CalendarDays, title: "Date", description: DATES_SALON },
   { icon: MapPin, title: "Lieu", description: "Niamey, Niger" },
   { icon: UsersRound, title: "Participants", description: "+1000 attendus" },
   { icon: Mic, title: "Sessions", description: "Conférences, formations, réseautage, recrutement" },
