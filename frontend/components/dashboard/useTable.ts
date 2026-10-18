@@ -42,6 +42,7 @@ export function useTable<T extends object>(initial: T[], options: Options = {}) 
   const [rows, setRows] = useState<TableRow<T>[]>(() =>
     initial.map((r, i) => ({ ...r, _uid: `r${i}` }))
   );
+
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [page, setPage] = useState(1);
@@ -52,6 +53,34 @@ export function useTable<T extends object>(initial: T[], options: Options = {}) 
   const [confirm, setConfirm] = useState<string[] | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  /*
+   * Adopt a fresh list from the server.
+   *
+   * useState's initializer runs once, so a page that reloaded its data after
+   * a change — validating a registration, say — updated its counters while
+   * the table below went on showing the rows it first received: the
+   * registration stayed "En attente" after being confirmed, and a new one
+   * never appeared at all.
+   *
+   * Compared by identity: pages build this list inside their loader, so a new
+   * array means new data, while a re-render for any other reason passes the
+   * same one and leaves local edits alone.
+   */
+  const precedent = useRef(initial);
+
+  useEffect(() => {
+    if (precedent.current === initial) return;
+
+    precedent.current = initial;
+    counter.current = initial.length;
+    setRows(initial.map((r, i) => ({ ...r, _uid: `r${i}` })));
+
+    // _uid is positional, so the same identifier now names a different row;
+    // a selection carried across would act on whatever landed in its place.
+    setSelected([]);
+  }, [initial]);
+
 
   // sidebar "Ajouter ..." entries open the add form (?add=1 or custom event)
   useEffect(() => {
