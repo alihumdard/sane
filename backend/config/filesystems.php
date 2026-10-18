@@ -41,7 +41,11 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            // Not APP_URL: that points at the API, which may live under a
+            // prefix (/api), while uploaded images are served from the site
+            // root. Deriving one from the other produced /api/storage/... —
+            // a path nothing answers on.
+            'url' => rtrim(env('ASSET_URL', env('APP_URL', 'http://localhost')), '/').'/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
