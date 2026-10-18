@@ -136,6 +136,10 @@ export const faqs: FaqEntry[] = [
 export type RegistrationData = Record<string, string>;
 
 export const emptyRegistration: RegistrationData = {
-  type_participation: "", nom: "", naissance: "", email: "", telephone: "", genre: "", nationalite: "Niger",
+  // Every field starts empty, nationality included: pre-filling it with a
+  // country name left the select showing a value its own list no longer
+  // offered, and a visitor who skipped the field submitted someone else's
+  // answer. Most registrants are Nigerien, but the form should ask.
+  type_participation: "", nom: "", naissance: "", email: "", telephone: "", genre: "", nationalite: "",
   ville: "", niveau: "", statut: "", domaine: "", experience: "", parcours: "", source: "",
 };
