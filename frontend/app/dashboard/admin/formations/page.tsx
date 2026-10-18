@@ -31,6 +31,8 @@ interface LigneFormation {
   id: number;
   titre: string;
   categorie: string;
+  /** Kept so the label can be rebuilt once the speaker list has loaded. */
+  formateurId: number | null;
   intervenant: string;
   dateDebut: string;
   dateFin: string;
@@ -76,6 +78,7 @@ function enLigne(f: ApiFormation): LigneFormation {
     id: f.id,
     titre: f.titre,
     categorie: f.categorie?.nom ?? "—",
+    formateurId: f.formateur?.id ?? null,
     intervenant: f.formateur?.nom ?? "—",
     dateDebut: f.date_debut ?? "",
     dateFin: f.date_fin ?? "",
@@ -255,7 +258,12 @@ function Tableau({
   onRecharger: () => Promise<void>;
   onMessage: (m: string) => void;
 }) {
-  const lignes = formations.map(enLigne);
+  const lignes = formations.map((f) => {
+    const ligne = enLigne(f);
+    const libelle = formateurs.find((x) => x.id === ligne.formateurId)?.libelle;
+
+    return libelle ? { ...ligne, intervenant: libelle } : ligne;
+  });
   const editionId = formations[0]?.edition?.id ?? 0;
   const inscritsParId = new Map(formations.map((f) => [f.id, f.inscriptions_count]));
   const idParCategorie = new Map(categories.map((c) => [c.nom.toLowerCase(), c.id]));

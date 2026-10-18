@@ -5,8 +5,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 export type TableRow<T> = T & { _uid: string };
 export type ModalState<T> = { mode: "view" | "edit" | "add"; row?: TableRow<T> } | null;
 
-/** Keys that hold styling / media info and are never shown as form fields. */
-export const STYLE_KEY = /(color|bg|img|image|photo|logo|flag|icon|pct|avatar|^id$|^_uid$)/i;
+/**
+ * Keys that hold styling, media or a foreign key, and are never shown as form
+ * fields. A row may carry an id alongside the label it resolves to — the
+ * speaker on a course, say — and the admin edits the label, not the number.
+ */
+export const STYLE_KEY = /(color|bg|img|image|photo|logo|flag|icon|pct|avatar|^id$|Id$|^_uid$)/i;
 
 type Rec = Record<string, unknown>;
 
