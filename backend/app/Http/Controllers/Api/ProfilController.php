@@ -159,8 +159,8 @@ class ProfilController extends Controller
             'poste' => ['required', 'string', 'max:200'],
             'entreprise' => ['required', 'string', 'max:200'],
             'lieu' => ['nullable', 'string', 'max:150'],
-            'date_debut' => ['required', 'date', 'before_or_equal:today'],
-            'date_fin' => ['nullable', 'date', 'after_or_equal:date_debut', 'before_or_equal:today'],
+            'date_debut' => ['required', 'date', 'before_or_equal:'.now()->toDateString()],
+            'date_fin' => ['nullable', 'date', 'after_or_equal:date_debut', 'before_or_equal:'.now()->toDateString()],
             'en_poste' => ['boolean'],
             'description' => ['nullable', 'string', 'max:2000'],
         ];

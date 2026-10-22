@@ -11,7 +11,9 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
+import { ComboBox } from "@/components/ui/ComboBox";
 import { api, ApiError, telecharger } from "@/lib/api";
+import { NIVEAUX_DIPLOME, TYPES_EMPLOI, useReferentiels } from "@/lib/referentiels";
 import type {
   ApiCompetence,
   ApiDocumentCandidature,
@@ -40,6 +42,7 @@ function Contenu() {
   const [envoi, setEnvoi] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [erreur, setErreur] = useState<string | null>(null);
+  const listes = useReferentiels();
 
   const charger = useCallback(async () => {
     try {
@@ -147,19 +150,24 @@ function Contenu() {
             />
           </div>
 
+          {/*
+            Dropdowns, not free text: the search filters offers on an exact
+            string and the matching engine compares these as text, so "Informatique"
+            typed by hand never meets "Informatique & Numérique" on a posting.
+          */}
           <div>
             <label htmlFor="secteur" className={etiquette}>Secteur</label>
-            <input id="secteur" value={String(form.secteur ?? "")} onChange={(e) => set("secteur")(e.target.value)} className={champ} />
+            <ComboBox id="secteur" options={listes.domaine} value={String(form.secteur ?? "")} onChange={set("secteur")} placeholder="Choisissez un secteur" />
           </div>
 
           <div>
             <label htmlFor="ville" className={etiquette}>Ville</label>
-            <input id="ville" value={String(form.ville ?? "")} onChange={(e) => set("ville")(e.target.value)} className={champ} />
+            <ComboBox id="ville" options={listes.ville} value={String(form.ville ?? "")} onChange={set("ville")} placeholder="Choisissez une ville" />
           </div>
 
           <div>
             <label htmlFor="type_emploi" className={etiquette}>Type d&apos;emploi recherché</label>
-            <input id="type_emploi" placeholder="ex. CDI" value={String(form.type_emploi ?? "")} onChange={(e) => set("type_emploi")(e.target.value)} className={champ} />
+            <ComboBox id="type_emploi" options={TYPES_EMPLOI} value={String(form.type_emploi ?? "")} onChange={set("type_emploi")} placeholder="Choisissez un type" />
           </div>
 
           <div>
@@ -382,6 +390,8 @@ function Competences({ competences, onChange }: { competences: ApiCompetence[]; 
 const EXPERIENCE_VIDE = { poste: "", entreprise: "", lieu: "", date_debut: "", date_fin: "", en_poste: false };
 
 function Experiences({ experiences, onChange }: { experiences: ApiExperience[]; onChange: () => void }) {
+  const listes = useReferentiels();
+
   const [ouvert, setOuvert] = useState(false);
   // null = creating a new one; a number = editing that experience's id.
   const [edition, setEdition] = useState<number | null>(null);
@@ -430,7 +440,7 @@ function Experiences({ experiences, onChange }: { experiences: ApiExperience[]; 
       setOuvert(false);
       onChange();
     } catch (err) {
-      setErreur(err instanceof ApiError ? err.message : "Enregistrement impossible.");
+      setErreur(err instanceof ApiError ? err.allErrors() : "Enregistrement impossible.");
     } finally {
       setEnvoi(false);
     }
@@ -452,15 +462,30 @@ function Experiences({ experiences, onChange }: { experiences: ApiExperience[]; 
 
       {ouvert && (
         <form onSubmit={enregistrer} className="mb-4 grid grid-cols-1 gap-3 rounded-xl bg-[var(--sane-background)] p-4 sm:grid-cols-2">
-          <input required placeholder="Poste *" value={form.poste} onChange={(e) => setForm((f) => ({ ...f, poste: e.target.value }))} aria-label="Poste" className={champ} />
-          <input required placeholder="Entreprise *" value={form.entreprise} onChange={(e) => setForm((f) => ({ ...f, entreprise: e.target.value }))} aria-label="Entreprise" className={champ} />
-          <input placeholder="Lieu" value={form.lieu} onChange={(e) => setForm((f) => ({ ...f, lieu: e.target.value }))} aria-label="Lieu" className={champ} />
-          <input required type="date" value={form.date_debut} onChange={(e) => setForm((f) => ({ ...f, date_debut: e.target.value }))} aria-label="Date de début" className={champ} />
+          <label className="flex flex-col gap-1 text-[12px] font-medium text-[var(--sane-text-light)]">
+            Poste *
+            <input required placeholder="ex. Développeuse web" value={form.poste} onChange={(e) => setForm((f) => ({ ...f, poste: e.target.value }))} className={champ} />
+          </label>
+          <label className="flex flex-col gap-1 text-[12px] font-medium text-[var(--sane-text-light)]">
+            Entreprise *
+            <input required placeholder="ex. Tech Solutions" value={form.entreprise} onChange={(e) => setForm((f) => ({ ...f, entreprise: e.target.value }))} className={champ} />
+          </label>
+          <label className="flex flex-col gap-1 text-[12px] font-medium text-[var(--sane-text-light)]">
+            Lieu
+            <ComboBox id="lieu_experience" options={listes.ville} value={form.lieu} onChange={(v) => setForm((f) => ({ ...f, lieu: v }))} placeholder="Choisissez une ville" />
+          </label>
+          <label className="flex flex-col gap-1 text-[12px] font-medium text-[var(--sane-text-light)]">
+            Date de début *
+            <input required type="date" value={form.date_debut} onChange={(e) => setForm((f) => ({ ...f, date_debut: e.target.value }))} className={champ} />
+          </label>
           {!form.en_poste && (
-            <input type="date" value={form.date_fin} onChange={(e) => setForm((f) => ({ ...f, date_fin: e.target.value }))} aria-label="Date de fin" className={champ} />
+            <label className="flex flex-col gap-1 text-[12px] font-medium text-[var(--sane-text-light)]">
+              Date de fin
+              <input type="date" value={form.date_fin} onChange={(e) => setForm((f) => ({ ...f, date_fin: e.target.value }))} className={champ} />
+            </label>
           )}
           <label className="flex items-center gap-2 text-[13px]">
-            <input type="checkbox" checked={form.en_poste} onChange={(e) => setForm((f) => ({ ...f, en_poste: e.target.checked }))} className="h-4 w-4 accent-[var(--sane-green)]" />
+            <input type="checkbox" checked={form.en_poste} onChange={(e) => setForm((f) => ({ ...f, en_poste: e.target.checked, date_fin: e.target.checked ? "" : f.date_fin }))} className="h-4 w-4 accent-[var(--sane-green)]" />
             Poste actuel
           </label>
           <p className={`sm:col-span-2 sane-small text-[var(--sane-red-dark)] ${erreur ? "" : "hidden"}`}>{erreur}</p>
@@ -506,6 +531,8 @@ function Experiences({ experiences, onChange }: { experiences: ApiExperience[]; 
 const FORMATION_VIDE = { diplome: "", etablissement: "", domaine: "", annee_debut: "", annee_fin: "", en_cours: false };
 
 function Formations({ formations, onChange }: { formations: ApiFormationAcademique[]; onChange: () => void }) {
+  const listes = useReferentiels();
+
   const [ouvert, setOuvert] = useState(false);
   const [edition, setEdition] = useState<number | null>(null);
   const [form, setForm] = useState(FORMATION_VIDE);
@@ -556,7 +583,7 @@ function Formations({ formations, onChange }: { formations: ApiFormationAcademiq
       setOuvert(false);
       onChange();
     } catch (err) {
-      setErreur(err instanceof ApiError ? err.message : "Enregistrement impossible.");
+      setErreur(err instanceof ApiError ? err.allErrors() : "Enregistrement impossible.");
     } finally {
       setEnvoi(false);
     }
@@ -578,15 +605,30 @@ function Formations({ formations, onChange }: { formations: ApiFormationAcademiq
 
       {ouvert && (
         <form onSubmit={enregistrer} className="mb-4 grid grid-cols-1 gap-3 rounded-xl bg-[var(--sane-background)] p-4 sm:grid-cols-2">
-          <input required placeholder="Diplôme *" value={form.diplome} onChange={(e) => setForm((f) => ({ ...f, diplome: e.target.value }))} aria-label="Diplôme" className={champ} />
-          <input required placeholder="Établissement *" value={form.etablissement} onChange={(e) => setForm((f) => ({ ...f, etablissement: e.target.value }))} aria-label="Établissement" className={champ} />
-          <input placeholder="Domaine" value={form.domaine} onChange={(e) => setForm((f) => ({ ...f, domaine: e.target.value }))} aria-label="Domaine" className={champ} />
-          <input type="number" placeholder="Année de début" min={1950} max={2040} value={form.annee_debut} onChange={(e) => setForm((f) => ({ ...f, annee_debut: e.target.value }))} aria-label="Année de début" className={champ} />
+          <label className="flex flex-col gap-1 text-[12px] font-medium text-[var(--sane-text-light)]">
+            Diplôme *
+            <ComboBox id="diplome" options={NIVEAUX_DIPLOME} value={form.diplome} onChange={(v) => setForm((f) => ({ ...f, diplome: v }))} placeholder="Choisissez un diplôme" required />
+          </label>
+          <label className="flex flex-col gap-1 text-[12px] font-medium text-[var(--sane-text-light)]">
+            Établissement *
+            <input required placeholder="ex. Université de Niamey" value={form.etablissement} onChange={(e) => setForm((f) => ({ ...f, etablissement: e.target.value }))} className={champ} />
+          </label>
+          <label className="flex flex-col gap-1 text-[12px] font-medium text-[var(--sane-text-light)]">
+            Domaine
+            <ComboBox id="domaine_formation" options={listes.domaine} value={form.domaine} onChange={(v) => setForm((f) => ({ ...f, domaine: v }))} placeholder="Choisissez un domaine" />
+          </label>
+          <label className="flex flex-col gap-1 text-[12px] font-medium text-[var(--sane-text-light)]">
+            Année de début
+            <input type="number" placeholder="ex. 2018" min={1950} max={2040} value={form.annee_debut} onChange={(e) => setForm((f) => ({ ...f, annee_debut: e.target.value }))} className={champ} />
+          </label>
           {!form.en_cours && (
-            <input type="number" placeholder="Année de fin" min={1950} max={2040} value={form.annee_fin} onChange={(e) => setForm((f) => ({ ...f, annee_fin: e.target.value }))} aria-label="Année de fin" className={champ} />
+            <label className="flex flex-col gap-1 text-[12px] font-medium text-[var(--sane-text-light)]">
+              Année de fin
+              <input type="number" placeholder="ex. 2021" min={1950} max={2040} value={form.annee_fin} onChange={(e) => setForm((f) => ({ ...f, annee_fin: e.target.value }))} className={champ} />
+            </label>
           )}
           <label className="flex items-center gap-2 text-[13px]">
-            <input type="checkbox" checked={form.en_cours} onChange={(e) => setForm((f) => ({ ...f, en_cours: e.target.checked }))} className="h-4 w-4 accent-[var(--sane-green)]" />
+            <input type="checkbox" checked={form.en_cours} onChange={(e) => setForm((f) => ({ ...f, en_cours: e.target.checked, annee_fin: e.target.checked ? "" : f.annee_fin }))} className="h-4 w-4 accent-[var(--sane-green)]" />
             En cours
           </label>
           <p className={`sm:col-span-2 sane-small text-[var(--sane-red-dark)] ${erreur ? "" : "hidden"}`}>{erreur}</p>

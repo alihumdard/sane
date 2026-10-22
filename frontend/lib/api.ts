@@ -14,6 +14,17 @@ export class ApiError extends Error {
   fieldError(field: string): string | undefined {
     return this.errors[field]?.[0];
   }
+
+  /**
+   * Every validation message, not just the first. Laravel's `message` only
+   * carries one and appends "(et N erreurs en plus)", which hides the rest
+   * from a form that shows a single line.
+   */
+  allErrors(): string {
+    const messages = Object.values(this.errors).flat();
+
+    return messages.length > 0 ? messages.join(" ") : this.message;
+  }
 }
 
 type RequestOptions = Omit<RequestInit, "body"> & { body?: unknown };
