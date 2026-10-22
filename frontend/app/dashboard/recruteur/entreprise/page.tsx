@@ -6,7 +6,9 @@ import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
+import { ComboBox } from "@/components/ui/ComboBox";
 import { api, ApiError } from "@/lib/api";
+import { useReferentiels } from "@/lib/referentiels";
 import type { ApiEntreprise, EntreprisePayload } from "@/lib/types";
 
 const champ =
@@ -31,6 +33,7 @@ function Contenu() {
   const [erreur, setErreur] = useState<string | null>(null);
   const [succes, setSucces] = useState<string | null>(null);
   const [champsEnErreur, setChampsEnErreur] = useState<Record<string, string>>({});
+  const listes = useReferentiels();
 
   useEffect(() => {
     let actif = true;
@@ -61,7 +64,16 @@ function Contenu() {
     };
   }, []);
 
-  const set = (cle: keyof EntreprisePayload) => (v: string) => setForm((f) => ({ ...f, [cle]: v }));
+  const set = (cle: keyof EntreprisePayload) => (v: string) => {
+    setForm((f) => ({ ...f, [cle]: v }));
+    setChampsEnErreur((champs) => {
+      if (!(cle in champs)) return champs;
+      const reste = { ...champs };
+      delete reste[cle];
+      return reste;
+    });
+    setErreur(null);
+  };
 
   async function enregistrer(e: React.FormEvent) {
     e.preventDefault();
@@ -130,12 +142,12 @@ function Contenu() {
 
         <div>
           <label htmlFor="secteur" className={etiquette}>Secteur d&apos;activité</label>
-          <input id="secteur" value={form.secteur} onChange={(e) => set("secteur")(e.target.value)} className={champ} />
+          <ComboBox id="secteur" options={listes.domaine} value={form.secteur ?? ""} onChange={set("secteur")} placeholder="Choisissez un secteur" />
         </div>
 
         <div>
           <label htmlFor="ville" className={etiquette}>Ville</label>
-          <input id="ville" value={form.ville} onChange={(e) => set("ville")(e.target.value)} className={champ} />
+          <ComboBox id="ville" options={listes.ville} value={form.ville ?? ""} onChange={set("ville")} placeholder="Choisissez une ville" />
         </div>
 
         <div>

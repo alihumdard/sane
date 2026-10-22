@@ -4,7 +4,9 @@ import { useState } from "react";
 import { AlertCircle, ArrowLeft, Save, Send } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
+import { ComboBox } from "@/components/ui/ComboBox";
 import { api, ApiError } from "@/lib/api";
+import { useReferentiels } from "@/lib/referentiels";
 import type { ApiOffre, OffrePayload, TypeContrat } from "@/lib/types";
 
 const CONTRATS: { value: TypeContrat; label: string }[] = [
@@ -52,8 +54,18 @@ export function OffreForm({ offre, onAnnuler, onEnregistre }: OffreFormProps) {
   const [envoi, setEnvoi] = useState<"brouillon" | "publiee" | null>(null);
   const [erreur, setErreur] = useState<string | null>(null);
   const [champsEnErreur, setChampsEnErreur] = useState<Record<string, string>>({});
+  const listes = useReferentiels();
 
-  const set = (cle: keyof typeof form) => (v: string) => setForm((f) => ({ ...f, [cle]: v }));
+  const set = (cle: keyof typeof form) => (v: string) => {
+    setForm((f) => ({ ...f, [cle]: v }));
+    setChampsEnErreur((champs) => {
+      if (!(cle in champs)) return champs;
+      const reste = { ...champs };
+      delete reste[cle];
+      return reste;
+    });
+    setErreur(null);
+  };
 
   async function enregistrer(statut: "brouillon" | "publiee") {
     setEnvoi(statut);
@@ -139,13 +151,13 @@ export function OffreForm({ offre, onAnnuler, onEnregistre }: OffreFormProps) {
 
         <div>
           <label htmlFor="ville" className={etiquette}>Lieu *</label>
-          <input id="ville" required value={form.ville} onChange={(e) => set("ville")(e.target.value)} className={champ} />
+          <ComboBox id="ville" required options={listes.ville} value={form.ville} onChange={set("ville")} placeholder="Choisissez une ville" />
           <Erreur message={champsEnErreur.ville} />
         </div>
 
         <div className="sm:col-span-2">
           <label htmlFor="secteur" className={etiquette}>Secteur d&apos;activité *</label>
-          <input id="secteur" required value={form.secteur} onChange={(e) => set("secteur")(e.target.value)} className={champ} />
+          <ComboBox id="secteur" required options={listes.domaine} value={form.secteur} onChange={set("secteur")} placeholder="Choisissez un secteur" />
           <Erreur message={champsEnErreur.secteur} />
         </div>
 
