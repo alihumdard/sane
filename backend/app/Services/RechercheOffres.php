@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\TypeContrat;
 use App\Models\OffreEmploi;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -93,7 +94,23 @@ class RechercheOffres
             ->groupBy($colonne)
             ->orderByDesc('total')
             ->get()
-            ->map(fn ($ligne) => ['valeur' => $ligne->valeur, 'total' => (int) $ligne->total])
+            ->map(fn ($ligne) => [
+                // The query still filters on the stored value; `libelle` is only
+                // what the dropdown shows, so an enum column reads "Stage"
+                // rather than the "stage" it is stored as.
+                'valeur' => $ligne->valeur,
+                'libelle' => $this->libelle($colonne, $ligne->valeur),
+                'total' => (int) $ligne->total,
+            ])
             ->all();
+    }
+
+    private function libelle(string $colonne, string $valeur): string
+    {
+        if ($colonne !== 'type_contrat') {
+            return $valeur;
+        }
+
+        return TypeContrat::tryFrom($valeur)?->label() ?? $valeur;
     }
 }

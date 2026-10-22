@@ -55,7 +55,7 @@ function Select({
         <option value="">{placeholder}</option>
         {options.map((o) => (
           <option key={o.valeur} value={o.valeur}>
-            {o.valeur} ({o.total})
+            {o.libelle} ({o.total})
           </option>
         ))}
       </select>

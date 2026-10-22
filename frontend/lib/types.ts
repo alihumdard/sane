@@ -184,6 +184,8 @@ export interface ApiOffre {
 /** One filter value with its live count, as the API reports it. */
 export interface FiltreValeur {
   valeur: string;
+  /** What to show; `valeur` is what the query filters on. */
+  libelle: string;
   total: number;
 }
 
