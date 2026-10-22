@@ -64,6 +64,8 @@ export function ContenuCrud<T>({
   const [form, setForm] = useState<Record<string, unknown>>({});
   const [envoi, setEnvoi] = useState(false);
   const [erreurs, setErreurs] = useState<Record<string, string>>({});
+  // Chosen on a record that does not exist yet; sent once it does.
+  const [imageEnAttente, setImageEnAttente] = useState<File | null>(null);
 
   useEffect(() => {
     if (params.get("nouveau")) {
@@ -80,6 +82,7 @@ export function ContenuCrud<T>({
     // which an id is not. A new record has none until it is saved.
     setForm(ligne === "nouveau" ? {} : { ...versFormulaire(ligne), id: cle(ligne) });
     setErreurs({});
+    setImageEnAttente(null);
   }
 
   async function enregistrer(e: React.FormEvent) {
@@ -92,8 +95,20 @@ export function ContenuCrud<T>({
       // which takes it from the URL.
       const { id: _ignore, ...payload } = form;
 
-      if (edition === "nouveau") await api.post(endpoint, payload);
-      else if (edition) await api.put(`${endpoint}/${cle(edition)}`, payload);
+      if (edition === "nouveau") {
+        const cree = await api.post<{ data?: { id?: number } }>(endpoint, payload);
+
+        // The picker could not upload before the record existed, so it held
+        // the file; now there is an id to attach it to.
+        if (imageEnAttente && typeImage && cree.data?.id) {
+          const corps = new FormData();
+          corps.append("image", imageEnAttente);
+
+          await api.upload(`/admin/images/${typeImage}/${cree.data.id}`, corps);
+        }
+      } else if (edition) {
+        await api.put(`${endpoint}/${cle(edition)}`, payload);
+      }
 
       setEdition(null);
       await table.recharger();
@@ -166,6 +181,7 @@ export function ContenuCrud<T>({
                   id={typeof form.id === "number" ? form.id : null}
                   valeur={String(form[c.nom] ?? "")}
                   onChange={(chemin) => setForm((f) => ({ ...f, [c.nom]: chemin }))}
+                  onFichier={setImageEnAttente}
                 />
               ) : c.type === "textarea" ? (
                 <textarea

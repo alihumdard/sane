@@ -24,15 +24,17 @@ function urlPublique(chemin: string): string {
  * the server could supply: an administrator looking at it had no way to put a
  * speaker's portrait online, and asked us what to do about the photo.
  *
- * Uploads immediately rather than on save. The file has to reach the server
- * either way, and a record that does not exist yet has nothing to attach it
- * to — so on a new record the field waits until it has been saved once.
+ * On an existing record the file is sent straight away. On a new one there is
+ * nothing to attach it to yet, so the chosen file is held and `onFichier`
+ * hands it to the form, which uploads it once the record has an id. Making the
+ * admin save, reopen and only then choose a photo was a step too many.
  */
 export function ChampImage({
   type,
   id,
   valeur,
   onChange,
+  onFichier,
   readOnly,
 }: {
   /** The collection this record belongs to: formateurs, formations, actualites, partenaires. */
@@ -41,14 +43,27 @@ export function ChampImage({
   id: number | null;
   valeur: string;
   onChange: (chemin: string) => void;
+  /** Called with the file held for a record that has no id yet. */
+  onFichier?: (fichier: File | null) => void;
   readOnly?: boolean;
 }) {
   const champ = useRef<HTMLInputElement>(null);
   const [envoi, setEnvoi] = useState(false);
   const [erreur, setErreur] = useState("");
+  const [enAttente, setEnAttente] = useState<string>("");
 
   async function televerser(fichier: File | undefined) {
-    if (!fichier || id === null) return;
+    if (!fichier) return;
+
+    // Nothing to attach it to yet: hold it for the form to send after the
+    // record is created.
+    if (id === null) {
+      setErreur("");
+      setEnAttente(fichier.name);
+      onFichier?.(fichier);
+
+      return;
+    }
 
     const corps = new FormData();
     corps.append("image", fichier);
@@ -73,7 +88,12 @@ export function ChampImage({
   }
 
   async function retirer() {
-    if (id === null) return;
+    if (id === null) {
+      setEnAttente("");
+      onFichier?.(null);
+
+      return;
+    }
 
     setEnvoi(true);
     setErreur("");
@@ -108,14 +128,14 @@ export function ChampImage({
             ref={champ}
             type="file"
             accept="image/jpeg,image/png,image/webp"
-            disabled={readOnly || envoi || id === null}
+            disabled={readOnly || envoi}
             onChange={(e) => televerser(e.target.files?.[0])}
             className="block w-full text-[12px] file:mr-3 file:cursor-pointer file:rounded-lg file:border file:border-[var(--sane-border)] file:bg-white file:px-3 file:py-1.5 file:text-[12px] file:font-semibold file:text-[var(--sane-green)] disabled:opacity-60"
           />
 
           <p className="mt-1 text-[11px] text-[var(--sane-text-light)]">
-            {id === null
-              ? "Enregistrez d'abord, puis ajoutez l'image."
+            {id === null && enAttente
+              ? `${enAttente} — envoyée à l'enregistrement`
               : "JPG, PNG ou WebP · 2 Mo maximum"}
           </p>
 
@@ -127,7 +147,7 @@ export function ChampImage({
         <button
           type="button"
           onClick={retirer}
-          disabled={readOnly || envoi || !valeur || id === null}
+          disabled={readOnly || envoi || (!valeur && !enAttente)}
           aria-label="Retirer l'image"
           className="inline-flex shrink-0 items-center rounded-lg border border-[var(--sane-border)] p-2 text-[var(--sane-red-dark)] disabled:opacity-40"
         >
