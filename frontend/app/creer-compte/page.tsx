@@ -57,7 +57,16 @@ export default function CreerComptePage() {
   const [erreur, setErreur] = useState<string | null>(null);
   const [champsEnErreur, setChampsEnErreur] = useState<Record<string, string>>({});
 
-  const set = (cle: keyof typeof form) => (v: string) => setForm((f) => ({ ...f, [cle]: v }));
+  const set = (cle: keyof typeof form) => (v: string) => {
+    setForm((f) => ({ ...f, [cle]: v }));
+    setChampsEnErreur((champs) => {
+      if (!(cle in champs)) return champs;
+      const reste = { ...champs };
+      delete reste[cle];
+      return reste;
+    });
+    setErreur(null);
+  };
 
   async function creer(e: React.FormEvent) {
     e.preventDefault();
