@@ -11,7 +11,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { api, ApiError } from "@/lib/api";
-import type { ApiCorrespondance, ApiEntretien } from "@/lib/types";
+import type { ApiCorrespondance, ApiEntretien, ApiProfilDemandeur } from "@/lib/types";
 
 function formatCreneau(iso: string): string {
   return new Date(iso).toLocaleString("fr-FR", {
@@ -34,6 +34,7 @@ const COULEUR: Record<string, string> = {
 function Contenu() {
   const [entretiens, setEntretiens] = useState<ApiEntretien[]>([]);
   const [correspondances, setCorrespondances] = useState<ApiCorrespondance[]>([]);
+  const [profilPret, setProfilPret] = useState(true);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
   const [enCours, setEnCours] = useState<number | null>(null);
@@ -43,13 +44,15 @@ function Contenu() {
       setChargement(true);
       setErreur(null);
 
-      const [e, c] = await Promise.all([
+      const [e, c, p] = await Promise.all([
         api.get<{ data: ApiEntretien[] }>("/mes-entretiens"),
         api.get<{ data: ApiCorrespondance[] }>("/mes-correspondances"),
+        api.get<{ data: ApiProfilDemandeur }>("/profil"),
       ]);
 
       setEntretiens(e.data);
       setCorrespondances(c.data);
+      setProfilPret(p.data.visible && (p.data.taux_completion ?? 0) >= 100);
     } catch (err) {
       setErreur(err instanceof ApiError ? err.message : "Chargement impossible.");
     } finally {
@@ -191,7 +194,9 @@ function Contenu() {
 
       {correspondances.length === 0 ? (
         <p className="rounded-2xl border border-[var(--sane-border)] bg-white py-10 text-center sane-small">
-          Complétez votre profil et rendez-le visible pour recevoir des suggestions.
+          {profilPret
+            ? "Aucune suggestion pour le moment. Les entreprises rapprochent les profils de leurs offres au fil de leurs recrutements."
+            : "Complétez votre profil et rendez-le visible pour recevoir des suggestions."}
         </p>
       ) : (
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
