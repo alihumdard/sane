@@ -133,7 +133,7 @@ class EmploiApiTest extends TestCase
 
         $filtres = $this->getJson('/api/offres')->assertOk()->json('filtres.ville');
 
-        $this->assertSame(['valeur' => 'Niamey', 'total' => 2], $filtres[0]);
+        $this->assertSame(['valeur' => 'Niamey', 'libelle' => 'Niamey', 'total' => 2], $filtres[0]);
     }
 
     public function test_la_consultation_incremente_les_vues(): void
