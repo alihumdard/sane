@@ -58,6 +58,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       ecrireToken(null);
       setAuthToken(null);
       setUser(null);
+      // The session is settled — without this a guard that was still waiting
+      // on /auth/me keeps spinning instead of offering the login link.
+      setLoading(false);
     });
 
     return () => setSessionExpireeHandler(null);
@@ -72,16 +75,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
+    // Signing out while this is in flight must win: without the flag the late
+    // answer would sign the visitor back in.
+    let annule = false;
+
     setAuthToken(token);
 
     api
       .get<{ user: AuthUser }>("/auth/me")
-      .then((res) => setUser(res.user))
+      .then((res) => {
+        if (!annule) setUser(res.user);
+      })
       .catch(() => {
         ecrireToken(null);
         setAuthToken(null);
       })
       .finally(() => setLoading(false));
+
+    return () => {
+      annule = true;
+    };
   }, []);
 
   const login = useCallback(async (email: string, password: string) => {
@@ -115,6 +128,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       ecrireToken(null);
       setAuthToken(null);
       setUser(null);
+      setLoading(false);
     }
   }, []);
 
