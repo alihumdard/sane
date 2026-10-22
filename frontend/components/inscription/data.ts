@@ -1,6 +1,7 @@
 ﻿import { Calendar, Camera, Clock, FileText, GraduationCap, Handshake, BriefcaseBusiness, Mail, MapPin, Phone, Ticket } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { FaqEntry, FeatureBarItem } from "@/components/shared";
+import { NIVEAUX_DIPLOME, REPLI } from "@/lib/referentiels";
 
 export const perks: FeatureBarItem[] = [
   { icon: Ticket, value: "Accès au salon", label: "Entrée gratuite", color: "var(--sane-orange)" },
@@ -61,63 +62,18 @@ export const typeParticipationOptions: TypeParticipationOption[] = [
   },
 ];
 
-/**
- * Fallbacks for the three lists the server owns.
- *
- * The form fetches /referentiels on mount, but it must be usable before that
- * answers and if it never does: an empty dropdown on a required field would
- * block the registration entirely.
- *
- * These were four nationalities, on the assumption that a failed fetch is a
- * moment's wait. It is not always: behind a certificate the browser will not
- * trust, or a proxy that eats the call, the fetch never lands and four is the
- * whole list the visitor ever sees. A reviewer found exactly that and asked
- * for more countries that were already there. The full lists are a few
- * kilobytes, so they ship with the form and the server's copy only refreshes
- * them.
- */
-const REPLI: {
-  nationalite: Record<string, string[]>;
-  ville: string[];
-  secteur: string[];
-} = {
-  nationalite: {
-    "Afrique de l'Ouest": ["Nigérienne", "Béninoise", "Burkinabè", "Cap-verdienne", "Gambienne", "Ghanéenne", "Guinéenne", "Bissau-guinéenne", "Ivoirienne", "Libérienne", "Malienne", "Mauritanienne", "Nigériane", "Sénégalaise", "Sierra-léonaise", "Togolaise"],
-    "Afrique centrale": ["Camerounaise", "Centrafricaine", "Congolaise (RDC)", "Congolaise (Congo-Brazzaville)", "Gabonaise", "Tchadienne", "Équato-guinéenne", "Santoméenne"],
-    "Afrique du Nord": ["Algérienne", "Égyptienne", "Libyenne", "Marocaine", "Soudanaise", "Tunisienne"],
-    "Afrique de l'Est et australe": ["Burundaise", "Djiboutienne", "Éthiopienne", "Kényane", "Malgache", "Mozambicaine", "Ougandaise", "Rwandaise", "Somalienne", "Sud-africaine", "Tanzanienne", "Zambienne", "Zimbabwéenne"],
-    "Europe": ["Allemande", "Belge", "Britannique", "Espagnole", "Française", "Italienne", "Néerlandaise", "Portugaise", "Suisse", "Russe", "Turque", "Ukrainienne"],
-    "Asie et Moyen-Orient": ["Chinoise", "Coréenne", "Émiratie", "Indienne", "Indonésienne", "Japonaise", "Libanaise", "Malaisienne", "Pakistanaise", "Philippine", "Qatarienne", "Saoudienne", "Syrienne", "Vietnamienne"],
-    "Amériques et Océanie": ["Américaine", "Argentine", "Australienne", "Brésilienne", "Canadienne", "Cubaine", "Mexicaine"],
-    "Autre": ["Autre"],
-  },
-  ville: ["Niamey", "Agadez", "Diffa", "Dosso", "Maradi", "Tahoua", "Tillabéri", "Zinder",
-    "Arlit", "Birni-N'Konni", "Gaya", "Tessaoua", "Guidan Roumdji", "Madaoua", "Téra", "Autre"],
-  secteur: ["Administration publique", "Agriculture & Élevage", "Artisanat",
-    "Banque, Assurance & Microfinance", "BTP & Construction", "Commerce & Distribution",
-    "Communication, Médias & Culture", "Eau & Assainissement", "Éducation & Formation",
-    "Énergie", "Environnement & Développement durable", "Hôtellerie, Restauration & Tourisme",
-    "Humanitaire & ONG", "Industrie & Agroalimentaire", "Informatique & Numérique",
-    "Juridique & Conseil", "Logistique & Transport", "Mines & Pétrole",
-    "Santé & Action sociale", "Sécurité & Défense", "Services aux entreprises",
-    "Textile & Mode", "Autre"],
-};
 export const options = {
   genre: ["Homme", "Femme"],
   nationalite: REPLI.nationalite as string[] | Record<string, string[]>,
   ville: REPLI.ville,
-  niveau: ["Baccalauréat", "Licence", "Master", "Doctorat"],
+  niveau: NIVEAUX_DIPLOME,
   statut: ["Étudiant", "Demandeur d'emploi", "Salarié", "Entrepreneur", "Autre"],
   domaine: REPLI.secteur,
   experience: ["Aucune", "Moins de 2 ans", "2 à 5 ans", "Plus de 5 ans"],
   source: ["Réseaux sociaux", "Presse", "Bouche-à-oreille", "Établissement ou employeur", "Autre"],
 };
 
-export interface Referentiels {
-  secteurs: string[];
-  nationalites: Record<string, string[]>;
-  villes: string[];
-}
+export type { Referentiels } from "@/lib/referentiels";
 
 export const interestOptions = [
   "Offres d'emploi",
