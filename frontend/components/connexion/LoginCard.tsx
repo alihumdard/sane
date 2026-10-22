@@ -9,15 +9,8 @@ import { PasswordField, TextField } from "@/components/ui/FormFields";
 import { primaryBtn, textLink } from "@/components/ui/styles";
 import { ApiError } from "@/lib/api";
 import { ACCUEIL_PAR_ROLE, useAuth } from "@/lib/auth";
-import { roles } from "./data";
 
-interface Props {
-  activeRole: string;
-  onRoleChange: (key: string) => void;
-}
-
-/** Role tabs + email/password form. The selected role is owned by the parent (the "Espaces" cards can change it). */
-export function LoginCard({ activeRole, onRoleChange }: Props) {
+export function LoginCard() {
   const router = useRouter();
   const params = useSearchParams();
   const { login } = useAuth();
@@ -53,28 +46,6 @@ export function LoginCard({ activeRole, onRoleChange }: Props) {
     <div id="login-form" className="w-full scroll-mt-24 rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
       <h2 className="sane-h2 mb-1">Connexion</h2>
       <p className="sane-body mb-5">Accédez à votre espace SANEM</p>
-
-      <div role="group" aria-label="Type de compte" className="mb-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {roles.map(({ key, title, icon: Icon }) => {
-          const active = activeRole === key;
-          return (
-            <button
-              key={key}
-              type="button"
-              onClick={() => onRoleChange(key)}
-              aria-pressed={active}
-              className={`flex flex-col items-center gap-1.5 rounded-lg border px-1 py-3 text-center transition-colors ${
-                active
-                  ? "border-[var(--sane-green)] bg-[var(--sane-green)] text-white"
-                  : "border-[var(--sane-border)] bg-white text-[var(--sane-text-light)] hover:border-[var(--sane-green)]/40"
-              }`}
-            >
-              <Icon size={20} className={active ? "text-white" : "text-[var(--sane-green)]"} />
-              <span className="text-[11px] font-semibold leading-tight">{title}</span>
-            </button>
-          );
-        })}
-      </div>
 
       {/*
         Kept in the tree and hidden rather than mounted on demand: Google

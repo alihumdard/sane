@@ -5,13 +5,8 @@ import { Container } from "@/components/ui/Container";
 import { HeroInfo } from "./HeroInfo";
 import { LoginCard } from "./LoginCard";
 
-interface Props {
-  activeRole: string;
-  onRoleChange: (key: string) => void;
-}
-
 /** Hero with the info column on the left and the login card on the right (both the same width and height). */
-export function ConnexionHero({ activeRole, onRoleChange }: Props) {
+export function ConnexionHero() {
   return (
     <section className="relative overflow-hidden bg-[var(--sane-green-dark)]">
       <div className="absolute inset-0 z-10 bg-[var(--sane-green-dark)]/80 lg:bg-gradient-to-r lg:from-[var(--sane-green-dark)] lg:via-[var(--sane-green-dark)]/85 lg:to-[var(--sane-green-dark)]/30" />
@@ -31,7 +26,7 @@ export function ConnexionHero({ activeRole, onRoleChange }: Props) {
 
         <div className="grid w-full gap-8 lg:grid-cols-2 lg:items-stretch lg:gap-12">
           <HeroInfo />
-          <LoginCard activeRole={activeRole} onRoleChange={onRoleChange} />
+          <LoginCard />
         </div>
       </Container>
     </section>

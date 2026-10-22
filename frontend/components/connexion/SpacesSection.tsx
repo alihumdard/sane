@@ -1,14 +1,9 @@
 ﻿import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { textLink } from "@/components/ui/styles";
 import { roles } from "./data";
 
-interface Props {
-  onSelectRole: (key: string) => void;
-}
-
-export function SpacesSection({ onSelectRole }: Props) {
+export function SpacesSection() {
   return (
     <section className="bg-white py-10 sm:py-12 md:py-16">
       <Container>
@@ -32,7 +27,6 @@ export function SpacesSection({ onSelectRole }: Props) {
                 <h3 className="sane-h3">{title}</h3>
                 <a
                   href="#login-form"
-                  onClick={() => onSelectRole(key)}
                   aria-label={`Se connecter — ${title}`}
                   className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--sane-border)] text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green)] hover:text-white"
                 >
