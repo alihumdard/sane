@@ -36,6 +36,21 @@ return [
             'serve' => true,
             'throw' => false,
             'report' => false,
+
+            /*
+             * Readable by the group, not just the owner.
+             *
+             * php-fpm writes an upload and creates its folder; the scheduler,
+             * exports and maintenance commands run as the deploy user. With
+             * the default 0700 the second could not so much as list what the
+             * first had written — a document was on disk and invisible to half
+             * the application. Both accounts share the www-data group, and
+             * nothing outside it can read these.
+             */
+            'permissions' => [
+                'file' => ['public' => 0640, 'private' => 0640],
+                'dir' => ['public' => 0750, 'private' => 0750],
+            ],
         ],
 
         'public' => [
