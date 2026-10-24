@@ -158,7 +158,7 @@ function Contenu() {
       <section className="mb-6 rounded-2xl border border-[var(--sane-border)] bg-white p-5">
         <h2 className="mb-4 text-[15px] font-bold text-[var(--sane-text)]">Ajouter un créneau</h2>
 
-        <form onSubmit={ajouterCreneau} className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <form onSubmit={ajouterCreneau} className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
           <div>
             <label htmlFor="debut" className="mb-1 block text-[12px] font-semibold">Début</label>
             <input

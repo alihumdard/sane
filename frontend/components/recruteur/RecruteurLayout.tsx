@@ -67,7 +67,7 @@ export function RecruteurLayout({
         </nav>
       </aside>
 
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1 overflow-x-hidden">
         <header className="border-b border-[var(--sane-border)] bg-white px-5 py-4 sm:px-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="min-w-0">
