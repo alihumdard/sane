@@ -29,8 +29,8 @@ export function RecruteurLayout({
   const { user, logout } = useAuth();
 
   return (
-    <div className="flex min-h-screen bg-[var(--sane-background)]">
-      <aside className="hidden w-[240px] shrink-0 border-r border-[var(--sane-border)] bg-white lg:block">
+    <div className="flex min-h-screen overflow-x-hidden bg-[var(--sane-background)]">
+      <aside className="sticky top-0 hidden h-screen w-[240px] shrink-0 overflow-y-auto border-r border-[var(--sane-border)] bg-white lg:block">
         <div className="border-b border-[var(--sane-border)] px-5 py-4">
           <p className="text-[15px] font-bold text-[var(--sane-green-deep)]">SANEM</p>
           <p className="text-[11px] text-[var(--sane-text-light)]">Espace recruteur</p>
@@ -84,7 +84,7 @@ export function RecruteurLayout({
           </div>
 
           {/* Mobile nav — the sidebar is hidden below lg. */}
-          <nav className="mt-3 flex gap-2 overflow-x-auto lg:hidden">
+          <nav className="mt-3 flex min-w-0 gap-2 overflow-x-auto lg:hidden">
             {LIENS.map(({ href, label }) => (
               <Link
                 key={href}
