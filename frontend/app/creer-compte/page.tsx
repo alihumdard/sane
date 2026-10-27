@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AlertCircle, ArrowRight, Briefcase, Loader2, UserRound } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { Header } from "@/components/layout/Header";
@@ -40,11 +40,14 @@ const TYPES = [
  * visitor may want a job without attending, and an attendee may never use the
  * job portal.
  */
-export default function CreerComptePage() {
+function Contenu() {
   const router = useRouter();
   const { inscrire } = useAuth();
+  const params = useSearchParams();
 
-  const [role, setRole] = useState<"demandeur" | "recruteur">("demandeur");
+  const [role, setRole] = useState<"demandeur" | "recruteur">(
+    params.get("role") === "recruteur" ? "recruteur" : "demandeur"
+  );
   const [form, setForm] = useState({
     nom: "",
     email: "",
@@ -207,5 +210,13 @@ export default function CreerComptePage() {
       </main>
       <Footer />
     </>
+  );
+}
+
+export default function CreerComptePage() {
+  return (
+    <Suspense>
+      <Contenu />
+    </Suspense>
   );
 }

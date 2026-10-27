@@ -204,25 +204,19 @@ export function Footer() {
               </Link>
 
               <Link
-                href="/demandeur-emploi"
+                href="/creer-compte"
                 className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Demandeur d&apos;emploi
               </Link>
 
               <Link
-                href="/recruteur"
+                href="/creer-compte?role=recruteur"
                 className="py-1 transition-colors hover:text-white sm:py-1.5"
               >
                 Recruteur
               </Link>
 
-              <Link
-                href="/matching"
-                className="py-1 transition-colors hover:text-white sm:py-1.5"
-              >
-                Matching
-              </Link>
             </div>
           </div>
 

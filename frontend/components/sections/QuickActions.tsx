@@ -19,7 +19,7 @@ const actions = [
   {
     title: "Je recrute",
     description: "Publiez vos offres et trouvez les meilleurs talents.",
-    href: "/recruteur",
+    href: "/creer-compte?role=recruteur",
     icon: UsersRound,
     iconStyle: "bg-[var(--sane-orange)] text-white",
   },
