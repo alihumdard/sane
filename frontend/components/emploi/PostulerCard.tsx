@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { AlertCircle, CheckCircle2, Loader2, LogIn, Send } from "lucide-react";
+import { AlertCircle, CheckCircle2, Loader2, LogIn, Send, UserRound } from "lucide-react";
 import { primaryBtn } from "@/components/ui/styles";
 import { api, ApiError } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
@@ -22,6 +22,7 @@ export function PostulerCard({ offre }: { offre: ApiOffre }) {
   const [erreur, setErreur] = useState<string | null>(null);
   const [candidature, setCandidature] = useState<ApiCandidature | null>(null);
   const [dejaPostule, setDejaPostule] = useState(offre.deja_postule ?? false);
+  const [manque, setManque] = useState<string[] | null>(null);
 
   const peutPostuler = user?.role === "demandeur" || user?.role === "participant";
 
@@ -45,6 +46,15 @@ export function PostulerCard({ offre }: { offre: ApiOffre }) {
       .catch(() => {
         // Nothing to show the visitor: the form stays, and a duplicate is
         // still refused by the server with a 409.
+      });
+
+    api
+      .get<{ data: { manque_pour_postuler?: string[] } }>("/profil")
+      .then((res) => {
+        if (!annule) setManque(res.data.manque_pour_postuler ?? []);
+      })
+      .catch(() => {
+        // Leave the form in place; the server still checks on submit.
       });
 
     return () => {
@@ -145,6 +155,24 @@ export function PostulerCard({ offre }: { offre: ApiOffre }) {
         <CheckCircle2 size={28} className="mb-2 text-[var(--sane-green)]" />
         <h3 className="sane-h3 mb-1">Déjà postulé</h3>
         <p className="sane-small">Vous avez déjà envoyé une candidature pour cette offre.</p>
+      </div>
+    );
+  }
+
+  if (manque && manque.length > 0) {
+    const libelles = { cv: "votre CV", formation: "au moins une formation" } as const;
+    const liste = manque.map((m) => libelles[m as keyof typeof libelles] ?? m);
+
+    return (
+      <div className={carte}>
+        <h3 className="sane-h3 mb-1">Complétez votre profil</h3>
+        <p className="sane-small mb-4">
+          Il vous manque {liste.join(" et ")} avant de pouvoir postuler. Le recruteur
+          n'aurait rien à consulter sans cela.
+        </p>
+        <Link href="/dashboard/profil" className={`${primaryBtn} w-full`}>
+          <UserRound size={15} /> Compléter mon profil
+        </Link>
       </div>
     );
   }

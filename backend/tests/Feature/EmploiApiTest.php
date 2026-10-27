@@ -17,7 +17,13 @@ class EmploiApiTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function demandeur(string $email = 'demandeur@example.com'): User
+    /**
+     * A jobseeker whose profile carries what an application requires.
+     *
+     * Pass `complet: false` for someone who has only just signed up — they
+     * cannot apply, which is the point of the check.
+     */
+    private function demandeur(string $email = 'demandeur@example.com', bool $complet = true): User
     {
         $user = User::factory()->create([
             'email' => $email,
@@ -25,7 +31,25 @@ class EmploiApiTest extends TestCase
             'statut' => 'actif',
         ]);
 
-        $user->profilDemandeur()->create();
+        $profil = $user->profilDemandeur()->create();
+
+        if ($complet) {
+            $profil->formations()->create([
+                'diplome' => 'Licence en informatique',
+                'etablissement' => 'Université Abdou Moumouni',
+                'annee_debut' => 2018,
+                'annee_fin' => 2021,
+            ]);
+
+            $profil->documents()->create([
+                'type' => 'cv',
+                'nom_original' => 'cv.pdf',
+                'chemin' => 'documents/candidatures/'.$profil->id.'/cv.pdf',
+                'mime' => 'application/pdf',
+                'taille' => 1024,
+                'principal' => true,
+            ]);
+        }
 
         return $user;
     }
@@ -215,6 +239,65 @@ class EmploiApiTest extends TestCase
             ->assertJsonPath('data.statut', StatutCandidature::Envoyee->value);
 
         $this->assertSame(1, $offre->refresh()->candidatures_count);
+    }
+
+    /**
+     * Someone who signed up a minute ago has nothing for a recruiter to read:
+     * the candidature holds a name and nothing else — no CV, no schooling,
+     * nothing to decide on.
+     */
+    public function test_un_profil_vide_ne_peut_pas_postuler(): void
+    {
+        $user = $this->demandeur(complet: false);
+        $offre = $this->offre();
+
+        $this->actingAs($user)
+            ->postJson('/api/offres/'.$offre->slug.'/postuler')
+            ->assertStatus(409)
+            ->assertJsonFragment([
+                'message' => 'Complétez votre profil avant de postuler : il vous manque un CV et au moins une formation.',
+            ]);
+
+        $this->assertSame(0, $offre->refresh()->candidatures_count);
+        $this->assertDatabaseCount('candidatures', 0);
+    }
+
+    public function test_un_profil_sans_cv_ne_peut_pas_postuler(): void
+    {
+        $user = $this->demandeur(complet: false);
+        $user->profilDemandeur->formations()->create([
+            'diplome' => 'Licence',
+            'etablissement' => 'Université Abdou Moumouni',
+            'annee_debut' => 2018,
+            'annee_fin' => 2021,
+        ]);
+
+        $this->actingAs($user)
+            ->postJson('/api/offres/'.$this->offre()->slug.'/postuler')
+            ->assertStatus(409)
+            ->assertJsonFragment([
+                'message' => 'Complétez votre profil avant de postuler : il vous manque un CV.',
+            ]);
+    }
+
+    public function test_un_profil_sans_formation_ne_peut_pas_postuler(): void
+    {
+        $user = $this->demandeur(complet: false);
+        $user->profilDemandeur->documents()->create([
+            'type' => 'cv',
+            'nom_original' => 'cv.pdf',
+            'chemin' => 'documents/candidatures/1/cv.pdf',
+            'mime' => 'application/pdf',
+            'taille' => 1024,
+            'principal' => true,
+        ]);
+
+        $this->actingAs($user)
+            ->postJson('/api/offres/'.$this->offre()->slug.'/postuler')
+            ->assertStatus(409)
+            ->assertJsonFragment([
+                'message' => 'Complétez votre profil avant de postuler : il vous manque au moins une formation.',
+            ]);
     }
 
     public function test_loffre_signale_au_demandeur_quil_a_deja_postule(): void

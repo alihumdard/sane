@@ -30,6 +30,8 @@ class GestionCandidatures
             );
         }
 
+        $this->verifierProfilComplet($profil, $cvDocumentId);
+
         try {
             return DB::transaction(function () use ($profil, $offre, $lettre, $cvDocumentId) {
                 $candidature = Candidature::create([
@@ -102,6 +104,40 @@ class GestionCandidatures
         }
 
         return $candidature->refresh();
+    }
+
+    /**
+     * A CV and at least one qualification, before anything is sent.
+     *
+     * Without this a visitor could create an account and apply the same
+     * minute, and the recruiter opened a candidature holding a name and
+     * nothing else — no CV to read, no schooling, nothing to decide on. A
+     * reviewer watched someone do exactly that.
+     *
+     * Checked here rather than in the request so it holds wherever an
+     * application is created from.
+     */
+    private function verifierProfilComplet(ProfilDemandeur $profil, ?int $cvDocumentId): void
+    {
+        $manquants = [];
+
+        // Either the CV named by this application, or the one on the profile.
+        if (! $cvDocumentId && ! $profil->cv()) {
+            $manquants[] = 'un CV';
+        }
+
+        if (! $profil->formations()->exists()) {
+            $manquants[] = 'au moins une formation';
+        }
+
+        if ($manquants === []) {
+            return;
+        }
+
+        throw new CandidatureImpossibleException(
+            'Complétez votre profil avant de postuler : il vous manque '
+            .implode(' et ', $manquants).'.'
+        );
     }
 
     private function estViolationUnicite(QueryException $e): bool
