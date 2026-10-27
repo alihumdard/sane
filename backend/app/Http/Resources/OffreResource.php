@@ -18,6 +18,8 @@ class OffreResource extends JsonResource
             'description' => $this->description,
             'missions' => $this->missions,
             'profil_recherche' => $this->profil_recherche,
+            'question_1' => $this->question_1,
+            'question_2' => $this->question_2,
 
             // Nullable because callers may select a subset of columns when the
             // offer is only a label on another record (an application row).

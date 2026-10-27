@@ -23,6 +23,8 @@ class GestionCandidatures
         OffreEmploi $offre,
         ?string $lettre = null,
         ?int $cvDocumentId = null,
+        ?string $reponse1 = null,
+        ?string $reponse2 = null,
     ): Candidature {
         if (! $offre->ouverte) {
             throw new CandidatureImpossibleException(
@@ -33,7 +35,7 @@ class GestionCandidatures
         $this->verifierProfilComplet($profil, $cvDocumentId);
 
         try {
-            return DB::transaction(function () use ($profil, $offre, $lettre, $cvDocumentId) {
+            return DB::transaction(function () use ($profil, $offre, $lettre, $cvDocumentId, $reponse1, $reponse2) {
                 $candidature = Candidature::create([
                     // Replaced below with the id-derived reference.
                     'reference' => (string) Str::uuid(),
@@ -41,6 +43,8 @@ class GestionCandidatures
                     'profil_id' => $profil->id,
                     'statut' => StatutCandidature::Envoyee,
                     'lettre_motivation' => $lettre,
+                    'reponse_1' => $reponse1,
+                    'reponse_2' => $reponse2,
                     'cv_document_id' => $cvDocumentId,
                     'statut_modifie_le' => now(),
                 ]);

@@ -22,6 +22,12 @@ class OffreRequest extends FormRequest
             'description' => ['required', 'string', 'max:10000'],
             'missions' => ['nullable', 'string', 'max:10000'],
             'profil_recherche' => ['nullable', 'string', 'max:10000'],
+
+            // Two selection questions, asked of every candidate who applies.
+            // Short on purpose: a question that needs a paragraph is a
+            // requirement, and belongs in the profile sought.
+            'question_1' => ['nullable', 'string', 'max:500'],
+            'question_2' => ['nullable', 'string', 'max:500'],
             'type_contrat' => ['required', Rule::enum(TypeContrat::class)],
             'secteur' => ['required', 'string', 'max:150'],
             'ville' => ['required', 'string', 'max:100'],

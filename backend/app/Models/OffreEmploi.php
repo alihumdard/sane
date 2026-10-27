@@ -19,7 +19,7 @@ class OffreEmploi extends Model
 
     protected $fillable = [
         'entreprise_id', 'titre', 'slug', 'description', 'missions',
-        'profil_recherche', 'type_contrat', 'secteur', 'ville',
+        'profil_recherche', 'question_1', 'question_2', 'type_contrat', 'secteur', 'ville',
         'salaire_min', 'salaire_max', 'experience_requise', 'niveau_etude',
         'date_limite', 'statut', 'publiee_le',
     ];

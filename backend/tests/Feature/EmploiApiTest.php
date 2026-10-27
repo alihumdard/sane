@@ -54,6 +54,12 @@ class EmploiApiTest extends TestCase
         return $user;
     }
 
+    /** The recruiter who owns a company, for the employer-side endpoints. */
+    private function recruteur(Entreprise $entreprise): User
+    {
+        return User::findOrFail($entreprise->user_id);
+    }
+
     private function offre(array $surcharges = []): OffreEmploi
     {
         $recruteur = User::factory()->create(['role' => RoleUtilisateur::Recruteur, 'statut' => 'actif']);
@@ -278,6 +284,72 @@ class EmploiApiTest extends TestCase
             ->assertJsonFragment([
                 'message' => 'Complétez votre profil avant de postuler : il vous manque un CV.',
             ]);
+    }
+
+    /**
+     * An offer may ask up to two selection questions; a candidate applying to
+     * it has to answer them.
+     *
+     * A CV says what someone has done, not whether they hold a licence or can
+     * start on Monday — recruiters were asking in the description and reading
+     * the answers nowhere.
+     */
+    public function test_les_reponses_sont_exigees_quand_loffre_pose_des_questions(): void
+    {
+        $user = $this->demandeur();
+        $offre = $this->offre([
+            'question_1' => 'Avez-vous un permis de conduire ?',
+            'question_2' => 'Êtes-vous disponible immédiatement ?',
+        ]);
+
+        $this->actingAs($user)
+            ->postJson('/api/offres/'.$offre->slug.'/postuler')
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['reponse_1', 'reponse_2']);
+
+        $this->actingAs($user)
+            ->postJson('/api/offres/'.$offre->slug.'/postuler', [
+                'reponse_1' => 'Oui, permis B depuis 2015.',
+                'reponse_2' => 'Oui, dès la semaine prochaine.',
+            ])
+            ->assertCreated();
+
+        $this->assertDatabaseHas('candidatures', [
+            'reponse_1' => 'Oui, permis B depuis 2015.',
+            'reponse_2' => 'Oui, dès la semaine prochaine.',
+        ]);
+    }
+
+    public function test_une_offre_sans_question_nexige_aucune_reponse(): void
+    {
+        $this->actingAs($this->demandeur())
+            ->postJson('/api/offres/'.$this->offre()->slug.'/postuler')
+            ->assertCreated();
+    }
+
+    public function test_seule_la_question_posee_est_exigee(): void
+    {
+        // An employer may ask one and leave the other blank.
+        $offre = $this->offre(['question_1' => 'Avez-vous un permis ?']);
+
+        $this->actingAs($this->demandeur())
+            ->postJson('/api/offres/'.$offre->slug.'/postuler', ['reponse_1' => 'Oui.'])
+            ->assertCreated();
+    }
+
+    public function test_le_recruteur_voit_le_profil_du_candidat(): void
+    {
+        // The list used to load the name and the CV and nothing else, so the
+        // recruiter had no skills, schooling or past posts to judge on.
+        $user = $this->demandeur();
+        $offre = $this->offre();
+
+        $this->actingAs($user)->postJson('/api/offres/'.$offre->slug.'/postuler')->assertCreated();
+
+        $this->actingAs($this->recruteur($offre->entreprise))
+            ->getJson('/api/entreprise/candidatures')
+            ->assertOk()
+            ->assertJsonPath('data.0.profil.formations.0.diplome', 'Licence en informatique');
     }
 
     public function test_un_profil_sans_formation_ne_peut_pas_postuler(): void

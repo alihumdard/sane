@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { AlertCircle, CalendarPlus, Download, Loader2 } from "lucide-react";
+import { AlertCircle, Briefcase, CalendarPlus, Download, GraduationCap, Loader2 } from "lucide-react";
 import { ListeChargee } from "@/components/ui/ListeChargee";
 import { Alerte } from "@/components/ui/Alerte";
 import { Spinner, SpinnerOu } from "@/components/dashboard/Spinner";
@@ -182,6 +182,49 @@ function Contenu() {
                   <Download size={13} /> CV
                 </button>
               </div>
+
+              {/*
+                The candidate's own words and background, which the list used
+                to leave out entirely: a recruiter opened an application and
+                found a name and a CV attachment, nothing to read on screen.
+              */}
+              <div
+                className={`mb-3 flex-wrap gap-x-4 gap-y-1 text-[12px] text-[var(--sane-text-light)] ${
+                  (c.profil?.formations?.length ?? 0) + (c.profil?.experiences?.length ?? 0) + (c.profil?.competences?.length ?? 0) > 0
+                    ? "flex"
+                    : "hidden"
+                }`}
+              >
+                <span className={c.profil?.formations?.length ? "" : "hidden"}>
+                  <GraduationCap size={12} className="mr-1 inline" />
+                  {c.profil?.formations?.[0]?.diplome}
+                  {(c.profil?.formations?.length ?? 0) > 1 ? ` +${(c.profil?.formations?.length ?? 0) - 1}` : ""}
+                </span>
+                <span className={c.profil?.experiences?.length ? "" : "hidden"}>
+                  <Briefcase size={12} className="mr-1 inline" />
+                  {c.profil?.experiences?.[0]?.poste}
+                  {(c.profil?.experiences?.length ?? 0) > 1 ? ` +${(c.profil?.experiences?.length ?? 0) - 1}` : ""}
+                </span>
+                <span className={c.profil?.competences?.length ? "" : "hidden"}>
+                  {c.profil?.competences?.map((x) => x.nom).join(", ")}
+                </span>
+              </div>
+
+              {/* The employer's own questions, and what was answered. */}
+              {([1, 2] as const).map((n) => {
+                const question = n === 1 ? c.offre?.question_1 : c.offre?.question_2;
+                const reponse = n === 1 ? c.reponse_1 : c.reponse_2;
+
+                return (
+                  <div
+                    key={n}
+                    className={`mb-2 rounded-lg border border-[var(--sane-border)] p-3 ${question && reponse ? "block" : "hidden"}`}
+                  >
+                    <p className="text-[11px] font-semibold text-[var(--sane-text-light)]">{question}</p>
+                    <p className="mt-0.5 text-[12px] text-[var(--sane-text)]">{reponse}</p>
+                  </div>
+                );
+              })}
 
               <p className={`mb-3 rounded-lg bg-[var(--sane-background)] p-3 text-[12px] text-[var(--sane-text)] ${c.lettre_motivation ? "block" : "hidden"}`}>
                 {c.lettre_motivation}

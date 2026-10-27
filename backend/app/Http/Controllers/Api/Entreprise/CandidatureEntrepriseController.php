@@ -34,7 +34,14 @@ class CandidatureEntrepriseController extends Controller
 
         $query = Candidature::query()
             ->whereHas('offre', fn (Builder $q) => $q->where('entreprise_id', $entreprise->id))
-            ->with(['offre:id,titre,slug,ville,type_contrat,statut,date_limite', 'profil.user:id,name,photo', 'cv'])
+            ->with([
+                'offre:id,titre,slug,ville,type_contrat,statut,date_limite',
+                'profil.user:id,name,photo',
+                'profil.competences',
+                'profil.formations',
+                'profil.experiences',
+                'cv',
+            ])
             ->latest();
 
         if ($request->filled('statut')) {
@@ -66,7 +73,13 @@ class CandidatureEntrepriseController extends Controller
         $this->authorize('viewCandidatures', $offre);
 
         $page = $offre->candidatures()
-            ->with(['profil.user:id,name,photo', 'profil.competences', 'cv'])
+            ->with([
+                'profil.user:id,name,photo',
+                'profil.competences',
+                'profil.formations',
+                'profil.experiences',
+                'cv',
+            ])
             ->latest()
             ->paginate(min($request->integer('par_page') ?: 15, 50));
 

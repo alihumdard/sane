@@ -18,6 +18,7 @@ export function PostulerCard({ offre }: { offre: ApiOffre }) {
   const { user, loading } = useAuth();
 
   const [lettre, setLettre] = useState("");
+  const [reponses, setReponses] = useState({ reponse_1: "", reponse_2: "" });
   const [envoi, setEnvoi] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
   const [candidature, setCandidature] = useState<ApiCandidature | null>(null);
@@ -71,7 +72,11 @@ export function PostulerCard({ offre }: { offre: ApiOffre }) {
     try {
       const res = await api.post<{ message: string; data: ApiCandidature }>(
         `/offres/${encodeURIComponent(offre.slug)}/postuler`,
-        { lettre_motivation: lettre || undefined }
+        {
+          lettre_motivation: lettre || undefined,
+          reponse_1: reponses.reponse_1 || undefined,
+          reponse_2: reponses.reponse_2 || undefined,
+        }
       );
       setCandidature(res.data);
     } catch (e) {
@@ -194,6 +199,28 @@ export function PostulerCard({ offre }: { offre: ApiOffre }) {
       <p className="sane-small mb-4">
         Votre profil et votre CV seront transmis au recruteur.
       </p>
+
+      {([1, 2] as const).map((n) => {
+        const question = n === 1 ? offre.question_1 : offre.question_2;
+        const cle = n === 1 ? "reponse_1" : "reponse_2";
+
+        return (
+          <div key={n} className={question ? "mb-4" : "hidden"}>
+            <label htmlFor={cle} className="mb-2 block text-[13px] font-semibold text-[var(--sane-text)]">
+              {question} <span className="text-[var(--sane-orange)]">*</span>
+            </label>
+            <textarea
+              id={cle}
+              required={Boolean(question)}
+              rows={2}
+              maxLength={2000}
+              value={reponses[cle]}
+              onChange={(e) => setReponses((r) => ({ ...r, [cle]: e.target.value }))}
+              className="w-full rounded-lg border border-[var(--sane-border)] p-3 text-[13px] outline-none transition-colors focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10"
+            />
+          </div>
+        );
+      })}
 
       <label htmlFor="lettre" className="mb-2 block text-[13px] font-semibold text-[var(--sane-text)]">
         Lettre de motivation <span className="font-normal opacity-70">(facultatif)</span>

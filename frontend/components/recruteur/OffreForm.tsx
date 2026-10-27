@@ -41,6 +41,8 @@ export function OffreForm({ offre, onAnnuler, onEnregistre }: OffreFormProps) {
     description: offre?.description ?? "",
     missions: offre?.missions ?? "",
     profil_recherche: offre?.profil_recherche ?? "",
+    question_1: offre?.question_1 ?? "",
+    question_2: offre?.question_2 ?? "",
     type_contrat: (offre?.type_contrat ?? "cdi") as TypeContrat,
     secteur: offre?.secteur ?? "",
     ville: offre?.ville ?? "",
@@ -77,6 +79,8 @@ export function OffreForm({ offre, onAnnuler, onEnregistre }: OffreFormProps) {
       description: form.description,
       missions: form.missions || undefined,
       profil_recherche: form.profil_recherche || undefined,
+      question_1: form.question_1 || undefined,
+      question_2: form.question_2 || undefined,
       type_contrat: form.type_contrat,
       secteur: form.secteur,
       ville: form.ville,
@@ -175,6 +179,39 @@ export function OffreForm({ offre, onAnnuler, onEnregistre }: OffreFormProps) {
         <div className="sm:col-span-2">
           <label htmlFor="profil_recherche" className={etiquette}>Profil recherché</label>
           <textarea id="profil_recherche" rows={4} value={form.profil_recherche} onChange={(e) => set("profil_recherche")(e.target.value)} className={champ} />
+        </div>
+
+        {/*
+          Two questions, asked of everyone who applies. A CV says what someone
+          has done; it does not say whether they hold a licence or can start on
+          Monday, and recruiters were asking that in the description with
+          nowhere to read the answer.
+        */}
+        <div className="sm:col-span-2">
+          <label htmlFor="question_1" className={etiquette}>
+            Question 1 <span className="font-normal opacity-70">(facultatif)</span>
+          </label>
+          <input
+            id="question_1" type="text" maxLength={500}
+            placeholder="Ex. : Avez-vous un permis de conduire ?"
+            value={form.question_1} onChange={(e) => set("question_1")(e.target.value)}
+            className={champ}
+          />
+          <p className="mt-1 text-[11px] text-[var(--sane-text-light)]">
+            Posée à chaque candidat ; la réponse est obligatoire pour postuler.
+          </p>
+        </div>
+
+        <div className="sm:col-span-2">
+          <label htmlFor="question_2" className={etiquette}>
+            Question 2 <span className="font-normal opacity-70">(facultatif)</span>
+          </label>
+          <input
+            id="question_2" type="text" maxLength={500}
+            placeholder="Ex. : Êtes-vous disponible immédiatement ?"
+            value={form.question_2} onChange={(e) => set("question_2")(e.target.value)}
+            className={champ}
+          />
         </div>
 
         <div>

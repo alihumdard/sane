@@ -15,7 +15,7 @@ class Candidature extends Model
 
     protected $fillable = [
         'reference', 'offre_id', 'profil_id', 'statut',
-        'lettre_motivation', 'cv_document_id', 'note_recruteur', 'statut_modifie_le',
+        'lettre_motivation', 'reponse_1', 'reponse_2', 'cv_document_id', 'note_recruteur', 'statut_modifie_le',
     ];
 
     protected function casts(): array

@@ -160,6 +160,9 @@ export interface ApiOffre {
   description: string;
   missions: string | null;
   profil_recherche: string | null;
+  /** Up to two selection questions the employer asks every applicant. */
+  question_1: string | null;
+  question_2: string | null;
   type_contrat: TypeContrat;
   type_contrat_label: string;
   statut: StatutOffre;
@@ -270,6 +273,9 @@ export interface ApiCandidature {
   est_final: boolean;
   peut_etre_retiree: boolean;
   lettre_motivation: string | null;
+  /** Answers to the offer own selection questions, when it asks any. */
+  reponse_1: string | null;
+  reponse_2: string | null;
   offre?: ApiOffre;
   profil?: ApiProfilDemandeur;
   cv?: ApiDocumentCandidature;
@@ -321,6 +327,8 @@ export interface OffrePayload {
   titre: string;
   description: string;
   missions?: string;
+  question_1?: string;
+  question_2?: string;
   profil_recherche?: string;
   type_contrat: TypeContrat;
   secteur: string;

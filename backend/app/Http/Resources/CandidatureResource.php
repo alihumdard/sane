@@ -21,6 +21,8 @@ class CandidatureResource extends JsonResource
             'peut_etre_retiree' => $this->statut->peutEtreRetiree(),
 
             'lettre_motivation' => $this->lettre_motivation,
+            'reponse_1' => $this->reponse_1,
+            'reponse_2' => $this->reponse_2,
 
             'offre' => new OffreResource($this->whenLoaded('offre')),
             'profil' => new ProfilDemandeurResource($this->whenLoaded('profil')),
