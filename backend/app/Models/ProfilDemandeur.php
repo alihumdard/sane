@@ -96,9 +96,9 @@ class ProfilDemandeur extends Model
      * writes a covering letter, and GestionCandidatures refuses on the same
      * answer — kept here so the two cannot drift apart.
      *
-     * A CV, and enough on the profile for a recruiter to place the person:
-     * a title, a sector and a city. Schooling is asked for but not demanded —
-     * a self-taught applicant has none to declare.
+     * A CV and a qualification, both named by the client as required, plus
+     * enough on the profile for a recruiter to place the person: a title, a
+     * sector and a city.
      *
      * @param  int|null  $cvDocumentId  A CV carried by the application itself.
      * @return list<string>
@@ -111,6 +111,7 @@ class ProfilDemandeur extends Model
 
         return array_values(array_filter([
             ($cvDocumentId === null && $this->cv() === null) ? 'cv' : null,
+            $this->formations()->exists() ? null : 'formation',
             $informations ? null : 'informations',
         ]));
     }

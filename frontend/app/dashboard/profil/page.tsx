@@ -38,6 +38,7 @@ const NIVEAUX: { value: NiveauCompetence; label: string }[] = [
 /** What GestionCandidatures refuses on, in the words the candidate reads. */
 const LIBELLES_MANQUE: Record<string, string> = {
   cv: "votre CV",
+  formation: "au moins une formation",
   informations: "vos informations professionnelles",
 };
 
@@ -109,6 +110,9 @@ function Contenu() {
   }
 
   const manque = (profil?.manque_pour_postuler ?? []).map((m) => LIBELLES_MANQUE[m] ?? m);
+  // « a », « a et b », « a, b et c ».
+  const enumere =
+    manque.length < 2 ? manque.join("") : `${manque.slice(0, -1).join(", ")} et ${manque.at(-1)}`;
 
   if (chargement) {
     return (
@@ -158,7 +162,7 @@ function Contenu() {
         <AlertCircle size={18} className="mt-0.5 shrink-0 text-[var(--sane-orange)]" />
         <p className="sane-small">
           <strong className="font-semibold text-[var(--sane-text)]">
-            Il vous manque {manque.join(" et ")} pour postuler.
+            Il vous manque {enumere} pour postuler.
           </strong>{" "}
           Un recruteur ne verrait rien de vous sans cela. Complétez ces sections,
           puis parcourez les offres.
@@ -634,7 +638,9 @@ function Formations({ formations, onChange }: { formations: ApiFormationAcademiq
   return (
     <section className={carte}>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="sane-h3">Ma formation</h2>
+        <h2 className="sane-h3">
+          Ma formation <span className="text-[var(--sane-orange)]">*</span>
+        </h2>
         <button type="button" onClick={() => (ouvert ? setOuvert(false) : ouvrirAjout())} className="text-[13px] font-semibold text-[var(--sane-green)]">
           {ouvert ? "Annuler" : "+ Ajouter"}
         </button>
@@ -677,8 +683,8 @@ function Formations({ formations, onChange }: { formations: ApiFormationAcademiq
 
       {formations.length === 0 ? (
         <p className="sane-small">
-          Ajoutez au moins un diplôme ou une formation suivie : les recruteurs
-          la lisent avant le reste.
+          <strong className="font-semibold text-[var(--sane-text)]">Obligatoire pour postuler.</strong>{" "}
+          Ajoutez au moins un diplôme ou une formation suivie.
         </p>
       ) : (
         <ul className="flex flex-col gap-2">

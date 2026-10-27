@@ -167,15 +167,19 @@ export function PostulerCard({ offre }: { offre: ApiOffre }) {
   if (manque && manque.length > 0) {
     const libelles = {
       cv: "votre CV",
+      formation: "au moins une formation",
       informations: "vos informations professionnelles (titre, secteur, ville)",
     } as const;
     const liste = manque.map((m) => libelles[m as keyof typeof libelles] ?? m);
+    // « a », « a et b », « a, b et c ».
+    const enumere =
+      liste.length < 2 ? liste.join("") : `${liste.slice(0, -1).join(", ")} et ${liste.at(-1)}`;
 
     return (
       <div className={carte}>
         <h3 className="sane-h3 mb-1">Complétez votre profil</h3>
         <p className="sane-small mb-4">
-          Il vous manque {liste.join(" et ")} avant de pouvoir postuler. Le recruteur
+          Il vous manque {enumere} avant de pouvoir postuler. Le recruteur
           n'aurait rien à consulter sans cela.
         </p>
         <Link href="/dashboard/profil" className={`${primaryBtn} w-full`}>

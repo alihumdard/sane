@@ -255,7 +255,7 @@ class EmploiApiTest extends TestCase
 
     /**
      * Someone who signed up a minute ago has nothing for a recruiter to read:
-     * the candidature holds a name and nothing else — no CV, no title,
+     * the candidature holds a name and nothing else — no CV, no schooling,
      * nothing to decide on.
      */
     public function test_un_profil_vide_ne_peut_pas_postuler(): void
@@ -267,7 +267,7 @@ class EmploiApiTest extends TestCase
             ->postJson('/api/offres/'.$offre->slug.'/postuler')
             ->assertStatus(409)
             ->assertJsonFragment([
-                'message' => 'Complétez votre profil avant de postuler : il vous manque un CV et vos informations professionnelles (titre, secteur, ville).',
+                'message' => 'Complétez votre profil avant de postuler : il vous manque un CV, au moins une formation et vos informations professionnelles (titre, secteur, ville).',
             ]);
 
         $this->assertSame(0, $offre->refresh()->candidatures_count);
@@ -281,6 +281,12 @@ class EmploiApiTest extends TestCase
             'titre_pro' => 'Développeuse web',
             'secteur' => 'Informatique & Numérique',
             'ville' => 'Niamey',
+        ]);
+        $user->profilDemandeur->formations()->create([
+            'diplome' => 'Licence',
+            'etablissement' => 'Université Abdou Moumouni',
+            'annee_debut' => 2018,
+            'annee_fin' => 2021,
         ]);
 
         $this->actingAs($user)
@@ -362,6 +368,12 @@ class EmploiApiTest extends TestCase
         // A CV alone leaves the candidate out of every search: the engine
         // matches on sector and city, and the listing shows the title.
         $user = $this->demandeur(complet: false);
+        $user->profilDemandeur->formations()->create([
+            'diplome' => 'Licence',
+            'etablissement' => 'Université Abdou Moumouni',
+            'annee_debut' => 2018,
+            'annee_fin' => 2021,
+        ]);
         $user->profilDemandeur->documents()->create([
             'type' => 'cv',
             'nom_original' => 'cv.pdf',
@@ -379,8 +391,8 @@ class EmploiApiTest extends TestCase
             ]);
     }
 
-    /** Schooling is asked for on the profile, but never demanded. */
-    public function test_un_profil_sans_formation_peut_postuler(): void
+    /** The client named CV and FORMATION as the two required fields. */
+    public function test_un_profil_sans_formation_ne_peut_pas_postuler(): void
     {
         $user = $this->demandeur(complet: false);
         $user->profilDemandeur->update([
@@ -399,7 +411,10 @@ class EmploiApiTest extends TestCase
 
         $this->actingAs($user)
             ->postJson('/api/offres/'.$this->offre()->slug.'/postuler')
-            ->assertCreated();
+            ->assertStatus(409)
+            ->assertJsonFragment([
+                'message' => 'Complétez votre profil avant de postuler : il vous manque au moins une formation.',
+            ]);
     }
 
     public function test_loffre_signale_au_demandeur_quil_a_deja_postule(): void

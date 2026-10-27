@@ -111,11 +111,12 @@ class GestionCandidatures
     }
 
     /**
-     * A CV and the professional details, before anything is sent.
+     * A CV, a qualification and the professional details, before anything
+     * is sent.
      *
      * Without this a visitor could create an account and apply the same
      * minute, and the recruiter opened a candidature holding a name and
-     * nothing else — no CV to read, no title, nothing to decide on. A
+     * nothing else — no CV to read, no schooling, nothing to decide on. A
      * reviewer watched someone do exactly that.
      *
      * Checked here rather than in the request so it holds wherever an
@@ -131,13 +132,26 @@ class GestionCandidatures
 
         $libelles = [
             'cv' => 'un CV',
+            'formation' => 'au moins une formation',
             'informations' => 'vos informations professionnelles (titre, secteur, ville)',
         ];
 
         throw new CandidatureImpossibleException(
             'Complétez votre profil avant de postuler : il vous manque '
-            .implode(' et ', array_map(fn (string $m) => $libelles[$m], $manquants)).'.'
+            .$this->enumerer(array_map(fn (string $m) => $libelles[$m], $manquants)).'.'
         );
+    }
+
+    /** « a », « a et b », « a, b et c » — a French list, not three « et ». */
+    private function enumerer(array $elements): string
+    {
+        if (count($elements) < 2) {
+            return (string) reset($elements);
+        }
+
+        $dernier = array_pop($elements);
+
+        return implode(', ', $elements).' et '.$dernier;
     }
 
     private function estViolationUnicite(QueryException $e): bool
