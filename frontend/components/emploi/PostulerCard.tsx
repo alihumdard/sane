@@ -165,7 +165,10 @@ export function PostulerCard({ offre }: { offre: ApiOffre }) {
   }
 
   if (manque && manque.length > 0) {
-    const libelles = { cv: "votre CV", formation: "au moins une formation" } as const;
+    const libelles = {
+      cv: "votre CV",
+      informations: "vos informations professionnelles (titre, secteur, ville)",
+    } as const;
     const liste = manque.map((m) => libelles[m as keyof typeof libelles] ?? m);
 
     return (

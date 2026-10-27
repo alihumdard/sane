@@ -111,11 +111,11 @@ class GestionCandidatures
     }
 
     /**
-     * A CV and at least one qualification, before anything is sent.
+     * A CV and the professional details, before anything is sent.
      *
      * Without this a visitor could create an account and apply the same
      * minute, and the recruiter opened a candidature holding a name and
-     * nothing else — no CV to read, no schooling, nothing to decide on. A
+     * nothing else — no CV to read, no title, nothing to decide on. A
      * reviewer watched someone do exactly that.
      *
      * Checked here rather than in the request so it holds wherever an
@@ -123,24 +123,20 @@ class GestionCandidatures
      */
     private function verifierProfilComplet(ProfilDemandeur $profil, ?int $cvDocumentId): void
     {
-        $manquants = [];
-
-        // Either the CV named by this application, or the one on the profile.
-        if (! $cvDocumentId && ! $profil->cv()) {
-            $manquants[] = 'un CV';
-        }
-
-        if (! $profil->formations()->exists()) {
-            $manquants[] = 'au moins une formation';
-        }
+        $manquants = $profil->manquePourPostuler($cvDocumentId);
 
         if ($manquants === []) {
             return;
         }
 
+        $libelles = [
+            'cv' => 'un CV',
+            'informations' => 'vos informations professionnelles (titre, secteur, ville)',
+        ];
+
         throw new CandidatureImpossibleException(
             'Complétez votre profil avant de postuler : il vous manque '
-            .implode(' et ', $manquants).'.'
+            .implode(' et ', array_map(fn (string $m) => $libelles[$m], $manquants)).'.'
         );
     }
 

@@ -49,18 +49,15 @@ class ProfilDemandeurResource extends JsonResource
             /*
              * What an application still needs, so the offer page can say so
              * before the visitor writes a covering letter and presses send.
-             * GestionCandidatures refuses the same two; this only reports them.
+             * GestionCandidatures refuses on the same list.
              */
             'peut_postuler' => $this->when(
                 $this->tauxCompletionVisible ?? false,
-                fn () => $this->cv() !== null && $this->formations()->exists()
+                fn () => $this->manquePourPostuler() === []
             ),
             'manque_pour_postuler' => $this->when(
                 $this->tauxCompletionVisible ?? false,
-                fn () => array_values(array_filter([
-                    $this->cv() === null ? 'cv' : null,
-                    $this->formations()->exists() ? null : 'formation',
-                ]))
+                fn () => $this->manquePourPostuler()
             ),
         ];
     }

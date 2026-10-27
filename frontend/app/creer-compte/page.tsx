@@ -22,7 +22,10 @@ const TYPES = [
     titre: "Demandeur d'emploi",
     description: "Créer un profil, déposer un CV et postuler aux offres.",
     icone: UserRound,
-    accueil: "/dashboard/participant",
+    // Straight to the profile form, not the dashboard: a brand-new account
+    // can reach an offer and send a candidature holding a name and nothing
+    // else, which is no use to the recruiter who opens it.
+    accueil: "/dashboard/profil",
   },
   {
     value: "recruteur" as const,

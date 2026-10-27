@@ -89,6 +89,32 @@ class ProfilDemandeur extends Model
         return $query->where('visible', true);
     }
 
+    /**
+     * What an application still needs, as keys the interface can label.
+     *
+     * One list for two readers: the offer page says so before the visitor
+     * writes a covering letter, and GestionCandidatures refuses on the same
+     * answer — kept here so the two cannot drift apart.
+     *
+     * A CV, and enough on the profile for a recruiter to place the person:
+     * a title, a sector and a city. Schooling is asked for but not demanded —
+     * a self-taught applicant has none to declare.
+     *
+     * @param  int|null  $cvDocumentId  A CV carried by the application itself.
+     * @return list<string>
+     */
+    public function manquePourPostuler(?int $cvDocumentId = null): array
+    {
+        $informations = filled($this->titre_pro)
+            && filled($this->secteur)
+            && filled($this->ville);
+
+        return array_values(array_filter([
+            ($cvDocumentId === null && $this->cv() === null) ? 'cv' : null,
+            $informations ? null : 'informations',
+        ]));
+    }
+
     /** Rough completeness signal, shown to the candidate to nudge them. */
     public function tauxCompletion(): int
     {

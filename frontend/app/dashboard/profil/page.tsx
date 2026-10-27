@@ -35,6 +35,12 @@ const NIVEAUX: { value: NiveauCompetence; label: string }[] = [
   { value: "expert", label: "Expert" },
 ];
 
+/** What GestionCandidatures refuses on, in the words the candidate reads. */
+const LIBELLES_MANQUE: Record<string, string> = {
+  cv: "votre CV",
+  informations: "vos informations professionnelles",
+};
+
 function Contenu() {
   const [profil, setProfil] = useState<ApiProfilDemandeur | null>(null);
   const [form, setForm] = useState<Record<string, string | boolean>>({});
@@ -102,6 +108,8 @@ function Contenu() {
     }
   }
 
+  const manque = (profil?.manque_pour_postuler ?? []).map((m) => LIBELLES_MANQUE[m] ?? m);
+
   if (chargement) {
     return (
       <p className="flex items-center justify-center gap-2 py-16">
@@ -137,12 +145,38 @@ function Contenu() {
 
       <Alerte texte={erreur} className="mb-4" />
 
+      {/*
+        New accounts land here straight from the signup form, so the first
+        thing the page says is what an application needs. Hidden rather than
+        unmounted, like the rest of this page.
+      */}
+      <div
+        className={`mb-5 flex items-start gap-3 rounded-2xl border border-[var(--sane-orange)]/30 bg-[var(--sane-orange)]/5 p-4 ${
+          manque.length ? "" : "hidden"
+        }`}
+      >
+        <AlertCircle size={18} className="mt-0.5 shrink-0 text-[var(--sane-orange)]" />
+        <p className="sane-small">
+          <strong className="font-semibold text-[var(--sane-text)]">
+            Il vous manque {manque.join(" et ")} pour postuler.
+          </strong>{" "}
+          Un recruteur ne verrait rien de vous sans cela. Complétez ces sections,
+          puis parcourez les offres.
+        </p>
+      </div>
+
       <form onSubmit={enregistrer} className={`${carte} mb-5`}>
-        <h2 className="sane-h3 mb-4">Informations professionnelles</h2>
+        <h2 className="sane-h3 mb-1">
+          Informations professionnelles <span className="text-[var(--sane-orange)]">*</span>
+        </h2>
+        <p className="sane-small mb-4">
+          <strong className="font-semibold text-[var(--sane-text)]">Obligatoire pour postuler.</strong>{" "}
+          Le titre, le secteur et la ville placent votre candidature auprès du recruteur.
+        </p>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label htmlFor="titre_pro" className={etiquette}>Titre professionnel</label>
+            <label htmlFor="titre_pro" className={etiquette}>Titre professionnel <span className="text-[var(--sane-orange)]">*</span></label>
             <input
               id="titre_pro" placeholder="ex. Développeur web"
               value={String(form.titre_pro ?? "")} onChange={(e) => set("titre_pro")(e.target.value)}
@@ -156,12 +190,12 @@ function Contenu() {
             typed by hand never meets "Informatique & Numérique" on a posting.
           */}
           <div>
-            <label htmlFor="secteur" className={etiquette}>Secteur</label>
+            <label htmlFor="secteur" className={etiquette}>Secteur <span className="text-[var(--sane-orange)]">*</span></label>
             <ComboBox id="secteur" options={listes.domaine} value={String(form.secteur ?? "")} onChange={set("secteur")} placeholder="Choisissez un secteur" />
           </div>
 
           <div>
-            <label htmlFor="ville" className={etiquette}>Ville</label>
+            <label htmlFor="ville" className={etiquette}>Ville <span className="text-[var(--sane-orange)]">*</span></label>
             <ComboBox id="ville" options={listes.ville} value={String(form.ville ?? "")} onChange={set("ville")} placeholder="Choisissez une ville" />
           </div>
 
@@ -600,9 +634,7 @@ function Formations({ formations, onChange }: { formations: ApiFormationAcademiq
   return (
     <section className={carte}>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="sane-h3">
-          Ma formation <span className="text-[var(--sane-orange)]">*</span>
-        </h2>
+        <h2 className="sane-h3">Ma formation</h2>
         <button type="button" onClick={() => (ouvert ? setOuvert(false) : ouvrirAjout())} className="text-[13px] font-semibold text-[var(--sane-green)]">
           {ouvert ? "Annuler" : "+ Ajouter"}
         </button>
@@ -645,8 +677,8 @@ function Formations({ formations, onChange }: { formations: ApiFormationAcademiq
 
       {formations.length === 0 ? (
         <p className="sane-small">
-          <strong className="font-semibold text-[var(--sane-text)]">Obligatoire pour postuler.</strong>{" "}
-          Ajoutez au moins un diplôme ou une formation suivie.
+          Ajoutez au moins un diplôme ou une formation suivie : les recruteurs
+          la lisent avant le reste.
         </p>
       ) : (
         <ul className="flex flex-col gap-2">

@@ -34,6 +34,12 @@ class EmploiApiTest extends TestCase
         $profil = $user->profilDemandeur()->create();
 
         if ($complet) {
+            $profil->update([
+                'titre_pro' => 'Développeuse web',
+                'secteur' => 'Informatique & Numérique',
+                'ville' => 'Niamey',
+            ]);
+
             $profil->formations()->create([
                 'diplome' => 'Licence en informatique',
                 'etablissement' => 'Université Abdou Moumouni',
@@ -249,7 +255,7 @@ class EmploiApiTest extends TestCase
 
     /**
      * Someone who signed up a minute ago has nothing for a recruiter to read:
-     * the candidature holds a name and nothing else — no CV, no schooling,
+     * the candidature holds a name and nothing else — no CV, no title,
      * nothing to decide on.
      */
     public function test_un_profil_vide_ne_peut_pas_postuler(): void
@@ -261,7 +267,7 @@ class EmploiApiTest extends TestCase
             ->postJson('/api/offres/'.$offre->slug.'/postuler')
             ->assertStatus(409)
             ->assertJsonFragment([
-                'message' => 'Complétez votre profil avant de postuler : il vous manque un CV et au moins une formation.',
+                'message' => 'Complétez votre profil avant de postuler : il vous manque un CV et vos informations professionnelles (titre, secteur, ville).',
             ]);
 
         $this->assertSame(0, $offre->refresh()->candidatures_count);
@@ -271,11 +277,10 @@ class EmploiApiTest extends TestCase
     public function test_un_profil_sans_cv_ne_peut_pas_postuler(): void
     {
         $user = $this->demandeur(complet: false);
-        $user->profilDemandeur->formations()->create([
-            'diplome' => 'Licence',
-            'etablissement' => 'Université Abdou Moumouni',
-            'annee_debut' => 2018,
-            'annee_fin' => 2021,
+        $user->profilDemandeur->update([
+            'titre_pro' => 'Développeuse web',
+            'secteur' => 'Informatique & Numérique',
+            'ville' => 'Niamey',
         ]);
 
         $this->actingAs($user)
@@ -352,8 +357,10 @@ class EmploiApiTest extends TestCase
             ->assertJsonPath('data.0.profil.formations.0.diplome', 'Licence en informatique');
     }
 
-    public function test_un_profil_sans_formation_ne_peut_pas_postuler(): void
+    public function test_un_profil_sans_informations_ne_peut_pas_postuler(): void
     {
+        // A CV alone leaves the candidate out of every search: the engine
+        // matches on sector and city, and the listing shows the title.
         $user = $this->demandeur(complet: false);
         $user->profilDemandeur->documents()->create([
             'type' => 'cv',
@@ -368,8 +375,31 @@ class EmploiApiTest extends TestCase
             ->postJson('/api/offres/'.$this->offre()->slug.'/postuler')
             ->assertStatus(409)
             ->assertJsonFragment([
-                'message' => 'Complétez votre profil avant de postuler : il vous manque au moins une formation.',
+                'message' => 'Complétez votre profil avant de postuler : il vous manque vos informations professionnelles (titre, secteur, ville).',
             ]);
+    }
+
+    /** Schooling is asked for on the profile, but never demanded. */
+    public function test_un_profil_sans_formation_peut_postuler(): void
+    {
+        $user = $this->demandeur(complet: false);
+        $user->profilDemandeur->update([
+            'titre_pro' => 'Menuisier',
+            'secteur' => 'Artisanat & Métiers manuels',
+            'ville' => 'Niamey',
+        ]);
+        $user->profilDemandeur->documents()->create([
+            'type' => 'cv',
+            'nom_original' => 'cv.pdf',
+            'chemin' => 'documents/candidatures/1/cv.pdf',
+            'mime' => 'application/pdf',
+            'taille' => 1024,
+            'principal' => true,
+        ]);
+
+        $this->actingAs($user)
+            ->postJson('/api/offres/'.$this->offre()->slug.'/postuler')
+            ->assertCreated();
     }
 
     public function test_loffre_signale_au_demandeur_quil_a_deja_postule(): void
