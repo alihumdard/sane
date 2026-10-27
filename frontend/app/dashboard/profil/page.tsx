@@ -106,23 +106,7 @@ function Contenu() {
 
       const res = await api.put<{ message: string; data: ApiProfilDemandeur }>("/profil", payload);
       setProfil(res.data);
-
-      /*
-       * A green « Profil mis à jour » over a profile that still cannot apply
-       * reads as « you're done » — the client watched a tester save an empty
-       * profile and go looking for the apply button. So the save reports what
-       * is still required, in the red box a real error would use.
-       */
-      const manque = manqueLisible(res.data);
-
-      if (manque) {
-        setErreur(
-          "Profil enregistré, mais les champs obligatoires signalés ci-dessus "
-          + "ne sont pas tous renseignés : vous ne pouvez pas encore postuler."
-        );
-      } else {
-        setMessage(res.message);
-      }
+      setMessage(res.message);
     } catch (err) {
       setErreur(
         err instanceof ApiError
@@ -183,8 +167,9 @@ function Contenu() {
           <strong className="font-semibold">
             Champs obligatoires : il vous manque {manque}.
           </strong>{" "}
-          Un recruteur ne verrait rien de vous sans cela. Renseignez ces sections,
-          puis parcourez les offres.
+          Chacun se renseigne dans sa propre section de cette page — « Mon CV » et
+          « Ma formation » se trouvent plus bas. Tant qu&apos;il en manque un, vous
+          ne pouvez pas postuler.
         </p>
       </div>
 
