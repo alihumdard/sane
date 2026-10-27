@@ -348,6 +348,38 @@ class EmploiApiTest extends TestCase
             ->assertCreated();
     }
 
+    /**
+     * The list selected a column list for the offer, and the two question
+     * columns were not on it — so the card had answers with nothing above
+     * them and hid the pair.
+     */
+    public function test_le_recruteur_voit_les_questions_avec_les_reponses(): void
+    {
+        $offre = $this->offre();
+        $offre->update(['question_1' => 'Permis de conduire ?', 'question_2' => 'Disponible ?']);
+
+        $this->actingAs($this->demandeur())
+            ->postJson('/api/offres/'.$offre->slug.'/postuler', [
+                'reponse_1' => 'Oui, permis B.',
+                'reponse_2' => 'Sous une semaine.',
+            ])
+            ->assertCreated();
+
+        $recruteur = $this->recruteur($offre->entreprise);
+
+        $this->actingAs($recruteur)
+            ->getJson('/api/entreprise/candidatures')
+            ->assertOk()
+            ->assertJsonPath('data.0.offre.question_1', 'Permis de conduire ?')
+            ->assertJsonPath('data.0.reponse_1', 'Oui, permis B.');
+
+        $this->actingAs($recruteur)
+            ->getJson('/api/entreprise/offres/'.$offre->id.'/candidatures')
+            ->assertOk()
+            ->assertJsonPath('data.0.offre.question_2', 'Disponible ?')
+            ->assertJsonPath('data.0.reponse_2', 'Sous une semaine.');
+    }
+
     public function test_le_recruteur_voit_le_profil_du_candidat(): void
     {
         // The list used to load the name and the CV and nothing else, so the

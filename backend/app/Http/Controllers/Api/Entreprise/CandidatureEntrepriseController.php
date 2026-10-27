@@ -35,7 +35,7 @@ class CandidatureEntrepriseController extends Controller
         $query = Candidature::query()
             ->whereHas('offre', fn (Builder $q) => $q->where('entreprise_id', $entreprise->id))
             ->with([
-                'offre:id,titre,slug,ville,type_contrat,statut,date_limite',
+                'offre:id,titre,slug,ville,type_contrat,statut,date_limite,question_1,question_2',
                 'profil.user:id,name,photo',
                 'profil.competences',
                 'profil.formations',
@@ -74,6 +74,7 @@ class CandidatureEntrepriseController extends Controller
 
         $page = $offre->candidatures()
             ->with([
+                'offre:id,titre,slug,ville,type_contrat,statut,date_limite,question_1,question_2',
                 'profil.user:id,name,photo',
                 'profil.competences',
                 'profil.formations',
