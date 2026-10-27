@@ -42,6 +42,15 @@ const LIBELLES_MANQUE: Record<string, string> = {
   informations: "vos informations professionnelles",
 };
 
+/** « a », « a et b », « a, b et c » — a French list, not three « et ». */
+function manqueLisible(profil: ApiProfilDemandeur | null): string {
+  const liste = (profil?.manque_pour_postuler ?? []).map((m) => LIBELLES_MANQUE[m] ?? m);
+
+  if (liste.length < 2) return liste.join("");
+
+  return `${liste.slice(0, -1).join(", ")} et ${liste.at(-1)}`;
+}
+
 function Contenu() {
   const [profil, setProfil] = useState<ApiProfilDemandeur | null>(null);
   const [form, setForm] = useState<Record<string, string | boolean>>({});
@@ -97,7 +106,23 @@ function Contenu() {
 
       const res = await api.put<{ message: string; data: ApiProfilDemandeur }>("/profil", payload);
       setProfil(res.data);
-      setMessage(res.message);
+
+      /*
+       * A green « Profil mis à jour » over a profile that still cannot apply
+       * reads as « you're done » — the client watched a tester save an empty
+       * profile and go looking for the apply button. So the save reports what
+       * is still required, in the red box a real error would use.
+       */
+      const manque = manqueLisible(res.data);
+
+      if (manque) {
+        setErreur(
+          "Profil enregistré, mais les champs obligatoires signalés ci-dessus "
+          + "ne sont pas tous renseignés : vous ne pouvez pas encore postuler."
+        );
+      } else {
+        setMessage(res.message);
+      }
     } catch (err) {
       setErreur(
         err instanceof ApiError
@@ -109,10 +134,7 @@ function Contenu() {
     }
   }
 
-  const manque = (profil?.manque_pour_postuler ?? []).map((m) => LIBELLES_MANQUE[m] ?? m);
-  // « a », « a et b », « a, b et c ».
-  const enumere =
-    manque.length < 2 ? manque.join("") : `${manque.slice(0, -1).join(", ")} et ${manque.at(-1)}`;
+  const manque = manqueLisible(profil);
 
   if (chargement) {
     return (
@@ -145,36 +167,37 @@ function Contenu() {
         </span>
       </div>
 
-      <Alerte texte={message} ton="succes" className="mb-4" />
-
-      <Alerte texte={erreur} className="mb-4" />
-
       {/*
         New accounts land here straight from the signup form, so the first
         thing the page says is what an application needs. Hidden rather than
         unmounted, like the rest of this page.
       */}
       <div
-        className={`mb-5 flex items-start gap-3 rounded-2xl border border-[var(--sane-orange)]/30 bg-[var(--sane-orange)]/5 p-4 ${
-          manque.length ? "" : "hidden"
+        role="alert"
+        className={`mb-5 items-start gap-3 rounded-2xl border border-[var(--sane-red-dark)] bg-[#fef2f2] p-4 ${
+          manque ? "flex" : "hidden"
         }`}
       >
-        <AlertCircle size={18} className="mt-0.5 shrink-0 text-[var(--sane-orange)]" />
-        <p className="sane-small">
-          <strong className="font-semibold text-[var(--sane-text)]">
-            Il vous manque {enumere} pour postuler.
+        <AlertCircle size={18} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
+        <p className="sane-small text-[var(--sane-red-dark)]">
+          <strong className="font-semibold">
+            Champs obligatoires : il vous manque {manque}.
           </strong>{" "}
-          Un recruteur ne verrait rien de vous sans cela. Complétez ces sections,
+          Un recruteur ne verrait rien de vous sans cela. Renseignez ces sections,
           puis parcourez les offres.
         </p>
       </div>
+
+      <Alerte texte={message} ton="succes" className="mb-4" />
+
+      <Alerte texte={erreur} className="mb-4" />
 
       <form onSubmit={enregistrer} className={`${carte} mb-5`}>
         <h2 className="sane-h3 mb-1">
           Informations professionnelles <span className="text-[var(--sane-orange)]">*</span>
         </h2>
         <p className="sane-small mb-4">
-          <strong className="font-semibold text-[var(--sane-text)]">Obligatoire pour postuler.</strong>{" "}
+          <strong className="font-semibold text-[var(--sane-red-dark)]">Obligatoire pour postuler.</strong>{" "}
           Le titre, le secteur et la ville placent votre candidature auprès du recruteur.
         </p>
 
@@ -326,7 +349,7 @@ function Cv({ documents, onChange }: { documents: ApiDocumentCandidature[]; onCh
 
       {documents.length === 0 ? (
         <p className="sane-small">
-          <strong className="font-semibold text-[var(--sane-text)]">Obligatoire pour postuler.</strong>{" "}
+          <strong className="font-semibold text-[var(--sane-red-dark)]">Obligatoire pour postuler.</strong>{" "}
           Les recruteurs reçoivent votre CV avec chaque candidature. PDF, 2 Mo maximum.
         </p>
       ) : (
@@ -683,7 +706,7 @@ function Formations({ formations, onChange }: { formations: ApiFormationAcademiq
 
       {formations.length === 0 ? (
         <p className="sane-small">
-          <strong className="font-semibold text-[var(--sane-text)]">Obligatoire pour postuler.</strong>{" "}
+          <strong className="font-semibold text-[var(--sane-red-dark)]">Obligatoire pour postuler.</strong>{" "}
           Ajoutez au moins un diplôme ou une formation suivie.
         </p>
       ) : (
