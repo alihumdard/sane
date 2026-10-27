@@ -63,15 +63,16 @@ function Contenu() {
   const router = useRouter();
 
   /*
-   * Whether anything was still required when the page opened.
+   * Whether this visit has ever seen something missing.
    *
-   * New accounts are sent straight here from the signup form, and the client
-   * asked that the offers come after the profile, not before. So the save
-   * that completes the profile is the end of that path and moves on; a save
-   * on a profile that was already in order stays put, because someone editing
-   * their job title did not ask to be sent anywhere.
+   * The client asked for the profile first and the offers after, so the
+   * moment nothing is missing we move on. The last piece is as often a CV or
+   * a diploma — added in its own section, with no Enregistrer to press — as
+   * it is the details form, which is why this watches the profile rather than
+   * the save. Someone opening a profile that is already in order to change
+   * their job title is not on that path and stays where they are.
    */
-  const venaitDIncomplet = useRef(false);
+  const aEteIncomplet = useRef(false);
 
   /*
    * Reading the profile again, without touching the details form.
@@ -101,7 +102,6 @@ function Contenu() {
       const p = res.data;
 
       setProfil(p);
-      venaitDIncomplet.current = (p.manque_pour_postuler ?? []).length > 0;
       setForm({
         titre_pro: p.titre_pro ?? "",
         resume: p.resume ?? "",
@@ -124,6 +124,24 @@ function Contenu() {
     void Promise.resolve().then(charger);
   }, [charger]);
 
+  const manquants = profil?.manque_pour_postuler ?? null;
+
+  useEffect(() => {
+    if (manquants === null) return;
+
+    if (manquants.length > 0) {
+      aEteIncomplet.current = true;
+
+      return;
+    }
+
+    if (!aEteIncomplet.current) return;
+
+    aEteIncomplet.current = false;
+    setMessage("Profil complet — voici les offres d'emploi.");
+    router.push("/emploi");
+  }, [manquants, router]);
+
   const set = (cle: string) => (v: string | boolean) => setForm((f) => ({ ...f, [cle]: v }));
 
   async function enregistrer(e: React.FormEvent) {
@@ -140,14 +158,6 @@ function Contenu() {
 
       const res = await api.put<{ message: string; data: ApiProfilDemandeur }>("/profil", payload);
       setProfil(res.data);
-
-      if (venaitDIncomplet.current && (res.data.manque_pour_postuler ?? []).length === 0) {
-        venaitDIncomplet.current = false;
-        setMessage("Profil complet — voici les offres d'emploi.");
-        router.push("/emploi");
-
-        return;
-      }
 
       setMessage(res.message);
     } catch (err) {
