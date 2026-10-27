@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   AlertCircle, Download, Eye, EyeOff,
   FileText, Loader2, Pencil, Plus, Save, Trash2, Upload,
@@ -59,7 +60,39 @@ function Contenu() {
   const [message, setMessage] = useState<string | null>(null);
   const [erreur, setErreur] = useState<string | null>(null);
   const listes = useReferentiels();
+  const router = useRouter();
 
+  /*
+   * Whether anything was still required when the page opened.
+   *
+   * New accounts are sent straight here from the signup form, and the client
+   * asked that the offers come after the profile, not before. So the save
+   * that completes the profile is the end of that path and moves on; a save
+   * on a profile that was already in order stays put, because someone editing
+   * their job title did not ask to be sent anywhere.
+   */
+  const venaitDIncomplet = useRef(false);
+
+  /*
+   * Reading the profile again, without touching the details form.
+   *
+   * The CV, skills, experience and schooling sections each reload the profile
+   * when they change something. They used to call the loader below, which
+   * rebuilds the form from the server — so typing a job title, then uploading
+   * a CV before pressing Enregistrer, silently emptied the fields again. The
+   * client reported it as « les champs à moitié remplis comme si
+   * l'enregistrement n'était pas passé ».
+   */
+  const rafraichir = useCallback(async () => {
+    try {
+      const res = await api.get<{ data: ApiProfilDemandeur }>("/profil");
+      setProfil(res.data);
+    } catch (e) {
+      setErreur(e instanceof ApiError ? e.message : "Chargement impossible.");
+    }
+  }, []);
+
+  /** First read: the form is built from what is stored. */
   const charger = useCallback(async () => {
     try {
       setChargement(true);
@@ -68,6 +101,7 @@ function Contenu() {
       const p = res.data;
 
       setProfil(p);
+      venaitDIncomplet.current = (p.manque_pour_postuler ?? []).length > 0;
       setForm({
         titre_pro: p.titre_pro ?? "",
         resume: p.resume ?? "",
@@ -106,6 +140,15 @@ function Contenu() {
 
       const res = await api.put<{ message: string; data: ApiProfilDemandeur }>("/profil", payload);
       setProfil(res.data);
+
+      if (venaitDIncomplet.current && (res.data.manque_pour_postuler ?? []).length === 0) {
+        venaitDIncomplet.current = false;
+        setMessage("Profil complet — voici les offres d'emploi.");
+        router.push("/emploi");
+
+        return;
+      }
+
       setMessage(res.message);
     } catch (err) {
       setErreur(
@@ -255,10 +298,10 @@ function Contenu() {
         </button>
       </form>
 
-      <Cv documents={profil?.documents ?? []} onChange={charger} />
-      <Competences competences={profil?.competences ?? []} onChange={charger} />
-      <Experiences experiences={profil?.experiences ?? []} onChange={charger} />
-      <Formations formations={profil?.formations ?? []} onChange={charger} />
+      <Cv documents={profil?.documents ?? []} onChange={rafraichir} />
+      <Competences competences={profil?.competences ?? []} onChange={rafraichir} />
+      <Experiences experiences={profil?.experiences ?? []} onChange={rafraichir} />
+      <Formations formations={profil?.formations ?? []} onChange={rafraichir} />
     </>
   );
 }

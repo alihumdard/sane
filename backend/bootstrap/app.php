@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AuthentifierSiPossible;
 use App\Http\Middleware\EntetesSecurite;
+use App\Http\Middleware\RefuserCorpsIllisible;
 use App\Http\Middleware\VerifierRole;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -24,6 +25,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => VerifierRole::class,
             'auth.facultatif' => AuthentifierSiPossible::class,
+        ]);
+
+        $middleware->api(prepend: [
+            RefuserCorpsIllisible::class,
         ]);
 
         $middleware->api(append: [

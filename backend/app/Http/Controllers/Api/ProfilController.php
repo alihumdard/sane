@@ -32,7 +32,18 @@ class ProfilController extends Controller
     public function update(ProfilDemandeurRequest $request): JsonResponse
     {
         $profil = $this->profil($request);
-        $profil->update($request->validated());
+        $champs = $request->validated();
+
+        // Every field here is optional, so a request that carried none of them
+        // would pass validation, change nothing, and still answer « Profil mis
+        // à jour. ». Saying so when nothing arrived is worse than an error.
+        if ($champs === []) {
+            return response()->json([
+                'message' => "Aucune information reçue : rien n'a été enregistré. Réessayez.",
+            ], 422);
+        }
+
+        $profil->update($champs);
 
         return response()->json([
             'message' => 'Profil mis à jour.',

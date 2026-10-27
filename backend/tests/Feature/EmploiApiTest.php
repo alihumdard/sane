@@ -258,6 +258,38 @@ class EmploiApiTest extends TestCase
      * the candidature holds a name and nothing else — no CV, no schooling,
      * nothing to decide on.
      */
+    /**
+     * A body that did not arrive in one piece used to pass for an empty one:
+     * validation had nothing to object to, nothing was written, and the answer
+     * was « Profil mis à jour. ». The person saw their work saved and came
+     * back later to a blank form.
+     */
+    public function test_un_corps_json_illisible_est_refuse(): void
+    {
+        $user = $this->demandeur(complet: false);
+
+        $this->actingAs($user)
+            ->call(
+                'PUT',
+                '/api/profil',
+                server: ['CONTENT_TYPE' => 'application/json', 'HTTP_ACCEPT' => 'application/json'],
+                content: '{"titre_pro":"Développeur web","secteur":"Inform',
+            )
+            ->assertStatus(400);
+
+        $this->assertNull($user->profilDemandeur->refresh()->titre_pro);
+    }
+
+    public function test_une_mise_a_jour_sans_champ_est_refusee(): void
+    {
+        $this->actingAs($this->demandeur(complet: false))
+            ->putJson('/api/profil', [])
+            ->assertStatus(422)
+            ->assertJsonFragment([
+                'message' => "Aucune information reçue : rien n'a été enregistré. Réessayez.",
+            ]);
+    }
+
     public function test_un_profil_vide_ne_peut_pas_postuler(): void
     {
         $user = $this->demandeur(complet: false);
