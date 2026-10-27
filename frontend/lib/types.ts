@@ -246,6 +246,10 @@ export interface ApiProfilDemandeur {
   experiences?: ApiExperience[];
   documents?: ApiDocumentCandidature[];
   taux_completion?: number;
+  /** True once the profile carries what an application requires. */
+  peut_postuler?: boolean;
+  /** What is still missing for that: "cv", "formation". */
+  manque_pour_postuler?: string[];
 }
 
 export interface ApiDocumentCandidature {

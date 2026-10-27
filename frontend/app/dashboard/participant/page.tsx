@@ -120,6 +120,10 @@ function Contenu() {
   }
 
   const completion = profil?.taux_completion ?? 0;
+
+  const manquePourPostuler = (profil?.manque_pour_postuler ?? []).map(
+    (m) => ({ cv: "votre CV", formation: "au moins une formation" })[m] ?? m
+  );
   const entretiensAVenir = entretiens.filter((e) => !e.est_final);
 
   return (
@@ -131,8 +135,15 @@ function Contenu() {
         <p className="mt-1 text-[13px] text-white/75">Voici où en sont vos candidatures et vos entretiens.</p>
       </div>
 
-      {completion < 100 && (
-        <section className="mb-6 rounded-2xl border border-[var(--sane-orange)] bg-[#fff8ed] p-5">
+      {/*
+        Hidden rather than unmounted: Google Translate holds references into
+        this subtree, and removing a node under it kills the page.
+      */}
+      <section
+        className={`mb-6 rounded-2xl border border-[var(--sane-orange)] bg-[#fff8ed] p-5 ${
+          completion < 100 ? "block" : "hidden"
+        }`}
+      >
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
             <p className="text-[14px] font-bold text-[var(--sane-text)]">
               Votre profil est complété à {completion}%
@@ -144,11 +155,17 @@ function Contenu() {
           <div className="h-2 overflow-hidden rounded-full bg-white">
             <div className="h-full rounded-full bg-[var(--sane-orange)]" style={{ width: `${completion}%` }} />
           </div>
+          {/*
+            Naming the two the server actually refuses, rather than only a
+            percentage: a candidate reading "complété à 40%" cannot tell which
+            40% stops them applying.
+          */}
           <p className="mt-2 text-[12px] text-[var(--sane-text-light)]">
-            Un profil complet et visible est proposé aux recruteurs et améliore vos correspondances.
+            {manquePourPostuler.length > 0
+              ? `Il vous manque ${manquePourPostuler.join(" et ")} pour pouvoir postuler.`
+              : "Un profil complet et visible est proposé aux recruteurs et améliore vos correspondances."}
           </p>
         </section>
-      )}
 
       <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
         <DashboardStatCard icon={<FileText size={20} />} value={candidatures.length} label="Candidatures" accent="green" href="/emploi" />

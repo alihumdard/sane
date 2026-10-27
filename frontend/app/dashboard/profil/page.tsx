@@ -268,7 +268,9 @@ function Cv({ documents, onChange }: { documents: ApiDocumentCandidature[]; onCh
   return (
     <section className={`${carte} mb-5`}>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h2 className="sane-h3">Mon CV</h2>
+        <h2 className="sane-h3">
+          Mon CV <span className="text-[var(--sane-orange)]">*</span>
+        </h2>
         <label
           htmlFor="cv"
           className={`inline-flex cursor-pointer items-center gap-2 rounded-lg border border-[var(--sane-border)] px-4 py-2 text-[13px] font-semibold hover:border-[var(--sane-green)] ${envoi ? "pointer-events-none opacity-60" : ""}`}
@@ -286,7 +288,8 @@ function Cv({ documents, onChange }: { documents: ApiDocumentCandidature[]; onCh
 
       {documents.length === 0 ? (
         <p className="sane-small">
-          Aucun CV déposé. Les recruteurs reçoivent votre CV avec chaque candidature. PDF, 2 Mo maximum.
+          <strong className="font-semibold text-[var(--sane-text)]">Obligatoire pour postuler.</strong>{" "}
+          Les recruteurs reçoivent votre CV avec chaque candidature. PDF, 2 Mo maximum.
         </p>
       ) : (
         <ul className="flex flex-col gap-2">
@@ -597,7 +600,9 @@ function Formations({ formations, onChange }: { formations: ApiFormationAcademiq
   return (
     <section className={carte}>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="sane-h3">Ma formation</h2>
+        <h2 className="sane-h3">
+          Ma formation <span className="text-[var(--sane-orange)]">*</span>
+        </h2>
         <button type="button" onClick={() => (ouvert ? setOuvert(false) : ouvrirAjout())} className="text-[13px] font-semibold text-[var(--sane-green)]">
           {ouvert ? "Annuler" : "+ Ajouter"}
         </button>
@@ -639,7 +644,10 @@ function Formations({ formations, onChange }: { formations: ApiFormationAcademiq
       )}
 
       {formations.length === 0 ? (
-        <p className="sane-small">Aucune formation renseignée.</p>
+        <p className="sane-small">
+          <strong className="font-semibold text-[var(--sane-text)]">Obligatoire pour postuler.</strong>{" "}
+          Ajoutez au moins un diplôme ou une formation suivie.
+        </p>
       ) : (
         <ul className="flex flex-col gap-2">
           {formations.map((f) => (
