@@ -40,6 +40,12 @@ abstract class ContenuAdminController extends Controller
         return ['created_at'];
     }
 
+    /** French wording for the rules a subclass cannot express plainly. */
+    protected function messages(): array
+    {
+        return [];
+    }
+
     /** Hook for subclasses that need to shape input before it is saved. */
     protected function preparer(array $donnees, Request $request): array
     {
@@ -76,7 +82,10 @@ abstract class ContenuAdminController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $donnees = $this->preparer($request->validate($this->regles($request)), $request);
+        $donnees = $this->preparer(
+            $request->validate($this->regles($request), $this->messages()),
+            $request,
+        );
 
         $modele = $this->modele()::create($donnees);
 
@@ -90,7 +99,10 @@ abstract class ContenuAdminController extends Controller
     {
         $modele = $this->modele()::findOrFail($id);
 
-        $donnees = $this->preparer($request->validate($this->regles($request, $modele)), $request);
+        $donnees = $this->preparer(
+            $request->validate($this->regles($request, $modele), $this->messages()),
+            $request,
+        );
 
         $modele->update($donnees);
 

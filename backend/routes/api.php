@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Admin\ImageAdminController;
 use App\Http\Controllers\Api\Admin\InscriptionAdminController;
 use App\Http\Controllers\Api\Admin\PartenaireAdminController;
 use App\Http\Controllers\Api\Admin\PresseAdminController;
+use App\Http\Controllers\Api\Admin\SessionProgrammeAdminController;
 use App\Http\Controllers\Api\Admin\RapportAdminController;
 use App\Http\Controllers\Api\Admin\UtilisateurAdminController;
 use App\Http\Controllers\Api\AuthController;
@@ -67,6 +68,9 @@ Route::get('/actualites/{slug}', [ContenuPublicController::class, 'actualite']);
 Route::get('/faq', [ContenuPublicController::class, 'faq']);
 Route::get('/partenaires', [ContenuPublicController::class, 'partenaires']);
 Route::get('/presse', [ContenuPublicController::class, 'presse']);
+
+// The event's schedule, grouped by day — the shape the programme page shows.
+Route::get('/programme', [ContenuPublicController::class, 'programme']);
 
 Route::post('/auth/login', [AuthController::class, 'login'])
     ->middleware('throttle:5,1');
@@ -277,6 +281,7 @@ Route::middleware(['auth:sanctum', 'role:administrateur,organisateur'])
             'faq' => FaqAdminController::class,
             'partenaires' => PartenaireAdminController::class,
             'presse' => PresseAdminController::class,
+            'programme' => SessionProgrammeAdminController::class,
         ] as $chemin => $controleur) {
             Route::get("/{$chemin}", [$controleur, 'index']);
             Route::post("/{$chemin}", [$controleur, 'store']);

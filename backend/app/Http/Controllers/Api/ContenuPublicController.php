@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Actualite;
 use App\Models\ArticlePresse;
+use App\Models\SessionProgramme;
 use App\Models\FaqEntree;
 use App\Models\Partenaire;
 use Illuminate\Http\JsonResponse;
@@ -75,6 +76,35 @@ class ContenuPublicController extends Controller
         return response()->json([
             'data' => Partenaire::publics()->get(['id', 'nom', 'slug', 'type', 'logo', 'site_web', 'description']),
         ]);
+    }
+
+    /**
+     * The schedule, grouped by day.
+     *
+     * Grouped here rather than on the page: the page shows one day at a time
+     * with its tabs, and the grouping is the same wherever it is read from.
+     */
+    public function programme(): JsonResponse
+    {
+        $jours = SessionProgramme::publiques()->get()
+            ->groupBy(fn (SessionProgramme $s) => $s->jour->toDateString())
+            ->map(fn ($sessions, $jour) => [
+                'jour' => $jour,
+                'sessions' => $sessions->map(fn (SessionProgramme $s) => [
+                    'id' => $s->id,
+                    'heure_debut' => substr((string) $s->heure_debut, 0, 5),
+                    'heure_fin' => $s->heure_fin ? substr((string) $s->heure_fin, 0, 5) : null,
+                    'titre' => $s->titre,
+                    'description' => $s->description,
+                    'categorie' => $s->categorie,
+                    'lieu' => $s->lieu,
+                    'intervenants' => $s->intervenants,
+                    'image_url' => $s->image_url,
+                ])->values(),
+            ])
+            ->values();
+
+        return response()->json(['data' => $jours]);
     }
 
     public function presse(): JsonResponse

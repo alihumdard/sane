@@ -132,6 +132,84 @@ class BackOfficeTest extends TestCase
         $this->assertSame(0, $cible->refresh()->tokens()->count());
     }
 
+    /* ─── Programme ─── */
+
+    /**
+     * The schedule used to be eight sessions written into a TypeScript file,
+     * for one unnamed day. The organisers own it now.
+     */
+    public function test_un_organisateur_ajoute_une_session_au_programme(): void
+    {
+        $this->actingAs($this->admin())
+            ->postJson('/api/admin/programme', [
+                'jour' => '2026-12-11',
+                'heure_debut' => '09:00',
+                'heure_fin' => '10:30',
+                'titre' => 'Conférence inaugurale',
+                'categorie' => 'Conférence',
+                'lieu' => 'Grande salle',
+                'publiee' => true,
+            ])
+            ->assertCreated();
+
+        $this->getJson('/api/programme')
+            ->assertOk()
+            ->assertJsonPath('data.0.jour', '2026-12-11')
+            ->assertJsonPath('data.0.sessions.0.titre', 'Conférence inaugurale')
+            ->assertJsonPath('data.0.sessions.0.heure_debut', '09:00')
+            ->assertJsonPath('data.0.sessions.0.heure_fin', '10:30');
+    }
+
+    public function test_une_session_masquee_nest_pas_publique(): void
+    {
+        $this->actingAs($this->admin())
+            ->postJson('/api/admin/programme', [
+                'jour' => '2026-12-11',
+                'heure_debut' => '14:00',
+                'titre' => 'Répétition interne',
+                'publiee' => false,
+            ])
+            ->assertCreated();
+
+        $this->getJson('/api/programme')->assertOk()->assertJsonPath('data', []);
+    }
+
+    /** A session that ends before it starts is a typo, not a schedule. */
+    public function test_une_heure_de_fin_anterieure_est_refusee(): void
+    {
+        $this->actingAs($this->admin())
+            ->postJson('/api/admin/programme', [
+                'jour' => '2026-12-11',
+                'heure_debut' => '15:00',
+                'heure_fin' => '14:00',
+                'titre' => 'Atelier',
+            ])
+            ->assertStatus(422)
+            ->assertJsonPath('errors.heure_fin.0', "L'heure de fin doit être postérieure à l'heure de début.");
+    }
+
+    public function test_le_programme_est_groupe_par_jour_et_dans_lordre(): void
+    {
+        $admin = $this->admin();
+
+        foreach ([
+            ['2026-12-12', '11:00', 'Clôture'],
+            ['2026-12-11', '09:00', 'Ouverture'],
+            ['2026-12-11', '08:00', 'Accueil'],
+        ] as [$jour, $heure, $titre]) {
+            $this->actingAs($admin)
+                ->postJson('/api/admin/programme', compact('jour', 'titre') + ['heure_debut' => $heure])
+                ->assertCreated();
+        }
+
+        $this->getJson('/api/programme')
+            ->assertOk()
+            ->assertJsonPath('data.0.jour', '2026-12-11')
+            ->assertJsonPath('data.0.sessions.0.titre', 'Accueil')
+            ->assertJsonPath('data.0.sessions.1.titre', 'Ouverture')
+            ->assertJsonPath('data.1.jour', '2026-12-12');
+    }
+
     /* ─── Paramètres publics ─── */
 
     /**

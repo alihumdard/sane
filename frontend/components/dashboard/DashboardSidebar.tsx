@@ -35,6 +35,8 @@ const ADMIN_SUB_ROUTES: Record<string, string> = {
   "Emploi/Candidatures": "/dashboard/admin/candidatures",
   "Formations/Inscriptions": "/dashboard/admin/inscriptions",
   "Événements/Tous les événements": "/dashboard/admin/evenements",
+  "Événements/Programme": "/dashboard/admin/programme",
+  "Événements/Sessions": "/dashboard/admin/programme",
 };
 /* "Ajouter ..." entries open the add form of the matching section */
 const ADMIN_ADD_ROUTES: Record<string, string> = {
@@ -50,17 +52,6 @@ const ADMIN_ADD_ROUTES: Record<string, string> = {
   "Générer un rapport": "/dashboard/admin/rapports",
 };
 
-/* Non-admin dashboards: entries that already have a page */
-const MANAGEMENT_ROUTES: Record<string, string> = {
-  "Événements": "/dashboard/admin/evenements",
-  "Formations": "/dashboard/admin/formations",
-  "Intervenants": "/dashboard/admin/intervenants",
-  "Partenaires": "/dashboard/admin/partenaires",
-  "Rapports": "/dashboard/admin/rapports",
-  "Notifications": "/dashboard/admin/notifications",
-  "Paramètres": "/dashboard/admin/parametres",
-  "Programme": "/programme",
-};
 const PARTICIPANT_ROUTES: Record<string, string> = {
   "Mes formations": "/formations",
   "Mes opportunités": "/emploi",

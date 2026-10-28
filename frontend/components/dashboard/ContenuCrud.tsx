@@ -12,10 +12,12 @@ import { api, ApiError } from "@/lib/api";
 export interface ChampFormulaire {
   nom: string;
   label: string;
-  type?: "text" | "textarea" | "select" | "number" | "date" | "url" | "checkbox" | "image";
+  type?: "text" | "textarea" | "select" | "number" | "date" | "time" | "url" | "checkbox" | "image";
   options?: { value: string; label: string }[];
   requis?: boolean;
   pleineLargeur?: boolean;
+  /** Example of what goes in, for a field whose label is not enough. */
+  placeholder?: string;
 }
 
 interface ContenuCrudProps<T> {
@@ -215,6 +217,7 @@ export function ContenuCrud<T>({
               ) : (
                 <input
                   id={c.nom} type={c.type ?? "text"} required={c.requis}
+                  placeholder={c.placeholder}
                   value={String(form[c.nom] ?? "")}
                   onChange={(e) =>
                     setForm((f) => ({
