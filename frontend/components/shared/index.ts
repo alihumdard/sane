@@ -12,3 +12,4 @@ export { imageFocus } from "./imageFocus";
 export { AnimatedCounter } from "./AnimatedCounter";
 export { BarreStatistiques } from "./BarreStatistiques";
 export type { Compteur } from "./BarreStatistiques";
+export { DatesSalon, LieuSalon } from "./DatesSalon";

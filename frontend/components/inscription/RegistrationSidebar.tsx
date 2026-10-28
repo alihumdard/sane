@@ -1,5 +1,8 @@
-﻿import Image from "next/image";
+﻿"use client";
+
+import Image from "next/image";
 import { Check } from "lucide-react";
+import { DatesSalon } from "@/components/shared";
 import { practicalInfo, whyItems } from "./data";
 
 export function RegistrationSidebar() {
@@ -39,9 +42,11 @@ export function RegistrationSidebar() {
               </span>
               <div className="min-w-0">
                 <p className="sane-small font-bold !text-[var(--sane-text)]">{title}</p>
+                {/* "@dates" stands for the event's dates, which come from
+                    the edition rather than from three written-in copies. */}
                 {lines.map((l) => (
                   <p key={l} className="sane-small">
-                    {l}
+                    {l === "@dates" ? <DatesSalon repli="10 – 12 décembre 2026" /> : l}
                   </p>
                 ))}
               </div>

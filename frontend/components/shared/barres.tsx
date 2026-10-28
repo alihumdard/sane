@@ -1,10 +1,11 @@
 "use client";
 
 import {
-  Award, BookOpen, Briefcase, Building2, Camera, FileText, GraduationCap,
-  Handshake, Headphones, MessageCircle, Mic, Newspaper, UserSearch, Users, Video, Zap,
+  Award, BookOpen, Briefcase, Building2, CalendarDays, Camera, FileText, GraduationCap,
+  Handshake, Headphones, MapPin, MessageCircle, Mic, Newspaper, UserSearch, Users, Video, Zap,
 } from "lucide-react";
 import { BarreStatistiques, type Compteur } from "./BarreStatistiques";
+import { datesEdition } from "@/lib/statistiques";
 
 /*
  * One strip per page, each reading the live figures.
@@ -61,6 +62,14 @@ const INTERVENANTS: Compteur[] = [
   { icon: GraduationCap, label: "Participants inscrits", valeur: (s) => s.participation.inscriptions },
 ];
 
+const A_PROPOS: Compteur[] = [
+  { icon: CalendarDays, label: "Date", valeur: (s) => datesEdition(s) },
+  { icon: MapPin, label: "Lieu", valeur: (s) => s.edition?.lieu ?? null },
+  { icon: Users, label: "Inscrits", valeur: (s) => s.participation.inscriptions },
+  { icon: Mic, label: "Sessions", valeur: (s) => s.formations.total },
+];
+
+export const BarreAPropos = () => <BarreStatistiques compteurs={A_PROPOS} forme="info" />;
 export const BarreEmploi = () => <BarreStatistiques compteurs={EMPLOI} forme="info" />;
 export const BarreFormations = () => <BarreStatistiques compteurs={FORMATIONS} forme="info" />;
 export const BarrePresse = () => <BarreStatistiques compteurs={PRESSE} />;

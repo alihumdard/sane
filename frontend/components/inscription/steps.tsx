@@ -161,7 +161,7 @@ export function ConfirmStep({
           onChange={(e) => onConsent(e.target.checked)}
           className="mt-0.5 h-4 w-4 shrink-0 rounded accent-[var(--sane-green)]"
         />
-        J&apos;certifie que les informations fournies sont exactes et j&apos;accepte d&apos;être contacté(e) au sujet de mon inscription au SANEM.
+        Je certifie que les informations fournies sont exactes et j&apos;accepte d&apos;être contacté(e) au sujet de mon inscription au SANEM.
       </label>
     </>
   );

@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\Admin\SessionProgrammeAdminController;
 use App\Http\Controllers\Api\Admin\RapportAdminController;
 use App\Http\Controllers\Api\Admin\UtilisateurAdminController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\ParametrePublicController;
 use App\Http\Controllers\Api\StatistiquePubliqueController;
 use App\Http\Controllers\Api\CandidatureController;
@@ -67,6 +68,10 @@ Route::get('/parametres', [ParametrePublicController::class, 'show']);
 // The figures the public pages print under their headings. Every one of them
 // used to be written into the front-end.
 Route::get('/statistiques', [StatistiquePubliqueController::class, 'index']);
+
+// The contact form. Throttled like the other public writes: it sends mail.
+Route::post('/contact', [ContactController::class, 'store'])
+    ->middleware('throttle:5,1');
 
 Route::get('/actualites', [ContenuPublicController::class, 'actualites']);
 Route::get('/actualites/{slug}', [ContenuPublicController::class, 'actualite']);

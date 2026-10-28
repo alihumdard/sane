@@ -22,7 +22,9 @@ export const contactInfo: ContactInfoItem[] = [
   // Like the phone: the address comes from the organisation's settings, and
   // an entry with nothing behind it is not shown at all.
   { icon: MapPin, title: "Adresse", value: "", hint: "Niamey, Niger", barLabel: "Notre localisation" },
-  { icon: Clock, title: "Horaires", value: "Lun – Ven : 8h – 17h", hint: "Samedi – Dimanche : Fermé", barLabel: "Lun – Ven : 8h – 17h" },
+  // The strip under the hero shows the value over the label, so the two must
+  // differ: the tile read "Lun – Ven : 8h – 17h" twice, one above the other.
+  { icon: Clock, title: "Horaires", value: "Lun – Ven : 8h – 17h", hint: "Samedi – Dimanche : Fermé", barLabel: "Nos horaires" },
 ];
 
 /**

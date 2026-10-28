@@ -10,11 +10,14 @@ export function Field({
   id,
   label,
   required,
+  erreur,
   children,
 }: {
   id: string;
   label: string;
   required?: boolean;
+  /** What the server refused, shown under the field rather than in a bubble. */
+  erreur?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -23,6 +26,17 @@ export function Field({
         {label} {required && <span className="text-[var(--sane-orange)]">*</span>}
       </label>
       {children}
+      {/*
+        Always in the tree, hidden when there is nothing to say: the forms on
+        this site are read through Google Translate, which keeps references
+        into the subtree it rewrote.
+      */}
+      <p
+        role="alert"
+        className={`mt-1 text-[12px] font-medium text-[var(--sane-red-dark)] ${erreur ? "block" : "hidden"}`}
+      >
+        {erreur}
+      </p>
     </div>
   );
 }
@@ -37,11 +51,12 @@ interface TextFieldProps {
   type?: string;
   placeholder?: string;
   autoComplete?: string;
+  erreur?: string;
 }
 
-export function TextField({ id, label, value, onChange, icon: Icon, required, type = "text", placeholder, autoComplete }: TextFieldProps) {
+export function TextField({ id, label, value, onChange, icon: Icon, required, type = "text", placeholder, autoComplete, erreur }: TextFieldProps) {
   return (
-    <Field id={id} label={label} required={required}>
+    <Field id={id} label={label} required={required} erreur={erreur}>
       <div className={inputWrap}>
         {Icon && <Icon size={16} className="mx-3.5 shrink-0 text-[var(--sane-text-light)]" aria-hidden="true" />}
         <input
@@ -130,6 +145,7 @@ export function SelectField({
   list,
   placeholder,
   required,
+  erreur,
 }: {
   id: string;
   label: string;
@@ -145,9 +161,10 @@ export function SelectField({
   list: Options;
   placeholder: string;
   required?: boolean;
+  erreur?: string;
 }) {
   return (
-    <Field id={id} label={label} required={required}>
+    <Field id={id} label={label} required={required} erreur={erreur}>
       <ComboBox id={id} options={list} value={value} onChange={onChange} placeholder={placeholder} required={required} />
     </Field>
   );
@@ -161,6 +178,7 @@ export function TextAreaField({
   required,
   placeholder,
   rows = 5,
+  erreur,
 }: {
   id: string;
   label: string;
@@ -169,9 +187,10 @@ export function TextAreaField({
   required?: boolean;
   placeholder?: string;
   rows?: number;
+  erreur?: string;
 }) {
   return (
-    <Field id={id} label={label} required={required}>
+    <Field id={id} label={label} required={required} erreur={erreur}>
       <textarea
         id={id}
         name={id}

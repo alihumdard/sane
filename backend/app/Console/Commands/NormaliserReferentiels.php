@@ -63,6 +63,36 @@ class NormaliserReferentiels extends Command
         ['inscriptions', 'nationalite', 'nationalites'],
     ];
 
+    /**
+     * The entry this value would be if accents and case did not count.
+     *
+     * Only a difference in those two is forgiven: a value that differs by a
+     * word is one nobody recognises, and guessing at those is how data gets
+     * quietly destroyed.
+     *
+     * @param  array<string>  $connus
+     */
+    private function memeAuxAccentsPres(string $valeur, array $connus): ?string
+    {
+        $cible = $this->plier($valeur);
+
+        foreach ($connus as $connu) {
+            if ($this->plier($connu) === $cible) {
+                return $connu;
+            }
+        }
+
+        return null;
+    }
+
+    /** Lower case, accents removed. */
+    private function plier(string $valeur): string
+    {
+        $decompose = \Normalizer::normalize($valeur, \Normalizer::FORM_D) ?: $valeur;
+
+        return mb_strtolower(preg_replace('/\p{Mn}/u', '', $decompose) ?? $valeur);
+    }
+
     public function handle(): int
     {
         $simulation = (bool) $this->option('dry-run');
@@ -86,7 +116,11 @@ class NormaliserReferentiels extends Command
                     continue;
                 }
 
-                $nouvelle = $carte[$ancienne] ?? null;
+                // The map first, then the same value with its accents and
+                // case set aside: a sector typed without its accent is a
+                // different sector to every query that compares these as
+                // text, and the public filter listed both side by side.
+                $nouvelle = $carte[$ancienne] ?? $this->memeAuxAccentsPres($ancienne, $connus);
 
                 if ($nouvelle === null) {
                     // Left as it is: a value nobody mapped may be something a

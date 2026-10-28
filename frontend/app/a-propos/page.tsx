@@ -1,15 +1,15 @@
 ﻿import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
-import { PageHero, InfoBar } from "@/components/shared";
+import { PageHero } from "@/components/shared";
 import {
-  aboutInfo,
   VisionSection,
   MissionVisionValues,
   ImpactSection,
   ProjectSection,
   TeamSection,
 } from "@/components/a-propos";
+import { BarreAPropos } from "@/components/shared/barres";
 
 export default function AProposPage() {
   return (
@@ -35,7 +35,7 @@ export default function AProposPage() {
             { value: "+1000", label: "Participants" },
           ]}
         />
-        <InfoBar items={aboutInfo} />
+        <BarreAPropos />
         <VisionSection />
         <MissionVisionValues />
         <ImpactSection />

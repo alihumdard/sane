@@ -2,10 +2,12 @@
 
 import { ReseauxSociaux } from "@/components/layout/ReseauxSociaux";
 import { useCoordonnees } from "./useCoordonnees";
+import { useParametres } from "@/lib/parametres";
 
 
 export function ContactInfo() {
   const coordonnees = useCoordonnees();
+  const { reseaux } = useParametres();
 
   return (
     <div className="relative overflow-hidden">
@@ -31,7 +33,9 @@ export function ContactInfo() {
           ))}
         </ul>
 
-        <div className="mt-6">
+        {/* Heading and icons go together: with no account configured the
+            card ended on a title above empty space. */}
+        <div className={`mt-6 ${Object.keys(reseaux).length ? "block" : "hidden"}`}>
           <p className="mb-2.5 text-[13px] font-semibold text-[var(--sane-green-deep)]">Suivez-nous</p>
           <ReseauxSociaux className="h-9 w-9 items-center justify-center rounded-full bg-[var(--sane-green)] text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[var(--sane-orange)]" />
         </div>

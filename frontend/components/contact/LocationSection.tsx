@@ -16,7 +16,7 @@ export function LocationSection() {
   return (
     <section className="bg-[var(--sane-background)] pt-0 pb-10 sm:pb-12 md:pb-16">
       <Container>
-        <SectionHeading eyebrow="Notre localisation" title="Retrouvez-nous un Palais des Congrès" className="mb-6" />
+        <SectionHeading eyebrow="Notre localisation" title="Retrouvez-nous au Palais des Congrès" className="mb-6" />
 
         <div className="grid gap-6 md:grid-cols-2 md:items-center md:gap-8 lg:gap-10">
           <div className="relative h-[200px] overflow-hidden rounded-2xl sm:h-[240px] lg:h-[280px]">
