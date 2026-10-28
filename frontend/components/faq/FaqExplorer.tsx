@@ -1,32 +1,85 @@
 ﻿"use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Search, X } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { fieldClass, textLink } from "@/components/ui/styles";
 import { CategoryGrid } from "./CategoryGrid";
 import { FaqCategoryBlock } from "./FaqCategoryBlock";
 import { FaqContactPrompt } from "./FaqContactPrompt";
-import { faqCategories, faqData } from "./data";
+import { api } from "@/lib/api";
+import type { FaqEntry } from "@/components/shared";
+
+interface ApiFaq {
+  id: number;
+  categorie: string;
+  question: string;
+  reponse: string;
+}
 
 /** Category cards, a search box and the questions (two equal columns: categories are laid out in pairs). */
+/**
+ * The questions the organisers entered, grouped by their category.
+ *
+ * Twenty-seven were written into the source and shown instead of the eleven
+ * in the database: editing the FAQ from the back-office changed nothing on
+ * the site.
+ */
 export function FaqExplorer() {
-  const [active, setActive] = useState("generalites");
+  const [active, setActive] = useState("");
   const [query, setQuery] = useState("");
+  const [entrees, setEntrees] = useState<ApiFaq[]>([]);
+
+  useEffect(() => {
+    let annule = false;
+
+    api
+      .get<{ data: ApiFaq[] }>("/faq")
+      .then((r) => {
+        if (annule) return;
+
+        setEntrees(r.data ?? []);
+        setActive((a) => a || r.data?.[0]?.categorie || "");
+      })
+      .catch(() => {
+        // An empty FAQ rather than answers nobody wrote.
+      });
+
+    return () => {
+      annule = true;
+    };
+  }, []);
+
+  /** Grouped in the order the categories first appear. */
+  const parCategorie = useMemo(() => {
+    const groupes: Record<string, FaqEntry[]> = {};
+
+    for (const e of entrees) {
+      (groupes[e.categorie] ??= []).push({ question: e.question, answer: e.reponse });
+    }
+
+    return groupes;
+  }, [entrees]);
+
+  const categories = useMemo(() => Object.keys(parCategorie), [parCategorie]);
 
   const q = query.trim().toLowerCase();
   const searching = q.length > 0;
 
   /** questions per category (all of them, or only the ones matching the search) */
   const visible = useMemo(() => {
-    const out: Record<string, (typeof faqData)[string]> = {};
-    for (const [key, list] of Object.entries(faqData)) {
-      out[key] = searching ? list.filter((f) => `${f.question} ${f.answer}`.toLowerCase().includes(q)) : list;
-    }
-    return out;
-  }, [q, searching]);
+    const out: Record<string, FaqEntry[]> = {};
 
-  const keys = faqCategories.map((c) => c.key).filter((key) => visible[key].length > 0);
+    for (const [cle, liste] of Object.entries(parCategorie)) {
+      out[cle] = searching
+        ? liste.filter((f) => `${f.question} ${f.answer}`.toLowerCase().includes(q))
+        : liste;
+    }
+
+    return out;
+  }, [q, searching, parCategorie]);
+
+  const keys = categories.filter((cle) => visible[cle].length > 0);
   const total = keys.reduce((n, key) => n + visible[key].length, 0);
 
   function select(key: string) {
@@ -38,7 +91,7 @@ export function FaqExplorer() {
 
   return (
     <>
-      <CategoryGrid active={active} onSelect={select} />
+      <CategoryGrid active={active} onSelect={select} categories={categories} comptes={parCategorie} />
 
       <section className="bg-white py-10 sm:py-12 md:py-16">
         <Container>

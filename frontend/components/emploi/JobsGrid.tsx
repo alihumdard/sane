@@ -70,7 +70,14 @@ function Select({
  * whole table: only the current page of results crosses the wire, and the
  * query runs against the database indexes.
  */
-export function JobsGrid() {
+/**
+ * @param termeInitial What the header's search box handed over, read from
+ *   `?q=` by the page. Read on the server rather than from `window` here: a
+ *   useState initialiser also runs during rendering on the server, where
+ *   there is no address, and hydration keeps that empty value — so
+ *   /emploi?q=comptable listed every offer and showed an empty box.
+ */
+export function JobsGrid({ termeInitial = "" }: { termeInitial?: string }) {
   const [offres, setOffres] = useState<ApiOffre[]>([]);
   const [filtres, setFiltres] = useState<OffresResponse["filtres"]>({
     secteur: [],
@@ -81,15 +88,7 @@ export function JobsGrid() {
   const [page, setPage] = useState(1);
   const [dernierePage, setDernierePage] = useState(1);
 
-  /*
-   * Seeded from `?q=` so the header's search box lands here with its term
-   * already applied. Read from the address rather than through
-   * useSearchParams, which would make this page ask for a Suspense boundary
-   * it does not otherwise need.
-   */
-  const [recherche, setRecherche] = useState(() =>
-    typeof window === "undefined" ? "" : (new URLSearchParams(window.location.search).get("q") ?? "")
-  );
+  const [recherche, setRecherche] = useState(termeInitial);
   const [secteur, setSecteur] = useState("");
   const [ville, setVille] = useState("");
   const [contrat, setContrat] = useState("");
@@ -98,7 +97,7 @@ export function JobsGrid() {
   const [erreur, setErreur] = useState<string | null>(null);
 
   // Debounced so typing does not fire a request per keystroke.
-  const [rechercheActive, setRechercheActive] = useState(recherche);
+  const [rechercheActive, setRechercheActive] = useState(termeInitial);
 
   useEffect(() => {
     const t = setTimeout(() => {

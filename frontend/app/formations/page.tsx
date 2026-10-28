@@ -2,8 +2,9 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
-import { PageHero, InfoBar } from "@/components/shared";
-import { FormationsExplorer, WhySection, StepsSection, FaqSection, formationInfo } from "@/components/formations";
+import { PageHero } from "@/components/shared";
+import { FormationsExplorer, WhySection, StepsSection, FaqSection } from "@/components/formations";
+import { BarreFormations } from "@/components/shared/barres";
 
 export const metadata: Metadata = {
   title: "Formations – Salon National de l'Emploi",
@@ -31,7 +32,7 @@ export default function FormationsPage() {
             { href: "/inscription", label: "S'inscrire à une formation", variant: "secondary" },
           ]}
         />
-        <InfoBar items={formationInfo} />
+        <BarreFormations />
         <FormationsExplorer />
         <WhySection />
         <StepsSection />

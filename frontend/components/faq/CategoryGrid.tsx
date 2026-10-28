@@ -1,15 +1,19 @@
 ﻿import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { faqCategories, faqData } from "./data";
+import type { FaqEntry } from "@/components/shared";
+import { habillageCategorie } from "./data";
 
 interface Props {
   active: string;
   onSelect: (key: string) => void;
+  /** The categories the records actually carry, in order. */
+  categories: string[];
+  comptes: Record<string, FaqEntry[]>;
 }
 
 /** Category cards: picking one highlights it and jumps to its questions. */
-export function CategoryGrid({ active, onSelect }: Props) {
+export function CategoryGrid({ active, onSelect, categories, comptes }: Props) {
   return (
     <section className="bg-[var(--sane-background)] py-10 sm:py-12 md:py-16">
       <Container>
@@ -21,9 +25,10 @@ export function CategoryGrid({ active, onSelect }: Props) {
         />
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          {faqCategories.map(({ key, icon: Icon, title, subtitle }) => {
+          {categories.map((cle) => {
+            const { key, icon: Icon, title, subtitle } = habillageCategorie(cle);
             const on = active === key;
-            const count = faqData[key]?.length ?? 0;
+            const count = comptes[cle]?.length ?? 0;
             return (
               <button
                 key={key}

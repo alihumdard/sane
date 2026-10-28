@@ -28,7 +28,8 @@ class FormateurAdminController extends Controller
             'data' => collect($page->items())->map(fn (Formateur $f) => $this->presenter($f)),
             'meta' => $this->meta($page),
             'filtres' => [
-                'organisation' => Formateur::distinct()
+                'secteur' => ['nullable', 'string', 'max:150'],
+            'organisation' => Formateur::distinct()
                     ->whereNotNull('organisation')
                     ->orderBy('organisation')
                     ->pluck('organisation'),

@@ -41,9 +41,16 @@ class SessionProgramme extends Model
             return null;
         }
 
-        // Already an address when the organiser pasted one in.
-        return str_starts_with($this->image, 'http')
-            ? $this->image
-            : Storage::disk('public')->url($this->image);
+        // Three kinds of value live in this column: an address the organiser
+        // pasted in, a file served from the site itself — the images shipped
+        // with the design all start with a slash — and a path on the public
+        // disk, which is what an upload leaves behind. Only the last needs
+        // the disk's URL; prefixing the others with /storage/ was what left
+        // eight broken thumbnails down the programme page.
+        if (str_starts_with($this->image, 'http') || str_starts_with($this->image, '/')) {
+            return $this->image;
+        }
+
+        return Storage::disk('public')->url($this->image);
     }
 }

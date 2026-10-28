@@ -6,7 +6,7 @@ import { ArrowLeft, Building2, Briefcase } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
-import { slugIntervenant, speakers, type Speaker } from "@/components/intervenants/data";
+import { slugIntervenant, type Speaker } from "@/components/intervenants/data";
 
 /**
  * Where this page reaches the API from, which is not where the browser does.
@@ -23,6 +23,7 @@ interface ApiIntervenant {
   nom: string;
   fonction: string | null;
   organisation: string | null;
+  secteur: string | null;
   bio: string | null;
   photo: string | null;
 }
@@ -55,18 +56,19 @@ async function trouver(slug: string): Promise<Speaker | null> {
           name: trouve.nom,
           title: trouve.fonction ?? "",
           org: trouve.organisation ?? "",
-          tags: [],
+          tags: trouve.secteur ? [trouve.secteur] : [],
           img: trouve.photo ?? "/sane-deal3.webp",
           bio: trouve.bio ?? undefined,
         };
       }
     }
   } catch {
-    // Fall through to the written-in list; a speaker shipped with the site
-    // should still have a page when the API is unreachable.
+    // Unreachable API: no page rather than a page about someone who was
+    // never invited. The written-in speakers this used to fall back on were
+    // invented names shipped with the design.
   }
 
-  return speakers.find((s) => slugIntervenant(s.name) === slug) ?? null;
+  return null;
 }
 
 export async function generateMetadata({

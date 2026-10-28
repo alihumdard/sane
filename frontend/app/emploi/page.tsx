@@ -1,17 +1,23 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
-import { InfoBar } from "@/components/shared";
-import { EmploiHero, JobsGrid, PartnersSection, EmploiStepsSection, emploiInfo } from "@/components/emploi";
+import { EmploiHero, JobsGrid, PartnersSection, EmploiStepsSection } from "@/components/emploi";
+import { BarreEmploi } from "@/components/shared/barres";
 
-export default function EmploiPage() {
+export default async function EmploiPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
+
   return (
     <>
       <Header />
       <main>
         <EmploiHero />
-        <InfoBar items={emploiInfo} />
-        <JobsGrid />
+        <BarreEmploi />
+        <JobsGrid termeInitial={q ?? ""} />
         <PartnersSection />
         <EmploiStepsSection />
         <CTASection />

@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/Container";
 import type { ApiOffre } from "@/lib/types";
 import { PostulerCard } from "./PostulerCard";
 import { FavoriBouton } from "./FavoriBouton";
+import { TexteRiche } from "@/components/ui/TexteRiche";
 
 function formatDate(iso: string | null): string {
   if (!iso) return "—";
@@ -26,22 +27,6 @@ function formatSalaire(min: number | null, max: number | null): string | null {
   if (max) return `Jusqu'à ${fmt(max)} FCFA`;
 
   return null;
-}
-
-/** Renders paragraphs from a plain-text block, preserving the author's breaks. */
-function Paragraphes({ texte }: { texte: string }) {
-  return (
-    <>
-      {texte
-        .split(/\n+/)
-        .filter(Boolean)
-        .map((p, i) => (
-          <p key={i} className="sane-body mb-3 last:mb-0">
-            {p}
-          </p>
-        ))}
-    </>
-  );
 }
 
 export function OffreDetail({ offre }: { offre: ApiOffre }) {
@@ -112,14 +97,14 @@ export function OffreDetail({ offre }: { offre: ApiOffre }) {
 
               <h2 className="sane-h3 mb-2">Description du poste</h2>
               <div className="mb-6">
-                <Paragraphes texte={offre.description} />
+                <TexteRiche texte={offre.description} />
               </div>
 
               {offre.missions && (
                 <>
                   <h2 className="sane-h3 mb-2">Missions</h2>
                   <div className="mb-6">
-                    <Paragraphes texte={offre.missions} />
+                    <TexteRiche texte={offre.missions} />
                   </div>
                 </>
               )}
@@ -128,7 +113,7 @@ export function OffreDetail({ offre }: { offre: ApiOffre }) {
                 <>
                   <h2 className="sane-h3 mb-2">Profil recherché</h2>
                   <div className="mb-6">
-                    <Paragraphes texte={offre.profil_recherche} />
+                    <TexteRiche texte={offre.profil_recherche} />
                   </div>
                 </>
               )}

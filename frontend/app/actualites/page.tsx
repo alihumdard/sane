@@ -240,7 +240,7 @@ export default function ActualitesPage() {
               <span className="text-white font-medium">Actualités</span>
             </nav>
             <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-white/50">
-              SALON NATIONAL DE L'EMPLOI
+              SALON NATIONAL DE L&apos;EMPLOI
             </p>
             <div className="max-w-[480px]">
               <h1 className="sane-h1 on-dark mb-1">
@@ -251,7 +251,7 @@ export default function ActualitesPage() {
               </p>
               <p className="sane-body on-dark mb-4 max-w-[400px] sm:mb-6">
                 Découvrez nos actualités, annonces, événements et initiatives
-                autour de l'emploi, de la formation et du développement des
+                autour de l&apos;emploi, de la formation et du développement des
                 compétences au Niger.
               </p>
               <div className="flex flex-wrap gap-3">
@@ -449,7 +449,7 @@ export default function ActualitesPage() {
                           href={`/actualites/${a.slug}`}
                           className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)]"
                         >
-                          Lire l'article <ArrowRight size={13} />
+                          Lire l&apos;article <ArrowRight size={13} />
                         </Link>
                       </div>
                     </div>
@@ -496,7 +496,7 @@ export default function ActualitesPage() {
                         href={`/actualites/${filteredArticles[0]?.slug ?? ""}`}
                         className="inline-flex items-center gap-2 rounded-full bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-semibold text-white transition-all hover:bg-[var(--sane-c-c9600f)]"
                       >
-                        Lire l'article complet
+                        Lire l&apos;article complet
                         <ArrowRight size={14} />
                       </Link>
                     </div>

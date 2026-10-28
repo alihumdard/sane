@@ -24,7 +24,7 @@ class IntervenantController extends Controller
     {
         $formateurs = Formateur::query()
             ->orderBy('nom')
-            ->get(['id', 'nom', 'fonction', 'organisation', 'bio', 'photo']);
+            ->get(['id', 'nom', 'fonction', 'organisation', 'secteur', 'bio', 'photo']);
 
         return response()->json([
             'data' => $formateurs->map(fn (Formateur $f) => [

@@ -1,14 +1,15 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
-import { PageHero, FeatureBar } from "@/components/shared";
+import { PageHero } from "@/components/shared";
 import {
-  partnerStats,
+
   PartnerLogosSection,
   PartnerTypesSection,
   ImpactSection,
   TestimonialsSection,
 } from "@/components/partenaires";
+import { BarrePartenaires } from "@/components/shared/barres";
 
 export default function PartenairesPage() {
   return (
@@ -36,7 +37,7 @@ export default function PartenairesPage() {
           ]}
           stats={[{ value: "+50", label: "partenaires actifs" }]}
         />
-        <FeatureBar items={partnerStats} variant="plain" />
+        <BarrePartenaires />
         <PartnerLogosSection />
         <PartnerTypesSection />
         <ImpactSection />

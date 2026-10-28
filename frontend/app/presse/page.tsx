@@ -1,13 +1,14 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { PageHero, FeatureBar } from "@/components/shared";
+import { PageHero } from "@/components/shared";
 import {
-  pressStats,
+
   ArticlesSection,
   ResourcesSection,
   MediaMentionsSection,
   NewsletterCTA,
 } from "@/components/presse";
+import { BarrePresse } from "@/components/shared/barres";
 
 export default function PressePage() {
   return (
@@ -28,7 +29,7 @@ export default function PressePage() {
             { href: "/contact", label: "Nous contacter", variant: "secondary" },
           ]}
         />
-        <FeatureBar items={pressStats} />
+        <BarrePresse />
         <ArticlesSection />
         <ResourcesSection />
         <MediaMentionsSection />

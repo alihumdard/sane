@@ -16,6 +16,7 @@ class Formateur extends Model
         'telephone',
         'fonction',
         'organisation',
+        'secteur',
         'bio',
         'photo',
     ];

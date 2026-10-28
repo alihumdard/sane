@@ -1,8 +1,9 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
-import { PageHero, FeatureBar } from "@/components/shared";
-import { speakerStats, SpeakersExplorer } from "@/components/intervenants";
+import { PageHero } from "@/components/shared";
+import { SpeakersExplorer } from "@/components/intervenants";
+import { BarreIntervenants } from "@/components/shared/barres";
 
 export default function IntervenantsPage() {
   return (
@@ -24,7 +25,7 @@ export default function IntervenantsPage() {
             { href: "/contact", label: "Proposer un intervenant", variant: "secondary" },
           ]}
         />
-        <FeatureBar items={speakerStats} />
+        <BarreIntervenants />
         <SpeakersExplorer />
         <CTASection
           tone="dark"

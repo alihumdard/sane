@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\Admin\RapportAdminController;
 use App\Http\Controllers\Api\Admin\UtilisateurAdminController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ParametrePublicController;
+use App\Http\Controllers\Api\StatistiquePubliqueController;
 use App\Http\Controllers\Api\CandidatureController;
 use App\Http\Controllers\Api\ContenuPublicController;
 use App\Http\Controllers\Api\DocumentCandidatureController;
@@ -62,6 +63,10 @@ Route::delete('/inscriptions/{reference}/documents/{document}', [DocumentControl
 // The organisation's own details — phone, address, social accounts — read by
 // the footer, the contact page and the legal pages.
 Route::get('/parametres', [ParametrePublicController::class, 'show']);
+
+// The figures the public pages print under their headings. Every one of them
+// used to be written into the front-end.
+Route::get('/statistiques', [StatistiquePubliqueController::class, 'index']);
 
 Route::get('/actualites', [ContenuPublicController::class, 'actualites']);
 Route::get('/actualites/{slug}', [ContenuPublicController::class, 'actualite']);

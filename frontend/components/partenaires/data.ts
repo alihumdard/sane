@@ -9,23 +9,36 @@ export const partnerStats: FeatureBarItem[] = [
   { value: "+10", label: "Organisations internationales" },
 ];
 
-export const partners: { name: string; abbr: string; color: string; logo?: string }[] = [
-  { name: "République du Niger", abbr: "RN", color: "var(--sane-green-dark)", logo: "/niger_ministere_emploi.png" },
-  { name: "OIT", abbr: "OIT", color: "var(--sane-c-1a5276)", logo: "/organisation_internationale_travail.png" },
-  { name: "Banque Mondiale", abbr: "BM", color: "var(--sane-c-0066cc)" },
-  { name: "AFD", abbr: "AFD", color: "var(--sane-c-e63946)", logo: "/afd.png" },
-  { name: "UNESCO", abbr: "UN", color: "var(--sane-c-005c8a)" },
-  { name: "PNUD", abbr: "PNUD", color: "var(--sane-c-0068b8)" },
-  { name: "USAID", abbr: "US", color: "var(--sane-c-002868)" },
-  { name: "GIZ", abbr: "GIZ", color: "var(--sane-c-007f3e)", logo: "/giz.png" },
-  { name: "Enabel", abbr: "EN", color: "var(--sane-c-e30613)", logo: "/enabel.png" },
-  { name: "The World Bank", abbr: "WB", color: "var(--sane-c-0066b2)" },
-  { name: "Orange", abbr: "OR", color: "var(--sane-c-ff6600)" },
-  { name: "TotalEnergies", abbr: "TE", color: "var(--sane-c-e4022a)" },
-  { name: "Moov Africa", abbr: "MA", color: "var(--sane-c-00a0dc)" },
-  { name: "Ecobank", abbr: "EB", color: "var(--sane-c-005a30)" },
-  { name: "OFANO", abbr: "OF", color: "var(--sane-green)" },
+/*
+ * The partners live in the database, entered from the back-office. Twenty
+ * were written here and shown instead of the real ones, which the page never
+ * reached.
+ *
+ * What stays is how to draw one that has no logo yet.
+ */
+
+/** A stable tint per name, so a logo-less partner is not grey among colours. */
+const TEINTES = [
+  "var(--sane-green-dark)",
+  "var(--sane-c-1a5276)",
+  "var(--sane-c-0066cc)",
+  "var(--sane-c-e63946)",
+  "var(--sane-c-005c8a)",
+  "var(--sane-orange)",
 ];
+
+export function couleurPartenaire(nom: string): string {
+  const somme = [...nom].reduce((t, c) => t + c.charCodeAt(0), 0);
+
+  return TEINTES[somme % TEINTES.length];
+}
+
+/** "Organisation Internationale du Travail" → "OIT". */
+export function initiales(nom: string): string {
+  const mots = nom.split(/\s+/).filter((m) => m.length > 2 && !/^(de|du|des|la|le|les|et|pour)$/i.test(m));
+
+  return (mots.length > 1 ? mots.slice(0, 3).map((m) => m[0]).join("") : nom.slice(0, 3)).toUpperCase();
+}
 
 export const partnerTypes: { icon: LucideIcon; title: string; items: string[]; color: string }[] = [
   {

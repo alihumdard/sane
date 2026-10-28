@@ -1,5 +1,5 @@
 ﻿import { AccordionList, type FaqEntry } from "@/components/shared";
-import { faqCategories, faqData } from "./data";
+import { habillageCategorie } from "./data";
 
 interface Props {
   categoryKey: string;
@@ -12,7 +12,7 @@ interface Props {
 
 /** One category: icon + title + its accordion. */
 export function FaqCategoryBlock({ categoryKey, highlighted, items, openAll = false }: Props) {
-  const cat = faqCategories.find((c) => c.key === categoryKey);
+  const cat = habillageCategorie(categoryKey);
   if (!cat) return null;
   const Icon = cat.icon;
 
@@ -34,7 +34,7 @@ export function FaqCategoryBlock({ categoryKey, highlighted, items, openAll = fa
           <p className="sane-small">{cat.subtitle}</p>
         </div>
       </div>
-      <AccordionList items={items ?? faqData[cat.key] ?? []} defaultOpen={openAll} />
+      <AccordionList items={items ?? []} defaultOpen={openAll} />
     </div>
   );
 }
