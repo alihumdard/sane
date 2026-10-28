@@ -1,4 +1,16 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api";
+/**
+ * Where the browser calls the API.
+ *
+ * Relative by default, so the call goes back to whichever host served the
+ * page: nginx proxies /api on the same host, and the site then works under
+ * its IP, under a test hostname and under a real domain without a rebuild.
+ * It was pinned to one address, so a page served from anywhere else called
+ * across to that address — a different origin, with its own certificate.
+ *
+ * NEXT_PUBLIC_API_URL still overrides it, for a front-end served apart from
+ * its API.
+ */
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
 
 export class ApiError extends Error {
   constructor(
