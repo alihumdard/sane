@@ -15,7 +15,9 @@ export interface ContactInfoItem {
 }
 
 export const contactInfo: ContactInfoItem[] = [
-  { icon: Phone, title: "Téléphone", value: "+227 XX XX XX XX", hint: "Lun – Ven : 8h – 17h", barLabel: "Appelez-nous" },
+  // No number written in: it comes from the organisation's settings, and an
+  // entry with nothing behind it is not shown at all.
+  { icon: Phone, title: "Téléphone", value: "", hint: "Lun – Ven : 8h – 17h", barLabel: "Appelez-nous" },
   { icon: Mail, title: "Email", value: "contact@sanem.ne", hint: "Nous répondons sous 24h", barLabel: "Envoyez un email" },
   { icon: MapPin, title: "Adresse", value: "Palais des Congrès de Niamey", hint: "Niamey, Niger", barLabel: "Notre localisation" },
   { icon: Clock, title: "Horaires", value: "Lun – Ven : 8h – 17h", hint: "Samedi – Dimanche : Fermé", barLabel: "Lun – Ven : 8h – 17h" },

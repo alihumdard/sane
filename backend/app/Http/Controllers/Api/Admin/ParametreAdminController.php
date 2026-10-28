@@ -24,6 +24,11 @@ class ParametreAdminController extends Controller
             'telephone' => ['nullable', 'string', 'max:30'],
             'adresse' => ['nullable', 'string', 'max:255'],
             'site_web' => ['nullable', 'url', 'max:255'],
+            'facebook' => ['nullable', 'url', 'max:255'],
+            'twitter' => ['nullable', 'url', 'max:255'],
+            'instagram' => ['nullable', 'url', 'max:255'],
+            'linkedin' => ['nullable', 'url', 'max:255'],
+            'youtube' => ['nullable', 'url', 'max:255'],
             'description' => ['nullable', 'string', 'max:2000'],
             'logo' => ['nullable', 'image', 'max:2048'],
         ]);

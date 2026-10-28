@@ -81,7 +81,15 @@ export function JobsGrid() {
   const [page, setPage] = useState(1);
   const [dernierePage, setDernierePage] = useState(1);
 
-  const [recherche, setRecherche] = useState("");
+  /*
+   * Seeded from `?q=` so the header's search box lands here with its term
+   * already applied. Read from the address rather than through
+   * useSearchParams, which would make this page ask for a Suspense boundary
+   * it does not otherwise need.
+   */
+  const [recherche, setRecherche] = useState(() =>
+    typeof window === "undefined" ? "" : (new URLSearchParams(window.location.search).get("q") ?? "")
+  );
   const [secteur, setSecteur] = useState("");
   const [ville, setVille] = useState("");
   const [contrat, setContrat] = useState("");
@@ -90,7 +98,7 @@ export function JobsGrid() {
   const [erreur, setErreur] = useState<string | null>(null);
 
   // Debounced so typing does not fire a request per keystroke.
-  const [rechercheActive, setRechercheActive] = useState("");
+  const [rechercheActive, setRechercheActive] = useState(recherche);
 
   useEffect(() => {
     const t = setTimeout(() => {

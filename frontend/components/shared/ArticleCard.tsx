@@ -14,8 +14,14 @@ export interface ArticleCardData {
   href?: string;
 }
 
-/** News / press article card (image with date + tag, title, excerpt, link). */
-export function ArticleCard({ image, date, tag, tagColor, title, description, href = "#" }: ArticleCardData) {
+/**
+ * News / press article card (image with date + tag, title, excerpt, link).
+ *
+ * No destination, no link: the press page showed three "Lire l'article"
+ * buttons pointing at "#", because the records behind them carry neither a
+ * media URL nor a file.
+ */
+export function ArticleCard({ image, date, tag, tagColor, title, description, href }: ArticleCardData) {
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg">
       <div className="relative h-[190px] w-full overflow-hidden">
@@ -42,7 +48,12 @@ export function ArticleCard({ image, date, tag, tagColor, title, description, hr
       <div className="flex flex-1 flex-col p-5">
         <h3 className="sane-h3 mb-2">{title}</h3>
         <p className="sane-small mb-4 line-clamp-3">{description}</p>
-        <Link href={href} className={`${textLink} mt-auto w-fit`}>
+        <Link
+          href={href ?? ""}
+          target={href?.startsWith("http") ? "_blank" : undefined}
+          rel={href?.startsWith("http") ? "noreferrer noopener" : undefined}
+          className={`${textLink} mt-auto w-fit ${href ? "inline-flex" : "hidden"}`}
+        >
           Lire l&apos;article <ArrowRight size={14} />
         </Link>
       </div>

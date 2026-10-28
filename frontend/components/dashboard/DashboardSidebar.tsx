@@ -68,9 +68,7 @@ const PARTICIPANT_ROUTES: Record<string, string> = {
   "Déconnexion": "/connexion",
 };
 const FALLBACK_ROUTES: Record<string, Record<string, string>> = {
-  "/dashboard/organisateur": MANAGEMENT_ROUTES,
   "/dashboard/participant": PARTICIPANT_ROUTES,
-  "/dashboard/moussa": PARTICIPANT_ROUTES,
 };
 
 export interface SidebarItem {

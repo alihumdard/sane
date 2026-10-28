@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\Admin\PresseAdminController;
 use App\Http\Controllers\Api\Admin\RapportAdminController;
 use App\Http\Controllers\Api\Admin\UtilisateurAdminController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ParametrePublicController;
 use App\Http\Controllers\Api\CandidatureController;
 use App\Http\Controllers\Api\ContenuPublicController;
 use App\Http\Controllers\Api\DocumentCandidatureController;
@@ -57,6 +58,10 @@ Route::post('/inscriptions/{reference}/documents', [DocumentController::class, '
 Route::delete('/inscriptions/{reference}/documents/{document}', [DocumentController::class, 'destroy']);
 
 // Contenus éditoriaux — alimentent le site public depuis la base.
+// The organisation's own details — phone, address, social accounts — read by
+// the footer, the contact page and the legal pages.
+Route::get('/parametres', [ParametrePublicController::class, 'show']);
+
 Route::get('/actualites', [ContenuPublicController::class, 'actualites']);
 Route::get('/actualites/{slug}', [ContenuPublicController::class, 'actualite']);
 Route::get('/faq', [ContenuPublicController::class, 'faq']);

@@ -24,7 +24,7 @@ export const faqData: Record<string, FaqEntry[]> = {
     { question: "Qui peut participer au SANEM ?", answer: "Le SANEM est ouvert à tous : demandeurs d'emploi, étudiants, professionnels en reconversion, entreprises, institutions publiques et organisations internationales." },
     { question: "L'entrée au salon est-elle gratuite ?", answer: "Oui, l'accès au salon est entièrement gratuit pour les visiteurs et les demandeurs d'emploi. Certaines formations spécialisées peuvent nécessiter une inscription préalable." },
     { question: "Quels sont les objectifs du SANEM ?", answer: "Les objectifs principaux sont de faciliter la mise en relation entre employeurs et demandeurs d'emploi, promouvoir la formation professionnelle, et contribuer au développement économique du Niger." },
-    { question: "Comment puis-je contacter l'équipe organisatrice ?", answer: "Vous pouvez nous contacter via notre page Contact, par email à contact@sanem.ne, ou par téléphone au +227 XX XX XX XX." },
+    { question: "Comment puis-je contacter l'équipe organisatrice ?", answer: "Vous pouvez nous contacter via notre page Contact, où figurent notre adresse, notre email et notre numéro de téléphone." },
   ],
   inscriptions: [
     { question: "Comment s'inscrire au SANEM ?", answer: "L'inscription se fait en ligne via notre plateforme. Cliquez sur 'S'inscrire' dans le menu principal et suivez les étapes indiquées." },

@@ -104,28 +104,6 @@ const LIBELLE_TAG: Record<string, string> = {
   temoignages: "Témoignage",
 };
 
-const popularArticles = [
-  {
-    title: "Lancement officiel du SANEM 2024 à Niamey",
-    date: "12 Mars 2024",
-    image: "/sane-deal3.webp",
-  },
-  {
-    title: "Des formations pour les jeunes nigériens",
-    date: "05 Mars 2024",
-    image: "/sane-deal3.webp",
-  },
-  {
-    title: "Le SANEM renforce ses partenariats",
-    date: "28 Février 2024",
-    image: "/sane-deal3.webp",
-  },
-  {
-    title: "Témoignages de participants",
-    date: "20 Février 2024",
-    image: "/sane-deal3.webp",
-  },
-];
 
 const upcomingEvents = [
   {
@@ -418,12 +396,6 @@ export default function ActualitesPage() {
                   Nos dernières nouvelles
                 </h2>
               </div>
-              <Link
-                href="#"
-                className="flex items-center gap-1.5 text-[13px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)] sm:text-[14px]"
-              >
-                Voir toutes les actualités <ArrowRight size={15} />
-              </Link>
             </div>
 
             <div className="grid gap-8 lg:grid-cols-[1fr_300px] lg:gap-10">
@@ -475,7 +447,7 @@ export default function ActualitesPage() {
                           {a.description}
                         </p>
                         <Link
-                          href="#"
+                          href={`/actualites/${a.slug}`}
                           className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)]"
                         >
                           Lire l'article <ArrowRight size={13} />
@@ -485,51 +457,44 @@ export default function ActualitesPage() {
                   ))}
                 </div>
 
-                {/* À LA UNE */}
-                <div className="mt-10">
+                {/*
+                  À LA UNE — l'article le plus récent, pas un texte figé.
+                  Le bloc portait un article de 2024 écrit en dur, avec un
+                  bouton « Lire l'article complet » qui ne menait nulle part.
+                */}
+                <div className={`mt-10 ${filteredArticles.length ? "block" : "hidden"}`}>
                   <div className="mb-2 flex items-center gap-2">
                     <span className="sane-eyebrow-bar" />
                     <span className="sane-eyebrow">À la une</span>
                   </div>
-                  <h2 className="sane-h2 mb-6">
-                    Le SANEM, un engagement pour l'avenir du Niger
-                  </h2>
+                  <h2 className="sane-h2 mb-6">{filteredArticles[0]?.title}</h2>
 
                   <div className="grid gap-5 sm:grid-cols-2 sm:items-center sm:gap-6">
-                    <div className="group relative h-[180px] overflow-hidden rounded-2xl sm:h-[220px]">
+                    <Link
+                      href={`/actualites/${filteredArticles[0]?.slug ?? ""}`}
+                      className="group relative block h-[180px] overflow-hidden rounded-2xl sm:h-[220px]"
+                    >
                       <Image
-                        src="/sane_deal.webp"
-                        alt="À la une"
+                        src={filteredArticles[0]?.image ?? "/sane_deal.webp"}
+                        alt={filteredArticles[0]?.title ?? "À la une"}
                         fill sizes="100vw"
-                        className="object-cover"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-black/30 transition-colors group-hover:bg-black/40" />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-[var(--sane-green)] shadow-lg transition-transform group-hover:scale-110">
-                          <Play
-                            size={24}
-                            className="ml-1"
-                            fill="currentColor"
-                          />
-                        </div>
-                      </div>
-                    </div>
+                      <div className="absolute inset-0 bg-black/20 transition-colors group-hover:bg-black/30" />
+                    </Link>
                     <div>
                       <div className="mb-2 flex items-center gap-1.5 text-[12px] text-[var(--sane-orange)]">
                         <Calendar size={12} />
-                        12 Mars 2024
+                        {filteredArticles[0]?.date}
                       </div>
                       <h3 className="mb-3 text-[16px] font-bold text-[var(--sane-green-deep)]">
-                        Le SANEM 2024 : Ensemble pour un Niger plus fort
+                        {filteredArticles[0]?.title}
                       </h3>
-                      <p className="mb-4 text-[13px] leading-relaxed text-[var(--sane-text-light)]">
-                        Découvrez la vision, les objectifs et les temps forts de
-                        cette nouvelle édition du Salon National de l'Emploi,
-                        qui place les jeunes, la formation et l'innovation au
-                        cœur du développement du Niger.
+                      <p className="mb-4 text-[13px] leading-relaxed text-[var(--sane-text-light)] line-clamp-4">
+                        {filteredArticles[0]?.description}
                       </p>
                       <Link
-                        href="#"
+                        href={`/actualites/${filteredArticles[0]?.slug ?? ""}`}
                         className="inline-flex items-center gap-2 rounded-full bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-semibold text-white transition-all hover:bg-[var(--sane-c-c9600f)]"
                       >
                         Lire l'article complet
@@ -561,8 +526,8 @@ export default function ActualitesPage() {
 
               {/* RIGHT — Sidebar */}
               <div className="flex flex-col gap-8">
-                {/* Articles populaires */}
-                <div>
+                {/* Les plus lus — de vrais articles, pas une liste figée. */}
+                <div className={articles.length ? "block" : "hidden"}>
                   <div className="mb-4 flex items-center gap-2">
                     <span className="h-px w-4 bg-[var(--sane-orange)]" />
                     <h3 className="text-[14px] font-bold text-[var(--sane-green-deep)]">
@@ -570,10 +535,10 @@ export default function ActualitesPage() {
                     </h3>
                   </div>
                   <div className="flex flex-col gap-3">
-                    {popularArticles.map((pa, i) => (
+                    {articles.slice(0, 3).map((pa) => (
                       <Link
-                        key={i}
-                        href="#"
+                        key={pa.slug}
+                        href={`/actualites/${pa.slug}`}
                         className="group flex items-center gap-3 rounded-xl border border-[var(--sane-border-soft)] bg-white p-2.5 transition-shadow hover:shadow-md"
                       >
                         <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl">
@@ -643,7 +608,7 @@ export default function ActualitesPage() {
                     ))}
                   </div>
                   <Link
-                    href="#"
+                    href="/programme"
                     className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[var(--sane-green)] hover:text-[var(--sane-orange)]"
                   >
                     Voir tous les événements <ArrowRight size={13} />

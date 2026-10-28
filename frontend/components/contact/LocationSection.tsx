@@ -47,8 +47,8 @@ export function LocationSection() {
         </div>
       </Container>
 
-      {/* Map strip */}
-      <div className="relative mt-10">
+      {/* Map strip — « Voir sur la carte » sur la page programme y mène. */}
+      <div id="carte" className="relative mt-10 scroll-mt-24">
         <iframe
           title="Carte — Palais des Congrès de Niamey"
           src={MAPS_EMBED}

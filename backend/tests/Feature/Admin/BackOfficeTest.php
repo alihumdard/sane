@@ -132,6 +132,39 @@ class BackOfficeTest extends TestCase
         $this->assertSame(0, $cible->refresh()->tokens()->count());
     }
 
+    /* ─── Paramètres publics ─── */
+
+    /**
+     * The phone number and the social accounts used to be written into the
+     * front-end — the number as a row of X's in three files, the accounts as
+     * ten links to "#". They are settings now, so the public site has to be
+     * able to read them.
+     */
+    public function test_les_parametres_publics_exposent_les_coordonnees(): void
+    {
+        $this->actingAs($this->admin())
+            ->postJson('/api/admin/parametres', [
+                'nom' => 'SANEM',
+                'email' => 'contact@sanem.ne',
+                'telephone' => '+227 20 00 00 00',
+                'facebook' => 'https://facebook.com/sanem',
+            ])
+            ->assertOk();
+
+        $this->getJson('/api/parametres')
+            ->assertOk()
+            ->assertJsonPath('data.telephone', '+227 20 00 00 00')
+            ->assertJsonPath('data.reseaux.facebook', 'https://facebook.com/sanem');
+    }
+
+    /** An account with no address must not reach the page: it would be a dead icon. */
+    public function test_un_reseau_vide_nest_pas_renvoye(): void
+    {
+        $this->getJson('/api/parametres')
+            ->assertOk()
+            ->assertJsonPath('data.reseaux', []);
+    }
+
     /* ─── Modération emploi ─── */
 
     public function test_retirer_la_verification_ferme_les_offres_publiees(): void

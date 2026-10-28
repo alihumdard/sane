@@ -64,7 +64,7 @@ export function VenueSection() {
               </ul>
 
               <Link
-                href="#"
+                href="/contact#carte"
                 className="group mt-5 inline-flex h-[40px] items-center gap-2 rounded-lg border border-[var(--sane-green)] bg-white px-5 text-[12.5px] font-bold text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-background)] sm:h-[42px] sm:text-[13px]"
               >
                 Voir sur la carte

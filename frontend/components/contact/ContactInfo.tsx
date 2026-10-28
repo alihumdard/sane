@@ -1,7 +1,28 @@
-import { contactInfo, socials } from "./data";
+"use client";
+
+import { contactInfo } from "./data";
+import { ReseauxSociaux } from "@/components/layout/ReseauxSociaux";
+import { useParametres } from "@/lib/parametres";
 
 
 export function ContactInfo() {
+  const parametres = useParametres();
+
+  /*
+   * The organisation's own details win over the ones written here: a phone
+   * number or an address lives in the settings, where the organisers can
+   * correct it without a release. A line with nothing behind it keeps the
+   * text below, which still says what the entry is for.
+   */
+  const coordonnees = contactInfo.map((c) => ({
+    ...c,
+    value:
+      (c.title === "Téléphone" ? parametres.telephone : null)
+      ?? (c.title === "Email" ? parametres.email : null)
+      ?? (c.title === "Adresse" ? parametres.adresse : null)
+      ?? c.value,
+  })).filter((c) => c.value !== "");
+
   return (
     <div className="relative overflow-hidden">
       <div className="relative z-10">
@@ -12,7 +33,7 @@ export function ContactInfo() {
         <p className="mb-6 text-[15px] text-[var(--sane-text-light)]">Plusieurs moyens pour nous joindre.</p>
 
         <ul className="flex flex-col gap-5">
-          {contactInfo.map(({ icon: Icon, title, value, hint }, i) => (
+          {coordonnees.map(({ icon: Icon, title, value, hint }, i) => (
             <li key={title} className="flex items-start gap-3">
               <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white ${i % 2 === 0 ? "bg-[var(--sane-orange)]" : "bg-[var(--sane-green)]"}`}>
                 <Icon size={16} />
@@ -28,20 +49,7 @@ export function ContactInfo() {
 
         <div className="mt-6">
           <p className="mb-2.5 text-[13px] font-semibold text-[var(--sane-green-deep)]">Suivez-nous</p>
-          <div className="flex items-center gap-2.5">
-            {socials.map((social) => (
-              <a
-                key={social.label}
-                href="#"
-                aria-label={social.label}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--sane-green)] text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[var(--sane-orange)]"
-              >
-                <svg className="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d={social.path} />
-                </svg>
-              </a>
-            ))}
-          </div>
+          <ReseauxSociaux className="h-9 w-9 items-center justify-center rounded-full bg-[var(--sane-green)] text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[var(--sane-orange)]" />
         </div>
       </div>
     </div>

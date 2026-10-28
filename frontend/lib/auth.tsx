@@ -149,7 +149,10 @@ export function useAuth(): AuthState {
  */
 export const ACCUEIL_PAR_ROLE: Record<AuthUser["role"], string> = {
   administrateur: "/dashboard/admin",
-  organisateur: "/dashboard/organisateur",
+  // Same rights as an administrator — every admin route accepts both — so the
+  // same back-office. The separate organiser page showed figures nobody had
+  // computed and six links to nowhere.
+  organisateur: "/dashboard/admin",
   recruteur: "/dashboard/recruteur",
   entreprise: "/dashboard/recruteur",
   demandeur: "/dashboard/participant",

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Search, ChevronDown, X } from "lucide-react";
 import { NAVIGATION } from "@/lib/constants";
 import { NotificationBell } from "@/components/shared/NotificationBell";
@@ -16,7 +16,19 @@ export function Header() {
   const { user } = useAuth();
   const [mounted, setMounted] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [recherche, setRecherche] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
+  function lancerRecherche() {
+    const terme = recherche.trim();
+
+    if (!terme) return;
+
+    setSearchOpen(false);
+    setRecherche("");
+    router.push(`/emploi?q=${encodeURIComponent(terme)}`);
+  }
 
   useEffect(() => {
     setMounted(true);
@@ -119,12 +131,34 @@ export function Header() {
           <div className="sane-container flex items-center gap-3">
             <Search size={20} className="shrink-0 text-[var(--sane-c-71857a)]" />
 
+            {/*
+              The overlay took a query and did nothing with it — no results, no
+              navigation. It searches the offers, which is what the placeholder
+              promises and the only list with a search behind it.
+            */}
             <input
               ref={searchInputRef}
-              type="text"
+              type="search"
+              value={recherche}
+              onChange={(e) => setRecherche(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key !== "Enter") return;
+
+                e.preventDefault();
+                lancerRecherche();
+              }}
               placeholder="Rechercher un emploi, une formation..."
               className="w-full bg-transparent text-sm text-[var(--sane-text)] outline-none placeholder:text-[var(--sane-c-8a9a91)]"
             />
+
+            <button
+              type="button"
+              onClick={lancerRecherche}
+              disabled={!recherche.trim()}
+              className="shrink-0 rounded-full bg-[var(--sane-green)] px-4 py-1.5 text-[13px] font-semibold text-white disabled:opacity-50"
+            >
+              Rechercher
+            </button>
 
             <button
               type="button"

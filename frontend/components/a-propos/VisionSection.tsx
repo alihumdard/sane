@@ -44,7 +44,7 @@ export function VisionSection() {
                 href="/programme"
                 className="group inline-flex h-[36px] items-center gap-2 rounded-full bg-[var(--sane-green)] px-5 text-[12px] font-semibold !text-white transition-colors hover:bg-white hover:!text-[var(--sane-green)] hover:border-[var(--sane-green)] border border-transparent sm:h-[38px] sm:px-6 sm:text-[13px]"
               >
-                Notre histoire
+                Voir le programme
                 <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
               <div className="hidden lg:block -rotate-3 translate-x-4 -translate-y-1">

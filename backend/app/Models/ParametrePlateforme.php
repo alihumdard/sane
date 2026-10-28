@@ -9,7 +9,11 @@ class ParametrePlateforme extends Model
 {
     protected $fillable = [
         'nom', 'email', 'telephone', 'adresse', 'site_web', 'description', 'logo',
+        'facebook', 'twitter', 'instagram', 'linkedin', 'youtube',
     ];
+
+    /** The social accounts, in the order the icons are shown. */
+    public const RESEAUX = ['facebook', 'twitter', 'instagram', 'linkedin', 'youtube'];
 
     protected $appends = ['logo_url'];
 
