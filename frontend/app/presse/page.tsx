@@ -9,8 +9,29 @@ import {
   NewsletterCTA,
 } from "@/components/presse";
 import { BarrePresse } from "@/components/shared/barres";
+import { COULEUR_TYPE, LIBELLE_TYPE } from "@/components/presse/ArticlesSection";
+import type { ArticleCardData } from "@/components/shared";
+import { lireApi } from "@/lib/serveur";
+import type { ApiArticlePresse } from "@/lib/types";
 
-export default function PressePage() {
+export default async function PressePage() {
+  const records = await lireApi<ApiArticlePresse[]>("/presse", []);
+
+  const articles: ArticleCardData[] = records.map((a) => ({
+    image: "/sane-deal3.webp",
+    date: new Date(a.date_publication).toLocaleDateString("fr-FR", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }),
+    tag: LIBELLE_TYPE[a.type] ?? a.media,
+    tagColor: COULEUR_TYPE[a.type] ?? "var(--sane-green)",
+    title: a.titre,
+    description: a.resume ?? "",
+    // No media page and no file means no link at all.
+    href: a.lien ?? a.fichier ?? undefined,
+  }));
+
   return (
     <>
       <Header />
@@ -30,7 +51,7 @@ export default function PressePage() {
           ]}
         />
         <BarrePresse />
-        <ArticlesSection />
+        <ArticlesSection initiaux={articles} />
         <ResourcesSection />
         <MediaMentionsSection />
         <NewsletterCTA />

@@ -11,7 +11,20 @@ import {
 } from "@/components/a-propos";
 import { BarreAPropos } from "@/components/shared/barres";
 
-export default function AProposPage() {
+import { lireApi } from "@/lib/serveur";
+
+interface Statistiques {
+  emploi: { offres: number; entreprises: number; secteurs: number };
+  formations: { total: number; places: number; formateurs: number };
+  participation: { inscriptions: number; partenaires: number };
+  programme: { sessions: number; jours: number };
+}
+
+
+export default async function AProposPage() {
+  // Counted, not invented: the badge used to read "+500 Opportunités".
+  const stats = await lireApi<Statistiques | null>("/statistiques", null);
+
   return (
     <>
       <Header />
@@ -29,11 +42,15 @@ export default function AProposPage() {
             { href: "/inscription", label: "Participer au SANEM" },
             { href: "/programme", label: "Découvrir le programme", variant: "secondary" },
           ]}
-          stats={[
-            { value: "+500", label: "Opportunités" },
-            { value: "+100", label: "Entreprises" },
-            { value: "+1000", label: "Participants" },
-          ]}
+          stats={
+            stats
+              ? [
+                  { value: String(stats.emploi.offres), label: "Offres publiées" },
+                  { value: String(stats.emploi.entreprises), label: "Entreprises" },
+                  { value: String(stats.participation.inscriptions), label: "Inscrits" },
+                ]
+              : []
+          }
         />
         <BarreAPropos />
         <VisionSection />

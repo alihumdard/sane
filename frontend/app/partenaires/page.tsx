@@ -13,8 +13,19 @@ import { BarrePartenaires } from "@/components/shared/barres";
 import type { ApiPartenaire } from "@/components/partenaires/PartnerLogosSection";
 import { lireApi } from "@/lib/serveur";
 
+interface Statistiques {
+  emploi: { offres: number; entreprises: number; secteurs: number };
+  formations: { total: number; places: number; formateurs: number };
+  participation: { inscriptions: number; partenaires: number };
+  programme: { sessions: number; jours: number };
+}
+
+
 export default async function PartenairesPage() {
   const partenaires = await lireApi<ApiPartenaire[]>("/partenaires", []);
+  // The badge read "+50 partenaires actifs" directly above a counter
+  // reading the real number, five.
+  const stats = await lireApi<Statistiques | null>("/statistiques", null);
 
   return (
     <>
@@ -39,7 +50,11 @@ export default async function PartenairesPage() {
             { href: "/contact", label: "Devenir partenaire" },
             { href: "#partenaires", label: "Voir tous les partenaires", variant: "secondary" },
           ]}
-          stats={[{ value: "+50", label: "partenaires actifs" }]}
+          stats={
+            stats
+              ? [{ value: String(stats.participation.partenaires), label: "partenaires" }]
+              : []
+          }
         />
         <BarrePartenaires />
         <PartnerLogosSection initiaux={partenaires} />

@@ -13,6 +13,7 @@ export interface StatistiquesPubliques {
   } | null;
   emploi: { offres: number; entreprises: number; secteurs: number };
   formations: { total: number; places: number; formateurs: number };
+  programme: { sessions: number; jours: number };
   participation: { inscriptions: number; partenaires: number };
   presse: { articles: number; medias: number };
   faq: { questions: number; categories: number };

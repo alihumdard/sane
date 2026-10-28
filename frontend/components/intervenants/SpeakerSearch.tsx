@@ -40,7 +40,10 @@ export function SpeakerSearch({ search, secteur, secteurs, onSearch, onSecteur }
               className={`${fieldClass} pl-10`}
             />
           </div>
-          <div className="relative">
+          {/* One entry means nothing to choose between: no speaker carries
+              a sector yet, and a dropdown that cannot do anything is worse
+              than no dropdown. */}
+          <div className={`relative ${secteurs.length > 1 ? "block" : "hidden"}`}>
             <Briefcase size={15} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
             {/* One filter, over the sectors the speakers actually carry. */}
             <select value={secteur} onChange={(e) => onSecteur(e.target.value)} aria-label="Secteur" className={`${selectClass} pl-10`}>

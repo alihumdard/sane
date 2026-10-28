@@ -6,8 +6,17 @@ import { ScheduleSection, VenueSection, DocumentsSection, eventInfo } from "@/co
 import type { JourProgramme } from "@/components/programme/ScheduleSection";
 import { lireApi } from "@/lib/serveur";
 
+interface Statistiques {
+  emploi: { offres: number; entreprises: number; secteurs: number };
+  formations: { total: number; places: number; formateurs: number };
+  participation: { inscriptions: number; partenaires: number };
+  programme: { sessions: number; jours: number };
+}
+
+
 export default async function ProgrammePage() {
   const jours = await lireApi<JourProgramme[]>("/programme", []);
+  const stats = await lireApi<Statistiques | null>("/statistiques", null);
 
   return (
     <>
@@ -26,11 +35,18 @@ export default async function ProgrammePage() {
             { href: "/inscription", label: "S'inscrire au SANEM" },
             { href: "#programme", label: "Voir le programme", variant: "secondary" },
           ]}
-          stats={[
-            { value: "8", label: "Sessions" },
-            { value: "+20", label: "Intervenants" },
-            { value: "1", label: "Journée" },
-          ]}
+          stats={
+            stats
+              ? [
+                  { value: String(stats.programme.sessions), label: "Sessions" },
+                  { value: String(stats.formations.formateurs), label: "Intervenants" },
+                  {
+                    value: String(stats.programme.jours),
+                    label: stats.programme.jours > 1 ? "Journées" : "Journée",
+                  },
+                ]
+              : []
+          }
         />
         <InfoBar items={eventInfo} />
         <ScheduleSection initiaux={jours} />

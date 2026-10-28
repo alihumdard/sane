@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\StatutOffre;
 use App\Http\Controllers\Controller;
 use App\Models\ArticlePresse;
 use App\Models\Edition;
@@ -13,6 +12,7 @@ use App\Models\Formation;
 use App\Models\Inscription;
 use App\Models\OffreEmploi;
 use App\Models\Partenaire;
+use App\Models\SessionProgramme;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
 
@@ -43,7 +43,12 @@ class StatistiquePubliqueController extends Controller
     {
         $edition = Edition::active();
 
-        $offresPubliees = OffreEmploi::where('statut', StatutOffre::Publiee->value);
+        /*
+         * Counted exactly as the offers list counts them — published and not
+         * past their closing date. Counting only on the status put 15 in the
+         * hero above a list of 12, and 12 sectors above a filter offering 10.
+         */
+        $offresPubliees = OffreEmploi::query()->publiques();
 
         return [
             'edition' => $edition ? [
@@ -58,6 +63,11 @@ class StatistiquePubliqueController extends Controller
                 'offres' => (clone $offresPubliees)->count(),
                 'entreprises' => Entreprise::where('verifiee', true)->count(),
                 'secteurs' => (clone $offresPubliees)->distinct()->count('secteur'),
+            ],
+
+            'programme' => [
+                'sessions' => SessionProgramme::where('publiee', true)->count(),
+                'jours' => SessionProgramme::where('publiee', true)->distinct()->count('jour'),
             ],
 
             'formations' => [

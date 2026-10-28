@@ -10,14 +10,14 @@ import { ArticleCard, type ArticleCardData } from "@/components/shared";
 import { api } from "@/lib/api";
 import type { ApiArticlePresse } from "@/lib/types";
 
-const COULEUR_TYPE: Record<string, string> = {
+export const COULEUR_TYPE: Record<string, string> = {
   communique: "var(--sane-orange)",
   article: "var(--sane-green)",
   interview: "var(--sane-c-1a5276)",
   reportage: "var(--sane-green)",
 };
 
-const LIBELLE_TYPE: Record<string, string> = {
+export const LIBELLE_TYPE: Record<string, string> = {
   communique: "Communiqué",
   article: "Article",
   interview: "Interview",
@@ -32,8 +32,8 @@ const LIBELLE_TYPE: Record<string, string> = {
  * own page, or a file the organisers uploaded — and a card without either
  * shows no link rather than a dead one.
  */
-export function ArticlesSection() {
-  const [articles, setArticles] = useState<ArticleCardData[]>([]);
+export function ArticlesSection({ initiaux = [] }: { initiaux?: ArticleCardData[] }) {
+  const [articles, setArticles] = useState<ArticleCardData[]>(initiaux);
 
   useEffect(() => {
     let actif = true;

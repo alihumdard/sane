@@ -91,6 +91,13 @@ export function ContactForm() {
       ) : (
         <form
           className="flex flex-col gap-5"
+          /*
+            The browser's own check is turned off so ours runs. Its bubbles
+            read "Please fill in this field." in English on a French page,
+            and they fired first, so the field errors written here — in
+            French, beside the field — never got a chance.
+          */
+          noValidate
           onSubmit={envoyer}
         >
           <Alerte texte={erreur} />

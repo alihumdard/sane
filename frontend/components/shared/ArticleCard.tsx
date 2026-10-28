@@ -49,23 +49,21 @@ export function ArticleCard({ image, date, tag, tagColor, title, description, hr
         <h3 className="sane-h3 mb-2">{title}</h3>
         <p className="sane-small mb-4 line-clamp-3">{description}</p>
         {/*
-          Hidden through a style rather than a class: `textLink` carries
-          `inline-flex`, which beat Tailwind's `hidden` depending on the order
-          the two landed in the stylesheet — so a card with no destination
-          still showed a link, and an empty href sends the reader back to the
-          page they are already on.
+          No destination, no element. Hiding it with a class lost to
+          `textLink`'s own `inline-flex`; hiding it with a style left an
+          anchor in the page carrying href="#", which a reader can still
+          reach and which resolves to the page they are already on.
         */}
-        <Link
-          href={href ?? "#"}
-          target={href?.startsWith("http") ? "_blank" : undefined}
-          rel={href?.startsWith("http") ? "noreferrer noopener" : undefined}
-          style={href ? undefined : { display: "none" }}
-          aria-hidden={href ? undefined : true}
-          tabIndex={href ? undefined : -1}
-          className={`${textLink} mt-auto w-fit`}
-        >
-          Lire l&apos;article <ArrowRight size={14} />
-        </Link>
+        {href && (
+          <Link
+            href={href}
+            target={href.startsWith("http") ? "_blank" : undefined}
+            rel={href.startsWith("http") ? "noreferrer noopener" : undefined}
+            className={`${textLink} mt-auto w-fit`}
+          >
+            Lire l&apos;article <ArrowRight size={14} />
+          </Link>
+        )}
       </div>
     </article>
   );

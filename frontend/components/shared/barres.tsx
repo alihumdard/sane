@@ -38,7 +38,7 @@ const PRESSE: Compteur[] = [
   { icon: Newspaper, label: "Communiqués et articles", valeur: (s) => s.presse.articles },
   { icon: Video, label: "Médias cités", valeur: (s) => s.presse.medias },
   { icon: FileText, label: "Partenaires", valeur: (s) => s.participation.partenaires },
-  { icon: Camera, label: "Formations au programme", valeur: (s) => s.formations.total },
+  { icon: Camera, label: "Formations", valeur: (s) => s.formations.total },
 ];
 
 const FAQ: Compteur[] = [
@@ -58,7 +58,7 @@ const PARTENAIRES: Compteur[] = [
 const INTERVENANTS: Compteur[] = [
   { icon: Users, label: "Intervenants annoncés", valeur: (s) => s.formations.formateurs },
   { icon: Building2, label: "Entreprises présentes", valeur: (s) => s.emploi.entreprises },
-  { icon: Mic, label: "Sessions au programme", valeur: (s) => s.formations.total },
+  { icon: Mic, label: "Sessions au programme", valeur: (s) => s.programme.sessions },
   { icon: GraduationCap, label: "Participants inscrits", valeur: (s) => s.participation.inscriptions },
 ];
 
@@ -66,7 +66,7 @@ const A_PROPOS: Compteur[] = [
   { icon: CalendarDays, label: "Date", valeur: (s) => datesEdition(s) },
   { icon: MapPin, label: "Lieu", valeur: (s) => s.edition?.lieu ?? null },
   { icon: Users, label: "Inscrits", valeur: (s) => s.participation.inscriptions },
-  { icon: Mic, label: "Sessions", valeur: (s) => s.formations.total },
+  { icon: Mic, label: "Sessions", valeur: (s) => s.programme.sessions },
 ];
 
 export const BarreAPropos = () => <BarreStatistiques compteurs={A_PROPOS} forme="info" />;
