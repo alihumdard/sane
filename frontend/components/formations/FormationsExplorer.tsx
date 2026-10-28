@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, X, Loader2, AlertCircle } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -13,14 +13,34 @@ import { FormationFilters, type FormationFilterState } from "./FormationFilters"
 
 const initial: FormationFilterState = { search: "", domaine: "", niveau: "", format: "" };
 
-/** Filters + the formation grid (they share the filter state). */
-export function FormationsExplorer() {
+/**
+ * Filters + the formation grid (they share the filter state).
+ *
+ * The catalogue arrives with the page: it used to be fetched from the browser
+ * only, so the served HTML held the filters, the headings and no courses at
+ * all — nothing for a search engine, nothing on a slow connection until the
+ * script ran, and no anchor for the home page to link a course to.
+ */
+export function FormationsExplorer({ initiaux = [] }: { initiaux?: ApiFormation[] }) {
   const [filters, setFilters] = useState(initial);
-  const [formations, setFormations] = useState<ApiFormation[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [formations, setFormations] = useState<ApiFormation[]>(initiaux);
+  const [loading, setLoading] = useState(initiaux.length === 0);
   const [error, setError] = useState<string | null>(null);
 
+  /*
+   * Skipped when the page arrived with its list already in it: the server
+   * read it uncached while rendering, so fetching the same thing on mount
+   * only spends a round trip to replace the list with itself.
+   */
+  const servi = useRef(initiaux.length > 0);
+
   useEffect(() => {
+    if (servi.current) {
+      servi.current = false;
+
+      return;
+    }
+
     let cancelled = false;
 
     api

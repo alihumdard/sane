@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { api } from "@/lib/api";
 import type { ApiActualite } from "@/lib/types";
 import Image from "next/image";
@@ -141,7 +141,20 @@ export function ActualitesContenu({
   const [articles, setArticles] = useState<ArticleAffiche[]>(initiaux);
   const [chargement, setChargement] = useState(initiaux.length === 0);
 
+  /*
+   * Skipped when the page arrived with its list already in it: the server
+   * read it uncached while rendering, so fetching the same thing on mount
+   * only spends a round trip to replace the list with itself.
+   */
+  const servi = useRef(initiaux.length > 0);
+
   useEffect(() => {
+    if (servi.current) {
+      servi.current = false;
+
+      return;
+    }
+
     let actif = true;
 
     api

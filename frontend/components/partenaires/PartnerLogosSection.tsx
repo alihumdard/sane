@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -33,7 +33,20 @@ export interface ApiPartenaire {
 export function PartnerLogosSection({ initiaux = [] }: { initiaux?: ApiPartenaire[] }) {
   const [partenaires, setPartenaires] = useState<ApiPartenaire[]>(initiaux);
 
+  /*
+   * Skipped when the page arrived with its list already in it: the server
+   * read it uncached while rendering, so fetching the same thing on mount
+   * only spends a round trip to replace the list with itself.
+   */
+  const servi = useRef(initiaux.length > 0);
+
   useEffect(() => {
+    if (servi.current) {
+      servi.current = false;
+
+      return;
+    }
+
     let annule = false;
 
     api

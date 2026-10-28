@@ -5,6 +5,9 @@ import { CTASection } from "@/components/sections/CTASection";
 import { PageHero } from "@/components/shared";
 import { FormationsExplorer, WhySection, StepsSection, FaqSection } from "@/components/formations";
 import { BarreFormations } from "@/components/shared/barres";
+import { lireApi } from "@/lib/serveur";
+import type { StatistiquesPubliques } from "@/lib/edition";
+import type { ApiFormation } from "@/lib/types";
 
 export const metadata: Metadata = {
   title: "Formations – Salon National de l'Emploi",
@@ -12,7 +15,12 @@ export const metadata: Metadata = {
     "Des formations pratiques et certifiantes pour renforcer l'employabilité des jeunes et développer les compétences au Niger.",
 };
 
-export default function FormationsPage() {
+export default async function FormationsPage() {
+  const [formations, stats] = await Promise.all([
+    lireApi<ApiFormation[]>("/formations", []),
+    lireApi<StatistiquesPubliques | null>("/statistiques", null),
+  ]);
+
   return (
     <>
       <Header />
@@ -31,9 +39,18 @@ export default function FormationsPage() {
             { href: "#catalogue", label: "Voir les formations" },
             { href: "/inscription", label: "S'inscrire à une formation", variant: "secondary" },
           ]}
+          stats={
+            stats
+              ? [
+                  { value: String(stats.formations.total), label: "Formations" },
+                  { value: String(stats.formations.places), label: "Places" },
+                  { value: String(stats.formations.formateurs), label: "Intervenants" },
+                ]
+              : []
+          }
         />
         <BarreFormations />
-        <FormationsExplorer />
+        <FormationsExplorer initiaux={formations} />
         <WhySection />
         <StepsSection />
         <FaqSection />

@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, X } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { fieldClass, textLink } from "@/components/ui/styles";
@@ -30,7 +30,20 @@ export function FaqExplorer({ initiales = [] }: { initiales?: ApiFaq[] }) {
   const [query, setQuery] = useState("");
   const [entrees, setEntrees] = useState<ApiFaq[]>(initiales);
 
+  /*
+   * Skipped when the page arrived with its list already in it: the server
+   * read it uncached while rendering, so fetching the same thing on mount
+   * only spends a round trip to replace the list with itself.
+   */
+  const servi = useRef(initiales.length > 0);
+
   useEffect(() => {
+    if (servi.current) {
+      servi.current = false;
+
+      return;
+    }
+
     let annule = false;
 
     api

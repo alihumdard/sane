@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { LayoutGrid, List } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -26,6 +26,13 @@ export function SpeakersExplorer({ initiaux = [] }: { initiaux?: Speaker[] }) {
   const [charge, setCharge] = useState(initiaux.length > 0);
 
   /*
+   * Skipped when the page arrived with its list already in it: the server
+   * read it uncached while rendering, so fetching the same thing on mount
+   * only spends a round trip to replace the list with itself.
+   */
+  const servi = useRef(initiaux.length > 0);
+
+  /*
    * The speakers the organisers entered, and only those.
    *
    * The page used to show eight invented names written into this file —
@@ -33,6 +40,12 @@ export function SpeakersExplorer({ initiaux = [] }: { initiaux?: Speaker[] }) {
    * client had added, with no way to tell them apart.
    */
   useEffect(() => {
+    if (servi.current) {
+      servi.current = false;
+
+      return;
+    }
+
     let annule = false;
 
     api

@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { MapPin, Mic } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -128,7 +128,20 @@ export function ScheduleSection({ initiaux = [] }: { initiaux?: JourProgramme[] 
   const [jourActif, setJourActif] = useState(0);
   const [categorie, setCategorie] = useState("");
 
+  /*
+   * Skipped when the page arrived with its list already in it: the server
+   * read it uncached while rendering, so fetching the same thing on mount
+   * only spends a round trip to replace the list with itself.
+   */
+  const servi = useRef(initiaux.length > 0);
+
   useEffect(() => {
+    if (servi.current) {
+      servi.current = false;
+
+      return;
+    }
+
     let actif = true;
 
     api

@@ -82,27 +82,35 @@ export function JobsGrid({
   termeInitial = "",
   secteurInitial = "",
   villeInitiale = "",
+  initiales,
 }: {
   termeInitial?: string;
   secteurInitial?: string;
   villeInitiale?: string;
+  /**
+   * The first page of results, read while the page was rendered.
+   *
+   * Without it the served HTML of /emploi held the filters, the headings and
+   * no offers at all: the busiest page of the site reached a search engine
+   * empty, and a visitor on a slow connection saw a spinner until the script
+   * ran and the call came back.
+   */
+  initiales?: OffresResponse;
 }) {
-  const [offres, setOffres] = useState<ApiOffre[]>([]);
-  const [filtres, setFiltres] = useState<OffresResponse["filtres"]>({
-    secteur: [],
-    ville: [],
-    type_contrat: [],
-  });
-  const [total, setTotal] = useState(0);
+  const [offres, setOffres] = useState<ApiOffre[]>(initiales?.data ?? []);
+  const [filtres, setFiltres] = useState<OffresResponse["filtres"]>(
+    initiales?.filtres ?? { secteur: [], ville: [], type_contrat: [] }
+  );
+  const [total, setTotal] = useState(initiales?.meta.total ?? 0);
   const [page, setPage] = useState(1);
-  const [dernierePage, setDernierePage] = useState(1);
+  const [dernierePage, setDernierePage] = useState(initiales?.meta.last_page ?? 1);
 
   const [recherche, setRecherche] = useState(termeInitial);
   const [secteur, setSecteur] = useState(secteurInitial);
   const [ville, setVille] = useState(villeInitiale);
   const [contrat, setContrat] = useState("");
 
-  const [chargement, setChargement] = useState(true);
+  const [chargement, setChargement] = useState(initiales === undefined);
   const [erreur, setErreur] = useState<string | null>(null);
 
   // Debounced so typing does not fire a request per keystroke.
@@ -159,7 +167,20 @@ export function JobsGrid({
     }
   }, [requete]);
 
+  /*
+   * Skipped once when the page arrived with its first results: the query is
+   * the same one the server already answered, so fetching it again on mount
+   * would spend a round trip to replace the list with itself.
+   */
+  const premierRendu = useRef(initiales !== undefined);
+
   useEffect(() => {
+    if (premierRendu.current) {
+      premierRendu.current = false;
+
+      return;
+    }
+
     // Deferred to a microtask so the first state update happens after the
     // effect's synchronous body, avoiding a cascading render.
     void Promise.resolve().then(charger);
