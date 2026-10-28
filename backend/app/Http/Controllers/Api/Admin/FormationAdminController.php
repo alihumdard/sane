@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\FormationRequest;
 use App\Http\Resources\FormationResource;
 use App\Http\Resources\InscriptionResource;
 use App\Models\CategorieFormation;
+use App\Models\Edition;
 use App\Models\Formateur;
 use App\Models\Formation;
 use Illuminate\Http\JsonResponse;
@@ -34,9 +35,18 @@ class FormationAdminController extends Controller
             triables: ['titre', 'niveau', 'format', 'max_inscriptions', 'inscriptions_count', 'date_debut'],
         );
 
+        $active = Edition::active();
+
         return response()->json([
             'data' => FormationResource::collection($page->items()),
             'meta' => $this->meta($page),
+            // Which event a new course belongs to.
+            //
+            // The form used to take it from the first row of the list, which
+            // is empty before the first course exists and belongs to whatever
+            // edition happened to sort first afterwards: creating a course
+            // posted edition_id 0 and was refused with no way to tell why.
+            'edition_active' => $active ? ['id' => $active->id, 'annee' => $active->annee] : null,
             // The form needs the ids to post back; a category is a row, not a
             // free-text label.
             'categories' => CategorieFormation::orderBy('ordre')->orderBy('nom')

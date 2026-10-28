@@ -23,8 +23,12 @@ export function CountdownTimer() {
   const [time, setTime] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
-    setTime(getTimeLeft());
+    // The first reading is deferred by a microtask rather than taken in the
+    // effect body: still the same frame, without cascading a render.
+    queueMicrotask(() => setTime(getTimeLeft()));
+
     const id = setInterval(() => setTime(getTimeLeft()), 1000);
+
     return () => clearInterval(id);
   }, []);
 

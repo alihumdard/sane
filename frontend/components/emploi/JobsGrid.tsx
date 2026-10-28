@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { AlertCircle, ArrowRight, Calendar, ChevronDown, Loader2, MapPin, Search } from "lucide-react";
+import { ArrowRight, Calendar, ChevronDown, Loader2, MapPin, Search } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { Container } from "@/components/ui/Container";
 import { api, ApiError } from "@/lib/api";

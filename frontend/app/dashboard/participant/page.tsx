@@ -13,6 +13,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
+import { NavEspace } from "@/components/dashboard/NavEspace";
 import { api, ApiError } from "@/lib/api";
 import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
 import { useAuth } from "@/lib/auth";
@@ -415,6 +416,7 @@ export default function ParticipantDashboardPage() {
       <main className="bg-[var(--sane-background)] py-10 sm:py-14">
         <Container>
           <RoleGuard roles={["demandeur", "participant"]} espace="votre espace candidat">
+            <NavEspace />
             <Contenu />
           </RoleGuard>
         </Container>

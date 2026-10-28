@@ -12,7 +12,7 @@ import { useStatistiques, datesEdition } from "@/lib/statistiques";
  * `repli` is what shows until the figures arrive, and if they never do.
  */
 export function DatesSalon({ repli = "" }: { repli?: string }) {
-  const dates = datesEdition(useStatistiques());
+  const dates = datesEdition(useStatistiques()?.edition);
 
   return <>{dates || repli}</>;
 }

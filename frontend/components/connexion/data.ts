@@ -23,8 +23,3 @@ export const features = [
   { icon: Bell, title: "Recevez des notifications", desc: "Restez informé en temps réel" },
 ];
 
-export const connexionStats = [
-  { value: "+1000", label: "Participants" },
-  { value: "+100", label: "Entreprises" },
-  { value: "+500", label: "Opportunités" },
-];

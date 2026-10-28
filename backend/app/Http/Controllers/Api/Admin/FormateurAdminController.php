@@ -20,7 +20,7 @@ class FormateurAdminController extends Controller
             Formateur::query()->withCount('formations'),
             $request,
             recherchables: ['nom', 'email', 'fonction', 'organisation'],
-            filtrables: ['organisation'],
+            filtrables: ['organisation', 'secteur'],
             triables: ['nom', 'organisation', 'created_at'],
         );
 
@@ -28,11 +28,14 @@ class FormateurAdminController extends Controller
             'data' => collect($page->items())->map(fn (Formateur $f) => $this->presenter($f)),
             'meta' => $this->meta($page),
             'filtres' => [
-                'secteur' => ['nullable', 'string', 'max:150'],
-            'organisation' => Formateur::distinct()
+                'organisation' => Formateur::distinct()
                     ->whereNotNull('organisation')
                     ->orderBy('organisation')
                     ->pluck('organisation'),
+                'secteur' => Formateur::distinct()
+                    ->whereNotNull('secteur')
+                    ->orderBy('secteur')
+                    ->pluck('secteur'),
             ],
             'resume' => [
                 'total' => Formateur::count(),
@@ -102,6 +105,7 @@ class FormateurAdminController extends Controller
             'telephone' => $formateur->telephone,
             'fonction' => $formateur->fonction,
             'organisation' => $formateur->organisation,
+            'secteur' => $formateur->secteur,
             'bio' => $formateur->bio,
             'photo' => $formateur->photo,
             'formations_count' => $formateur->formations_count ?? 0,

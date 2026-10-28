@@ -55,7 +55,18 @@ export default async function AProposPage() {
         <BarreAPropos />
         <VisionSection />
         <MissionVisionValues />
-        <ImpactSection />
+        <ImpactSection
+          chiffres={
+            stats
+              ? {
+                  offres: stats.emploi.offres,
+                  entreprises: stats.emploi.entreprises,
+                  inscriptions: stats.participation.inscriptions,
+                  formations: stats.formations.total,
+                }
+              : null
+          }
+        />
         <ProjectSection />
         <TeamSection />
         <CTASection />

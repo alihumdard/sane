@@ -3,8 +3,7 @@
 import { Suspense, useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
-  AlertCircle, CalendarDays, CheckCircle2, Loader2,
-  Lock, MapPin, Pencil, Plus, Trash2, Unlock, X,
+  CalendarDays, CheckCircle2, Lock, MapPin, Pencil, Plus, Trash2, Unlock, X,
 } from "lucide-react";
 import { ListeChargee } from "@/components/ui/ListeChargee";
 import { Alerte } from "@/components/ui/Alerte";

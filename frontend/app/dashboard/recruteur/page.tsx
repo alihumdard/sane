@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AlertCircle, Briefcase, CheckCircle2, Eye, FileText, Loader2, ShieldAlert, Users } from "lucide-react";
 import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
-import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { api, ApiError } from "@/lib/api";
 import type { TableauBordEntreprise } from "@/lib/types";
@@ -153,10 +152,8 @@ function Contenu() {
 
 export default function RecruteurDashboardPage() {
   return (
-    <RoleGuard roles={["recruteur", "entreprise"]} espace="l'espace recruteur">
-      <RecruteurLayout titre="Tableau de bord" description="Vue d'ensemble de votre recrutement">
-        <Contenu />
-      </RecruteurLayout>
-    </RoleGuard>
+    <RecruteurLayout titre="Tableau de bord" description="Vue d'ensemble de votre recrutement">
+      <Contenu />
+    </RecruteurLayout>
   );
 }

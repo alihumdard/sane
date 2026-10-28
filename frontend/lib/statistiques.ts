@@ -2,22 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import type { StatistiquesPubliques } from "@/lib/edition";
 
-export interface StatistiquesPubliques {
-  edition: {
-    annee: number;
-    nom: string | null;
-    date_debut: string | null;
-    date_fin: string | null;
-    lieu: string | null;
-  } | null;
-  emploi: { offres: number; entreprises: number; secteurs: number };
-  formations: { total: number; places: number; formateurs: number };
-  programme: { sessions: number; jours: number };
-  participation: { inscriptions: number; partenaires: number };
-  presse: { articles: number; medias: number };
-  faq: { questions: number; categories: number };
-}
+export type { StatistiquesPubliques } from "@/lib/edition";
+export { datesEdition } from "@/lib/edition";
 
 /**
  * The figures the public pages print under their headings.
@@ -53,19 +41,3 @@ export function useStatistiques(): StatistiquesPubliques | null {
   return stats;
 }
 
-/** "10 – 12 décembre 2026", from the edition rather than from three files. */
-export function datesEdition(stats: StatistiquesPubliques | null): string {
-  const debut = stats?.edition?.date_debut;
-  const fin = stats?.edition?.date_fin;
-
-  if (!debut || !fin) return "";
-
-  const d = new Date(debut);
-  const f = new Date(fin);
-  const mois = f.toLocaleDateString("fr-FR", { month: "long" });
-
-  // Same month, which it always is for a three-day fair: "10 – 12 décembre".
-  return d.getMonth() === f.getMonth()
-    ? `${d.getDate()} – ${f.getDate()} ${mois} ${f.getFullYear()}`
-    : `${d.toLocaleDateString("fr-FR", { day: "numeric", month: "long" })} – ${f.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
-}

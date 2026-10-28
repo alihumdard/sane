@@ -5,20 +5,36 @@ import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { AnimatedCounter } from "@/components/shared/AnimatedCounter";
 
+export interface ChiffresAPropos {
+  offres: number;
+  entreprises: number;
+  inscriptions: number;
+  formations: number;
+}
+
 interface Stat {
   icon: LucideIcon;
   value: string;
   label: string;
 }
 
-const impactStats: Stat[] = [
-  { icon: BriefcaseBusiness, value: "+500", label: "Opportunités" },
-  { icon: Building2, value: "+100", label: "Entreprises" },
-  { icon: UsersRound, value: "+1000", label: "Participants" },
-  { icon: GraduationCap, value: "+20", label: "Formations" },
-];
+/**
+ * The four figures under "Notre Impact".
+ *
+ * They were "+500 Opportunités", "+100 Entreprises", "+1000 Participants" and
+ * "+20 Formations", written here and counted nowhere — animated on scroll, so
+ * they read as live readings rather than ambitions.
+ */
+export function ImpactSection({ chiffres }: { chiffres: ChiffresAPropos | null }) {
+  const impactStats: Stat[] = chiffres
+    ? [
+        { icon: BriefcaseBusiness, value: String(chiffres.offres), label: "Offres publiées" },
+        { icon: Building2, value: String(chiffres.entreprises), label: "Entreprises" },
+        { icon: UsersRound, value: String(chiffres.inscriptions), label: "Inscrits" },
+        { icon: GraduationCap, value: String(chiffres.formations), label: "Formations" },
+      ]
+    : [];
 
-export function ImpactSection() {
   return (
     <section className="relative bg-white py-10 sm:py-12 md:py-16 overflow-hidden">
       <div

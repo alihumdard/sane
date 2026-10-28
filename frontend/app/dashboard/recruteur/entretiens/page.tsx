@@ -1,12 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { AlertCircle, CalendarPlus, Loader2, Trash2, Video } from "lucide-react";
+import { CalendarPlus, Trash2, Video } from "lucide-react";
 import { ListeChargee } from "@/components/ui/ListeChargee";
 import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { EntretiensCalendrier } from "@/components/shared/EntretiensCalendrier";
-import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { api, ApiError } from "@/lib/api";
 import type { ApiCreneau, ApiEntretien, EntretiensResponse, ModeEntretien } from "@/lib/types";
@@ -262,10 +261,8 @@ function Contenu() {
 
 export default function EntretiensRecruteurPage() {
   return (
-    <RoleGuard roles={["recruteur", "entreprise"]} espace="l'espace recruteur">
-      <RecruteurLayout titre="Entretiens" description="Créneaux disponibles et entretiens planifiés">
-        <Contenu />
-      </RecruteurLayout>
-    </RoleGuard>
+    <RecruteurLayout titre="Entretiens" description="Créneaux disponibles et entretiens planifiés">
+      <Contenu />
+    </RecruteurLayout>
   );
 }

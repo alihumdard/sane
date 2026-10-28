@@ -2,11 +2,13 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
 import { PageHero, InfoBar } from "@/components/shared";
-import { ScheduleSection, VenueSection, DocumentsSection, eventInfo } from "@/components/programme";
+import { ScheduleSection, VenueSection, DocumentsSection, infosEvenement } from "@/components/programme";
 import type { JourProgramme } from "@/components/programme/ScheduleSection";
 import { lireApi } from "@/lib/serveur";
+import { datesEdition } from "@/lib/edition";
 
 interface Statistiques {
+  edition: { date_debut: string | null; date_fin: string | null; lieu: string | null } | null;
   emploi: { offres: number; entreprises: number; secteurs: number };
   formations: { total: number; places: number; formateurs: number };
   participation: { inscriptions: number; partenaires: number };
@@ -17,6 +19,9 @@ interface Statistiques {
 export default async function ProgrammePage() {
   const jours = await lireApi<JourProgramme[]>("/programme", []);
   const stats = await lireApi<Statistiques | null>("/statistiques", null);
+
+  const dates = datesEdition(stats?.edition);
+  const lieu = stats?.edition?.lieu ?? null;
 
   return (
     <>
@@ -48,10 +53,18 @@ export default async function ProgrammePage() {
               : []
           }
         />
-        <InfoBar items={eventInfo} />
+        <InfoBar
+          items={infosEvenement({
+            dates,
+            lieu,
+            inscriptions: stats?.participation.inscriptions ?? 0,
+            sessions: stats?.programme.sessions ?? 0,
+            jours: stats?.programme.jours ?? 0,
+          })}
+        />
         <ScheduleSection initiaux={jours} />
         <CTASection />
-        <VenueSection />
+        <VenueSection dates={dates} lieu={lieu} />
         <DocumentsSection />
       </main>
       <Footer />

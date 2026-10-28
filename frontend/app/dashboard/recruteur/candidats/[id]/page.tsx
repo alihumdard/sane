@@ -7,7 +7,6 @@ import {
   Loader2, Mail, MapPin, Phone, UserRound,
 } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
-import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { api, ApiError } from "@/lib/api";
 import type { ApiProfilDemandeur } from "@/lib/types";
@@ -179,10 +178,8 @@ function Contenu() {
 
 export default function CandidatDetailPage() {
   return (
-    <RoleGuard roles={["recruteur", "entreprise"]} espace="l'espace recruteur">
-      <RecruteurLayout titre="Profil du candidat" description="Consultez le profil complet">
-        <Contenu />
-      </RecruteurLayout>
-    </RoleGuard>
+    <RecruteurLayout titre="Profil du candidat" description="Consultez le profil complet">
+      <Contenu />
+    </RecruteurLayout>
   );
 }

@@ -1,11 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { AlertCircle, Loader2, RefreshCw, Sparkles, UserRound } from "lucide-react";
+import { RefreshCw, Sparkles, UserRound } from "lucide-react";
 import { ListeChargee } from "@/components/ui/ListeChargee";
 import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
-import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { ScoreBadge } from "@/components/recruteur/ScoreBadge";
 import { api, ApiError } from "@/lib/api";
@@ -197,13 +196,11 @@ function Contenu() {
 
 export default function MatchingPage() {
   return (
-    <RoleGuard roles={["recruteur", "entreprise"]} espace="l'espace recruteur">
-      <RecruteurLayout
-        titre="Candidats correspondants"
-        description="Classement par critères, avec le détail du score"
-      >
-        <Contenu />
-      </RecruteurLayout>
-    </RoleGuard>
+    <RecruteurLayout
+      titre="Candidats correspondants"
+      description="Classement par critères, avec le détail du score"
+    >
+      <Contenu />
+    </RecruteurLayout>
   );
 }

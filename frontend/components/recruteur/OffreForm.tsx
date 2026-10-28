@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AlertCircle, ArrowLeft, Save, Send } from "lucide-react";
+import { ArrowLeft, Save, Send } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { ComboBox } from "@/components/ui/ComboBox";

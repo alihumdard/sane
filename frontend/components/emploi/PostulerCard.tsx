@@ -180,7 +180,7 @@ export function PostulerCard({ offre }: { offre: ApiOffre }) {
         <h3 className="sane-h3 mb-1">Complétez votre profil</h3>
         <p className="sane-small mb-4">
           Il vous manque {enumere} avant de pouvoir postuler. Le recruteur
-          n'aurait rien à consulter sans cela.
+          n&apos;aurait rien à consulter sans cela.
         </p>
         <Link href="/dashboard/profil" className={`${primaryBtn} w-full`}>
           <UserRound size={15} /> Compléter mon profil

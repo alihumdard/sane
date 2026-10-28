@@ -1,108 +1,142 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Briefcase, Building2, CalendarClock, FileText, Home, LogOut, Sparkles, Users } from "lucide-react";
-import { useAuth } from "@/lib/auth";
+import { Briefcase, Building2, CalendarClock, ChevronRight, FileText, Home, Sparkles, Users } from "lucide-react";
+import DashboardNavbar, { type CibleRecherche } from "@/components/dashboard/DashboardNavbar";
+import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
+import { RoleGuard } from "@/components/dashboard/RoleGuard";
 
-const LIENS = [
-  { href: "/dashboard/recruteur", label: "Tableau de bord", icon: Home },
-  { href: "/dashboard/recruteur/offres", label: "Mes offres", icon: Briefcase },
-  { href: "/dashboard/recruteur/candidatures", label: "Candidatures", icon: FileText },
-  { href: "/dashboard/recruteur/matching", label: "Candidats correspondants", icon: Sparkles },
-  { href: "/dashboard/recruteur/entretiens", label: "Entretiens", icon: CalendarClock },
-  { href: "/dashboard/recruteur/candidats", label: "Rechercher des profils", icon: Users },
-  { href: "/dashboard/recruteur/entreprise", label: "Mon entreprise", icon: Building2 },
+const LIENS: { href: string; label: string; icon: React.ReactNode }[] = [
+  { href: "/dashboard/recruteur", label: "Tableau de bord", icon: <Home size={18} /> },
+  { href: "/dashboard/recruteur/offres", label: "Mes offres", icon: <Briefcase size={18} /> },
+  { href: "/dashboard/recruteur/candidatures", label: "Candidatures", icon: <FileText size={18} /> },
+  { href: "/dashboard/recruteur/matching", label: "Candidats correspondants", icon: <Sparkles size={18} /> },
+  { href: "/dashboard/recruteur/entretiens", label: "Entretiens", icon: <CalendarClock size={18} /> },
+  { href: "/dashboard/recruteur/candidats", label: "Rechercher des profils", icon: <Users size={18} /> },
+  { href: "/dashboard/recruteur/entreprise", label: "Mon entreprise", icon: <Building2 size={18} /> },
 ];
 
-/** Shell shared by every recruiter page: sidebar, header, content slot. */
+/** What the recruiter's search box can reach, by what they might type. */
+const CIBLES: CibleRecherche[] = [
+  { mots: ["offre", "poste", "annonce", "publier"], label: "Mes offres", href: "/dashboard/recruteur/offres", icon: <Briefcase size={14} /> },
+  { mots: ["candidature", "postulant", "dossier"], label: "Candidatures", href: "/dashboard/recruteur/candidatures", icon: <FileText size={14} /> },
+  { mots: ["correspondance", "matching", "suggestion"], label: "Candidats correspondants", href: "/dashboard/recruteur/matching", icon: <Sparkles size={14} /> },
+  { mots: ["entretien", "rendez", "creneau", "planning"], label: "Entretiens", href: "/dashboard/recruteur/entretiens", icon: <CalendarClock size={14} /> },
+  { mots: ["candidat", "profil", "cv", "recherche"], label: "Rechercher des profils", href: "/dashboard/recruteur/candidats", icon: <Users size={14} /> },
+  { mots: ["entreprise", "societe", "logo", "fiche"], label: "Mon entreprise", href: "/dashboard/recruteur/entreprise", icon: <Building2 size={14} /> },
+];
+
+/**
+ * Shell shared by every recruiter page.
+ *
+ * It used to carry its own sidebar and its own header — no account menu, no
+ * notification bell, no way out but a "Déconnexion" row at the bottom of a
+ * column that disappeared below `lg`, where the only navigation left was a
+ * row of pills. It now uses the same chrome as the back-office, so the two
+ * spaces behave the same way and there is one menu to maintain.
+ */
 export function RecruteurLayout({
   titre,
   description,
+  actions,
+  retour,
   children,
 }: {
   titre: string;
   description?: string;
+  /** Buttons for the page as a whole, shown beside the title. */
+  actions?: React.ReactNode;
+  /** A page reached from a list: shows "< back to the list". */
+  retour?: { href: string; label: string };
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const pathname = usePathname() ?? "";
+  const [menu, setMenu] = useState(false);
+
+  const items: SidebarItem[] = LIENS.map((l) => ({
+    ...l,
+    active: pathname === l.href || pathname.startsWith(l.href + "/"),
+  }));
+
+  const section = items.find((i) => i.active);
 
   return (
-    <div className="flex min-h-screen overflow-x-hidden bg-[var(--sane-background)]">
-      <aside className="sticky top-0 hidden h-screen w-[240px] shrink-0 overflow-y-auto border-r border-[var(--sane-border)] bg-white lg:block">
-        <div className="border-b border-[var(--sane-border)] px-5 py-4">
-          <p className="text-[15px] font-bold text-[var(--sane-green-deep)]">SANEM</p>
-          <p className="text-[11px] text-[var(--sane-text-light)]">Espace recruteur</p>
-        </div>
+    <RoleGuard roles={["entreprise", "recruteur"]} espace="l'espace recruteur">
+      <div className="flex min-h-screen overflow-x-hidden bg-[var(--sane-background)]">
+        <DashboardSidebar items={items} open={menu} onClose={() => setMenu(false)} espace="Espace recruteur" />
 
-        <nav className="flex flex-col gap-0.5 p-3">
-          {LIENS.map(({ href, label, icon: Icon }) => {
-            const actif = pathname === href;
+        <div className="flex min-w-0 flex-1 flex-col">
+          <DashboardNavbar
+            onMenuClick={() => setMenu(true)}
+            cibles={CIBLES}
+            parametres={{ href: "/dashboard/recruteur/entreprise", label: "Mon entreprise" }}
+          />
 
-            return (
+          <main className="mx-auto w-full max-w-[1400px] flex-1 px-4 py-5 sm:px-6 sm:py-7 lg:px-8">
+            <nav aria-label="Fil d'Ariane" className="mb-3 flex flex-wrap items-center gap-1 text-[11.5px]">
               <Link
-                key={href}
-                href={href}
-                aria-current={actif ? "page" : undefined}
-                className={`flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] font-medium transition-colors ${
-                  actif
-                    ? "bg-[var(--sane-green-light)] text-[var(--sane-green)]"
-                    : "text-[var(--sane-text)] hover:bg-[var(--sane-background)]"
-                }`}
+                href="/dashboard/recruteur"
+                className="inline-flex items-center gap-1 text-[var(--sane-text-light)] transition-colors hover:text-[var(--sane-green)]"
               >
-                <Icon size={17} />
-                {label}
+                <Home size={12} /> Espace recruteur
               </Link>
-            );
-          })}
 
-          <button
-            type="button"
-            onClick={() => logout()}
-            className="mt-2 flex items-center gap-2.5 rounded-lg border-t border-[var(--sane-border)] px-3 py-2.5 pt-4 text-left text-[13px] font-medium text-[var(--sane-text)] hover:bg-[var(--sane-background)]"
-          >
-            <LogOut size={17} /> Déconnexion
-          </button>
-        </nav>
-      </aside>
+              <ChevronRight
+                size={12}
+                className={"text-[var(--sane-border)] " + (section && section.label !== titre ? "block" : "hidden")}
+              />
+              <Link
+                href={section?.href ?? "/dashboard/recruteur"}
+                className={
+                  "text-[var(--sane-text-light)] transition-colors hover:text-[var(--sane-green)] " +
+                  (section && section.label !== titre ? "inline" : "hidden")
+                }
+              >
+                {section?.label}
+              </Link>
 
-      <div className="min-w-0 flex-1 overflow-x-hidden">
-        <header className="border-b border-[var(--sane-border)] bg-white px-5 py-4 sm:px-8">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="min-w-0">
-              <h1 className="text-[18px] font-bold text-[var(--sane-green-deep)]">{titre}</h1>
-              {description && (
-                <p className="text-[12px] text-[var(--sane-text-light)]">{description}</p>
-              )}
+              <ChevronRight
+                size={12}
+                className={"text-[var(--sane-border)] " + (section && section.label !== titre ? "block" : "hidden")}
+              />
+              <span className="font-semibold text-[var(--sane-text)]">{titre}</span>
+            </nav>
+
+            <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+              <div className="min-w-0">
+                <Link
+                  href={retour?.href ?? "#"}
+                  className={
+                    "mb-1.5 items-center gap-1 text-[12px] font-semibold text-[var(--sane-green)] transition-colors hover:text-[var(--sane-green-dark)] " +
+                    (retour ? "inline-flex" : "hidden")
+                  }
+                >
+                  <ChevronRight size={13} className="rotate-180" />
+                  {retour?.label}
+                </Link>
+
+                <h1 className="text-[20px] font-extrabold leading-tight tracking-[-0.015em] text-[var(--sane-green-deep)] sm:text-[23px]">
+                  {titre}
+                </h1>
+                <p
+                  className={
+                    "mt-1 max-w-[640px] text-[12.5px] leading-relaxed text-[var(--sane-text-light)] " +
+                    (description ? "block" : "hidden")
+                  }
+                >
+                  {description}
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">{actions}</div>
             </div>
-            {user && (
-              <p className="text-[12px] text-[var(--sane-text-light)]">
-                {user.nom} · <span className="font-semibold">{user.role_label}</span>
-              </p>
-            )}
-          </div>
 
-          {/* Mobile nav — the sidebar is hidden below lg. */}
-          <nav className="mt-3 flex min-w-0 gap-2 overflow-x-auto lg:hidden">
-            {LIENS.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className={`whitespace-nowrap rounded-full px-3 py-1.5 text-[12px] font-semibold ${
-                  pathname === href
-                    ? "bg-[var(--sane-green)] text-white"
-                    : "bg-[var(--sane-background)] text-[var(--sane-text)]"
-                }`}
-              >
-                {label}
-              </Link>
-            ))}
-          </nav>
-        </header>
-
-        <main className="p-5 sm:p-8">{children}</main>
+            {children}
+          </main>
+        </div>
       </div>
-    </div>
+    </RoleGuard>
   );
 }

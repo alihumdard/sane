@@ -3,7 +3,7 @@
 import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AlertCircle, ArrowRight, Briefcase, Loader2, UserRound } from "lucide-react";
+import { ArrowRight, Briefcase, Loader2, UserRound } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";

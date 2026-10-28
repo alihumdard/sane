@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { AlertCircle, Calendar, CheckCircle2, Loader2, MapPin, Video, X } from "lucide-react";
+import { Calendar, CheckCircle2, Loader2, MapPin, Video, X } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { EntretiensCalendrier } from "@/components/shared/EntretiensCalendrier";
@@ -10,6 +10,7 @@ import { Container } from "@/components/ui/Container";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
+import { NavEspace } from "@/components/dashboard/NavEspace";
 import { api, ApiError } from "@/lib/api";
 import type { ApiCorrespondance, ApiEntretien, ApiProfilDemandeur } from "@/lib/types";
 
@@ -243,6 +244,7 @@ export default function MesEntretiensPage() {
       <main className="bg-[var(--sane-background)] py-10 sm:py-14">
         <Container>
           <RoleGuard roles={["demandeur", "participant"]} espace="vos entretiens">
+            <NavEspace />
             <Contenu />
           </RoleGuard>
         </Container>

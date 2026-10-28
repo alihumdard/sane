@@ -2,11 +2,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { AlertCircle, Briefcase, CalendarPlus, Download, GraduationCap, Loader2 } from "lucide-react";
+import { Briefcase, CalendarPlus, Download, GraduationCap } from "lucide-react";
 import { ListeChargee } from "@/components/ui/ListeChargee";
 import { Alerte } from "@/components/ui/Alerte";
 import { Spinner, SpinnerOu } from "@/components/dashboard/Spinner";
-import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { api, ApiError, telecharger } from "@/lib/api";
 import type {
@@ -320,10 +319,8 @@ function Contenu() {
 
 export default function CandidaturesRecruteurPage() {
   return (
-    <RoleGuard roles={["recruteur", "entreprise"]} espace="l'espace recruteur">
-      <RecruteurLayout titre="Candidatures" description="Suivez et faites avancer vos recrutements">
-        <Contenu />
-      </RecruteurLayout>
-    </RoleGuard>
+    <RecruteurLayout titre="Candidatures" description="Suivez et faites avancer vos recrutements">
+      <Contenu />
+    </RecruteurLayout>
   );
 }

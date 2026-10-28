@@ -105,7 +105,9 @@ export function ComboBox({
   // Focus the search box as soon as the panel opens, so typing just works.
   useEffect(() => {
     if (!ouvert) {
-      setRecherche("");
+      // Deferred so the state update lands outside the effect's synchronous
+      // body, which would otherwise cascade a second render.
+      queueMicrotask(() => setRecherche(""));
 
       return;
     }
@@ -116,7 +118,7 @@ export function ComboBox({
     // seventy-seven options, landing at "Nigérienne" when "Sénégalaise" is
     // selected hides the current answer forty rows down.
     const choisi = entrees.findIndex((e) => e.valeur === value);
-    setSurvole(choisi === -1 ? 0 : choisi);
+    queueMicrotask(() => setSurvole(choisi === -1 ? 0 : choisi));
   }, [ouvert, entrees, value]);
 
   // Keep the highlighted row in view when arrowing through a long list.
@@ -165,7 +167,17 @@ export function ComboBox({
     }
   }
 
-  let groupePrecedent: string | null = null;
+  /*
+   * The group heading each row starts, worked out before the list is drawn.
+   *
+   * It used to be a `let` reassigned inside the map, which reads the same but
+   * leaves a value behind between renders: React may re-run a render it has
+   * already begun, and the carried-over group then suppressed a heading that
+   * belonged on screen.
+   */
+  const entetes = filtrees.map((e, i) =>
+    !recherche && e.groupe && e.groupe !== (filtrees[i - 1]?.groupe ?? null) ? e.groupe : null
+  );
 
   return (
     <div ref={zone} className="relative">
@@ -223,8 +235,7 @@ export function ComboBox({
           {filtrees.map((e, i) => {
             // Headings only while unfiltered: once a search narrows the list,
             // what matters is the matches, not which group they came from.
-            const entete = !recherche && e.groupe && e.groupe !== groupePrecedent ? e.groupe : null;
-            groupePrecedent = e.groupe;
+            const entete = entetes[i];
 
             return (
               <li key={`${e.groupe ?? ""}-${e.valeur}`}>

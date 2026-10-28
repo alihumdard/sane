@@ -3,7 +3,6 @@ import Image from "next/image";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { imageFocus } from "./imageFocus";
-import { AnimatedCounter } from "./AnimatedCounter";
 
 interface HeroStat {
   value: string;
@@ -64,7 +63,12 @@ export function PageHero({
 }: PageHeroProps) {
   const isDark = tone === "dark";
   const photo = imageFit === "photo";
-  const light = overlayStrength === "light";
+  /*
+   * Four pages asked for a lighter veil over their artwork — Contact,
+   * Intervenants, Partenaires, Presse — and got the standard one: the prop
+   * was read, assigned to a variable, and never used again.
+   */
+  const leger = overlayStrength === "light";
   const pos = imagePosition ?? imageFocus(image, photo ? "center 20%" : "center");
 
   return (
@@ -109,7 +113,9 @@ export function PageHero({
             <div
               className="absolute inset-0"
               style={{
-                background: "linear-gradient(to bottom, rgba(6,40,18,0.72) 0%, rgba(6,40,18,0.40) 40%, rgba(6,40,18,0.08) 65%, transparent 80%)",
+                background: leger
+                  ? "linear-gradient(to bottom, rgba(6,40,18,0.52) 0%, rgba(6,40,18,0.26) 40%, rgba(6,40,18,0.04) 65%, transparent 80%)"
+                  : "linear-gradient(to bottom, rgba(6,40,18,0.72) 0%, rgba(6,40,18,0.40) 40%, rgba(6,40,18,0.08) 65%, transparent 80%)",
               }}
             />
           )}
@@ -122,7 +128,9 @@ export function PageHero({
           className={`absolute inset-0 ${
             photo
               ? "bg-gradient-to-b from-[var(--sane-green-dark)]/70 via-[var(--sane-green-dark)]/40 via-[55%] to-[var(--sane-green-dark)]/10 lg:hidden"
-              : "hidden sm:block sm:bg-gradient-to-b sm:from-[var(--sane-green-dark)]/60 sm:via-[var(--sane-green-dark)]/30 sm:to-[var(--sane-green-dark)]/10 lg:bg-none lg:bg-[var(--sane-green-dark)]/20"
+              : leger
+                ? "hidden sm:block sm:bg-gradient-to-b sm:from-[var(--sane-green-dark)]/40 sm:via-[var(--sane-green-dark)]/20 sm:to-[var(--sane-green-dark)]/5 lg:bg-none lg:bg-[var(--sane-green-dark)]/10"
+                : "hidden sm:block sm:bg-gradient-to-b sm:from-[var(--sane-green-dark)]/60 sm:via-[var(--sane-green-dark)]/30 sm:to-[var(--sane-green-dark)]/10 lg:bg-none lg:bg-[var(--sane-green-dark)]/20"
           }`}
         />
       ) : (

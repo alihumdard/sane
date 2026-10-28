@@ -469,6 +469,8 @@ export interface AdminFormationsResponse {
   /** Available categories and speakers, so the form can map names back to ids. */
   categories?: { id: number; nom: string }[];
   formateurs?: { id: number; nom: string; libelle: string }[];
+  /** The event a new course belongs to; null when none is active. */
+  edition_active?: { id: number; annee: number } | null;
   data: ApiFormation[];
   meta: PaginationMeta;
 }
@@ -570,6 +572,7 @@ export interface ApiFormateur {
   telephone: string | null;
   fonction: string | null;
   organisation: string | null;
+  secteur: string | null;
   bio: string | null;
   photo: string | null;
   formations_count: number;

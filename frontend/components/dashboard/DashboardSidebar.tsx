@@ -4,101 +4,42 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { ChevronDown, ChevronUp, X } from "lucide-react";
+import { ChevronDown, LogOut, X } from "lucide-react";
 import type { ReactNode } from "react";
 import { useAuth } from "@/lib/auth";
-
-/*
- * The sidebar only shows pages that really exist.
- *  - top-level entries need a route (item.href, ADMIN_ROUTES or a per-dashboard fallback)
- *  - dropdown entries need a route too; a dropdown with a single entry is shown as a plain link
- * To expose a new page, add its route below.
- */
-
-/* Admin sections -> routes (only applied on /dashboard/admin/* pages) */
-const ADMIN_ROUTES: Record<string, string> = {
-  "Tableau de bord": "/dashboard/admin",
-  "Utilisateurs": "/dashboard/admin/utilisateurs",
-  "Emploi": "/dashboard/admin/emploi",
-  "Formations": "/dashboard/admin/formations",
-  "Événements": "/dashboard/admin/evenements",
-  "Intervenants": "/dashboard/admin/intervenants",
-  "Partenaires": "/dashboard/admin/partenaires",
-  "Presse": "/dashboard/admin/presse",
-  "FAQ": "/dashboard/admin/faq",
-  "Notifications": "/dashboard/admin/notifications",
-  "Rapports": "/dashboard/admin/rapports",
-  "Paramètres": "/dashboard/admin/parametres",
-  "Actualités": "/dashboard/admin/actualites",
-};
-const ADMIN_SUB_ROUTES: Record<string, string> = {
-  "Emploi/Candidatures": "/dashboard/admin/candidatures",
-  "Formations/Inscriptions": "/dashboard/admin/inscriptions",
-  "Événements/Tous les événements": "/dashboard/admin/evenements",
-  "Événements/Programme": "/dashboard/admin/programme",
-  "Événements/Sessions": "/dashboard/admin/programme",
-};
-/* "Ajouter ..." entries open the add form of the matching section */
-const ADMIN_ADD_ROUTES: Record<string, string> = {
-  "Ajouter une offre": "/dashboard/admin/emploi",
-  "Ajouter une formation": "/dashboard/admin/formations",
-  "Ajouter un événement": "/dashboard/admin/evenements?nouveau=1",
-  "Ajouter un intervenant": "/dashboard/admin/intervenants?nouveau=1",
-  "Ajouter un partenaire": "/dashboard/admin/partenaires?nouveau=1",
-  "Ajouter une actualité": "/dashboard/admin/actualites?nouveau=1",
-  "Ajouter un communiqué": "/dashboard/admin/presse?nouveau=1",
-  "Ajouter une question": "/dashboard/admin/faq?nouveau=1",
-  "Créer une notification": "/dashboard/admin/notifications",
-  "Générer un rapport": "/dashboard/admin/rapports",
-};
-
-const PARTICIPANT_ROUTES: Record<string, string> = {
-  "Mes formations": "/formations",
-  "Mes opportunités": "/emploi",
-  "Aide & FAQ": "/faq",
-  "Déconnexion": "/connexion",
-};
-const FALLBACK_ROUTES: Record<string, Record<string, string>> = {
-  "/dashboard/participant": PARTICIPANT_ROUTES,
-};
 
 export interface SidebarItem {
   icon: ReactNode;
   label: string;
-  /** page this entry opens (when the page exists) */
-  href?: string;
+  /** The page this entry opens. Every entry has one. */
+  href: string;
   active?: boolean;
-  chevron?: boolean;
-  expanded?: boolean;
-  subItems?: string[];
-  activeSubIndex?: number;
+  subItems?: { label: string; href: string }[];
   badge?: number;
-  dividerBefore?: boolean;
 }
 
 interface Props {
   items: SidebarItem[];
   open?: boolean;
   onClose?: () => void;
+  /** Shown under the logo, e.g. "Back-office" or "Espace recruteur". */
+  espace?: string;
 }
 
-interface SubEntry {
-  label: string;
-  /** index in the original subItems list (activeSubIndex refers to it) */
-  idx: number;
-  href?: string;
-  addRoute?: string;
-}
-
-export default function DashboardSidebar({ items, open = false, onClose }: Props) {
+/**
+ * The back-office menu.
+ *
+ * Nothing here is decorative: each entry and sub-entry carries the route it
+ * opens, so there is no longer a class of menu item that looks clickable and
+ * does nothing. The previous version matched labels against three lookup
+ * tables, dropped whatever it could not resolve, and rendered the rest as
+ * inert buttons whenever the label happened to be the current page.
+ */
+export default function DashboardSidebar({ items, open = false, onClose, espace = "Back-office" }: Props) {
   const pathname = usePathname() ?? "";
   const router = useRouter();
-  const { logout } = useAuth();
-  const isAdmin = pathname.startsWith("/dashboard/admin");
-  const fallback = FALLBACK_ROUTES[pathname] ?? {};
-  const [toggled, setToggled] = useState<Record<number, boolean>>({});
-
-  const resolveHref = (item: SidebarItem) => item.href ?? (isAdmin ? ADMIN_ROUTES[item.label] : fallback[item.label]);
+  const { user, logout } = useAuth();
+  const [replies, setReplies] = useState<Record<string, boolean>>({});
 
   async function seDeconnecter() {
     onClose?.();
@@ -110,171 +51,167 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
     }
   }
 
-  /** dropdown entries that have a page; the first entry is the section's own list page */
-  const resolveSubs = (item: SidebarItem, sectionHref?: string): SubEntry[] => {
-    if (!isAdmin || !item.subItems) return [];
-    return item.subItems
-      .map((label, idx): SubEntry => ({
-        label,
-        idx,
-        addRoute: ADMIN_ADD_ROUTES[label],
-        href: idx === 0 ? sectionHref : ADMIN_SUB_ROUTES[`${item.label}/${label}`],
-      }))
-      .filter((s) => s.href || s.addRoute);
-  };
-
-  const visible = items
-    .map((item, i) => {
-      const href = resolveHref(item);
-      const subs = resolveSubs(item, href);
-      return { item, i, href, subs, hasDropdown: subs.length > 1 };
-    })
-    .filter(({ item, href }) => item.active || !!href);
-
-  const isExpanded = (item: SidebarItem, i: number) => toggled[i] ?? !!item.expanded;
+  const ouvert = (item: SidebarItem) => replies[item.label] ?? Boolean(item.active);
 
   return (
     <>
-      {/* Mobile overlay */}
-      {open && (
-        <div
-          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
-          onClick={onClose}
-        />
-      )}
+      {/*
+        Mobile backdrop. Kept mounted and toggled with a class: Google
+        Translate holds references into the subtree, and inserting or removing
+        a node around them kills the page.
+      */}
+      <div
+        onClick={onClose}
+        aria-hidden
+        className={"fixed inset-0 z-30 bg-[var(--sane-green-deep)]/40 lg:hidden " + (open ? "block" : "hidden")}
+      />
 
-      <aside className={`
-        flex w-[250px] shrink-0 flex-col border-r border-[var(--sane-border)] bg-white
-        fixed inset-y-0 left-0 z-40 transition-transform duration-300
-        lg:static lg:translate-x-0 lg:z-auto
-        ${open ? "translate-x-0" : "-translate-x-full"}
-      `}>
-        {/* Mobile close button */}
+      <aside
+        className={
+          "fixed inset-y-0 left-0 z-40 flex w-[258px] shrink-0 flex-col border-r border-[var(--sane-border)] bg-white transition-transform duration-200 lg:static lg:z-auto lg:translate-x-0 " +
+          (open ? "translate-x-0 shadow-2xl" : "-translate-x-full")
+        }
+      >
         <button
           onClick={onClose}
           aria-label="Fermer le menu"
-          className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--sane-background)] lg:hidden"
+          className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--sane-background)] text-[var(--sane-text-light)] transition-colors hover:text-[var(--sane-green)] lg:hidden"
         >
-          <X size={14} className="text-[var(--sane-text-light)]" />
+          <X size={14} />
         </button>
 
-        {/* Logo */}
         <Link
           href="/"
-          className="flex flex-col items-center border-b border-[var(--sane-border)] px-5 pt-4 pb-4"
+          title="Voir le site public"
+          className="flex shrink-0 flex-col items-center gap-1 border-b border-[var(--sane-border)] px-5 py-4"
         >
           <Image
             src="/new-logo.png"
-            alt="SANEM Logo"
-            width={132}
-            height={88}
+            alt="SANEM"
+            width={116}
+            height={78}
             priority
-            className="h-auto w-[132px] object-contain"
+            className="h-auto w-[116px] object-contain"
           />
+          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--sane-text-light)]">
+            {espace}
+          </span>
         </Link>
 
-        {/* Nav */}
-        <nav className="flex-1 overflow-y-auto px-3 py-2">
-          {visible.map(({ item, i, href, subs, hasDropdown }) => {
-            const expanded = hasDropdown && isExpanded(item, i);
-            const cls = `flex w-full items-center gap-2.5 py-2 mb-0.5 text-left transition-all ${
-              item.active
-                ? "text-[var(--sane-green)] font-bold pl-3 pr-3 border-l-[3px] border-[var(--sane-green)] bg-[var(--sane-background)]"
-                : "text-[var(--sane-green)] hover:bg-[var(--sane-background)] rounded-lg px-3"
-            }`;
-            const inner = (
+        <nav className="flex-1 overflow-y-auto px-3 py-3">
+          {items.map((item) => {
+            const expansible = Boolean(item.subItems?.length);
+            const deplie = expansible && ouvert(item);
+            const ici = item.active;
+
+            const contenu = (
               <>
-                <span className="text-[var(--sane-green)]">{item.icon}</span>
-                <span className="flex-1 text-[12px]">{item.label}</span>
-                {item.badge && (
-                  <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--sane-orange)] px-1 text-[9px] font-bold text-white">{item.badge}</span>
-                )}
-                {hasDropdown && (
-                  <span
-                    role="button"
-                    aria-label={expanded ? "Replier" : "Déplier"}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setToggled((t) => ({ ...t, [i]: !isExpanded(item, i) }));
-                    }}
-                  >
-                    {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                  </span>
-                )}
+                <span className={ici ? "text-[var(--sane-green)]" : "text-[var(--sane-text-light)]"}>
+                  {item.icon}
+                </span>
+                <span className="flex-1 truncate text-[12.5px]">{item.label}</span>
+                <span
+                  aria-hidden
+                  className={
+                    "h-4 min-w-4 items-center justify-center rounded-full bg-[var(--sane-orange)] px-1 text-[9px] font-bold text-white " +
+                    (item.badge ? "inline-flex" : "hidden")
+                  }
+                >
+                  {item.badge}
+                </span>
+                <ChevronDown
+                  size={14}
+                  aria-hidden
+                  className={
+                    "shrink-0 text-[var(--sane-text-light)] transition-transform " +
+                    (expansible ? "block " : "hidden ") +
+                    (deplie ? "rotate-180" : "")
+                  }
+                />
               </>
             );
 
+            const classe =
+              "mb-0.5 flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left font-semibold transition-colors " +
+              (ici
+                ? "bg-[var(--sane-green-light)] text-[var(--sane-green)]"
+                : "text-[var(--sane-text)] hover:bg-[var(--sane-background)] hover:text-[var(--sane-green)]");
+
             return (
               <div key={item.label}>
-                {item.dividerBefore && <div className="my-2 border-t border-[var(--sane-border)]" />}
-
-                {item.label === "Déconnexion" ? (
-                  // Not a link: the token has to be revoked server-side, and
-                  // navigating alone would leave the session live.
-                  <button type="button" className={cls} onClick={seDeconnecter}>
-                    {inner}
-                  </button>
-                ) : href && href !== pathname ? (
-                  <Link href={href} onClick={onClose} className={cls}>{inner}</Link>
-                ) : (
+                {/*
+                  A section with sub-entries toggles; one without navigates.
+                  Either way the click does something, and the section's own
+                  list page is always the first sub-entry.
+                */}
+                {expansible ? (
                   <button
                     type="button"
-                    className={cls}
-                    onClick={() => hasDropdown && setToggled((t) => ({ ...t, [i]: !isExpanded(item, i) }))}
+                    aria-expanded={deplie}
+                    onClick={() => setReplies((r) => ({ ...r, [item.label]: !ouvert(item) }))}
+                    className={classe}
                   >
-                    {inner}
+                    {contenu}
                   </button>
+                ) : (
+                  <Link href={item.href} onClick={onClose} className={classe}>
+                    {contenu}
+                  </Link>
                 )}
 
-                {expanded && (
-                  <div className="ml-4 mb-1 border-l border-[var(--sane-border)]">
-                    {subs.map((sub) => {
-                      const isActive = sub.idx === (item.activeSubIndex ?? 0);
-                      const subCls = `flex w-full items-center gap-1.5 pl-2 pr-2 py-1 text-[10px] text-left ${
-                        isActive ? "text-[var(--sane-green)] font-semibold" : "text-[var(--sane-text-light)] hover:text-[var(--sane-green-deep)]"
-                      }`;
-                      const dot = (
-                        <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${isActive ? "bg-[var(--sane-green)]" : "bg-[var(--sane-text-light)]/40"}`} />
-                      );
+                <div
+                  className={
+                    "mb-1 ml-[22px] border-l border-[var(--sane-border)] pl-2 " + (deplie ? "block" : "hidden")
+                  }
+                >
+                  {item.subItems?.map((sub) => {
+                    const actif = sub.href === pathname;
 
-                      if (sub.addRoute) {
-                        const addRoute = sub.addRoute;
-                        return (
-                          <button
-                            key={sub.label}
-                            type="button"
-                            className={subCls}
-                            onClick={() => {
-                              onClose?.();
-                              if (pathname === addRoute) window.dispatchEvent(new Event("admin:add"));
-                              else router.push(addRoute + "?add=1");
-                            }}
-                          >
-                            {dot}
-                            {sub.label}
-                          </button>
-                        );
-                      }
-                      return sub.href && sub.href !== pathname ? (
-                        <Link key={sub.label} href={sub.href} onClick={onClose} className={subCls}>
-                          {dot}
-                          {sub.label}
-                        </Link>
-                      ) : (
-                        <button key={sub.label} type="button" className={subCls}>
-                          {dot}
-                          {sub.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
+                    return (
+                      <Link
+                        key={sub.href}
+                        href={sub.href}
+                        onClick={onClose}
+                        className={
+                          "flex items-center gap-2 rounded-md px-2 py-[6px] text-[11.5px] transition-colors " +
+                          (actif
+                            ? "font-semibold text-[var(--sane-green)]"
+                            : "text-[var(--sane-text-light)] hover:bg-[var(--sane-background)] hover:text-[var(--sane-green)]")
+                        }
+                      >
+                        <span
+                          aria-hidden
+                          className={
+                            "h-1.5 w-1.5 shrink-0 rounded-full " +
+                            (actif ? "bg-[var(--sane-orange)]" : "bg-[var(--sane-border)]")
+                          }
+                        />
+                        {sub.label}
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
             );
           })}
         </nav>
 
+        <div className="shrink-0 border-t border-[var(--sane-border)] p-3">
+          <p className="mb-2 truncate px-3 text-[11px] text-[var(--sane-text-light)]">
+            {user ? user.nom + " · " + user.role_label : "—"}
+          </p>
+          {/*
+            Not a link: the token has to be revoked server-side, and navigating
+            alone would leave the session live on a shared machine.
+          */}
+          <button
+            type="button"
+            onClick={seDeconnecter}
+            className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[12.5px] font-semibold text-[var(--sane-red-dark)] transition-colors hover:bg-[#fdf1f1]"
+          >
+            <LogOut size={17} /> Se déconnecter
+          </button>
+        </div>
       </aside>
     </>
   );

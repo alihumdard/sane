@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AlertCircle, CheckCircle2, Loader2, Save, ShieldAlert } from "lucide-react";
+import { CheckCircle2, Loader2, Save, ShieldAlert } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
-import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { ComboBox } from "@/components/ui/ComboBox";
 import { api, ApiError } from "@/lib/api";
@@ -186,10 +185,8 @@ function Contenu() {
 
 export default function EntrepriseRecruteurPage() {
   return (
-    <RoleGuard roles={["recruteur", "entreprise"]} espace="l'espace recruteur">
-      <RecruteurLayout titre="Mon entreprise" description="Profil présenté aux candidats">
-        <Contenu />
-      </RecruteurLayout>
-    </RoleGuard>
+    <RecruteurLayout titre="Mon entreprise" description="Profil présenté aux candidats">
+      <Contenu />
+    </RecruteurLayout>
   );
 }

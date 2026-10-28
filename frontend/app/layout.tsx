@@ -1,7 +1,6 @@
 ﻿import type { Metadata } from "next";
 import { Caveat, Montserrat } from "next/font/google";
 import "./globals.css";
-import TableLabels from "@/components/dashboard/TableLabels";
 import TranslateGuard from "@/components/dashboard/TranslateGuard";
 import { AuthProvider } from "@/lib/auth";
 
@@ -39,7 +38,6 @@ export default function RootLayout({
     <html lang="fr" data-scroll-behavior="smooth">
       <body className={`${montserrat.variable} ${caveat.variable}`} suppressHydrationWarning>
         <AuthProvider>{children}</AuthProvider>
-        <TableLabels />
         <TranslateGuard />
       </body>
     </html>

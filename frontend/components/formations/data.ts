@@ -1,10 +1,8 @@
 import {
-  GraduationCap, Users, BookOpen, Award,
-  UserCheck, FileCheck, Briefcase,
+  GraduationCap, Users, UserCheck, FileCheck, Briefcase,
   Mail, ClipboardCheck,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import type { InfoItem } from "@/components/shared";
 
 export interface Step {
   num: string;
@@ -28,13 +26,6 @@ export const tagColors: Record<string, string> = {
   "Développement personnel": "bg-[var(--sane-c-92400e)] text-white",
   Finance: "bg-[var(--sane-red-dark)] text-white",
 };
-
-export const formationInfo: InfoItem[] = [
-  { icon: GraduationCap, title: "Formations", description: "+20" },
-  { icon: Users, title: "Participants", description: "+1000" },
-  { icon: BookOpen, title: "Experts formateurs", description: "+50" },
-  { icon: Award, title: "Certificats", description: "reconnus" },
-];
 
 export const domaines = ["Domaine de formation", "Management", "Digital", "Entrepreneuriat", "Communication", "Technologie", "Finance"];
 export const niveaux = ["Niveau", "Débutant", "Intermédiaire", "Avancé"];

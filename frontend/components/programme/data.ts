@@ -25,15 +25,36 @@ export const tagStyles: Record<string, string> = {
   Recrutement: "bg-[var(--sane-c-fee2e2)] text-[var(--sane-red-dark)]",
 };
 
-/** The fair's dates, as every public page states them. */
-export const DATES_SALON = "10 – 12 décembre 2026";
-
-export const eventInfo: InfoItem[] = [
-  { icon: CalendarDays, title: "Date", description: DATES_SALON },
-  { icon: MapPin, title: "Lieu", description: "Niamey, Niger" },
-  { icon: UsersRound, title: "Participants", description: "+1000 attendus" },
-  { icon: Mic, title: "Sessions", description: "Conférences, formations, réseautage, recrutement" },
-];
+/**
+ * The strip under the Programme hero.
+ *
+ * It was four fixed lines: the dates written out as a string, "Niamey,
+ * Niger", "+1000 attendus" — a figure nobody counted — and a list of session
+ * kinds. The dates and the venue belong to the edition, which the organisers
+ * can move, and the two numbers are the ones the rest of the site shows.
+ */
+export function infosEvenement(info: {
+  dates: string;
+  lieu: string | null;
+  inscriptions: number;
+  sessions: number;
+  jours: number;
+}): InfoItem[] {
+  return [
+    { icon: CalendarDays, title: "Dates", description: info.dates || "À confirmer" },
+    { icon: MapPin, title: "Lieu", description: info.lieu ?? "Niamey, Niger" },
+    {
+      icon: UsersRound,
+      title: "Participants inscrits",
+      description: String(info.inscriptions),
+    },
+    {
+      icon: Mic,
+      title: "Sessions au programme",
+      description: info.jours > 1 ? info.sessions + " sur " + info.jours + " jours" : String(info.sessions),
+    },
+  ];
+}
 
 /*
  * The official documents, once there are any.

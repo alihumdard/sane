@@ -2,13 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
 import { PageHero } from "@/components/shared";
-import {
-
-  PartnerLogosSection,
-  PartnerTypesSection,
-  ImpactSection,
-  TestimonialsSection,
-} from "@/components/partenaires";
+import { PartnerLogosSection, PartnerTypesSection, ImpactSection } from "@/components/partenaires";
 import { BarrePartenaires } from "@/components/shared/barres";
 import type { ApiPartenaire } from "@/components/partenaires/PartnerLogosSection";
 import { lireApi } from "@/lib/serveur";
@@ -59,8 +53,18 @@ export default async function PartenairesPage() {
         <BarrePartenaires />
         <PartnerLogosSection initiaux={partenaires} />
         <PartnerTypesSection />
-        <ImpactSection />
-        <TestimonialsSection />
+        <ImpactSection
+          chiffres={
+            stats
+              ? {
+                  offres: stats.emploi.offres,
+                  entreprises: stats.emploi.entreprises,
+                  formations: stats.formations.total,
+                  inscriptions: stats.participation.inscriptions,
+                }
+              : null
+          }
+        />
         <CTASection />
       </main>
       <Footer />

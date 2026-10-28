@@ -13,6 +13,7 @@ use App\Models\Inscription;
 use App\Models\OffreEmploi;
 use App\Models\Partenaire;
 use App\Models\SessionProgramme;
+use App\Enums\StatutInscription;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
 
@@ -77,7 +78,18 @@ class StatistiquePubliqueController extends Controller
             ],
 
             'participation' => [
-                'inscriptions' => Inscription::count(),
+                /*
+                 * This edition's registrations, cancellations aside.
+                 *
+                 * A plain count over the table carried every past edition and
+                 * every withdrawal into a figure the pages label "participants
+                 * inscrits", which only ever grows and never matches the list
+                 * an organiser is looking at.
+                 */
+                'inscriptions' => Inscription::query()
+                    ->when($edition, fn ($q) => $q->where('edition_id', $edition->id))
+                    ->where('statut', '!=', StatutInscription::Annulee->value)
+                    ->count(),
                 'partenaires' => Partenaire::where('publie', true)->count(),
             ],
 

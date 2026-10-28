@@ -1,484 +1,215 @@
 "use client";
 
-import { useCallback, useEffect, useState, useRef } from "react";
-import { AlertCircle, BookOpen, CheckCircle2, EyeOff, Loader2, RefreshCw, Users, X } from "lucide-react";
-
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
-import FilterBar from "@/components/dashboard/FilterBar";
-import Pagination from "@/components/dashboard/Pagination";
-import StatsCard from "@/components/dashboard/StatsCard";
-import RowActions from "@/components/dashboard/RowActions";
-import TableDialogs from "@/components/dashboard/TableDialogs";
-import { useTable } from "@/components/dashboard/useTable";
-import { AdminGuard } from "@/components/dashboard/AdminGuard";
-import { adminNav } from "@/lib/adminNav";
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import { BookOpen, CheckCircle2, EyeOff, Pencil, Plus, Trash2, Users } from "lucide-react";
+import { AdminPage } from "@/components/dashboard/AdminPage";
+import { AdminTable, type Colonne } from "@/components/dashboard/AdminTable";
+import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
+import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
+import { Publie } from "@/components/dashboard/Publie";
+import { useApiTable } from "@/components/dashboard/useApiTable";
 import { api, ApiError } from "@/lib/api";
-import { useAuth } from "@/lib/auth";
-import type { AdminFormationsResponse, ApiFormation, FormationPayload } from "@/lib/types";
+import type { ApiFormation } from "@/lib/types";
 
-const sidebarItems = adminNav("Formations", 0);
-
-/** Closed lists: typed by hand they filter nothing and read inconsistently. */
-const NIVEAUX = ["Débutant", "Intermédiaire", "Avancé", "Tous niveaux"];
-const FORMATS = ["Présentiel", "En ligne", "Hybride"];
+const BASE = "/dashboard/admin/formations";
 
 /**
- * Flattened for the table. TableDialogs reflects over these keys to build the
- * add/edit form, so every scalar here becomes an input — only fields an admin
- * should actually edit belong. `id`, `inscPct` and the `img`-matching keys are
- * hidden by STYLE_KEY; the live booked count is looked up from the API data by
- * id rather than carried on the row, since it is owned by the server and must
- * not become an editable field.
- */
-interface LigneFormation {
-  id: number;
-  titre: string;
-  categorie: string;
-  /** Kept so the label can be rebuilt once the speaker list has loaded. */
-  formateurId: number | null;
-  intervenant: string;
-  dateDebut: string;
-  dateFin: string;
-  duree: string;
-  lieu: string;
-  niveau: string;
-  format: string;
-  /*
-   * The API has taken these since the beginning; the row left them out, so
-   * the dialog — which builds itself from the row — never offered them. The
-   * prerequisites are named in the contract, and nobody could enter one.
-   */
-  description: string;
-  prerequis: string;
-  maxInscriptions: number;
-  statut: string;
-  inscPct: number;
-  statutColor: string;
-  statutBg: string;
-}
-
-/** One assignable category, as /admin/formations/categories returns it. */
-interface Categorie {
-  id: number;
-  nom: string;
-}
-
-/**
- * One assignable speaker, as the formations list returns it.
+ * The course catalogue.
  *
- * `libelle` carries the organisation alongside the name, because two speakers
- * may share one and a dropdown of bare names could not tell them apart.
+ * It used to run on a local table hook that sorted, filtered and paginated a
+ * single array held in the browser, with a reflecting dialog that built its
+ * own fields from whichever keys the first row happened to have. Search and
+ * pagination now resolve on the server, and the form is a page of its own.
  */
-interface Formateur {
-  id: number;
-  nom: string;
-  libelle: string;
-}
+export default function FormationsAdminPage() {
+  const table = useApiTable<ApiFormation>("/admin/formations", {
+    filtres: { niveau: "", format: "" },
+  });
 
-const STATUTS = {
-  Brouillon: { statutColor: "var(--sane-text-light)", statutBg: "var(--sane-background)" },
-  Complète: { statutColor: "var(--sane-purple)", statutBg: "var(--sane-purple-tint)" },
-  Publiée: { statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)" },
-} as const;
+  const [aSupprimer, setASupprimer] = useState<ApiFormation | null>(null);
+  const [suppression, setSuppression] = useState(false);
 
-function enLigne(f: ApiFormation): LigneFormation {
-  const statut: keyof typeof STATUTS = !f.publiee ? "Brouillon" : f.complete ? "Complète" : "Publiée";
+  const resume = useMemo(() => {
+    const lignes = table.lignes;
 
-  return {
-    id: f.id,
-    titre: f.titre,
-    categorie: f.categorie?.nom ?? "—",
-    formateurId: f.formateur?.id ?? null,
-    intervenant: f.formateur?.nom ?? "—",
-    dateDebut: f.date_debut ?? "",
-    dateFin: f.date_fin ?? "",
-    duree: f.duree,
-    lieu: f.lieu,
-    niveau: f.niveau,
-    format: f.format,
-    description: f.description ?? "",
-    prerequis: f.prerequis ?? "",
-    maxInscriptions: f.max_inscriptions,
-    inscPct: f.taux_remplissage,
-    statut,
-    ...STATUTS[statut],
-  };
-}
+    return {
+      publiees: lignes.filter((f) => f.publiee).length,
+      inscrits: lignes.reduce((n, f) => n + f.inscriptions_count, 0),
+      completes: lignes.filter((f) => f.complete).length,
+    };
+  }, [table.lignes]);
 
-export default function FormationsPage() {
-  return (
-    <AdminGuard>
-      <FormationsContent />
-    </AdminGuard>
-  );
-}
+  async function supprimer() {
+    if (!aSupprimer) return;
 
-function FormationsContent() {
-  const { user } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [formations, setFormations] = useState<ApiFormation[]>([]);
-  const [categories, setCategories] = useState<Categorie[]>([]);
-  const [formateurs, setFormateurs] = useState<Formateur[]>([]);
-  const [loading, setLoading] = useState(true);
-  const dejaCharge = useRef(false);
-  const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
-
-  const charger = useCallback(async () => {
-    // Only while there is nothing on screen yet. A refresh must not swap the
-    // rows for a spinner: Google Translate holds references into them, and
-    // replacing the subtree kills the page with removeChild.
-    setLoading((actuel) => actuel || !dejaCharge.current);
-    setError(null);
+    setSuppression(true);
 
     try {
-      const res = await api.get<AdminFormationsResponse>("/admin/formations?per_page=100");
-      setFormations(res.data);
-      setCategories(res.categories ?? []);
-      setFormateurs(res.formateurs ?? []);
+      await api.delete("/admin/formations/" + aSupprimer.id);
+      setASupprimer(null);
+      await table.recharger();
     } catch (e) {
-      setError(e instanceof ApiError ? e.message : "Impossible de charger les formations.");
+      table.setErreur(e instanceof ApiError ? e.message : "Suppression impossible.");
+      setASupprimer(null);
     } finally {
-      dejaCharge.current = true;
-      setLoading(false);
+      setSuppression(false);
     }
-  }, []);
+  }
 
-  /*
-   * Fetched separately from the formations: a category nobody has used yet
-   * appears on no row, so deriving the list from the table would silently
-   * hide it from the dialog. Loaded once — the list barely changes.
-   */
-  useEffect(() => {
-    api
-      .get<{ data: Categorie[] }>("/admin/formations/categories")
-      .then((res) => setCategories(res.data))
-      // The dialog falls back to a plain text field; the table still works.
-      .catch(() => setCategories([]));
-  }, []);
-
-  useEffect(() => {
-    // Deferred to a microtask so the first state update lands outside the
-    // effect's synchronous body, avoiding a cascading render.
-    void Promise.resolve().then(charger);
-  }, [charger]);
-
-  const total = formations.length;
-  const publiees = formations.filter((f) => f.publiee).length;
-  const inscrits = formations.reduce((n, f) => n + f.inscriptions_count, 0);
-  const completes = formations.filter((f) => f.complete).length;
-
-  const stats = [
-    { icon: <BookOpen size={20} />, value: String(total), label: "Total des formations", bg: "var(--sane-green-tint)", color: "var(--sane-green)" },
-    { icon: <CheckCircle2 size={20} />, value: String(publiees), label: "Publiées", bg: "var(--sane-blue-tint)", color: "var(--sane-blue)" },
-    { icon: <Users size={20} />, value: String(inscrits), label: "Inscriptions totales", bg: "var(--sane-orange-tint)", color: "var(--sane-orange)" },
-    { icon: <EyeOff size={20} />, value: String(completes), label: "Formations complètes", bg: "var(--sane-purple-tint)", color: "var(--sane-purple)" },
+  const colonnes: Colonne<ApiFormation>[] = [
+    {
+      cle: "titre",
+      entete: "Formation",
+      rendu: (f) => (
+        <div className="min-w-0">
+          <p className="font-semibold">{f.titre}</p>
+          <p className="text-[12px] text-[var(--sane-text-light)]">
+            {f.categorie?.nom ?? "Sans catégorie"} · {f.lieu}
+          </p>
+        </div>
+      ),
+    },
+    {
+      cle: "intervenant",
+      entete: "Intervenant",
+      masquer: "lg",
+      rendu: (f) => f.formateur?.nom ?? "—",
+    },
+    {
+      cle: "format",
+      entete: "Niveau / format",
+      masquer: "md",
+      rendu: (f) => (
+        <>
+          <p>{f.niveau}</p>
+          <p className="text-[12px] text-[var(--sane-text-light)]">
+            {f.format} · {f.duree}
+          </p>
+        </>
+      ),
+    },
+    {
+      cle: "inscriptions",
+      entete: "Inscriptions",
+      masquer: "sm",
+      rendu: (f) => (
+        <div className="min-w-[90px]">
+          <p className="whitespace-nowrap font-semibold">
+            {f.inscriptions_count} / {f.max_inscriptions}
+          </p>
+          <span
+            aria-hidden
+            className="mt-1 block h-1.5 w-full max-w-[90px] overflow-hidden rounded-full bg-[var(--sane-border)]"
+          >
+            <span
+              className={
+                "block h-full rounded-full " +
+                (f.complete ? "bg-[var(--sane-orange)]" : "bg-[var(--sane-green)]")
+              }
+              style={{ width: Math.min(100, f.taux_remplissage) + "%" }}
+            />
+          </span>
+        </div>
+      ),
+    },
+    {
+      cle: "statut",
+      entete: "Statut",
+      masquer: "md",
+      rendu: (f) =>
+        f.complete && f.publiee ? (
+          <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-[var(--sane-purple-tint)] px-2.5 py-1 text-[11px] font-semibold text-[var(--sane-purple)]">
+            <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[var(--sane-purple)]" />
+            Complète
+          </span>
+        ) : (
+          <Publie actif={f.publiee} oui="Publiée" non="Brouillon" />
+        ),
+    },
+    {
+      cle: "_actions",
+      entete: "Actions",
+      fin: true,
+      rendu: (f) => (
+        <div className="flex items-center justify-end gap-1">
+          <Link
+            href={BASE + "/" + f.id}
+            title="Modifier"
+            aria-label={"Modifier : " + f.titre}
+            className="rounded-lg p-2 text-[var(--sane-text-light)] transition-colors hover:bg-[var(--sane-green-light)] hover:text-[var(--sane-green)]"
+          >
+            <Pencil size={15} />
+          </Link>
+          <button
+            type="button"
+            onClick={() => setASupprimer(f)}
+            title="Supprimer"
+            aria-label={"Supprimer : " + f.titre}
+            className="rounded-lg p-2 text-[var(--sane-text-light)] transition-colors hover:bg-[#fdf1f1] hover:text-[var(--sane-red-dark)]"
+          >
+            <Trash2 size={15} />
+          </button>
+        </div>
+      ),
+    },
   ];
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
-      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
-      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-        <DashboardNavbar
-          searchPlaceholder="Rechercher une formation…"
-          notificationCount={0}
-          userName={user?.nom ?? "Admin"}
-          userRole={user?.role_label ?? "Administrateur"}
-          onMenuClick={() => setSidebarOpen(true)}
-        />
-
-        <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
-          <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[var(--sane-text-light)]">
-            <span>Accueil</span>
-            <span className="text-[var(--sane-border)]">›</span>
-            <span>Formations</span>
-            <span className="text-[var(--sane-border)]">›</span>
-            <span className="font-semibold text-[var(--sane-green-deep)]">Toutes les formations</span>
-          </div>
-
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-[var(--sane-green-deep)] px-5 py-4">
-            <div>
-              <h1 className="text-[20px] font-extrabold leading-tight text-white">Gestion des formations</h1>
-              <p className="mt-1 max-w-[520px] text-[11px] leading-relaxed text-white/80">
-                Créez et organisez le catalogue. Les places restantes se mettent à jour à chaque
-                inscription validée.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={charger}
-              disabled={loading}
-              className="flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white disabled:opacity-60"
-            >
-              <RefreshCw size={13} className={loading ? "animate-spin" : ""} />
-              Actualiser
-            </button>
-          </div>
-
-          <div className="mb-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
-            {stats.map((s) => (
-              <StatsCard key={s.label} icon={s.icon} value={s.value} label={s.label} bg={s.bg} color={s.color} />
-            ))}
-          </div>
-
-          <div className={`mb-3 items-center justify-between gap-3 rounded-lg border border-[var(--sane-border)] bg-white px-4 py-2.5 ${message ? "flex" : "hidden"}`}>
-            <p className="text-[12px] text-[var(--sane-green-deep)]">{message}</p>
-            <button type="button" onClick={() => setMessage(null)} aria-label="Fermer">
-              <X size={14} className="text-[var(--sane-text-light)]" />
-            </button>
-          </div>
-
-          {loading ? (
-            <div className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-[var(--sane-border)] bg-white py-16">
-              <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
-              <p className="text-[12px] text-[var(--sane-text-light)]">Chargement des formations…</p>
-            </div>
-          ) : error ? (
-            <div className="rounded-xl border border-dashed border-[var(--sane-red-dark)] bg-white px-6 py-12 text-center">
-              <AlertCircle size={22} className="mx-auto mb-2 text-[var(--sane-red-dark)]" />
-              <p className="text-[13px] font-semibold text-[var(--sane-green-deep)]">{error}</p>
-              <button type="button" onClick={charger} className="mt-3 text-[12px] font-semibold text-[var(--sane-orange)]">
-                Réessayer
-              </button>
-            </div>
-          ) : (
-            <Tableau
-              formations={formations}
-              categories={categories}
-              formateurs={formateurs}
-              onRecharger={charger}
-              onMessage={setMessage}
-            />
-          )}
-        </main>
-      </div>
-    </div>
-  );
-}
-
-function Tableau({
-  formations,
-  categories,
-  formateurs,
-  onRecharger,
-  onMessage,
-}: {
-  formations: ApiFormation[];
-  categories: Categorie[];
-  formateurs: Formateur[];
-  onRecharger: () => Promise<void>;
-  onMessage: (m: string) => void;
-}) {
-  const lignes = formations.map((f) => {
-    const ligne = enLigne(f);
-    const libelle = formateurs.find((x) => x.id === ligne.formateurId)?.libelle;
-
-    return libelle ? { ...ligne, intervenant: libelle } : ligne;
-  });
-  const editionId = formations[0]?.edition?.id ?? 0;
-  const inscritsParId = new Map(formations.map((f) => [f.id, f.inscriptions_count]));
-  const idParCategorie = new Map(categories.map((c) => [c.nom.toLowerCase(), c.id]));
-
-  const tbl = useTable(lignes, {
-    filterKeys: { Catégorie: "categorie", Statut: "statut", Niveau: "niveau", Format: "format" },
-    sortGetters: {
-      titre: (r) => r.titre,
-      inscriptions: (r) => inscritsParId.get(r.id) ?? 0,
-    },
-  });
-
-  /** TableDialogs edits the flattened row; translate it back into an API payload. */
-  function versPayload(row: Record<string, unknown>): FormationPayload {
-    // The row carries the category's name, the API takes its id. Leaving this
-    // out of the payload is what made the field a silent no-op: the admin
-    // picked a category, got "Formation mise à jour", and nothing changed.
-    // An unknown name clears it rather than silently keeping the old one.
-    const nom = String(row.categorie ?? "").trim().toLowerCase();
-
-    // Matched against both forms: the dropdown offers the label ("name —
-    // organisation"), while an existing row still carries the bare name.
-    const choisi = String(row.intervenant ?? "").trim().toLowerCase();
-    const intervenant = formateurs.find(
-      (f) => f.libelle.toLowerCase() === choisi || f.nom.toLowerCase() === choisi
-    );
-
-    return {
-      edition_id: editionId,
-      categorie_id: idParCategorie.get(nom) ?? null,
-      formateur_id: intervenant?.id ?? null,
-      titre: String(row.titre ?? ""),
-      duree: String(row.duree ?? ""),
-      lieu: String(row.lieu ?? "Niamey"),
-      niveau: String(row.niveau ?? ""),
-      format: String(row.format ?? ""),
-      description: String(row.description ?? "").trim() || null,
-      prerequis: String(row.prerequis ?? "").trim() || null,
-      date_debut: String(row.dateDebut ?? "").trim() || null,
-      date_fin: String(row.dateFin ?? "").trim() || null,
-      max_inscriptions: Number(row.maxInscriptions) || 0,
-      publiee: row.statut !== "Brouillon",
-    };
-  }
-
-  async function enregistrer(data: Record<string, unknown>) {
-    const estEdition = tbl.modal?.mode === "edit";
-    const id = tbl.modal?.row?.id;
-
-    try {
-      const res = estEdition
-        ? await api.put<{ message: string }>(`/admin/formations/${id}`, versPayload({ ...tbl.modal!.row, ...data }))
-        : await api.post<{ message: string }>("/admin/formations", versPayload(data));
-
-      tbl.closeModal();
-      onMessage(res.message);
-      await onRecharger();
-    } catch (e) {
-      // Rethrown so the dialog shows it where the admin is looking, instead of
-      // in a message bar behind the form. Every rejected field is named: the
-      // summary alone says "et 3 erreurs en plus" and leaves the admin to
-      // guess which three.
-      if (e instanceof ApiError) {
-        const champs = Object.values(e.errors ?? {}).flat();
-
-        throw new Error(champs.length ? champs.join(" ") : e.message);
+    <AdminPage
+      titre="Formations"
+      description="Le catalogue affiché sur la page Formations. Les places restantes se mettent à jour à chaque inscription validée."
+      actions={
+        <Link
+          href={BASE + "/nouveau"}
+          className="inline-flex items-center gap-2 rounded-xl bg-[var(--sane-orange)] px-4 py-2.5 text-[13px] font-bold text-white transition-colors hover:bg-[var(--sane-orange-dark)]"
+        >
+          <Plus size={15} /> Ajouter une formation
+        </Link>
       }
-
-      throw new Error("L'enregistrement a échoué.");
-    }
-  }
-
-  async function supprimer(ids: number[]) {
-    const erreurs: string[] = [];
-
-    for (const id of ids) {
-      try {
-        await api.delete(`/admin/formations/${id}`);
-      } catch (e) {
-        erreurs.push(e instanceof ApiError ? e.message : `Suppression impossible (#${id}).`);
-      }
-    }
-
-    onMessage(erreurs.length ? erreurs.join(" ") : `${ids.length} formation(s) supprimée(s).`);
-    await onRecharger();
-  }
-
-  return (
-    <div className="flex flex-col gap-3">
-      <FilterBar
-        searchPlaceholder="Rechercher une formation…"
-        filters={["Catégorie", "Statut", "Niveau", "Format"]}
-        table={tbl}
+    >
+      <DialogueConfirmation
+        ouvert={aSupprimer !== null}
+        titre="Supprimer cette formation ?"
+        message={
+          aSupprimer
+            ? "« " +
+              aSupprimer.titre +
+              " » et ses " +
+              aSupprimer.inscriptions_count +
+              " inscription(s) seront retirées. Cette action est définitive."
+            : ""
+        }
+        enCours={suppression}
+        onConfirmer={supprimer}
+        onAnnuler={() => setASupprimer(null)}
       />
 
-      <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
-        <table className="w-full min-w-[900px]">
-          <thead>
-            <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
-              <th className="px-3 py-2.5 text-left">
-                <input type="checkbox" className="h-3 w-3 rounded" checked={tbl.allSelected} onChange={tbl.toggleAll} />
-              </th>
-              {["Titre", "Catégorie", "Durée", "Niveau", "Format", "Inscriptions", "Statut", "Actions"].map((h) => (
-                <th
-                  key={h}
-                  className={`px-2 py-2.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--sane-text-light)] ${
-                    h === "Actions" ? "text-center" : "text-left"
-                  }`}
-                >
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {tbl.pageRows.length === 0 ? (
-              <tr>
-                <td colSpan={9} className="px-4 py-12 text-center text-[12px] text-[var(--sane-text-light)]">
-                  Aucune formation ne correspond à votre recherche.
-                </td>
-              </tr>
-            ) : (
-              tbl.pageRows.map((f) => (
-                <tr key={f._uid} className="border-b border-[var(--sane-border)] last:border-0 hover:bg-[var(--sane-background)]/50">
-                  <td className="px-3 py-2">
-                    <input
-                      type="checkbox"
-                      className="h-3 w-3 rounded"
-                      checked={tbl.selected.includes(f._uid)}
-                      onChange={() => tbl.toggle(f._uid)}
-                    />
-                  </td>
-                  <td className="max-w-[240px] px-2 py-2.5">
-                    <p className="text-[12px] font-semibold leading-snug text-[var(--sane-green-deep)]">{f.titre}</p>
-                    <p className="text-[9px] text-[var(--sane-text-light)]">{f.lieu}</p>
-                  </td>
-                  <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[var(--sane-green-deep)]">{f.categorie}</td>
-                  <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[var(--sane-text-light)]">{f.duree}</td>
-                  <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[var(--sane-text-light)]">{f.niveau}</td>
-                  <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[var(--sane-text-light)]">{f.format}</td>
-                  <td className="px-2 py-2.5">
-                    <p className="whitespace-nowrap text-[11px] font-semibold text-[var(--sane-green-deep)]">
-                      {inscritsParId.get(f.id) ?? 0} / {f.maxInscriptions}
-                    </p>
-                    <div className="mt-0.5 h-1.5 w-16 overflow-hidden rounded-full bg-[var(--sane-border)]">
-                      <div className="h-full rounded-full bg-[var(--sane-green)]" style={{ width: `${f.inscPct}%` }} />
-                    </div>
-                  </td>
-                  <td className="px-2 py-2.5">
-                    <span
-                      className="whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold"
-                      style={{ backgroundColor: f.statutBg, color: f.statutColor }}
-                    >
-                      {f.statut}
-                    </span>
-                  </td>
-                  <td className="px-2 py-2.5">
-                    <RowActions table={tbl} row={f} />
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-
-        <Pagination
-          current={tbl.page}
-          totalPages={tbl.totalPages}
-          totalItems={tbl.total}
-          pageSize={tbl.pageSize}
-          itemLabel="formations"
-          onPageChange={tbl.setPage}
-          onPageSizeChange={tbl.setPageSize}
+      <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <DashboardStatCard
+          icon={<BookOpen size={20} />}
+          value={table.meta?.total ?? 0}
+          label="Formations au catalogue"
+          accent="green"
         />
+        <DashboardStatCard icon={<CheckCircle2 size={20} />} value={resume.publiees} label="Publiées sur cette page" accent="blue" />
+        <DashboardStatCard icon={<Users size={20} />} value={resume.inscrits} label="Inscriptions sur cette page" accent="orange" />
+        <DashboardStatCard icon={<EyeOff size={20} />} value={resume.completes} label="Complètes" accent="teal" />
       </div>
 
-      <TableDialogs
-        table={{
-          ...tbl,
-          save: enregistrer,
-          doDelete: () => {
-            const ids = (tbl.confirm ?? [])
-              .map((uid) => tbl.rows.find((r) => r._uid === uid)?.id)
-              .filter((id): id is number => typeof id === "number");
-            tbl.cancelDelete();
-            void supprimer(ids);
-          },
-        }}
-        entity="formation"
-        // Both are resolved by name, so they have to be picked, not typed. A
-        // list that came back empty is left as free text rather than as a
-        // dropdown with nothing in it.
-        choix={{
-          ...(categories.length && { categorie: categories.map((c) => c.nom) }),
-          ...(formateurs.length && { intervenant: formateurs.map((f) => f.libelle) }),
-          niveau: NIVEAUX,
-          format: FORMATS,
-          // "Complète" is the server's own reading of a full session, not a
-          // state an admin sets, so it is not offered.
-          statut: ["Publiée", "Brouillon"],
-        }}
+      <AdminTable
+        colonnes={colonnes}
+        lignes={table.lignes}
+        meta={table.meta}
+        chargement={table.chargement}
+        erreur={table.erreur}
+        recherche={table.recherche}
+        onRecherche={table.setRecherche}
+        onPage={table.setPage}
+        cle={(f) => f.id}
+        vide="Aucune formation au catalogue. Ajoutez-en une pour remplir la page Formations."
+        rechercheLabel="Rechercher une formation…"
       />
-    </div>
+    </AdminPage>
   );
 }

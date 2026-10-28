@@ -1,319 +1,35 @@
 "use client";
 
-import { useCallback, useEffect, useState, useRef } from "react";
-import { AlertCircle, Check, CheckCircle2, Clock, FileDown, Loader2, RefreshCw, Users, X, XCircle } from "lucide-react";
-import { SpinnerOu } from "@/components/dashboard/Spinner";
-
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
-import FilterBar from "@/components/dashboard/FilterBar";
-import Pagination from "@/components/dashboard/Pagination";
-import StatsCard from "@/components/dashboard/StatsCard";
-import { useTable } from "@/components/dashboard/useTable";
-import { AdminGuard } from "@/components/dashboard/AdminGuard";
-import { adminNav } from "@/lib/adminNav";
+import { useState } from "react";
+import { Check, CheckCircle2, Clock, FileDown, Users, X, XCircle } from "lucide-react";
+import { AdminPage } from "@/components/dashboard/AdminPage";
+import { AdminTable, type Colonne } from "@/components/dashboard/AdminTable";
+import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
+import { Spinner, SpinnerOu } from "@/components/dashboard/Spinner";
+import { useApiTable } from "@/components/dashboard/useApiTable";
+import { Alerte } from "@/components/ui/Alerte";
 import { api, ApiError } from "@/lib/api";
-import { useAuth } from "@/lib/auth";
-import type { AdminInscriptionsResponse, ApiInscription, DocumentUpload, StatutInscription } from "@/lib/types";
+import type { ApiInscription, DocumentUpload, StatutInscription } from "@/lib/types";
 
-const sidebarItems = adminNav("Formations", 5);
+const STATUTS: { value: StatutInscription | ""; label: string }[] = [
+  { value: "", label: "Tous les statuts" },
+  { value: "en_attente", label: "En attente" },
+  { value: "confirmee", label: "Confirmées" },
+  { value: "annulee", label: "Annulées" },
+];
 
-/** Flattened for the table: useTable searches string/number fields, not nested objects. */
-interface LigneInscription {
-  id: number;
-  reference: string;
-  nom: string;
-  email: string;
-  telephone: string;
-  ville: string;
-  participation: string;
-  formations: string;
-  statut: string;
-  statutCode: StatutInscription;
-  date: string;
-  statutColor: string;
-  statutBg: string;
-  /** Three of the four slots are required; the cover letter is optional. */
-  documents: DocumentUpload[];
-}
-
-const COULEURS: Record<StatutInscription, { statutColor: string; statutBg: string }> = {
-  en_attente: { statutColor: "var(--sane-amber-dark)", statutBg: "var(--sane-amber-tint)" },
-  confirmee: { statutColor: "var(--sane-green)", statutBg: "var(--sane-green-tint)" },
-  annulee: { statutColor: "var(--sane-red-dark)", statutBg: "#fef2f2" },
+const TONS: Record<StatutInscription, string> = {
+  en_attente: "bg-[var(--sane-amber-tint)] text-[var(--sane-amber-dark)]",
+  confirmee: "bg-[var(--sane-green-tint)] text-[var(--sane-green)]",
+  annulee: "bg-[#fef2f2] text-[var(--sane-red-dark)]",
 };
 
-function enLigne(i: ApiInscription): LigneInscription {
-  return {
-    id: i.id,
-    reference: i.reference,
-    nom: i.nom,
-    email: i.email,
-    telephone: i.telephone ? `+227 ${i.telephone}` : "",
-    ville: i.ville ?? "",
-    participation: i.type_participation_label,
-    formations: (i.formations ?? []).map((f) => f.titre).join(", ") || "—",
-    statut: i.statut_label,
-    statutCode: i.statut,
-    date: new Date(i.created_at).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" }),
-    documents: i.documents ?? [],
-    ...COULEURS[i.statut],
-  };
-}
-
-export default function InscriptionsPage() {
-  return (
-    <AdminGuard>
-      <InscriptionsContent />
-    </AdminGuard>
-  );
-}
-
-function InscriptionsContent() {
-  const { user } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [lignes, setLignes] = useState<LigneInscription[]>([]);
-  const [resume, setResume] = useState({ total: 0, en_attente: 0, confirmee: 0, annulee: 0 });
-  const [loading, setLoading] = useState(true);
-  const dejaCharge = useRef(false);
-  const [error, setError] = useState<string | null>(null);
-  const [enCours, setEnCours] = useState<number | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
-
-  const charger = useCallback(async () => {
-    // Only while there is nothing on screen yet. A refresh must not swap the
-    // rows for a spinner: Google Translate holds references into them, and
-    // replacing the subtree kills the page with removeChild.
-    setLoading((actuel) => actuel || !dejaCharge.current);
-    setError(null);
-
-    try {
-      // Fetched whole, then filtered in the browser; the edition's volume is small
-      // enough that paging the API would cost a round trip per keystroke.
-      const res = await api.get<AdminInscriptionsResponse>("/admin/inscriptions?per_page=100");
-      setLignes(res.data.map(enLigne));
-      setResume(res.resume);
-    } catch (e) {
-      setError(e instanceof ApiError ? e.message : "Impossible de charger les inscriptions.");
-    } finally {
-      dejaCharge.current = true;
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    charger();
-  }, [charger]);
-
-  async function changerStatut(id: number, statut: StatutInscription) {
-    setEnCours(id);
-    setMessage(null);
-
-    try {
-      const res = await api.put<{ message: string; data: ApiInscription }>(
-        `/admin/inscriptions/${id}/statut`,
-        { statut }
-      );
-      setMessage(res.message);
-      await charger();
-    } catch (e) {
-      setMessage(e instanceof ApiError ? e.message : "L'opération a échoué.");
-    } finally {
-      setEnCours(null);
-    }
-  }
-
-  const stats = [
-    { icon: <Users size={20} />, value: String(resume.total), label: "Total inscriptions", bg: "var(--sane-green-tint)", color: "var(--sane-green)" },
-    { icon: <Clock size={20} />, value: String(resume.en_attente), label: "En attente de validation", bg: "var(--sane-amber-tint)", color: "var(--sane-amber-dark)" },
-    { icon: <CheckCircle2 size={20} />, value: String(resume.confirmee), label: "Confirmées", bg: "var(--sane-blue-tint)", color: "var(--sane-blue)" },
-    { icon: <XCircle size={20} />, value: String(resume.annulee), label: "Annulées", bg: "var(--sane-purple-tint)", color: "var(--sane-purple)" },
-  ];
-
-  return (
-    <div className="flex h-screen overflow-hidden bg-[var(--sane-background)]">
-      <DashboardSidebar items={sidebarItems} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
-      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-        <DashboardNavbar
-          searchPlaceholder="Rechercher un participant…"
-          notificationCount={resume.en_attente}
-          userName={user?.nom ?? "Admin"}
-          userRole={user?.role_label ?? "Administrateur"}
-          onMenuClick={() => setSidebarOpen(true)}
-        />
-
-        <main className="flex-1 overflow-y-auto overflow-x-hidden p-3">
-          <div className="mb-2 flex items-center gap-1.5 text-[11px] text-[var(--sane-text-light)]">
-            <span>Accueil</span>
-            <span className="text-[var(--sane-border)]">›</span>
-            <span>Formations</span>
-            <span className="text-[var(--sane-border)]">›</span>
-            <span className="font-semibold text-[var(--sane-green-deep)]">Inscriptions</span>
-          </div>
-
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-[var(--sane-green-deep)] px-5 py-4">
-            <div>
-              <h1 className="text-[20px] font-extrabold leading-tight text-white">Inscriptions au salon</h1>
-              <p className="mt-1 max-w-[520px] text-[11px] leading-relaxed text-white/80">
-                Validez ou annulez les inscriptions. Annuler libère automatiquement les places réservées
-                sur les formations choisies.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={charger}
-              disabled={loading}
-              className="flex items-center gap-1.5 rounded-lg bg-[var(--sane-orange)] px-4 py-2 text-[12px] font-bold text-white disabled:opacity-60"
-            >
-              <RefreshCw size={13} className={loading ? "animate-spin" : ""} />
-              Actualiser
-            </button>
-          </div>
-
-          <div className="mb-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
-            {stats.map((s) => (
-              <StatsCard key={s.label} icon={s.icon} value={s.value} label={s.label} bg={s.bg} color={s.color} />
-            ))}
-          </div>
-
-          <div className={`mb-3 items-center justify-between gap-3 rounded-lg border border-[var(--sane-border)] bg-white px-4 py-2.5 ${message ? "flex" : "hidden"}`}>
-            <p className="text-[12px] text-[var(--sane-green-deep)]">{message}</p>
-            <button type="button" onClick={() => setMessage(null)} aria-label="Fermer">
-              <X size={14} className="text-[var(--sane-text-light)]" />
-            </button>
-          </div>
-
-          {loading ? (
-            <div className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-[var(--sane-border)] bg-white py-16">
-              <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
-              <p className="text-[12px] text-[var(--sane-text-light)]">Chargement des inscriptions…</p>
-            </div>
-          ) : error ? (
-            <div className="rounded-xl border border-dashed border-[var(--sane-red-dark)] bg-white px-6 py-12 text-center">
-              <AlertCircle size={22} className="mx-auto mb-2 text-[var(--sane-red-dark)]" />
-              <p className="text-[13px] font-semibold text-[var(--sane-green-deep)]">{error}</p>
-              <button type="button" onClick={charger} className="mt-3 text-[12px] font-semibold text-[var(--sane-orange)]">
-                Réessayer
-              </button>
-            </div>
-          ) : (
-            <Tableau lignes={lignes} enCours={enCours} onChangerStatut={changerStatut} />
-          )}
-        </main>
-      </div>
-    </div>
-  );
-}
-
-function Tableau({
-  lignes,
-  enCours,
-  onChangerStatut,
-}: {
-  lignes: LigneInscription[];
-  enCours: number | null;
-  onChangerStatut: (id: number, statut: StatutInscription) => void;
-}) {
-  const tbl = useTable(lignes, {
-    filterKeys: { Statut: "statut", Participation: "participation", Ville: "ville" },
-    sortGetters: {
-      nom: (r) => r.nom,
-      date: (r) => r.date,
-    },
-  });
-
-  return (
-    <div className="flex flex-col gap-3">
-      <FilterBar
-        searchPlaceholder="Rechercher par nom, email, référence…"
-        filters={["Statut", "Participation", "Ville"]}
-        table={tbl}
-      />
-
-      <div className="overflow-x-auto rounded-xl border border-[var(--sane-border)] bg-white">
-        <table className="w-full min-w-[1000px]">
-          <thead>
-            <tr className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
-              {["Référence", "Participant", "Contact", "Participation", "Formations", "Documents", "Statut", "Date", "Actions"].map((h) => (
-                <th
-                  key={h}
-                  className={`px-2 py-2.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--sane-text-light)] ${
-                    h === "Actions" ? "text-center" : "text-left"
-                  }`}
-                >
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {tbl.pageRows.length === 0 ? (
-              <tr>
-                <td colSpan={9} className="px-4 py-12 text-center text-[12px] text-[var(--sane-text-light)]">
-                  Aucune inscription ne correspond à votre recherche.
-                </td>
-              </tr>
-            ) : (
-              tbl.pageRows.map((r) => (
-                <tr key={r._uid} className="border-b border-[var(--sane-border)] last:border-0 hover:bg-[var(--sane-background)]/50">
-                  <td className="whitespace-nowrap px-2 py-2.5 text-[11px] font-semibold text-[var(--sane-green-deep)]">
-                    {r.reference}
-                  </td>
-                  <td className="px-2 py-2.5">
-                    <p className="text-[12px] font-semibold text-[var(--sane-green-deep)]">{r.nom}</p>
-                    <p className="text-[9px] text-[var(--sane-text-light)]">{r.ville}</p>
-                  </td>
-                  <td className="px-2 py-2.5">
-                    <p className="text-[11px] text-[var(--sane-green-deep)]">{r.email}</p>
-                    <p className="text-[9px] text-[var(--sane-text-light)]">{r.telephone}</p>
-                  </td>
-                  <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[var(--sane-green-deep)]">
-                    {r.participation}
-                  </td>
-                  <td className="max-w-[220px] px-2 py-2.5">
-                    <p className="truncate text-[11px] text-[var(--sane-text-light)]" title={r.formations}>
-                      {r.formations}
-                    </p>
-                  </td>
-                  <td className="px-2 py-2.5">
-                    <Documents documents={r.documents} />
-                  </td>
-                  <td className="px-2 py-2.5">
-                    <span
-                      className="whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold"
-                      style={{ backgroundColor: r.statutBg, color: r.statutColor }}
-                    >
-                      {r.statut}
-                    </span>
-                  </td>
-                  <td className="whitespace-nowrap px-2 py-2.5 text-[11px] text-[var(--sane-text-light)]">{r.date}</td>
-                  <td className="px-2 py-2.5">
-                    <ActionsStatut
-                      ligne={r}
-                      occupe={enCours === r.id}
-                      onChangerStatut={onChangerStatut}
-                    />
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-
-        <Pagination
-          current={tbl.page}
-          totalPages={tbl.totalPages}
-          totalItems={tbl.total}
-          pageSize={tbl.pageSize}
-          itemLabel="inscriptions"
-          onPageChange={tbl.setPage}
-          onPageSizeChange={tbl.setPageSize}
-        />
-      </div>
-    </div>
-  );
-}
+const ABREVIATIONS: Record<string, string> = {
+  piece_identite: "CNI",
+  cv: "CV",
+  lettre_motivation: "LM",
+  photo: "Photo",
+};
 
 /**
  * Three required slots plus an optional cover letter. Downloads go through
@@ -323,10 +39,6 @@ function Tableau({
 function Documents({ documents }: { documents: DocumentUpload[] }) {
   const [enCours, setEnCours] = useState<number | null>(null);
 
-  if (documents.length === 0) {
-    return <span className="whitespace-nowrap text-[10px] text-[var(--sane-text-light)]">Aucun</span>;
-  }
-
   async function telecharger(doc: DocumentUpload) {
     setEnCours(doc.id);
 
@@ -334,6 +46,7 @@ function Documents({ documents }: { documents: DocumentUpload[] }) {
       const blob = await api.download(doc.url);
       const url = URL.createObjectURL(blob);
       const lien = document.createElement("a");
+
       lien.href = url;
       lien.download = doc.nom_original;
       lien.click();
@@ -344,70 +57,254 @@ function Documents({ documents }: { documents: DocumentUpload[] }) {
   }
 
   return (
-    <div className="flex flex-wrap gap-1">
+    <div className="flex flex-wrap justify-end gap-1 sm:justify-start">
+      <span
+        className={"whitespace-nowrap text-[11px] text-[var(--sane-text-light)] " + (documents.length === 0 ? "inline" : "hidden")}
+      >
+        Aucun
+      </span>
+
       {documents.map((d) => (
         <button
           key={d.id}
           type="button"
           onClick={() => telecharger(d)}
           disabled={enCours === d.id}
-          title={`${d.type_label} — ${d.nom_original}`}
-          className="flex items-center gap-1 rounded bg-[var(--sane-green-tint)] px-1.5 py-0.5 text-[9px] font-semibold text-[var(--sane-green)] transition-opacity hover:opacity-70 disabled:opacity-50"
+          title={d.type_label + " — " + d.nom_original}
+          className="inline-flex items-center gap-1 rounded-md bg-[var(--sane-green-tint)] px-1.5 py-1 text-[10px] font-bold text-[var(--sane-green)] transition-opacity hover:opacity-70 disabled:opacity-50"
         >
-          <SpinnerOu actif={enCours === d.id} size={9}><FileDown size={9} /></SpinnerOu>
-          {ABREVIATIONS[d.type]}
+          <SpinnerOu actif={enCours === d.id} size={10}>
+            <FileDown size={10} />
+          </SpinnerOu>
+          {ABREVIATIONS[d.type] ?? d.type_label}
         </button>
       ))}
     </div>
   );
 }
 
-const ABREVIATIONS: Record<string, string> = {
-  piece_identite: "CNI",
-  cv: "CV",
-  lettre_motivation: "LM",
-  photo: "Photo",
-};
+/**
+ * Registrations for the current edition.
+ *
+ * Search, filters and paging used to run in the browser over the first
+ * hundred rows the API happened to return, which quietly stopped finding
+ * anyone past that point. They now resolve on the server, like the rest of
+ * the back-office lists.
+ */
+function Contenu() {
+  const [filtreStatut, setFiltreStatut] = useState("");
+  const [filtreParticipation, setFiltreParticipation] = useState("");
 
-function ActionsStatut({
-  ligne,
-  occupe,
-  onChangerStatut,
-}: {
-  ligne: LigneInscription;
-  occupe: boolean;
-  onChangerStatut: (id: number, statut: StatutInscription) => void;
-}) {
-  if (occupe) {
-    return (
-      <div className="flex justify-center">
-        <Loader2 size={14} className="animate-spin text-[var(--sane-green)]" />
-      </div>
-    );
+  const table = useApiTable<ApiInscription>("/admin/inscriptions", {
+    filtres: { statut: filtreStatut, type_participation: filtreParticipation },
+  });
+
+  const [enCours, setEnCours] = useState<number | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+
+  const participations = Array.isArray(table.filtresApi.type_participation)
+    ? (table.filtresApi.type_participation as string[])
+    : [];
+
+  async function changerStatut(i: ApiInscription, statut: StatutInscription) {
+    setEnCours(i.id);
+    setMessage(null);
+
+    try {
+      const res = await api.put<{ message: string }>("/admin/inscriptions/" + i.id + "/statut", { statut });
+
+      setMessage(res.message);
+      await table.recharger();
+    } catch (e) {
+      table.setErreur(e instanceof ApiError ? e.message : "L'opération a échoué.");
+    } finally {
+      setEnCours(null);
+    }
   }
 
+  const colonnes: Colonne<ApiInscription>[] = [
+    {
+      cle: "reference",
+      entete: "Référence",
+      rendu: (i) => <span className="whitespace-nowrap font-semibold">{i.reference}</span>,
+    },
+    {
+      cle: "participant",
+      entete: "Participant",
+      rendu: (i) => (
+        <div className="min-w-0">
+          <p className="font-semibold">{i.nom}</p>
+          <p className="truncate text-[12px] text-[var(--sane-text-light)]">{i.email}</p>
+        </div>
+      ),
+    },
+    {
+      cle: "contact",
+      entete: "Contact",
+      masquer: "lg",
+      rendu: (i) => (
+        <>
+          <p>{i.telephone ? "+227 " + i.telephone : "—"}</p>
+          <p className="text-[12px] text-[var(--sane-text-light)]">{i.ville ?? ""}</p>
+        </>
+      ),
+    },
+    {
+      cle: "participation",
+      entete: "Participation",
+      masquer: "md",
+      rendu: (i) => (
+        <>
+          <p className="whitespace-nowrap">{i.type_participation_label}</p>
+          <p className="max-w-[220px] truncate text-[12px] text-[var(--sane-text-light)]">
+            {(i.formations ?? []).map((f) => f.titre).join(", ") || "Aucune formation"}
+          </p>
+        </>
+      ),
+    },
+    {
+      cle: "documents",
+      entete: "Documents",
+      masquer: "lg",
+      rendu: (i) => <Documents documents={i.documents ?? []} />,
+    },
+    {
+      cle: "statut",
+      entete: "Statut",
+      masquer: "sm",
+      rendu: (i) => (
+        <span
+          className={
+            "inline-block whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-semibold " + TONS[i.statut]
+          }
+        >
+          {i.statut_label}
+        </span>
+      ),
+    },
+    {
+      cle: "date",
+      entete: "Reçue le",
+      masquer: "lg",
+      rendu: (i) =>
+        new Date(i.created_at).toLocaleDateString("fr-FR", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }),
+    },
+    {
+      cle: "_actions",
+      entete: "Actions",
+      fin: true,
+      rendu: (i) => (
+        <div className="flex items-center justify-end gap-1.5">
+          <Spinner actif={enCours === i.id} size={14} className="text-[var(--sane-green)]" />
+          <button
+            type="button"
+            onClick={() => changerStatut(i, "confirmee")}
+            disabled={enCours === i.id}
+            title="Confirmer cette inscription"
+            aria-label={"Confirmer l'inscription de " + i.nom}
+            className={
+              "h-8 w-8 items-center justify-center rounded-lg bg-[var(--sane-green-tint)] text-[var(--sane-green)] transition-opacity hover:opacity-70 disabled:opacity-40 " +
+              (i.statut === "confirmee" ? "hidden" : "inline-flex")
+            }
+          >
+            <Check size={15} />
+          </button>
+          <button
+            type="button"
+            onClick={() => changerStatut(i, "annulee")}
+            disabled={enCours === i.id}
+            title="Annuler — libère les places réservées"
+            aria-label={"Annuler l'inscription de " + i.nom}
+            className={
+              "h-8 w-8 items-center justify-center rounded-lg bg-[#fef2f2] text-[var(--sane-red-dark)] transition-opacity hover:opacity-70 disabled:opacity-40 " +
+              (i.statut === "annulee" ? "hidden" : "inline-flex")
+            }
+          >
+            <X size={15} />
+          </button>
+        </div>
+      ),
+    },
+  ];
+
+  const selectClass =
+    "rounded-xl border border-[var(--sane-border)] bg-white px-3 py-2 text-[12.5px] text-[var(--sane-text)] outline-none transition-colors focus:border-[var(--sane-green)]";
+
   return (
-    <div className="flex justify-center gap-1.5">
-      {ligne.statutCode !== "confirmee" && (
-        <button
-          type="button"
-          onClick={() => onChangerStatut(ligne.id, "confirmee")}
-          title="Confirmer"
-          className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--sane-green-tint)] text-[var(--sane-green)] transition-opacity hover:opacity-70"
-        >
-          <Check size={14} />
-        </button>
-      )}
-      {ligne.statutCode !== "annulee" && (
-        <button
-          type="button"
-          onClick={() => onChangerStatut(ligne.id, "annulee")}
-          title="Annuler (libère les places)"
-          className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#fef2f2] text-[var(--sane-red-dark)] transition-opacity hover:opacity-70"
-        >
-          <X size={14} />
-        </button>
-      )}
-    </div>
+    <>
+      <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <DashboardStatCard icon={<Users size={20} />} value={table.resume.total ?? 0} label="Inscriptions au total" accent="green" />
+        <DashboardStatCard
+          icon={<Clock size={20} />}
+          value={table.resume.en_attente ?? 0}
+          label="En attente de validation"
+          accent="orange"
+        />
+        <DashboardStatCard icon={<CheckCircle2 size={20} />} value={table.resume.confirmee ?? 0} label="Confirmées" accent="blue" />
+        <DashboardStatCard icon={<XCircle size={20} />} value={table.resume.annulee ?? 0} label="Annulées" accent="teal" />
+      </div>
+
+      <Alerte texte={message} ton="succes" className="mb-3" />
+
+      <AdminTable
+        colonnes={colonnes}
+        lignes={table.lignes}
+        meta={table.meta}
+        chargement={table.chargement}
+        erreur={table.erreur}
+        recherche={table.recherche}
+        onRecherche={table.setRecherche}
+        onPage={table.setPage}
+        cle={(i) => i.id}
+        vide="Aucune inscription pour cette édition."
+        rechercheLabel="Rechercher un nom, un email, une référence…"
+        filtres={
+          <>
+            <select
+              value={filtreStatut}
+              onChange={(e) => setFiltreStatut(e.target.value)}
+              aria-label="Filtrer par statut"
+              className={selectClass}
+            >
+              {STATUTS.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={filtreParticipation}
+              onChange={(e) => setFiltreParticipation(e.target.value)}
+              aria-label="Filtrer par type de participation"
+              className={selectClass + " " + (participations.length > 0 ? "block" : "hidden")}
+            >
+              <option value="">Toutes les participations</option>
+              {participations.map((p) => (
+                <option key={p} value={p}>
+                  {p}
+                </option>
+              ))}
+            </select>
+          </>
+        }
+      />
+    </>
+  );
+}
+
+export default function InscriptionsAdminPage() {
+  return (
+    <AdminPage
+      section="Formations"
+      titre="Inscriptions au salon"
+      description="Validez ou annulez les inscriptions. Annuler libère automatiquement les places réservées sur les formations choisies."
+    >
+      <Contenu />
+    </AdminPage>
   );
 }

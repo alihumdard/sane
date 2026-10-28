@@ -182,6 +182,10 @@ export function ActualitesContenu({
     return categoryTabs.filter((t) => t.key === "tous" || presentes.has(t.tag));
   }, [articles]);
 
+  /** Nine fit three rows of the grid at every breakpoint it uses. */
+  const PAR_PAGE = 9;
+  const [page, setPage] = useState(1);
+
   const filteredArticles = useMemo(() => {
     let result = [...articles];
 
@@ -198,6 +202,18 @@ export function ActualitesContenu({
 
     return result;
   }, [articles, activeTab, searchQuery, categoryFilter, dateSort]);
+
+  /*
+   * The pagination under the grid was five numbered buttons and a next
+   * arrow, written out as [1, 2, 3, 4, 5], with "1" styled as the current
+   * page. None of them did anything, there were never five pages, and every
+   * article was already on screen above them.
+   */
+  const pages = Math.max(1, Math.ceil(filteredArticles.length / PAR_PAGE));
+  // Clamped on read rather than repaired in an effect: every filter already
+  // sends the reader back to the first page.
+  const pageCourante = Math.min(page, pages);
+  const visibles = filteredArticles.slice((pageCourante - 1) * PAR_PAGE, pageCourante * PAR_PAGE);
 
   return (
     <>
@@ -300,7 +316,7 @@ export function ActualitesContenu({
                 return (
                   <button
                     key={tab.key}
-                    onClick={() => setActiveTab(tab.key)}
+                    onClick={() => { setActiveTab(tab.key); setPage(1); }}
                     className={`flex min-h-[70px] shrink-0 items-center gap-3 rounded-xl border px-3.5 py-3 text-left transition-all sm:min-h-[80px] sm:px-4 sm:py-3.5 ${
                       active
                         ? "border-transparent bg-[var(--sane-green-dark)] text-white shadow-md"
@@ -363,14 +379,14 @@ export function ActualitesContenu({
                   <input
                     type="text"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
                     placeholder="Rechercher un article, un événement..."
                     className="h-[44px] w-full rounded-full border border-[var(--sane-border-soft)] bg-white pl-10 pr-4 text-[13px] text-[var(--sane-green-deep)] placeholder:text-[var(--sane-text-light)]/50 outline-none focus:border-[var(--sane-green)]"
                   />
                 </div>
                 <select
                   value={categoryFilter}
-                  onChange={(e) => setCategoryFilter(e.target.value)}
+                  onChange={(e) => { setCategoryFilter(e.target.value); setPage(1); }}
                   className="h-[44px] rounded-full border border-[var(--sane-border-soft)] bg-white px-4 text-[13px] text-[var(--sane-text-light)] outline-none focus:border-[var(--sane-green)]"
                 >
                   <option value="">Catégorie</option>
@@ -382,7 +398,7 @@ export function ActualitesContenu({
                 </select>
                 <select
                   value={dateSort}
-                  onChange={(e) => setDateSort(e.target.value)}
+                  onChange={(e) => { setDateSort(e.target.value); setPage(1); }}
                   className="h-[44px] rounded-full border border-[var(--sane-border-soft)] bg-white px-4 text-[13px] text-[var(--sane-text-light)] outline-none focus:border-[var(--sane-green)]"
                 >
                   <option value="">Date</option>
@@ -390,7 +406,7 @@ export function ActualitesContenu({
                   <option value="ancien">Plus ancien</option>
                 </select>
                 <button
-                  onClick={() => { setSearchQuery(""); setCategoryFilter(""); setDateSort(""); setActiveTab("tous"); }}
+                  onClick={() => { setSearchQuery(""); setCategoryFilter(""); setDateSort(""); setActiveTab("tous"); setPage(1); }}
                   className="h-[44px] rounded-full bg-[var(--sane-orange)] px-6 text-[13px] font-semibold text-white transition-colors hover:bg-[var(--sane-c-c9600f)] whitespace-nowrap"
                 >
                   Réinitialiser
@@ -431,9 +447,9 @@ export function ActualitesContenu({
                   </div>
                 )}
                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
-                  {filteredArticles.map((a, i) => (
+                  {visibles.map((a, i) => (
                     <div
-                      key={i}
+                      key={a.slug ?? i}
                       className="group overflow-hidden rounded-2xl border border-[var(--sane-border-soft)] bg-white transition-all hover:-translate-y-1 hover:shadow-lg"
                     >
                       <div className="relative h-[180px] overflow-hidden">
@@ -521,13 +537,19 @@ export function ActualitesContenu({
                   </div>
                 </div>
 
-                {/* PAGINATION */}
-                <div className="mt-8 flex items-center justify-center gap-2">
-                  {[1, 2, 3, 4, 5].map((n) => (
+                {/* PAGINATION — one button per page there actually is */}
+                <nav
+                  aria-label="Pagination des actualités"
+                  className={`mt-8 items-center justify-center gap-2 ${pages > 1 ? "flex" : "hidden"}`}
+                >
+                  {Array.from({ length: pages }, (_, i) => i + 1).map((n) => (
                     <button
                       key={n}
+                      type="button"
+                      onClick={() => setPage(n)}
+                      aria-current={n === pageCourante ? "page" : undefined}
                       className={`flex h-9 w-9 items-center justify-center rounded-lg text-[13px] font-semibold transition-colors ${
-                        n === 1
+                        n === pageCourante
                           ? "bg-[var(--sane-green)] text-white"
                           : "border border-[var(--sane-border-soft)] text-[var(--sane-text-light)] hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]"
                       }`}
@@ -535,10 +557,16 @@ export function ActualitesContenu({
                       {n}
                     </button>
                   ))}
-                  <button className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--sane-border-soft)] text-[var(--sane-text-light)] hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]">
+                  <button
+                    type="button"
+                    onClick={() => setPage(Math.min(pages, pageCourante + 1))}
+                    disabled={pageCourante === pages}
+                    aria-label="Page suivante"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--sane-border-soft)] text-[var(--sane-text-light)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)] disabled:opacity-40"
+                  >
                     <ChevronRight size={14} />
                   </button>
-                </div>
+                </nav>
               </div>
 
               {/* RIGHT — Sidebar */}

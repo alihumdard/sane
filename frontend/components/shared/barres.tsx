@@ -63,7 +63,7 @@ const INTERVENANTS: Compteur[] = [
 ];
 
 const A_PROPOS: Compteur[] = [
-  { icon: CalendarDays, label: "Date", valeur: (s) => datesEdition(s) },
+  { icon: CalendarDays, label: "Date", valeur: (s) => datesEdition(s?.edition) },
   { icon: MapPin, label: "Lieu", valeur: (s) => s.edition?.lieu ?? null },
   { icon: Users, label: "Inscrits", valeur: (s) => s.participation.inscriptions },
   { icon: Mic, label: "Sessions", valeur: (s) => s.programme.sessions },

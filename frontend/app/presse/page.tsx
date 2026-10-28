@@ -32,6 +32,19 @@ export default async function PressePage() {
     href: a.lien ?? a.fichier ?? undefined,
   }));
 
+  // One entry per outlet, most-covered first: the grid used to name six
+  // outlets written into the source, whoever had actually written about us.
+  const compte = new Map<string, number>();
+
+  for (const a of records) {
+    if (a.media) compte.set(a.media, (compte.get(a.media) ?? 0) + 1);
+  }
+
+  const medias = [...compte.entries()]
+    .map(([nom, mentions]) => ({ nom, mentions }))
+    .sort((a, b) => b.mentions - a.mentions || a.nom.localeCompare(b.nom, "fr"))
+    .slice(0, 12);
+
   return (
     <>
       <Header />
@@ -53,7 +66,7 @@ export default async function PressePage() {
         <BarrePresse />
         <ArticlesSection initiaux={articles} />
         <ResourcesSection />
-        <MediaMentionsSection />
+        <MediaMentionsSection medias={medias} />
         <NewsletterCTA />
       </main>
       <Footer />

@@ -71,7 +71,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const token = lireToken();
 
     if (!token) {
-      setLoading(false);
+      // Deferred so the update lands outside the effect's synchronous body.
+      queueMicrotask(() => setLoading(false));
+
       return;
     }
 

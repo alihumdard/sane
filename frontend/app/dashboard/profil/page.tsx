@@ -12,6 +12,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
+import { NavEspace } from "@/components/dashboard/NavEspace";
 import { ComboBox } from "@/components/ui/ComboBox";
 import { api, ApiError, telecharger } from "@/lib/api";
 import { NIVEAUX_DIPLOME, TYPES_EMPLOI, useReferentiels } from "@/lib/referentiels";
@@ -782,6 +783,7 @@ export default function ProfilPage() {
       <main className="bg-[var(--sane-background)] py-10 sm:py-14">
         <Container>
           <RoleGuard roles={["demandeur", "participant"]} espace="votre profil">
+            <NavEspace />
             <Contenu />
           </RoleGuard>
         </Container>

@@ -1,8 +1,29 @@
-﻿import { ShieldCheck } from "lucide-react";
-import { connexionStats, features } from "./data";
+﻿"use client";
 
-/** Left column of the connexion hero. */
+import { ShieldCheck } from "lucide-react";
+import { useStatistiques } from "@/lib/statistiques";
+import { features } from "./data";
+
+/**
+ * Left column of the connexion hero.
+ *
+ * The three figures read "+1000 Participants", "+100 Entreprises" and "+500
+ * Opportunités" — written here, counted nowhere, and set in the brand orange
+ * directly above the login form. They are the same counts the rest of the
+ * site shows, and the strip stays away until they arrive rather than
+ * flashing a number nobody measured.
+ */
 export function HeroInfo() {
+  const stats = useStatistiques();
+
+  const chiffres = stats
+    ? [
+        { valeur: stats.participation.inscriptions, label: "Participants inscrits" },
+        { valeur: stats.emploi.entreprises, label: "Entreprises" },
+        { valeur: stats.emploi.offres, label: "Offres d'emploi" },
+      ]
+    : [];
+
   return (
     <div className="flex flex-col justify-between gap-6 lg:gap-8">
       <div>
@@ -21,11 +42,16 @@ export function HeroInfo() {
         </p>
       </div>
 
-      <dl className="grid grid-cols-3 divide-x divide-white/15 rounded-xl border border-white/15 bg-white/10 backdrop-blur-sm">
-        {connexionStats.map(({ value, label }) => (
+      <dl
+        className={
+          "grid-cols-3 divide-x divide-white/15 rounded-xl border border-white/15 bg-white/10 backdrop-blur-sm " +
+          (chiffres.length > 0 ? "grid" : "hidden")
+        }
+      >
+        {chiffres.map(({ valeur, label }) => (
           <div key={label} className="px-3 py-4 text-center sm:px-4">
             <dt className="sr-only">{label}</dt>
-            <dd className="text-[length:var(--fs-h3)] font-extrabold text-[var(--sane-orange)]">{value}</dd>
+            <dd className="text-[length:var(--fs-h3)] font-extrabold text-[var(--sane-orange)]">{valeur}</dd>
             <dd className="sane-small on-dark mt-0.5">{label}</dd>
           </div>
         ))}

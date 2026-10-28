@@ -1,7 +1,8 @@
 "use client";
 
-import { AlertCircle, Loader2, Search } from "lucide-react";
+import { Inbox, Search } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
+import { Spinner } from "./Spinner";
 import type { PaginationMeta } from "@/lib/types";
 
 export interface Colonne<T> {
@@ -9,6 +10,8 @@ export interface Colonne<T> {
   entete: string;
   /** Hidden below this breakpoint, so narrow screens show only the essentials. */
   masquer?: "sm" | "md" | "lg";
+  /** Right-aligned on desktop — used by the row's action buttons. */
+  fin?: boolean;
   rendu: (ligne: T) => React.ReactNode;
 }
 
@@ -23,8 +26,12 @@ interface AdminTableProps<T> {
   onPage: (p: number) => void;
   /** Stable identity per row; index is not safe across re-sorts. */
   cle: (ligne: T) => string | number;
+  /** Buttons beside the search box — "Ajouter", exports, status filters. */
   actions?: React.ReactNode;
+  /** Extra controls on their own row, below the search box. */
+  filtres?: React.ReactNode;
   vide?: string;
+  rechercheLabel?: string;
 }
 
 const MASQUER = {
@@ -33,7 +40,22 @@ const MASQUER = {
   lg: "hidden lg:table-cell",
 } as const;
 
-/** Shared shell for the back-office lists: search, table, pagination. */
+/** The page numbers worth drawing around the current one. */
+function fenetre(page: number, dernier: number): number[] {
+  const pages = new Set<number>([1, dernier, page, page - 1, page + 1]);
+
+  return [...pages].filter((p) => p >= 1 && p <= dernier).sort((a, b) => a - b);
+}
+
+/**
+ * Shared shell for the back-office lists: search, table, pagination.
+ *
+ * Each cell carries its column name as `data-label`, which is what the mobile
+ * card layout in globals.css prints beside the value. That used to be done
+ * from the browser by a component mounted in the root layout, which observed
+ * every mutation of document.body and re-queried the whole document — on all
+ * 18 public pages too, where there is no table at all.
+ */
 export function AdminTable<T>({
   colonnes,
   lignes,
@@ -45,28 +67,43 @@ export function AdminTable<T>({
   onPage,
   cle,
   actions,
+  filtres,
   vide = "Aucun élément.",
+  rechercheLabel = "Rechercher…",
 }: AdminTableProps<T>) {
+  const page = meta?.page ?? 1;
+  const dernier = meta?.last_page ?? 1;
+
   return (
     <>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="relative min-w-[220px] flex-1 sm:max-w-[360px]">
-          <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
+      <div className="mb-3 flex flex-wrap items-center gap-2 sm:gap-3">
+        <div className="relative min-w-[200px] flex-1 sm:max-w-[340px]">
+          <Search
+            size={15}
+            className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]"
+          />
           <input
             type="search"
             value={recherche}
             onChange={(e) => onRecherche(e.target.value)}
-            placeholder="Rechercher…"
-            aria-label="Rechercher"
-            className="h-[40px] w-full rounded-lg border border-[var(--sane-border)] bg-white pl-9 pr-3 text-[13px] outline-none focus:border-[var(--sane-green)]"
+            placeholder={rechercheLabel}
+            aria-label={rechercheLabel}
+            className="h-10 w-full rounded-xl border border-[var(--sane-border)] bg-white pl-9 pr-9 text-[13px] text-[var(--sane-text)] outline-none transition-colors placeholder:text-[var(--sane-text-light)]/70 focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10"
+          />
+          <Spinner
+            actif={chargement && lignes.length > 0}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--sane-green)]"
           />
         </div>
-        {actions}
+
+        <div className="flex flex-wrap items-center gap-2">{actions}</div>
       </div>
 
-      <Alerte texte={erreur} className="mb-4" />
+      <div className={"mb-3 flex flex-wrap items-center gap-2 " + (filtres ? "flex" : "hidden")}>{filtres}</div>
 
-      <div className="overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white">
+      <Alerte texte={erreur} className="mb-3" />
+
+      <div className="overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
@@ -75,20 +112,29 @@ export function AdminTable<T>({
                   <th
                     key={c.cle}
                     scope="col"
-                    className={`px-4 py-3 text-[12px] font-semibold text-[var(--sane-text-light)] ${c.masquer ? MASQUER[c.masquer] : ""}`}
+                    className={
+                      "px-4 py-3 text-[11px] font-bold uppercase tracking-[0.04em] text-[var(--sane-text-light)] " +
+                      (c.fin ? "text-right " : "") +
+                      (c.masquer ? MASQUER[c.masquer] : "")
+                    }
                   >
                     {c.entete}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className={`divide-y divide-[var(--sane-border)] ${chargement ? "opacity-60" : ""}`}>
+            <tbody className="divide-y divide-[var(--sane-border)]">
               {lignes.map((ligne) => (
-                <tr key={cle(ligne)}>
+                <tr key={cle(ligne)} className="transition-colors hover:bg-[var(--sane-background)]/60">
                   {colonnes.map((c) => (
                     <td
                       key={c.cle}
-                      className={`px-4 py-3 text-[13px] text-[var(--sane-text)] ${c.masquer ? MASQUER[c.masquer] : ""}`}
+                      data-label={c.entete}
+                      className={
+                        "px-4 py-3 align-middle text-[13px] text-[var(--sane-text)] " +
+                        (c.fin ? "text-right " : "") +
+                        (c.masquer ? MASQUER[c.masquer] : "")
+                      }
                     >
                       {c.rendu(ligne)}
                     </td>
@@ -99,41 +145,82 @@ export function AdminTable<T>({
           </table>
         </div>
 
-        {chargement && lignes.length === 0 && (
-          <p className="flex items-center justify-center gap-2 py-10">
-            <Loader2 size={16} className="animate-spin text-[var(--sane-green)]" />
-            <span className="text-[13px] text-[var(--sane-text-light)]">Chargement…</span>
-          </p>
-        )}
+        <p
+          className={
+            "items-center justify-center gap-2 py-12 " +
+            (chargement && lignes.length === 0 ? "flex" : "hidden")
+          }
+        >
+          <Spinner actif className="text-[var(--sane-green)]" size={18} />
+          <span className="text-[13px] text-[var(--sane-text-light)]">Chargement…</span>
+        </p>
 
-        {!chargement && lignes.length === 0 && (
-          <p className="py-10 text-center text-[13px] text-[var(--sane-text-light)]">{vide}</p>
-        )}
+        <div
+          className={
+            "flex-col items-center gap-2 px-6 py-12 text-center " +
+            (!chargement && lignes.length === 0 ? "flex" : "hidden")
+          }
+        >
+          <Inbox size={26} className="text-[var(--sane-border)]" />
+          <p className="max-w-[420px] text-[13px] text-[var(--sane-text-light)]">
+            {recherche ? "Aucun résultat pour « " + recherche + " »." : vide}
+          </p>
+        </div>
       </div>
 
-      {meta && meta.last_page > 1 && (
-        <nav className="mt-4 flex items-center justify-center gap-2" aria-label="Pagination">
+      <nav
+        aria-label="Pagination"
+        className={"mt-4 flex-wrap items-center justify-between gap-3 " + (dernier > 1 ? "flex" : "hidden")}
+      >
+        <p className="text-[12px] text-[var(--sane-text-light)]">
+          {meta ? meta.total + " élément(s) · page " + page + " sur " + dernier : ""}
+        </p>
+
+        <div className="flex items-center gap-1">
           <button
             type="button"
-            onClick={() => onPage(Math.max(1, meta.page - 1))}
-            disabled={meta.page === 1 || chargement}
-            className="rounded-lg border border-[var(--sane-border)] px-3 py-1.5 text-[12px] font-semibold disabled:opacity-40"
+            onClick={() => onPage(Math.max(1, page - 1))}
+            disabled={page === 1 || chargement}
+            className="rounded-lg border border-[var(--sane-border)] bg-white px-3 py-1.5 text-[12px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)] disabled:opacity-40 disabled:hover:border-[var(--sane-border)] disabled:hover:text-[var(--sane-text)]"
           >
             Précédent
           </button>
-          <span className="px-2 text-[12px] text-[var(--sane-text-light)]">
-            Page {meta.page} sur {meta.last_page} · {meta.total} élément(s)
-          </span>
+
+          {fenetre(page, dernier).map((p, i, liste) => (
+            <span key={p} className="flex items-center">
+              <span
+                aria-hidden
+                className={"px-1 text-[12px] text-[var(--sane-text-light)] " + (i > 0 && p - liste[i - 1] > 1 ? "inline" : "hidden")}
+              >
+                …
+              </span>
+              <button
+                type="button"
+                onClick={() => onPage(p)}
+                aria-current={p === page ? "page" : undefined}
+                disabled={chargement}
+                className={
+                  "h-8 min-w-8 rounded-lg px-2 text-[12px] font-semibold transition-colors " +
+                  (p === page
+                    ? "bg-[var(--sane-green)] text-white"
+                    : "border border-[var(--sane-border)] bg-white text-[var(--sane-text)] hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]")
+                }
+              >
+                {p}
+              </button>
+            </span>
+          ))}
+
           <button
             type="button"
-            onClick={() => onPage(Math.min(meta.last_page, meta.page + 1))}
-            disabled={meta.page === meta.last_page || chargement}
-            className="rounded-lg border border-[var(--sane-border)] px-3 py-1.5 text-[12px] font-semibold disabled:opacity-40"
+            onClick={() => onPage(Math.min(dernier, page + 1))}
+            disabled={page === dernier || chargement}
+            className="rounded-lg border border-[var(--sane-border)] bg-white px-3 py-1.5 text-[12px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)] disabled:opacity-40 disabled:hover:border-[var(--sane-border)] disabled:hover:text-[var(--sane-text)]"
           >
             Suivant
           </button>
-        </nav>
-      )}
+        </div>
+      </nav>
     </>
   );
 }

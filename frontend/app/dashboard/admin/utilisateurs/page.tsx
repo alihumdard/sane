@@ -1,19 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, Pencil, ShieldCheck, Trash2, UserPlus } from "lucide-react";
+import Link from "next/link";
+import { Briefcase, Eye, ShieldCheck, Trash2, Users, UserPlus } from "lucide-react";
 import { Spinner } from "@/components/dashboard/Spinner";
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
-import { AdminGuard } from "@/components/dashboard/AdminGuard";
+import { AdminPage } from "@/components/dashboard/AdminPage";
 import { AdminTable, type Colonne } from "@/components/dashboard/AdminTable";
+import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
 import { useApiTable } from "@/components/dashboard/useApiTable";
-import { adminNav } from "@/lib/adminNav";
 import { api, ApiError } from "@/lib/api";
 import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
 import { Fait, PanneauDetail } from "@/components/dashboard/PanneauDetail";
-
-const sidebarItems = adminNav("Utilisateurs", 0);
 
 interface AdminUtilisateur {
   id: number;
@@ -154,7 +151,8 @@ function Contenu() {
     },
     {
       cle: "actions",
-      entete: "",
+      entete: "Actions",
+      fin: true,
       rendu: (u) => (
         <div className="flex items-center justify-end gap-1">
           <Spinner actif={action === u.id} size={14} className="text-[var(--sane-green)]" />
@@ -251,17 +249,10 @@ function Contenu() {
       />
 
       <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {[
-          { label: "Total", valeur: table.resume.total ?? 0, icone: UserPlus },
-          { label: "Actifs", valeur: table.resume.actifs ?? 0, icone: ShieldCheck },
-          { label: "Recruteurs", valeur: table.resume.recruteur ?? 0, icone: Pencil },
-          { label: "Demandeurs", valeur: table.resume.demandeur ?? 0, icone: UserPlus },
-        ].map(({ label, valeur }) => (
-          <div key={label} className="rounded-2xl border border-[var(--sane-border)] bg-white p-4">
-            <p className="text-[22px] font-bold leading-none text-[var(--sane-text)]">{valeur}</p>
-            <p className="mt-1 text-[12px] text-[var(--sane-text-light)]">{label}</p>
-          </div>
-        ))}
+        <DashboardStatCard icon={<Users size={20} />} value={table.resume.total ?? 0} label="Comptes au total" accent="green" />
+        <DashboardStatCard icon={<ShieldCheck size={20} />} value={table.resume.actifs ?? 0} label="Comptes actifs" accent="blue" />
+        <DashboardStatCard icon={<Briefcase size={20} />} value={table.resume.recruteur ?? 0} label="Recruteurs" accent="orange" />
+        <DashboardStatCard icon={<UserPlus size={20} />} value={table.resume.demandeur ?? 0} label="Demandeurs d'emploi" accent="teal" />
       </div>
 
       <AdminTable
@@ -275,8 +266,17 @@ function Contenu() {
         onPage={table.setPage}
         cle={(u) => u.id}
         vide="Aucun utilisateur."
+        rechercheLabel="Rechercher un nom, un email…"
         actions={
-          <div className="flex gap-2">
+          <Link
+            href="/dashboard/admin/utilisateurs/nouveau"
+            className="inline-flex items-center gap-2 rounded-xl bg-[var(--sane-orange)] px-4 py-2.5 text-[13px] font-bold text-white transition-colors hover:bg-[var(--sane-orange-dark)]"
+          >
+            <UserPlus size={15} /> Ajouter un compte
+          </Link>
+        }
+        filtres={
+          <>
             <select
               value={filtreRole}
               onChange={(e) => setFiltreRole(e.target.value)}
@@ -298,7 +298,7 @@ function Contenu() {
               <option value="actif">Actifs</option>
               <option value="suspendu">Suspendus</option>
             </select>
-          </div>
+          </>
         }
       />
     </>
@@ -307,20 +307,11 @@ function Contenu() {
 
 export default function UtilisateursAdminPage() {
   return (
-    <AdminGuard>
-      <div className="flex min-h-screen bg-[var(--sane-background)]">
-        <DashboardSidebar items={sidebarItems} />
-        <div className="min-w-0 flex-1">
-          <DashboardNavbar />
-          <main className="p-5 sm:p-8">
-            <h1 className="mb-1 text-[18px] font-bold text-[var(--sane-green-deep)]">Utilisateurs</h1>
-            <p className="mb-5 text-[12px] text-[var(--sane-text-light)]">
-              Comptes, rôles et accès à la plateforme
-            </p>
-            <Contenu />
-          </main>
-        </div>
-      </div>
-    </AdminGuard>
+    <AdminPage
+      titre="Utilisateurs"
+      description="Comptes, rôles et accès à la plateforme. Suspendre un compte l'empêche de se connecter sans supprimer ses données."
+    >
+      <Contenu />
+    </AdminPage>
   );
 }

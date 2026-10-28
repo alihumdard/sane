@@ -3,15 +3,15 @@ import Image from "next/image";
 import { ArrowRight, CalendarDays, Car, MapPin } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { DATES_SALON } from "./data";
 
-const venueFeatures: { icon: LucideIcon; label: string }[] = [
-  { icon: MapPin, label: "Niamey, Niger" },
-  { icon: CalendarDays, label: DATES_SALON },
-  { icon: Car, label: "Accès facile et parking disponible" },
-];
+/** The venue block; the dates come from the edition, not from this file. */
+export function VenueSection({ dates, lieu }: { dates?: string; lieu?: string | null }) {
+  const venueFeatures: { icon: LucideIcon; label: string }[] = [
+    { icon: MapPin, label: lieu || "Niamey, Niger" },
+    { icon: CalendarDays, label: dates || "Dates à confirmer" },
+    { icon: Car, label: "Accès facile et parking disponible" },
+  ];
 
-export function VenueSection() {
   return (
     <section className="relative overflow-hidden bg-white py-10 sm:py-12 md:py-16">
       <div

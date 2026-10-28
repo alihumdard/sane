@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
-  AlertCircle, Award, BookOpen, Briefcase, Building2,
+  Award, BookOpen, Briefcase, Building2,
   CalendarDays, FileText, Mic, UserCheck, Users,
 } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
