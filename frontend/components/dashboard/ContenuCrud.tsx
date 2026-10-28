@@ -6,6 +6,7 @@ import {Pencil, Plus, Trash2, X} from "lucide-react";
 import { Spinner } from "./Spinner";
 import { ChampImage } from "./ChampImage";
 import { AdminTable, type Colonne } from "./AdminTable";
+import { DialogueConfirmation } from "./DialogueConfirmation";
 import { useApiTable } from "./useApiTable";
 import { api, ApiError } from "@/lib/api";
 
@@ -18,6 +19,15 @@ export interface ChampFormulaire {
   pleineLargeur?: boolean;
   /** Example of what goes in, for a field whose label is not enough. */
   placeholder?: string;
+  /**
+   * What a new record starts with.
+   *
+   * Needed because the form used to open empty: a checkbox showed itself
+   * unchecked, the key was never put in the payload, and the column default
+   * decided instead. On four of the five lists that default is `true`, so
+   * leaving "Publier" unticked published the record anyway.
+   */
+  defaut?: string | number | boolean;
 }
 
 interface ContenuCrudProps<T> {
@@ -68,6 +78,9 @@ export function ContenuCrud<T>({
   const [erreurs, setErreurs] = useState<Record<string, string>>({});
   // Chosen on a record that does not exist yet; sent once it does.
   const [imageEnAttente, setImageEnAttente] = useState<File | null>(null);
+  // The record awaiting confirmation before deletion.
+  const [aSupprimer, setASupprimer] = useState<T | null>(null);
+  const [suppression, setSuppression] = useState(false);
 
   useEffect(() => {
     if (params.get("nouveau")) {
@@ -82,7 +95,15 @@ export function ContenuCrud<T>({
     // The record's own id rides along: the image field needs it to address
     // the upload, and versFormulaire describes the fields the admin edits,
     // which an id is not. A new record has none until it is saved.
-    setForm(ligne === "nouveau" ? {} : { ...versFormulaire(ligne), id: cle(ligne) });
+    setForm(
+      ligne === "nouveau"
+        // Built from the declared fields so what the form shows is what gets
+        // sent — including the checkboxes, which otherwise never travel.
+        ? Object.fromEntries(
+            champs.map((c) => [c.nom, c.defaut ?? (c.type === "checkbox" ? false : "")])
+          )
+        : { ...versFormulaire(ligne), id: cle(ligne) }
+    );
     setErreurs({});
     setImageEnAttente(null);
   }
@@ -126,14 +147,20 @@ export function ContenuCrud<T>({
     }
   }
 
-  async function supprimer(ligne: T) {
-    if (!confirm(`Supprimer cet élément ? Cette action est définitive.`)) return;
+  async function supprimer() {
+    if (!aSupprimer) return;
+
+    setSuppression(true);
 
     try {
-      await api.delete(`${endpoint}/${cle(ligne)}`);
+      await api.delete(`${endpoint}/${cle(aSupprimer)}`);
+      setASupprimer(null);
       await table.recharger();
     } catch (err) {
       table.setErreur(err instanceof ApiError ? err.message : "Suppression impossible.");
+      setASupprimer(null);
+    } finally {
+      setSuppression(false);
     }
   }
 
@@ -147,7 +174,7 @@ export function ContenuCrud<T>({
           <button type="button" onClick={() => ouvrir(ligne)} title="Modifier" className="rounded-lg p-2 text-[var(--sane-text-light)] hover:bg-[var(--sane-background)]">
             <Pencil size={15} />
           </button>
-          <button type="button" onClick={() => supprimer(ligne)} title="Supprimer" className="rounded-lg p-2 text-[var(--sane-red-dark)] hover:bg-[#fdf1f1]">
+          <button type="button" onClick={() => setASupprimer(ligne)} title="Supprimer" className="rounded-lg p-2 text-[var(--sane-red-dark)] hover:bg-[#fdf1f1]">
             <Trash2 size={15} />
           </button>
         </div>
@@ -248,7 +275,17 @@ export function ContenuCrud<T>({
   }
 
   return (
-    <AdminTable
+    <>
+      <DialogueConfirmation
+        ouvert={aSupprimer !== null}
+        titre={`Supprimer cette ${libelle} ?`}
+        message="Cette action est définitive : l'élément et son contenu seront retirés du site."
+        enCours={suppression}
+        onConfirmer={supprimer}
+        onAnnuler={() => setASupprimer(null)}
+      />
+
+      <AdminTable
       colonnes={colonnesAvecActions}
       lignes={table.lignes}
       meta={table.meta}
@@ -268,6 +305,7 @@ export function ContenuCrud<T>({
           <Plus size={15} /> Ajouter
         </button>
       }
-    />
+      />
+    </>
   );
 }

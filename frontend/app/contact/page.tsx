@@ -1,8 +1,8 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
-import { PageHero, FeatureBar } from "@/components/shared";
-import { contactBarItems, ContactSection, LocationSection } from "@/components/contact";
+import { PageHero } from "@/components/shared";
+import { BarreCoordonnees, ContactSection, LocationSection } from "@/components/contact";
 
 export default function ContactPage() {
   return (
@@ -28,7 +28,7 @@ export default function ContactPage() {
           ]}
           floatingCardText={"EMPLOI\nFORMATION\nOPPORTUNITÉS\nAVENIR"}
         />
-        <FeatureBar items={contactBarItems} />
+        <BarreCoordonnees />
         <ContactSection />
         <LocationSection />
         <CTASection />

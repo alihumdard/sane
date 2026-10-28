@@ -71,7 +71,7 @@ const champs: ChampFormulaire[] = [
   { nom: "date_publication", label: "Date de publication", type: "date", requis: true },
   { nom: "lien", label: "Lien", type: "url" },
   { nom: "resume", label: "Résumé", type: "textarea" },
-  { nom: "publie", label: "Afficher cet élément", type: "checkbox", pleineLargeur: true },
+  { nom: "publie", label: "Afficher cet élément", type: "checkbox", defaut: true, pleineLargeur: true },
 ];
 
 export default function PresseAdminPage() {

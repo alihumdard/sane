@@ -8,6 +8,7 @@ import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { OffreForm } from "@/components/recruteur/OffreForm";
 import { api, ApiError } from "@/lib/api";
+import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
 import type { ApiOffre, OffresEntrepriseResponse, StatutOffre } from "@/lib/types";
 
 const COULEUR_STATUT: Record<string, string> = {
@@ -19,6 +20,7 @@ const COULEUR_STATUT: Record<string, string> = {
 };
 
 function Contenu() {
+  const [aSupprimer, setASupprimer] = useState<ApiOffre | null>(null);
   const [offres, setOffres] = useState<ApiOffre[]>([]);
   const [resume, setResume] = useState<OffresEntrepriseResponse["resume"] | null>(null);
   const [chargement, setChargement] = useState(true);
@@ -61,8 +63,12 @@ function Contenu() {
     }
   }
 
-  async function supprimer(offre: ApiOffre) {
-    if (!confirm(`Supprimer l'offre « ${offre.titre} » ? Cette action est définitive.`)) return;
+  async function supprimer() {
+    const offre = aSupprimer;
+
+    if (!offre) return;
+
+    setASupprimer(null);
 
     try {
       await api.delete(`/entreprise/offres/${offre.id}`);
@@ -87,6 +93,14 @@ function Contenu() {
 
   return (
     <>
+      <DialogueConfirmation
+        ouvert={aSupprimer !== null}
+        titre="Supprimer cette offre ?"
+        message={`« ${aSupprimer?.titre ?? ""} » et les candidatures reçues seront retirées. Cette action est définitive.`}
+        onConfirmer={supprimer}
+        onAnnuler={() => setASupprimer(null)}
+      />
+
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap gap-4 text-[13px] text-[var(--sane-text-light)]">
           {resume && (
@@ -172,7 +186,7 @@ function Contenu() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => supprimer(offre)}
+                        onClick={() => setASupprimer(offre)}
                         title="Supprimer"
                         className="rounded-lg p-2 text-[var(--sane-red-dark)] hover:bg-[#fdf1f1]"
                       >

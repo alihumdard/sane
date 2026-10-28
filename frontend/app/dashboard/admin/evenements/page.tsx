@@ -11,6 +11,7 @@ import { Alerte } from "@/components/ui/Alerte";
 import { Spinner } from "@/components/dashboard/Spinner";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { api, ApiError } from "@/lib/api";
+import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
 import type { ApiEdition, EditionPayload } from "@/lib/types";
 
 const champ =
@@ -36,6 +37,7 @@ const vide: EditionPayload = {
 };
 
 function Contenu() {
+  const [aSupprimer, setASupprimer] = useState<ApiEdition | null>(null);
   // The sidebar's "Ajouter un événement" entry links here with ?nouveau=1, so
   // the link opens the form rather than merely landing on the list.
   const params = useSearchParams();
@@ -141,9 +143,12 @@ function Contenu() {
     }
   }
 
-  async function supprimer(e: ApiEdition) {
-    if (!confirm(`Supprimer l'édition ${e.annee} ? Cette action est définitive.`)) return;
+  async function supprimer() {
+    const e = aSupprimer;
 
+    if (!e) return;
+
+    setASupprimer(null);
     setEnCours(e.id);
     setErreur(null);
 
@@ -261,6 +266,15 @@ function Contenu() {
 
   return (
     <>
+      <DialogueConfirmation
+        ouvert={aSupprimer !== null}
+        titre="Supprimer cette édition ?"
+        message={`L'édition ${aSupprimer?.annee ?? ""} et tout ce qui lui est rattaché seront retirés. Cette action est définitive.`}
+        enCours={enCours === aSupprimer?.id}
+        onConfirmer={supprimer}
+        onAnnuler={() => setASupprimer(null)}
+      />
+
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <p className="text-[13px] text-[var(--sane-text-light)]">
           {editions.length} édition(s). L&apos;édition active porte les inscriptions du site public.
@@ -368,7 +382,7 @@ function Contenu() {
 
                   <button
                     type="button"
-                    onClick={() => supprimer(e)}
+                    onClick={() => setASupprimer(e)}
                     disabled={enCours === e.id}
                     title="Supprimer"
                     className="rounded-lg p-2 text-[var(--sane-red-dark)] hover:bg-[#fdf1f1]"

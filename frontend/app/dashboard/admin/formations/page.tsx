@@ -19,6 +19,10 @@ import type { AdminFormationsResponse, ApiFormation, FormationPayload } from "@/
 
 const sidebarItems = adminNav("Formations", 0);
 
+/** Closed lists: typed by hand they filter nothing and read inconsistently. */
+const NIVEAUX = ["Débutant", "Intermédiaire", "Avancé", "Tous niveaux"];
+const FORMATS = ["Présentiel", "En ligne", "Hybride"];
+
 /**
  * Flattened for the table. TableDialogs reflects over these keys to build the
  * add/edit form, so every scalar here becomes an input — only fields an admin
@@ -40,6 +44,13 @@ interface LigneFormation {
   lieu: string;
   niveau: string;
   format: string;
+  /*
+   * The API has taken these since the beginning; the row left them out, so
+   * the dialog — which builds itself from the row — never offered them. The
+   * prerequisites are named in the contract, and nobody could enter one.
+   */
+  description: string;
+  prerequis: string;
   maxInscriptions: number;
   statut: string;
   inscPct: number;
@@ -86,6 +97,8 @@ function enLigne(f: ApiFormation): LigneFormation {
     lieu: f.lieu,
     niveau: f.niveau,
     format: f.format,
+    description: f.description ?? "",
+    prerequis: f.prerequis ?? "",
     maxInscriptions: f.max_inscriptions,
     inscPct: f.taux_remplissage,
     statut,
@@ -300,6 +313,8 @@ function Tableau({
       lieu: String(row.lieu ?? "Niamey"),
       niveau: String(row.niveau ?? ""),
       format: String(row.format ?? ""),
+      description: String(row.description ?? "").trim() || null,
+      prerequis: String(row.prerequis ?? "").trim() || null,
       date_debut: String(row.dateDebut ?? "").trim() || null,
       date_fin: String(row.dateFin ?? "").trim() || null,
       max_inscriptions: Number(row.maxInscriptions) || 0,
@@ -457,6 +472,11 @@ function Tableau({
         choix={{
           ...(categories.length && { categorie: categories.map((c) => c.nom) }),
           ...(formateurs.length && { intervenant: formateurs.map((f) => f.libelle) }),
+          niveau: NIVEAUX,
+          format: FORMATS,
+          // "Complète" is the server's own reading of a full session, not a
+          // state an admin sets, so it is not offered.
+          statut: ["Publiée", "Brouillon"],
         }}
       />
     </div>

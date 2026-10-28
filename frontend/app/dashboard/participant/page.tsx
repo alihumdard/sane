@@ -14,6 +14,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { api, ApiError } from "@/lib/api";
+import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
 import { useAuth } from "@/lib/auth";
 import type {
   ApiCandidature,
@@ -35,6 +36,7 @@ const STATUT_COULEUR: Record<string, string> = {
 };
 
 function Contenu() {
+  const [aRetirer, setARetirer] = useState<ApiCandidature | null>(null);
   const { user } = useAuth();
 
   const [profil, setProfil] = useState<ApiProfilDemandeur | null>(null);
@@ -87,8 +89,12 @@ function Contenu() {
    * application, so the row only offers it while it is still untouched — and
    * reloads afterwards, because the offer's own counter moves with it.
    */
-  async function retirer(c: ApiCandidature) {
-    if (!confirm(`Retirer votre candidature ${c.reference} ?`)) return;
+  async function retirer() {
+    const c = aRetirer;
+
+    if (!c) return;
+
+    setARetirer(null);
 
     try {
       setRetrait(c.id);
@@ -128,6 +134,16 @@ function Contenu() {
 
   return (
     <>
+      <DialogueConfirmation
+        ouvert={aRetirer !== null}
+        titre="Retirer cette candidature ?"
+        message={`La candidature ${aRetirer?.reference ?? ""} sera retirée et le recruteur ne la verra plus. Vous pourrez postuler à nouveau.`}
+        confirmer="Retirer"
+        enCours={retrait === aRetirer?.id}
+        onConfirmer={retirer}
+        onAnnuler={() => setARetirer(null)}
+      />
+
       <div className="mb-6 rounded-2xl bg-[var(--sane-green-deep)] p-6 text-white">
         <h1 className="text-[22px] font-extrabold leading-tight sm:text-[26px]">
           Bonjour {user?.nom?.split(" ")[0]} 👋
@@ -272,7 +288,7 @@ function Contenu() {
                     {c.statut !== "acceptee" && c.statut !== "refusee" && (
                       <button
                         type="button"
-                        onClick={() => retirer(c)}
+                        onClick={() => setARetirer(c)}
                         disabled={retrait === c.id}
                         aria-label={`Retirer la candidature ${c.reference}`}
                         className="inline-flex items-center rounded-lg border border-[var(--sane-border)] p-2 text-[var(--sane-red-dark)] hover:border-[var(--sane-red-dark)] disabled:opacity-50"

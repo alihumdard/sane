@@ -10,6 +10,7 @@ import { AdminTable, type Colonne } from "@/components/dashboard/AdminTable";
 import { useApiTable } from "@/components/dashboard/useApiTable";
 import { adminNav } from "@/lib/adminNav";
 import { api, ApiError } from "@/lib/api";
+import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
 
 const sidebarItems = adminNav("Utilisateurs", 0);
 
@@ -36,6 +37,7 @@ const ROLES = [
 ];
 
 function Contenu() {
+  const [aSupprimer, setASupprimer] = useState<AdminUtilisateur | null>(null);
   const [filtreRole, setFiltreRole] = useState("");
   const [filtreStatut, setFiltreStatut] = useState("");
 
@@ -73,9 +75,12 @@ function Contenu() {
     }
   }
 
-  async function supprimer(u: AdminUtilisateur) {
-    if (!confirm(`Supprimer définitivement le compte de ${u.nom} ?`)) return;
+  async function supprimer() {
+    const u = aSupprimer;
 
+    if (!u) return;
+
+    setASupprimer(null);
     setAction(u.id);
 
     try {
@@ -153,7 +158,7 @@ function Contenu() {
           <Spinner actif={action === u.id} size={14} className="text-[var(--sane-green)]" />
           <button
             type="button"
-            onClick={() => supprimer(u)}
+            onClick={() => setASupprimer(u)}
             title="Supprimer"
             className="rounded-lg p-2 text-[var(--sane-red-dark)] hover:bg-[#fdf1f1]"
           >
@@ -166,6 +171,15 @@ function Contenu() {
 
   return (
     <>
+      <DialogueConfirmation
+        ouvert={aSupprimer !== null}
+        titre="Supprimer ce compte ?"
+        message={`Le compte de ${aSupprimer?.nom ?? ""} sera supprimé définitivement, avec son profil et ses candidatures.`}
+        enCours={action === aSupprimer?.id}
+        onConfirmer={supprimer}
+        onAnnuler={() => setASupprimer(null)}
+      />
+
       <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[
           { label: "Total", valeur: table.resume.total ?? 0, icone: UserPlus },

@@ -19,16 +19,22 @@ export const contactInfo: ContactInfoItem[] = [
   // entry with nothing behind it is not shown at all.
   { icon: Phone, title: "Téléphone", value: "", hint: "Lun – Ven : 8h – 17h", barLabel: "Appelez-nous" },
   { icon: Mail, title: "Email", value: "contact@sanem.ne", hint: "Nous répondons sous 24h", barLabel: "Envoyez un email" },
-  { icon: MapPin, title: "Adresse", value: "Palais des Congrès de Niamey", hint: "Niamey, Niger", barLabel: "Notre localisation" },
+  // Like the phone: the address comes from the organisation's settings, and
+  // an entry with nothing behind it is not shown at all.
+  { icon: MapPin, title: "Adresse", value: "", hint: "Niamey, Niger", barLabel: "Notre localisation" },
   { icon: Clock, title: "Horaires", value: "Lun – Ven : 8h – 17h", hint: "Samedi – Dimanche : Fermé", barLabel: "Lun – Ven : 8h – 17h" },
 ];
 
-/** Same facts, shaped for the strip under the hero. */
-export const contactBarItems: FeatureBarItem[] = contactInfo.map((c) => ({
-  icon: c.icon,
-  value: c.value,
-  label: c.barLabel,
-}));
+/**
+ * Same facts, shaped for the strip under the hero.
+ *
+ * Takes the resolved list rather than the declarations: computed from the
+ * latter at module load, the strip kept showing the written-in address and an
+ * empty phone while the page below showed what the organisers had entered.
+ */
+export function barreCoordonnees(coordonnees: ContactInfoItem[]): FeatureBarItem[] {
+  return coordonnees.map((c) => ({ icon: c.icon, value: c.value, label: c.barLabel }));
+}
 
 export const sujets = ["Demande d'information", "Partenariat", "Inscription", "Formations", "Emploi", "Réclamation", "Autre"];
 

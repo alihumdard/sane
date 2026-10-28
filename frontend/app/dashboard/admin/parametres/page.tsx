@@ -15,11 +15,33 @@ interface ApiParametres {
   description: string | null;
   logo: string | null;
   logo_url: string | null;
+  facebook: string | null;
+  twitter: string | null;
+  instagram: string | null;
+  linkedin: string | null;
+  youtube: string | null;
 }
+
+/**
+ * The accounts whose icons the footer and the contact page show.
+ *
+ * An account left blank shows no icon at all — the pages used to carry five
+ * links to "#" apiece because nobody had the addresses.
+ */
+const RESEAUX = [
+  { nom: "facebook", label: "Facebook", exemple: "https://facebook.com/sanem" },
+  { nom: "twitter", label: "X / Twitter", exemple: "https://x.com/sanem" },
+  { nom: "instagram", label: "Instagram", exemple: "https://instagram.com/sanem" },
+  { nom: "linkedin", label: "LinkedIn", exemple: "https://linkedin.com/company/sanem" },
+  { nom: "youtube", label: "YouTube", exemple: "https://youtube.com/@sanem" },
+] as const;
 
 export default function AdminParametresPage() {
   const [parametres, setParametres] = useState<ApiParametres | null>(null);
-  const [form, setForm] = useState({ nom: "", email: "", telephone: "", adresse: "", site_web: "", description: "" });
+  const [form, setForm] = useState({
+    nom: "", email: "", telephone: "", adresse: "", site_web: "", description: "",
+    facebook: "", twitter: "", instagram: "", linkedin: "", youtube: "",
+  });
   const [logo, setLogo] = useState<File | null>(null);
   const [logoApercu, setLogoApercu] = useState<string | null>(null);
   const [chargement, setChargement] = useState(true);
@@ -40,6 +62,11 @@ export default function AdminParametresPage() {
           adresse: res.data.adresse ?? "",
           site_web: res.data.site_web ?? "",
           description: res.data.description ?? "",
+          facebook: res.data.facebook ?? "",
+          twitter: res.data.twitter ?? "",
+          instagram: res.data.instagram ?? "",
+          linkedin: res.data.linkedin ?? "",
+          youtube: res.data.youtube ?? "",
         });
       })
       .catch((e) => setErreur(e instanceof ApiError ? e.message : "Chargement impossible."))
@@ -176,6 +203,30 @@ export default function AdminParametresPage() {
               className="w-full rounded-lg border border-[var(--sane-border)] px-3 py-2.5 text-[13px] outline-none focus:border-[var(--sane-green)]"
             />
           </div>
+        </div>
+
+        <h2 className="mb-1 mt-7 text-[15px] font-bold text-[var(--sane-text)]">Réseaux sociaux</h2>
+        <p className="mb-4 text-[12px] text-[var(--sane-text-light)]">
+          Ces adresses alimentent les icônes du pied de page et de la page Contact.
+          Un réseau laissé vide n&apos;affiche aucune icône.
+        </p>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {RESEAUX.map((r) => (
+            <div key={r.nom}>
+              <label htmlFor={r.nom} className="mb-1.5 block text-[12px] font-semibold text-[var(--sane-text)]">
+                {r.label}
+              </label>
+              <input
+                id={r.nom}
+                type="url"
+                placeholder={r.exemple}
+                value={form[r.nom]}
+                onChange={(e) => setForm((f) => ({ ...f, [r.nom]: e.target.value }))}
+                className="w-full rounded-lg border border-[var(--sane-border)] px-3 py-2.5 text-[13px] outline-none focus:border-[var(--sane-green)]"
+              />
+            </div>
+          ))}
         </div>
 
         <button

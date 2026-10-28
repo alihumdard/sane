@@ -58,7 +58,7 @@ const champs: ChampFormulaire[] = [
   { nom: "ordre", label: "Ordre d'affichage", type: "number" },
   { nom: "question", label: "Question", requis: true, pleineLargeur: true },
   { nom: "reponse", label: "Réponse", type: "textarea", requis: true },
-  { nom: "publiee", label: "Afficher cette question", type: "checkbox", pleineLargeur: true },
+  { nom: "publiee", label: "Afficher cette question", type: "checkbox", defaut: true, pleineLargeur: true },
 ];
 
 export default function FaqAdminPage() {

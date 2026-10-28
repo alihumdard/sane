@@ -67,7 +67,7 @@ const champs: ChampFormulaire[] = [
   { nom: "site_web", label: "Site web", type: "url" },
   { nom: "ordre", label: "Ordre d'affichage", type: "number" },
   { nom: "description", label: "Description", type: "textarea" },
-  { nom: "publie", label: "Afficher ce partenaire", type: "checkbox", pleineLargeur: true },
+  { nom: "publie", label: "Afficher ce partenaire", type: "checkbox", defaut: true, pleineLargeur: true },
 ];
 
 export default function PartenairesAdminPage() {

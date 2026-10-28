@@ -13,7 +13,6 @@ import {
   Calendar,
   MapPin,
   Search,
-  Play,
   Mail,
 } from "lucide-react";
 

@@ -1,27 +1,11 @@
 "use client";
 
-import { contactInfo } from "./data";
 import { ReseauxSociaux } from "@/components/layout/ReseauxSociaux";
-import { useParametres } from "@/lib/parametres";
+import { useCoordonnees } from "./useCoordonnees";
 
 
 export function ContactInfo() {
-  const parametres = useParametres();
-
-  /*
-   * The organisation's own details win over the ones written here: a phone
-   * number or an address lives in the settings, where the organisers can
-   * correct it without a release. A line with nothing behind it keeps the
-   * text below, which still says what the entry is for.
-   */
-  const coordonnees = contactInfo.map((c) => ({
-    ...c,
-    value:
-      (c.title === "Téléphone" ? parametres.telephone : null)
-      ?? (c.title === "Email" ? parametres.email : null)
-      ?? (c.title === "Adresse" ? parametres.adresse : null)
-      ?? c.value,
-  })).filter((c) => c.value !== "");
+  const coordonnees = useCoordonnees();
 
   return (
     <div className="relative overflow-hidden">

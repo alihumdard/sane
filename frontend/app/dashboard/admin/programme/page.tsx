@@ -98,7 +98,7 @@ const champs: ChampFormulaire[] = [
   { nom: "lieu", label: "Lieu", placeholder: "ex. Grande salle" },
   { nom: "intervenants", label: "Intervenants", placeholder: "ex. M. Diallo, Mme Issoufou" },
   { nom: "ordre", label: "Ordre d'affichage", type: "number" },
-  { nom: "publiee", label: "Afficher cette session sur le site", type: "checkbox", pleineLargeur: true },
+  { nom: "publiee", label: "Afficher cette session sur le site", type: "checkbox", defaut: true, pleineLargeur: true },
 ];
 
 export default function ProgrammeAdminPage() {

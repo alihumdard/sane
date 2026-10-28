@@ -6,6 +6,7 @@ import { Spinner } from "@/components/dashboard/Spinner";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { AdminTable, type Colonne } from "@/components/dashboard/AdminTable";
 import { useApiTable } from "@/components/dashboard/useApiTable";
+import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
 import { api, ApiError } from "@/lib/api";
 import type { ApiEntretien, ApiOffre } from "@/lib/types";
 
@@ -33,6 +34,8 @@ const STATUTS = [
 ];
 
 function Offres() {
+  const [aSupprimer, setASupprimer] = useState<ApiOffre | null>(null);
+  const [suppression, setSuppression] = useState(false);
   const [filtreStatut, setFiltreStatut] = useState("");
   const table = useApiTable<ApiOffre>("/admin/emploi/offres", { filtres: { statut: filtreStatut } });
   const [action, setAction] = useState<number | null>(null);
@@ -50,14 +53,20 @@ function Offres() {
     }
   }
 
-  async function supprimer(offre: ApiOffre) {
-    if (!confirm(`Supprimer l'offre « ${offre.titre} » ?`)) return;
+  async function supprimer() {
+    if (!aSupprimer) return;
+
+    setSuppression(true);
 
     try {
-      await api.delete(`/admin/emploi/offres/${offre.id}`);
+      await api.delete(`/admin/emploi/offres/${aSupprimer.id}`);
+      setASupprimer(null);
       await table.recharger();
     } catch (e) {
       table.setErreur(e instanceof ApiError ? e.message : "Suppression impossible.");
+      setASupprimer(null);
+    } finally {
+      setSuppression(false);
     }
   }
 
@@ -98,7 +107,7 @@ function Offres() {
       rendu: (o) => (
         <div className="flex items-center justify-end gap-1">
           <Spinner actif={action === o.id} size={14} className="text-[var(--sane-green)]" />
-          <button type="button" onClick={() => supprimer(o)} title="Supprimer" className="rounded-lg p-2 text-[var(--sane-red-dark)] hover:bg-[#fdf1f1]">
+          <button type="button" onClick={() => setASupprimer(o)} title="Supprimer" className="rounded-lg p-2 text-[var(--sane-red-dark)] hover:bg-[#fdf1f1]">
             <Trash2 size={15} />
           </button>
         </div>
@@ -107,6 +116,16 @@ function Offres() {
   ];
 
   return (
+    <>
+      <DialogueConfirmation
+        ouvert={aSupprimer !== null}
+        titre="Supprimer cette offre ?"
+        message={`« ${aSupprimer?.titre ?? ""} » et les candidatures reçues seront retirées. Cette action est définitive.`}
+        enCours={suppression}
+        onConfirmer={supprimer}
+        onAnnuler={() => setASupprimer(null)}
+      />
+
     <AdminTable
       colonnes={colonnes}
       lignes={table.lignes}
@@ -131,21 +150,31 @@ function Offres() {
           ))}
         </select>
       }
-    />
+      />
+    </>
   );
 }
 
 function Entreprises() {
+  // Named rather than a boolean: the dialog says which company it is about.
+  const [aRetirer, setARetirer] = useState<AdminEntreprise | null>(null);
   const table = useApiTable<AdminEntreprise>("/admin/emploi/entreprises");
   const [action, setAction] = useState<number | null>(null);
 
   async function verifier(e: AdminEntreprise, verifiee: boolean) {
-    const avertissement = !verifiee
-      ? `Retirer la vérification de « ${e.nom} » ? Ses offres publiées seront fermées.`
-      : null;
+    // Withdrawing closes the company's live offers and warns its recruiter,
+    // so it is asked first; granting it takes nothing away.
+    if (!verifiee) {
+      setARetirer(e);
 
-    if (avertissement && !confirm(avertissement)) return;
+      return;
+    }
 
+    await appliquerVerification(e, true);
+  }
+
+  async function appliquerVerification(e: AdminEntreprise, verifiee: boolean) {
+    setARetirer(null);
     setAction(e.id);
 
     try {
@@ -200,7 +229,18 @@ function Entreprises() {
   ];
 
   return (
-    <AdminTable
+    <>
+      <DialogueConfirmation
+        ouvert={aRetirer !== null}
+        titre="Retirer la vérification ?"
+        message={`Les offres publiées de « ${aRetirer?.nom ?? ""} » seront fermées et son recruteur en sera informé. Les rétablir lui reviendra.`}
+        confirmer="Retirer"
+        enCours={action === aRetirer?.id}
+        onConfirmer={() => aRetirer && appliquerVerification(aRetirer, false)}
+        onAnnuler={() => setARetirer(null)}
+      />
+
+      <AdminTable
       colonnes={colonnes}
       lignes={table.lignes}
       meta={table.meta}
@@ -211,7 +251,8 @@ function Entreprises() {
       onPage={table.setPage}
       cle={(e) => e.id}
       vide="Aucune entreprise."
-    />
+      />
+    </>
   );
 }
 
