@@ -3,7 +3,6 @@ import {
   MapPin,
   UsersRound,
   Mic,
-  FileText,
   MessageSquare,
   GraduationCap,
   Users,
@@ -149,8 +148,12 @@ export const sessions: Session[] = [
   },
 ];
 
-export const documents: ProgrammeDocument[] = [
-  { title: "Programme du SANEM", format: "PDF — 2,4 Mo", href: "#", icon: FileText },
-  { title: "Guide du participant", format: "PDF — 1,1 Mo", href: "#", icon: FileText },
-  { title: "Plan du site", format: "PDF — 800 Ko", href: "#", icon: FileText },
-];
+/*
+ * The official documents, once there are any.
+ *
+ * This held three entries — a programme, a participant guide, a site plan —
+ * with file sizes to the tenth of a megabyte and no files behind them. A
+ * download button that downloads nothing is worse than no button, so the
+ * section hides itself while the list is empty.
+ */
+export const documents: ProgrammeDocument[] = [];

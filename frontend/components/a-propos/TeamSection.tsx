@@ -38,9 +38,12 @@ function TeamCard({ member }: { member: TeamMember }) {
             <span className="truncate">{member.role}</span>
           </p>
         </div>
+        {/* No profile, no icon: it used to fall back to a link to nowhere. */}
         <a
-          href={member.linkedin || "#"}
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--sane-green)] !text-white transition-colors hover:bg-[var(--sane-green-dark)]"
+          href={member.linkedin ?? ""}
+          target="_blank"
+          rel="noreferrer noopener"
+          className={`h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--sane-green)] !text-white transition-colors hover:bg-[var(--sane-green-dark)] ${member.linkedin ? "flex" : "hidden"}`}
           aria-label={`LinkedIn de ${member.name}`}
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>

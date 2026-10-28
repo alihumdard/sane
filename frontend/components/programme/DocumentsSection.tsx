@@ -5,7 +5,9 @@ import { documents } from "./data";
 
 export function DocumentsSection() {
   return (
-    <section className="bg-[var(--sane-background)] py-10 sm:py-12 md:py-16">
+    // Nothing to offer, nothing to show: a "Ressources" heading over an empty
+    // grid promises downloads that are not there.
+    <section className={`bg-[var(--sane-background)] py-10 sm:py-12 md:py-16 ${documents.length ? "block" : "hidden"}`}>
       <Container>
         <SectionHeading
           eyebrow="Ressources"
