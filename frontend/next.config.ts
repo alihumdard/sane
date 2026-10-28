@@ -1,8 +1,14 @@
 import type { NextConfig } from "next";
 
-/** Backend origin, derived from the API URL so one env var drives both. */
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api";
-const backendOrigin = new URL(apiUrl).origin;
+/**
+ * The API's own host, when it has one.
+ *
+ * Empty or relative means the API answers on whichever host served the page,
+ * so its images are same-origin and need no entry below. Parsing a relative
+ * value as a URL is what broke the build when that became the default.
+ */
+const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "";
+const backendOrigin = apiUrl.startsWith("http") ? new URL(apiUrl).origin : null;
 
 const nextConfig: NextConfig = {
   images: {
@@ -12,11 +18,15 @@ const nextConfig: NextConfig = {
     // is what the hero images were warning about.
     qualities: [75, 85, 90],
     remotePatterns: [
-      // Documents and logos served by the API, which lives on its own host.
-      {
-        protocol: backendOrigin.startsWith("https") ? "https" : "http",
-        hostname: new URL(backendOrigin).hostname,
-      },
+      // Documents and logos served by the API, when it lives on its own host.
+      ...(backendOrigin
+        ? [
+            {
+              protocol: (backendOrigin.startsWith("https") ? "https" : "http") as "https" | "http",
+              hostname: new URL(backendOrigin).hostname,
+            },
+          ]
+        : []),
       // Placeholder avatars and photos still used by the dashboard screens
       // that have not been wired to real data yet. Remove these once those
       // pages serve uploads from the API.
