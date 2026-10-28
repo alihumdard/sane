@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/layout/Header";
@@ -22,13 +23,22 @@ const BASE_URL =
 
 /**
  * Fetched on the server so the page is indexable and reaches the visitor as
- * rendered HTML. Job posts change rarely, so the response is cached briefly:
- * a burst of traffic on one offer hits the cache rather than the database.
+ * rendered HTML.
+ *
+ * Deliberately uncached. The response used to be held for a minute, which
+ * also cached the rendered page — and a page whose offer has since been put
+ * back to draft or deleted never regenerates, because the regeneration calls
+ * notFound() and Next keeps serving the last good render instead. An offer
+ * pulled from the board stayed readable in full to anyone holding the link,
+ * indefinitely. It is one indexed lookup per view; correctness is worth it.
+ *
+ * `cache` only dedupes the two calls within a single render — the page and
+ * its metadata both want the offer.
  */
-async function getOffre(slug: string): Promise<ApiOffre | null> {
+const getOffre = cache(async (slug: string): Promise<ApiOffre | null> => {
   const res = await fetch(`${BASE_URL}/offres/${encodeURIComponent(slug)}`, {
     headers: { Accept: "application/json" },
-    next: { revalidate: 60 },
+    cache: "no-store",
   });
 
   if (!res.ok) return null;
@@ -36,7 +46,7 @@ async function getOffre(slug: string): Promise<ApiOffre | null> {
   const payload = await res.json();
 
   return payload.data as ApiOffre;
-}
+});
 
 export async function generateMetadata({
   params,

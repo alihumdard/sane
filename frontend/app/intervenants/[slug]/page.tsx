@@ -37,9 +37,13 @@ interface ApiIntervenant {
  */
 async function trouver(slug: string): Promise<Speaker | null> {
   try {
+    // Uncached, like the offer page: holding the list for a minute also
+    // caches the rendered page, and a page whose speaker has since been
+    // removed never regenerates — the regeneration calls notFound() and Next
+    // keeps serving the last good render.
     const res = await fetch(`${API}/intervenants`, {
       headers: { Accept: "application/json" },
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
 
     if (res.ok) {
