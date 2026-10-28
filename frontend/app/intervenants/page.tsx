@@ -3,9 +3,33 @@ import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
 import { PageHero } from "@/components/shared";
 import { SpeakersExplorer } from "@/components/intervenants";
+import type { Speaker } from "@/components/intervenants/data";
+import { lireApi } from "@/lib/serveur";
+
+interface ApiIntervenant {
+  id: number;
+  nom: string;
+  fonction: string | null;
+  organisation: string | null;
+  secteur: string | null;
+  bio: string | null;
+  photo: string | null;
+}
 import { BarreIntervenants } from "@/components/shared/barres";
 
-export default function IntervenantsPage() {
+export default async function IntervenantsPage() {
+  // Read while rendering, so the speakers are in the HTML the visitor gets.
+  const intervenants = await lireApi<ApiIntervenant[]>("/intervenants", []);
+
+  const initiaux: Speaker[] = intervenants.map((i) => ({
+    name: i.nom,
+    title: i.fonction ?? "",
+    org: i.organisation ?? "",
+    tags: i.secteur ? [i.secteur] : [],
+    img: i.photo ?? "/sane-deal3.webp",
+    bio: i.bio ?? undefined,
+  }));
+
   return (
     <>
       <Header />
@@ -26,7 +50,7 @@ export default function IntervenantsPage() {
           ]}
         />
         <BarreIntervenants />
-        <SpeakersExplorer />
+        <SpeakersExplorer initiaux={initiaux} />
         <CTASection
           tone="dark"
           title={

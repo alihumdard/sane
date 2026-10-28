@@ -20,7 +20,7 @@ interface SessionPublique {
   image_url: string | null;
 }
 
-interface JourProgramme {
+export interface JourProgramme {
   jour: string;
   sessions: SessionPublique[];
 }
@@ -122,9 +122,9 @@ function SessionCard({ session }: { session: SessionPublique }) {
  * The days come from the records themselves, so the salon can run over three
  * days — or five — without anyone touching this file.
  */
-export function ScheduleSection() {
-  const [jours, setJours] = useState<JourProgramme[]>([]);
-  const [chargement, setChargement] = useState(true);
+export function ScheduleSection({ initiaux = [] }: { initiaux?: JourProgramme[] }) {
+  const [jours, setJours] = useState<JourProgramme[]>(initiaux);
+  const [chargement, setChargement] = useState(initiaux.length === 0);
   const [jourActif, setJourActif] = useState(0);
   const [categorie, setCategorie] = useState("");
 

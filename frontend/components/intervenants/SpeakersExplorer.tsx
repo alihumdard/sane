@@ -20,10 +20,10 @@ interface ApiIntervenant {
 }
 
 /** Search state + the speaker list (grid or list view). */
-export function SpeakersExplorer() {
+export function SpeakersExplorer({ initiaux = [] }: { initiaux?: Speaker[] }) {
   const [view, setView] = useState<"grid" | "list">("grid");
-  const [intervenants, setIntervenants] = useState<Speaker[]>([]);
-  const [charge, setCharge] = useState(false);
+  const [intervenants, setIntervenants] = useState<Speaker[]>(initiaux);
+  const [charge, setCharge] = useState(initiaux.length > 0);
 
   /*
    * The speakers the organisers entered, and only those.

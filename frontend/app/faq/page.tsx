@@ -4,6 +4,8 @@ import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
 import { PageHero } from "@/components/shared";
 import { FaqExplorer } from "@/components/faq";
+import type { ApiFaq } from "@/components/faq/FaqExplorer";
+import { lireApi } from "@/lib/serveur";
 import { BarreFaq } from "@/components/shared/barres";
 
 export const metadata: Metadata = {
@@ -12,45 +14,25 @@ export const metadata: Metadata = {
     "Les réponses aux questions les plus fréquentes sur le SANEM : inscriptions, formations, emploi, partenariats et participation.",
 };
 
-const BASE_URL =
-  process.env.API_INTERNE ?? process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api";
-
-/**
- * Structured data so search engines can show the questions directly.
- *
- * Read on the server from the same records the page shows, rather than from a
- * list written into the source: the two had drifted apart, and the snippet
- * Google showed was not the FAQ the organisers had written.
- */
-async function donneesStructurees(): Promise<string | null> {
-  try {
-    const res = await fetch(`${BASE_URL}/faq`, {
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    });
-
-    if (!res.ok) return null;
-
-    const { data } = (await res.json()) as { data: { question: string; reponse: string }[] };
-
-    if (!data?.length) return null;
-
-    return JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: data.map((f) => ({
-        "@type": "Question",
-        name: f.question,
-        acceptedAnswer: { "@type": "Answer", text: f.reponse },
-      })),
-    });
-  } catch {
-    return null;
-  }
-}
-
 export default async function FAQPage() {
-  const jsonLd = await donneesStructurees();
+  const entrees = await lireApi<ApiFaq[]>("/faq", []);
+
+  /*
+   * Structured data from the same records the page shows, rather than from a
+   * list written into the source: the two had drifted apart, and the snippet
+   * Google showed was not the FAQ the organisers had written.
+   */
+  const jsonLd = entrees.length
+    ? JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: entrees.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.reponse },
+        })),
+      })
+    : null;
 
   return (
     <>
@@ -73,7 +55,7 @@ export default async function FAQPage() {
           ]}
         />
         <BarreFaq />
-        <FaqExplorer />
+        <FaqExplorer initiales={entrees} />
         <CTASection />
       </main>
       <Footer />

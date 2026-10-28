@@ -10,7 +10,7 @@ import { FaqContactPrompt } from "./FaqContactPrompt";
 import { api } from "@/lib/api";
 import type { FaqEntry } from "@/components/shared";
 
-interface ApiFaq {
+export interface ApiFaq {
   id: number;
   categorie: string;
   question: string;
@@ -25,10 +25,10 @@ interface ApiFaq {
  * in the database: editing the FAQ from the back-office changed nothing on
  * the site.
  */
-export function FaqExplorer() {
-  const [active, setActive] = useState("");
+export function FaqExplorer({ initiales = [] }: { initiales?: ApiFaq[] }) {
+  const [active, setActive] = useState(initiales[0]?.categorie ?? "");
   const [query, setQuery] = useState("");
-  const [entrees, setEntrees] = useState<ApiFaq[]>([]);
+  const [entrees, setEntrees] = useState<ApiFaq[]>(initiales);
 
   useEffect(() => {
     let annule = false;

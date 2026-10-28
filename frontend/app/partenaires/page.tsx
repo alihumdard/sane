@@ -10,8 +10,12 @@ import {
   TestimonialsSection,
 } from "@/components/partenaires";
 import { BarrePartenaires } from "@/components/shared/barres";
+import type { ApiPartenaire } from "@/components/partenaires/PartnerLogosSection";
+import { lireApi } from "@/lib/serveur";
 
-export default function PartenairesPage() {
+export default async function PartenairesPage() {
+  const partenaires = await lireApi<ApiPartenaire[]>("/partenaires", []);
+
   return (
     <>
       <Header />
@@ -38,7 +42,7 @@ export default function PartenairesPage() {
           stats={[{ value: "+50", label: "partenaires actifs" }]}
         />
         <BarrePartenaires />
-        <PartnerLogosSection />
+        <PartnerLogosSection initiaux={partenaires} />
         <PartnerTypesSection />
         <ImpactSection />
         <TestimonialsSection />

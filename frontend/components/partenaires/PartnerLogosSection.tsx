@@ -10,7 +10,7 @@ import { textLink } from "@/components/ui/styles";
 import { api } from "@/lib/api";
 import { couleurPartenaire, initiales } from "./data";
 
-interface ApiPartenaire {
+export interface ApiPartenaire {
   id: number;
   nom: string;
   slug: string;
@@ -30,8 +30,8 @@ interface ApiPartenaire {
  * A partner with no logo shows its initials on a tinted disc, as before: the
  * grid should not have holes in it while the logos are being collected.
  */
-export function PartnerLogosSection() {
-  const [partenaires, setPartenaires] = useState<ApiPartenaire[]>([]);
+export function PartnerLogosSection({ initiaux = [] }: { initiaux?: ApiPartenaire[] }) {
+  const [partenaires, setPartenaires] = useState<ApiPartenaire[]>(initiaux);
 
   useEffect(() => {
     let annule = false;

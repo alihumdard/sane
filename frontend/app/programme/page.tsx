@@ -3,8 +3,12 @@ import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
 import { PageHero, InfoBar } from "@/components/shared";
 import { ScheduleSection, VenueSection, DocumentsSection, eventInfo } from "@/components/programme";
+import type { JourProgramme } from "@/components/programme/ScheduleSection";
+import { lireApi } from "@/lib/serveur";
 
-export default function ProgrammePage() {
+export default async function ProgrammePage() {
+  const jours = await lireApi<JourProgramme[]>("/programme", []);
+
   return (
     <>
       <Header />
@@ -29,7 +33,7 @@ export default function ProgrammePage() {
           ]}
         />
         <InfoBar items={eventInfo} />
-        <ScheduleSection />
+        <ScheduleSection initiaux={jours} />
         <CTASection />
         <VenueSection />
         <DocumentsSection />
