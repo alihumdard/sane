@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { BadgeCheck, Eye, Loader2, ShieldOff, Trash2 } from "lucide-react";
 import { Spinner } from "@/components/dashboard/Spinner";
 import { AdminPage } from "@/components/dashboard/AdminPage";
@@ -430,19 +431,45 @@ function Entretiens() {
   );
 }
 
-export default function EmploiAdminPage() {
-  const [onglet, setOnglet] = useState<"offres" | "entreprises" | "entretiens">("offres");
+const ONGLETS = [
+  { cle: "offres", label: "Offres" },
+  { cle: "entreprises", label: "Entreprises" },
+  { cle: "entretiens", label: "Entretiens" },
+] as const;
+
+type Onglet = (typeof ONGLETS)[number]["cle"];
+
+/**
+ * The three lists, each at its own address.
+ *
+ * The tab lived in component state, so the menu's "Entreprises" and
+ * "Entretiens" entries landed on this page showing the offers, a link in a
+ * message could not point at a tab, and a reload went back to the first one.
+ */
+function Onglets() {
+  const router = useRouter();
+  const params = useSearchParams();
+
+  const demande = params.get("onglet");
+  const onglet: Onglet = ONGLETS.some((o) => o.cle === demande) ? (demande as Onglet) : "offres";
 
   return (
-    <AdminPage section="Emploi" titre="Emploi" description="Modération des offres, vérification des entreprises et suivi des entretiens">
-      <div className="mb-4 flex gap-2">
-        {([["offres", "Offres"], ["entreprises", "Entreprises"], ["entretiens", "Entretiens"]] as const).map(([cle, label]) => (
+    <>
+      <div className="mb-4 flex flex-wrap gap-2">
+        {ONGLETS.map(({ cle, label }) => (
           <button
             key={cle}
             type="button"
-            onClick={() => setOnglet(cle)}
-            className={`rounded-full px-4 py-2 text-[13px] font-semibold ${
-              onglet === cle ? "bg-[var(--sane-green)] text-white" : "bg-white text-[var(--sane-text)]"
+            aria-current={onglet === cle ? "page" : undefined}
+            onClick={() =>
+              router.replace(cle === "offres" ? "/dashboard/admin/emploi" : `/dashboard/admin/emploi?onglet=${cle}`, {
+                scroll: false,
+              })
+            }
+            className={`rounded-full px-4 py-2 text-[13px] font-semibold transition-colors ${
+              onglet === cle
+                ? "bg-[var(--sane-green)] text-white"
+                : "bg-white text-[var(--sane-text)] hover:text-[var(--sane-green)]"
             }`}
           >
             {label}
@@ -451,6 +478,20 @@ export default function EmploiAdminPage() {
       </div>
 
       {onglet === "offres" ? <Offres /> : onglet === "entreprises" ? <Entreprises /> : <Entretiens />}
+    </>
+  );
+}
+
+export default function EmploiAdminPage() {
+  return (
+    <AdminPage
+      section="Emploi"
+      titre="Emploi"
+      description="Modération des offres, vérification des entreprises et suivi des entretiens"
+    >
+      <Suspense fallback={null}>
+        <Onglets />
+      </Suspense>
     </AdminPage>
   );
 }

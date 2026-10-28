@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -40,6 +40,24 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
   const router = useRouter();
   const { user, logout } = useAuth();
   const [replies, setReplies] = useState<Record<string, boolean>>({});
+
+  /*
+   * The query string, for the sub-entries that differ only by it: Emploi's
+   * Entreprises and Entretiens are ?onglet= on one page, and comparing the
+   * path alone highlighted "Offres" whichever of the three was open.
+   *
+   * Read after mounting rather than with useSearchParams, which would make
+   * every back-office page render on demand for the sake of a highlight. The
+   * first paint matches what the server sent; the highlight corrects itself
+   * immediately after.
+   */
+  const [requete, setRequete] = useState("");
+
+  useEffect(() => {
+    const vu = window.location.search;
+
+    queueMicrotask(() => setRequete(vu));
+  }, [pathname]);
 
   async function seDeconnecter() {
     onClose?.();
@@ -165,7 +183,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
                   }
                 >
                   {item.subItems?.map((sub) => {
-                    const actif = sub.href === pathname;
+                    const actif = sub.href === pathname + requete || sub.href === pathname;
 
                     return (
                       <Link
