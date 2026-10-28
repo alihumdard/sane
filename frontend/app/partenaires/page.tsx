@@ -16,10 +16,12 @@ interface Statistiques {
 
 
 export default async function PartenairesPage() {
-  const partenaires = await lireApi<ApiPartenaire[]>("/partenaires", []);
   // The badge read "+50 partenaires actifs" directly above a counter
   // reading the real number, five.
-  const stats = await lireApi<Statistiques | null>("/statistiques", null);
+  const [partenaires, stats] = await Promise.all([
+    lireApi<ApiPartenaire[]>("/partenaires", []),
+    lireApi<Statistiques | null>("/statistiques", null),
+  ]);
 
   return (
     <>

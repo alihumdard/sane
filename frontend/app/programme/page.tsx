@@ -17,8 +17,10 @@ interface Statistiques {
 
 
 export default async function ProgrammePage() {
-  const jours = await lireApi<JourProgramme[]>("/programme", []);
-  const stats = await lireApi<Statistiques | null>("/statistiques", null);
+  const [jours, stats] = await Promise.all([
+    lireApi<JourProgramme[]>("/programme", []),
+    lireApi<Statistiques | null>("/statistiques", null),
+  ]);
 
   const dates = datesEdition(stats?.edition);
   const lieu = stats?.edition?.lieu ?? null;

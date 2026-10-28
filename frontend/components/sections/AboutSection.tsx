@@ -13,30 +13,32 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AnimatedCounter } from "@/components/shared/AnimatedCounter";
 
-const stats = [
-  {
-    icon: BriefcaseBusiness,
-    value: "+500",
-    label: "Opportunités",
-  },
-  {
-    icon: Building2,
-    value: "+100",
-    label: "Entreprises",
-  },
-  {
-    icon: UsersRound,
-    value: "+1000",
-    label: "Participants",
-  },
-  {
-    icon: GraduationCap,
-    value: "+20",
-    label: "Formations",
-  },
-];
+export interface ChiffresAccueil {
+  offres: number;
+  entreprises: number;
+  inscriptions: number;
+  formations: number;
+}
 
-export function AboutSection() {
+/**
+ * The "À propos" block on the home page.
+ *
+ * Its four counters read "+500 Opportunités", "+100 Entreprises", "+1000
+ * Participants" and "+20 Formations" — written into this file, counted
+ * nowhere, and animated on scroll so they read as live readings. They are
+ * now the same counts the rest of the site shows, and the row stays away
+ * until they arrive rather than animating up to a number nobody measured.
+ */
+export function AboutSection({ chiffres }: { chiffres: ChiffresAccueil | null }) {
+  const stats = chiffres
+    ? [
+        { icon: BriefcaseBusiness, value: String(chiffres.offres), label: "Offres publiées" },
+        { icon: Building2, value: String(chiffres.entreprises), label: "Entreprises" },
+        { icon: UsersRound, value: String(chiffres.inscriptions), label: "Inscrits" },
+        { icon: GraduationCap, value: String(chiffres.formations), label: "Formations" },
+      ]
+    : [];
+
   return (
     <section className="bg-white py-14 md:py-16">
       <Container>
@@ -97,7 +99,11 @@ export function AboutSection() {
             </div>
 
             {/* Stats */}
-            <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-6 pt-2 sm:grid-cols-4">
+            <div
+              className={`mt-8 grid-cols-2 gap-x-4 gap-y-6 pt-2 sm:grid-cols-4 ${
+                stats.length > 0 ? "grid" : "hidden"
+              }`}
+            >
               {stats.map((stat, index) => {
                 const Icon = stat.icon;
 

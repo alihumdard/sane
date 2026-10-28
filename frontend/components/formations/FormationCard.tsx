@@ -22,7 +22,12 @@ export function FormationCard({ formation: f }: { formation: ApiFormation }) {
   ];
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-xl border border-[var(--sane-border)] bg-white transition-all hover:-translate-y-1 hover:shadow-lg">
+    // Addressable by slug: the home page links to a specific course, and a
+    // course has no page of its own to send the reader to.
+    <article
+      id={f.slug}
+      className="group flex scroll-mt-24 flex-col overflow-hidden rounded-xl border border-[var(--sane-border)] bg-white transition-all hover:-translate-y-1 hover:shadow-lg"
+    >
       <div className="relative aspect-[16/9] overflow-hidden bg-[var(--sane-green-light)]">
         <Image
           src={img}

@@ -3,15 +3,17 @@ import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { QuickActions } from "@/components/sections/QuickActions";
 import { CountdownSection } from "@/components/sections/CountdownSection";
-import { AboutSection } from "@/components/sections/AboutSection";
+import { AboutSection, type ChiffresAccueil } from "@/components/sections/AboutSection";
 import {
   JobsSection,
   type Choix,
   type OffreAccueil,
 } from "@/components/sections/JobsSection";
 import { lireApi } from "@/lib/serveur";
-import type { ApiOffre } from "@/lib/types";
-import { TrainingSection } from "@/components/sections/TrainingSection";
+import { imageParDefaut, imagesParCategorie } from "@/components/formations/data";
+import type { ApiFormation, ApiOffre } from "@/lib/types";
+import type { StatistiquesPubliques } from "@/lib/edition";
+import { TrainingSection, type FormationAccueil } from "@/components/sections/TrainingSection";
 import { HowItWorksSection } from "@/components/sections/HowItWorksSection";
 import { FeatureLinksSection } from "@/components/sections/FeatureLinksSection";
 import { CTASection } from "@/components/sections/CTASection";
@@ -37,8 +39,33 @@ async function lireFiltres(): Promise<{ secteur: Choix[]; ville: Choix[] }> {
 
 export default async function Home() {
   // The four latest offers and the filters they carry, read while rendering.
-  const offres = await lireApi<ApiOffre[]>("/offres?per_page=4", []);
-  const filtres = await lireFiltres();
+  /*
+   * In parallel: each of these was awaited on its own line, so the page
+   * waited out four round trips end to end before it could start rendering.
+   */
+  const [offres, filtres, stats, catalogue] = await Promise.all([
+    lireApi<ApiOffre[]>("/offres?per_page=4", []),
+    lireFiltres(),
+    lireApi<StatistiquesPubliques | null>("/statistiques", null),
+    lireApi<ApiFormation[]>("/formations?limite=3", []),
+  ]);
+
+  const dernieresFormations: FormationAccueil[] = catalogue.map((f) => ({
+    titre: f.titre,
+    slug: f.slug,
+    duree: f.duree,
+    places: f.complete ? "Complet" : `${f.places_restantes} places`,
+    image: f.image ?? imagesParCategorie[f.categorie?.nom ?? ""] ?? imageParDefaut,
+  }));
+
+  const chiffres: ChiffresAccueil | null = stats
+    ? {
+        offres: stats.emploi.offres,
+        entreprises: stats.emploi.entreprises,
+        inscriptions: stats.participation.inscriptions,
+        formations: stats.formations.total,
+      }
+    : null;
 
   const dernieres: OffreAccueil[] = offres.map((o) => ({
     titre: o.titre,
@@ -59,11 +86,11 @@ export default async function Home() {
 
         <CountdownSection />
 
-        <AboutSection />
+        <AboutSection chiffres={chiffres} />
 
         <JobsSection offres={dernieres} secteurs={filtres.secteur} villes={filtres.ville} />
 
-        <TrainingSection />
+        <TrainingSection formations={dernieresFormations} />
 
         <HowItWorksSection />
 

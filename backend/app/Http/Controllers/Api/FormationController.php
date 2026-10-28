@@ -45,6 +45,12 @@ class FormationController extends Controller
             $query->whereColumn('inscriptions_count', '<', 'max_inscriptions');
         }
 
+        // The home page shows three of these and used to read the whole
+        // catalogue to do it, filter lists included.
+        if ($limite = $request->integer('limite')) {
+            $query->limit(min($limite, 50));
+        }
+
         $formations = $query->orderBy('date_debut')->orderBy('titre')->get();
 
         return response()->json([
