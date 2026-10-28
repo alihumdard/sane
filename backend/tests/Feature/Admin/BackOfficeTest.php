@@ -150,6 +150,45 @@ class BackOfficeTest extends TestCase
         $this->getJson('/api/offres')->assertOk()->assertJsonPath('meta.total', 0);
     }
 
+    public function test_le_recruteur_est_prevenu_que_ses_offres_ont_ete_fermees(): void
+    {
+        // The closure lands on someone who is not in the room: without a word
+        // they open their dashboard to postings closed, with nothing saying
+        // why or by whom.
+        $entreprise = $this->entreprise();
+        $this->offre($entreprise);
+        $this->offre($entreprise);
+
+        $this->actingAs($this->admin())
+            ->putJson('/api/admin/emploi/entreprises/'.$entreprise->id.'/verification', ['verifiee' => false])
+            ->assertOk()
+            ->assertJsonPath('message', 'Vérification retirée : 2 offres fermées, le recruteur a été prévenu.');
+
+        $notification = $entreprise->user->notifications()->first();
+
+        $this->assertNotNull($notification);
+        $this->assertSame('Vos offres ont été fermées', $notification->data['titre']);
+        $this->assertStringContainsString('2 offres ont été fermées', $notification->data['message']);
+    }
+
+    /**
+     * An offer the recruiter closed themselves, because the post was filled,
+     * is indistinguishable from one closed by a withdrawal — so neither is
+     * reopened, and the message says as much.
+     */
+    public function test_rendre_la_verification_ne_republie_rien(): void
+    {
+        $entreprise = $this->entreprise(verifiee: false);
+        $offre = $this->offre($entreprise, ['statut' => StatutOffre::Fermee->value]);
+
+        $this->actingAs($this->admin())
+            ->putJson('/api/admin/emploi/entreprises/'.$entreprise->id.'/verification', ['verifiee' => true])
+            ->assertOk();
+
+        $this->assertSame(StatutOffre::Fermee, $offre->refresh()->statut);
+        $this->assertCount(0, $entreprise->user->notifications()->get());
+    }
+
     public function test_un_organisateur_ferme_nimporte_quelle_offre(): void
     {
         $offre = $this->offre($this->entreprise());

@@ -14,6 +14,7 @@ use App\Models\Candidature;
 use App\Models\Entreprise;
 use App\Models\Entretien;
 use App\Models\OffreEmploi;
+use App\Services\Notificateur;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -104,24 +105,62 @@ class EmploiAdminController extends Controller
      * Only an organiser reaches this, which is what makes the recruiter-side
      * check meaningful: a company cannot vouch for itself.
      */
-    public function verifierEntreprise(Request $request, Entreprise $entreprise): JsonResponse
-    {
+    public function verifierEntreprise(
+        Request $request,
+        Entreprise $entreprise,
+        Notificateur $notificateur,
+    ): JsonResponse {
         $valide = $request->validate(['verifiee' => ['required', 'boolean']]);
 
         $entreprise->update($valide);
 
+        if ($valide['verifiee']) {
+            return response()->json([
+                // Offers closed by an earlier withdrawal stay closed: one the
+                // recruiter shut themselves, because the post was filled,
+                // looks exactly the same from here, and reopening both would
+                // put filled jobs back on the board.
+                'message' => "Entreprise vérifiée : elle peut de nouveau publier ses offres. Celles fermées lors d'un retrait restent fermées, à elle de les republier.",
+                'data' => $entreprise->refresh(),
+            ]);
+        }
+
         // Withdrawing verification must also pull its live offers down,
         // otherwise the gate only applies at publication time.
-        if (! $valide['verifiee']) {
-            $entreprise->offres()
-                ->where('statut', StatutOffre::Publiee->value)
-                ->update(['statut' => StatutOffre::Fermee->value]);
+        $fermees = $entreprise->offres()
+            ->where('statut', StatutOffre::Publiee->value)
+            ->update(['statut' => StatutOffre::Fermee->value]);
+
+        /*
+         * The recruiter hears it from us, not from an empty board.
+         *
+         * This closes postings belonging to someone who is not in the room;
+         * without a word they would open their dashboard to find them closed,
+         * with nothing saying why or by whom.
+         */
+        if ($fermees > 0 && $utilisateur = $entreprise->user) {
+            $notificateur->notifier(
+                $utilisateur,
+                'Vos offres ont été fermées',
+                sprintf(
+                    '%s fermée%s car la vérification de votre entreprise a été retirée. Contactez les organisateurs du SANEM : vous pourrez les republier une fois la vérification rétablie.',
+                    $fermees === 1 ? 'Une offre a été' : $fermees.' offres ont été',
+                    $fermees === 1 ? '' : 's',
+                ),
+                '/dashboard/recruteur/offres',
+                'offre',
+            );
         }
 
         return response()->json([
-            'message' => $valide['verifiee']
-                ? 'Entreprise vérifiée : elle peut désormais publier ses offres.'
-                : 'Vérification retirée : ses offres publiées ont été fermées.',
+            'message' => $fermees > 0
+                ? sprintf(
+                    'Vérification retirée : %d offre%s fermée%s, le recruteur a été prévenu.',
+                    $fermees,
+                    $fermees === 1 ? '' : 's',
+                    $fermees === 1 ? '' : 's',
+                )
+                : 'Vérification retirée.',
             'data' => $entreprise->refresh(),
         ]);
     }
