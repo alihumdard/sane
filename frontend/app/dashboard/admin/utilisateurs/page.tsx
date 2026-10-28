@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {Pencil, ShieldCheck, Trash2, UserPlus} from "lucide-react";
+import { Eye, Pencil, ShieldCheck, Trash2, UserPlus } from "lucide-react";
 import { Spinner } from "@/components/dashboard/Spinner";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
@@ -11,6 +11,7 @@ import { useApiTable } from "@/components/dashboard/useApiTable";
 import { adminNav } from "@/lib/adminNav";
 import { api, ApiError } from "@/lib/api";
 import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
+import { Fait, PanneauDetail } from "@/components/dashboard/PanneauDetail";
 
 const sidebarItems = adminNav("Utilisateurs", 0);
 
@@ -38,6 +39,7 @@ const ROLES = [
 
 function Contenu() {
   const [aSupprimer, setASupprimer] = useState<AdminUtilisateur | null>(null);
+  const [ouvert, setOuvert] = useState<AdminUtilisateur | null>(null);
   const [filtreRole, setFiltreRole] = useState("");
   const [filtreStatut, setFiltreStatut] = useState("");
 
@@ -158,6 +160,14 @@ function Contenu() {
           <Spinner actif={action === u.id} size={14} className="text-[var(--sane-green)]" />
           <button
             type="button"
+            onClick={() => setOuvert(u)}
+            title="Voir le détail"
+            className="rounded-lg p-2 text-[var(--sane-text-light)] hover:bg-[var(--sane-background)] hover:text-[var(--sane-green)]"
+          >
+            <Eye size={15} />
+          </button>
+          <button
+            type="button"
             onClick={() => setASupprimer(u)}
             title="Supprimer"
             className="rounded-lg p-2 text-[var(--sane-red-dark)] hover:bg-[#fdf1f1]"
@@ -171,6 +181,66 @@ function Contenu() {
 
   return (
     <>
+      <PanneauDetail
+        ouvert={ouvert !== null}
+        titre={ouvert?.nom ?? ""}
+        sousTitre={ouvert?.role_label}
+        onFermer={() => setOuvert(null)}
+        actions={
+          <button
+            type="button"
+            onClick={() => {
+              const u = ouvert!;
+              setOuvert(null);
+              void changerStatut(u);
+            }}
+            className={`w-full rounded-lg px-4 py-2.5 text-[13px] font-bold text-white ${
+              ouvert?.statut === "actif" ? "bg-[var(--sane-orange)]" : "bg-[var(--sane-green)]"
+            }`}
+          >
+            {ouvert?.statut === "actif" ? "Suspendre ce compte" : "Réactiver ce compte"}
+          </button>
+        }
+      >
+        <Fait
+          label="Email"
+          valeur={
+            ouvert?.email ? (
+              <a href={`mailto:${ouvert.email}`} className="text-[var(--sane-green)] hover:underline">
+                {ouvert.email}
+              </a>
+            ) : null
+          }
+        />
+        <Fait label="Téléphone" valeur={ouvert?.telephone} />
+        <Fait label="Rôle" valeur={ouvert?.role_label} />
+        <Fait
+          label="Statut"
+          valeur={ouvert?.statut === "actif" ? "Actif" : "Suspendu — ne peut plus se connecter"}
+        />
+        <Fait label="Inscriptions à l'événement" valeur={ouvert?.inscriptions_count ?? 0} />
+        <Fait
+          label="Dernière connexion"
+          valeur={
+            ouvert?.derniere_connexion_le
+              ? new Date(ouvert.derniere_connexion_le).toLocaleString("fr-FR")
+              : "Jamais"
+          }
+        />
+        <Fait
+          label="Compte créé le"
+          valeur={
+            ouvert?.created_at
+              ? new Date(ouvert.created_at).toLocaleDateString("fr-FR", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })
+              : null
+          }
+        />
+      </PanneauDetail>
+
       <DialogueConfirmation
         ouvert={aSupprimer !== null}
         titre="Supprimer ce compte ?"

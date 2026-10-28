@@ -81,7 +81,12 @@ class EmploiAdminController extends Controller
     public function entreprises(Request $request): JsonResponse
     {
         $page = $this->listePaginee(
-            Entreprise::query()->withCount('offres'),
+            // The recruiter rides along: verifying a company means vouching
+            // for it, and the moderator could see a name and an offer count
+            // but not who was behind it.
+            Entreprise::query()
+                ->with('user:id,name,email,telephone')
+                ->withCount(['offres', 'offres as offres_publiees_count' => fn ($q) => $q->where('statut', StatutOffre::Publiee->value)]),
             $request,
             recherchables: ['nom', 'secteur', 'ville'],
             filtrables: ['secteur', 'ville'],

@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { BadgeCheck, Loader2, ShieldOff, Trash2 } from "lucide-react";
+import { BadgeCheck, Eye, Loader2, ShieldOff, Trash2 } from "lucide-react";
 import { Spinner } from "@/components/dashboard/Spinner";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { AdminTable, type Colonne } from "@/components/dashboard/AdminTable";
 import { useApiTable } from "@/components/dashboard/useApiTable";
 import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
+import { Fait, PanneauDetail } from "@/components/dashboard/PanneauDetail";
 import { api, ApiError } from "@/lib/api";
 import type { ApiEntretien, ApiOffre } from "@/lib/types";
 
@@ -22,8 +23,15 @@ interface AdminEntreprise {
   nom: string;
   secteur: string | null;
   ville: string | null;
+  site_web: string | null;
+  telephone: string | null;
+  description: string | null;
   verifiee: boolean;
   offres_count: number;
+  offres_publiees_count: number;
+  /** The recruiter who owns it — who the moderator is really vouching for. */
+  user: { id: number; name: string; email: string; telephone: string | null } | null;
+  created_at: string;
 }
 
 const STATUTS = [
@@ -158,6 +166,7 @@ function Offres() {
 function Entreprises() {
   // Named rather than a boolean: the dialog says which company it is about.
   const [aRetirer, setARetirer] = useState<AdminEntreprise | null>(null);
+  const [ouverte, setOuverte] = useState<AdminEntreprise | null>(null);
   const table = useApiTable<AdminEntreprise>("/admin/emploi/entreprises");
   const [action, setAction] = useState<number | null>(null);
 
@@ -200,7 +209,17 @@ function Entreprises() {
         </>
       ),
     },
-    { cle: "offres", entete: "Offres", masquer: "sm", rendu: (e) => e.offres_count },
+    {
+      cle: "offres",
+      entete: "Offres",
+      masquer: "sm",
+      rendu: (e) => (
+        <>
+          <p>{e.offres_count}</p>
+          <p className="text-[12px] text-[var(--sane-text-light)]">{e.offres_publiees_count} publiée(s)</p>
+        </>
+      ),
+    },
     {
       cle: "verifiee",
       entete: "Vérification",
@@ -226,10 +245,95 @@ function Entreprises() {
         </button>
       ),
     },
+    {
+      cle: "_detail",
+      entete: "",
+      rendu: (e) => (
+        <button
+          type="button"
+          onClick={() => setOuverte(e)}
+          title="Voir le détail"
+          className="rounded-lg p-2 text-[var(--sane-text-light)] hover:bg-[var(--sane-background)] hover:text-[var(--sane-green)]"
+        >
+          <Eye size={15} />
+        </button>
+      ),
+    },
   ];
 
   return (
     <>
+      <PanneauDetail
+        ouvert={ouverte !== null}
+        titre={ouverte?.nom ?? ""}
+        sousTitre={[ouverte?.secteur, ouverte?.ville].filter(Boolean).join(" · ")}
+        onFermer={() => setOuverte(null)}
+        actions={
+          <button
+            type="button"
+            onClick={() => {
+              const e = ouverte!;
+              setOuverte(null);
+              void verifier(e, !e.verifiee);
+            }}
+            className={`w-full rounded-lg px-4 py-2.5 text-[13px] font-bold text-white ${
+              ouverte?.verifiee ? "bg-[var(--sane-orange)]" : "bg-[var(--sane-green)]"
+            }`}
+          >
+            {ouverte?.verifiee ? "Retirer la vérification" : "Vérifier cette entreprise"}
+          </button>
+        }
+      >
+        <Fait label="Recruteur" valeur={ouverte?.user?.name} />
+        <Fait
+          label="Email"
+          valeur={
+            ouverte?.user?.email ? (
+              <a href={`mailto:${ouverte.user.email}`} className="text-[var(--sane-green)] hover:underline">
+                {ouverte.user.email}
+              </a>
+            ) : null
+          }
+        />
+        <Fait label="Téléphone" valeur={ouverte?.telephone ?? ouverte?.user?.telephone} />
+        <Fait
+          label="Site web"
+          valeur={
+            ouverte?.site_web ? (
+              <a
+                href={ouverte.site_web}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-[var(--sane-green)] hover:underline"
+              >
+                {ouverte.site_web}
+              </a>
+            ) : null
+          }
+        />
+        <Fait label="Présentation" valeur={ouverte?.description} />
+        <Fait
+          label="Offres"
+          valeur={`${ouverte?.offres_count ?? 0} au total, ${ouverte?.offres_publiees_count ?? 0} publiée(s)`}
+        />
+        <Fait
+          label="Vérification"
+          valeur={ouverte?.verifiee ? "Vérifiée" : "En attente — ses offres restent en brouillon"}
+        />
+        <Fait
+          label="Inscrite le"
+          valeur={
+            ouverte?.created_at
+              ? new Date(ouverte.created_at).toLocaleDateString("fr-FR", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })
+              : null
+          }
+        />
+      </PanneauDetail>
+
       <DialogueConfirmation
         ouvert={aRetirer !== null}
         titre="Retirer la vérification ?"
