@@ -7,9 +7,9 @@ import { BarreEmploi } from "@/components/shared/barres";
 export default async function EmploiPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; secteur?: string; ville?: string }>;
 }) {
-  const { q } = await searchParams;
+  const { q, secteur, ville } = await searchParams;
 
   return (
     <>
@@ -17,7 +17,7 @@ export default async function EmploiPage({
       <main>
         <EmploiHero />
         <BarreEmploi />
-        <JobsGrid termeInitial={q ?? ""} />
+        <JobsGrid termeInitial={q ?? ""} secteurInitial={secteur ?? ""} villeInitiale={ville ?? ""} />
         <PartnersSection />
         <EmploiStepsSection />
         <CTASection />

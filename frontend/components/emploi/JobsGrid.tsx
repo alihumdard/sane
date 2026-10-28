@@ -71,13 +71,22 @@ function Select({
  * query runs against the database indexes.
  */
 /**
- * @param termeInitial What the header's search box handed over, read from
- *   `?q=` by the page. Read on the server rather than from `window` here: a
+ * @param termeInitial What a search box handed over, read from `?q=` by the
+ *   page — the one in the header, or the one on the home page, which also
+ *   passes a sector and a city. Read on the server rather than from `window` here: a
  *   useState initialiser also runs during rendering on the server, where
  *   there is no address, and hydration keeps that empty value — so
  *   /emploi?q=comptable listed every offer and showed an empty box.
  */
-export function JobsGrid({ termeInitial = "" }: { termeInitial?: string }) {
+export function JobsGrid({
+  termeInitial = "",
+  secteurInitial = "",
+  villeInitiale = "",
+}: {
+  termeInitial?: string;
+  secteurInitial?: string;
+  villeInitiale?: string;
+}) {
   const [offres, setOffres] = useState<ApiOffre[]>([]);
   const [filtres, setFiltres] = useState<OffresResponse["filtres"]>({
     secteur: [],
@@ -89,8 +98,8 @@ export function JobsGrid({ termeInitial = "" }: { termeInitial?: string }) {
   const [dernierePage, setDernierePage] = useState(1);
 
   const [recherche, setRecherche] = useState(termeInitial);
-  const [secteur, setSecteur] = useState("");
-  const [ville, setVille] = useState("");
+  const [secteur, setSecteur] = useState(secteurInitial);
+  const [ville, setVille] = useState(villeInitiale);
   const [contrat, setContrat] = useState("");
 
   const [chargement, setChargement] = useState(true);
