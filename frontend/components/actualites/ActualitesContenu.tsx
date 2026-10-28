@@ -104,23 +104,13 @@ export const LIBELLE_TAG: Record<string, string> = {
 };
 
 
-const upcomingEvents = [
-  {
-    title: "Conférence sur l'emploi des jeunes",
-    date: "10 Avril 2024",
-    location: "Niamey, Niger",
-  },
-  {
-    title: "Atelier de formation digitale",
-    date: "15 Avril 2024",
-    location: "Niamey, Niger",
-  },
-  {
-    title: "Rencontres B2B entreprises - talents",
-    date: "20 Avril 2024",
-    location: "Niamey, Niger",
-  },
-];
+/** One session of the schedule, as the sidebar shows it. */
+export interface EvenementAVenir {
+  title: string;
+  date: string;
+  location: string;
+}
+
 
 /**
  * The news page: the article grid with its tabs, search and filters.
@@ -129,7 +119,18 @@ const upcomingEvents = [
  * them in it — fetching from the browser left the served HTML empty, which
  * is what a search engine and a slow connection both get.
  */
-export function ActualitesContenu({ initiaux = [] }: { initiaux?: ArticleAffiche[] }) {
+export function ActualitesContenu({
+  initiaux = [],
+  evenements = [],
+}: {
+  initiaux?: ArticleAffiche[];
+  /*
+   * The next sessions of the schedule. The sidebar used to list three
+   * invented ones dated April 2024, which outlived the edition they were
+   * written for.
+   */
+  evenements?: EvenementAVenir[];
+}) {
   const [activeTab, setActiveTab] = useState("tous");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
@@ -169,6 +170,17 @@ export function ActualitesContenu({ initiaux = [] }: { initiaux?: ArticleAffiche
       actif = false;
     };
   }, []);
+
+  /*
+   * Only the categories the articles actually carry, "Tous" always first.
+   * The row was a fixed list of six, so a tab could sit there announcing a
+   * kind of article nobody had written.
+   */
+  const ongletsVisibles = useMemo(() => {
+    const presentes = new Set(articles.map((a) => a.tag));
+
+    return categoryTabs.filter((t) => t.key === "tous" || presentes.has(t.tag));
+  }, [articles]);
 
   const filteredArticles = useMemo(() => {
     let result = [...articles];
@@ -283,7 +295,7 @@ export function ActualitesContenu({ initiaux = [] }: { initiaux?: ArticleAffiche
         <section className="bg-white py-4 sm:py-5">
           <div className="sane-container">
             <div className="flex gap-2.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-3 xl:grid-cols-6 sm:gap-3">
-              {categoryTabs.map((tab) => {
+              {ongletsVisibles.map((tab) => {
                 const active = activeTab === tab.key;
                 return (
                   <button
@@ -580,7 +592,7 @@ export function ActualitesContenu({ initiaux = [] }: { initiaux?: ArticleAffiche
                     </h3>
                   </div>
                   <div className="flex flex-col gap-3">
-                    {upcomingEvents.map((ev, i) => (
+                    {evenements.map((ev, i) => (
                       <div
                         key={i}
                         className="flex items-center gap-3 rounded-xl border border-[var(--sane-border-soft)] bg-white p-3"

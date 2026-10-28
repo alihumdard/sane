@@ -4,7 +4,9 @@ import {
   COULEUR_TAG,
   LIBELLE_TAG,
   type ArticleAffiche,
+  type EvenementAVenir,
 } from "@/components/actualites/ActualitesContenu";
+import type { JourProgramme } from "@/components/programme/ScheduleSection";
 import { lireApi } from "@/lib/serveur";
 import type { ApiActualite } from "@/lib/types";
 
@@ -15,7 +17,28 @@ export const metadata: Metadata = {
 };
 
 export default async function ActualitesPage() {
-  const articles = await lireApi<ApiActualite[]>("/actualites?per_page=30", []);
+  const [articles, jours] = await Promise.all([
+    lireApi<ApiActualite[]>("/actualites?per_page=30", []),
+    lireApi<JourProgramme[]>("/programme", []),
+  ]);
+
+  /*
+   * The sidebar's "Prochains événements": the next sessions of the schedule,
+   * which the organisers keep up to date, rather than three written-in events
+   * dated April 2024.
+   */
+  const aujourdhui = new Date().toISOString().slice(0, 10);
+
+  const evenements: EvenementAVenir[] = jours
+    .filter((j) => j.jour >= aujourdhui)
+    .flatMap((j) =>
+      j.sessions.map((session) => ({
+        title: session.titre,
+        date: new Date(j.jour).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }),
+        location: session.lieu ?? "",
+      }))
+    )
+    .slice(0, 3);
 
   const initiaux: ArticleAffiche[] = articles.map((a) => ({
     slug: a.slug,
@@ -29,5 +52,5 @@ export default async function ActualitesPage() {
     description: a.extrait ?? "",
   }));
 
-  return <ActualitesContenu initiaux={initiaux} />;
+  return <ActualitesContenu initiaux={initiaux} evenements={evenements} />;
 }
