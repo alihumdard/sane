@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Support\Fichier;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 /** One slot of the event's schedule. */
 class SessionProgramme extends Model
@@ -35,22 +35,9 @@ class SessionProgramme extends Model
             ->orderBy('ordre');
     }
 
+    /** The session's visual as a browser can fetch it; see App\Support\Fichier. */
     public function getImageUrlAttribute(): ?string
     {
-        if (! $this->image) {
-            return null;
-        }
-
-        // Three kinds of value live in this column: an address the organiser
-        // pasted in, a file served from the site itself — the images shipped
-        // with the design all start with a slash — and a path on the public
-        // disk, which is what an upload leaves behind. Only the last needs
-        // the disk's URL; prefixing the others with /storage/ was what left
-        // eight broken thumbnails down the programme page.
-        if (str_starts_with($this->image, 'http') || str_starts_with($this->image, '/')) {
-            return $this->image;
-        }
-
-        return Storage::disk('public')->url($this->image);
+        return Fichier::url($this->image);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\StatutInscription;
 use App\Http\Controllers\Controller;
 use App\Models\ArticlePresse;
 use App\Models\Edition;
@@ -13,7 +14,6 @@ use App\Models\Inscription;
 use App\Models\OffreEmploi;
 use App\Models\Partenaire;
 use App\Models\SessionProgramme;
-use App\Enums\StatutInscription;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
 

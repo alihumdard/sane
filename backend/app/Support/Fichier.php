@@ -29,6 +29,18 @@ final class Fichier
             return $chemin;
         }
 
-        return Storage::disk('public')->url($chemin);
+        /*
+         * Reduced to a path: "/storage/partenaires/9f3c.webp".
+         *
+         * The disk builds an absolute URL from ASSET_URL, which names one
+         * host — the server's IP, behind a certificate browsers do not trust.
+         * The site answers on two names, nginx serves /storage/ under both,
+         * and next/image refuses any host not declared in its config. A path
+         * is same-origin wherever the page came from, so it needs none of
+         * that.
+         */
+        $url = Storage::disk('public')->url($chemin);
+
+        return parse_url($url, PHP_URL_PATH) ?: $url;
     }
 }

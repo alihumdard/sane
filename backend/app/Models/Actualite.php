@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Models\Concerns\GenereUnSlug;
+use App\Support\Fichier;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Support\Fichier;
 use Illuminate\Database\Eloquent\Model;
 
 class Actualite extends Model
