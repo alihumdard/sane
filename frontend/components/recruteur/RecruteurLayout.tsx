@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Briefcase, Building2, CalendarClock, ChevronRight, FileText, Home, Sparkles, Users } from "lucide-react";
@@ -65,7 +65,9 @@ export function RecruteurLayout({
   return (
     <RoleGuard roles={["entreprise", "recruteur"]} espace="l'espace recruteur">
       <div className="flex min-h-screen overflow-x-hidden bg-[var(--sane-background)]">
-        <DashboardSidebar items={items} open={menu} onClose={() => setMenu(false)} espace="Espace recruteur" />
+        <Suspense fallback={null}>
+          <DashboardSidebar items={items} open={menu} onClose={() => setMenu(false)} espace="Espace recruteur" />
+        </Suspense>
 
         <div className="flex min-w-0 flex-1 flex-col">
           <DashboardNavbar

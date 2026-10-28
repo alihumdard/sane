@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Support\Fichier;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -43,7 +44,7 @@ class Formation extends Model
         ];
     }
 
-    protected $appends = ['places_restantes', 'complete', 'taux_remplissage'];
+    protected $appends = ['places_restantes', 'complete', 'taux_remplissage', 'image_url'];
 
     public function edition(): BelongsTo
     {
@@ -97,5 +98,11 @@ class Formation extends Model
     public function scopePourEdition(Builder $query, int $editionId): Builder
     {
         return $query->where('edition_id', $editionId);
+    }
+
+    /** The visual as a browser can fetch it; see App\Support\Fichier. */
+    public function getImageUrlAttribute(): ?string
+    {
+        return Fichier::url($this->image);
     }
 }

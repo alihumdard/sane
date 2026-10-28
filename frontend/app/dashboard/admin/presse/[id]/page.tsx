@@ -3,12 +3,13 @@
 import { use } from "react";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { FormulaireRessource } from "@/components/dashboard/FormulaireRessource";
+import { estNouveau } from "@/components/dashboard/ressource";
 import { definition } from "../definition";
 
 /** One record of this resource, at its own address. */
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const nouveau = id === "nouveau";
+  const nouveau = estNouveau(id);
 
   return (
     <AdminPage

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Concerns\GenereUnSlug;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Support\Fichier;
 use Illuminate\Database\Eloquent\Model;
 
 class Actualite extends Model
@@ -17,6 +18,8 @@ class Actualite extends Model
         'titre', 'slug', 'categorie', 'extrait', 'contenu',
         'image', 'auteur', 'publiee', 'publiee_le',
     ];
+
+    protected $appends = ['image_url'];
 
     protected function casts(): array
     {
@@ -34,5 +37,11 @@ class Actualite extends Model
             ->whereNotNull('publiee_le')
             ->where('publiee_le', '<=', now())
             ->orderByDesc('publiee_le');
+    }
+
+    /** The cover as a browser can fetch it; see App\Support\Fichier. */
+    public function getImageUrlAttribute(): ?string
+    {
+        return Fichier::url($this->image);
     }
 }

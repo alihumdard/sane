@@ -16,6 +16,8 @@ export interface ApiPartenaire {
   slug: string;
   type: string;
   logo: string | null;
+  /** The logo as a browser can fetch it; `logo` is the storage key. */
+  logo_url: string | null;
   site_web: string | null;
   description: string | null;
 }
@@ -88,9 +90,9 @@ export function PartnerLogosSection({ initiaux = [] }: { initiaux?: ApiPartenair
           {partenaires.map((p) => {
             const contenu = (
               <>
-                {p.logo ? (
+                {p.logo_url ? (
                   <div className="relative h-14 w-14 sm:h-16 sm:w-16">
-                    <Image src={p.logo} alt={p.nom} fill sizes="64px" className="object-contain" />
+                    <Image src={p.logo_url} alt={p.nom} fill sizes="64px" className="object-contain" />
                   </div>
                 ) : (
                   <span

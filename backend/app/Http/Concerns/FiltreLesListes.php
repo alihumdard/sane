@@ -44,12 +44,30 @@ trait FiltreLesListes
         if ($tri && in_array($tri, $triables, true)) {
             $query->orderBy($tri, $sens);
         } else {
-            $query->latest('id');
+            /*
+             * Newest first is the right default for registrations and
+             * applications, and the wrong one for a list the organisers have
+             * ordered themselves: the FAQ and the programme carry an `ordre`
+             * column and a day, and showed neither.
+             */
+            foreach ($this->triParDefaut() as $colonne => $direction) {
+                $query->orderBy($colonne, $direction);
+            }
         }
 
         $parPage = min(max($request->integer('per_page', 10), 1), 100);
 
         return $query->paginate($parPage)->withQueryString();
+    }
+
+    /**
+     * How a list is ordered when the request asks for nothing.
+     *
+     * @return array<string, string> column => asc|desc
+     */
+    protected function triParDefaut(): array
+    {
+        return ['id' => 'desc'];
     }
 
     /** Pagination shape the frontend table reads. */

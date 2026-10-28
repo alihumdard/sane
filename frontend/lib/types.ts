@@ -8,7 +8,10 @@ export interface ApiFormation {
   lieu: string;
   niveau: string;
   format: string;
+  /** The storage key, which is what the admin form edits. */
   image: string | null;
+  /** The same visual as a browser can fetch it; null when there is none. */
+  image_url: string | null;
   date_debut: string | null;
   date_fin: string | null;
   categorie: { id: number; nom: string; slug: string } | null;
@@ -503,7 +506,10 @@ export interface ApiActualite {
   categorie: string;
   extrait: string | null;
   contenu?: string;
+  /** The storage key, which is what the admin form edits. */
   image: string | null;
+  /** The same cover as a browser can fetch it; null when there is none. */
+  image_url: string | null;
   auteur: string | null;
   publiee_le: string | null;
   vues?: number;

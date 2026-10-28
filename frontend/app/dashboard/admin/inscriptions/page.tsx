@@ -102,8 +102,14 @@ function Contenu() {
   const [enCours, setEnCours] = useState<number | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
+  /*
+   * The API answers this filter with {value, label} pairs, as it does for the
+   * statuses. Reading them as plain strings put objects in the <option>, and
+   * React takes the whole page down with "Objects are not valid as a React
+   * child" the moment the list arrives.
+   */
   const participations = Array.isArray(table.filtresApi.type_participation)
-    ? (table.filtresApi.type_participation as string[])
+    ? (table.filtresApi.type_participation as { value: string; label: string }[])
     : [];
 
   async function changerStatut(i: ApiInscription, statut: StatutInscription) {
@@ -285,8 +291,8 @@ function Contenu() {
             >
               <option value="">Toutes les participations</option>
               {participations.map((p) => (
-                <option key={p} value={p}>
-                  {p}
+                <option key={p.value} value={p.value}>
+                  {p.label}
                 </option>
               ))}
             </select>

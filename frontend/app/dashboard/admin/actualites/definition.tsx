@@ -9,6 +9,7 @@ export interface Actualite {
   categorie: string;
   extrait: string | null;
   contenu: string;
+  image: string | null;
   auteur: string | null;
   publiee: boolean;
   publiee_le: string | null;
@@ -87,6 +88,9 @@ export const definition: DefinitionRessource<Actualite> = {
   cle: (a) => a.id,
   nomDe: (a) => a.titre,
   versFormulaire: (a) => ({
+    // Carried through, or the cover disappeared from the form the moment the
+    // article was saved — invisible to look at and impossible to replace.
+    image: a.image ?? "",
     titre: a.titre,
     categorie: a.categorie,
     auteur: a.auteur ?? "",

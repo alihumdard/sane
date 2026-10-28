@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Concerns\GenereUnSlug;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Support\Fichier;
 use Illuminate\Database\Eloquent\Model;
 
 class Partenaire extends Model
@@ -14,6 +15,8 @@ class Partenaire extends Model
     protected $fillable = [
         'nom', 'slug', 'type', 'logo', 'site_web', 'description', 'ordre', 'publie',
     ];
+
+    protected $appends = ['logo_url'];
 
     protected function casts(): array
     {
@@ -31,5 +34,11 @@ class Partenaire extends Model
     public function scopePublics(Builder $query): Builder
     {
         return $query->where('publie', true)->orderBy('ordre')->orderBy('nom');
+    }
+
+    /** The logo as a browser can fetch it; see App\Support\Fichier. */
+    public function getLogoUrlAttribute(): ?string
+    {
+        return Fichier::url($this->logo);
     }
 }

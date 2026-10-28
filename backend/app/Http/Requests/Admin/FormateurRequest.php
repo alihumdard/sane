@@ -27,6 +27,10 @@ class FormateurRequest extends FormRequest
             'telephone' => ['nullable', 'string', 'max:20'],
             'fonction' => ['nullable', 'string', 'max:150'],
             'organisation' => ['nullable', 'string', 'max:200'],
+            // The filter on the public Intervenants page works on this. The
+            // column and the model accepted it; the form request did not, so
+            // every sector an organiser chose was silently thrown away.
+            'secteur' => ['nullable', 'string', 'max:150'],
             'bio' => ['nullable', 'string', 'max:3000'],
             'photo' => ['nullable', 'string', 'max:255'],
         ];

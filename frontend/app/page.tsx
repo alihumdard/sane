@@ -55,7 +55,7 @@ export default async function Home() {
     slug: f.slug,
     duree: f.duree,
     places: f.complete ? "Complet" : `${f.places_restantes} places`,
-    image: f.image ?? imagesParCategorie[f.categorie?.nom ?? ""] ?? imageParDefaut,
+    image: f.image_url ?? imagesParCategorie[f.categorie?.nom ?? ""] ?? imageParDefaut,
   }));
 
   const chiffres: ChiffresAccueil | null = stats

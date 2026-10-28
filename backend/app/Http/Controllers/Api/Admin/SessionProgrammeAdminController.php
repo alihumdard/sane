@@ -26,7 +26,9 @@ class SessionProgrammeAdminController extends ContenuAdminController
             'lieu' => ['nullable', 'string', 'max:150'],
             'intervenants' => ['nullable', 'string', 'max:300'],
             'image' => ['nullable', 'string', 'max:255'],
-            'ordre' => ['integer', 'min:0', 'max:999'],
+            // Nullable: an empty field arrives as null, and refusing it made
+            // the display order a required question on every new record.
+            'ordre' => ['nullable', 'integer', 'min:0', 'max:999'],
             'publiee' => ['boolean'],
         ];
     }
@@ -38,6 +40,14 @@ class SessionProgrammeAdminController extends ContenuAdminController
             'heure_debut.date_format' => "L'heure de début doit être au format HH:MM.",
             'heure_fin.date_format' => "L'heure de fin doit être au format HH:MM.",
         ];
+    }
+
+    /** A record saved without a position goes to the end of its list. */
+    protected function preparer(array $donnees, Request $request): array
+    {
+        $donnees['ordre'] ??= 0;
+
+        return $donnees;
     }
 
     protected function recherchables(): array
@@ -53,6 +63,11 @@ class SessionProgrammeAdminController extends ContenuAdminController
     protected function triables(): array
     {
         return ['jour', 'heure_debut', 'ordre', 'created_at'];
+    }
+
+    protected function triParDefaut(): array
+    {
+        return ['jour' => 'asc', 'heure_debut' => 'asc', 'ordre' => 'asc'];
     }
 
     protected function metaSupplementaire(): array

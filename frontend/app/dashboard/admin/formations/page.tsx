@@ -11,8 +11,13 @@ import { Publie } from "@/components/dashboard/Publie";
 import { useApiTable } from "@/components/dashboard/useApiTable";
 import { api, ApiError } from "@/lib/api";
 import type { ApiFormation } from "@/lib/types";
+import { FORMATS, NIVEAUX } from "./listes";
 
 const BASE = "/dashboard/admin/formations";
+
+
+const selectClass =
+  "rounded-xl border border-[var(--sane-border)] bg-white px-3 py-2 text-[12.5px] text-[var(--sane-text)] outline-none transition-colors focus:border-[var(--sane-green)]";
 
 /**
  * The course catalogue.
@@ -23,8 +28,13 @@ const BASE = "/dashboard/admin/formations";
  * pagination now resolve on the server, and the form is a page of its own.
  */
 export default function FormationsAdminPage() {
+  // Declared and offered: the two filters were passed to the table with no
+  // control to set them, so the API's support for them went unused.
+  const [filtreNiveau, setFiltreNiveau] = useState("");
+  const [filtreFormat, setFiltreFormat] = useState("");
+
   const table = useApiTable<ApiFormation>("/admin/formations", {
-    filtres: { niveau: "", format: "" },
+    filtres: { niveau: filtreNiveau, format: filtreFormat },
   });
 
   const [aSupprimer, setASupprimer] = useState<ApiFormation | null>(null);
@@ -209,6 +219,37 @@ export default function FormationsAdminPage() {
         cle={(f) => f.id}
         vide="Aucune formation au catalogue. Ajoutez-en une pour remplir la page Formations."
         rechercheLabel="Rechercher une formation…"
+        filtres={
+          <>
+            <select
+              value={filtreNiveau}
+              onChange={(e) => setFiltreNiveau(e.target.value)}
+              aria-label="Filtrer par niveau"
+              className={selectClass}
+            >
+              <option value="">Tous les niveaux</option>
+              {NIVEAUX.map((n) => (
+                <option key={n} value={n}>
+                  {n}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={filtreFormat}
+              onChange={(e) => setFiltreFormat(e.target.value)}
+              aria-label="Filtrer par format"
+              className={selectClass}
+            >
+              <option value="">Tous les formats</option>
+              {FORMATS.map((f) => (
+                <option key={f} value={f}>
+                  {f}
+                </option>
+              ))}
+            </select>
+          </>
+        }
       />
     </AdminPage>
   );

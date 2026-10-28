@@ -10,12 +10,9 @@ import { Spinner, SpinnerOu } from "@/components/dashboard/Spinner";
 import { Alerte } from "@/components/ui/Alerte";
 import { api, ApiError } from "@/lib/api";
 import type { AdminFormationsResponse, ApiFormation, FormationPayload } from "@/lib/types";
+import { FORMATS, NIVEAUX } from "../listes";
 
 const BASE = "/dashboard/admin/formations";
-
-/** Closed lists: typed by hand they filter nothing and read inconsistently. */
-const NIVEAUX = ["Débutant", "Intermédiaire", "Avancé", "Tous niveaux"];
-const FORMATS = ["Présentiel", "En ligne", "Hybride"];
 
 const champClass =
   "w-full rounded-xl border border-[var(--sane-border)] bg-white px-3 py-2.5 text-[13px] text-[var(--sane-text)] outline-none transition-colors placeholder:text-[var(--sane-text-light)]/60 focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10";

@@ -42,7 +42,7 @@ export default async function ActualitesPage() {
 
   const initiaux: ArticleAffiche[] = articles.map((a) => ({
     slug: a.slug,
-    image: a.image ?? "/sane_deal.webp",
+    image: a.image_url ?? "/sane_deal.webp",
     date: a.publiee_le
       ? new Date(a.publiee_le).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })
       : "",

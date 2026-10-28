@@ -318,7 +318,7 @@ img {
   }
 }
 /* ── Responsive tables: on phones every row becomes a card ──
-   (labels come from <th> via components/dashboard/TableLabels) */
+   (each cell carries its column name as data-label; AdminTable writes it) */
 @media (max-width: 767px) {
   .overflow-x-auto > table {
     display: block;

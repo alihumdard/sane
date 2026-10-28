@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight, Home } from "lucide-react";
@@ -58,7 +58,9 @@ export function AdminPage({ section, titre, description, actions, retour, childr
           on the thirteen that went through this component the button was wired
           to nothing and the menu could not be opened on a phone at all.
         */}
-        <DashboardSidebar items={adminNav(active)} open={menu} onClose={() => setMenu(false)} />
+        <Suspense fallback={null}>
+          <DashboardSidebar items={adminNav(active)} open={menu} onClose={() => setMenu(false)} />
+        </Suspense>
 
         <div className="flex min-w-0 flex-1 flex-col">
           <DashboardNavbar onMenuClick={() => setMenu(true)} />

@@ -1,9 +1,9 @@
 ﻿"use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronDown, LogOut, X } from "lucide-react";
 import type { ReactNode } from "react";
 import { useAuth } from "@/lib/auth";
@@ -51,13 +51,15 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
    * first paint matches what the server sent; the highlight corrects itself
    * immediately after.
    */
-  const [requete, setRequete] = useState("");
-
-  useEffect(() => {
-    const vu = window.location.search;
-
-    queueMicrotask(() => setRequete(vu));
-  }, [pathname]);
+  /*
+   * The query string, for the sub-entries that differ only by it: Emploi's
+   * three lists share one path and are told apart by ?onglet=.
+   *
+   * This is why the shells wrap the sidebar in a Suspense boundary — reading
+   * the query is what asks for one.
+   */
+  const params = useSearchParams();
+  const requete = params.size > 0 ? "?" + params.toString() : "";
 
   async function seDeconnecter() {
     onClose?.();
@@ -183,7 +185,9 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
                   }
                 >
                   {item.subItems?.map((sub) => {
-                    const actif = sub.href === pathname + requete || sub.href === pathname;
+                    // The whole address, query included: Emploi's three
+                    // lists share one path and differ only by ?onglet=.
+                    const actif = sub.href === pathname + requete;
 
                     return (
                       <Link

@@ -27,12 +27,6 @@ const nextConfig: NextConfig = {
             },
           ]
         : []),
-      // Placeholder avatars and photos still used by the dashboard screens
-      // that have not been wired to real data yet. Remove these once those
-      // pages serve uploads from the API.
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "randomuser.me" },
-      { protocol: "https", hostname: "picsum.photos" },
     ],
   },
 

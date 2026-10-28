@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Formateur;
+use App\Support\Fichier;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * The speakers, for the public page.
@@ -33,26 +33,8 @@ class IntervenantController extends Controller
                 'fonction' => $f->fonction,
                 'organisation' => $f->organisation,
                 'bio' => $f->bio,
-                'photo' => $this->photo($f->photo),
+                'photo' => Fichier::url($f->photo),
             ]),
         ]);
-    }
-
-    /**
-     * Seeded speakers point at images shipped with the frontend (/images/...);
-     * uploaded ones hold a path on the public disk. Both have to come back as
-     * something the browser can fetch.
-     */
-    private function photo(?string $chemin): ?string
-    {
-        if (! $chemin) {
-            return null;
-        }
-
-        if (str_starts_with($chemin, 'http') || str_starts_with($chemin, '/')) {
-            return $chemin;
-        }
-
-        return Storage::disk('public')->url($chemin);
     }
 }

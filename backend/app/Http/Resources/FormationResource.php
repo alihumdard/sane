@@ -22,6 +22,7 @@ class FormationResource extends JsonResource
             'niveau' => $this->niveau,
             'format' => $this->format,
             'image' => $this->image,
+            'image_url' => $this->image_url,
             'date_debut' => $this->date_debut?->toDateString(),
             'date_fin' => $this->date_fin?->toDateString(),
 

@@ -7,7 +7,7 @@ import { Save } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { ChampImage } from "./ChampImage";
 import { Spinner, SpinnerOu } from "./Spinner";
-import { formulaireVierge, type ChampFormulaire, type DefinitionRessource } from "./ressource";
+import { estNouveau, formulaireVierge, type ChampFormulaire, type DefinitionRessource } from "./ressource";
 import { api, ApiError } from "@/lib/api";
 
 const champClass =
@@ -22,7 +22,7 @@ const champClass =
  */
 export function FormulaireRessource<T>({ def, id }: { def: DefinitionRessource<T>; id: string }) {
   const router = useRouter();
-  const nouveau = id === "nouveau" || !/^\d+$/.test(id);
+  const nouveau = estNouveau(id);
   const numero = nouveau ? null : Number(id);
 
   const [form, setForm] = useState<Record<string, unknown>>(() => formulaireVierge(def.champs));

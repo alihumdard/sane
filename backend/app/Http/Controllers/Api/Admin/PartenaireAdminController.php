@@ -21,9 +21,19 @@ class PartenaireAdminController extends ContenuAdminController
             'logo' => ['nullable', 'string', 'max:255'],
             'site_web' => ['nullable', 'url', 'max:255'],
             'description' => ['nullable', 'string', 'max:2000'],
-            'ordre' => ['integer', 'min:0', 'max:999'],
+            // Nullable: an empty field arrives as null, and refusing it made
+            // the display order a required question on every new record.
+            'ordre' => ['nullable', 'integer', 'min:0', 'max:999'],
             'publie' => ['boolean'],
         ];
+    }
+
+    /** A record saved without a position goes to the end of its list. */
+    protected function preparer(array $donnees, Request $request): array
+    {
+        $donnees['ordre'] ??= 0;
+
+        return $donnees;
     }
 
     protected function recherchables(): array
@@ -34,6 +44,11 @@ class PartenaireAdminController extends ContenuAdminController
     protected function filtrables(): array
     {
         return ['type'];
+    }
+
+    protected function triParDefaut(): array
+    {
+        return ['ordre' => 'asc', 'nom' => 'asc'];
     }
 
     protected function triables(): array

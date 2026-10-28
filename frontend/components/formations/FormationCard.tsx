@@ -13,7 +13,7 @@ function libellePlaces(f: ApiFormation): string {
 
 export function FormationCard({ formation: f }: { formation: ApiFormation }) {
   const categorie = f.categorie?.nom ?? "";
-  const img = f.image ?? imagesParCategorie[categorie] ?? imageParDefaut;
+  const img = f.image_url ?? imagesParCategorie[categorie] ?? imageParDefaut;
 
   const facts = [
     { icon: Clock, text: f.duree },

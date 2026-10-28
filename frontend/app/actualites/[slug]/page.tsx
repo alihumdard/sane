@@ -115,11 +115,11 @@ export default async function ActualitePage({
 
             <div
               className={`relative mb-8 h-[220px] overflow-hidden rounded-2xl sm:h-[360px] ${
-                article.image ? "block" : "hidden"
+                article.image_url ? "block" : "hidden"
               }`}
             >
               <Image
-                src={article.image ?? "/sane_deal.webp"}
+                src={article.image_url ?? "/sane_deal.webp"}
                 alt={article.titre}
                 fill
                 sizes="(max-width: 780px) 100vw, 780px"

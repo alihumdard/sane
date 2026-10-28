@@ -69,3 +69,14 @@ export function formulaireVierge(champs: ChampFormulaire[]): Record<string, unkn
     champs.map((c) => [c.nom, c.defaut ?? (c.type === "checkbox" ? false : "")])
   );
 }
+
+/**
+ * Whether a URL segment names a record to edit or a record to create.
+ *
+ * Shared because the form and the page around it each had their own test: a
+ * segment that was neither "nouveau" nor a number gave a page headed
+ * "Modifier" with an "Enregistrer" button that created a second record.
+ */
+export function estNouveau(id: string): boolean {
+  return id === "nouveau" || !/^\d+$/.test(id);
+}

@@ -8,7 +8,14 @@ import { couleurPartenaire, initiales } from "@/components/partenaires/data";
 export interface PartenairePublic {
   id: number;
   nom: string;
-  logo: string | null;
+  /**
+   * The logo as a browser can fetch it.
+   *
+   * Not the `logo` column, which holds a storage key with no leading slash
+   * for anything uploaded from the back-office — `next/image` refuses a
+   * relative path and took the page down with it.
+   */
+  logo_url: string | null;
   site_web: string | null;
 }
 
@@ -52,9 +59,9 @@ export function PartnersSection({ partenaires = [] }: { partenaires?: Partenaire
           {partenaires.map((p) => {
             const contenu = (
               <>
-                <div className={"relative h-12 w-full sm:h-14 " + (p.logo ? "block" : "hidden")}>
+                <div className={"relative h-12 w-full sm:h-14 " + (p.logo_url ? "block" : "hidden")}>
                   <Image
-                    src={p.logo ?? "/new-logo.png"}
+                    src={p.logo_url ?? "/new-logo.png"}
                     alt=""
                     fill
                     sizes="(min-width: 768px) 20vw, (min-width: 640px) 33vw, 50vw"
@@ -66,7 +73,7 @@ export function PartnersSection({ partenaires = [] }: { partenaires?: Partenaire
                   aria-hidden
                   className={
                     "h-12 w-12 items-center justify-center rounded-full text-[13px] font-extrabold text-white sm:h-14 sm:w-14 " +
-                    (p.logo ? "hidden" : "flex")
+                    (p.logo_url ? "hidden" : "flex")
                   }
                   style={{ backgroundColor: couleurPartenaire(p.nom) }}
                 >

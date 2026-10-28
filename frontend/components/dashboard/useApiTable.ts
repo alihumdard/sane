@@ -21,9 +21,9 @@ interface Options {
  * Server-backed table state: search, filters, sorting and pagination all
  * resolve in the API.
  *
- * The existing useTable hook sorts and filters a static array in the browser,
- * which cannot work once a list outgrows one page — this is its API-backed
- * counterpart, matching the query contract FiltreLesListes already reads.
+ * It replaced a hook that sorted and filtered a static array in the browser,
+ * which cannot work once a list outgrows one page. The query contract is the
+ * one FiltreLesListes already reads.
  */
 export function useApiTable<T>(endpoint: string, options: Options = {}) {
   const { filtres = {}, perPage = 15 } = options;
@@ -51,6 +51,23 @@ export function useApiTable<T>(endpoint: string, options: Options = {}) {
   }, [recherche]);
 
   const cleFiltres = JSON.stringify(filtres);
+
+  /*
+   * Back to the first page whenever the filters change.
+   *
+   * Narrowing a list from page 3 asked the API for a page that no longer
+   * existed: it answered an empty set with last_page 1, the pagination hid
+   * itself, and the admin was left looking at an empty table with nothing to
+   * click.
+   */
+  const filtresPrecedents = useRef(cleFiltres);
+
+  useEffect(() => {
+    if (filtresPrecedents.current === cleFiltres) return;
+
+    filtresPrecedents.current = cleFiltres;
+    queueMicrotask(() => setPage(1));
+  }, [cleFiltres]);
 
   // Guards against a slower earlier response overwriting a newer one.
   const jetonCourant = useRef(0);
