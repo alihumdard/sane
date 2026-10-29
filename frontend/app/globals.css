@@ -436,6 +436,24 @@ img {
   animation: sane-ruban 9s linear infinite;
 }
 
+/* The shine crossing the coloured bar at the top of a stat tile. Four tiles
+   sit side by side, so each accent starts at a different moment — otherwise
+   the whole row flashes in step, which reads as an error rather than a
+   finish. */
+
+@keyframes sane-eclat {
+  0% {
+    transform: translateX(-140%);
+  }
+  55%, 100% {
+    transform: translateX(520%);
+  }
+}
+
+.sane-eclat {
+  animation: sane-eclat 4.5s cubic-bezier(0.45, 0, 0.3, 1) infinite;
+}
+
 @keyframes sane-pulsation {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.45; }
@@ -475,6 +493,7 @@ img {
   .sane-derive-a,
   .sane-derive-b,
   .sane-ruban,
+  .sane-eclat,
   .sane-en-attente {
     animation: none;
   }

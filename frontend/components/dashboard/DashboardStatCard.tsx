@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { ACCENTS, type Accent } from "./accents";
+import { ACCENTS, DEPART, type Accent } from "./accents";
 
 interface Props {
   icon: ReactNode;
@@ -25,15 +25,29 @@ interface Props {
  * clickable, so half the grid looked inert.
  */
 export function DashboardStatCard({ icon, value, label, accent, href, note }: Props) {
-  const { fond: bg, trait: fg } = ACCENTS[accent];
+  const { fond: bg, trait: fg, lueur } = ACCENTS[accent];
 
   const contenu = (
-    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white p-5 shadow-[0_1px_2px_rgba(16,35,26,0.04)] transition-all duration-200 hover:-translate-y-1 hover:border-[var(--sane-green-muted)] hover:shadow-[0_18px_38px_-16px_rgba(16,99,45,0.45)]">
-      {/* Catches the light along the top edge. */}
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white pb-5 pl-5 pr-5 pt-6 shadow-[0_1px_2px_rgba(16,35,26,0.04)] transition-all duration-200 hover:-translate-y-1 hover:border-[var(--sane-green-muted)] hover:shadow-[0_18px_38px_-16px_rgba(16,99,45,0.45)]">
+      {/*
+        The tile's colour as a bar across its top, with a shine crossing it
+        again and again. The four accents were only a tinted square behind an
+        icon before, which a row of tiles did not read as colour at all.
+      */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-[var(--sane-green-muted)] to-transparent opacity-0 transition-opacity group-hover:opacity-100"
-      />
+        className="pointer-events-none absolute inset-x-0 top-0 h-[3px] overflow-hidden"
+        style={{ backgroundColor: fg, boxShadow: "0 1px 10px " + lueur }}
+      >
+        <span
+          className="sane-eclat absolute inset-y-0 w-1/4"
+          style={{
+            animationDelay: DEPART[accent],
+            backgroundImage:
+              "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.85) 50%, transparent 100%)",
+          }}
+        />
+      </span>
       {/* A wash of the tile's own colour, so the four accents read as a set. */}
       <span
         aria-hidden
