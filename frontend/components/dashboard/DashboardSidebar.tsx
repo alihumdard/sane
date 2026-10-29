@@ -115,7 +115,7 @@ export default function DashboardSidebar({ items, open = false, onClose, replie 
         <Link
           href="/"
           title="Voir le site public"
-          className="group relative flex shrink-0 items-center justify-center overflow-hidden px-2 py-3.5"
+          className="group relative flex shrink-0 items-center justify-center overflow-hidden px-2 py-2"
           style={{
             backgroundImage:
               "linear-gradient(180deg, rgba(16,99,45,0.055) 0%, rgba(16,99,45,0.015) 55%, transparent 100%)",
@@ -172,7 +172,7 @@ export default function DashboardSidebar({ items, open = false, onClose, replie 
           />
         </Link>
 
-        <nav className="sane-colonne flex-1 overflow-y-auto px-3 py-3">
+        <nav className="sane-colonne flex-1 overflow-y-auto px-3 py-2">
           {items.map((item) => {
             const expansible = Boolean(item.subItems?.length);
             const deplie = expansible && ouvert(item);
@@ -182,7 +182,7 @@ export default function DashboardSidebar({ items, open = false, onClose, replie 
               <>
                 <span
                   className={
-                    "sane-fleche flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-colors " +
+                    "sane-fleche flex h-6 w-6 shrink-0 items-center justify-center rounded-lg transition-colors " +
                     (ici
                       ? "bg-white text-[var(--sane-green)] shadow-[0_1px_2px_rgba(16,99,45,0.18)]"
                       : "text-[var(--sane-text-light)] group-hover:text-[var(--sane-green)]")
@@ -217,7 +217,7 @@ export default function DashboardSidebar({ items, open = false, onClose, replie 
             );
 
             const classe =
-              "group relative mb-0.5 flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left font-semibold transition-all " +
+              "group relative flex w-full items-center gap-2.5 rounded-xl px-3 py-[7px] text-left font-semibold transition-all " +
               (replie ? "lg:justify-center lg:px-0 " : "") +
               (ici
                 ? "bg-[var(--sane-green-light)] text-[var(--sane-green)] shadow-[inset_3px_0_0_var(--sane-green)]"
@@ -227,7 +227,7 @@ export default function DashboardSidebar({ items, open = false, onClose, replie 
               <div key={item.label}>
                 <p
                   className={
-                    "mt-3 border-t border-[var(--sane-border)]/70 px-3 pb-2 pt-4 text-[9.5px] font-bold uppercase tracking-[0.12em] text-[var(--sane-text-light)]/60 " +
+                    "mt-2 border-t border-[var(--sane-border)]/70 px-3 pb-1 pt-2.5 text-[9.5px] font-bold uppercase tracking-[0.12em] text-[var(--sane-text-light)]/60 " +
                     (item.groupe ? "block " : "hidden ") +
                     (replie ? "lg:hidden" : "")
                   }
@@ -263,7 +263,7 @@ export default function DashboardSidebar({ items, open = false, onClose, replie 
                 */}
                 <div
                   className={
-                    "mb-1.5 ml-[26px] space-y-[1px] border-l-2 border-[var(--sane-green-light)] pl-2.5 " +
+                    "mb-1 ml-[26px] border-l-2 border-[var(--sane-green-light)] pl-2.5 " +
                     (deplie ? "block " : "hidden ") +
                     (replie ? "lg:hidden" : "")
                   }
@@ -279,7 +279,7 @@ export default function DashboardSidebar({ items, open = false, onClose, replie 
                         href={sub.href}
                         onClick={onClose}
                         className={
-                          "flex items-center gap-2 rounded-lg px-2.5 py-[7px] text-[11.5px] transition-colors " +
+                          "flex items-center gap-2 rounded-lg px-2.5 py-[5px] text-[11.5px] transition-colors " +
                           (actif
                             ? "bg-[var(--sane-green-light)]/70 font-semibold text-[var(--sane-green)]"
                             : "text-[var(--sane-text-light)] hover:bg-[var(--sane-background)] hover:text-[var(--sane-green)]")
@@ -302,7 +302,7 @@ export default function DashboardSidebar({ items, open = false, onClose, replie 
           })}
         </nav>
 
-        <div className="shrink-0 border-t border-[var(--sane-border)] p-3">
+        <div className="shrink-0 border-t border-[var(--sane-border)] p-2.5">
           {/*
             One row rather than two: the account above and a red line beneath
             it saying "Se déconnecter" took the height of two controls to do
