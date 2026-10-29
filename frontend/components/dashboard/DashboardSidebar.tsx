@@ -140,10 +140,10 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
           <Image
             src="/new-logo.png"
             alt="SANEM"
-            width={148}
-            height={55}
+            width={112}
+            height={42}
             priority
-            className="relative h-auto w-[148px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+            className="relative h-auto w-[112px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
           />
 
           <span className="relative inline-flex items-center gap-1.5 rounded-full border border-[var(--sane-green-muted)]/60 bg-white px-3 py-[5px] text-[9px] font-bold uppercase tracking-[0.16em] text-[var(--sane-green)] shadow-[0_1px_2px_rgba(16,99,45,0.08)]">

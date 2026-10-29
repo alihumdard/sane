@@ -48,10 +48,10 @@ export function Header() {
           <Image
             src="/new-logo.png"
             alt="SANEM Logo"
-            width={108}
-            height={40}
+            width={54}
+            height={20}
             priority
-            className="h-9 w-auto sm:h-10"
+            className="h-[18px] w-auto sm:h-5"
           />
           <span className="h-8 w-px bg-[var(--sane-border)] hidden sm:block" />
           <Image
