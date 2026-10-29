@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChevronDown, LogOut, X } from "lucide-react";
+import { ChevronDown, ExternalLink, LogOut, X } from "lucide-react";
 import type { ReactNode } from "react";
 import { useAuth } from "@/lib/auth";
 
@@ -114,26 +114,56 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
         <Link
           href="/"
           title="Voir le site public"
-          className="group relative flex shrink-0 flex-col items-center gap-2.5 overflow-hidden border-b border-[var(--sane-border)] px-5 pb-4 pt-5"
+          className="group relative flex shrink-0 flex-col items-center gap-3 overflow-hidden px-5 pb-5 pt-6"
+          style={{
+            backgroundImage:
+              "linear-gradient(180deg, rgba(16,99,45,0.055) 0%, rgba(16,99,45,0.015) 55%, transparent 100%)",
+          }}
         >
           <span
             aria-hidden
-            className="pointer-events-none absolute -top-16 left-1/2 h-32 w-48 -translate-x-1/2 rounded-full bg-[var(--sane-green)]/10 blur-2xl transition-opacity duration-300 group-hover:opacity-70"
+            className="pointer-events-none absolute -top-20 left-1/2 h-40 w-56 -translate-x-1/2 rounded-full bg-[var(--sane-green)]/12 blur-3xl transition-opacity duration-500 group-hover:opacity-75"
           />
+
+          {/*
+            Appears on hover rather than sitting there: the block has always
+            led to the public site and nothing said so, but a permanent icon
+            over a logo reads as part of the mark.
+          */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute right-3 top-3 text-[var(--sane-green)] opacity-0 transition-opacity duration-200 group-hover:opacity-70"
+          >
+            <ExternalLink size={13} />
+          </span>
 
           <Image
             src="/new-logo.png"
             alt="SANEM"
-            width={128}
-            height={86}
+            width={124}
+            height={83}
             priority
-            className="relative h-auto w-[128px] object-contain transition-transform duration-300 group-hover:scale-[1.04]"
+            className="relative h-auto w-[124px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
           />
 
-          <span className="relative inline-flex items-center gap-1.5 rounded-full bg-[var(--sane-green-light)] px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-[0.14em] text-[var(--sane-green)]">
-            <span aria-hidden className="h-1 w-1 rounded-full bg-[var(--sane-orange)]" />
+          <span className="relative inline-flex items-center gap-1.5 rounded-full border border-[var(--sane-green-muted)]/60 bg-white px-3 py-[5px] text-[9px] font-bold uppercase tracking-[0.16em] text-[var(--sane-green)] shadow-[0_1px_2px_rgba(16,99,45,0.08)]">
+            <span aria-hidden className="h-[5px] w-[5px] rounded-full bg-[var(--sane-orange)]" />
             {espace}
           </span>
+
+          {/*
+            The brand's two colours as the edge of the block, instead of the
+            same grey hairline that separates everything else.
+          */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px]"
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, transparent 0%, var(--sane-green) 28%, var(--sane-orange) 72%, transparent 100%)",
+              opacity: 0.5,
+            }}
+          />
         </Link>
 
         <nav className="sane-colonne flex-1 overflow-y-auto px-3 py-3">
