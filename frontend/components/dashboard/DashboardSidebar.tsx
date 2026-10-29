@@ -114,7 +114,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
         <Link
           href="/"
           title="Voir le site public"
-          className="group relative flex shrink-0 flex-col items-center gap-2.5 overflow-hidden px-4 pb-3 pt-3.5"
+          className="group relative flex shrink-0 flex-col items-center gap-1.5 overflow-hidden px-4 pb-2.5 pt-3"
           style={{
             backgroundImage:
               "linear-gradient(180deg, rgba(16,99,45,0.055) 0%, rgba(16,99,45,0.015) 55%, transparent 100%)",
@@ -140,10 +140,10 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
           <Image
             src="/new-logo.png"
             alt="SANEM"
-            width={168}
-            height={62}
+            width={112}
+            height={42}
             priority
-            className="relative h-auto w-full max-w-[168px] object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+            className="relative h-auto w-[112px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
           />
 
           <span className="relative inline-flex items-center gap-1.5 rounded-full border border-[var(--sane-green-muted)]/60 bg-white px-3 py-[5px] text-[9px] font-bold uppercase tracking-[0.16em] text-[var(--sane-green)] shadow-[0_1px_2px_rgba(16,99,45,0.08)]">
