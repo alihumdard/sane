@@ -157,23 +157,20 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
             travelling along it, over and over, so the panel has one thing in
             it that is alive.
           */}
-          <span aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px] overflow-hidden">
-            <span
-              className="absolute inset-0"
-              style={{
-                backgroundImage:
-                  "linear-gradient(90deg, transparent 0%, var(--sane-green) 28%, var(--sane-orange) 72%, transparent 100%)",
-                opacity: 0.5,
-              }}
-            />
-            <span
-              className="sane-balayage absolute inset-y-0 w-2/5"
-              style={{
-                backgroundImage:
-                  "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.95) 50%, transparent 100%)",
-              }}
-            />
-          </span>
+          <span
+            aria-hidden
+            className="sane-ruban pointer-events-none absolute inset-x-0 bottom-0 h-[2px]"
+            style={{
+              // The two brand colours, repeated, flowing along the edge. The
+              // mask fades both ends so it reads as an edge rather than as a
+              // bar drawn across the panel.
+              backgroundImage:
+                "linear-gradient(90deg, var(--sane-green), var(--sane-orange), var(--sane-green), var(--sane-orange), var(--sane-green))",
+              backgroundSize: "200% 100%",
+              maskImage: "linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent)",
+              WebkitMaskImage: "linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent)",
+            }}
+          />
         </Link>
 
         <nav className="sane-colonne flex-1 overflow-y-auto px-3 py-3">
