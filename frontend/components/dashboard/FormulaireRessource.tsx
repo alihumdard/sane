@@ -192,7 +192,7 @@ export function FormulaireRessource<T>({ def, id }: { def: DefinitionRessource<T
   }
 
   return (
-    <form onSubmit={enregistrer} className="max-w-[820px]">
+    <form onSubmit={enregistrer}>
       <Alerte texte={erreur} className="mb-4" />
 
       <p className={"items-center gap-2 py-10 " + (chargement ? "flex" : "hidden")}>
@@ -206,11 +206,11 @@ export function FormulaireRessource<T>({ def, id }: { def: DefinitionRessource<T
           (chargement ? "hidden" : "block")
         }
       >
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {def.champs.map((c) => (
             <div
               key={c.nom}
-              className={c.pleineLargeur || c.type === "textarea" || c.type === "image" ? "sm:col-span-2" : ""}
+              className={c.pleineLargeur || c.type === "textarea" || c.type === "image" ? "sm:col-span-2 xl:col-span-3" : ""}
             >
               <p
                 className={

@@ -164,7 +164,7 @@ function Contenu() {
 
   if (edition !== null) {
     return (
-      <form onSubmit={enregistrer} className="max-w-[680px] rounded-2xl border border-[var(--sane-border)] bg-white p-5 sm:p-6">
+      <form onSubmit={enregistrer} className="rounded-2xl border border-[var(--sane-border)] bg-white p-5 shadow-[0_1px_2px_rgba(16,35,26,0.04),0_8px_24px_-16px_rgba(16,99,45,0.18)] sm:p-7">
         <div className="mb-5 flex items-center justify-between">
           <h2 className="text-[16px] font-bold text-[var(--sane-text)]">
             {edition === "nouvelle" ? "Nouvelle édition" : `Modifier l'édition ${(edition as ApiEdition).annee}`}
@@ -176,7 +176,7 @@ function Contenu() {
 
         <Alerte texte={erreur} className="mb-4" />
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
           <div>
             <label htmlFor="annee" className={etiquette}>Année *</label>
             <input
@@ -197,7 +197,7 @@ function Contenu() {
             />
           </div>
 
-          <div className="sm:col-span-2">
+          <div className="sm:col-span-2 xl:col-span-3">
             <label htmlFor="nom" className={etiquette}>Nom de l&apos;événement *</label>
             <input
               id="nom" required value={form.nom}
@@ -227,7 +227,7 @@ function Contenu() {
             {champsEnErreur.date_fin && <p className="mt-1 text-[12px] text-[var(--sane-red-dark)]">{champsEnErreur.date_fin}</p>}
           </div>
 
-          <label className="flex items-start gap-2.5 rounded-xl bg-[var(--sane-background)] p-3 sm:col-span-2">
+          <label className="flex items-start gap-2.5 rounded-xl bg-[var(--sane-background)] p-3 sm:col-span-2 xl:col-span-3">
             <input
               type="checkbox" checked={Boolean(form.active)}
               onChange={(e) => setForm((f) => ({ ...f, active: e.target.checked }))}
@@ -239,7 +239,7 @@ function Contenu() {
             </span>
           </label>
 
-          <label className="flex items-start gap-2.5 rounded-xl bg-[var(--sane-background)] p-3 sm:col-span-2">
+          <label className="flex items-start gap-2.5 rounded-xl bg-[var(--sane-background)] p-3 sm:col-span-2 xl:col-span-3">
             <input
               type="checkbox" checked={Boolean(form.inscriptions_ouvertes)}
               onChange={(e) => setForm((f) => ({ ...f, inscriptions_ouvertes: e.target.checked }))}

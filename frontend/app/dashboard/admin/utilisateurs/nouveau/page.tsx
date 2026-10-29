@@ -80,12 +80,12 @@ export default function NouvelUtilisateurPage() {
       description="Pour les comptes que l'inscription publique ne permet pas de créer : organisateurs et administrateurs."
       retour={{ href: BASE, label: "Retour aux utilisateurs" }}
     >
-      <form onSubmit={enregistrer} className="max-w-[620px]">
+      <form onSubmit={enregistrer}>
         <Alerte texte={erreur} className="mb-4" />
 
         <div className="rounded-2xl border border-[var(--sane-border)] bg-white p-5 shadow-[0_1px_2px_rgba(16,35,26,0.04),0_8px_24px_-16px_rgba(16,99,45,0.18)] sm:p-7">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="sm:col-span-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="sm:col-span-2 xl:col-span-3">
               <label htmlFor="name" className="mb-2 block text-[12px] font-semibold text-[var(--sane-text)]">
                 Nom complet<span className="text-[var(--sane-orange)]"> *</span>
               </label>

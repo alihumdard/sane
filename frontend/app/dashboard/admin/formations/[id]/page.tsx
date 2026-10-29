@@ -70,7 +70,7 @@ function Champ({
   children: React.ReactNode;
 }) {
   return (
-    <div className={large ? "sm:col-span-2" : ""}>
+    <div className={large ? "sm:col-span-2 xl:col-span-3" : ""}>
       <label htmlFor={id} className="mb-2 block text-[12px] font-semibold text-[var(--sane-text)]">
         {label}
         <span className={"text-[var(--sane-orange)] " + (requis ? "inline" : "hidden")}> *</span>
@@ -244,7 +244,7 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
       }
       retour={{ href: BASE, label: "Retour au catalogue" }}
     >
-      <form onSubmit={enregistrer} className="max-w-[820px]">
+      <form onSubmit={enregistrer}>
         <Alerte texte={erreur} className="mb-4" />
 
         <p className={"items-center gap-2 py-10 " + (chargement ? "flex" : "hidden")}>
@@ -258,7 +258,7 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
             (chargement ? "hidden" : "block")
           }
         >
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
             <Champ id="titre" label="Titre" requis erreur={erreurs.titre} large>
               <input type="text" required {...lier("titre")} placeholder="ex. Initiation à la bureautique" />
             </Champ>
@@ -359,7 +359,7 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
               <textarea rows={4} {...lier("prerequis")} />
             </Champ>
 
-            <div className="sm:col-span-2">
+            <div className="sm:col-span-2 xl:col-span-3">
               <ChampImage
                 type="formations"
                 id={numero}
@@ -369,7 +369,7 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
               />
             </div>
 
-            <div className="sm:col-span-2">
+            <div className="sm:col-span-2 xl:col-span-3">
               <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-[var(--sane-border)] bg-[var(--sane-background)] p-3.5 transition-colors hover:border-[var(--sane-green-muted)]">
                 <input
                   type="checkbox"

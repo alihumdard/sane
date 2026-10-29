@@ -28,6 +28,8 @@ interface Props {
   items: SidebarItem[];
   open?: boolean;
   onClose?: () => void;
+  /** Collapsed to icons, on wide screens only — a phone has the drawer. */
+  replie?: boolean;
 }
 
 /**
@@ -39,7 +41,7 @@ interface Props {
  * tables, dropped whatever it could not resolve, and rendered the rest as
  * inert buttons whenever the label happened to be the current page.
  */
-export default function DashboardSidebar({ items, open = false, onClose }: Props) {
+export default function DashboardSidebar({ items, open = false, onClose, replie = false }: Props) {
   const pathname = usePathname() ?? "";
   const router = useRouter();
   const { user, logout } = useAuth();
@@ -92,7 +94,8 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
 
       <aside
         className={
-          "fixed inset-y-0 left-0 z-40 flex w-[258px] shrink-0 flex-col border-r border-[var(--sane-border)] bg-white shadow-[1px_0_0_rgba(16,35,26,0.02),8px_0_28px_-24px_rgba(16,99,45,0.4)] transition-transform duration-200 lg:static lg:z-auto lg:translate-x-0 " +
+          "fixed inset-y-0 left-0 z-40 flex w-[258px] shrink-0 flex-col border-r border-[var(--sane-border)] bg-white shadow-[1px_0_0_rgba(16,35,26,0.02),8px_0_28px_-24px_rgba(16,99,45,0.4)] transition-all duration-200 lg:static lg:z-auto lg:translate-x-0 " +
+          (replie ? "lg:w-[78px] " : "") +
           (open ? "translate-x-0 shadow-2xl" : "-translate-x-full")
         }
       >
@@ -141,7 +144,10 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
             width={112}
             height={42}
             priority
-            className="relative h-auto w-[112px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+            className={
+              "relative h-auto object-contain transition-all duration-300 group-hover:scale-[1.03] " +
+              (replie ? "w-[112px] lg:w-[54px]" : "w-[112px]")
+            }
           />
 
           {/*
@@ -184,12 +190,15 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
                 >
                   {item.icon}
                 </span>
-                <span className="flex-1 truncate text-[12.5px]">{item.label}</span>
+                <span className={"flex-1 truncate text-[12.5px] " + (replie ? "lg:hidden" : "")}>
+                  {item.label}
+                </span>
                 <span
                   aria-hidden
                   className={
                     "h-4 min-w-4 items-center justify-center rounded-full bg-[var(--sane-orange)] px-1 text-[9px] font-bold text-white " +
-                    (item.badge ? "inline-flex" : "hidden")
+                    (item.badge ? "inline-flex" : "hidden") +
+                    (replie ? " lg:hidden" : "")
                   }
                 >
                   {item.badge}
@@ -200,7 +209,8 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
                   className={
                     "shrink-0 text-[var(--sane-text-light)] transition-transform " +
                     (expansible ? "block " : "hidden ") +
-                    (deplie ? "rotate-180" : "")
+                    (deplie ? "rotate-180 " : "") +
+                    (replie ? "lg:hidden" : "")
                   }
                 />
               </>
@@ -208,6 +218,7 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
 
             const classe =
               "group relative mb-0.5 flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left font-semibold transition-all " +
+              (replie ? "lg:justify-center lg:px-0 " : "") +
               (ici
                 ? "bg-[var(--sane-green-light)] text-[var(--sane-green)] shadow-[inset_3px_0_0_var(--sane-green)]"
                 : "text-[var(--sane-text)] hover:bg-[var(--sane-background)] hover:text-[var(--sane-green)]");
@@ -217,7 +228,8 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
                 <p
                   className={
                     "mt-3 border-t border-[var(--sane-border)]/70 px-3 pb-2 pt-4 text-[9.5px] font-bold uppercase tracking-[0.12em] text-[var(--sane-text-light)]/60 " +
-                    (item.groupe ? "block" : "hidden")
+                    (item.groupe ? "block " : "hidden ") +
+                    (replie ? "lg:hidden" : "")
                   }
                 >
                   {item.groupe}
@@ -231,6 +243,7 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
                 {expansible ? (
                   <button
                     type="button"
+                    title={item.label}
                     aria-expanded={deplie}
                     onClick={() => setReplies((r) => ({ ...r, [item.label]: !ouvert(item) }))}
                     className={classe}
@@ -238,7 +251,7 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
                     {contenu}
                   </button>
                 ) : (
-                  <Link href={item.href} onClick={onClose} className={classe}>
+                  <Link href={item.href} title={item.label} onClick={onClose} className={classe}>
                     {contenu}
                   </Link>
                 )}
@@ -251,7 +264,8 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
                 <div
                   className={
                     "mb-1.5 ml-[26px] space-y-[1px] border-l-2 border-[var(--sane-green-light)] pl-2.5 " +
-                    (deplie ? "block" : "hidden")
+                    (deplie ? "block " : "hidden ") +
+                    (replie ? "lg:hidden" : "")
                   }
                 >
                   {item.subItems?.map((sub) => {
@@ -289,7 +303,12 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
         </nav>
 
         <div className="shrink-0 border-t border-[var(--sane-border)] p-3">
-          <div className="mb-2 flex items-center gap-2.5 rounded-xl bg-[var(--sane-background)] px-3 py-2.5">
+          {/*
+            One row rather than two: the account above and a red line beneath
+            it saying "Se déconnecter" took the height of two controls to do
+            the work of one.
+          */}
+          <div className="flex items-center gap-2 rounded-xl bg-[var(--sane-background)] py-2 pl-2.5 pr-1.5">
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--sane-green)] text-[11px] font-bold text-white">
               {(user?.nom ?? "?")
                 .trim()
@@ -300,7 +319,8 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
                 .join("")
                 .toUpperCase() || "?"}
             </span>
-            <span className="min-w-0">
+
+            <span className={"min-w-0 flex-1 " + (replie ? "lg:hidden" : "")}>
               <span className="block truncate text-[12px] font-bold text-[var(--sane-text)]">
                 {user?.nom ?? "—"}
               </span>
@@ -308,20 +328,38 @@ export default function DashboardSidebar({ items, open = false, onClose }: Props
                 {user?.role_label ?? ""}
               </span>
             </span>
+
+            {/*
+              Not a link: the token has to be revoked server-side, and
+              navigating alone would leave the session live on a shared
+              machine.
+            */}
+            <button
+              type="button"
+              onClick={seDeconnecter}
+              title="Se déconnecter"
+              aria-label="Se déconnecter"
+              className={
+                "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[var(--sane-red-dark)] transition-colors hover:bg-[#fdf1f1] " +
+                (replie ? "lg:hidden" : "")
+              }
+            >
+              <LogOut size={16} />
+            </button>
           </div>
-          {/*
-            Not a link: the token has to be revoked server-side, and navigating
-            alone would leave the session live on a shared machine.
-          */}
+
+          {/* Collapsed, the avatar is the account and this is the way out. */}
           <button
             type="button"
             onClick={seDeconnecter}
-            className="group flex w-full items-center gap-2.5 rounded-xl border border-transparent px-3 py-2.5 text-left text-[12.5px] font-semibold text-[var(--sane-red-dark)] transition-all hover:border-[#f3d4d4] hover:bg-[#fdf1f1]"
+            title="Se déconnecter"
+            aria-label="Se déconnecter"
+            className={
+              "mt-2 h-9 w-full items-center justify-center rounded-xl text-[var(--sane-red-dark)] transition-colors hover:bg-[#fdf1f1] " +
+              (replie ? "hidden lg:flex" : "hidden")
+            }
           >
-            <span className="sane-fleche flex h-7 w-7 shrink-0 items-center justify-center rounded-lg">
-              <LogOut size={16} />
-            </span>
-            Se déconnecter
+            <LogOut size={16} />
           </button>
         </div>
       </aside>

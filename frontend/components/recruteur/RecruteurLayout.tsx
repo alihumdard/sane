@@ -8,6 +8,7 @@ import DashboardNavbar, { type CibleRecherche } from "@/components/dashboard/Das
 import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
 import { ACCENTS, type Accent } from "@/components/dashboard/accents";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
+import { useBarreLaterale } from "@/components/dashboard/useBarreLaterale";
 
 const LIENS: { href: string; label: string; icon: React.ReactNode; accent: Accent; groupe?: string }[] = [
   { href: "/dashboard/recruteur", label: "Tableau de bord", accent: "green", icon: <Home size={18} /> },
@@ -55,6 +56,7 @@ export function RecruteurLayout({
 }) {
   const pathname = usePathname() ?? "";
   const [menu, setMenu] = useState(false);
+  const { replie, basculer } = useBarreLaterale();
 
   const items: SidebarItem[] = LIENS.map((l) => ({
     ...l,
@@ -75,12 +77,14 @@ export function RecruteurLayout({
         }}
       >
         <Suspense fallback={null}>
-          <DashboardSidebar items={items} open={menu} onClose={() => setMenu(false)} />
+          <DashboardSidebar items={items} open={menu} onClose={() => setMenu(false)} replie={replie} />
         </Suspense>
 
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
           <DashboardNavbar
             onMenuClick={() => setMenu(true)}
+            onBasculer={basculer}
+            replie={replie}
             cibles={CIBLES}
             parametres={{ href: "/dashboard/recruteur/entreprise", label: "Mon entreprise" }}
           />

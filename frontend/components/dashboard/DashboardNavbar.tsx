@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronDown, ExternalLink, LogOut, Menu, Search, Settings } from "lucide-react";
+import { ChevronDown, ExternalLink, LogOut, Menu, PanelLeftClose, PanelLeftOpen, Search, Settings } from "lucide-react";
 import { NotificationBell } from "@/components/shared/NotificationBell";
 import { CIBLES_RECHERCHE } from "@/lib/adminNav";
 import { useAuth } from "@/lib/auth";
@@ -18,6 +18,9 @@ export interface CibleRecherche {
 
 interface Props {
   onMenuClick?: () => void;
+  /** Collapses the menu to its icons; shown on wide screens only. */
+  onBasculer?: () => void;
+  replie?: boolean;
   /** Where the account menu's settings entry points. */
   parametres?: { href: string; label: string };
   /** The pages the search box can reach; the back-office sections by default. */
@@ -56,6 +59,8 @@ function plier(valeur: string): string {
  */
 export default function DashboardNavbar({
   onMenuClick,
+  onBasculer,
+  replie = false,
   parametres = { href: "/dashboard/admin/parametres", label: "Paramètres" },
   cibles = CIBLES_RECHERCHE,
   placeholder = "Aller à une section…",
@@ -121,6 +126,19 @@ export default function DashboardNavbar({
         className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[var(--sane-text-light)] transition-colors hover:bg-[var(--sane-background)] hover:text-[var(--sane-green)] lg:hidden"
       >
         <Menu size={17} />
+      </button>
+
+      {/* The same idea on a wide screen, where the menu has nowhere to slide
+          to: it shrinks to its icons instead. */}
+      <button
+        type="button"
+        onClick={onBasculer}
+        title={replie ? "Déplier le menu" : "Replier le menu"}
+        aria-label={replie ? "Déplier le menu" : "Replier le menu"}
+        aria-pressed={replie}
+        className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[var(--sane-text-light)] transition-colors hover:bg-[var(--sane-background)] hover:text-[var(--sane-green)] lg:flex"
+      >
+        {replie ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
       </button>
 
       {/*

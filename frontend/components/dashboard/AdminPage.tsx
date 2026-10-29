@@ -7,6 +7,7 @@ import { ChevronRight, Home } from "lucide-react";
 import DashboardNavbar from "./DashboardNavbar";
 import DashboardSidebar from "./DashboardSidebar";
 import { AdminGuard } from "./AdminGuard";
+import { useBarreLaterale } from "./useBarreLaterale";
 import { adminNav, SECTIONS_ADMIN } from "@/lib/adminNav";
 import { ACCENTS } from "./accents";
 
@@ -46,6 +47,7 @@ function sectionDeLUrl(pathname: string): string {
 export function AdminPage({ section, titre, description, actions, retour, children }: Props) {
   const pathname = usePathname() ?? "/dashboard/admin";
   const [menu, setMenu] = useState(false);
+  const { replie, basculer } = useBarreLaterale();
 
   const active = section ?? sectionDeLUrl(pathname);
   const racine = SECTIONS_ADMIN.find((s) => s.label === active);
@@ -68,11 +70,11 @@ export function AdminPage({ section, titre, description, actions, retour, childr
           to nothing and the menu could not be opened on a phone at all.
         */}
         <Suspense fallback={null}>
-          <DashboardSidebar items={adminNav(active)} open={menu} onClose={() => setMenu(false)} />
+          <DashboardSidebar items={adminNav(active)} open={menu} onClose={() => setMenu(false)} replie={replie} />
         </Suspense>
 
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-          <DashboardNavbar onMenuClick={() => setMenu(true)} />
+          <DashboardNavbar onMenuClick={() => setMenu(true)} onBasculer={basculer} replie={replie} />
 
           <main className="sane-colonne flex-1 overflow-y-auto px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
             <div className="mx-auto w-full max-w-[1400px]">
