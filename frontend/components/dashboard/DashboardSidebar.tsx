@@ -136,7 +136,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
           </span>
         </Link>
 
-        <nav className="flex-1 overflow-y-auto px-3 py-3.5">
+        <nav className="sane-colonne flex-1 overflow-y-auto px-3 py-3">
           {items.map((item) => {
             const expansible = Boolean(item.subItems?.length);
             const deplie = expansible && ouvert(item);
@@ -186,7 +186,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
               <div key={item.label}>
                 <p
                   className={
-                    "px-3 pb-1.5 pt-4 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--sane-text-light)]/70 " +
+                    "mt-3 border-t border-[var(--sane-border)]/70 px-3 pb-2 pt-4 text-[9.5px] font-bold uppercase tracking-[0.12em] text-[var(--sane-text-light)]/60 " +
                     (item.groupe ? "block" : "hidden")
                   }
                 >
@@ -213,9 +213,15 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
                   </Link>
                 )}
 
+                {/*
+                  The rule starts under the section's icon, so a sub-entry
+                  reads as hanging from its parent rather than from the edge
+                  of the panel.
+                */}
                 <div
                   className={
-                    "mb-1 ml-[22px] border-l border-[var(--sane-border)] pl-2 " + (deplie ? "block" : "hidden")
+                    "mb-1.5 ml-[26px] space-y-[1px] border-l-2 border-[var(--sane-green-light)] pl-2.5 " +
+                    (deplie ? "block" : "hidden")
                   }
                 >
                   {item.subItems?.map((sub) => {
@@ -231,7 +237,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
                         className={
                           "flex items-center gap-2 rounded-lg px-2.5 py-[7px] text-[11.5px] transition-colors " +
                           (actif
-                            ? "font-semibold text-[var(--sane-green)]"
+                            ? "bg-[var(--sane-green-light)]/70 font-semibold text-[var(--sane-green)]"
                             : "text-[var(--sane-text-light)] hover:bg-[var(--sane-background)] hover:text-[var(--sane-green)]")
                         }
                       >
@@ -280,9 +286,12 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
           <button
             type="button"
             onClick={seDeconnecter}
-            className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[12.5px] font-semibold text-[var(--sane-red-dark)] transition-colors hover:bg-[#fdf1f1]"
+            className="group flex w-full items-center gap-2.5 rounded-xl border border-transparent px-3 py-2.5 text-left text-[12.5px] font-semibold text-[var(--sane-red-dark)] transition-all hover:border-[#f3d4d4] hover:bg-[#fdf1f1]"
           >
-            <LogOut size={17} /> Se déconnecter
+            <span className="sane-fleche flex h-7 w-7 shrink-0 items-center justify-center rounded-lg">
+              <LogOut size={16} />
+            </span>
+            Se déconnecter
           </button>
         </div>
       </aside>

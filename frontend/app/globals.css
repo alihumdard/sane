@@ -472,3 +472,40 @@ img {
     transform: none;
   }
 }
+
+/* ── The menu's own scrollbar ──
+   Thirteen sections plus their sub-entries run past the height of a laptop
+   screen, and the system scrollbar draws a grey channel down the middle of a
+   250px panel. This one is a thin thumb that only appears over the panel. */
+
+.sane-colonne {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.2s ease;
+}
+
+.sane-colonne:hover {
+  scrollbar-color: var(--sane-border) transparent;
+}
+
+.sane-colonne::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sane-colonne::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sane-colonne::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 9999px;
+  transition: background 0.2s ease;
+}
+
+.sane-colonne:hover::-webkit-scrollbar-thumb {
+  background: var(--sane-border);
+}
+
+.sane-colonne::-webkit-scrollbar-thumb:hover {
+  background: var(--sane-green-muted);
+}
