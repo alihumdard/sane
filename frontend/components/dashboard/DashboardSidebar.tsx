@@ -118,7 +118,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
           </span>
         </Link>
 
-        <nav className="flex-1 overflow-y-auto px-3 py-3">
+        <nav className="flex-1 overflow-y-auto px-3 py-3.5">
           {items.map((item) => {
             const expansible = Boolean(item.subItems?.length);
             const deplie = expansible && ouvert(item);
@@ -152,9 +152,9 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
             );
 
             const classe =
-              "mb-0.5 flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left font-semibold transition-colors " +
+              "relative mb-0.5 flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left font-semibold transition-all " +
               (ici
-                ? "bg-[var(--sane-green-light)] text-[var(--sane-green)]"
+                ? "bg-[var(--sane-green-light)] text-[var(--sane-green)] shadow-[inset_3px_0_0_var(--sane-green)]"
                 : "text-[var(--sane-text)] hover:bg-[var(--sane-background)] hover:text-[var(--sane-green)]");
 
             return (
@@ -195,7 +195,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
                         href={sub.href}
                         onClick={onClose}
                         className={
-                          "flex items-center gap-2 rounded-md px-2 py-[6px] text-[11.5px] transition-colors " +
+                          "flex items-center gap-2 rounded-lg px-2.5 py-[7px] text-[11.5px] transition-colors " +
                           (actif
                             ? "font-semibold text-[var(--sane-green)]"
                             : "text-[var(--sane-text-light)] hover:bg-[var(--sane-background)] hover:text-[var(--sane-green)]")

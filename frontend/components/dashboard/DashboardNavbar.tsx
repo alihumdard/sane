@@ -112,21 +112,26 @@ export default function DashboardNavbar({
   return (
     <header
       ref={ref}
-      className="sticky top-0 z-20 flex items-center gap-2 border-b border-[var(--sane-border)] bg-white/95 px-3 py-2.5 backdrop-blur sm:gap-3 sm:px-6"
+      className="sticky top-0 z-20 flex h-[62px] items-center gap-2 border-b border-[var(--sane-border)] bg-white/90 px-3 backdrop-blur-md sm:gap-3 sm:px-6"
     >
       <button
         type="button"
         onClick={onMenuClick}
         aria-label="Ouvrir le menu"
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--sane-border)] text-[var(--sane-text-light)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)] lg:hidden"
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[var(--sane-text-light)] transition-colors hover:bg-[var(--sane-background)] hover:text-[var(--sane-green)] lg:hidden"
       >
         <Menu size={17} />
       </button>
 
-      <div className="relative min-w-0 flex-1 sm:max-w-[420px]">
+      {/*
+        The search keeps to the left and the account block is pushed to the
+        far right. Letting the search grow left the bell and the name stuck
+        against it, with the whole right half of a wide screen empty.
+      */}
+      <div className="relative min-w-0 flex-1 sm:max-w-[360px]">
         <Search
           size={14}
-          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]"
+          className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]"
         />
         <input
           type="search"
@@ -139,12 +144,12 @@ export default function DashboardNavbar({
           }}
           placeholder={placeholder}
           aria-label="Rechercher une section du back-office"
-          className="h-9 w-full rounded-lg border border-[var(--sane-border)] bg-[var(--sane-background)] pl-9 pr-3 text-[12.5px] text-[var(--sane-text)] outline-none transition-colors placeholder:text-[var(--sane-text-light)]/70 focus:border-[var(--sane-green)] focus:bg-white"
+          className="h-10 w-full rounded-full border border-transparent bg-[var(--sane-background)] pl-10 pr-4 text-[12.5px] text-[var(--sane-text)] outline-none transition-all placeholder:text-[var(--sane-text-light)]/70 focus:border-[var(--sane-green-muted)] focus:bg-white focus:ring-4 focus:ring-[var(--sane-green)]/8"
         />
 
         <div
           className={
-            "absolute left-0 right-0 top-11 overflow-hidden rounded-xl border border-[var(--sane-border)] bg-white py-1 shadow-xl " +
+            "absolute left-0 right-0 top-12 overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white py-1 shadow-xl " +
             (focus && resultats.length > 0 ? "block" : "hidden")
           }
         >
@@ -163,7 +168,7 @@ export default function DashboardNavbar({
 
         <p
           className={
-            "absolute left-0 right-0 top-11 rounded-xl border border-[var(--sane-border)] bg-white px-3 py-2.5 text-[12px] text-[var(--sane-text-light)] shadow-xl " +
+            "absolute left-0 right-0 top-12 rounded-2xl border border-[var(--sane-border)] bg-white px-3 py-2.5 text-[12px] text-[var(--sane-text-light)] shadow-xl " +
             (focus && terme.trim().length >= 2 && resultats.length === 0 ? "block" : "hidden")
           }
         >
@@ -171,17 +176,20 @@ export default function DashboardNavbar({
         </p>
       </div>
 
-      <NotificationBell />
+      <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
+        <NotificationBell />
 
-      <div className="relative shrink-0">
+        <span aria-hidden className="hidden h-6 w-px bg-[var(--sane-border)] sm:block" />
+
+        <div className="relative shrink-0">
         <button
           type="button"
           onClick={() => setMenu((m) => !m)}
           aria-expanded={menu}
           aria-label="Menu du compte"
-          className="flex items-center gap-2 rounded-lg px-1 py-1 transition-colors hover:bg-[var(--sane-background)]"
+          className="flex items-center gap-2.5 rounded-full py-1 pl-1 pr-2 transition-colors hover:bg-[var(--sane-background)] sm:pr-3"
         >
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--sane-green)] text-[11px] font-bold text-white">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--sane-green)] text-[11.5px] font-bold text-white ring-2 ring-[var(--sane-green-light)]">
             {initiales(nom)}
           </span>
           <span className="hidden text-left sm:block">
@@ -195,7 +203,7 @@ export default function DashboardNavbar({
 
         <div
           className={
-            "absolute right-0 top-11 w-[220px] overflow-hidden rounded-xl border border-[var(--sane-border)] bg-white py-1 shadow-xl " +
+            "absolute right-0 top-12 w-[230px] overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white py-1 shadow-[0_16px_40px_-12px_rgba(16,99,45,0.28)] " +
             (menu ? "block" : "hidden")
           }
         >
@@ -228,6 +236,7 @@ export default function DashboardNavbar({
           >
             <LogOut size={13} /> Se déconnecter
           </button>
+        </div>
         </div>
       </div>
     </header>

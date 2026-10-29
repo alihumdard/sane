@@ -13,7 +13,7 @@ import { api, ApiError } from "@/lib/api";
 const BASE = "/dashboard/admin/utilisateurs";
 
 const champClass =
-  "w-full rounded-xl border border-[var(--sane-border)] bg-white px-3 py-2.5 text-[13px] text-[var(--sane-text)] outline-none transition-colors placeholder:text-[var(--sane-text-light)]/60 focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10";
+  "w-full rounded-xl border border-[var(--sane-border)] bg-white px-3.5 py-3 text-[13px] text-[var(--sane-text)] outline-none transition-all placeholder:text-[var(--sane-text-light)]/60 hover:border-[var(--sane-green-muted)] focus:border-[var(--sane-green-muted)] focus:ring-4 focus:ring-[var(--sane-green)]/8";
 
 const ROLES = [
   { value: "participant", label: "Participant", aide: "Assiste au salon et s'inscrit aux formations." },
@@ -83,10 +83,10 @@ export default function NouvelUtilisateurPage() {
       <form onSubmit={enregistrer} className="max-w-[620px]">
         <Alerte texte={erreur} className="mb-4" />
 
-        <div className="rounded-2xl border border-[var(--sane-border)] bg-white p-4 shadow-sm sm:p-6">
+        <div className="rounded-2xl border border-[var(--sane-border)] bg-white p-5 shadow-[0_1px_2px_rgba(16,35,26,0.04),0_8px_24px_-16px_rgba(16,99,45,0.18)] sm:p-7">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="sm:col-span-2">
-              <label htmlFor="name" className="mb-1.5 block text-[12px] font-semibold text-[var(--sane-text)]">
+              <label htmlFor="name" className="mb-2 block text-[12px] font-semibold text-[var(--sane-text)]">
                 Nom complet<span className="text-[var(--sane-orange)]"> *</span>
               </label>
               <input
@@ -103,7 +103,7 @@ export default function NouvelUtilisateurPage() {
             </div>
 
             <div>
-              <label htmlFor="email" className="mb-1.5 block text-[12px] font-semibold text-[var(--sane-text)]">
+              <label htmlFor="email" className="mb-2 block text-[12px] font-semibold text-[var(--sane-text)]">
                 Email<span className="text-[var(--sane-orange)]"> *</span>
               </label>
               <input
@@ -121,7 +121,7 @@ export default function NouvelUtilisateurPage() {
             </div>
 
             <div>
-              <label htmlFor="telephone" className="mb-1.5 block text-[12px] font-semibold text-[var(--sane-text)]">
+              <label htmlFor="telephone" className="mb-2 block text-[12px] font-semibold text-[var(--sane-text)]">
                 Téléphone
               </label>
               <input
@@ -137,7 +137,7 @@ export default function NouvelUtilisateurPage() {
             </div>
 
             <div>
-              <label htmlFor="role" className="mb-1.5 block text-[12px] font-semibold text-[var(--sane-text)]">
+              <label htmlFor="role" className="mb-2 block text-[12px] font-semibold text-[var(--sane-text)]">
                 Rôle<span className="text-[var(--sane-orange)]"> *</span>
               </label>
               <select
@@ -157,7 +157,7 @@ export default function NouvelUtilisateurPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="mb-1.5 block text-[12px] font-semibold text-[var(--sane-text)]">
+              <label htmlFor="password" className="mb-2 block text-[12px] font-semibold text-[var(--sane-text)]">
                 Mot de passe<span className="text-[var(--sane-orange)]"> *</span>
               </label>
               <input
@@ -184,11 +184,11 @@ export default function NouvelUtilisateurPage() {
             </div>
           </div>
 
-          <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-[var(--sane-border)] pt-5">
+          <div className="mt-7 flex flex-wrap items-center gap-3 border-t border-[var(--sane-border)] pt-6">
             <button
               type="submit"
               disabled={envoi}
-              className="inline-flex items-center gap-2 rounded-xl bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white transition-colors hover:bg-[var(--sane-orange-dark)] disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-xl bg-[var(--sane-orange)] px-6 py-3 text-[13px] font-bold text-white shadow-[0_6px_16px_-6px_rgba(229,118,23,0.7)] transition-all hover:bg-[var(--sane-orange-dark)] hover:shadow-[0_8px_20px_-6px_rgba(229,118,23,0.8)] disabled:opacity-60 disabled:shadow-none"
             >
               <SpinnerOu actif={envoi}>
                 <UserPlus size={15} />
@@ -198,7 +198,7 @@ export default function NouvelUtilisateurPage() {
 
             <Link
               href={BASE}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--sane-border)] px-4 py-2.5 text-[13px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--sane-border)] px-5 py-3 text-[13px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green-muted)] hover:bg-[var(--sane-green-light)] hover:text-[var(--sane-green)]"
             >
               <ArrowLeft size={15} /> Retour aux utilisateurs
             </Link>

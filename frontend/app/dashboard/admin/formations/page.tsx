@@ -19,7 +19,7 @@ const BASE = "/dashboard/admin/formations";
 
 
 const selectClass =
-  "rounded-xl border border-[var(--sane-border)] bg-white px-3 py-2 text-[12.5px] text-[var(--sane-text)] outline-none transition-colors focus:border-[var(--sane-green)]";
+  "h-11 rounded-xl border border-[var(--sane-border)] bg-white px-3.5 text-[12.5px] font-medium text-[var(--sane-text)] outline-none transition-all hover:border-[var(--sane-green-muted)] focus:border-[var(--sane-green-muted)] focus:ring-4 focus:ring-[var(--sane-green)]/8";
 
 /**
  * The course catalogue.

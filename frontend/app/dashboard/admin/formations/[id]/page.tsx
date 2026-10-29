@@ -16,7 +16,7 @@ import { FORMATS, NIVEAUX } from "../listes";
 const BASE = "/dashboard/admin/formations";
 
 const champClass =
-  "w-full rounded-xl border border-[var(--sane-border)] bg-white px-3 py-2.5 text-[13px] text-[var(--sane-text)] outline-none transition-colors placeholder:text-[var(--sane-text-light)]/60 focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10";
+  "w-full rounded-xl border border-[var(--sane-border)] bg-white px-3.5 py-3 text-[13px] text-[var(--sane-text)] outline-none transition-all placeholder:text-[var(--sane-text-light)]/60 hover:border-[var(--sane-green-muted)] focus:border-[var(--sane-green-muted)] focus:ring-4 focus:ring-[var(--sane-green)]/8";
 
 interface Formulaire {
   titre: string;
@@ -71,7 +71,7 @@ function Champ({
 }) {
   return (
     <div className={large ? "sm:col-span-2" : ""}>
-      <label htmlFor={id} className="mb-1.5 block text-[12px] font-semibold text-[var(--sane-text)]">
+      <label htmlFor={id} className="mb-2 block text-[12px] font-semibold text-[var(--sane-text)]">
         {label}
         <span className={"text-[var(--sane-orange)] " + (requis ? "inline" : "hidden")}> *</span>
       </label>
@@ -254,7 +254,7 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
 
         <div
           className={
-            "rounded-2xl border border-[var(--sane-border)] bg-white p-4 shadow-sm sm:p-6 " +
+            "rounded-2xl border border-[var(--sane-border)] bg-white p-5 shadow-[0_1px_2px_rgba(16,35,26,0.04),0_8px_24px_-16px_rgba(16,99,45,0.18)] sm:p-7 " +
             (chargement ? "hidden" : "block")
           }
         >
@@ -370,7 +370,7 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
             </div>
 
             <div className="sm:col-span-2">
-              <label className="flex cursor-pointer items-start gap-2.5 rounded-xl border border-[var(--sane-border)] bg-[var(--sane-background)] p-3">
+              <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-[var(--sane-border)] bg-[var(--sane-background)] p-3.5 transition-colors hover:border-[var(--sane-green-muted)]">
                 <input
                   type="checkbox"
                   checked={form.publiee}
@@ -384,11 +384,11 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
             </div>
           </div>
 
-          <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-[var(--sane-border)] pt-5">
+          <div className="mt-7 flex flex-wrap items-center gap-3 border-t border-[var(--sane-border)] pt-6">
             <button
               type="submit"
               disabled={envoi}
-              className="inline-flex items-center gap-2 rounded-xl bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white transition-colors hover:bg-[var(--sane-orange-dark)] disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-xl bg-[var(--sane-orange)] px-6 py-3 text-[13px] font-bold text-white shadow-[0_6px_16px_-6px_rgba(229,118,23,0.7)] transition-all hover:bg-[var(--sane-orange-dark)] hover:shadow-[0_8px_20px_-6px_rgba(229,118,23,0.8)] disabled:opacity-60 disabled:shadow-none"
             >
               <SpinnerOu actif={envoi}>
                 <Save size={15} />
@@ -398,7 +398,7 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
 
             <Link
               href={BASE}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--sane-border)] px-4 py-2.5 text-[13px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--sane-border)] px-5 py-3 text-[13px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green-muted)] hover:bg-[var(--sane-green-light)] hover:text-[var(--sane-green)]"
             >
               <ArrowLeft size={15} /> Retour au catalogue
             </Link>

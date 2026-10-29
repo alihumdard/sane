@@ -151,7 +151,7 @@ function Offres() {
           value={filtreStatut}
           onChange={(e) => setFiltreStatut(e.target.value)}
           aria-label="Filtrer par statut"
-          className="rounded-lg border border-[var(--sane-border)] bg-white px-3 py-2 text-[13px] outline-none focus:border-[var(--sane-green)]"
+          className="h-11 rounded-xl border border-[var(--sane-border)] bg-white px-3.5 text-[12.5px] font-medium text-[var(--sane-text)] outline-none transition-all hover:border-[var(--sane-green-muted)] focus:border-[var(--sane-green-muted)] focus:ring-4 focus:ring-[var(--sane-green)]/8"
         >
           <option value="">Tous les statuts</option>
           {STATUTS.map((s) => (
@@ -419,7 +419,7 @@ function Entretiens() {
           value={filtreStatut}
           onChange={(e) => setFiltreStatut(e.target.value)}
           aria-label="Filtrer par statut"
-          className="rounded-lg border border-[var(--sane-border)] bg-white px-3 py-2 text-[13px] outline-none focus:border-[var(--sane-green)]"
+          className="h-11 rounded-xl border border-[var(--sane-border)] bg-white px-3.5 text-[12.5px] font-medium text-[var(--sane-text)] outline-none transition-all hover:border-[var(--sane-green-muted)] focus:border-[var(--sane-green-muted)] focus:ring-4 focus:ring-[var(--sane-green)]/8"
         >
           <option value="">Tous les statuts</option>
           {STATUTS_ENTRETIEN.map((s) => (
@@ -455,7 +455,7 @@ function Onglets() {
 
   return (
     <>
-      <div className="mb-4 flex flex-wrap gap-2">
+      <div className="mb-6 flex flex-wrap gap-2">
         {ONGLETS.map(({ cle, label }) => (
           <button
             key={cle}
@@ -466,10 +466,10 @@ function Onglets() {
                 scroll: false,
               })
             }
-            className={`rounded-full px-4 py-2 text-[13px] font-semibold transition-colors ${
+            className={`rounded-full px-5 py-2.5 text-[13px] font-semibold transition-all ${
               onglet === cle
-                ? "bg-[var(--sane-green)] text-white"
-                : "bg-white text-[var(--sane-text)] hover:text-[var(--sane-green)]"
+                ? "bg-[var(--sane-green)] text-white shadow-[0_6px_16px_-6px_rgba(16,99,45,0.6)]"
+                : "border border-[var(--sane-border)] bg-white text-[var(--sane-text)] hover:border-[var(--sane-green-muted)] hover:bg-[var(--sane-green-light)] hover:text-[var(--sane-green)]"
             }`}
           >
             {label}

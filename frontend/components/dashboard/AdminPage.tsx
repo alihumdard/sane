@@ -65,8 +65,8 @@ export function AdminPage({ section, titre, description, actions, retour, childr
         <div className="flex min-w-0 flex-1 flex-col">
           <DashboardNavbar onMenuClick={() => setMenu(true)} />
 
-          <main className="mx-auto w-full max-w-[1400px] flex-1 px-4 py-5 sm:px-6 sm:py-7 lg:px-8">
-            <nav aria-label="Fil d'Ariane" className="mb-3 flex flex-wrap items-center gap-1 text-[11.5px]">
+          <main className="mx-auto w-full max-w-[1400px] flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+            <nav aria-label="Fil d'Ariane" className="mb-4 flex flex-wrap items-center gap-1 text-[11px]">
               <Link
                 href="/dashboard/admin"
                 className="inline-flex items-center gap-1 text-[var(--sane-text-light)] transition-colors hover:text-[var(--sane-green)]"
@@ -92,7 +92,7 @@ export function AdminPage({ section, titre, description, actions, retour, childr
               <span className="font-semibold text-[var(--sane-text)]">{titre}</span>
             </nav>
 
-            <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-[var(--sane-border)] pb-5">
               <div className="min-w-0">
                 <Link
                   href={retour?.href ?? "#"}
@@ -105,12 +105,12 @@ export function AdminPage({ section, titre, description, actions, retour, childr
                   {retour?.label}
                 </Link>
 
-                <h1 className="text-[20px] font-extrabold leading-tight tracking-[-0.015em] text-[var(--sane-green-deep)] sm:text-[23px]">
+                <h1 className="text-[22px] font-extrabold leading-tight tracking-[-0.02em] text-[var(--sane-green-deep)] sm:text-[26px]">
                   {titre}
                 </h1>
                 <p
                   className={
-                    "mt-1 max-w-[640px] text-[12.5px] leading-relaxed text-[var(--sane-text-light)] " +
+                    "mt-1.5 max-w-[640px] text-[13px] leading-relaxed text-[var(--sane-text-light)] " +
                     (description ? "block" : "hidden")
                   }
                 >

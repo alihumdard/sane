@@ -88,7 +88,7 @@ export function AdminTable<T>({
             onChange={(e) => onRecherche(e.target.value)}
             placeholder={rechercheLabel}
             aria-label={rechercheLabel}
-            className="h-10 w-full rounded-xl border border-[var(--sane-border)] bg-white pl-9 pr-9 text-[13px] text-[var(--sane-text)] outline-none transition-colors placeholder:text-[var(--sane-text-light)]/70 focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10"
+            className="h-11 w-full rounded-xl border border-[var(--sane-border)] bg-white pl-10 pr-10 text-[13px] text-[var(--sane-text)] outline-none transition-all placeholder:text-[var(--sane-text-light)]/70 focus:border-[var(--sane-green-muted)] focus:ring-4 focus:ring-[var(--sane-green)]/8"
           />
           <Spinner
             actif={chargement && lignes.length > 0}
@@ -103,17 +103,17 @@ export function AdminTable<T>({
 
       <Alerte texte={erreur} className="mb-3" />
 
-      <div className="overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white shadow-sm">
+      <div className="overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white shadow-[0_1px_2px_rgba(16,35,26,0.04),0_8px_24px_-16px_rgba(16,99,45,0.18)]">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
+            <thead className="sticky top-[62px] z-[1] border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
               <tr>
                 {colonnes.map((c) => (
                   <th
                     key={c.cle}
                     scope="col"
                     className={
-                      "px-4 py-3 text-[11px] font-bold uppercase tracking-[0.04em] text-[var(--sane-text-light)] " +
+                      "px-4 py-3.5 text-[10.5px] font-bold uppercase tracking-[0.06em] text-[var(--sane-text-light)] " +
                       (c.fin ? "text-right " : "") +
                       (c.masquer ? MASQUER[c.masquer] : "")
                     }
@@ -125,13 +125,13 @@ export function AdminTable<T>({
             </thead>
             <tbody className="divide-y divide-[var(--sane-border)]">
               {lignes.map((ligne) => (
-                <tr key={cle(ligne)} className="transition-colors hover:bg-[var(--sane-background)]/60">
+                <tr key={cle(ligne)} className="transition-colors hover:bg-[var(--sane-green-light)]/40">
                   {colonnes.map((c) => (
                     <td
                       key={c.cle}
                       data-label={c.entete}
                       className={
-                        "px-4 py-3 align-middle text-[13px] text-[var(--sane-text)] " +
+                        "px-4 py-3.5 align-middle text-[13px] text-[var(--sane-text)] " +
                         (c.fin ? "text-right " : "") +
                         (c.masquer ? MASQUER[c.masquer] : "")
                       }
@@ -161,7 +161,9 @@ export function AdminTable<T>({
             (!chargement && lignes.length === 0 ? "flex" : "hidden")
           }
         >
-          <Inbox size={26} className="text-[var(--sane-border)]" />
+          <span className="mb-1 flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--sane-background)]">
+            <Inbox size={24} className="text-[var(--sane-text-light)]/60" />
+          </span>
           <p className="max-w-[420px] text-[13px] text-[var(--sane-text-light)]">
             {recherche ? "Aucun résultat pour « " + recherche + " »." : vide}
           </p>
@@ -181,7 +183,7 @@ export function AdminTable<T>({
             type="button"
             onClick={() => onPage(Math.max(1, page - 1))}
             disabled={page === 1 || chargement}
-            className="rounded-lg border border-[var(--sane-border)] bg-white px-3 py-1.5 text-[12px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)] disabled:opacity-40 disabled:hover:border-[var(--sane-border)] disabled:hover:text-[var(--sane-text)]"
+            className="rounded-lg border border-[var(--sane-border)] bg-white px-3 py-2 text-[12px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green-muted)] hover:bg-[var(--sane-green-light)] hover:text-[var(--sane-green)] disabled:opacity-40 disabled:hover:border-[var(--sane-border)] disabled:hover:bg-white disabled:hover:text-[var(--sane-text)]"
           >
             Précédent
           </button>
@@ -202,8 +204,8 @@ export function AdminTable<T>({
                 className={
                   "h-8 min-w-8 rounded-lg px-2 text-[12px] font-semibold transition-colors " +
                   (p === page
-                    ? "bg-[var(--sane-green)] text-white"
-                    : "border border-[var(--sane-border)] bg-white text-[var(--sane-text)] hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]")
+                    ? "bg-[var(--sane-green)] text-white shadow-[0_4px_12px_-4px_rgba(16,99,45,0.5)]"
+                    : "border border-[var(--sane-border)] bg-white text-[var(--sane-text)] hover:border-[var(--sane-green-muted)] hover:bg-[var(--sane-green-light)] hover:text-[var(--sane-green)]")
                 }
               >
                 {p}
@@ -215,7 +217,7 @@ export function AdminTable<T>({
             type="button"
             onClick={() => onPage(Math.min(dernier, page + 1))}
             disabled={page === dernier || chargement}
-            className="rounded-lg border border-[var(--sane-border)] bg-white px-3 py-1.5 text-[12px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)] disabled:opacity-40 disabled:hover:border-[var(--sane-border)] disabled:hover:text-[var(--sane-text)]"
+            className="rounded-lg border border-[var(--sane-border)] bg-white px-3 py-2 text-[12px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green-muted)] hover:bg-[var(--sane-green-light)] hover:text-[var(--sane-green)] disabled:opacity-40 disabled:hover:border-[var(--sane-border)] disabled:hover:bg-white disabled:hover:text-[var(--sane-text)]"
           >
             Suivant
           </button>
