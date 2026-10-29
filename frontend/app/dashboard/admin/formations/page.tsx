@@ -9,6 +9,8 @@ import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
 import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
 import { Publie } from "@/components/dashboard/Publie";
 import { useApiTable } from "@/components/dashboard/useApiTable";
+import { useMessageEnregistrement } from "@/components/dashboard/messageEnregistrement";
+import { Alerte } from "@/components/ui/Alerte";
 import { api, ApiError } from "@/lib/api";
 import type { ApiFormation } from "@/lib/types";
 import { FORMATS, NIVEAUX } from "./listes";
@@ -36,6 +38,7 @@ export default function FormationsAdminPage() {
   const table = useApiTable<ApiFormation>("/admin/formations", {
     filtres: { niveau: filtreNiveau, format: filtreFormat },
   });
+  const enregistre = useMessageEnregistrement(BASE);
 
   const [aSupprimer, setASupprimer] = useState<ApiFormation | null>(null);
   const [suppression, setSuppression] = useState(false);
@@ -206,6 +209,8 @@ export default function FormationsAdminPage() {
         <DashboardStatCard icon={<Users size={20} />} value={resume.inscrits} label="Inscriptions sur cette page" accent="orange" />
         <DashboardStatCard icon={<EyeOff size={20} />} value={resume.completes} label="Complètes" accent="teal" />
       </div>
+
+      <Alerte texte={enregistre} ton="succes" className="mb-3" />
 
       <AdminTable
         colonnes={colonnes}

@@ -6,7 +6,9 @@ import { Pencil, Plus, Trash2 } from "lucide-react";
 import { AdminTable, type Colonne } from "./AdminTable";
 import { DialogueConfirmation } from "./DialogueConfirmation";
 import { useApiTable } from "./useApiTable";
+import { useMessageEnregistrement } from "./messageEnregistrement";
 import type { DefinitionRessource } from "./ressource";
+import { Alerte } from "@/components/ui/Alerte";
 import { api, ApiError } from "@/lib/api";
 
 /**
@@ -20,6 +22,7 @@ import { api, ApiError } from "@/lib/api";
  */
 export function ListeRessource<T>({ def }: { def: DefinitionRessource<T> }) {
   const table = useApiTable<T>(def.endpoint);
+  const enregistre = useMessageEnregistrement(def.base);
 
   const [aSupprimer, setASupprimer] = useState<T | null>(null);
   const [suppression, setSuppression] = useState(false);
@@ -85,6 +88,8 @@ export function ListeRessource<T>({ def }: { def: DefinitionRessource<T> }) {
         onConfirmer={supprimer}
         onAnnuler={() => setASupprimer(null)}
       />
+
+      <Alerte texte={enregistre} ton="succes" className="mb-3" />
 
       <AdminTable
         colonnes={colonnes}

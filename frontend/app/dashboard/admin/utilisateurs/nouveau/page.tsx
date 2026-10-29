@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { UserPlus } from "lucide-react";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
+import { retourApresEnregistrement } from "@/components/dashboard/messageEnregistrement";
 import { Alerte } from "@/components/ui/Alerte";
 import { api, ApiError } from "@/lib/api";
 
@@ -42,14 +43,12 @@ export default function NouvelUtilisateurPage() {
   });
   const [envoi, setEnvoi] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
-  const [succes, setSucces] = useState<string | null>(null);
   const [erreurs, setErreurs] = useState<Record<string, string>>({});
 
   async function enregistrer(e: React.FormEvent) {
     e.preventDefault();
     setEnvoi(true);
     setErreur(null);
-    setSucces(null);
     setErreurs({});
 
     try {
@@ -58,11 +57,7 @@ export default function NouvelUtilisateurPage() {
         telephone: form.telephone.trim() || null,
       });
 
-      setSucces("Compte créé. Communiquez le mot de passe à son titulaire, qui pourra le changer.");
-      setForm({ name: "", email: "", telephone: "", role: form.role, password: "" });
-
-      // Short pause so the confirmation is read before the list replaces it.
-      setTimeout(() => router.push(BASE), 1400);
+      router.push(retourApresEnregistrement(BASE, "cree"));
     } catch (err) {
       if (err instanceof ApiError) {
         setErreurs(Object.fromEntries(Object.entries(err.errors).map(([k, v]) => [k, v[0]])));
@@ -87,7 +82,6 @@ export default function NouvelUtilisateurPage() {
     >
       <form onSubmit={enregistrer} className="max-w-[620px]">
         <Alerte texte={erreur} className="mb-4" />
-        <Alerte texte={succes} ton="succes" className="mb-4" />
 
         <div className="rounded-2xl border border-[var(--sane-border)] bg-white p-4 shadow-sm sm:p-6">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

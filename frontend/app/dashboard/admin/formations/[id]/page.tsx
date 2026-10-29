@@ -7,6 +7,7 @@ import { Save } from "lucide-react";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { ChampImage } from "@/components/dashboard/ChampImage";
 import { Spinner, SpinnerOu } from "@/components/dashboard/Spinner";
+import { retourApresEnregistrement } from "@/components/dashboard/messageEnregistrement";
 import { Alerte } from "@/components/ui/Alerte";
 import { api, ApiError } from "@/lib/api";
 import type { AdminFormationsResponse, ApiFormation, FormationPayload } from "@/lib/types";
@@ -107,7 +108,6 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
   const [chargement, setChargement] = useState(true);
   const [envoi, setEnvoi] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
-  const [succes, setSucces] = useState<string | null>(null);
   const [erreurs, setErreurs] = useState<Record<string, string>>({});
   const [imageEnAttente, setImageEnAttente] = useState<File | null>(null);
 
@@ -177,7 +177,6 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
 
     setEnvoi(true);
     setErreur(null);
-    setSucces(null);
     setErreurs({});
 
     const payload: FormationPayload = {
@@ -209,14 +208,12 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
           await api.upload("/admin/images/formations/" + nouvelId, corps);
           setImageEnAttente(null);
         }
-
-        if (nouvelId) router.replace(BASE + "/" + nouvelId);
-
-        setSucces("Formation créée.");
       } else {
         await api.put("/admin/formations/" + numero, payload);
-        setSucces("Modifications enregistrées.");
       }
+
+      // Back to the catalogue, which announces the save and shows the course.
+      router.push(retourApresEnregistrement(BASE, numero === null ? "cree" : "modifie"));
     } catch (err) {
       if (err instanceof ApiError) {
         setErreurs(Object.fromEntries(Object.entries(err.errors).map(([k, v]) => [k, v[0]])));
@@ -249,7 +246,6 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
     >
       <form onSubmit={enregistrer} className="max-w-[820px]">
         <Alerte texte={erreur} className="mb-4" />
-        <Alerte texte={succes} ton="succes" className="mb-4" />
 
         <p className={"items-center gap-2 py-10 " + (chargement ? "flex" : "hidden")}>
           <Spinner actif className="text-[var(--sane-green)]" size={18} />

@@ -8,6 +8,7 @@ import { Alerte } from "@/components/ui/Alerte";
 import { ChampImage } from "./ChampImage";
 import { Spinner, SpinnerOu } from "./Spinner";
 import { estNouveau, formulaireVierge, type ChampFormulaire, type DefinitionRessource } from "./ressource";
+import { retourApresEnregistrement } from "./messageEnregistrement";
 import { api, ApiError } from "@/lib/api";
 
 const champClass =
@@ -29,7 +30,6 @@ export function FormulaireRessource<T>({ def, id }: { def: DefinitionRessource<T
   const [chargement, setChargement] = useState(!nouveau);
   const [envoi, setEnvoi] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
-  const [succes, setSucces] = useState<string | null>(null);
   const [erreurs, setErreurs] = useState<Record<string, string>>({});
   // Chosen on a record that does not exist yet; sent once it does.
   const [imageEnAttente, setImageEnAttente] = useState<File | null>(null);
@@ -63,7 +63,6 @@ export function FormulaireRessource<T>({ def, id }: { def: DefinitionRessource<T
     e.preventDefault();
     setEnvoi(true);
     setErreur(null);
-    setSucces(null);
     setErreurs({});
 
     try {
@@ -85,16 +84,16 @@ export function FormulaireRessource<T>({ def, id }: { def: DefinitionRessource<T
           await api.upload("/admin/images/" + def.typeImage + "/" + nouvelId, corps);
           setImageEnAttente(null);
         }
-
-        // Moving to the record's own address means a reload re-opens what was
-        // just saved instead of creating a second copy of it.
-        if (nouvelId) router.replace(def.base + "/" + nouvelId);
-
-        setSucces("Enregistré. L'élément est en ligne sur le site public.");
       } else {
         await api.put(def.endpoint + "/" + numero, payload);
-        setSucces("Modifications enregistrées.");
       }
+
+      /*
+       * Back to the list, which announces the save and shows the record among
+       * the others. Staying here left the admin looking at the fields they
+       * had just filled in, with nothing to say where the record had gone.
+       */
+      router.push(retourApresEnregistrement(def.base, numero === null ? "cree" : "modifie"));
     } catch (err) {
       if (err instanceof ApiError) {
         setErreurs(Object.fromEntries(Object.entries(err.errors).map(([k, v]) => [k, v[0]])));
@@ -195,7 +194,6 @@ export function FormulaireRessource<T>({ def, id }: { def: DefinitionRessource<T
   return (
     <form onSubmit={enregistrer} className="max-w-[820px]">
       <Alerte texte={erreur} className="mb-4" />
-      <Alerte texte={succes} ton="succes" className="mb-4" />
 
       <p className={"items-center gap-2 py-10 " + (chargement ? "flex" : "hidden")}>
         <Spinner actif className="text-[var(--sane-green)]" size={18} />

@@ -8,6 +8,8 @@ import { AdminPage } from "@/components/dashboard/AdminPage";
 import { AdminTable, type Colonne } from "@/components/dashboard/AdminTable";
 import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
 import { useApiTable } from "@/components/dashboard/useApiTable";
+import { useMessageEnregistrement } from "@/components/dashboard/messageEnregistrement";
+import { Alerte } from "@/components/ui/Alerte";
 import { api, ApiError } from "@/lib/api";
 import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
 import { Fait, PanneauDetail } from "@/components/dashboard/PanneauDetail";
@@ -43,6 +45,7 @@ function Contenu() {
   const table = useApiTable<AdminUtilisateur>("/admin/utilisateurs", {
     filtres: { role: filtreRole, statut: filtreStatut },
   });
+  const enregistre = useMessageEnregistrement("/dashboard/admin/utilisateurs");
 
   const [action, setAction] = useState<number | null>(null);
 
@@ -254,6 +257,8 @@ function Contenu() {
         <DashboardStatCard icon={<Briefcase size={20} />} value={table.resume.recruteur ?? 0} label="Recruteurs" accent="orange" />
         <DashboardStatCard icon={<UserPlus size={20} />} value={table.resume.demandeur ?? 0} label="Demandeurs d'emploi" accent="teal" />
       </div>
+
+      <Alerte texte={enregistre} ton="succes" className="mb-3" />
 
       <AdminTable
         colonnes={colonnes}
