@@ -75,7 +75,7 @@ export function RecruteurLayout({
         }}
       >
         <Suspense fallback={null}>
-          <DashboardSidebar items={items} open={menu} onClose={() => setMenu(false)} espace="Espace recruteur" />
+          <DashboardSidebar items={items} open={menu} onClose={() => setMenu(false)} />
         </Suspense>
 
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">

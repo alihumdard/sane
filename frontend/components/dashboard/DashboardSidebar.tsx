@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChevronDown, ExternalLink, LogOut, X } from "lucide-react";
+import { ChevronDown, Globe, LogOut, X } from "lucide-react";
 import type { ReactNode } from "react";
 import { useAuth } from "@/lib/auth";
 
@@ -28,8 +28,6 @@ interface Props {
   items: SidebarItem[];
   open?: boolean;
   onClose?: () => void;
-  /** Shown under the logo, e.g. "Back-office" or "Espace recruteur". */
-  espace?: string;
 }
 
 /**
@@ -41,7 +39,7 @@ interface Props {
  * tables, dropped whatever it could not resolve, and rendered the rest as
  * inert buttons whenever the label happened to be the current page.
  */
-export default function DashboardSidebar({ items, open = false, onClose, espace = "Back-office" }: Props) {
+export default function DashboardSidebar({ items, open = false, onClose }: Props) {
   const pathname = usePathname() ?? "";
   const router = useRouter();
   const { user, logout } = useAuth();
@@ -114,7 +112,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
         <Link
           href="/"
           title="Voir le site public"
-          className="group relative flex shrink-0 flex-col items-center gap-1.5 overflow-hidden px-2 pb-2.5 pt-3"
+          className="group relative flex shrink-0 items-center justify-center overflow-hidden px-2 py-3.5"
           style={{
             backgroundImage:
               "linear-gradient(180deg, rgba(16,99,45,0.055) 0%, rgba(16,99,45,0.015) 55%, transparent 100%)",
@@ -134,7 +132,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
             aria-hidden
             className="pointer-events-none absolute right-2.5 top-2.5 text-[var(--sane-green)] opacity-0 transition-opacity duration-200 group-hover:opacity-70"
           >
-            <ExternalLink size={13} />
+            <Globe size={14} />
           </span>
 
           <Image
@@ -145,11 +143,6 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
             priority
             className="relative h-auto w-[112px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
           />
-
-          <span className="relative inline-flex items-center gap-1.5 rounded-full border border-[var(--sane-green-muted)]/60 bg-white px-3 py-[5px] text-[9px] font-bold uppercase tracking-[0.16em] text-[var(--sane-green)] shadow-[0_1px_2px_rgba(16,99,45,0.08)]">
-            <span aria-hidden className="h-[5px] w-[5px] rounded-full bg-[var(--sane-orange)]" />
-            {espace}
-          </span>
 
           {/*
             The brand's two colours as the edge of the block, instead of the
