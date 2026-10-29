@@ -364,12 +364,10 @@ function Contenu() {
                   <Spinner actif={enCours === e.id} className="text-[var(--sane-green)]" />
 
                   {/*
-                    Spelled out rather than drawn.
+                    Icons, with the tooltip saying what each one decides.
                     
-                    These two were icons alone — a padlock and a tick — and
-                    the tick only appeared on the editions that were not
-                    active, so the row of buttons differed from one card to
-                    the next with nothing to say why.
+                    The tick is hidden on the edition that is already active,
+                    which is why the row is one button shorter there.
                   */}
                   <button
                     type="button"
@@ -380,23 +378,22 @@ function Contenu() {
                         ? "Fermer le formulaire d'inscription du site public"
                         : "Rouvrir le formulaire d'inscription du site public"
                     }
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--sane-border)] px-2.5 py-1.5 text-[12px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)] disabled:opacity-50"
+                    className="rounded-lg p-2 text-[var(--sane-text-light)] hover:bg-[var(--sane-background)]"
                   >
-                    {e.inscriptions_ouvertes ? <Unlock size={14} /> : <Lock size={14} />}
-                    {e.inscriptions_ouvertes ? "Fermer les inscriptions" : "Ouvrir les inscriptions"}
+                    {e.inscriptions_ouvertes ? <Unlock size={15} /> : <Lock size={15} />}
                   </button>
 
                   <button
                     type="button"
                     onClick={() => action(e, "activer")}
                     disabled={enCours === e.id}
-                    title="Les inscriptions et les formations du site public porteront sur cette édition"
+                    title="Rendre active : les inscriptions et les formations du site public porteront sur cette édition"
                     className={
-                      "items-center gap-1.5 rounded-lg border border-[var(--sane-green)] px-2.5 py-1.5 text-[12px] font-semibold text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green-light)] disabled:opacity-50 " +
-                      (e.active ? "hidden" : "inline-flex")
+                      "rounded-lg p-2 text-[var(--sane-green)] hover:bg-[var(--sane-green-light)] " +
+                      (e.active ? "hidden" : "block")
                     }
                   >
-                    <CheckCircle2 size={14} /> Rendre active
+                    <CheckCircle2 size={15} />
                   </button>
 
                   <button
