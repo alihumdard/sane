@@ -106,20 +106,32 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
           <X size={14} />
         </button>
 
+        {/*
+          The mark leads back to the public site, which the old block never
+          said: a logo, a grey word, and nothing to suggest either was for
+          clicking.
+        */}
         <Link
           href="/"
           title="Voir le site public"
-          className="flex shrink-0 flex-col items-center gap-1.5 border-b border-[var(--sane-border)] px-5 py-5"
+          className="group relative flex shrink-0 flex-col items-center gap-2.5 overflow-hidden border-b border-[var(--sane-border)] px-5 pb-4 pt-5"
         >
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -top-16 left-1/2 h-32 w-48 -translate-x-1/2 rounded-full bg-[var(--sane-green)]/10 blur-2xl transition-opacity duration-300 group-hover:opacity-70"
+          />
+
           <Image
             src="/new-logo.png"
             alt="SANEM"
-            width={116}
-            height={78}
+            width={128}
+            height={86}
             priority
-            className="h-auto w-[116px] object-contain"
+            className="relative h-auto w-[128px] object-contain transition-transform duration-300 group-hover:scale-[1.04]"
           />
-          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--sane-text-light)]">
+
+          <span className="relative inline-flex items-center gap-1.5 rounded-full bg-[var(--sane-green-light)] px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-[0.14em] text-[var(--sane-green)]">
+            <span aria-hidden className="h-1 w-1 rounded-full bg-[var(--sane-orange)]" />
             {espace}
           </span>
         </Link>
