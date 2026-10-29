@@ -12,8 +12,11 @@ import { useReferentiels } from "@/lib/referentiels";
 import type { ApiEntreprise, EntreprisePayload } from "@/lib/types";
 
 const champ =
-  "w-full rounded-lg border border-[var(--sane-border)] px-3 py-2.5 text-[13px] outline-none transition-colors focus:border-[var(--sane-green)] focus:ring-2 focus:ring-[var(--sane-green)]/10";
-const etiquette = "mb-1.5 block text-[12px] font-semibold text-[var(--sane-text)]";
+  "w-full rounded-xl border border-[var(--sane-border)] bg-white px-3.5 py-3 text-[13px] text-[var(--sane-text)] outline-none transition-all placeholder:text-[var(--sane-text-light)]/60 hover:border-[var(--sane-green-muted)] focus:border-[var(--sane-green-muted)] focus:ring-4 focus:ring-[var(--sane-green)]/8";
+const etiquette = "mb-2 block text-[12px] font-semibold text-[var(--sane-text)]";
+const aide = "mt-1 text-[11.5px] text-[var(--sane-text-light)]";
+const titreGroupe =
+  "mb-1 mt-2 border-t border-[var(--sane-border)] pt-5 text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--sane-green)] sm:col-span-2 xl:col-span-3";
 
 function Contenu() {
   const [form, setForm] = useState<EntreprisePayload>({
@@ -109,7 +112,7 @@ function Contenu() {
   }
 
   return (
-    <form onSubmit={enregistrer} className="max-w-[720px] rounded-2xl border border-[var(--sane-border)] bg-white p-5 sm:p-6">
+    <form onSubmit={enregistrer} className="rounded-2xl border border-[var(--sane-border)] bg-white p-5 shadow-[0_1px_2px_rgba(16,35,26,0.04),0_8px_24px_-16px_rgba(16,99,45,0.18)] sm:p-7">
       {existe && (
         <p
           className={`mb-5 flex items-start gap-2.5 rounded-xl p-4 ${
@@ -123,8 +126,8 @@ function Contenu() {
           )}
           <span className="text-[13px] text-[var(--sane-text)]">
             {verifiee
-              ? "Votre entreprise est vérifiée : vous pouvez publier des offres."
-              : "Votre entreprise est en attente de vérification par les organisateurs. Vos offres resteront en brouillon jusque-là."}
+              ? "Votre entreprise est vérifiée : vos offres peuvent être publiées et apparaître sur le site public."
+              : "Votre entreprise est en attente de vérification par les organisateurs. Vous pouvez préparer vos offres dès maintenant : elles resteront en brouillon jusqu'à la validation."}
           </span>
         </p>
       )}
@@ -133,16 +136,19 @@ function Contenu() {
 
       <Alerte texte={succes} ton="succes" className="mb-4" />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="sm:col-span-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <p className={titreGroupe + " !mt-0 !border-t-0 !pt-0"}>Identité</p>
+
+        <div className="sm:col-span-2 xl:col-span-3">
           <label htmlFor="nom" className={etiquette}>Nom de l&apos;entreprise *</label>
           <input id="nom" required value={form.nom} onChange={(e) => set("nom")(e.target.value)} className={champ} />
-          {champsEnErreur.nom && <p className="mt-1 text-[12px] text-[var(--sane-red-dark)]">{champsEnErreur.nom}</p>}
+          {champsEnErreur.nom && <p className="mt-1 text-[12px] font-medium text-[var(--sane-red-dark)]">{champsEnErreur.nom}</p>}
         </div>
 
         <div>
           <label htmlFor="secteur" className={etiquette}>Secteur d&apos;activité</label>
           <ComboBox id="secteur" options={listes.domaine} value={form.secteur ?? ""} onChange={set("secteur")} placeholder="Choisissez un secteur" />
+          <p className={aide}>Sert au rapprochement entre vos offres et les candidats.</p>
         </div>
 
         <div>
@@ -160,29 +166,32 @@ function Contenu() {
           <input id="telephone" value={form.telephone} onChange={(e) => set("telephone")(e.target.value)} className={champ} />
         </div>
 
-        <div className="sm:col-span-2">
+        <div className="sm:col-span-2 xl:col-span-3">
           <label htmlFor="site_web" className={etiquette}>Site web</label>
           <input id="site_web" type="url" placeholder="https://" value={form.site_web} onChange={(e) => set("site_web")(e.target.value)} className={champ} />
-          {champsEnErreur.site_web && <p className="mt-1 text-[12px] text-[var(--sane-red-dark)]">{champsEnErreur.site_web}</p>}
+          {champsEnErreur.site_web && <p className="mt-1 text-[12px] font-medium text-[var(--sane-red-dark)]">{champsEnErreur.site_web}</p>}
         </div>
 
-        <div className="sm:col-span-2">
+        <p className={titreGroupe}>Présentation</p>
+
+        <div className="sm:col-span-2 xl:col-span-3">
           <label htmlFor="description" className={etiquette}>Présentation</label>
-          <textarea id="description" rows={5} value={form.description} onChange={(e) => set("description")(e.target.value)} className={champ} />
+          <textarea id="description" rows={6} value={form.description} onChange={(e) => set("description")(e.target.value)} className={champ} placeholder="Ce que fait votre entreprise, ce que vous cherchez, pourquoi y travailler." />
+          <p className={aide}>Affichée aux candidats sous chacune de vos offres.</p>
         </div>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-[var(--sane-border)] pt-5">
+      <div className="mt-7 flex flex-wrap items-center gap-3 border-t border-[var(--sane-border)] pt-6">
         <button
           type="submit"
           disabled={envoi}
-          className="inline-flex items-center gap-2 rounded-lg bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-xl bg-[var(--sane-orange)] px-6 py-3 text-[13px] font-bold text-white shadow-[0_6px_16px_-6px_rgba(229,118,23,0.7)] transition-all hover:bg-[var(--sane-orange-dark)] hover:shadow-[0_8px_20px_-6px_rgba(229,118,23,0.8)] disabled:opacity-60 disabled:shadow-none"
         >
           <SpinnerOu actif={envoi}><Save size={15} /></SpinnerOu>
           {existe ? "Enregistrer les modifications" : "Créer mon entreprise"}
         </button>
 
-        <Link href="/dashboard/recruteur" className={"inline-flex items-center gap-1.5 rounded-xl border border-[var(--sane-border)] px-4 py-2.5 text-[13px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]"}>
+        <Link href="/dashboard/recruteur" className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--sane-border)] px-5 py-3 text-[13px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green-muted)] hover:bg-[var(--sane-green-light)] hover:text-[var(--sane-green)]">
           <ArrowLeft size={15} /> Retour au tableau de bord
         </Link>
       </div>
