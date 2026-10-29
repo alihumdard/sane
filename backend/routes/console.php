@@ -25,3 +25,13 @@ Schedule::command('sanem:rappels-entretiens')
 Schedule::command('sanem:rappels-formations')
     ->dailyAt('08:00')
     ->withoutOverlapping();
+
+/*
+ * The nightly copy of what cannot be rebuilt: the database and the files
+ * organisers uploaded. At 02:30, when nobody is registering, and never
+ * overlapping — a dump that is still running must not be joined by a second.
+ */
+Schedule::command('sanem:sauvegarder --jours='.config('sauvegarde.jours'))
+    ->dailyAt('02:30')
+    ->withoutOverlapping()
+    ->runInBackground();
