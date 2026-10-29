@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { Search, ChevronDown, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { NAVIGATION } from "@/lib/constants";
 import { NotificationBell } from "@/components/shared/NotificationBell";
 import { useAuth } from "@/lib/auth";
@@ -66,7 +66,6 @@ export function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden items-center gap-1.5 lg:flex xl:gap-3">
           {NAVIGATION.map((item) => {
-            const hasDropdown = item.label === "Emploi";
             const isActive = mounted && (
               pathname === item.href ||
               (item.href !== "/" && pathname?.startsWith(item.href))
@@ -83,14 +82,6 @@ export function Header() {
                 }`}
               >
                 {item.label}
-
-                {hasDropdown && (
-                  <ChevronDown
-                    size={13}
-                    strokeWidth={2}
-                    className="transition-transform group-hover:rotate-180"
-                  />
-                )}
 
                 {isActive && (
                   <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--sane-orange)]" />
