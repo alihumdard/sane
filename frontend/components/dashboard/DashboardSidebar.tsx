@@ -114,7 +114,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
         <Link
           href="/"
           title="Voir le site public"
-          className="group relative flex shrink-0 flex-col items-center gap-1.5 overflow-hidden px-4 pb-2.5 pt-3"
+          className="group relative flex shrink-0 flex-col items-center gap-1.5 overflow-hidden px-2 pb-2.5 pt-3"
           style={{
             backgroundImage:
               "linear-gradient(180deg, rgba(16,99,45,0.055) 0%, rgba(16,99,45,0.015) 55%, transparent 100%)",
