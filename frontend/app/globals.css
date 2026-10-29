@@ -419,6 +419,23 @@ img {
   animation: sane-derive-b 28s ease-in-out infinite;
 }
 
+/* A light travelling the length of the menu's top edge. It holds at the far
+   side for most of the cycle, so the eye is caught now and then rather than
+   kept busy. */
+
+@keyframes sane-balayage {
+  0% {
+    transform: translateX(-150%);
+  }
+  55%, 100% {
+    transform: translateX(300%);
+  }
+}
+
+.sane-balayage {
+  animation: sane-balayage 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
 @keyframes sane-pulsation {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.45; }
@@ -457,6 +474,7 @@ img {
 @media (prefers-reduced-motion: reduce) {
   .sane-derive-a,
   .sane-derive-b,
+  .sane-balayage,
   .sane-en-attente {
     animation: none;
   }
