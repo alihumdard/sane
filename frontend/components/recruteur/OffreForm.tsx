@@ -31,7 +31,8 @@ function Erreur({ message }: { message?: string }) {
 interface OffreFormProps {
   offre?: ApiOffre;
   onAnnuler: () => void;
-  onEnregistre: () => void;
+  /** True once the offer is live on the public site. */
+  onEnregistre: (publiee: boolean) => void;
 }
 
 /** Create or edit an offer; saving as draft and publishing are separate acts. */
@@ -96,7 +97,7 @@ export function OffreForm({ offre, onAnnuler, onEnregistre }: OffreFormProps) {
       if (offre) await api.put(`/entreprise/offres/${offre.id}`, payload);
       else await api.post("/entreprise/offres", payload);
 
-      onEnregistre();
+      onEnregistre(statut === "publiee");
     } catch (e) {
       if (e instanceof ApiError) {
         setErreur(e.message);
@@ -243,7 +244,16 @@ export function OffreForm({ offre, onAnnuler, onEnregistre }: OffreFormProps) {
         </div>
       </div>
 
-      <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+      <div className="mt-6 flex flex-col-reverse gap-3 border-t border-[var(--sane-border)] pt-5 sm:flex-row sm:justify-end">
+        {/* A way out beside the save, not only as a link above the first field. */}
+        <button
+          type="button"
+          onClick={onAnnuler}
+          className={"inline-flex items-center gap-1.5 rounded-xl border border-[var(--sane-border)] px-4 py-2.5 text-[13px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]" + " sm:mr-auto"}
+        >
+          <ArrowLeft size={15} /> Retour aux offres
+        </button>
+
         <button
           type="submit"
           disabled={envoi !== null}

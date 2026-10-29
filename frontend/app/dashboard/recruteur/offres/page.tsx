@@ -28,6 +28,7 @@ function Contenu() {
   const [premierChargement, setPremierChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
   const [edition, setEdition] = useState<ApiOffre | null | "nouvelle">(null);
+  const [message, setMessage] = useState<string | null>(null);
 
   const charger = useCallback(async () => {
     try {
@@ -82,7 +83,21 @@ function Contenu() {
       <OffreForm
         offre={edition === "nouvelle" ? undefined : edition}
         onAnnuler={() => setEdition(null)}
-        onEnregistre={() => {
+        onEnregistre={(publiee) => {
+          /*
+            The form closed on save and the list came back with nothing to
+            say it had worked — the recruiter had to find their own offer to
+            be sure.
+          */
+          const nouvelle = edition === "nouvelle";
+
+          setMessage(
+            publiee
+              ? (nouvelle ? "Offre publiée." : "Offre mise à jour et publiée.") +
+                  " Elle est visible sur le site public."
+              : (nouvelle ? "Offre créée en brouillon." : "Modifications enregistrées.") +
+                  " Publiez-la pour la rendre visible."
+          );
           setEdition(null);
           void charger();
         }}
@@ -120,6 +135,8 @@ function Contenu() {
           <Plus size={15} /> Nouvelle offre
         </button>
       </div>
+
+      <Alerte texte={message} ton="succes" className="mb-4" />
 
       <Alerte texte={erreur} className="mb-4" />
 

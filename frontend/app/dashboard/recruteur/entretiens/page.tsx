@@ -35,6 +35,7 @@ function Contenu() {
   // only the first needs the list to be absent.
   const [premierChargement, setPremierChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   const [nouveau, setNouveau] = useState({ debut: "", fin: "", mode: "visio" as ModeEntretien, lieu: "" });
   const [ajout, setAjout] = useState(false);
 
@@ -66,6 +67,7 @@ function Contenu() {
     e.preventDefault();
     setAjout(true);
     setErreur(null);
+    setMessage(null);
 
     try {
       await api.post("/entreprise/creneaux", {
@@ -75,6 +77,7 @@ function Contenu() {
         lieu: nouveau.lieu || undefined,
       });
       setNouveau({ debut: "", fin: "", mode: "visio", lieu: "" });
+      setMessage("Créneau ajouté. Proposez-le à un candidat depuis ses candidatures.");
       await charger();
     } catch (err) {
       setErreur(
@@ -90,6 +93,7 @@ function Contenu() {
   async function supprimerCreneau(id: number) {
     try {
       await api.delete(`/entreprise/creneaux/${id}`);
+      setMessage("Créneau supprimé.");
       await charger();
     } catch (err) {
       setErreur(err instanceof ApiError ? err.message : "Suppression impossible.");
@@ -99,6 +103,7 @@ function Contenu() {
   async function action(entretien: ApiEntretien, quoi: "annuler" | "terminer") {
     try {
       await api.post(`/entreprise/entretiens/${entretien.id}/${quoi}`);
+      setMessage(quoi === "annuler" ? "Entretien annulé. Le candidat en est informé." : "Entretien marqué comme terminé.");
       await charger();
     } catch (err) {
       setErreur(err instanceof ApiError ? err.message : "Action impossible.");
@@ -152,6 +157,8 @@ function Contenu() {
 
   return (
     <>
+      <Alerte texte={message} ton="succes" className="mb-4" />
+
       <Alerte texte={erreur} className="mb-4" />
 
       <section className="mb-6 rounded-2xl border border-[var(--sane-border)] bg-white p-5">

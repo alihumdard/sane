@@ -1,7 +1,8 @@
 ﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AlertCircle, Camera, CheckCircle2, Loader2, Save } from "lucide-react";
+import { AlertCircle, ArrowLeft, Camera, CheckCircle2, Loader2, Save } from "lucide-react";
+import Link from "next/link";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { api, ApiError } from "@/lib/api";
 
@@ -229,13 +230,19 @@ export default function AdminParametresPage() {
           ))}
         </div>
 
-        <button
-          type="submit" disabled={envoi}
-          className="mt-5 inline-flex items-center gap-2 rounded-lg bg-[var(--sane-green)] px-5 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
-        >
-          {envoi ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
-          Enregistrer les modifications
-        </button>
+        <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-[var(--sane-border)] pt-5">
+          <button
+            type="submit" disabled={envoi}
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--sane-green)] px-5 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
+          >
+            {envoi ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+            Enregistrer les modifications
+          </button>
+
+          <Link href="/dashboard/admin" className={"inline-flex items-center gap-1.5 rounded-xl border border-[var(--sane-border)] px-4 py-2.5 text-[13px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]"}>
+            <ArrowLeft size={15} /> Retour au tableau de bord
+          </Link>
+        </div>
       </form>
     </AdminPage>
   );

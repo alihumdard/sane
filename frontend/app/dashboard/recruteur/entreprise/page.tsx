@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckCircle2, Loader2, Save, ShieldAlert } from "lucide-react";
+import Link from "next/link";
+import { ArrowLeft, CheckCircle2, Loader2, Save, ShieldAlert } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
@@ -171,14 +172,20 @@ function Contenu() {
         </div>
       </div>
 
-      <button
-        type="submit"
-        disabled={envoi}
-        className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
-      >
-        <SpinnerOu actif={envoi}><Save size={15} /></SpinnerOu>
-        {existe ? "Enregistrer les modifications" : "Créer mon entreprise"}
-      </button>
+      <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-[var(--sane-border)] pt-5">
+        <button
+          type="submit"
+          disabled={envoi}
+          className="inline-flex items-center gap-2 rounded-lg bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
+        >
+          <SpinnerOu actif={envoi}><Save size={15} /></SpinnerOu>
+          {existe ? "Enregistrer les modifications" : "Créer mon entreprise"}
+        </button>
+
+        <Link href="/dashboard/recruteur" className={"inline-flex items-center gap-1.5 rounded-xl border border-[var(--sane-border)] px-4 py-2.5 text-[13px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]"}>
+          <ArrowLeft size={15} /> Retour au tableau de bord
+        </Link>
+      </div>
     </form>
   );
 }

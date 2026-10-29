@@ -3,7 +3,7 @@
 import { Suspense, useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
-  CalendarDays, CheckCircle2, Lock, MapPin, Pencil, Plus, Trash2, Unlock, X,
+  ArrowLeft, CalendarDays, CheckCircle2, Lock, MapPin, Pencil, Plus, Trash2, Unlock, X,
 } from "lucide-react";
 import { ListeChargee } from "@/components/ui/ListeChargee";
 import { Alerte } from "@/components/ui/Alerte";
@@ -252,13 +252,28 @@ function Contenu() {
           </label>
         </div>
 
+        <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-[var(--sane-border)] pt-5">
         <button
           type="submit" disabled={envoi}
-          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-lg bg-[var(--sane-orange)] px-5 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
         >
           <Spinner actif={envoi} />
           Enregistrer
         </button>
+
+        {/*
+          A way out that is not a small cross in the corner: leaving the form
+          meant finding the X, and nothing said what it would do with what had
+          been typed.
+        */}
+        <button
+          type="button"
+          onClick={() => setEdition(null)}
+          className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--sane-border)] px-4 py-2.5 text-[13px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]"
+        >
+          <ArrowLeft size={15} /> Retour aux éditions
+        </button>
+        </div>
       </form>
     );
   }
@@ -348,27 +363,41 @@ function Contenu() {
                 <div className="flex shrink-0 flex-wrap items-center gap-1">
                   <Spinner actif={enCours === e.id} className="text-[var(--sane-green)]" />
 
+                  {/*
+                    Spelled out rather than drawn.
+                    
+                    These two were icons alone — a padlock and a tick — and
+                    the tick only appeared on the editions that were not
+                    active, so the row of buttons differed from one card to
+                    the next with nothing to say why.
+                  */}
                   <button
                     type="button"
                     onClick={() => action(e, "inscriptions")}
                     disabled={enCours === e.id}
-                    title={e.inscriptions_ouvertes ? "Fermer les inscriptions" : "Ouvrir les inscriptions"}
-                    className="rounded-lg p-2 text-[var(--sane-text-light)] hover:bg-[var(--sane-background)]"
+                    title={
+                      e.inscriptions_ouvertes
+                        ? "Fermer le formulaire d'inscription du site public"
+                        : "Rouvrir le formulaire d'inscription du site public"
+                    }
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--sane-border)] px-2.5 py-1.5 text-[12px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)] disabled:opacity-50"
                   >
-                    {e.inscriptions_ouvertes ? <Unlock size={15} /> : <Lock size={15} />}
+                    {e.inscriptions_ouvertes ? <Unlock size={14} /> : <Lock size={14} />}
+                    {e.inscriptions_ouvertes ? "Fermer les inscriptions" : "Ouvrir les inscriptions"}
                   </button>
 
-                  {!e.active && (
-                    <button
-                      type="button"
-                      onClick={() => action(e, "activer")}
-                      disabled={enCours === e.id}
-                      title="Activer cette édition"
-                      className="rounded-lg p-2 text-[var(--sane-green)] hover:bg-[var(--sane-green-light)]"
-                    >
-                      <CheckCircle2 size={15} />
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => action(e, "activer")}
+                    disabled={enCours === e.id}
+                    title="Les inscriptions et les formations du site public porteront sur cette édition"
+                    className={
+                      "items-center gap-1.5 rounded-lg border border-[var(--sane-green)] px-2.5 py-1.5 text-[12px] font-semibold text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green-light)] disabled:opacity-50 " +
+                      (e.active ? "hidden" : "inline-flex")
+                    }
+                  >
+                    <CheckCircle2 size={14} /> Rendre active
+                  </button>
 
                   <button
                     type="button"

@@ -3,7 +3,7 @@
 import { use, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Save } from "lucide-react";
+import { ArrowLeft, Save } from "lucide-react";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { ChampImage } from "@/components/dashboard/ChampImage";
 import { Spinner, SpinnerOu } from "@/components/dashboard/Spinner";
@@ -398,9 +398,9 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
 
             <Link
               href={BASE}
-              className="text-[13px] font-semibold text-[var(--sane-text-light)] transition-colors hover:text-[var(--sane-green)]"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--sane-border)] px-4 py-2.5 text-[13px] font-semibold text-[var(--sane-text)] transition-colors hover:border-[var(--sane-green)] hover:text-[var(--sane-green)]"
             >
-              Annuler
+              <ArrowLeft size={15} /> Retour au catalogue
             </Link>
           </div>
         </div>
