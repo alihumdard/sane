@@ -135,6 +135,7 @@ export const SECTIONS_ADMIN: EntreeNav[] = [
 
 /** What the back-office search box can reach, by what the admin might type. */
 export const CIBLES_RECHERCHE: { mots: string[]; label: string; href: string; icon: React.ReactNode }[] = [
+  { mots: ["tableau", "bord", "accueil", "dashboard", "vue"], label: "Tableau de bord", href: "/dashboard/admin", icon: <Home size={14} /> },
   { mots: ["utilisateur", "compte", "membre", "role"], label: "Utilisateurs", href: "/dashboard/admin/utilisateurs", icon: <Users size={14} /> },
   { mots: ["offre", "emploi", "poste", "recrutement"], label: "Offres d'emploi", href: "/dashboard/admin/emploi", icon: <Briefcase size={14} /> },
   { mots: ["entreprise", "societe", "recruteur"], label: "Entreprises", href: "/dashboard/admin/emploi?onglet=entreprises", icon: <Building2 size={14} /> },

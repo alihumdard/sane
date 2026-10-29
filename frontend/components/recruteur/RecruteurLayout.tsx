@@ -22,6 +22,7 @@ const LIENS: { href: string; label: string; icon: React.ReactNode; accent: Accen
 
 /** What the recruiter's search box can reach, by what they might type. */
 const CIBLES: CibleRecherche[] = [
+  { mots: ["tableau", "bord", "accueil", "dashboard", "vue"], label: "Tableau de bord", href: "/dashboard/recruteur", icon: <Home size={14} /> },
   { mots: ["offre", "poste", "annonce", "publier"], label: "Mes offres", href: "/dashboard/recruteur/offres", icon: <Briefcase size={14} /> },
   { mots: ["candidature", "postulant", "dossier"], label: "Candidatures", href: "/dashboard/recruteur/candidatures", icon: <FileText size={14} /> },
   { mots: ["correspondance", "matching", "suggestion"], label: "Candidats correspondants", href: "/dashboard/recruteur/matching", icon: <Sparkles size={14} /> },
