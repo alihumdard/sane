@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class Entreprise extends Model
@@ -27,6 +29,24 @@ class Entreprise extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /** Everyone who acts for this company: its owner and its members. */
+    public function recruteurs(): Collection
+    {
+        return $this->membres()
+            ->get()
+            ->when($this->user, fn ($liste) => $liste->push($this->user))
+            ->filter()
+            ->unique('id')
+            ->values();
+    }
+
+    public function membres(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'membres_entreprise')
+            ->withPivot('role_interne')
+            ->withTimestamps();
     }
 
     public function offres(): HasMany

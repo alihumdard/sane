@@ -35,7 +35,7 @@ class GestionCandidatures
         $this->verifierProfilComplet($profil, $cvDocumentId);
 
         try {
-            return DB::transaction(function () use ($profil, $offre, $lettre, $cvDocumentId, $reponse1, $reponse2) {
+            $candidature = DB::transaction(function () use ($profil, $offre, $lettre, $cvDocumentId, $reponse1, $reponse2) {
                 $candidature = Candidature::create([
                     // Replaced below with the id-derived reference.
                     'reference' => (string) Str::uuid(),
@@ -57,6 +57,10 @@ class GestionCandidatures
 
                 return $candidature;
             });
+
+            $this->prevenirLesRecruteurs($candidature, $offre, $profil);
+
+            return $candidature;
         } catch (QueryException $e) {
             // The unique(offre_id, profil_id) index is the real guard: two
             // simultaneous submissions both pass an existence check, only one
@@ -68,6 +72,38 @@ class GestionCandidatures
             }
 
             throw $e;
+        }
+    }
+
+    /**
+     * The recruiters behind the offer, once an application lands on it.
+     *
+     * The candidate was told at each step and the recruiter was told nothing:
+     * an application arrived in their list with no bell, so the only way to
+     * learn of one was to go and look. Sent outside the transaction — a
+     * notification that fails must not undo the application it announces.
+     */
+    private function prevenirLesRecruteurs(
+        Candidature $candidature,
+        OffreEmploi $offre,
+        ProfilDemandeur $profil,
+    ): void {
+        $entreprise = $offre->entreprise;
+
+        if ($entreprise === null) {
+            return;
+        }
+
+        $nom = $profil->user->name ?? 'Un candidat';
+
+        foreach ($entreprise->recruteurs() as $recruteur) {
+            $this->notificateur->notifier(
+                $recruteur,
+                'Nouvelle candidature',
+                sprintf('%s a postulé à « %s ».', $nom, $offre->titre),
+                '/dashboard/recruteur/candidatures',
+                'candidature',
+            );
         }
     }
 

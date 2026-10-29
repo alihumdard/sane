@@ -254,6 +254,45 @@ class EmploiApiTest extends TestCase
     }
 
     /**
+     * The recruiter behind the offer hears about it.
+     *
+     * The candidate was told at each step and the recruiter was told nothing,
+     * so an application landed in their list with no bell and the only way to
+     * learn of one was to go and look.
+     */
+    public function test_le_recruteur_est_prevenu_d_une_nouvelle_candidature(): void
+    {
+        $user = $this->demandeur();
+        $offre = $this->offre();
+        $recruteur = $offre->entreprise->user;
+
+        $this->assertSame(0, $recruteur->unreadNotifications()->count());
+
+        $this->actingAs($user)
+            ->postJson('/api/offres/'.$offre->slug.'/postuler')
+            ->assertCreated();
+
+        $notification = $recruteur->refresh()->unreadNotifications()->first();
+
+        $this->assertNotNull($notification, "Le recruteur n'a reçu aucune notification.");
+        $this->assertSame('Nouvelle candidature', $notification->data['titre']);
+        $this->assertStringContainsString($offre->titre, $notification->data['message']);
+        $this->assertSame('/dashboard/recruteur/candidatures', $notification->data['lien']);
+    }
+
+    /** A candidate is not told about their own application landing. */
+    public function test_le_candidat_nest_pas_prevenu_de_sa_propre_candidature(): void
+    {
+        $user = $this->demandeur();
+
+        $this->actingAs($user)
+            ->postJson('/api/offres/'.$this->offre()->slug.'/postuler')
+            ->assertCreated();
+
+        $this->assertSame(0, $user->refresh()->unreadNotifications()->count());
+    }
+
+    /**
      * Someone who signed up a minute ago has nothing for a recruiter to read:
      * the candidature holds a name and nothing else — no CV, no schooling,
      * nothing to decide on.
