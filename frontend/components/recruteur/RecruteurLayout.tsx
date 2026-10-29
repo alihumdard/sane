@@ -67,7 +67,7 @@ export function RecruteurLayout({
   return (
     <RoleGuard roles={["entreprise", "recruteur"]} espace="l'espace recruteur">
       <div
-        className="flex min-h-screen overflow-x-hidden bg-[var(--sane-background)]"
+        className="flex h-screen overflow-hidden bg-[var(--sane-background)]"
         style={{
           // A faint wash from the top, so the page is lit rather than flat.
           backgroundImage:
@@ -78,14 +78,15 @@ export function RecruteurLayout({
           <DashboardSidebar items={items} open={menu} onClose={() => setMenu(false)} espace="Espace recruteur" />
         </Suspense>
 
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
           <DashboardNavbar
             onMenuClick={() => setMenu(true)}
             cibles={CIBLES}
             parametres={{ href: "/dashboard/recruteur/entreprise", label: "Mon entreprise" }}
           />
 
-          <main className="mx-auto w-full max-w-[1400px] flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+          <main className="sane-colonne flex-1 overflow-y-auto px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+            <div className="mx-auto w-full max-w-[1400px]">
             <nav aria-label="Fil d'Ariane" className="mb-4 flex flex-wrap items-center gap-1 text-[11px]">
               <Link
                 href="/dashboard/recruteur"
@@ -155,6 +156,7 @@ export function RecruteurLayout({
             </div>
 
             {children}
+            </div>
           </main>
         </div>
       </div>
