@@ -60,6 +60,7 @@ class OffreRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'date_limite.after' => "La date limite doit être postérieure à aujourd'hui.",
             'date_limite.after' => 'La date limite doit être postérieure à aujourd\'hui.',
             'titre.required' => 'Le titre du poste est requis.',
             'description.required' => 'La description du poste est requise.',

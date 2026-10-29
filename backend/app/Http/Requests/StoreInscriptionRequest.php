@@ -93,6 +93,13 @@ class StoreInscriptionRequest extends FormRequest
     public function messages(): array
     {
         return [
+            /*
+             * Written out because Laravel fills :date with the rule's own
+             * parameter and does not translate it: the French line came out
+             * as « doit être une date antérieure au today », half in each
+             * language, on the public registration form.
+             */
+            'naissance.before' => "La date de naissance doit être antérieure à aujourd'hui.",
             'email.unique' => 'Une inscription existe déjà avec cette adresse email pour cette édition.',
             'consentement.accepted' => 'Vous devez accepter les conditions pour vous inscrire.',
             'formations.max' => 'Vous ne pouvez pas sélectionner plus de 5 formations.',

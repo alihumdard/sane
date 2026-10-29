@@ -120,7 +120,7 @@ class ProfilController extends Controller
 
     public function ajouterExperience(Request $request): JsonResponse
     {
-        $valide = $request->validate($this->reglesExperience());
+        $valide = $request->validate($this->reglesExperience(), $this->messagesExperience());
 
         $experience = $this->profil($request)->experiences()->create($valide);
 
@@ -134,7 +134,7 @@ class ProfilController extends Controller
     {
         $this->verifierProprietaire($request, $experience->profil_id);
 
-        $experience->update($request->validate($this->reglesExperience()));
+        $experience->update($request->validate($this->reglesExperience(), $this->messagesExperience()));
 
         return response()->json([
             'message' => 'Expérience mise à jour.',
@@ -174,6 +174,22 @@ class ProfilController extends Controller
             'date_fin' => ['nullable', 'date', 'after_or_equal:date_debut', 'before_or_equal:'.now()->toDateString()],
             'en_poste' => ['boolean'],
             'description' => ['nullable', 'string', 'max:2000'],
+        ];
+    }
+
+    /**
+     * Written out because Laravel fills :date with the rule's own parameter:
+     * the sentence otherwise ends on a raw ISO date, or on an untranslated
+     * "today" when the parameter is a keyword.
+     *
+     * @return array<string, string>
+     */
+    private function messagesExperience(): array
+    {
+        return [
+            'date_debut.before_or_equal' => 'La date de début ne peut pas être dans le futur.',
+            'date_fin.before_or_equal' => 'La date de fin ne peut pas être dans le futur.',
+            'date_fin.after_or_equal' => 'La date de fin doit suivre la date de début.',
         ];
     }
 
