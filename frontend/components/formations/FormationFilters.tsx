@@ -1,7 +1,8 @@
 ﻿import { Search } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { fieldClass, primaryBtn, secondaryBtn, selectClass } from "@/components/ui/styles";
+import { fieldClass, primaryBtn, secondaryBtn } from "@/components/ui/styles";
+import { Select } from "@/components/ui/Select";
 import { domaines, formats, niveaux } from "./data";
 
 export interface FormationFilterState {
@@ -50,20 +51,14 @@ export function FormationFilters({ value, onChange, onReset, dirty }: Props) {
           </div>
 
           {selects.map(({ key, options, label }) => (
-            <select
+            <Select
               key={key}
+              label={label}
               value={value[key]}
-              onChange={(e) => onChange({ [key]: e.target.value })}
-              aria-label={label}
-              className={selectClass}
-            >
-              <option value="">{options[0]}</option>
-              {options.slice(1).map((o) => (
-                <option key={o} value={o}>
-                  {o}
-                </option>
-              ))}
-            </select>
+              onChange={(v) => onChange({ [key]: v })}
+              placeholder={options[0]}
+              options={options.slice(1).map((o) => ({ value: o, label: o }))}
+            />
           ))}
 
           {dirty ? (

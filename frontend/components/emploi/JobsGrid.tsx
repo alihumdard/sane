@@ -2,9 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Calendar, ChevronDown, Loader2, MapPin, Search } from "lucide-react";
+import { ArrowRight, Calendar, Loader2, MapPin, Search } from "lucide-react";
 import { Alerte } from "@/components/ui/Alerte";
 import { Container } from "@/components/ui/Container";
+import { Select } from "@/components/ui/Select";
 import { api, ApiError } from "@/lib/api";
 import type { ApiOffre, FiltreValeur, OffresResponse } from "@/lib/types";
 
@@ -32,7 +33,8 @@ function couleur(id: number): string {
   return PALETTE[id % PALETTE.length];
 }
 
-function Select({
+/** The filters the API answers with, each carrying how many offers match. */
+function Filtre({
   value,
   onChange,
   placeholder,
@@ -44,22 +46,13 @@ function Select({
   options: FiltreValeur[];
 }) {
   return (
-    <div className="relative lg:min-w-[150px] lg:flex-1">
-      <ChevronDown size={15} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        aria-label={placeholder}
-        className="h-[46px] w-full cursor-pointer appearance-none rounded-xl bg-white pl-4 pr-10 text-[13px] text-[var(--sane-text)] shadow-sm outline-none ring-1 ring-black/[0.04] transition-shadow focus:ring-2 focus:ring-[var(--sane-green)] sm:h-[52px] sm:text-[14px]"
-      >
-        <option value="">{placeholder}</option>
-        {options.map((o) => (
-          <option key={o.valeur} value={o.valeur}>
-            {o.libelle} ({o.total})
-          </option>
-        ))}
-      </select>
-    </div>
+    <Select
+      className="lg:min-w-[150px] lg:flex-1"
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      options={options.map((o) => ({ value: o.valeur, label: o.libelle, total: o.total }))}
+    />
   );
 }
 
@@ -226,9 +219,9 @@ export function JobsGrid({
               />
             </div>
 
-            <Select value={secteur} onChange={(v) => { setSecteur(v); setPage(1); }} placeholder="Secteur d'activité" options={filtres.secteur} />
-            <Select value={ville} onChange={(v) => { setVille(v); setPage(1); }} placeholder="Lieu" options={filtres.ville} />
-            <Select value={contrat} onChange={(v) => { setContrat(v); setPage(1); }} placeholder="Type de contrat" options={filtres.type_contrat} />
+            <Filtre value={secteur} onChange={(v) => { setSecteur(v); setPage(1); }} placeholder="Secteur d'activité" options={filtres.secteur} />
+            <Filtre value={ville} onChange={(v) => { setVille(v); setPage(1); }} placeholder="Lieu" options={filtres.ville} />
+            <Filtre value={contrat} onChange={(v) => { setContrat(v); setPage(1); }} placeholder="Type de contrat" options={filtres.type_contrat} />
           </div>
         </Container>
       </section>

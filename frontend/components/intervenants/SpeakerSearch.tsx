@@ -1,8 +1,9 @@
 ﻿import Link from "next/link";
 import { ArrowRight, Briefcase, Search } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { Select } from "@/components/ui/Select";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { fieldClass, primaryBtn, selectClass, textLink } from "@/components/ui/styles";
+import { fieldClass, primaryBtn, textLink } from "@/components/ui/styles";
 
 interface Props {
   search: string;
@@ -43,14 +44,16 @@ export function SpeakerSearch({ search, secteur, secteurs, onSearch, onSecteur }
           {/* One entry means nothing to choose between: no speaker carries
               a sector yet, and a dropdown that cannot do anything is worse
               than no dropdown. */}
-          <div className={`relative ${secteurs.length > 1 ? "block" : "hidden"}`}>
-            <Briefcase size={15} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--sane-text-light)]" />
+          <div className={secteurs.length > 1 ? "block" : "hidden"}>
             {/* One filter, over the sectors the speakers actually carry. */}
-            <select value={secteur} onChange={(e) => onSecteur(e.target.value)} aria-label="Secteur" className={`${selectClass} pl-10`}>
-              {secteurs.map((s) => (
-                <option key={s}>{s}</option>
-              ))}
-            </select>
+            <Select
+              icon={Briefcase}
+              label="Secteur"
+              value={secteur === secteurs[0] ? "" : secteur}
+              onChange={(v) => onSecteur(v || secteurs[0])}
+              placeholder={secteurs[0]}
+              options={secteurs.slice(1).map((s) => ({ value: s, label: s }))}
+            />
           </div>
           <button type="submit" className={`${primaryBtn} sm:col-span-2 lg:col-span-1`}>
             Rechercher

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
+import { Select } from "@/components/ui/Select";
 import {
   ChevronRight,
   ArrowRight,
@@ -397,27 +398,33 @@ export function ActualitesContenu({
                     className="h-[44px] w-full rounded-full border border-[var(--sane-border-soft)] bg-white pl-10 pr-4 text-[13px] text-[var(--sane-green-deep)] placeholder:text-[var(--sane-text-light)]/50 outline-none focus:border-[var(--sane-green)]"
                   />
                 </div>
-                <select
+                <Select
+                  className="min-w-[170px]"
+                  label="Catégorie"
+                  placeholder="Catégorie"
                   value={categoryFilter}
-                  onChange={(e) => { setCategoryFilter(e.target.value); setPage(1); }}
-                  className="h-[44px] rounded-full border border-[var(--sane-border-soft)] bg-white px-4 text-[13px] text-[var(--sane-text-light)] outline-none focus:border-[var(--sane-green)]"
-                >
-                  <option value="">Catégorie</option>
-                  <option value="Événement">Événement</option>
-                  <option value="Communiqué">Communiqué</option>
-                  <option value="Formation">Formation</option>
-                  <option value="Partenariat">Partenariat</option>
-                  <option value="Témoignage">Témoignage</option>
-                </select>
-                <select
+                  onChange={(v) => { setCategoryFilter(v); setPage(1); }}
+                  options={[
+                    { value: "Événement", label: "Événement" },
+                    { value: "Communiqué", label: "Communiqué" },
+                    { value: "Formation", label: "Formation" },
+                    { value: "Partenariat", label: "Partenariat" },
+                    { value: "Témoignage", label: "Témoignage" },
+                  ]}
+                />
+
+                <Select
+                  className="min-w-[150px]"
+                  label="Trier par date"
+                  placeholder="Date"
                   value={dateSort}
-                  onChange={(e) => { setDateSort(e.target.value); setPage(1); }}
-                  className="h-[44px] rounded-full border border-[var(--sane-border-soft)] bg-white px-4 text-[13px] text-[var(--sane-text-light)] outline-none focus:border-[var(--sane-green)]"
-                >
-                  <option value="">Date</option>
-                  <option value="recent">Plus récent</option>
-                  <option value="ancien">Plus ancien</option>
-                </select>
+                  onChange={(v) => { setDateSort(v); setPage(1); }}
+                  options={[
+                    { value: "recent", label: "Plus récent" },
+                    { value: "ancien", label: "Plus ancien" },
+                  ]}
+                />
+
                 <button
                   onClick={() => { setSearchQuery(""); setCategoryFilter(""); setDateSort(""); setActiveTab("tous"); setPage(1); }}
                   className="h-[44px] rounded-full bg-[var(--sane-orange)] px-6 text-[13px] font-semibold text-white transition-colors hover:bg-[var(--sane-c-c9600f)] whitespace-nowrap"
