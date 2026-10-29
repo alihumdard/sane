@@ -96,14 +96,19 @@ export function AdminTable<T>({
           />
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">{actions}</div>
+        {/*
+          Pushed to the far edge: "Ajouter" sat pressed against the search box
+          with the right half of the toolbar empty, because the search was
+          allowed to grow and everything after it stopped where it stopped.
+        */}
+        <div className="flex flex-wrap items-center gap-2 sm:ml-auto">{actions}</div>
       </div>
 
       <div className={"mb-3 flex flex-wrap items-center gap-2 " + (filtres ? "flex" : "hidden")}>{filtres}</div>
 
       <Alerte texte={erreur} className="mb-3" />
 
-      <div className="overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white shadow-[0_1px_2px_rgba(16,35,26,0.04),0_8px_24px_-16px_rgba(16,99,45,0.18)]">
+      <div className="sane-apparait overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white shadow-[0_1px_2px_rgba(16,35,26,0.04),0_8px_24px_-16px_rgba(16,99,45,0.18)]">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead className="sticky top-[62px] z-[1] border-b border-[var(--sane-border)] bg-[var(--sane-background)]">
@@ -125,7 +130,7 @@ export function AdminTable<T>({
             </thead>
             <tbody className="divide-y divide-[var(--sane-border)]">
               {lignes.map((ligne) => (
-                <tr key={cle(ligne)} className="transition-colors hover:bg-[var(--sane-green-light)]/40">
+                <tr key={cle(ligne)} className="sane-rangee hover:bg-[var(--sane-green-light)]/40">
                   {colonnes.map((c) => (
                     <td
                       key={c.cle}

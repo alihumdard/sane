@@ -126,7 +126,12 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
 
             const contenu = (
               <>
-                <span className={ici ? "text-[var(--sane-green)]" : "text-[var(--sane-text-light)]"}>
+                <span
+                  className={
+                    "sane-fleche " +
+                    (ici ? "text-[var(--sane-green)]" : "text-[var(--sane-text-light)]")
+                  }
+                >
                   {item.icon}
                 </span>
                 <span className="flex-1 truncate text-[12.5px]">{item.label}</span>
@@ -152,7 +157,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
             );
 
             const classe =
-              "relative mb-0.5 flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left font-semibold transition-all " +
+              "group relative mb-0.5 flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left font-semibold transition-all " +
               (ici
                 ? "bg-[var(--sane-green-light)] text-[var(--sane-green)] shadow-[inset_3px_0_0_var(--sane-green)]"
                 : "text-[var(--sane-text)] hover:bg-[var(--sane-background)] hover:text-[var(--sane-green)]");

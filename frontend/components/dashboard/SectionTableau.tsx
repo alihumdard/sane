@@ -25,7 +25,7 @@ export function SectionTableau({
   children: ReactNode;
 }) {
   return (
-    <section className="mb-7">
+    <section className="sane-apparait mb-7">
       <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
         <div className="min-w-0">
           <h2 className="text-[15px] font-bold leading-tight text-[var(--sane-text)]">{titre}</h2>
@@ -43,12 +43,12 @@ export function SectionTableau({
         <Link
           href={lien?.href ?? "#"}
           className={
-            "shrink-0 items-center gap-1.5 text-[12.5px] font-semibold text-[var(--sane-green)] transition-colors hover:text-[var(--sane-green-dark)] " +
+            "group shrink-0 items-center gap-1.5 text-[12.5px] font-semibold text-[var(--sane-green)] transition-colors hover:text-[var(--sane-green-dark)] " +
             (lien && !action ? "inline-flex" : "hidden")
           }
         >
           {lien?.label}
-          <ArrowRight size={14} />
+          <ArrowRight size={14} className="sane-fleche" />
         </Link>
       </div>
 

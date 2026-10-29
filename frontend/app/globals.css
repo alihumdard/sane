@@ -382,3 +382,83 @@ img {
     overflow-wrap: anywhere;
   }
 }
+
+/* ── Movement ──────────────────────────────────────────────────────────────
+   The dashboards arrived fully formed and perfectly still: a grid of tiles
+   and a table, with nothing to say which of them was pressable. These are the
+   few bits of motion the back office uses, in one place rather than invented
+   per screen.
+
+   Everything here is a transform or an opacity — no layout is animated, so a
+   slow machine drops frames rather than reflowing the page. */
+
+@keyframes sane-apparition {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* A block settling into place on arrival. `--retard` staggers a row of
+   tiles so they land one after another rather than all at once. */
+.sane-apparait {
+  animation: sane-apparition 0.42s cubic-bezier(0.22, 0.75, 0.3, 1) backwards;
+  animation-delay: var(--retard, 0ms);
+}
+
+@keyframes sane-pulsation {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+/* For a count that is still being fetched, instead of a nought that looks
+   like an answer. */
+.sane-en-attente {
+  animation: sane-pulsation 1.4s ease-in-out infinite;
+}
+
+/* A row of a back-office table. The whole row shifts a hair and grows a green
+   edge, so the pointer is never ambiguous about what it is over. */
+.sane-rangee {
+  transition: background-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.sane-rangee:hover {
+  box-shadow: inset 2px 0 0 var(--sane-green);
+}
+
+/* An icon that leans towards where its button is going to take you. */
+.sane-fleche {
+  transition: transform 0.18s cubic-bezier(0.22, 0.75, 0.3, 1);
+}
+
+.group:hover .sane-fleche {
+  transform: translateX(3px);
+}
+
+.group:hover .sane-fleche-haut {
+  transform: translate(2px, -2px);
+}
+
+/* Nothing above should move for someone who has asked the system not to. */
+@media (prefers-reduced-motion: reduce) {
+  .sane-apparait,
+  .sane-en-attente {
+    animation: none;
+  }
+
+  .sane-rangee,
+  .sane-fleche,
+  .sane-fleche-haut {
+    transition: none;
+  }
+
+  .group:hover .sane-fleche,
+  .group:hover .sane-fleche-haut {
+    transform: none;
+  }
+}

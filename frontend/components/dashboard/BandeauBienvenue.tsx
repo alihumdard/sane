@@ -27,7 +27,7 @@ export function BandeauBienvenue({
   const nom = prenom(user?.nom);
 
   return (
-    <div className="relative mb-6 overflow-hidden rounded-2xl bg-[var(--sane-green-deep)] px-5 py-6 text-white sm:px-7">
+    <div className="sane-apparait relative mb-6 overflow-hidden rounded-2xl bg-[var(--sane-green-deep)] px-5 py-6 text-white sm:px-7">
       {/* Two soft discs, for a surface that is not a flat rectangle. */}
       <span
         aria-hidden
@@ -55,7 +55,7 @@ export function BandeauBienvenue({
 /** One figure on the welcome strip, for the things worth reading first. */
 export function ChiffreBandeau({ valeur, label }: { valeur: ReactNode; label: string }) {
   return (
-    <div className="min-w-[88px] rounded-xl border border-white/15 bg-white/10 px-3.5 py-2.5 backdrop-blur-sm">
+    <div className="min-w-[88px] rounded-xl border border-white/15 bg-white/10 px-3.5 py-2.5 backdrop-blur-sm transition-colors hover:border-white/30 hover:bg-white/15">
       <p className="text-[19px] font-extrabold leading-none">{valeur}</p>
       <p className="mt-1 text-[11px] leading-tight text-white/70">{label}</p>
     </div>

@@ -101,21 +101,21 @@ function Contenu() {
         action={<Spinner actif={chargement} className="text-[var(--sane-green)]" />}
       >
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <DashboardStatCard
+          <DashboardStatCard rang={0}
             icon={<FileText size={20} />} value={stats?.inscriptions.total ?? 0} label="Inscriptions au salon"
             accent="green" href="/dashboard/admin/inscriptions"
             note={stats?.inscriptions.en_attente ? stats.inscriptions.en_attente + " à valider" : undefined}
           />
-          <DashboardStatCard
+          <DashboardStatCard rang={1}
             icon={<Users size={20} />} value={stats?.utilisateurs.total ?? 0} label="Comptes utilisateurs"
             accent="blue" href="/dashboard/admin/utilisateurs"
           />
-          <DashboardStatCard
+          <DashboardStatCard rang={2}
             icon={<BookOpen size={20} />} value={stats?.formations.total ?? 0} label="Formations au catalogue"
             accent="orange" href="/dashboard/admin/formations"
             note={stats ? places + " places prises" : undefined}
           />
-          <DashboardStatCard
+          <DashboardStatCard rang={3}
             icon={<Award size={20} />} value={stats?.edition?.annee ?? "—"} label="Édition en cours"
             accent="teal" href="/dashboard/admin/evenements"
           />
@@ -128,20 +128,20 @@ function Contenu() {
         lien={{ href: "/dashboard/admin/emploi", label: "Ouvrir la section Emploi" }}
       >
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <DashboardStatCard
+          <DashboardStatCard rang={0}
             icon={<Briefcase size={20} />} value={stats?.emploi.offres.publiees ?? 0} label="Offres d'emploi publiées"
             accent="green" href="/dashboard/admin/emploi"
           />
-          <DashboardStatCard
+          <DashboardStatCard rang={1}
             icon={<UserCheck size={20} />} value={stats?.emploi.candidatures.total ?? 0} label="Candidatures reçues"
             accent="orange" href="/dashboard/admin/candidatures"
           />
-          <DashboardStatCard
+          <DashboardStatCard rang={2}
             icon={<Building2 size={20} />} value={stats?.emploi.entreprises.total ?? 0} label="Entreprises inscrites"
             accent="blue" href="/dashboard/admin/emploi?onglet=entreprises"
             note={stats?.emploi.entreprises.verifiees ? stats.emploi.entreprises.verifiees + " vérifiée(s)" : undefined}
           />
-          <DashboardStatCard
+          <DashboardStatCard rang={3}
             icon={<Mic size={20} />} value={stats?.emploi.entretiens ?? 0} label="Entretiens planifiés"
             accent="teal" href="/dashboard/admin/emploi?onglet=entretiens"
           />

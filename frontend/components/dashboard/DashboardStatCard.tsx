@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 interface Props {
+  /** Staggers a row of tiles so they land one after another. */
+  rang?: number;
   icon: ReactNode;
   value: string | number;
   label: string;
@@ -30,11 +32,14 @@ const ACCENTS: Record<Props["accent"], { bg: string; fg: string }> = {
  * Eight of them in a row were visually identical whether or not they were
  * clickable, so half the grid looked inert.
  */
-export function DashboardStatCard({ icon, value, label, accent, href, note }: Props) {
+export function DashboardStatCard({ icon, value, label, accent, href, note, rang = 0 }: Props) {
   const { bg, fg } = ACCENTS[accent];
 
   const contenu = (
-    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-[var(--sane-green-muted)] hover:shadow-[0_10px_28px_-14px_rgba(16,99,45,0.35)]">
+    <div
+      className="sane-apparait group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white p-5 transition-all duration-200 hover:-translate-y-1 hover:border-[var(--sane-green-muted)] hover:shadow-[0_14px_32px_-14px_rgba(16,99,45,0.4)]"
+      style={{ "--retard": rang * 60 + "ms" } as React.CSSProperties}
+    >
       {/* A wash of the tile's own colour, so the four accents read as a set. */}
       <span
         aria-hidden
@@ -44,7 +49,7 @@ export function DashboardStatCard({ icon, value, label, accent, href, note }: Pr
 
       <div className="relative mb-4 flex items-start justify-between">
         <span
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-105"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110"
           style={{ backgroundColor: bg, color: fg }}
         >
           {icon}
@@ -54,7 +59,7 @@ export function DashboardStatCard({ icon, value, label, accent, href, note }: Pr
           size={16}
           aria-hidden
           className={
-            "shrink-0 text-[var(--sane-border)] transition-all group-hover:text-[var(--sane-green)] " +
+            "sane-fleche sane-fleche-haut shrink-0 text-[var(--sane-border)] group-hover:text-[var(--sane-green)] " +
             (href ? "block" : "hidden")
           }
         />

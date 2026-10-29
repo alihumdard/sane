@@ -106,7 +106,7 @@ export function ListeRessource<T>({ def }: { def: DefinitionRessource<T> }) {
         actions={
           <Link
             href={def.base + "/nouveau"}
-            className="inline-flex items-center gap-2 rounded-xl bg-[var(--sane-orange)] px-4 py-2.5 text-[13px] font-bold text-white transition-colors hover:bg-[var(--sane-orange-dark)]"
+            className="group inline-flex h-11 items-center gap-2 rounded-xl bg-[var(--sane-orange)] px-5 text-[13px] font-bold text-white shadow-[0_6px_16px_-6px_rgba(229,118,23,0.7)] transition-all hover:-translate-y-0.5 hover:bg-[var(--sane-orange-dark)] hover:shadow-[0_10px_22px_-6px_rgba(229,118,23,0.85)]"
           >
             <Plus size={15} /> {def.ajouter}
           </Link>

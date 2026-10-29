@@ -252,10 +252,10 @@ function Contenu() {
       />
 
       <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <DashboardStatCard icon={<Users size={20} />} value={table.resume.total ?? 0} label="Comptes au total" accent="green" />
-        <DashboardStatCard icon={<ShieldCheck size={20} />} value={table.resume.actifs ?? 0} label="Comptes actifs" accent="blue" />
-        <DashboardStatCard icon={<Briefcase size={20} />} value={table.resume.recruteur ?? 0} label="Recruteurs" accent="orange" />
-        <DashboardStatCard icon={<UserPlus size={20} />} value={table.resume.demandeur ?? 0} label="Demandeurs d'emploi" accent="teal" />
+        <DashboardStatCard rang={0} icon={<Users size={20} />} value={table.resume.total ?? 0} label="Comptes au total" accent="green" />
+        <DashboardStatCard rang={1} icon={<ShieldCheck size={20} />} value={table.resume.actifs ?? 0} label="Comptes actifs" accent="blue" />
+        <DashboardStatCard rang={2} icon={<Briefcase size={20} />} value={table.resume.recruteur ?? 0} label="Recruteurs" accent="orange" />
+        <DashboardStatCard rang={3} icon={<UserPlus size={20} />} value={table.resume.demandeur ?? 0} label="Demandeurs d'emploi" accent="teal" />
       </div>
 
       <Alerte texte={enregistre} ton="succes" className="mb-3" />
@@ -275,7 +275,7 @@ function Contenu() {
         actions={
           <Link
             href="/dashboard/admin/utilisateurs/nouveau"
-            className="inline-flex items-center gap-2 rounded-xl bg-[var(--sane-orange)] px-4 py-2.5 text-[13px] font-bold text-white transition-colors hover:bg-[var(--sane-orange-dark)]"
+            className="group inline-flex h-11 items-center gap-2 rounded-xl bg-[var(--sane-orange)] px-5 text-[13px] font-bold text-white shadow-[0_6px_16px_-6px_rgba(229,118,23,0.7)] transition-all hover:-translate-y-0.5 hover:bg-[var(--sane-orange-dark)] hover:shadow-[0_10px_22px_-6px_rgba(229,118,23,0.85)]"
           >
             <UserPlus size={15} /> Ajouter un compte
           </Link>

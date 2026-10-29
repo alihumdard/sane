@@ -175,7 +175,7 @@ export default function FormationsAdminPage() {
       actions={
         <Link
           href={BASE + "/nouveau"}
-          className="inline-flex items-center gap-2 rounded-xl bg-[var(--sane-orange)] px-4 py-2.5 text-[13px] font-bold text-white transition-colors hover:bg-[var(--sane-orange-dark)]"
+          className="group inline-flex h-11 items-center gap-2 rounded-xl bg-[var(--sane-orange)] px-5 text-[13px] font-bold text-white shadow-[0_6px_16px_-6px_rgba(229,118,23,0.7)] transition-all hover:-translate-y-0.5 hover:bg-[var(--sane-orange-dark)] hover:shadow-[0_10px_22px_-6px_rgba(229,118,23,0.85)]"
         >
           <Plus size={15} /> Ajouter une formation
         </Link>
@@ -199,15 +199,15 @@ export default function FormationsAdminPage() {
       />
 
       <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <DashboardStatCard
+        <DashboardStatCard rang={0}
           icon={<BookOpen size={20} />}
           value={table.meta?.total ?? 0}
           label="Formations au catalogue"
           accent="green"
         />
-        <DashboardStatCard icon={<CheckCircle2 size={20} />} value={resume.publiees} label="Publiées sur cette page" accent="blue" />
-        <DashboardStatCard icon={<Users size={20} />} value={resume.inscrits} label="Inscriptions sur cette page" accent="orange" />
-        <DashboardStatCard icon={<EyeOff size={20} />} value={resume.completes} label="Complètes" accent="teal" />
+        <DashboardStatCard rang={1} icon={<CheckCircle2 size={20} />} value={resume.publiees} label="Publiées sur cette page" accent="blue" />
+        <DashboardStatCard rang={2} icon={<Users size={20} />} value={resume.inscrits} label="Inscriptions sur cette page" accent="orange" />
+        <DashboardStatCard rang={3} icon={<EyeOff size={20} />} value={resume.completes} label="Complètes" accent="teal" />
       </div>
 
       <Alerte texte={enregistre} ton="succes" className="mb-3" />
