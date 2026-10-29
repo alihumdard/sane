@@ -16,10 +16,14 @@ import type { SidebarItem } from "@/components/dashboard/DashboardSidebar";
  * Every entry here names its own page, so a link in the menu is a link to
  * something. Adding a page means adding a line.
  */
+export type AccentNav = "green" | "orange" | "blue" | "teal";
+
 export interface EntreeNav {
   label: string;
   href: string;
   icon: React.ReactNode;
+  /** One of the four validated accents — see app/globals.css. */
+  accent: AccentNav;
   /** Heading this entry opens, when it starts a new family. */
   groupe?: string;
   /** Sub-entries, each with its own route. */
@@ -27,10 +31,11 @@ export interface EntreeNav {
 }
 
 export const SECTIONS_ADMIN: EntreeNav[] = [
-  { label: "Tableau de bord", href: "/dashboard/admin", icon: <Home size={18} /> },
+  { label: "Tableau de bord", accent: "green", href: "/dashboard/admin", icon: <Home size={18} /> },
   {
     groupe: "Gestion",
     label: "Utilisateurs",
+    accent: "blue",
     href: "/dashboard/admin/utilisateurs",
     icon: <Users size={18} />,
     sous: [
@@ -40,6 +45,7 @@ export const SECTIONS_ADMIN: EntreeNav[] = [
   },
   {
     label: "Emploi",
+    accent: "green",
     href: "/dashboard/admin/emploi",
     icon: <Briefcase size={18} />,
     sous: [
@@ -51,6 +57,7 @@ export const SECTIONS_ADMIN: EntreeNav[] = [
   },
   {
     label: "Formations",
+    accent: "orange",
     href: "/dashboard/admin/formations",
     icon: <BookOpen size={18} />,
     sous: [
@@ -61,6 +68,7 @@ export const SECTIONS_ADMIN: EntreeNav[] = [
   },
   {
     label: "Événements",
+    accent: "teal",
     href: "/dashboard/admin/evenements",
     icon: <CalendarDays size={18} />,
     sous: [
@@ -72,6 +80,7 @@ export const SECTIONS_ADMIN: EntreeNav[] = [
   {
     groupe: "Contenus du site",
     label: "Intervenants",
+    accent: "orange",
     href: "/dashboard/admin/intervenants",
     icon: <Mic size={18} />,
     sous: [
@@ -81,6 +90,7 @@ export const SECTIONS_ADMIN: EntreeNav[] = [
   },
   {
     label: "Partenaires",
+    accent: "blue",
     href: "/dashboard/admin/partenaires",
     icon: <Handshake size={18} />,
     sous: [
@@ -90,6 +100,7 @@ export const SECTIONS_ADMIN: EntreeNav[] = [
   },
   {
     label: "Actualités",
+    accent: "green",
     href: "/dashboard/admin/actualites",
     icon: <Newspaper size={18} />,
     sous: [
@@ -99,6 +110,7 @@ export const SECTIONS_ADMIN: EntreeNav[] = [
   },
   {
     label: "Presse",
+    accent: "teal",
     href: "/dashboard/admin/presse",
     icon: <Share2 size={18} />,
     sous: [
@@ -108,6 +120,7 @@ export const SECTIONS_ADMIN: EntreeNav[] = [
   },
   {
     label: "FAQ",
+    accent: "orange",
     href: "/dashboard/admin/faq",
     icon: <HelpCircle size={18} />,
     sous: [
@@ -115,9 +128,9 @@ export const SECTIONS_ADMIN: EntreeNav[] = [
       { label: "Ajouter une question", href: "/dashboard/admin/faq/nouveau" },
     ],
   },
-  { groupe: "Administration", label: "Notifications", href: "/dashboard/admin/notifications", icon: <Bell size={18} /> },
-  { label: "Rapports", href: "/dashboard/admin/rapports", icon: <BarChart3 size={18} /> },
-  { label: "Paramètres", href: "/dashboard/admin/parametres", icon: <Settings size={18} /> },
+  { groupe: "Administration", label: "Notifications", accent: "blue", href: "/dashboard/admin/notifications", icon: <Bell size={18} /> },
+  { label: "Rapports", accent: "teal", href: "/dashboard/admin/rapports", icon: <BarChart3 size={18} /> },
+  { label: "Paramètres", accent: "green", href: "/dashboard/admin/parametres", icon: <Settings size={18} /> },
 ];
 
 /** What the back-office search box can reach, by what the admin might type. */

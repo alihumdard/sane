@@ -1,24 +1,18 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { ACCENTS, type Accent } from "./accents";
 
 interface Props {
   icon: ReactNode;
   value: string | number;
   label: string;
   /** One of the four validated categorical accents — see app/globals.css. */
-  accent: "green" | "orange" | "blue" | "teal";
+  accent: Accent;
   href?: string;
   /** A short state note ("3 en attente") rendered under the label, not a fake delta. */
   note?: string;
 }
-
-const ACCENTS: Record<Props["accent"], { bg: string; fg: string }> = {
-  green: { bg: "var(--sane-green-tint)", fg: "var(--sane-green)" },
-  orange: { bg: "var(--sane-orange-tint)", fg: "var(--sane-orange)" },
-  blue: { bg: "var(--sane-blue-tint)", fg: "var(--sane-blue)" },
-  teal: { bg: "#e6f6f4", fg: "#0d9488" },
-};
 
 /**
  * The one stat-tile shape shared by every role's overview (admin, recruiter,
@@ -31,7 +25,7 @@ const ACCENTS: Record<Props["accent"], { bg: string; fg: string }> = {
  * clickable, so half the grid looked inert.
  */
 export function DashboardStatCard({ icon, value, label, accent, href, note }: Props) {
-  const { bg, fg } = ACCENTS[accent];
+  const { fond: bg, trait: fg } = ACCENTS[accent];
 
   const contenu = (
     <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white p-5 shadow-[0_1px_2px_rgba(16,35,26,0.04)] transition-all duration-200 hover:-translate-y-1 hover:border-[var(--sane-green-muted)] hover:shadow-[0_18px_38px_-16px_rgba(16,99,45,0.45)]">

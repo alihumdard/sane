@@ -8,6 +8,7 @@ import DashboardNavbar from "./DashboardNavbar";
 import DashboardSidebar from "./DashboardSidebar";
 import { AdminGuard } from "./AdminGuard";
 import { adminNav, SECTIONS_ADMIN } from "@/lib/adminNav";
+import { ACCENTS } from "./accents";
 
 interface Props {
   /**
@@ -48,6 +49,7 @@ export function AdminPage({ section, titre, description, actions, retour, childr
 
   const active = section ?? sectionDeLUrl(pathname);
   const racine = SECTIONS_ADMIN.find((s) => s.label === active);
+  const couleurs = ACCENTS[racine?.accent ?? "green"];
 
   return (
     <AdminGuard>
@@ -100,6 +102,19 @@ export function AdminPage({ section, titre, description, actions, retour, childr
             </nav>
 
             <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-[var(--sane-border)] pb-5">
+              <div className="flex min-w-0 items-start gap-3.5">
+                {/*
+                  The module's own mark, in the module's own colour. Eighteen
+                  screens opened on the same black heading over the same white,
+                  so one list looked exactly like the next.
+                */}
+                <span
+                  className="mt-0.5 hidden h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] sm:flex"
+                  style={{ backgroundColor: couleurs.fond, color: couleurs.trait }}
+                >
+                  {racine?.icon}
+                </span>
+
               <div className="min-w-0">
                 <Link
                   href={retour?.href ?? "#"}
@@ -123,6 +138,7 @@ export function AdminPage({ section, titre, description, actions, retour, childr
                 >
                   {description}
                 </p>
+              </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-2">{actions}</div>

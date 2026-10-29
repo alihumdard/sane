@@ -73,6 +73,7 @@ function Contenu() {
       <Alerte texte={erreur} className="mb-5" />
 
       <SectionTableau
+        accent="orange"
         titre="Accès rapide"
         description="Les sections ouvertes le plus souvent."
       >
@@ -96,6 +97,7 @@ function Contenu() {
       </SectionTableau>
 
       <SectionTableau
+        accent="blue"
         titre="Participation"
         description="Qui s'est inscrit au salon, et qui a un compte sur la plateforme."
         action={<Spinner actif={chargement} className="text-[var(--sane-green)]" />}
@@ -123,6 +125,7 @@ function Contenu() {
       </SectionTableau>
 
       <SectionTableau
+        accent="green"
         titre="Emploi"
         description="Les offres publiées, les entreprises qui recrutent et le suivi des candidatures."
         lien={{ href: "/dashboard/admin/emploi", label: "Ouvrir la section Emploi" }}

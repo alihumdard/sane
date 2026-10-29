@@ -100,6 +100,7 @@ function Contenu() {
       )}
 
       <SectionTableau
+        accent="green"
         titre="Votre recrutement en bref"
         description="Ce que vos offres ont produit depuis leur publication."
       >
@@ -119,6 +120,7 @@ function Contenu() {
       </SectionTableau>
 
       <SectionTableau
+        accent="orange"
         titre="Candidatures récentes"
         lien={{ href: "/dashboard/recruteur/candidatures", label: "Tout voir" }}
       >

@@ -185,7 +185,7 @@ function Contenu() {
           </p>
         </section>
 
-      <SectionTableau titre="En un coup d'œil">
+      <SectionTableau accent="green" titre="En un coup d'œil">
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <DashboardStatCard icon={<FileText size={20} />} value={candidatures.length} label="Candidatures" accent="green" href="/emploi" />
         <DashboardStatCard icon={<Calendar size={20} />} value={entretiensAVenir.length} label="Entretiens à venir" accent="orange" href="/dashboard/entretiens" />

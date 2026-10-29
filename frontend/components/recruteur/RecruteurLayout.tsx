@@ -6,16 +6,17 @@ import { usePathname } from "next/navigation";
 import { Briefcase, Building2, CalendarClock, ChevronRight, FileText, Home, Sparkles, Users } from "lucide-react";
 import DashboardNavbar, { type CibleRecherche } from "@/components/dashboard/DashboardNavbar";
 import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
+import { ACCENTS, type Accent } from "@/components/dashboard/accents";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 
-const LIENS: { href: string; label: string; icon: React.ReactNode; groupe?: string }[] = [
-  { href: "/dashboard/recruteur", label: "Tableau de bord", icon: <Home size={18} /> },
-  { groupe: "Recrutement", href: "/dashboard/recruteur/offres", label: "Mes offres", icon: <Briefcase size={18} /> },
-  { href: "/dashboard/recruteur/candidatures", label: "Candidatures", icon: <FileText size={18} /> },
-  { href: "/dashboard/recruteur/matching", label: "Candidats correspondants", icon: <Sparkles size={18} /> },
-  { href: "/dashboard/recruteur/entretiens", label: "Entretiens", icon: <CalendarClock size={18} /> },
-  { href: "/dashboard/recruteur/candidats", label: "Rechercher des profils", icon: <Users size={18} /> },
-  { groupe: "Mon compte", href: "/dashboard/recruteur/entreprise", label: "Mon entreprise", icon: <Building2 size={18} /> },
+const LIENS: { href: string; label: string; icon: React.ReactNode; accent: Accent; groupe?: string }[] = [
+  { href: "/dashboard/recruteur", label: "Tableau de bord", accent: "green", icon: <Home size={18} /> },
+  { groupe: "Recrutement", href: "/dashboard/recruteur/offres", label: "Mes offres", accent: "orange", icon: <Briefcase size={18} /> },
+  { href: "/dashboard/recruteur/candidatures", label: "Candidatures", accent: "blue", icon: <FileText size={18} /> },
+  { href: "/dashboard/recruteur/matching", label: "Candidats correspondants", accent: "teal", icon: <Sparkles size={18} /> },
+  { href: "/dashboard/recruteur/entretiens", label: "Entretiens", accent: "orange", icon: <CalendarClock size={18} /> },
+  { href: "/dashboard/recruteur/candidats", label: "Rechercher des profils", accent: "blue", icon: <Users size={18} /> },
+  { groupe: "Mon compte", href: "/dashboard/recruteur/entreprise", label: "Mon entreprise", accent: "green", icon: <Building2 size={18} /> },
 ];
 
 /** What the recruiter's search box can reach, by what they might type. */
@@ -61,6 +62,7 @@ export function RecruteurLayout({
   }));
 
   const section = items.find((i) => i.active);
+  const couleurs = ACCENTS[LIENS.find((l) => l.label === section?.label)?.accent ?? "green"];
 
   return (
     <RoleGuard roles={["entreprise", "recruteur"]} espace="l'espace recruteur">
@@ -114,6 +116,15 @@ export function RecruteurLayout({
             </nav>
 
             <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-[var(--sane-border)] pb-5">
+              <div className="flex min-w-0 items-start gap-3.5">
+                {/* The page's own mark, in the page's own colour. */}
+                <span
+                  className="mt-0.5 hidden h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] sm:flex"
+                  style={{ backgroundColor: couleurs.fond, color: couleurs.trait }}
+                >
+                  {section?.icon}
+                </span>
+
               <div className="min-w-0">
                 <Link
                   href={retour?.href ?? "#"}
@@ -137,6 +148,7 @@ export function RecruteurLayout({
                 >
                   {description}
                 </p>
+              </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-2">{actions}</div>
