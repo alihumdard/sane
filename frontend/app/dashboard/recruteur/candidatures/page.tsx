@@ -250,6 +250,26 @@ function Contenu() {
               </div>
 
               {/*
+                Why the slot picker is not there yet.
+                
+                Scheduling only opens once the application reaches the
+                interview stage, and nothing said so: a recruiter looking at a
+                candidature marked « Envoyée » saw no way to arrange anything
+                and no reason for its absence.
+              */}
+              <p
+                className={`mt-3 items-center gap-1.5 border-t border-[var(--sane-border)] pt-3 text-[12px] text-[var(--sane-text-light)] ${
+                  c.statut === "entretien" || c.statut === "acceptee" || c.statut === "refusee"
+                    ? "hidden"
+                    : "flex"
+                }`}
+              >
+                <CalendarPlus size={13} className="shrink-0 text-[var(--sane-text-light)]" />
+                Passez cette candidature au statut «&nbsp;Entretien&nbsp;» ci-dessus pour proposer un
+                créneau.
+              </p>
+
+              {/*
                 Shown once the candidate reaches the interview stage. Hidden
                 rather than unmounted, like everything else that appears on a
                 reload — Google Translate keeps references into this subtree.
@@ -269,10 +289,10 @@ function Contenu() {
                   onChange={(e) =>
                     setCreneauChoisi((choix) => ({ ...choix, [c.id]: e.target.value }))
                   }
-                  className="rounded-lg border border-[var(--sane-border)] px-2.5 py-1.5 text-[12px] outline-none focus:border-[var(--sane-green)]"
+                  className="h-9 rounded-xl border border-[var(--sane-border)] bg-white px-3 text-[12px] font-medium text-[var(--sane-text)] outline-none transition-all hover:border-[var(--sane-green-muted)] focus:border-[var(--sane-green-muted)] focus:ring-4 focus:ring-[var(--sane-green)]/8"
                 >
                   <option value="">
-                    {creneaux.length === 0 ? "Aucun créneau libre" : "Choisir un créneau…"}
+                    {creneaux.length === 0 ? "Aucun créneau libre — créez-en un" : "Choisir un créneau…"}
                   </option>
                   {creneaux.map((cr) => (
                     <option key={cr.id} value={cr.id}>
@@ -294,7 +314,7 @@ function Contenu() {
                   type="button"
                   onClick={() => proposerEntretien(c)}
                   disabled={!creneauChoisi[c.id] || propose === c.id}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--sane-green)] px-3 py-1.5 text-[12px] font-semibold text-white disabled:opacity-50"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-xl bg-[var(--sane-green)] px-4 text-[12px] font-semibold text-white shadow-[0_4px_12px_-4px_rgba(16,99,45,0.6)] transition-all hover:bg-[var(--sane-green-dark)] disabled:opacity-50 disabled:shadow-none"
                 >
                   <SpinnerOu actif={propose === c.id} size={13}>
                     <CalendarPlus size={13} />
