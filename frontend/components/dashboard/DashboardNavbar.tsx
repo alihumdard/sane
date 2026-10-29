@@ -88,7 +88,9 @@ export default function DashboardNavbar({
   const resultats = useMemo(() => {
     const q = plier(terme.trim());
 
-    if (q.length < 2) return [];
+    // One letter is enough. Waiting for two left the box looking dead for as
+    // long as it took to type the first, which reads as "it does nothing".
+    if (q.length < 1) return [];
 
     return cibles
       .filter((c) => plier(c.label).includes(q) || c.mots.some((m) => m.includes(q) || q.includes(m)))
@@ -187,10 +189,23 @@ export default function DashboardNavbar({
         <p
           className={
             "absolute left-0 right-0 top-12 rounded-2xl border border-[var(--sane-border)] bg-white px-3 py-2.5 text-[12px] text-[var(--sane-text-light)] shadow-xl " +
-            (focus && terme.trim().length >= 2 && resultats.length === 0 ? "block" : "hidden")
+            (focus && terme.trim().length >= 1 && resultats.length === 0 ? "block" : "hidden")
           }
         >
-          Aucune section ne correspond à « {terme.trim()} ».
+          Aucune section ne porte ce nom. Cette barre ouvre une section du
+          back-office&nbsp;; pour chercher dans les données, utilisez la
+          recherche de la page concernée.
+        </p>
+
+        {/* What the box is for, before anything has been typed into it. */}
+        <p
+          className={
+            "absolute left-0 right-0 top-12 rounded-2xl border border-[var(--sane-border)] bg-white px-3 py-2.5 text-[12px] text-[var(--sane-text-light)] shadow-xl " +
+            (focus && terme.trim().length === 0 ? "block" : "hidden")
+          }
+        >
+          Tapez le nom d&apos;une section — offres, inscriptions, partenaires…
+          — puis Entrée pour l&apos;ouvrir.
         </p>
       </div>
 
