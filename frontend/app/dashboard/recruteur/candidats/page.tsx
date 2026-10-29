@@ -51,7 +51,7 @@ function Contenu() {
           type="search"
           value={recherche}
           onChange={(e) => setRecherche(e.target.value)}
-          placeholder="Poste, compétence…"
+          placeholder="Nom, poste, compétence, ville…"
           aria-label="Rechercher un profil"
           className="h-[44px] w-full rounded-xl border border-[var(--sane-border)] bg-white pl-10 pr-4 text-[13px] outline-none focus:border-[var(--sane-green)]"
         />

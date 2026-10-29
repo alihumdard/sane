@@ -165,9 +165,18 @@ class CandidatureEntrepriseController extends Controller
             ->whereHas('user');
 
         if ($q = trim((string) $request->query('q', ''))) {
+            /*
+             * The name and the city are searched because the cards print
+             * them: a recruiter looking at "Eman · Niamey" and typing either
+             * of those got "aucun profil ne correspond". Nothing is exposed
+             * that the list was not already showing — these are the profiles
+             * their owners chose to make visible.
+             */
             $query->where(function (Builder $sous) use ($q) {
                 $sous->where('titre_pro', 'ilike', "%{$q}%")
                     ->orWhere('resume', 'ilike', "%{$q}%")
+                    ->orWhere('ville', 'ilike', "%{$q}%")
+                    ->orWhereHas('user', fn (Builder $u) => $u->where('name', 'ilike', "%{$q}%"))
                     ->orWhereHas('competences', fn (Builder $c) => $c->where('nom', 'ilike', "%{$q}%"));
             });
         }
