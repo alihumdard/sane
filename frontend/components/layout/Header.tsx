@@ -48,8 +48,8 @@ export function Header() {
           <Image
             src="/new-logo.png"
             alt="SANEM Logo"
-            width={100}
-            height={34}
+            width={108}
+            height={40}
             priority
             className="h-9 w-auto sm:h-10"
           />

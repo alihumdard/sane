@@ -114,7 +114,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
         <Link
           href="/"
           title="Voir le site public"
-          className="group relative flex shrink-0 flex-col items-center gap-3 overflow-hidden px-5 pb-5 pt-6"
+          className="group relative flex shrink-0 flex-col items-center gap-3.5 overflow-hidden px-5 pb-4 pt-5"
           style={{
             backgroundImage:
               "linear-gradient(180deg, rgba(16,99,45,0.055) 0%, rgba(16,99,45,0.015) 55%, transparent 100%)",
@@ -122,7 +122,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
         >
           <span
             aria-hidden
-            className="pointer-events-none absolute -top-20 left-1/2 h-40 w-56 -translate-x-1/2 rounded-full bg-[var(--sane-green)]/12 blur-3xl transition-opacity duration-500 group-hover:opacity-75"
+            className="pointer-events-none absolute -top-16 left-1/2 h-32 w-56 -translate-x-1/2 rounded-full bg-[var(--sane-green)]/12 blur-3xl transition-opacity duration-500 group-hover:opacity-75"
           />
 
           {/*
@@ -140,10 +140,10 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
           <Image
             src="/new-logo.png"
             alt="SANEM"
-            width={124}
-            height={83}
+            width={148}
+            height={55}
             priority
-            className="relative h-auto w-[124px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+            className="relative h-auto w-[148px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
           />
 
           <span className="relative inline-flex items-center gap-1.5 rounded-full border border-[var(--sane-green-muted)]/60 bg-white px-3 py-[5px] text-[9px] font-bold uppercase tracking-[0.16em] text-[var(--sane-green)] shadow-[0_1px_2px_rgba(16,99,45,0.08)]">
