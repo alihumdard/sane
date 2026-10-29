@@ -27,15 +27,20 @@ export function BandeauBienvenue({
   const nom = prenom(user?.nom);
 
   return (
-    <div className="sane-apparait relative mb-6 overflow-hidden rounded-2xl bg-[var(--sane-green-deep)] px-5 py-6 text-white sm:px-7">
-      {/* Two soft discs, for a surface that is not a flat rectangle. */}
+    <div className="relative mb-6 overflow-hidden rounded-2xl bg-[var(--sane-green-deep)] px-5 py-6 text-white sm:px-7">
+      {/* Two soft discs, drifting without end behind the greeting. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-[var(--sane-green)]/40 blur-2xl"
+        className="sane-derive-a pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-[var(--sane-green)]/40 blur-2xl"
       />
       <span
         aria-hidden
-        className="pointer-events-none absolute -bottom-24 right-24 h-48 w-48 rounded-full bg-[var(--sane-orange)]/15 blur-2xl"
+        className="sane-derive-b pointer-events-none absolute -bottom-24 right-24 h-52 w-52 rounded-full bg-[var(--sane-orange)]/20 blur-2xl"
+      />
+      <span
+        aria-hidden
+        className="sane-derive-b pointer-events-none absolute -left-20 bottom-[-70px] h-44 w-44 rounded-full bg-[var(--sane-green)]/25 blur-2xl"
+        style={{ animationDuration: "34s", animationDirection: "reverse" }}
       />
 
       <div className="relative flex flex-wrap items-end justify-between gap-5">

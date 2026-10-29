@@ -104,17 +104,17 @@ function Contenu() {
         description="Ce que vos offres ont produit depuis leur publication."
       >
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <DashboardStatCard rang={0}
+        <DashboardStatCard
           icon={<Briefcase size={20} />} value={data.offres?.publiees ?? 0} label="Offres publiées"
           accent="green" href="/dashboard/recruteur/offres"
         />
-        <DashboardStatCard rang={1}
+        <DashboardStatCard
           icon={<FileText size={20} />} value={data.candidatures?.total ?? 0} label="Candidatures reçues"
           accent="orange" href="/dashboard/recruteur/candidatures"
           note={data.candidatures?.nouvelles ? `${data.candidatures.nouvelles} nouvelle(s)` : undefined}
         />
-        <DashboardStatCard rang={2} icon={<Users size={20} />} value={data.candidatures?.nouvelles ?? 0} label="Nouvelles candidatures" accent="blue" href="/dashboard/recruteur/candidatures" />
-        <DashboardStatCard rang={3} icon={<Eye size={20} />} value={data.offres?.vues ?? 0} label="Vues des offres" accent="teal" href="/dashboard/recruteur/offres" />
+        <DashboardStatCard icon={<Users size={20} />} value={data.candidatures?.nouvelles ?? 0} label="Nouvelles candidatures" accent="blue" href="/dashboard/recruteur/candidatures" />
+        <DashboardStatCard icon={<Eye size={20} />} value={data.offres?.vues ?? 0} label="Vues des offres" accent="teal" href="/dashboard/recruteur/offres" />
       </div>
       </SectionTableau>
 

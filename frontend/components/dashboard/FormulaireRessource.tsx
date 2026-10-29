@@ -202,7 +202,7 @@ export function FormulaireRessource<T>({ def, id }: { def: DefinitionRessource<T
 
       <div
         className={
-          "sane-apparait rounded-2xl border border-[var(--sane-border)] bg-white p-5 shadow-[0_1px_2px_rgba(16,35,26,0.04),0_8px_24px_-16px_rgba(16,99,45,0.18)] sm:p-7 " +
+          "rounded-2xl border border-[var(--sane-border)] bg-white p-5 shadow-[0_1px_2px_rgba(16,35,26,0.04),0_8px_24px_-16px_rgba(16,99,45,0.18)] sm:p-7 " +
           (chargement ? "hidden" : "block")
         }
       >

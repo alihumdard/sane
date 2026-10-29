@@ -392,22 +392,31 @@ img {
    Everything here is a transform or an opacity — no layout is animated, so a
    slow machine drops frames rather than reflowing the page. */
 
-@keyframes sane-apparition {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+/* Two coloured discs drifting behind the welcome strip, slowly and without
+   end — the surface is never quite the same twice, and nothing on it jumps.
+   Twenty-two and twenty-eight seconds, deliberately out of step, so the pair
+   never settles into a repeating pattern the eye can follow. */
+
+@keyframes sane-derive-a {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(-26px, 16px) scale(1.12); }
+  66%  { transform: translate(18px, -12px) scale(0.94); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
-/* A block settling into place on arrival. `--retard` staggers a row of
-   tiles so they land one after another rather than all at once. */
-.sane-apparait {
-  animation: sane-apparition 0.42s cubic-bezier(0.22, 0.75, 0.3, 1) backwards;
-  animation-delay: var(--retard, 0ms);
+@keyframes sane-derive-b {
+  0%   { transform: translate(0, 0) scale(1); }
+  40%  { transform: translate(30px, -18px) scale(0.9); }
+  75%  { transform: translate(-16px, 14px) scale(1.15); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+.sane-derive-a {
+  animation: sane-derive-a 22s ease-in-out infinite;
+}
+
+.sane-derive-b {
+  animation: sane-derive-b 28s ease-in-out infinite;
 }
 
 @keyframes sane-pulsation {
@@ -446,7 +455,8 @@ img {
 
 /* Nothing above should move for someone who has asked the system not to. */
 @media (prefers-reduced-motion: reduce) {
-  .sane-apparait,
+  .sane-derive-a,
+  .sane-derive-b,
   .sane-en-attente {
     animation: none;
   }

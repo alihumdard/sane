@@ -3,8 +3,6 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 interface Props {
-  /** Staggers a row of tiles so they land one after another. */
-  rang?: number;
   icon: ReactNode;
   value: string | number;
   label: string;
@@ -32,14 +30,11 @@ const ACCENTS: Record<Props["accent"], { bg: string; fg: string }> = {
  * Eight of them in a row were visually identical whether or not they were
  * clickable, so half the grid looked inert.
  */
-export function DashboardStatCard({ icon, value, label, accent, href, note, rang = 0 }: Props) {
+export function DashboardStatCard({ icon, value, label, accent, href, note }: Props) {
   const { bg, fg } = ACCENTS[accent];
 
   const contenu = (
-    <div
-      className="sane-apparait group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white p-5 transition-all duration-200 hover:-translate-y-1 hover:border-[var(--sane-green-muted)] hover:shadow-[0_14px_32px_-14px_rgba(16,99,45,0.4)]"
-      style={{ "--retard": rang * 60 + "ms" } as React.CSSProperties}
-    >
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white p-5 transition-all duration-200 hover:-translate-y-1 hover:border-[var(--sane-green-muted)] hover:shadow-[0_14px_32px_-14px_rgba(16,99,45,0.4)]">
       {/* A wash of the tile's own colour, so the four accents read as a set. */}
       <span
         aria-hidden

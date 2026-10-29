@@ -243,15 +243,15 @@ function Contenu() {
   return (
     <>
       <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <DashboardStatCard rang={0} icon={<Users size={20} />} value={table.resume.total ?? 0} label="Inscriptions au total" accent="green" />
-        <DashboardStatCard rang={1}
+        <DashboardStatCard icon={<Users size={20} />} value={table.resume.total ?? 0} label="Inscriptions au total" accent="green" />
+        <DashboardStatCard
           icon={<Clock size={20} />}
           value={table.resume.en_attente ?? 0}
           label="En attente de validation"
           accent="orange"
         />
-        <DashboardStatCard rang={2} icon={<CheckCircle2 size={20} />} value={table.resume.confirmee ?? 0} label="Confirmées" accent="blue" />
-        <DashboardStatCard rang={3} icon={<XCircle size={20} />} value={table.resume.annulee ?? 0} label="Annulées" accent="teal" />
+        <DashboardStatCard icon={<CheckCircle2 size={20} />} value={table.resume.confirmee ?? 0} label="Confirmées" accent="blue" />
+        <DashboardStatCard icon={<XCircle size={20} />} value={table.resume.annulee ?? 0} label="Annulées" accent="teal" />
       </div>
 
       <Alerte texte={message} ton="succes" className="mb-3" />

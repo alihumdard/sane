@@ -25,7 +25,7 @@ export function SectionTableau({
   children: ReactNode;
 }) {
   return (
-    <section className="sane-apparait mb-7">
+    <section className="mb-7">
       <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
         <div className="min-w-0">
           <h2 className="text-[15px] font-bold leading-tight text-[var(--sane-text)]">{titre}</h2>

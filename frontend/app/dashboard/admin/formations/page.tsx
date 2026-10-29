@@ -199,15 +199,15 @@ export default function FormationsAdminPage() {
       />
 
       <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <DashboardStatCard rang={0}
+        <DashboardStatCard
           icon={<BookOpen size={20} />}
           value={table.meta?.total ?? 0}
           label="Formations au catalogue"
           accent="green"
         />
-        <DashboardStatCard rang={1} icon={<CheckCircle2 size={20} />} value={resume.publiees} label="Publiées sur cette page" accent="blue" />
-        <DashboardStatCard rang={2} icon={<Users size={20} />} value={resume.inscrits} label="Inscriptions sur cette page" accent="orange" />
-        <DashboardStatCard rang={3} icon={<EyeOff size={20} />} value={resume.completes} label="Complètes" accent="teal" />
+        <DashboardStatCard icon={<CheckCircle2 size={20} />} value={resume.publiees} label="Publiées sur cette page" accent="blue" />
+        <DashboardStatCard icon={<Users size={20} />} value={resume.inscrits} label="Inscriptions sur cette page" accent="orange" />
+        <DashboardStatCard icon={<EyeOff size={20} />} value={resume.completes} label="Complètes" accent="teal" />
       </div>
 
       <Alerte texte={enregistre} ton="succes" className="mb-3" />

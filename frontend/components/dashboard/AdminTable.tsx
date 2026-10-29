@@ -108,7 +108,7 @@ export function AdminTable<T>({
 
       <Alerte texte={erreur} className="mb-3" />
 
-      <div className="sane-apparait overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white shadow-[0_1px_2px_rgba(16,35,26,0.04),0_8px_24px_-16px_rgba(16,99,45,0.18)]">
+      <div className="overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white shadow-[0_1px_2px_rgba(16,35,26,0.04),0_8px_24px_-16px_rgba(16,99,45,0.18)]">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead className="sticky top-[62px] z-[1] border-b border-[var(--sane-border)] bg-[var(--sane-background)]">

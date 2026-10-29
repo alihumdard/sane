@@ -187,10 +187,10 @@ function Contenu() {
 
       <SectionTableau titre="En un coup d'œil">
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <DashboardStatCard rang={0} icon={<FileText size={20} />} value={candidatures.length} label="Candidatures" accent="green" href="/emploi" />
-        <DashboardStatCard rang={1} icon={<Calendar size={20} />} value={entretiensAVenir.length} label="Entretiens à venir" accent="orange" href="/dashboard/entretiens" />
-        <DashboardStatCard rang={2} icon={<Heart size={20} />} value={favoris.length} label="Offres favorites" accent="blue" href="#favoris" />
-        <DashboardStatCard rang={3} icon={<Sparkles size={20} />} value={correspondances.length} label="Offres suggérées" accent="teal" href="#suggerees" />
+        <DashboardStatCard icon={<FileText size={20} />} value={candidatures.length} label="Candidatures" accent="green" href="/emploi" />
+        <DashboardStatCard icon={<Calendar size={20} />} value={entretiensAVenir.length} label="Entretiens à venir" accent="orange" href="/dashboard/entretiens" />
+        <DashboardStatCard icon={<Heart size={20} />} value={favoris.length} label="Offres favorites" accent="blue" href="#favoris" />
+        <DashboardStatCard icon={<Sparkles size={20} />} value={correspondances.length} label="Offres suggérées" accent="teal" href="#suggerees" />
       </div>
       </SectionTableau>
 

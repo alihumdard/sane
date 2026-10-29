@@ -252,10 +252,10 @@ function Contenu() {
       />
 
       <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <DashboardStatCard rang={0} icon={<Users size={20} />} value={table.resume.total ?? 0} label="Comptes au total" accent="green" />
-        <DashboardStatCard rang={1} icon={<ShieldCheck size={20} />} value={table.resume.actifs ?? 0} label="Comptes actifs" accent="blue" />
-        <DashboardStatCard rang={2} icon={<Briefcase size={20} />} value={table.resume.recruteur ?? 0} label="Recruteurs" accent="orange" />
-        <DashboardStatCard rang={3} icon={<UserPlus size={20} />} value={table.resume.demandeur ?? 0} label="Demandeurs d'emploi" accent="teal" />
+        <DashboardStatCard icon={<Users size={20} />} value={table.resume.total ?? 0} label="Comptes au total" accent="green" />
+        <DashboardStatCard icon={<ShieldCheck size={20} />} value={table.resume.actifs ?? 0} label="Comptes actifs" accent="blue" />
+        <DashboardStatCard icon={<Briefcase size={20} />} value={table.resume.recruteur ?? 0} label="Recruteurs" accent="orange" />
+        <DashboardStatCard icon={<UserPlus size={20} />} value={table.resume.demandeur ?? 0} label="Demandeurs d'emploi" accent="teal" />
       </div>
 
       <Alerte texte={enregistre} ton="succes" className="mb-3" />
