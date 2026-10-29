@@ -112,7 +112,7 @@ export default function DashboardNavbar({
   return (
     <header
       ref={ref}
-      className="sticky top-0 z-20 flex h-[62px] items-center gap-2 border-b border-[var(--sane-border)] bg-white/90 px-3 backdrop-blur-md sm:gap-3 sm:px-6"
+      className="sticky top-0 z-20 flex h-[62px] items-center gap-2 border-b border-[var(--sane-border)] bg-white/85 px-3 shadow-[0_1px_0_rgba(16,35,26,0.02),0_6px_20px_-14px_rgba(16,99,45,0.3)] backdrop-blur-md sm:gap-3 sm:px-6"
     >
       <button
         type="button"
@@ -144,7 +144,7 @@ export default function DashboardNavbar({
           }}
           placeholder={placeholder}
           aria-label="Rechercher une section du back-office"
-          className="h-10 w-full rounded-full border border-transparent bg-[var(--sane-background)] pl-10 pr-4 text-[12.5px] text-[var(--sane-text)] outline-none transition-all placeholder:text-[var(--sane-text-light)]/70 focus:border-[var(--sane-green-muted)] focus:bg-white focus:ring-4 focus:ring-[var(--sane-green)]/8"
+          className="h-10 w-full rounded-full border border-[var(--sane-border)] bg-white pl-10 pr-4 text-[12.5px] text-[var(--sane-text)] shadow-[0_1px_2px_rgba(16,35,26,0.05),inset_0_1px_2px_rgba(16,35,26,0.03)] outline-none transition-all placeholder:text-[var(--sane-text-light)]/70 hover:border-[var(--sane-green-muted)] focus:border-[var(--sane-green)] focus:shadow-[0_0_0_4px_rgba(16,99,45,0.09)]"
         />
 
         <div

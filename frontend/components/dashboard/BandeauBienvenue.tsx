@@ -27,7 +27,18 @@ export function BandeauBienvenue({
   const nom = prenom(user?.nom);
 
   return (
-    <div className="relative mb-6 overflow-hidden rounded-2xl bg-[var(--sane-green-deep)] px-5 py-6 text-white sm:px-7">
+    <div
+      className="relative mb-6 overflow-hidden rounded-2xl px-5 py-6 text-white shadow-[0_18px_40px_-20px_rgba(10,46,22,0.75)] sm:px-7"
+      style={{
+        backgroundImage:
+          "linear-gradient(135deg, var(--sane-green-deep) 0%, var(--sane-green-dark) 55%, var(--sane-green) 130%)",
+      }}
+    >
+      {/* A thin light along the top edge, as on a lit surface. */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent"
+      />
       {/* Two soft discs, drifting without end behind the greeting. */}
       <span
         aria-hidden

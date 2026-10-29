@@ -88,7 +88,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
 
       <aside
         className={
-          "fixed inset-y-0 left-0 z-40 flex w-[258px] shrink-0 flex-col border-r border-[var(--sane-border)] bg-white transition-transform duration-200 lg:static lg:z-auto lg:translate-x-0 " +
+          "fixed inset-y-0 left-0 z-40 flex w-[258px] shrink-0 flex-col border-r border-[var(--sane-border)] bg-white shadow-[1px_0_0_rgba(16,35,26,0.02),8px_0_28px_-24px_rgba(16,99,45,0.4)] transition-transform duration-200 lg:static lg:z-auto lg:translate-x-0 " +
           (open ? "translate-x-0 shadow-2xl" : "-translate-x-full")
         }
       >

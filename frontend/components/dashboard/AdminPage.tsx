@@ -51,7 +51,14 @@ export function AdminPage({ section, titre, description, actions, retour, childr
 
   return (
     <AdminGuard>
-      <div className="flex min-h-screen overflow-x-hidden bg-[var(--sane-background)]">
+      <div
+        className="flex min-h-screen overflow-x-hidden bg-[var(--sane-background)]"
+        style={{
+          // A faint wash from the top, so the page is lit rather than flat.
+          backgroundImage:
+            "radial-gradient(1100px 420px at 70% -120px, rgba(16,99,45,0.07), transparent 70%)",
+        }}
+      >
         {/*
           The sidebar is off-canvas below lg and the header's hamburger is what
           brings it back. That state used to live in three individual pages, so

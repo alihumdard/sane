@@ -34,17 +34,22 @@ export function DashboardStatCard({ icon, value, label, accent, href, note }: Pr
   const { bg, fg } = ACCENTS[accent];
 
   const contenu = (
-    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white p-5 transition-all duration-200 hover:-translate-y-1 hover:border-[var(--sane-green-muted)] hover:shadow-[0_14px_32px_-14px_rgba(16,99,45,0.4)]">
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white p-5 shadow-[0_1px_2px_rgba(16,35,26,0.04)] transition-all duration-200 hover:-translate-y-1 hover:border-[var(--sane-green-muted)] hover:shadow-[0_18px_38px_-16px_rgba(16,99,45,0.45)]">
+      {/* Catches the light along the top edge. */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-[var(--sane-green-muted)] to-transparent opacity-0 transition-opacity group-hover:opacity-100"
+      />
       {/* A wash of the tile's own colour, so the four accents read as a set. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute -right-10 -top-12 h-28 w-28 rounded-full opacity-[0.35] blur-2xl transition-opacity group-hover:opacity-60"
+        className="pointer-events-none absolute -right-10 -top-12 h-32 w-32 rounded-full opacity-[0.45] blur-2xl transition-all duration-300 group-hover:scale-125 group-hover:opacity-80"
         style={{ backgroundColor: bg }}
       />
 
       <div className="relative mb-4 flex items-start justify-between">
         <span
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110"
           style={{ backgroundColor: bg, color: fg }}
         >
           {icon}

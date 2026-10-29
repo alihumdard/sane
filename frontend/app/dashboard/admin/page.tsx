@@ -81,10 +81,10 @@ function Contenu() {
             <Link
               key={href}
               href={href}
-              className="group inline-flex items-center gap-2.5 rounded-xl border border-[var(--sane-border)] bg-white py-2 pl-2 pr-4 text-[13px] font-semibold text-[var(--sane-text)] transition-all hover:-translate-y-0.5 hover:border-[var(--sane-green-muted)] hover:text-[var(--sane-green)] hover:shadow-sm"
+              className="group inline-flex items-center gap-2.5 rounded-xl border border-[var(--sane-border)] bg-white py-2 pl-2 pr-4 text-[13px] font-semibold text-[var(--sane-text)] shadow-[0_1px_2px_rgba(16,35,26,0.05)] transition-all hover:-translate-y-0.5 hover:border-[var(--sane-green-muted)] hover:text-[var(--sane-green)] hover:shadow-[0_10px_22px_-12px_rgba(16,99,45,0.55)]"
             >
               <span
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-transform group-hover:scale-105"
+                className="sane-fleche flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
                 style={{ backgroundColor: fond, color: accent }}
               >
                 <Icone size={16} />

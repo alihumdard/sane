@@ -64,7 +64,14 @@ export function RecruteurLayout({
 
   return (
     <RoleGuard roles={["entreprise", "recruteur"]} espace="l'espace recruteur">
-      <div className="flex min-h-screen overflow-x-hidden bg-[var(--sane-background)]">
+      <div
+        className="flex min-h-screen overflow-x-hidden bg-[var(--sane-background)]"
+        style={{
+          // A faint wash from the top, so the page is lit rather than flat.
+          backgroundImage:
+            "radial-gradient(1100px 420px at 70% -120px, rgba(16,99,45,0.07), transparent 70%)",
+        }}
+      >
         <Suspense fallback={null}>
           <DashboardSidebar items={items} open={menu} onClose={() => setMenu(false)} espace="Espace recruteur" />
         </Suspense>
