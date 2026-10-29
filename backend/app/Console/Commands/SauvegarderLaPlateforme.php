@@ -4,16 +4,15 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Process;
 
 /**
  * A daily copy of what cannot be rebuilt.
  *
- * Two things: the database, and the files organisers uploaded — logos,
- * portraits, course visuals, and the identity papers and CVs attached to
- * registrations. Everything else on this server comes back from git and a
- * build.
+ * Two things: the database, and everything under storage/app — the logos,
+ * portraits and course visuals on the public disk, and on the private one
+ * the identity papers and CVs attached to registrations. Everything else on
+ * this server comes back from git and a build.
  *
  * The archive is written outside the application directory so a careless
  * `rm -rf` on the deploy folder cannot take the backups with it, and it is
@@ -105,10 +104,17 @@ class SauvegarderLaPlateforme extends Command
         return true;
     }
 
-    /** The dump and the uploads, in one compressed archive. */
+    /**
+     * The dump and every uploaded file, in one compressed archive.
+     *
+     * `storage/app` whole, not the public disk alone: the files that matter
+     * most sit on the private one — the CVs and identity papers attached to
+     * registrations, deliberately unreachable over the web, and therefore
+     * exactly the ones a public-disk backup left behind.
+     */
     private function empaqueter(string $sql, string $archive): bool
     {
-        $uploads = Storage::disk('public')->path('');
+        $uploads = storage_path('app');
 
         $arguments = [
             'tar',
@@ -122,8 +128,8 @@ class SauvegarderLaPlateforme extends Command
         // A fresh installation has nothing uploaded yet, and tar refuses a
         // path that is not there rather than skipping it.
         if (is_dir($uploads)) {
-            $arguments[] = '--directory='.dirname(rtrim($uploads, '/\\'));
-            $arguments[] = basename(rtrim($uploads, '/\\'));
+            $arguments[] = '--directory='.dirname($uploads);
+            $arguments[] = basename($uploads);
         }
 
         $processus = new Process($arguments, timeout: 600);
