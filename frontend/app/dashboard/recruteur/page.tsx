@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AlertCircle, Briefcase, CheckCircle2, Eye, FileText, Loader2, ShieldAlert, Users } from "lucide-react";
+import { BandeauBienvenue, ChiffreBandeau } from "@/components/dashboard/BandeauBienvenue";
 import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
+import { SectionTableau } from "@/components/dashboard/SectionTableau";
 import { RecruteurLayout } from "@/components/recruteur/RecruteurLayout";
 import { api, ApiError } from "@/lib/api";
 import type { TableauBordEntreprise } from "@/lib/types";
@@ -80,6 +82,13 @@ function Contenu() {
 
   return (
     <>
+      <BandeauBienvenue sousTitre={"Votre espace de recrutement" + (data.entreprise?.nom ? " pour " + data.entreprise.nom : "") + "."}>
+        <div className="flex flex-wrap gap-2.5">
+          <ChiffreBandeau valeur={data.offres?.publiees ?? 0} label="Offres publiées" />
+          <ChiffreBandeau valeur={data.candidatures?.nouvelles ?? 0} label="Nouvelles candidatures" />
+        </div>
+      </BandeauBienvenue>
+
       {!data.entreprise.verifiee && (
         <p className="mb-5 flex items-start gap-2.5 rounded-xl border border-[var(--sane-orange)] bg-[#fff8ed] p-4">
           <ShieldAlert size={18} className="mt-0.5 shrink-0 text-[var(--sane-orange)]" />
@@ -90,7 +99,11 @@ function Contenu() {
         </p>
       )}
 
-      <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <SectionTableau
+        titre="Votre recrutement en bref"
+        description="Ce que vos offres ont produit depuis leur publication."
+      >
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <DashboardStatCard
           icon={<Briefcase size={20} />} value={data.offres?.publiees ?? 0} label="Offres publiées"
           accent="green" href="/dashboard/recruteur/offres"
@@ -103,15 +116,13 @@ function Contenu() {
         <DashboardStatCard icon={<Users size={20} />} value={data.candidatures?.nouvelles ?? 0} label="Nouvelles candidatures" accent="blue" href="/dashboard/recruteur/candidatures" />
         <DashboardStatCard icon={<Eye size={20} />} value={data.offres?.vues ?? 0} label="Vues des offres" accent="teal" href="/dashboard/recruteur/offres" />
       </div>
+      </SectionTableau>
 
+      <SectionTableau
+        titre="Candidatures récentes"
+        lien={{ href: "/dashboard/recruteur/candidatures", label: "Tout voir" }}
+      >
       <section className="rounded-2xl border border-[var(--sane-border)] bg-white p-5">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-[15px] font-bold text-[var(--sane-text)]">Candidatures récentes</h2>
-          <Link href="/dashboard/recruteur/candidatures" className="text-[12px] font-semibold text-[var(--sane-green)]">
-            Tout voir →
-          </Link>
-        </div>
-
         {!data.recentes?.length ? (
           <p className="py-6 text-center text-[13px] text-[var(--sane-text-light)]">
             Aucune candidature pour le moment.
@@ -139,6 +150,7 @@ function Contenu() {
           </ul>
         )}
       </section>
+      </SectionTableau>
 
       {(data.candidatures?.acceptees ?? 0) > 0 && (
         <p className="mt-5 flex items-center gap-2 text-[13px] text-[var(--sane-text-light)]">

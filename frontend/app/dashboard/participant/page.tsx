@@ -6,7 +6,9 @@ import {
   AlertCircle, Briefcase, Calendar, CheckCircle2, ExternalLink, FileText,
   Heart, Loader2, MessageSquareText, Sparkles, Trash2, UserRound,
 } from "lucide-react";
+import { BandeauBienvenue, ChiffreBandeau } from "@/components/dashboard/BandeauBienvenue";
 import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
+import { SectionTableau } from "@/components/dashboard/SectionTableau";
 import Pagination from "@/components/dashboard/Pagination";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { Header } from "@/components/layout/Header";
@@ -16,7 +18,6 @@ import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { NavEspace } from "@/components/dashboard/NavEspace";
 import { api, ApiError } from "@/lib/api";
 import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
-import { useAuth } from "@/lib/auth";
 import type {
   ApiCandidature,
   ApiCorrespondance,
@@ -38,7 +39,6 @@ const STATUT_COULEUR: Record<string, string> = {
 
 function Contenu() {
   const [aRetirer, setARetirer] = useState<ApiCandidature | null>(null);
-  const { user } = useAuth();
 
   const [profil, setProfil] = useState<ApiProfilDemandeur | null>(null);
   const [candidatures, setCandidatures] = useState<ApiCandidature[]>([]);
@@ -145,12 +145,13 @@ function Contenu() {
         onAnnuler={() => setARetirer(null)}
       />
 
-      <div className="mb-6 rounded-2xl bg-[var(--sane-green-deep)] p-6 text-white">
-        <h1 className="text-[22px] font-extrabold leading-tight sm:text-[26px]">
-          Bonjour {user?.nom?.split(" ")[0]} 👋
-        </h1>
-        <p className="mt-1 text-[13px] text-white/75">Voici où en sont vos candidatures et vos entretiens.</p>
-      </div>
+      <BandeauBienvenue sousTitre="Voici où en sont vos candidatures et vos entretiens.">
+        <div className="flex flex-wrap gap-2.5">
+          <ChiffreBandeau valeur={candidatures.length} label="Candidatures" />
+          <ChiffreBandeau valeur={entretiensAVenir.length} label="Entretiens à venir" />
+          <ChiffreBandeau valeur={completion + "%"} label="Profil complété" />
+        </div>
+      </BandeauBienvenue>
 
       {/*
         Hidden rather than unmounted: Google Translate holds references into
@@ -184,12 +185,14 @@ function Contenu() {
           </p>
         </section>
 
-      <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <SectionTableau titre="En un coup d'œil">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <DashboardStatCard icon={<FileText size={20} />} value={candidatures.length} label="Candidatures" accent="green" href="/emploi" />
         <DashboardStatCard icon={<Calendar size={20} />} value={entretiensAVenir.length} label="Entretiens à venir" accent="orange" href="/dashboard/entretiens" />
         <DashboardStatCard icon={<Heart size={20} />} value={favoris.length} label="Offres favorites" accent="blue" href="#favoris" />
         <DashboardStatCard icon={<Sparkles size={20} />} value={correspondances.length} label="Offres suggérées" accent="teal" href="#suggerees" />
       </div>
+      </SectionTableau>
 
       {entretiensAVenir.length > 0 && (
         <section className="mb-6 rounded-2xl border border-[var(--sane-green)] bg-[var(--sane-green-light)] p-5">
