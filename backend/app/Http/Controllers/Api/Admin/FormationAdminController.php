@@ -30,7 +30,7 @@ class FormationAdminController extends Controller
         $page = $this->listePaginee(
             $query,
             $request,
-            recherchables: ['titre', 'description'],
+            recherchables: ['titre', 'description', 'lieu', 'categorie.nom', 'formateur.nom'],
             filtrables: ['niveau', 'format', 'categorie_id'],
             triables: ['titre', 'niveau', 'format', 'max_inscriptions', 'inscriptions_count', 'date_debut'],
         );

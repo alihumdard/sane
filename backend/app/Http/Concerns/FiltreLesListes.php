@@ -13,7 +13,9 @@ use Illuminate\Http\Request;
 trait FiltreLesListes
 {
     /**
-     * @param  array<string>  $recherchables  columns a free-text query matches against
+     * @param  array<string>  $recherchables  what a free-text query matches
+     *                                        against: a column of this table, or a column reached through
+     *                                        relations — "entreprise.nom", "candidature.profil.user.name"
      * @param  array<string>  $filtrables  columns accepting an exact-match filter
      * @param  array<string>  $triables  columns that may be sorted on
      */
@@ -26,8 +28,29 @@ trait FiltreLesListes
     ): LengthAwarePaginator {
         if ($recherchables && ($q = $request->string('q')->trim()->value())) {
             $query->where(function (Builder $sub) use ($recherchables, $q) {
-                foreach ($recherchables as $colonne) {
-                    $sub->orWhere($colonne, 'ilike', "%{$q}%");
+                foreach ($recherchables as $chemin) {
+                    /*
+                     * A dotted path searches through the relations.
+                     *
+                     * The lists print what they joined — an interview names
+                     * its candidate, its offer and the company — and the
+                     * search only ever looked at this table's own columns.
+                     * Typing a candidate's name into the box above their own
+                     * row returned nothing.
+                     */
+                    if (! str_contains($chemin, '.')) {
+                        $sub->orWhere($chemin, 'ilike', "%{$q}%");
+
+                        continue;
+                    }
+
+                    $morceaux = explode('.', $chemin);
+                    $colonne = array_pop($morceaux);
+
+                    $sub->orWhereHas(
+                        implode('.', $morceaux),
+                        fn (Builder $relation) => $relation->where($colonne, 'ilike', "%{$q}%"),
+                    );
                 }
             });
         }

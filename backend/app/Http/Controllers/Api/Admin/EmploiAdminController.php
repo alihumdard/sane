@@ -35,7 +35,7 @@ class EmploiAdminController extends Controller
         $page = $this->listePaginee(
             OffreEmploi::query()->with('entreprise:id,nom,slug,verifiee'),
             $request,
-            recherchables: ['titre', 'secteur', 'ville'],
+            recherchables: ['titre', 'secteur', 'ville', 'entreprise.nom'],
             filtrables: ['statut', 'secteur', 'ville', 'type_contrat'],
             triables: ['titre', 'statut', 'publiee_le', 'candidatures_count', 'vues', 'created_at'],
         );
@@ -180,7 +180,13 @@ class EmploiAdminController extends Controller
                 'cv',
             ]),
             $request,
-            recherchables: ['reference'],
+            recherchables: [
+                'reference',
+                'profil.user.name',
+                'profil.user.email',
+                'offre.titre',
+                'offre.entreprise.nom',
+            ],
             filtrables: ['statut'],
             triables: ['statut', 'created_at'],
         );
@@ -207,7 +213,12 @@ class EmploiAdminController extends Controller
                 'candidature.profil.user:id,name',
             ]),
             $request,
-            recherchables: ['reference'],
+            recherchables: [
+                'reference',
+                'candidature.profil.user.name',
+                'candidature.offre.titre',
+                'candidature.offre.entreprise.nom',
+            ],
             filtrables: ['statut'],
             triables: ['statut', 'created_at'],
         );
