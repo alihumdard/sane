@@ -8,14 +8,14 @@ import DashboardNavbar, { type CibleRecherche } from "@/components/dashboard/Das
 import DashboardSidebar, { type SidebarItem } from "@/components/dashboard/DashboardSidebar";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 
-const LIENS: { href: string; label: string; icon: React.ReactNode }[] = [
+const LIENS: { href: string; label: string; icon: React.ReactNode; groupe?: string }[] = [
   { href: "/dashboard/recruteur", label: "Tableau de bord", icon: <Home size={18} /> },
-  { href: "/dashboard/recruteur/offres", label: "Mes offres", icon: <Briefcase size={18} /> },
+  { groupe: "Recrutement", href: "/dashboard/recruteur/offres", label: "Mes offres", icon: <Briefcase size={18} /> },
   { href: "/dashboard/recruteur/candidatures", label: "Candidatures", icon: <FileText size={18} /> },
   { href: "/dashboard/recruteur/matching", label: "Candidats correspondants", icon: <Sparkles size={18} /> },
   { href: "/dashboard/recruteur/entretiens", label: "Entretiens", icon: <CalendarClock size={18} /> },
   { href: "/dashboard/recruteur/candidats", label: "Rechercher des profils", icon: <Users size={18} /> },
-  { href: "/dashboard/recruteur/entreprise", label: "Mon entreprise", icon: <Building2 size={18} /> },
+  { groupe: "Mon compte", href: "/dashboard/recruteur/entreprise", label: "Mon entreprise", icon: <Building2 size={18} /> },
 ];
 
 /** What the recruiter's search box can reach, by what they might type. */

@@ -16,6 +16,12 @@ export interface SidebarItem {
   active?: boolean;
   subItems?: { label: string; href: string }[];
   badge?: number;
+  /**
+   * Heading this entry starts. Thirteen sections ran as one unbroken column,
+   * so finding "Presse" meant reading the whole list; they are grouped by
+   * what they are for now.
+   */
+  groupe?: string;
 }
 
 interface Props {
@@ -103,7 +109,7 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
         <Link
           href="/"
           title="Voir le site public"
-          className="flex shrink-0 flex-col items-center gap-1 border-b border-[var(--sane-border)] px-5 py-4"
+          className="flex shrink-0 flex-col items-center gap-1.5 border-b border-[var(--sane-border)] px-5 py-5"
         >
           <Image
             src="/new-logo.png"
@@ -128,8 +134,10 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
               <>
                 <span
                   className={
-                    "sane-fleche " +
-                    (ici ? "text-[var(--sane-green)]" : "text-[var(--sane-text-light)]")
+                    "sane-fleche flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-colors " +
+                    (ici
+                      ? "bg-white text-[var(--sane-green)] shadow-[0_1px_2px_rgba(16,99,45,0.18)]"
+                      : "text-[var(--sane-text-light)] group-hover:text-[var(--sane-green)]")
                   }
                 >
                   {item.icon}
@@ -164,6 +172,15 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
 
             return (
               <div key={item.label}>
+                <p
+                  className={
+                    "px-3 pb-1.5 pt-4 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--sane-text-light)]/70 " +
+                    (item.groupe ? "block" : "hidden")
+                  }
+                >
+                  {item.groupe}
+                </p>
+
                 {/*
                   A section with sub-entries toggles; one without navigates.
                   Either way the click does something, and the section's own
@@ -224,9 +241,26 @@ export default function DashboardSidebar({ items, open = false, onClose, espace 
         </nav>
 
         <div className="shrink-0 border-t border-[var(--sane-border)] p-3">
-          <p className="mb-2 truncate px-3 text-[11px] text-[var(--sane-text-light)]">
-            {user ? user.nom + " · " + user.role_label : "—"}
-          </p>
+          <div className="mb-2 flex items-center gap-2.5 rounded-xl bg-[var(--sane-background)] px-3 py-2.5">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--sane-green)] text-[11px] font-bold text-white">
+              {(user?.nom ?? "?")
+                .trim()
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map((m) => m[0])
+                .join("")
+                .toUpperCase() || "?"}
+            </span>
+            <span className="min-w-0">
+              <span className="block truncate text-[12px] font-bold text-[var(--sane-text)]">
+                {user?.nom ?? "—"}
+              </span>
+              <span className="block truncate text-[10.5px] text-[var(--sane-text-light)]">
+                {user?.role_label ?? ""}
+              </span>
+            </span>
+          </div>
           {/*
             Not a link: the token has to be revoked server-side, and navigating
             alone would leave the session live on a shared machine.

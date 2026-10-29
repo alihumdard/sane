@@ -20,6 +20,8 @@ export interface EntreeNav {
   label: string;
   href: string;
   icon: React.ReactNode;
+  /** Heading this entry opens, when it starts a new family. */
+  groupe?: string;
   /** Sub-entries, each with its own route. */
   sous?: { label: string; href: string }[];
 }
@@ -27,6 +29,7 @@ export interface EntreeNav {
 export const SECTIONS_ADMIN: EntreeNav[] = [
   { label: "Tableau de bord", href: "/dashboard/admin", icon: <Home size={18} /> },
   {
+    groupe: "Gestion",
     label: "Utilisateurs",
     href: "/dashboard/admin/utilisateurs",
     icon: <Users size={18} />,
@@ -67,6 +70,7 @@ export const SECTIONS_ADMIN: EntreeNav[] = [
     ],
   },
   {
+    groupe: "Contenus du site",
     label: "Intervenants",
     href: "/dashboard/admin/intervenants",
     icon: <Mic size={18} />,
@@ -111,7 +115,7 @@ export const SECTIONS_ADMIN: EntreeNav[] = [
       { label: "Ajouter une question", href: "/dashboard/admin/faq/nouveau" },
     ],
   },
-  { label: "Notifications", href: "/dashboard/admin/notifications", icon: <Bell size={18} /> },
+  { groupe: "Administration", label: "Notifications", href: "/dashboard/admin/notifications", icon: <Bell size={18} /> },
   { label: "Rapports", href: "/dashboard/admin/rapports", icon: <BarChart3 size={18} /> },
   { label: "Paramètres", href: "/dashboard/admin/parametres", icon: <Settings size={18} /> },
 ];
@@ -142,6 +146,7 @@ export function adminNav(active: string): SidebarItem[] {
     icon: s.icon,
     label: s.label,
     href: s.href,
+    groupe: s.groupe,
     active: s.label === active,
     subItems: s.sous,
   }));
