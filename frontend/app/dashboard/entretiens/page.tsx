@@ -11,6 +11,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { NavEspace } from "@/components/dashboard/NavEspace";
+import { useProfilRequis } from "@/components/dashboard/useProfilRequis";
 import { api, ApiError } from "@/lib/api";
 import type { ApiCorrespondance, ApiEntretien, ApiProfilDemandeur } from "@/lib/types";
 
@@ -36,6 +37,7 @@ function Contenu() {
   const [entretiens, setEntretiens] = useState<ApiEntretien[]>([]);
   const [correspondances, setCorrespondances] = useState<ApiCorrespondance[]>([]);
   const [profilPret, setProfilPret] = useState(true);
+  const [manquants, setManquants] = useState<string[] | null>(null);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
   const [enCours, setEnCours] = useState<number | null>(null);
@@ -54,6 +56,7 @@ function Contenu() {
       setEntretiens(e.data);
       setCorrespondances(c.data);
       setProfilPret(p.data.visible && (p.data.taux_completion ?? 0) >= 100);
+      setManquants(p.data.manque_pour_postuler ?? []);
     } catch (err) {
       setErreur(err instanceof ApiError ? err.message : "Chargement impossible.");
     } finally {
@@ -64,6 +67,8 @@ function Contenu() {
   useEffect(() => {
     void Promise.resolve().then(charger);
   }, [charger]);
+
+  const redirige = useProfilRequis(manquants);
 
   async function repondre(entretien: ApiEntretien, action: "confirmer" | "annuler") {
     setEnCours(entretien.id);
@@ -158,6 +163,19 @@ function Contenu() {
       <p className="flex items-center justify-center gap-2 py-16">
         <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
         <span className="sane-small">Chargement…</span>
+      </p>
+    );
+  }
+
+  // Straight to the profile form: there is nothing to confirm here before a
+  // candidature exists, and one cannot be sent on an unfinished profile.
+  if (redirige) {
+    return (
+      <p className="flex items-center justify-center gap-2 py-16">
+        <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
+        <span className="sane-small">
+          Complétez d’abord les champs obligatoires de votre profil…
+        </span>
       </p>
     );
   }

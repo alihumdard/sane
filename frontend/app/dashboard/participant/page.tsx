@@ -16,6 +16,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
 import { RoleGuard } from "@/components/dashboard/RoleGuard";
 import { NavEspace } from "@/components/dashboard/NavEspace";
+import { useProfilRequis } from "@/components/dashboard/useProfilRequis";
 import { api, ApiError } from "@/lib/api";
 import { DialogueConfirmation } from "@/components/dashboard/DialogueConfirmation";
 import type {
@@ -85,6 +86,8 @@ function Contenu() {
     void Promise.resolve().then(charger);
   }, [charger]);
 
+  const redirige = useProfilRequis(profil?.manque_pour_postuler);
+
   /**
    * Withdrawing is refused by the server once a recruiter has acted on the
    * application, so the row only offers it while it is still untouched — and
@@ -113,6 +116,19 @@ function Contenu() {
       <p className="flex items-center justify-center gap-2 py-16">
         <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
         <span className="sane-small">Chargement de votre espace…</span>
+      </p>
+    );
+  }
+
+  // The profile form is already on its way; showing the space it is leaving,
+  // panel by empty panel, only explains it badly.
+  if (redirige) {
+    return (
+      <p className="flex items-center justify-center gap-2 py-16">
+        <Loader2 size={18} className="animate-spin text-[var(--sane-green)]" />
+        <span className="sane-small">
+          Complétez d’abord les champs obligatoires de votre profil…
+        </span>
       </p>
     );
   }
