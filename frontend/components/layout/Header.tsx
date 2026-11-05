@@ -92,7 +92,7 @@ export function Header() {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-2 lg:gap-3 -mr-4">
+        <div className="flex items-center gap-2 lg:-mr-4 lg:gap-3">
           {/* Search — visible on all screens */}
           <button
             type="button"
