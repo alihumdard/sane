@@ -70,7 +70,7 @@ export const options = {
   statut: ["Étudiant", "Demandeur d'emploi", "Salarié", "Entrepreneur", "Autre"],
   domaine: REPLI.secteur,
   experience: ["Aucune", "Moins de 2 ans", "2 à 5 ans", "Plus de 5 ans"],
-  source: ["Réseaux sociaux", "Presse", "Bouche-à-oreille", "Établissement ou employeur", "Autre"],
+  source: ["Réseaux sociaux", "Presse", "Bouche-à-oreille", "Établissement ou employeur", "Code QR", "Autre"],
 };
 
 export type { Referentiels } from "@/lib/referentiels";
@@ -125,3 +125,18 @@ export const emptyRegistration: RegistrationData = {
   type_participation: "", nom: "", naissance: "", email: "", telephone: "", genre: "", nationalite: "",
   ville: "", niveau: "", statut: "", domaine: "", experience: "", parcours: "", source: "",
 };
+
+/**
+ * Ce que le code QR des affiches ajoute à l'adresse, et la réponse qu'il range.
+ *
+ * Le ComboBox garde le libellé lui-même comme valeur : la chaîne préremplie
+ * doit donc être identique, accents compris, à l'entrée de la liste ci-dessus,
+ * sinon le champ part avec une valeur que sa propre liste n'offre pas — le
+ * défaut que décrit déjà `emptyRegistration`.
+ */
+export const SOURCE_QR = "Code QR";
+
+/** Le formulaire tel qu'il s'ouvre : vide, sauf pour qui arrive par le QR. */
+export function inscriptionDeDepart(params: { get(nom: string): string | null }): RegistrationData {
+  return params.get("source") === "qr" ? { ...emptyRegistration, source: SOURCE_QR } : emptyRegistration;
+}

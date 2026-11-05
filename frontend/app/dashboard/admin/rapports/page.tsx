@@ -14,6 +14,7 @@ interface Statistiques {
     annulee: number;
     par_type: { valeur: string; label: string; total: number }[];
     par_ville: { valeur: string; total: number }[];
+    par_source: { valeur: string; total: number }[];
   };
   formations: {
     total: number;
@@ -156,6 +157,13 @@ function Contenu() {
           <section className="rounded-2xl border border-[var(--sane-border)] bg-white p-5">
             <h3 className="mb-4 text-[14px] font-bold text-[var(--sane-text)]">Inscriptions par ville</h3>
             <Barres donnees={stats.inscriptions.par_ville} />
+          </section>
+        )}
+
+        {stats.inscriptions.par_source.length > 0 && (
+          <section className="rounded-2xl border border-[var(--sane-border)] bg-white p-5">
+            <h3 className="mb-4 text-[14px] font-bold text-[var(--sane-text)]">Comment les inscrits ont connu le SANEM</h3>
+            <Barres donnees={stats.inscriptions.par_source} />
           </section>
         )}
 

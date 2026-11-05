@@ -1,6 +1,6 @@
 import {
   BarChart3, Bell, BookOpen, Briefcase, Building2, CalendarDays, FileText,
-  HelpCircle, Home, Mic, Newspaper, Settings, Share2, Handshake, UserCheck, Users,
+  HelpCircle, Home, Mic, Newspaper, QrCode, Settings, Share2, Handshake, UserCheck, Users,
 } from "lucide-react";
 import type { SidebarItem } from "@/components/dashboard/DashboardSidebar";
 
@@ -130,6 +130,7 @@ export const SECTIONS_ADMIN: EntreeNav[] = [
   },
   { groupe: "Administration", label: "Notifications", accent: "blue", href: "/dashboard/admin/notifications", icon: <Bell size={18} /> },
   { label: "Rapports", accent: "teal", href: "/dashboard/admin/rapports", icon: <BarChart3 size={18} /> },
+  { label: "Code QR", accent: "orange", href: "/dashboard/admin/qr-code", icon: <QrCode size={18} /> },
   { label: "Paramètres", accent: "green", href: "/dashboard/admin/parametres", icon: <Settings size={18} /> },
 ];
 
@@ -151,6 +152,7 @@ export const CIBLES_RECHERCHE: { mots: string[]; label: string; href: string; ic
   { mots: ["faq", "question"], label: "FAQ", href: "/dashboard/admin/faq", icon: <HelpCircle size={14} /> },
   { mots: ["notification", "email", "message"], label: "Notifications", href: "/dashboard/admin/notifications", icon: <Bell size={14} /> },
   { mots: ["rapport", "statistique", "export", "chiffre"], label: "Rapports", href: "/dashboard/admin/rapports", icon: <BarChart3 size={14} /> },
+  { mots: ["qr", "code", "affiche", "flyer", "banderole", "scanner"], label: "Code QR", href: "/dashboard/admin/qr-code", icon: <QrCode size={14} /> },
   { mots: ["parametre", "reglage", "contact", "reseau"], label: "Paramètres", href: "/dashboard/admin/parametres", icon: <Settings size={14} /> },
 ];
 

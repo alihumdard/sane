@@ -1,4 +1,5 @@
-﻿import { Container } from "@/components/ui/Container";
+﻿import { Suspense } from "react";
+import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RegistrationWizard } from "./RegistrationWizard";
 import { RegistrationSidebar } from "./RegistrationSidebar";
@@ -15,7 +16,14 @@ export function RegistrationSection() {
           className="mb-8"
         />
         <div className="grid gap-8 md:grid-cols-[1fr_300px] md:gap-8 lg:grid-cols-[1fr_340px] lg:gap-10">
-          <RegistrationWizard />
+          {/*
+            Le formulaire lit ?source=qr, et useSearchParams() sort la page du
+            prérendu s'il n'est pas sous un Suspense. Ici et non sur la page :
+            le héros, les documents et la FAQ restent statiques.
+          */}
+          <Suspense fallback={<div className="min-h-[560px] rounded-2xl bg-white shadow-md" />}>
+            <RegistrationWizard />
+          </Suspense>
           <RegistrationSidebar />
         </div>
       </Container>

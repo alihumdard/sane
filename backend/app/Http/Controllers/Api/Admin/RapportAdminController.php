@@ -81,6 +81,13 @@ class RapportAdminController extends Controller
                 ->whereNotNull('ville')
                 ->groupBy('ville')->orderByDesc('total')->limit(10)
                 ->get()->map(fn ($l) => ['valeur' => $l->ville, 'total' => (int) $l->total]),
+            // « Comment avez-vous connu le SANEM ? » — c'est ici que se lit si le
+            // code QR des affiches sert à quelque chose.
+            'par_source' => (clone $base)
+                ->selectRaw('source, count(*) as total')
+                ->whereNotNull('source')
+                ->groupBy('source')->orderByDesc('total')
+                ->get()->map(fn ($l) => ['valeur' => $l->source, 'total' => (int) $l->total]),
         ];
     }
 
@@ -182,6 +189,7 @@ class RapportAdminController extends Controller
                 'Domaine' => 'domaine',
                 'Type de participation' => 'type_participation',
                 'Statut' => 'statut',
+                'Source' => 'source',
                 'Formations' => 'formations',
                 'Inscrit le' => 'created_at',
             ],

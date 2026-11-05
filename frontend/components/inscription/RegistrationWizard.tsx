@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { AlertCircle, ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { primaryBtn, secondaryBtn } from "@/components/ui/styles";
 import { api, ApiError } from "@/lib/api";
@@ -12,13 +13,16 @@ import { FormationsStep } from "./FormationsStep";
 import { DocumentsUpload } from "./DocumentsUpload";
 import { ConfirmStep, InterestsStep, PersonalStep, ProfileStep } from "./steps";
 import { useReferentiels } from "./useReferentiels";
-import { emptyRegistration, steps, STEP_FORMATIONS } from "./data";
+import { inscriptionDeDepart, steps, STEP_FORMATIONS } from "./data";
 
 /** 6-step registration form (state lives here; each step is its own component). */
 export function RegistrationWizard() {
   const listes = useReferentiels();
   const [step, setStep] = useState(1);
-  const [data, setData] = useState(emptyRegistration);
+  const params = useSearchParams();
+  // Posée à l'ouverture et non dans un effet : un effet écraserait, après coup
+  // et à la vue de tous, la réponse d'un visiteur qui a déjà choisi.
+  const [data, setData] = useState(() => inscriptionDeDepart(params));
   const [formations, setFormations] = useState<number[]>([]);
   const [formationTitres, setFormationTitres] = useState<Record<number, string>>({});
   const [interests, setInterests] = useState<string[]>([]);
@@ -113,7 +117,9 @@ export function RegistrationWizard() {
   }
 
   function restart() {
-    setData(emptyRegistration);
+    // L'adresse dit toujours que le visiteur vient du QR : une seconde inscription
+    // depuis la même affiche en est encore une.
+    setData(inscriptionDeDepart(params));
     setFormations([]);
     setFormationTitres({});
     setInterests([]);
