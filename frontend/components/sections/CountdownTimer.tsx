@@ -1,13 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useStatistiques } from "@/lib/statistiques";
 
-const EVENT_DATE = new Date("2026-12-10T09:00:00").getTime();
+/**
+ * Ce qui compte jusqu'à l'ouverture si l'édition n'a pas répondu.
+ *
+ * Le salon a déjà changé de date une fois : le compte à rebours lit donc
+ * l'édition active, et cette valeur ne sert que tant que la réponse n'est pas
+ * là, ou si elle ne vient jamais.
+ */
+const REPLI = "2026-12-03";
+
+/** Le début du salon, à 9 h heure locale, depuis un « 2026-12-03T00:00:00Z ». */
+function ouverture(dateDebut: string | null | undefined): number {
+  // Le jour seul : lu tel quel, minuit UTC glisserait d'une heure sur Niamey.
+  return new Date(`${(dateDebut ?? REPLI).slice(0, 10)}T09:00:00`).getTime();
+}
 
 type TimeLeft = { days: number; hours: number; minutes: number; seconds: number };
 
-function getTimeLeft(): TimeLeft {
-  const diff = EVENT_DATE - Date.now();
+function getTimeLeft(debut: number): TimeLeft {
+  const diff = debut - Date.now();
   if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
   return {
     days: Math.floor(diff / 86_400_000),
@@ -21,16 +35,17 @@ const labels = ["JOURS", "HEURES", "MINUTES", "SECONDES"] as const;
 
 export function CountdownTimer() {
   const [time, setTime] = useState<TimeLeft | null>(null);
+  const debut = ouverture(useStatistiques()?.edition?.date_debut);
 
   useEffect(() => {
     // The first reading is deferred by a microtask rather than taken in the
     // effect body: still the same frame, without cascading a render.
-    queueMicrotask(() => setTime(getTimeLeft()));
+    queueMicrotask(() => setTime(getTimeLeft(debut)));
 
-    const id = setInterval(() => setTime(getTimeLeft()), 1000);
+    const id = setInterval(() => setTime(getTimeLeft(debut)), 1000);
 
     return () => clearInterval(id);
-  }, []);
+  }, [debut]);
 
   const values = time
     ? [time.days, time.hours, time.minutes, time.seconds]

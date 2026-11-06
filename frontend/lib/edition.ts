@@ -23,7 +23,7 @@ export interface StatistiquesPubliques {
 }
 
 /**
- * "10 – 12 décembre 2026", from the edition rather than from three files.
+ * "3 – 5 décembre 2026", from the edition rather than from three files.
  *
  * Takes the edition alone rather than the whole payload, so a page that reads
  * the statistics on the server — and declares only the fields it uses — can
@@ -41,7 +41,7 @@ export function datesEdition(
   const f = new Date(fin);
   const mois = f.toLocaleDateString("fr-FR", { month: "long" });
 
-  // Same month, which it always is for a three-day fair: "10 – 12 décembre".
+  // Same month, which it always is for a three-day fair: "3 – 5 décembre".
   return d.getMonth() === f.getMonth()
     ? `${d.getDate()} – ${f.getDate()} ${mois} ${f.getFullYear()}`
     : `${d.toLocaleDateString("fr-FR", { day: "numeric", month: "long" })} – ${f.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;

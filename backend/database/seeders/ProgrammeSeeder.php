@@ -18,7 +18,7 @@ class ProgrammeSeeder extends Seeder
 {
     public function run(): void
     {
-        $jour = '2026-12-10';
+        $jour = '2026-12-03';
 
         $sessions = [
             ['08:00', '09:00', 'Accueil & Inscriptions', 'Accueil des participants, remise des badges et documents.', 'Accueil', 'Hall principal', '/sane_deal.webp'],

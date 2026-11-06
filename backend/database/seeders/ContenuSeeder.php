@@ -53,7 +53,7 @@ class ContenuSeeder extends Seeder
                 'titre' => 'Le SANEM 2026 ouvre ses inscriptions',
                 'categorie' => 'communiques',
                 'extrait' => "Les inscriptions au Salon National de l'Emploi 2026 sont désormais ouvertes à tous les demandeurs d'emploi et recruteurs.",
-                'contenu' => "Les inscriptions au Salon National de l'Emploi 2026 sont ouvertes.\n\nL'événement se tiendra du 10 au 12 décembre 2026 à Niamey et réunira entreprises, institutions et demandeurs d'emploi autour d'un même objectif : favoriser l'insertion professionnelle au Niger.\n\nLa participation est entièrement gratuite, formations comprises.",
+                'contenu' => "Les inscriptions au Salon National de l'Emploi 2026 sont ouvertes.\n\nL'événement se tiendra du 3 au 5 décembre 2026 à Niamey et réunira entreprises, institutions et demandeurs d'emploi autour d'un même objectif : favoriser l'insertion professionnelle au Niger.\n\nLa participation est entièrement gratuite, formations comprises.",
                 'auteur' => "Comité d'organisation",
             ],
             [
@@ -84,7 +84,7 @@ class ContenuSeeder extends Seeder
     {
         return [
             ['categorie' => 'generalites', 'question' => "Qu'est-ce que le SANEM ?", 'reponse' => "Le Salon National de l'Emploi (SANEM) est un événement national qui réunit demandeurs d'emploi, entreprises et institutions autour de l'insertion professionnelle au Niger."],
-            ['categorie' => 'generalites', 'question' => 'Quand et où se tient le SANEM 2026 ?', 'reponse' => 'Le salon se tiendra du 10 au 12 décembre 2026 à Niamey.'],
+            ['categorie' => 'generalites', 'question' => 'Quand et où se tient le SANEM 2026 ?', 'reponse' => 'Le salon se tiendra du 3 au 5 décembre 2026 à Niamey.'],
             ['categorie' => 'inscriptions', 'question' => "L'inscription est-elle payante ?", 'reponse' => "Non. L'inscription au salon et la participation aux formations sont entièrement gratuites."],
             ['categorie' => 'inscriptions', 'question' => 'Comment puis-je m\'inscrire ?', 'reponse' => 'Rendez-vous sur la page Inscription et complétez le formulaire en quelques étapes. Vous recevrez un email de confirmation avec votre référence.'],
             ['categorie' => 'inscriptions', 'question' => 'Puis-je modifier mon inscription après validation ?', 'reponse' => "Contactez l'équipe d'organisation en rappelant votre référence d'inscription. Les modifications sont possibles tant que votre dossier n'a pas été validé."],

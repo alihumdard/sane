@@ -1,6 +1,7 @@
 "use client";
 
 import { Organisation, PageLegale, Section } from "@/components/legal/PageLegale";
+import { DatesSalon } from "@/components/shared/DatesSalon";
 
 export default function MentionsLegalesPage() {
   return (
@@ -11,7 +12,7 @@ export default function MentionsLegalesPage() {
       <Section titre="Éditeur du site">
         <p>
           Le présent site est édité dans le cadre du Salon National de l&apos;Emploi (SANEM),
-          qui se tient à Niamey du 10 au 12 décembre 2026.
+          qui se tient à Niamey du <DatesSalon repli="3 – 5 décembre 2026" />.
         </p>
         <Organisation />
       </Section>

@@ -37,7 +37,7 @@ export function CountdownSection() {
               </div>
               <div className="flex items-center gap-1.5">
                 <CalendarDays size={13} className="text-[var(--sane-orange)]" />
-                <span><DatesSalon repli="10 – 12 décembre 2026" /></span>
+                <span><DatesSalon repli="3 – 5 décembre 2026" /></span>
               </div>
             </div>
           </div>

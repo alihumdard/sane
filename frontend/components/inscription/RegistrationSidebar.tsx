@@ -46,7 +46,7 @@ export function RegistrationSidebar() {
                     the edition rather than from three written-in copies. */}
                 {lines.map((l) => (
                   <p key={l} className="sane-small">
-                    {l === "@dates" ? <DatesSalon repli="10 – 12 décembre 2026" /> : l}
+                    {l === "@dates" ? <DatesSalon repli="3 – 5 décembre 2026" /> : l}
                   </p>
                 ))}
               </div>
