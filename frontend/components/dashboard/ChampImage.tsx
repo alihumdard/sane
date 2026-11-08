@@ -6,15 +6,21 @@ import { ImageUp, Trash2 } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
 import { SpinnerOu } from "./Spinner";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api";
-
-/** Where an uploaded file is served from, given the path the API returned. */
+/**
+ * Où un fichier téléversé se lit, à partir du chemin que l'API a renvoyé.
+ *
+ * Un chemin relatif, et non une adresse construite sur NEXT_PUBLIC_API_URL :
+ * cette variable nomme l'IP du serveur, derrière un certificat auto-signé, et
+ * l'aperçu y était refusé par le navigateur alors que le fichier venait
+ * d'être envoyé. nginx sert /storage/ sous les deux noms du site, donc un
+ * chemin fonctionne d'où que vienne la page.
+ */
 function urlPublique(chemin: string): string {
-  // Content seeded with the site points at files shipped with the frontend;
-  // only what this field uploaded lives under the API's storage folder.
+  // Le contenu livré avec le site pointe vers ses propres fichiers ; seul ce
+  // qu'un administrateur a téléversé vit sous /storage.
   if (chemin.startsWith("http") || chemin.startsWith("/")) return chemin;
 
-  return `${API.replace(/\/api$/, "")}/storage/${chemin}`;
+  return `/storage/${chemin}`;
 }
 
 /**
