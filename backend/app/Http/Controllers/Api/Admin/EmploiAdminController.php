@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CandidatureResource;
 use App\Http\Resources\EntretienResource;
 use App\Http\Resources\OffreResource;
+use App\Mail\EntrepriseVerifiee;
 use App\Models\Candidature;
 use App\Models\Entreprise;
 use App\Models\Entretien;
@@ -120,6 +121,29 @@ class EmploiAdminController extends Controller
         $entreprise->update($valide);
 
         if ($valide['verifiee']) {
+            /*
+             * Le recruteur l'apprend de nous.
+             *
+             * Le retrait de la vérification le prévenait déjà ; la validation
+             * ne disait rien, et il attendait devant un espace inchangé sans
+             * savoir qu'il pouvait publier. Chaque recruteur de l'entreprise
+             * est prévenu, pas seulement son propriétaire.
+             */
+            foreach ($entreprise->recruteurs() as $recruteur) {
+                $notificateur->envoyer(
+                    new EntrepriseVerifiee($recruteur, $entreprise),
+                    ['entreprise_id' => $entreprise->id],
+                );
+
+                $notificateur->notifier(
+                    $recruteur,
+                    'Votre entreprise est validée',
+                    "{$entreprise->nom} a été vérifiée : vous pouvez publier vos offres.",
+                    '/dashboard/recruteur/offres',
+                    'offre',
+                );
+            }
+
             return response()->json([
                 // Offers closed by an earlier withdrawal stay closed: one the
                 // recruiter shut themselves, because the post was filled,
