@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { estTeleverse } from "@/lib/televerse";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { textLink } from "@/components/ui/styles";
@@ -92,7 +93,7 @@ export function PartnerLogosSection({ initiaux = [] }: { initiaux?: ApiPartenair
               <>
                 {p.logo_url ? (
                   <div className="relative h-14 w-14 sm:h-16 sm:w-16">
-                    <Image src={p.logo_url} alt={p.nom} fill sizes="64px" className="object-contain" />
+                    <Image src={p.logo_url} alt={p.nom} fill sizes="64px" unoptimized={estTeleverse(p.logo_url)} className="object-contain" />
                   </div>
                 ) : (
                   <span

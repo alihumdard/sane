@@ -6,6 +6,7 @@ import { ArrowLeft, Building2, Briefcase } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
+import { estTeleverse } from "@/lib/televerse";
 import { slugIntervenant, type Speaker } from "@/components/intervenants/data";
 
 /**
@@ -97,7 +98,7 @@ export default async function IntervenantPage({
 
   if (!intervenant) notFound();
 
-  const externe = intervenant.img.startsWith("http");
+  const televerse = estTeleverse(intervenant.img);
 
   return (
     <>
@@ -120,7 +121,7 @@ export default async function IntervenantPage({
                   alt={intervenant.name}
                   fill
                   sizes="(max-width: 768px) 100vw, 260px"
-                  unoptimized={externe}
+                  unoptimized={televerse}
                   className="object-cover object-top"
                 />
               </div>

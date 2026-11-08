@@ -1,18 +1,8 @@
 ﻿import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { estTeleverse } from "@/lib/televerse";
 import { slugIntervenant, type Speaker } from "./data";
-
-/*
- * Uploaded photos skip Next's optimiser.
- *
- * It refetches the image server-side, and behind a self-signed certificate
- * that handshake fails: the portrait came back 500 and the card showed its
- * alt text. The files shipped with the site are local and optimise normally.
- */
-function externe(src: string): boolean {
-  return src.startsWith("http");
-}
 
 function Tags({ tags, small }: { tags: string[]; small?: boolean }) {
   return (
@@ -41,7 +31,7 @@ export function SpeakerCard({ speaker, view }: { speaker: Speaker; view: "grid" 
     return (
       <div className="flex items-center gap-3 rounded-xl border border-[var(--sane-border)] bg-white p-3 transition-shadow hover:shadow-md sm:gap-4 sm:p-4">
         <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[var(--sane-background)] sm:h-16 sm:w-16">
-          <Image src={speaker.img} alt={speaker.name} fill sizes="64px" unoptimized={externe(speaker.img)} className="object-cover object-top" />
+          <Image src={speaker.img} alt={speaker.name} fill sizes="64px" unoptimized={estTeleverse(speaker.img)} className="object-cover object-top" />
         </div>
         <div className="min-w-0 flex-1">
           <p className="sane-h3 truncate">{speaker.name}</p>
@@ -65,7 +55,7 @@ export function SpeakerCard({ speaker, view }: { speaker: Speaker; view: "grid" 
           alt={speaker.name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          unoptimized={externe(speaker.img)}
+          unoptimized={estTeleverse(speaker.img)}
           className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
         />
       </div>
