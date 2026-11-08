@@ -6,6 +6,11 @@ import { ImageUp, Trash2 } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
 import { SpinnerOu } from "./Spinner";
 
+/** La limite du serveur, en octets : au-dela, PHP refuse avant Laravel. */
+const TAILLE_MAX = 2 * 1024 * 1024;
+
+const TYPES_ACCEPTES = ["image/jpeg", "image/png", "image/webp"];
+
 /**
  * Où un fichier téléversé se lit, à partir du chemin que l'API a renvoyé.
  *
@@ -60,6 +65,30 @@ export function ChampImage({
 
   async function televerser(fichier: File | undefined) {
     if (!fichier) return;
+
+    /*
+     * Mesure ici, avant d'envoyer.
+     *
+     * Au-dela de sa propre limite, PHP coupe la requete avant que Laravel ne
+     * la voie : la reponse n'est pas du JSON, le message de validation
+     * n'arrive jamais, et l'administrateur lisait « Erreur 413 » sans savoir
+     * que sa photo etait simplement trop lourde. Meme limite que le serveur.
+     */
+    if (fichier.size > TAILLE_MAX) {
+      setErreur(
+        `Image trop lourde (${(fichier.size / 1024 / 1024).toFixed(1)} Mo). Maximum 2 Mo.`
+      );
+      if (champ.current) champ.current.value = "";
+
+      return;
+    }
+
+    if (!TYPES_ACCEPTES.includes(fichier.type)) {
+      setErreur("Format non accepté. Utilisez un fichier JPG, PNG ou WebP.");
+      if (champ.current) champ.current.value = "";
+
+      return;
+    }
 
     // Nothing to attach it to yet: hold it for the form to send after the
     // record is created.
