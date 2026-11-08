@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Enums\RoleUtilisateur;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InscriptionCompteRequest;
+use App\Mail\BienvenueCompte;
 use App\Mail\MotDePasseOublie;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
@@ -12,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -46,6 +48,23 @@ class AuthController extends Controller
 
             return $user;
         });
+
+        /*
+         * Hors de la transaction, et sans faire échouer la création.
+         *
+         * Le compte existe et la personne est déjà connectée : si le serveur
+         * de messagerie refuse, lui répondre que son inscription a échoué
+         * serait faux, et la retenter créerait un doublon. L'échec part donc
+         * dans le journal, où il se voit, plutôt qu'à l'écran.
+         */
+        try {
+            Mail::to($user->email)->send(new BienvenueCompte($user));
+        } catch (\Throwable $e) {
+            Log::error('Email de bienvenue non envoyé', [
+                'user' => $user->id,
+                'erreur' => $e->getMessage(),
+            ]);
+        }
 
         return response()->json([
             'message' => 'Votre compte a bien été créé.',
