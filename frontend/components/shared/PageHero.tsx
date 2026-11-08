@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { imageFocus } from "./imageFocus";
+import { estTeleverse } from "@/lib/televerse";
 
 interface HeroStat {
   value: string;
@@ -79,6 +80,7 @@ export function PageHero({
       <div className={`absolute inset-0 ${photo ? "lg:left-auto lg:w-[55%]" : "hidden sm:block"} ${mobileImage ? "hidden sm:block" : ""}`}>
         <Image
           src={image}
+          unoptimized={estTeleverse(image)}
           alt=""
           fill
           priority

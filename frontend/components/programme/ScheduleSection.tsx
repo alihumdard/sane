@@ -7,6 +7,7 @@ import { Container } from "@/components/ui/Container";
 import { Spinner } from "@/components/dashboard/Spinner";
 import { api } from "@/lib/api";
 import { tagStyles } from "./data";
+import { estTeleverse } from "@/lib/televerse";
 
 interface SessionPublique {
   id: number;
@@ -57,6 +58,7 @@ function SessionCard({ session }: { session: SessionPublique }) {
       >
         <Image
           src={session.image_url ?? "/sane_deal.webp"}
+          unoptimized={estTeleverse(session.image_url)}
           alt=""
           fill
           className="object-cover"

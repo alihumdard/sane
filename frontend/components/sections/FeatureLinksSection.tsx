@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, CalendarRange, Mic2, Handshake, Newspaper } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { estTeleverse } from "@/lib/televerse";
 
 const links: { title: string; description: string; action: string; href: string; image: string; icon: LucideIcon }[] = [
   {
@@ -54,6 +55,7 @@ export function FeatureLinksSection() {
               <div className="relative h-[85px] w-[85px] shrink-0 overflow-hidden rounded-lg">
                 <Image
                   src={item.image}
+          unoptimized={estTeleverse(item.image)}
                   alt={item.title}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"

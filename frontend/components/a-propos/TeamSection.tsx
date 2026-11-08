@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { estTeleverse } from "@/lib/televerse";
 
 interface TeamMember {
   name: string;
@@ -24,6 +25,7 @@ function TeamCard({ member }: { member: TeamMember }) {
       <div className="relative aspect-[4/3] w-full overflow-hidden">
         <Image
           src={member.img}
+          unoptimized={estTeleverse(member.img)}
           alt={member.name}
           fill
           className="block object-cover object-center transition-transform duration-300 group-hover:scale-105"

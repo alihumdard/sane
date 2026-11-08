@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Calendar } from "lucide-react";
 import { textLink } from "@/components/ui/styles";
 import { imageFocus } from "./imageFocus";
+import { estTeleverse } from "@/lib/televerse";
 
 export interface ArticleCardData {
   image: string;
@@ -27,6 +28,7 @@ export function ArticleCard({ image, date, tag, tagColor, title, description, hr
       <div className="relative h-[190px] w-full overflow-hidden">
         <Image
           src={image}
+          unoptimized={estTeleverse(image)}
           alt={title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1280px) 45vw, 28vw"

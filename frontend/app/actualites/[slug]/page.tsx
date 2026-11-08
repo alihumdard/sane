@@ -8,6 +8,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
 import type { ApiActualite } from "@/lib/types";
+import { estTeleverse } from "@/lib/televerse";
 
 const BASE_URL =
   process.env.API_INTERNE ?? process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api";
@@ -120,6 +121,7 @@ export default async function ActualitePage({
             >
               <Image
                 src={article.image_url ?? "/sane_deal.webp"}
+          unoptimized={estTeleverse(article.image_url)}
                 alt={article.titre}
                 fill
                 sizes="(max-width: 780px) 100vw, 780px"

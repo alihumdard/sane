@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { textLink } from "@/components/ui/styles";
 import { couleurPartenaire, initiales } from "@/components/partenaires/data";
+import { estTeleverse } from "@/lib/televerse";
 
 export interface PartenairePublic {
   id: number;
@@ -62,6 +63,7 @@ export function PartnersSection({ partenaires = [] }: { partenaires?: Partenaire
                 <div className={"relative h-12 w-full sm:h-14 " + (p.logo_url ? "block" : "hidden")}>
                   <Image
                     src={p.logo_url ?? "/new-logo.png"}
+          unoptimized={estTeleverse(p.logo_url)}
                     alt=""
                     fill
                     sizes="(min-width: 768px) 20vw, (min-width: 640px) 33vw, 50vw"

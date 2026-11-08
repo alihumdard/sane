@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock, MapPin, Users } from "lucide-react";
 import { imageFocus } from "@/components/shared";
+import { estTeleverse } from "@/lib/televerse";
 import type { ApiFormation } from "@/lib/types";
 import { tagColors, imagesParCategorie, imageParDefaut } from "./data";
 
@@ -31,6 +32,7 @@ export function FormationCard({ formation: f }: { formation: ApiFormation }) {
       <div className="relative aspect-[16/9] overflow-hidden bg-[var(--sane-green-light)]">
         <Image
           src={img}
+          unoptimized={estTeleverse(img)}
           alt={f.titre}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"

@@ -8,6 +8,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
 import { Select } from "@/components/ui/Select";
+import { estTeleverse } from "@/lib/televerse";
 import {
   ChevronRight,
   ArrowRight,
@@ -475,6 +476,7 @@ export function ActualitesContenu({
                       <div className="relative h-[180px] overflow-hidden">
                         <Image
                           src={a.image}
+                          unoptimized={estTeleverse(a.image)}
                           alt={a.title}
                           fill sizes="(max-width: 768px) 100vw, 33vw"
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -529,6 +531,7 @@ export function ActualitesContenu({
                     >
                       <Image
                         src={filteredArticles[0]?.image ?? "/sane_deal.webp"}
+                          unoptimized={estTeleverse(filteredArticles[0]?.image)}
                         alt={filteredArticles[0]?.title ?? "À la une"}
                         fill sizes="100vw"
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -609,6 +612,7 @@ export function ActualitesContenu({
                         <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl">
                           <Image
                             src={pa.image}
+                          unoptimized={estTeleverse(pa.image)}
                             alt={pa.title}
                             fill sizes="100vw"
                             className="object-cover"

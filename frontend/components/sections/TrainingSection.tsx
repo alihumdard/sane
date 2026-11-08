@@ -9,6 +9,7 @@ import {
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { imageFocus } from "@/components/shared/imageFocus";
+import { estTeleverse } from "@/lib/televerse";
 
 export interface FormationAccueil {
   titre: string;
@@ -75,6 +76,7 @@ export function TrainingSection({ formations = [] }: { formations?: FormationAcc
               <div className="relative h-[190px] w-full overflow-hidden">
                 <Image
                   src={training.image}
+          unoptimized={estTeleverse(training.image)}
                   alt={training.titre}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
