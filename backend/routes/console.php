@@ -21,6 +21,19 @@ Schedule::command('sanem:rappels-entretiens')
     ->hourly()
     ->withoutOverlapping();
 
+/*
+ * L'ouverture des inscriptions, au matin du jour fixé par le client.
+ *
+ * 07:00 UTC, soit 08:00 à Niamey. Planifiée plutôt que cochée à la main :
+ * la date est à deux jours, et elle ne doit pas dépendre de qui y pense ce
+ * matin-là. La commande ne fait qu'ouvrir — relancée ensuite, elle constate
+ * et se tait, et elle ne refermera jamais ce que les organisateurs ont
+ * ouvert ou fermé depuis le back-office.
+ */
+Schedule::command('sanem:ouvrir-les-inscriptions')
+    ->dailyAt('07:00')
+    ->when(fn () => now()->toDateString() >= '2026-11-11');
+
 // A course date is a day, not a time, so once each morning is enough.
 Schedule::command('sanem:rappels-formations')
     ->dailyAt('08:00')
