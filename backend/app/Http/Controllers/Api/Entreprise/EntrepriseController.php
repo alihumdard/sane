@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\Entreprise;
 
 use App\Http\Controllers\Controller;
+use App\Mail\EntrepriseEnregistree;
 use App\Http\Requests\EntrepriseRequest;
 use App\Http\Resources\EntrepriseResource;
 use App\Models\Entreprise;
+use App\Services\Notificateur;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -51,6 +53,16 @@ class EntrepriseController extends Controller
             // Verification is an organiser's decision, never the applicant's.
             'verifiee' => false,
         ]);
+
+        /*
+         * Le dossier part en vérification, et cela peut prendre des jours :
+         * sans cet accusé, le recruteur attend devant un écran inchangé sans
+         * savoir si son profil est bien arrivé.
+         */
+        app(Notificateur::class)->envoyer(
+            new EntrepriseEnregistree($user, $entreprise),
+            ['entreprise_id' => $entreprise->id],
+        );
 
         return response()->json([
             'message' => 'Profil entreprise créé. Il sera vérifié par les organisateurs avant publication de vos offres.',

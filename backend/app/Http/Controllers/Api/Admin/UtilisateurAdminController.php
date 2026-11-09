@@ -6,6 +6,8 @@ use App\Enums\RoleUtilisateur;
 use App\Http\Concerns\FiltreLesListes;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Mail\BienvenueCompte;
+use App\Services\Notificateur;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -60,6 +62,18 @@ class UtilisateurAdminController extends Controller
         ]);
 
         $user = User::create([...$valide, 'statut' => 'actif']);
+
+        /*
+         * Même accueil que pour une inscription publique.
+         *
+         * Un compte ouvert depuis le back-office ne prévenait personne : son
+         * titulaire ignorait qu'il existait. Le mot de passe n'y figure pas —
+         * il est choisi par l'administrateur, qui le transmet autrement.
+         */
+        app(Notificateur::class)->envoyer(
+            new BienvenueCompte($user),
+            ['user_id' => $user->id],
+        );
 
         return response()->json([
             'message' => 'Utilisateur créé.',
