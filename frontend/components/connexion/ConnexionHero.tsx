@@ -10,8 +10,13 @@ export function ConnexionHero() {
   return (
     <section className="relative overflow-hidden bg-[var(--sane-green-dark)]">
       <div className="absolute inset-0 z-10 bg-[var(--sane-green-dark)]/80 lg:bg-gradient-to-r lg:from-[var(--sane-green-dark)] lg:via-[var(--sane-green-dark)]/85 lg:to-[var(--sane-green-dark)]/30" />
+      {/*
+        Cadré à droite, et non au centre : le panneau porte le logo dans la
+        moitié droite de la photo, et object-cover rogne par les côtés dès que
+        le bandeau est plus large que l'image. Centré, le M disparaissait.
+      */}
       <div className="absolute inset-y-0 right-0 w-full lg:w-[60%]">
-        <Image src="/sane-deal3.webp" alt="" fill priority sizes="(max-width: 1024px) 100vw, 60vw" className="object-cover object-[center_30%]" />
+        <Image src="/sane-deal3.webp" alt="" fill priority sizes="(max-width: 1024px) 100vw, 60vw" className="object-cover object-[72%_30%]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--sane-green-dark)] via-[var(--sane-green-dark)]/30 to-transparent" />
       </div>
 
