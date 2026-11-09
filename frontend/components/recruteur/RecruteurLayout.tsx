@@ -69,22 +69,8 @@ export function RecruteurLayout({
 
   return (
     <RoleGuard roles={["entreprise", "recruteur"]} espace="l'espace recruteur">
-      {/*
-        translate="no" sur tout l'espace de travail.
-        
-        Google Translate réécrit les nœuds de texte hors de React, et un
-        bouton dont le libellé a été réécrit perd son gestionnaire de clic :
-        on appuie sur « Entretien », rien ne part, et rien ne dit pourquoi.
-        Constaté sur le changement de statut d'une candidature, mais tous les
-        boutons d'ici sont exposés — il y en a quatre-vingt-quinze.
-        
-        Le marquer ici plutôt qu'un par un : un bouton ajouté demain est
-        couvert sans qu'on ait à y penser. Le site public, lui, reste
-        traduisible — c'est là que des visiteurs en ont besoin.
-      */}
       <div
-        translate="no"
-        className="notranslate flex h-screen overflow-hidden bg-[var(--sane-background)]"
+        className="flex h-screen overflow-hidden bg-[var(--sane-background)]"
         style={{
           // A faint wash from the top, so the page is lit rather than flat.
           backgroundImage:
