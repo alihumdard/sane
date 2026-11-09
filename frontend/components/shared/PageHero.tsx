@@ -88,15 +88,27 @@ export function PageHero({
           className="object-cover"
           style={{ objectPosition: pos }}
         />
-        {photo && (
-          <div
-            className={`absolute inset-0 hidden bg-gradient-to-r to-transparent to-[60%] lg:block ${
-              isDark
+        {/*
+          Le voile derrière le texte, sur grand écran.
+          
+          Il ne couvrait que `photo` : un visuel posé en `banner` laissait le
+          titre blanc à nu sur une illustration claire, illisible, et le fil
+          d'Ariane se posait sur le logo imprimé dans l'image. Les deux modes
+          en ont besoin ; le bandeau, plus clair, en demande même un peu plus.
+        */}
+        <div
+          className={`absolute inset-0 hidden bg-gradient-to-r lg:block ${
+            photo ? "to-transparent to-[60%]" : "to-transparent to-[72%]"
+          } ${
+            isDark
+              ? photo
                 ? "from-[var(--sane-green-dark)] via-[var(--sane-green-dark)]/40"
-                : "from-[var(--sane-background)] via-[var(--sane-background)]/40"
-            }`}
-          />
-        )}
+                : "from-[var(--sane-green-dark)] via-[var(--sane-green-dark)]/70"
+              : photo
+                ? "from-[var(--sane-background)] via-[var(--sane-background)]/40"
+                : "from-[var(--sane-background)] via-[var(--sane-background)]/70"
+          }`}
+        />
       </div>
 
       {/* ===== Mobile banner: CSS background with localized text-area overlay ===== */}
