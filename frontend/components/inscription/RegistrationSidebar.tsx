@@ -10,11 +10,14 @@ export function RegistrationSidebar() {
     <aside className="flex flex-col gap-6">
       <div className="relative min-h-28 flex-1 overflow-hidden rounded-2xl">
         {/*
-          Cadré à droite : le panneau est étroit et haut, object-cover rogne
-          donc largement par les côtés, et le logo se trouve dans la moitié
-          droite de la photo.
+          Cadré sur les personnes, pas sur le logo du panneau.
+          
+          Ce bloc est large et bas : object-cover rogne donc par le haut et le
+          bas, et le logo, qui est en haut de la photo, se coupait en deux. Le
+          badge blanc ci-dessous porte déjà le nom, alors la photo garde les
+          visages et laisse le panneau sortir du cadre.
         */}
-        <Image src="/sane-deal3.webp" alt="" fill sizes="(max-width: 1024px) 100vw, 340px" className="object-cover object-[72%_30%]" />
+        <Image src="/sane-deal3.webp" alt="" fill sizes="(max-width: 1024px) 100vw, 340px" className="object-cover object-[60%_62%]" />
         <span className="absolute bottom-3 right-3 rounded-lg bg-white px-3 py-1.5 text-[length:var(--fs-body)] font-extrabold text-[var(--sane-green)] shadow">
           SANEM
         </span>
