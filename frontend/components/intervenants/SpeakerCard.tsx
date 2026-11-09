@@ -31,7 +31,7 @@ export function SpeakerCard({ speaker, view }: { speaker: Speaker; view: "grid" 
     return (
       <div className="flex items-center gap-3 rounded-xl border border-[var(--sane-border)] bg-white p-3 transition-shadow hover:shadow-md sm:gap-4 sm:p-4">
         <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[var(--sane-background)] sm:h-16 sm:w-16">
-          <Image src={speaker.img} alt={speaker.name} fill sizes="64px" unoptimized={estTeleverse(speaker.img)} className="object-cover object-top" />
+          <Image src={speaker.img} alt={speaker.name} fill sizes="64px" unoptimized={estTeleverse(speaker.img)} className="object-cover object-[center_28%]" />
         </div>
         <div className="min-w-0 flex-1">
           <p className="sane-h3 truncate">{speaker.name}</p>
@@ -56,7 +56,13 @@ export function SpeakerCard({ speaker, view }: { speaker: Speaker; view: "grid" 
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           unoptimized={estTeleverse(speaker.img)}
-          className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+          /*
+            28 % du haut, et non le bord même : une photo d'intervenant est
+            en portrait, la carte est en paysage, et le cadrage colle donc à
+            ce qu'il y a au-dessus du visage — ici une bannière de hashtags,
+            le visage coupé en dessous.
+          */
+          className="object-cover object-[center_28%] transition-transform duration-300 group-hover:scale-105"
         />
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
