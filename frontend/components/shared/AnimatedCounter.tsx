@@ -89,8 +89,11 @@ export function AnimatedCounter({ value, className }: AnimatedCounterProps) {
 
   if (isNaN(num)) return <span className={className}>{value}</span>;
 
+  // translate="no" pour la même raison que le compte à rebours : un nombre qui
+  // change à chaque image n'a rien à traduire, et Google Translate s'empare du
+  // nœud, après quoi React n'y écrit plus.
   return (
-    <span ref={ref} className={className}>
+    <span ref={ref} translate="no" className={`notranslate ${className ?? ""}`}>
       {prefix}
       {count}
     </span>

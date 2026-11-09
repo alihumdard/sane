@@ -59,8 +59,16 @@ export function CountdownTimer() {
           className="flex flex-col items-center justify-center rounded-lg bg-white/10 px-2 py-2.5 sm:px-3 sm:py-3"
           suppressHydrationWarning
         >
+          {/*
+            translate="no" : un chiffre n'a rien à traduire, et Google
+            Translate s'appropriait ces nœuds. Il remplace le texte hors de
+            React, qui ne peut plus l'écrire ensuite — les jours et les heures
+            restaient sur « -- » pendant que les minutes et les secondes,
+            réécrites assez vite pour lui échapper, continuaient d'avancer.
+          */}
           <span
-            className="text-xl font-extrabold leading-none text-white sm:text-2xl md:text-[28px]"
+            translate="no"
+            className="notranslate text-xl font-extrabold leading-none text-white sm:text-2xl md:text-[28px]"
             suppressHydrationWarning
           >
             {v !== null ? String(v).padStart(2, "0") : "--"}
