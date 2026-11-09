@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Enums\StatutCandidature;
 use App\Exceptions\CandidatureImpossibleException;
+use App\Mail\CandidatureRecue;
+use App\Mail\CandidatureStatut;
 use App\Models\Candidature;
 use App\Models\OffreEmploi;
 use App\Models\ProfilDemandeur;
@@ -59,6 +61,7 @@ class GestionCandidatures
             });
 
             $this->prevenirLesRecruteurs($candidature, $offre, $profil);
+            $this->accuserReception($candidature, $profil);
 
             return $candidature;
         } catch (QueryException $e) {
@@ -107,6 +110,37 @@ class GestionCandidatures
         }
     }
 
+    /**
+     * L'accusé de réception du candidat.
+     *
+     * Le recruteur était prévenu, celui qui postulait ne l'était pas : le
+     * client a déposé son CV, postulé, et n'a rien reçu. C'est la seule
+     * preuve écrite qu'il garde de sa démarche.
+     */
+    private function accuserReception(Candidature $candidature, ProfilDemandeur $profil): void
+    {
+        $utilisateur = $profil->user;
+
+        if ($utilisateur === null) {
+            return;
+        }
+
+        $candidature->loadMissing('offre.entreprise');
+
+        $this->notificateur->envoyer(
+            new CandidatureRecue($utilisateur, $candidature),
+            ['candidature' => $candidature->reference],
+        );
+
+        $this->notificateur->notifier(
+            $utilisateur,
+            'Candidature envoyée',
+            sprintf('Votre candidature pour « %s » a bien été transmise.', $candidature->offre->titre),
+            '/dashboard/participant',
+            'candidature',
+        );
+    }
+
     public function retirer(Candidature $candidature): void
     {
         if (! $candidature->statut->peutEtreRetiree()) {
@@ -134,6 +168,16 @@ class GestionCandidatures
         $candidature->loadMissing('profil.user', 'offre');
 
         if ($utilisateur = $candidature->profil->user ?? null) {
+            // Par email autant que dans la plateforme : une convocation à un
+            // entretien lue trois jours plus tard, au hasard d'une connexion,
+            // est un entretien manqué.
+            $candidature->loadMissing('offre.entreprise');
+
+            $this->notificateur->envoyer(
+                new CandidatureStatut($utilisateur, $candidature, $statut),
+                ['candidature' => $candidature->reference],
+            );
+
             $this->notificateur->notifier(
                 $utilisateur,
                 'Candidature mise à jour',

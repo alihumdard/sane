@@ -94,7 +94,7 @@ export const whyItems = [
 
 export const practicalInfo: { icon: LucideIcon; title: string; lines: string[]; color: string }[] = [
   { icon: Calendar, title: "Date de l'événement", lines: ["@dates"], color: "var(--sane-green)" },
-  { icon: MapPin, title: "Lieu", lines: ["Palais des Congrès de Niamey"], color: "var(--sane-orange)" },
+  { icon: MapPin, title: "Lieu", lines: ["L'académie des Arts Martiaux de Niamey"], color: "var(--sane-orange)" },
   { icon: Clock, title: "Horaires", lines: ["08h00 – 17h00"], color: "var(--sane-green)" },
   { icon: Phone, title: "Contact", lines: ["contact@sanem.ne"], color: "var(--sane-orange)" },
 ];

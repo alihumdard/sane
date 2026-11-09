@@ -2,7 +2,7 @@
 import type { LucideIcon } from "lucide-react";
 import type { FeatureBarItem } from "@/components/shared";
 
-export const MAPS_QUERY = "Palais des Congres Niamey Niger";
+export const MAPS_QUERY = "Academie des Arts Martiaux Niamey Niger";
 export const MAPS_LINK = `https://maps.google.com/?q=${encodeURIComponent(MAPS_QUERY)}`;
 export const MAPS_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(MAPS_QUERY)}&output=embed`;
 

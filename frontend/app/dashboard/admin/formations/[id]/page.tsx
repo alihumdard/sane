@@ -304,7 +304,7 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
             </Champ>
 
             <Champ id="lieu" label="Lieu" requis erreur={erreurs.lieu}>
-              <input type="text" required {...lier("lieu")} placeholder="ex. Palais des Congrès, Niamey" />
+              <input type="text" required {...lier("lieu")} placeholder="ex. Académie des Arts Martiaux, Niamey" />
             </Champ>
 
             <Champ id="niveau" label="Niveau" requis erreur={erreurs.niveau}>

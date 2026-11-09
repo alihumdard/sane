@@ -64,6 +64,6 @@ export const faqs: Faq[] = [
   { q: "Comment obtenir un certificat ?", a: "Un certificat de participation est remis à chaque participant ayant suivi l'intégralité de la formation." },
   { q: "Les formations sont-elles payantes ?", a: "Non, toutes les formations du SANEM sont entièrement gratuites. Seul le nombre de places est limité." },
   { q: "Les formations sont-elles en ligne ?", a: "Nous proposons des formations en présentiel, en ligne et en format hybride selon les sessions." },
-  { q: "Où se déroulent les formations ?", a: "Les formations en présentiel se déroulent au Palais des Congrès de Niamey et dans différentes salles partenaires." },
+  { q: "Où se déroulent les formations ?", a: "Les formations en présentiel se déroulent à l'académie des Arts Martiaux de Niamey et dans différentes salles partenaires." },
   { q: "Comment être informé des prochaines sessions ?", a: "Inscrivez-vous à notre newsletter ou suivez-nous sur les réseaux sociaux pour être informé en premier." },
 ];

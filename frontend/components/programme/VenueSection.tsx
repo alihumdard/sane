@@ -25,7 +25,7 @@ export function VenueSection({ dates, lieu }: { dates?: string; lieu?: string | 
           <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl shadow-md ring-1 ring-[var(--sane-border)]">
             <Image
               src="/programme-bd.webp"
-              alt="Palais des Congrès de Niamey"
+              alt="L'académie des Arts Martiaux de Niamey"
               fill
               className="object-cover object-[center_40%]"
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 50vw"
@@ -42,11 +42,11 @@ export function VenueSection({ dates, lieu }: { dates?: string; lieu?: string | 
               </h2>
 
               <p className="mt-2 text-[13px] font-bold text-[var(--sane-orange)] sm:text-[14px]">
-                Palais des Congrès de Niamey
+                L&apos;académie des Arts Martiaux de Niamey
               </p>
 
               <p className="sane-body mt-3">
-                Le SANEM se tiendra au Palais des Congrès de Niamey, un lieu emblématique et accessible,
+                Le SANEM se tiendra à l&apos;académie des Arts Martiaux de Niamey, un lieu accessible,
                 offrant un cadre idéal pour accueillir tous les participants.
               </p>
 
