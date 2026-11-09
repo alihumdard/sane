@@ -120,7 +120,7 @@ export default async function ActualitePage({
               }`}
             >
               <Image
-                src={article.image_url ?? "/sane_deal.webp"}
+                src={article.image_url ?? "/sane-deal3.webp"}
           unoptimized={estTeleverse(article.image_url)}
                 alt={article.titre}
                 fill

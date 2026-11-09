@@ -4,7 +4,6 @@
  */
 const FOCUS: Record<string, string> = {
   "/hero-bg.webp": "80% center",
-  "/sane_deal.webp": "center 30%",
   "/inscription-hero.webp": "center",
   "/sane-deal3.webp": "center 25%",
   "/emploi-bg.webp": "75% center",

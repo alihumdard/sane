@@ -57,7 +57,7 @@ function SessionCard({ session }: { session: SessionPublique }) {
         }`}
       >
         <Image
-          src={session.image_url ?? "/sane_deal.webp"}
+          src={session.image_url ?? "/sane-deal3.webp"}
           unoptimized={estTeleverse(session.image_url)}
           alt=""
           fill

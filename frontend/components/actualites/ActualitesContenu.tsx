@@ -167,7 +167,7 @@ export function ActualitesContenu({
         setArticles(
           res.data.map((a) => ({
             slug: a.slug,
-            image: a.image_url ?? "/sane_deal.webp",
+            image: a.image_url ?? "/sane-deal3.webp",
             date: a.publiee_le
               ? new Date(a.publiee_le).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })
               : "",
@@ -530,7 +530,7 @@ export function ActualitesContenu({
                       className="group relative block h-[180px] overflow-hidden rounded-2xl sm:h-[220px]"
                     >
                       <Image
-                        src={filteredArticles[0]?.image ?? "/sane_deal.webp"}
+                        src={filteredArticles[0]?.image ?? "/sane-deal3.webp"}
                           unoptimized={estTeleverse(filteredArticles[0]?.image)}
                         alt={filteredArticles[0]?.title ?? "À la une"}
                         fill sizes="100vw"
