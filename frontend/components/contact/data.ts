@@ -2,7 +2,16 @@
 import type { LucideIcon } from "lucide-react";
 import type { FeatureBarItem } from "@/components/shared";
 
-export const MAPS_QUERY = "Academie des Arts Martiaux Niamey Niger";
+/*
+ * Provisoire : l'ancien lieu, le temps que le client confirme la carte.
+ *
+ * Le salon a changé d'adresse et tout le site dit désormais « L'académie des
+ * Arts Martiaux de Niamey ». Mais rien ne garantit que Google Maps connaisse
+ * ce lieu, et une carte vide ne vaut pas mieux qu'une carte fausse. On garde
+ * donc l'ancienne recherche, qui au moins affiche quelque chose, jusqu'à ce
+ * que le client ait vérifié — ou envoyé un lien Maps du lieu exact.
+ */
+export const MAPS_QUERY = "Palais des Congres Niamey Niger";
 export const MAPS_LINK = `https://maps.google.com/?q=${encodeURIComponent(MAPS_QUERY)}`;
 export const MAPS_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(MAPS_QUERY)}&output=embed`;
 
