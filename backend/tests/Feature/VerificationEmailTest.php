@@ -202,7 +202,7 @@ class VerificationEmailTest extends TestCase
         Mail::assertNotSent(VerifierEmail::class);
     }
 
-    public function test_un_compte_ouvert_par_un_administrateur_est_utilisable(): void
+    public function test_un_compte_ouvert_par_un_administrateur_doit_etre_confirme(): void
     {
         $admin = User::factory()->create(['role' => RoleUtilisateur::Administrateur]);
 
@@ -213,16 +213,15 @@ class VerificationEmailTest extends TestCase
             'role' => RoleUtilisateur::Organisateur->value,
         ])->assertCreated();
 
-        // Le périmètre arrêté : vérification sur les deux voies publiques,
-        // pas sur le back-office — l'administrateur connaît la personne et lui
-        // transmet le mot de passe lui-même.
+        // Demande du client : le back-office est soumis au même verrou.
         $cree = User::where('email', 'organisateur@example.com')->sole();
 
-        $this->assertNotNull($cree->email_verified_at);
+        $this->assertNull($cree->email_verified_at);
+        Mail::assertSent(VerifierEmail::class, fn (VerifierEmail $m) => $m->hasTo('organisateur@example.com'));
 
         $this->postJson('/api/auth/login', [
             'email' => 'organisateur@example.com',
             'password' => 'motdepasse1',
-        ])->assertOk();
+        ])->assertStatus(422);
     }
 }

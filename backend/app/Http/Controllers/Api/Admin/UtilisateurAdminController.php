@@ -66,23 +66,22 @@ class UtilisateurAdminController extends Controller
         ]);
 
         /*
-         * Créé vérifié, contrairement à une inscription publique.
+         * Créé non vérifié, comme une inscription publique — demande du client.
          *
-         * La vérification répond à la question « cette adresse appartient-elle
-         * bien à qui la saisit ? ». Ici c'est un administrateur qui la saisit,
-         * pour quelqu'un qu'il connaît, avec un mot de passe qu'il transmet
-         * lui-même : la question ne se pose pas, et imposer une confirmation
-         * ferait échouer la création d'un compte d'organisateur parce que
-         * l'intéressé n'a pas ouvert sa boîte.
-         *
-         * Le périmètre a été arrêté ainsi : vérification sur les deux voies
-         * publiques d'abord, le back-office ensuite si le client le souhaite.
+         * Une adresse mal tapée par l'administrateur donnerait sinon un compte
+         * actif rattaché à une boîte que personne ne lit. Si l'intéressé ne
+         * reçoit pas le lien, le bouton « Confirmer » du back-office reste la
+         * clé de secours.
          */
         $user = User::create([
             ...$valide,
             'statut' => 'actif',
-            'email_verified_at' => now(),
         ]);
+
+        $this->notificateur->envoyer(
+            new VerifierEmail($user),
+            ['user_id' => $user->id, 'motif' => 'creation back-office'],
+        );
 
         /*
          * Même accueil que pour une inscription publique.

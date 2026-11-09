@@ -176,7 +176,8 @@ export default function NouvelUtilisateurPage() {
                 }
               >
                 Au moins 8 caractères, avec des lettres et des chiffres. Lisible ici pour que vous puissiez le
-                transmettre.
+                transmettre. La personne recevra un lien pour confirmer son adresse avant de pouvoir se
+                connecter — ou confirmez-la vous-même depuis la liste des utilisateurs.
               </p>
               <p className={"mt-1 text-[12px] font-medium text-[var(--sane-red-dark)] " + (erreurs.password ? "block" : "hidden")}>
                 {erreurs.password}
