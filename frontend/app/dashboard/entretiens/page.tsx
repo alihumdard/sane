@@ -262,8 +262,15 @@ export default function MesEntretiensPage() {
       <main className="bg-[var(--sane-background)] py-10 sm:py-14">
         <Container>
           <RoleGuard roles={["demandeur", "participant"]} espace="vos entretiens">
+            {/*
+              translate="no" comme les deux autres espaces : Google Translate
+              réécrit les libellés hors de React et les boutons perdent leur
+              gestionnaire de clic. Le site public reste traduisible.
+            */}
+            <div translate="no" className="notranslate">
             <NavEspace />
             <Contenu />
+            </div>
           </RoleGuard>
         </Container>
       </main>
