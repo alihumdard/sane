@@ -12,13 +12,20 @@ export interface AuthUser {
   role: "participant" | "demandeur" | "entreprise" | "recruteur" | "organisateur" | "administrateur";
   role_label: string;
   photo: string | null;
+  email_verifie: boolean;
+}
+
+/** Ce que répond la création de compte : plus de session, une adresse à confirmer. */
+export interface InscriptionEnAttente {
+  verification_requise: true;
+  email: string;
 }
 
 interface AuthState {
   user: AuthUser | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<AuthUser>;
-  inscrire: (payload: CompteInscriptionPayload) => Promise<AuthUser>;
+  inscrire: (payload: CompteInscriptionPayload) => Promise<InscriptionEnAttente>;
   logout: () => Promise<void>;
 }
 
@@ -109,15 +116,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return res.user;
   }, []);
 
-  /** Self-service signup; the account is live immediately, as at login. */
+  /**
+   * Création de compte. Aucune session n'en sort.
+   *
+   * Le compte existe mais reste inutilisable tant que son adresse n'est pas
+   * confirmée : poser un jeton ici connecterait quelqu'un qui se ferait
+   * refouler à sa visite suivante, une fois l'email de confirmation oublié au
+   * fond de sa boîte. Le formulaire affiche donc « vérifiez votre boîte mail »
+   * plutôt que d'ouvrir un espace qui ne répondra pas.
+   */
   const inscrire = useCallback(async (payload: CompteInscriptionPayload) => {
-    const res = await api.post<{ token: string; user: AuthUser }>("/auth/inscription", payload);
-
-    ecrireToken(res.token);
-    setAuthToken(res.token);
-    setUser(res.user);
-
-    return res.user;
+    return api.post<InscriptionEnAttente>("/auth/inscription", payload);
   }, []);
 
   const logout = useCallback(async () => {

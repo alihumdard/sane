@@ -4,15 +4,27 @@ namespace Tests\Feature;
 
 use App\Enums\StatutInscription;
 use App\Enums\TypeParticipation;
+use App\Mail\VerifierInscription;
 use App\Models\Edition;
 use App\Models\Formation;
 use App\Models\Inscription;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class InscriptionApiTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Les tests récupèrent le jeton de confirmation depuis le courrier
+        // envoyé : la base n'en garde que l'empreinte.
+        Mail::fake();
+    }
 
     private function donneesValides(array $surcharges = []): array
     {
@@ -47,12 +59,101 @@ class InscriptionApiTest extends TestCase
         ]));
 
         $response->assertCreated()
-            ->assertJsonPath('data.nom', 'Aminata Souley')
-            ->assertJsonPath('data.statut', StatutInscription::EnAttente->value)
-            ->assertJsonPath('data.formations.0.places_restantes', 49);
+            ->assertJsonPath('verification_requise', true)
+            ->assertJsonPath('email', 'aminata@example.com');
 
         $this->assertDatabaseCount('inscriptions', 1);
+
+        $inscription = Inscription::sole();
+
+        $this->assertNull($inscription->email_verifie_le);
+        $this->assertSame([$formation->id], $inscription->formations_demandees);
+
+        // Le point de toute la manœuvre : la place n'est pas encore prise.
+        // Une adresse inventée ne retire donc rien à personne.
+        $this->assertSame(0, $formation->fresh()->inscriptions_count);
+    }
+
+    public function test_la_place_est_reservee_a_la_confirmation(): void
+    {
+        $edition = Edition::factory()->active()->create();
+        $formation = Formation::factory()->for($edition)->avecPlaces(50)->create();
+
+        $this->postJson('/api/inscriptions', $this->donneesValides([
+            'formations' => [$formation->id],
+        ]))->assertCreated();
+
+        $this->postJson('/api/inscriptions/verifier/'.$this->jetonDeLaDerniere())
+            ->assertOk()
+            ->assertJsonPath('deja_confirme', false)
+            ->assertJsonPath('data.formations.0.places_restantes', 49);
+
         $this->assertSame(1, $formation->fresh()->inscriptions_count);
+        $this->assertNotNull(Inscription::sole()->email_verifie_le);
+    }
+
+    public function test_un_lien_de_confirmation_ne_sert_quune_fois(): void
+    {
+        $edition = Edition::factory()->active()->create();
+        $formation = Formation::factory()->for($edition)->avecPlaces(50)->create();
+
+        $this->postJson('/api/inscriptions', $this->donneesValides([
+            'formations' => [$formation->id],
+        ]))->assertCreated();
+
+        $jeton = $this->jetonDeLaDerniere();
+
+        $this->postJson('/api/inscriptions/verifier/'.$jeton)->assertOk();
+
+        // Rejouer le lien ne doit pas prendre une seconde place.
+        $this->postJson('/api/inscriptions/verifier/'.$jeton)->assertNotFound();
+
+        $this->assertSame(1, $formation->fresh()->inscriptions_count);
+    }
+
+    public function test_un_jeton_inconnu_est_refuse(): void
+    {
+        Edition::factory()->active()->create();
+
+        $this->postJson('/api/inscriptions/verifier/'.str_repeat('a', 64))
+            ->assertNotFound();
+    }
+
+    public function test_une_formation_remplie_entre_temps_ne_perd_pas_linscription(): void
+    {
+        $edition = Edition::factory()->active()->create();
+        $formation = Formation::factory()->for($edition)->avecPlaces(1)->create();
+
+        $this->postJson('/api/inscriptions', $this->donneesValides([
+            'formations' => [$formation->id],
+        ]))->assertCreated();
+
+        // Quelqu'un d'autre prend la dernière place pendant que notre
+        // inscrit n'a pas encore ouvert son courrier.
+        $formation->increment('inscriptions_count');
+
+        $this->postJson('/api/inscriptions/verifier/'.$this->jetonDeLaDerniere())
+            ->assertOk()
+            // L'inscription au salon tient : seule la formation est manquée.
+            ->assertJsonPath('deja_confirme', false)
+            ->assertJsonCount(1, 'formations_completes');
+
+        $this->assertNotNull(Inscription::sole()->email_verifie_le);
+        $this->assertSame(1, $formation->fresh()->inscriptions_count);
+    }
+
+    /**
+     * Le jeton en clair ne vit que le temps de l'email : la base n'en garde
+     * que l'empreinte. On le récupère donc depuis le courrier envoyé, comme
+     * le ferait la personne inscrite.
+     */
+    private function jetonDeLaDerniere(): string
+    {
+        $mail = collect(Mail::sent(VerifierInscription::class))->last();
+
+        $this->assertNotNull($mail, "Aucune demande de confirmation n'a été envoyée.");
+
+        return $mail->jetonClair;
     }
 
     public function test_une_inscription_sans_formation_est_acceptee(): void
@@ -141,7 +242,7 @@ class InscriptionApiTest extends TestCase
 
         $reference = $this->postJson('/api/inscriptions', $this->donneesValides())
             ->assertCreated()
-            ->json('data.reference');
+            ->json('reference');
 
         $this->getJson('/api/inscriptions/'.urlencode($reference))
             ->assertOk()
@@ -153,7 +254,7 @@ class InscriptionApiTest extends TestCase
         Edition::factory()->active()->create();
 
         $reference = $this->postJson('/api/inscriptions', $this->donneesValides())
-            ->json('data.reference');
+            ->json('reference');
 
         // A "#" would be read as a fragment and never reach the server, so the
         // reference-keyed routes would 404 for every registration.
@@ -169,10 +270,16 @@ class InscriptionApiTest extends TestCase
     {
         Edition::factory()->active()->create();
 
+        // Ce test porte sur l'unicité des références, pas sur la limitation de
+        // débit : cinq inscriptions d'affilée depuis la même adresse IP sont
+        // précisément ce que le limiteur est là pour arrêter (voir
+        // test_la_limitation_de_debit_arrete_les_envois_en_rafale).
+        $this->withoutMiddleware(ThrottleRequests::class);
+
         $references = collect(range(1, 5))->map(
             fn (int $i) => $this->postJson('/api/inscriptions', $this->donneesValides([
                 'email' => "participant{$i}@example.com",
-            ]))->assertCreated()->json('data.reference')
+            ]))->assertCreated()->json('reference')
         );
 
         $this->assertCount(5, $references->unique());

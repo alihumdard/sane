@@ -7,9 +7,11 @@ use App\Http\Concerns\FiltreLesListes;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Mail\BienvenueCompte;
+use App\Mail\VerifierEmail;
 use App\Services\Notificateur;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
@@ -17,6 +19,8 @@ use Illuminate\Validation\Rules\Password;
 class UtilisateurAdminController extends Controller
 {
     use FiltreLesListes;
+
+    public function __construct(private readonly Notificateur $notificateur) {}
 
     public function index(Request $request): JsonResponse
     {
@@ -61,7 +65,24 @@ class UtilisateurAdminController extends Controller
             'role' => ['required', Rule::enum(RoleUtilisateur::class)],
         ]);
 
-        $user = User::create([...$valide, 'statut' => 'actif']);
+        /*
+         * Créé vérifié, contrairement à une inscription publique.
+         *
+         * La vérification répond à la question « cette adresse appartient-elle
+         * bien à qui la saisit ? ». Ici c'est un administrateur qui la saisit,
+         * pour quelqu'un qu'il connaît, avec un mot de passe qu'il transmet
+         * lui-même : la question ne se pose pas, et imposer une confirmation
+         * ferait échouer la création d'un compte d'organisateur parce que
+         * l'intéressé n'a pas ouvert sa boîte.
+         *
+         * Le périmètre a été arrêté ainsi : vérification sur les deux voies
+         * publiques d'abord, le back-office ensuite si le client le souhaite.
+         */
+        $user = User::create([
+            ...$valide,
+            'statut' => 'actif',
+            'email_verified_at' => now(),
+        ]);
 
         /*
          * Même accueil que pour une inscription publique.
@@ -70,7 +91,7 @@ class UtilisateurAdminController extends Controller
          * titulaire ignorait qu'il existait. Le mot de passe n'y figure pas —
          * il est choisi par l'administrateur, qui le transmet autrement.
          */
-        app(Notificateur::class)->envoyer(
+        $this->notificateur->envoyer(
             new BienvenueCompte($user),
             ['user_id' => $user->id],
         );
@@ -100,7 +121,43 @@ class UtilisateurAdminController extends Controller
             return response()->json(['message' => $refus], 422);
         }
 
+        /*
+         * Changer l'adresse annule la confirmation, et en redemande une.
+         *
+         * Sans cela le verrou serait décoratif : il suffirait de créer un
+         * compte avec sa propre adresse, de la confirmer, puis de la remplacer
+         * par n'importe quelle autre — qui hériterait d'un statut « vérifié »
+         * que personne n'a jamais prouvé. C'est aussi la bonne réponse au cas
+         * honnête, celui de la faute de frappe corrigée : la nouvelle adresse
+         * est inconnue, elle doit faire ses preuves comme la première.
+         *
+         * La comparaison est insensible à la casse, sinon une simple majuscule
+         * déclencherait un cycle de vérification pour la même adresse.
+         */
+        $nouvelEmail = isset($valide['email'])
+            && mb_strtolower($valide['email']) !== mb_strtolower($utilisateur->email);
+
+        if ($nouvelEmail) {
+            $valide['email_verified_at'] = null;
+
+            // Un jeton délivré pour l'ancienne adresse ne doit pas survivre au
+            // changement : la session en cours appartenait à l'autre adresse.
+            $utilisateur->tokens()->delete();
+        }
+
         $utilisateur->update($valide);
+
+        if ($nouvelEmail) {
+            $this->notificateur->envoyer(
+                new VerifierEmail($utilisateur->fresh()),
+                ['user_id' => $utilisateur->id, 'motif' => 'changement d\'adresse'],
+            );
+
+            Log::info('Adresse changée, vérification redemandée', [
+                'user' => $utilisateur->id,
+                'par' => $request->user()?->id,
+            ]);
+        }
 
         // A suspended account must not keep working through an existing token.
         if (($valide['statut'] ?? null) === 'suspendu') {
@@ -109,6 +166,39 @@ class UtilisateurAdminController extends Controller
 
         return response()->json([
             'message' => 'Utilisateur mis à jour.',
+            'data' => $this->presenter($utilisateur->refresh()),
+        ]);
+    }
+
+    /**
+     * Confirme une adresse à la place de son titulaire.
+     *
+     * Indispensable dès le premier jour. Un verrou sans clé de secours finit
+     * toujours par enfermer quelqu'un : l'email part en indésirables chez un
+     * fournisseur local, la boîte est pleine, l'adresse a été mal tapée à
+     * l'inscription. Sans ce bouton, la seule issue serait une intervention en
+     * base de données — c'est-à-dire nous, un dimanche.
+     *
+     * Le geste est tracé : qui a confirmé, pour qui.
+     */
+    public function verifierEmail(Request $request, User $utilisateur): JsonResponse
+    {
+        if ($utilisateur->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Cette adresse était déjà confirmée.',
+                'data' => $this->presenter($utilisateur),
+            ]);
+        }
+
+        $utilisateur->markEmailAsVerified();
+
+        Log::info('Adresse confirmée par un administrateur', [
+            'user' => $utilisateur->id,
+            'par' => $request->user()?->id,
+        ]);
+
+        return response()->json([
+            'message' => 'Adresse confirmée. Cette personne peut maintenant se connecter.',
             'data' => $this->presenter($utilisateur->refresh()),
         ]);
     }
@@ -175,6 +265,8 @@ class UtilisateurAdminController extends Controller
             'role_label' => $user->role->label(),
             'statut' => $user->statut,
             'photo' => $user->photo,
+            'email_verifie' => $user->hasVerifiedEmail(),
+            'email_verifie_le' => $user->email_verified_at?->toIso8601String(),
             'inscriptions_count' => $user->inscriptions_count ?? 0,
             'derniere_connexion_le' => $user->derniere_connexion_le?->toIso8601String(),
             'created_at' => $user->created_at->toIso8601String(),

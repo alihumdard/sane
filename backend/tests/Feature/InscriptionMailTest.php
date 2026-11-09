@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Enums\TypeParticipation;
 use App\Mail\InscriptionRecue;
+use App\Mail\VerifierInscription;
 use App\Models\Edition;
 use App\Models\Formation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -27,12 +28,31 @@ class InscriptionMailTest extends TestCase
         ];
     }
 
-    public function test_un_email_est_envoye_a_linscrit(): void
+    /**
+     * A l'inscription, un seul email part : la demande de confirmation.
+     *
+     * Le recapitulatif attend le clic. Sinon la personne recoit deux messages
+     * contradictoires a une minute d'intervalle, dont l'un lui annonce une
+     * inscription qui n'est pas encore acquise.
+     */
+    public function test_la_demande_de_confirmation_part_a_linscription(): void
     {
         Mail::fake();
         Edition::factory()->active()->create();
 
         $this->postJson('/api/inscriptions', $this->donneesValides())->assertCreated();
+
+        Mail::assertSent(VerifierInscription::class, fn (VerifierInscription $mail) => $mail->hasTo('aminata@example.com'));
+        Mail::assertNotSent(InscriptionRecue::class);
+    }
+
+    public function test_le_recapitulatif_part_a_la_confirmation(): void
+    {
+        Mail::fake();
+        Edition::factory()->active()->create();
+
+        $this->postJson('/api/inscriptions', $this->donneesValides())->assertCreated();
+        $this->postJson('/api/inscriptions/verifier/'.$this->jetonEnvoye())->assertOk();
 
         Mail::assertSent(InscriptionRecue::class, fn (InscriptionRecue $mail) => $mail->hasTo('aminata@example.com'));
     }
@@ -43,7 +63,9 @@ class InscriptionMailTest extends TestCase
         Edition::factory()->active()->create();
 
         $reference = $this->postJson('/api/inscriptions', $this->donneesValides())
-            ->json('data.reference');
+            ->json('reference');
+
+        $this->postJson('/api/inscriptions/verifier/'.$this->jetonEnvoye())->assertOk();
 
         Mail::assertSent(
             InscriptionRecue::class,
@@ -62,6 +84,8 @@ class InscriptionMailTest extends TestCase
             'formations' => [$formation->id],
         ]))->assertCreated();
 
+        $this->postJson('/api/inscriptions/verifier/'.$this->jetonEnvoye())->assertOk();
+
         Mail::assertSent(InscriptionRecue::class, function (InscriptionRecue $mail) {
             $rendu = $mail->render();
 
@@ -76,6 +100,7 @@ class InscriptionMailTest extends TestCase
         Edition::factory()->active()->create();
 
         $this->postJson('/api/inscriptions', $this->donneesValides())->assertCreated();
+        $this->postJson('/api/inscriptions/verifier/'.$this->jetonEnvoye())->assertOk();
 
         Mail::assertSent(InscriptionRecue::class, function (InscriptionRecue $mail) {
             $rendu = $mail->render();
@@ -83,6 +108,20 @@ class InscriptionMailTest extends TestCase
             return str_contains($rendu, 'Aminata Souley')
                 && ! str_contains($rendu, 'Formations retenues');
         });
+    }
+
+    /**
+     * Le jeton en clair ne vit que le temps de l'email : la base n'en garde
+     * que l'empreinte. On le relit donc depuis le courrier, comme le ferait
+     * la personne inscrite.
+     */
+    private function jetonEnvoye(): string
+    {
+        $mail = collect(Mail::sent(VerifierInscription::class))->last();
+
+        $this->assertNotNull($mail, "Aucune demande de confirmation n'a ete envoyee.");
+
+        return $mail->jetonClair;
     }
 
     public function test_aucun_email_si_linscription_est_refusee(): void

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AlertCircle, ArrowRight, Mail } from "lucide-react";
+import { RenvoiVerification } from "@/components/auth/RenvoiVerification";
 import { SpinnerOu } from "@/components/dashboard/Spinner";
 import { PasswordField, TextField } from "@/components/ui/FormFields";
 import { primaryBtn, textLink } from "@/components/ui/styles";
@@ -20,11 +21,17 @@ export function LoginCard() {
   const [envoi, setEnvoi] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
 
+  // Un refus pour adresse non confirmée appelle une réponse que l'utilisateur
+  // peut suivre : proposer le renvoi du lien, plutôt que de le laisser devant
+  // un message dont il ne peut rien faire.
+  const [aConfirmer, setAConfirmer] = useState(false);
+
   async function connecter(e: React.FormEvent) {
     e.preventDefault();
 
     setEnvoi(true);
     setErreur(null);
+    setAConfirmer(false);
 
     try {
       const user = await login(email, password);
@@ -38,6 +45,12 @@ export function LoginCard() {
           ? (err.fieldError("email") ?? err.message)
           : "Impossible de joindre le serveur. Vérifiez votre connexion."
       );
+
+      // Le backend accompagne ce refus d'un drapeau : s'appuyer sur le texte
+      // du message le ferait rater dès qu'on le reformule — ou dès que la
+      // page est traduite.
+      setAConfirmer(err instanceof ApiError && Boolean(err.errors.verification_requise));
+
       setEnvoi(false);
     }
   }
@@ -59,6 +72,17 @@ export function LoginCard() {
         <AlertCircle size={15} className="mt-0.5 shrink-0 text-[var(--sane-red-dark)]" />
         <span className="sane-small text-[var(--sane-red-dark)]">{erreur}</span>
       </p>
+
+      {/* Même raison que l'alerte ci-dessus : basculé, jamais monté. */}
+      <div
+        className={`mb-4 rounded-xl border border-[var(--sane-border)] bg-[var(--sane-background)] p-3 ${aConfirmer ? "block" : "hidden"}`}
+      >
+        <p className="sane-small mb-2 text-[var(--sane-text-light)]">
+          Vous n&apos;avez pas reçu l&apos;email ? Regardez dans vos courriers indésirables, ou
+          demandez un nouveau lien.
+        </p>
+        <RenvoiVerification email={email} />
+      </div>
 
       <form onSubmit={connecter} className="flex flex-col gap-4">
         <TextField id="email" label="Email" icon={Mail} required type="email" autoComplete="email" placeholder="votre@email.com" value={email} onChange={setEmail} />

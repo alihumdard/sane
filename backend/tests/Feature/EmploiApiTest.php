@@ -101,9 +101,11 @@ class EmploiApiTest extends TestCase
             'password' => 'sanem2026',
             'password_confirmation' => 'sanem2026',
             'role' => 'demandeur',
-        ])->assertCreated()->assertJsonPath('user.role', 'demandeur');
+        ])->assertCreated()->assertJsonPath('verification_requise', true);
 
         $user = User::where('email', 'ibrahim@example.com')->sole();
+
+        $this->assertSame('demandeur', $user->role->value);
 
         // The profile must exist straight away: the rest of the space hangs off it.
         $this->assertNotNull($user->profilDemandeur);

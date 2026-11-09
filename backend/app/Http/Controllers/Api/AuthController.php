@@ -7,20 +7,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\InscriptionCompteRequest;
 use App\Mail\BienvenueCompte;
 use App\Mail\MotDePasseOublie;
+use App\Mail\VerifierEmail;
 use App\Models\User;
+use App\Services\Notificateur;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    public function __construct(private readonly Notificateur $notificateur) {}
+
     /**
      * Self-service account creation (Phase 5 — « Inscription/connexion »).
      *
@@ -31,6 +33,9 @@ class AuthController extends Controller
     public function inscription(InscriptionCompteRequest $request): JsonResponse
     {
         $valide = $request->validated();
+
+        // Les champs du piège n'ont rien à faire en base.
+        unset($valide[config('antiabus.piege.champ', 'site_web')], $valide['_ouvert_le']);
 
         $user = DB::transaction(function () use ($valide) {
             $user = User::create([
@@ -52,24 +57,35 @@ class AuthController extends Controller
         /*
          * Hors de la transaction, et sans faire échouer la création.
          *
-         * Le compte existe et la personne est déjà connectée : si le serveur
-         * de messagerie refuse, lui répondre que son inscription a échoué
-         * serait faux, et la retenter créerait un doublon. L'échec part donc
-         * dans le journal, où il se voit, plutôt qu'à l'écran.
+         * Le compte existe : si le serveur de messagerie refuse, répondre que
+         * l'inscription a échoué serait faux, et la retenter créerait un
+         * doublon. L'échec part donc dans le journal, où il se voit, plutôt
+         * qu'à l'écran — et l'email de confirmation se renvoie depuis la page
+         * de connexion.
+         *
+         * La confirmation d'abord : c'est elle qui débloque le compte.
          */
-        try {
-            Mail::to($user->email)->send(new BienvenueCompte($user));
-        } catch (\Throwable $e) {
-            Log::error('Email de bienvenue non envoyé', [
-                'user' => $user->id,
-                'erreur' => $e->getMessage(),
-            ]);
-        }
+        $this->notificateur->envoyer(
+            new VerifierEmail($user),
+            ['user_id' => $user->id, 'motif' => 'inscription'],
+        );
 
+        $this->notificateur->envoyer(
+            new BienvenueCompte($user),
+            ['user_id' => $user->id],
+        );
+
+        /*
+         * Aucun jeton n'est délivré ici, contrairement à avant.
+         *
+         * Le compte ne sert à rien tant que l'adresse n'est pas confirmée :
+         * connecter la personne sur-le-champ lui ferait découvrir le verrou à
+         * sa prochaine visite, une fois le message de bienvenue oublié.
+         */
         return response()->json([
-            'message' => 'Votre compte a bien été créé.',
-            'token' => $user->createToken('api')->plainTextToken,
-            'user' => $this->profil($user),
+            'message' => 'Votre compte a bien été créé. Confirmez votre adresse email pour l\'activer.',
+            'verification_requise' => true,
+            'email' => $user->email,
         ], 201);
     }
 
@@ -80,9 +96,26 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $user = User::where('email', $credentials['email'])->first();
+        $user = User::whereRaw('lower(email) = ?', [mb_strtolower($credentials['email'])])->first();
 
-        if (! $user || ! auth()->validate($credentials)) {
+        /*
+         * Hash::check plutôt que auth()->validate().
+         *
+         * `auth()` rend le garde courant, qui n'est pas toujours celui des
+         * sessions : sur une requête déjà authentifiée — un jeton Sanctum
+         * encore en place, quelqu'un qui rouvre la page de connexion sans
+         * s'être déconnecté — c'est le garde `sanctum` qui répond, et il
+         * n'implémente pas validate(). La connexion partait alors en erreur
+         * 500 au lieu de refuser poliment.
+         *
+         * Le hash factice quand le compte n'existe pas garde la durée de
+         * réponse constante : sans lui, une réponse immédiate signale « cette
+         * adresse n'existe pas » à qui mesure le temps.
+         */
+        $empreinte = $user?->password
+            ?? '$2y$12$usuRQtkxnNS5pGUbNdH6qu5DRaJNMLYZYCfJaIEGqcEo1SmCKBbmy';
+
+        if (! Hash::check($credentials['password'], $empreinte) || ! $user) {
             throw ValidationException::withMessages([
                 'email' => ['Ces identifiants ne correspondent à aucun compte.'],
             ]);
@@ -91,6 +124,22 @@ class AuthController extends Controller
         if ($user->statut !== 'actif') {
             throw ValidationException::withMessages([
                 'email' => ['Ce compte est désactivé.'],
+            ]);
+        }
+
+        /*
+         * Le verrou. Il arrive après le contrôle du mot de passe, et non avant :
+         * dire « confirmez votre adresse » à qui ne connaît pas le mot de passe
+         * révélerait qu'un compte existe à cette adresse.
+         *
+         * Le code accompagne le message pour que la page de connexion puisse
+         * proposer le renvoi sans avoir à reconnaître une phrase.
+         */
+        if (! $user->hasVerifiedEmail()) {
+            throw ValidationException::withMessages([
+                'email' => ['Confirmez votre adresse email avant de vous connecter. '
+                    .'Un lien vous a été envoyé lors de la création de votre compte.'],
+                'verification_requise' => ['1'],
             ]);
         }
 
@@ -182,6 +231,7 @@ class AuthController extends Controller
             'role' => $user->role->value,
             'role_label' => $user->role->label(),
             'photo' => $user->photo,
+            'email_verifie' => $user->hasVerifiedEmail(),
         ];
     }
 }

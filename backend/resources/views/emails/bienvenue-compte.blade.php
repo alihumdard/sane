@@ -3,8 +3,14 @@
 
 Bonjour {{ $user->name }},
 
-Votre compte vient d'être créé sur la plateforme du **Salon National de l'Emploi**. Vous pouvez
-dès maintenant vous connecter avec cette adresse email.
+Votre compte vient d'être créé sur la plateforme du **Salon National de l'Emploi**.
+
+@component('mail::panel')
+**Avant tout : confirmez votre adresse.** Un second email vient de vous être envoyé avec un
+lien de confirmation. Tant que vous ne l'avez pas suivi, la connexion reste impossible.
+@endcomponent
+
+Une fois votre adresse confirmée, voici ce qui vous attend.
 
 @if ($recruteur)
 ## Première étape : votre entreprise

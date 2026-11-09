@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AuthentifierSiPossible;
 use App\Http\Middleware\EntetesSecurite;
+use App\Http\Middleware\PiegeARobots;
 use App\Http\Middleware\RefuserCorpsIllisible;
 use App\Http\Middleware\VerifierRole;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -25,6 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => VerifierRole::class,
             'auth.facultatif' => AuthentifierSiPossible::class,
+            'piege' => PiegeARobots::class,
         ]);
 
         $middleware->api(prepend: [

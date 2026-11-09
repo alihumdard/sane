@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\RoleUtilisateur;
 use Database\Factories\UserFactory;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,7 +14,15 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+/**
+ * Le contrat MustVerifyEmail apporte hasVerifiedEmail(), markEmailAsVerified()
+ * et getEmailForVerification(). Il n'enclenche rien tout seul : c'est
+ * AuthController qui refuse la connexion d'une adresse non confirmée, et
+ * VerifierEmail qui porte le lien. La notification Laravel par défaut n'est pas
+ * utilisée — nos emails passent par le Notificateur, qui les journalise dans
+ * envoi_notifications, et par nos gabarits Blade.
+ */
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, HasRoles, Notifiable;
@@ -27,6 +36,12 @@ class User extends Authenticatable
         'photo',
         'password',
         'derniere_connexion_le',
+        // Assignable en masse pour les deux cas où la date est posée sans que
+        // personne n'ait cliqué de lien : un compte ouvert par un
+        // administrateur, et la bascule d'un compte en « vérifié » depuis le
+        // back-office. La confirmation ordinaire, elle, passe par
+        // markEmailAsVerified().
+        'email_verified_at',
     ];
 
     protected $hidden = [

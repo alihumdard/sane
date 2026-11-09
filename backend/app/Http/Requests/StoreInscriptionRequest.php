@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\TypeParticipation;
 use App\Models\Edition;
 use App\Models\Formation;
+use App\Rules\AdresseEmailReelle;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -16,6 +17,20 @@ class StoreInscriptionRequest extends FormRequest
         return true;
     }
 
+    /**
+     * L'adresse est mise en minuscules avant la contrainte d'unicité.
+     *
+     * PostgreSQL compare caractère par caractère : sans cela la même personne
+     * peut s'inscrire deux fois à la même édition en changeant une majuscule,
+     * et occuper deux places.
+     */
+    protected function prepareForValidation(): void
+    {
+        if (is_string($this->email)) {
+            $this->merge(['email' => mb_strtolower(trim($this->email))]);
+        }
+    }
+
     public function rules(): array
     {
         $edition = Edition::active();
@@ -23,12 +38,19 @@ class StoreInscriptionRequest extends FormRequest
         return [
             'type_participation' => ['required', Rule::enum(TypeParticipation::class)],
 
+            // Les deux champs du piège à robots : le middleware les a déjà
+            // examinés, ils sont déclarés ici pour ne pas être refusés comme
+            // paramètres inattendus, et retirés avant l'enregistrement.
+            config('antiabus.piege.champ', 'site_web') => ['nullable', 'string', 'max:255'],
+            '_ouvert_le' => ['nullable', 'string', 'max:500'],
+
             // Étape 1
             'nom' => ['required', 'string', 'max:255'],
             'naissance' => ['nullable', 'date', 'before:today'],
             'email' => [
                 'required', 'email', 'max:255',
                 Rule::unique('inscriptions')->where('edition_id', $edition?->id),
+                new AdresseEmailReelle,
             ],
             'telephone' => ['required', 'string', 'max:20'],
             'genre' => ['nullable', 'string', 'max:50'],

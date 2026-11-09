@@ -40,6 +40,17 @@ Schedule::command('sanem:rappels-formations')
     ->withoutOverlapping();
 
 /*
+ * Le ménage des demandes d'inscription jamais confirmées.
+ *
+ * À 03:15, après la sauvegarde de 02:30 : ce qui est purgé a donc toujours
+ * une copie de la nuit, au cas où un réglage trop strict emporterait des
+ * lignes qu'il ne fallait pas.
+ */
+Schedule::command('sanem:purger-inscriptions-non-verifiees')
+    ->dailyAt('03:15')
+    ->withoutOverlapping();
+
+/*
  * The nightly copy of what cannot be rebuilt: the database and the files
  * organisers uploaded. At 02:30, when nobody is registering, and never
  * overlapping — a dump that is still running must not be joined by a second.

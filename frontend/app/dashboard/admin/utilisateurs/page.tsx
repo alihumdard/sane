@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Briefcase, Eye, ShieldCheck, Trash2, Users, UserPlus } from "lucide-react";
+import { Briefcase, Eye, MailCheck, MailWarning, ShieldCheck, Trash2, Users, UserPlus } from "lucide-react";
 import { Spinner } from "@/components/dashboard/Spinner";
 import { AdminPage } from "@/components/dashboard/AdminPage";
 import { AdminTable, type Colonne } from "@/components/dashboard/AdminTable";
@@ -22,6 +22,8 @@ interface AdminUtilisateur {
   role: string;
   role_label: string;
   statut: string;
+  email_verifie: boolean;
+  email_verifie_le: string | null;
   inscriptions_count: number;
   derniere_connexion_le: string | null;
   created_at: string;
@@ -59,6 +61,28 @@ function Contenu() {
       await table.recharger();
     } catch (e) {
       table.setErreur(e instanceof ApiError ? e.message : "Modification impossible.");
+    } finally {
+      setAction(null);
+    }
+  }
+
+  /**
+   * La clé de secours du verrou de confirmation.
+   *
+   * Un compte dont l'adresse n'a jamais été confirmée ne peut pas se
+   * connecter. Quand l'email n'arrive pas — boîte pleine, indésirables chez un
+   * fournisseur local, adresse mal tapée — c'est ici que ça se débloque, et
+   * non dans la base de données un dimanche.
+   */
+  async function confirmerEmail(u: AdminUtilisateur) {
+    setAction(u.id);
+
+    try {
+      await api.put(`/admin/utilisateurs/${u.id}/verifier-email`);
+      await table.recharger();
+      setOuvert(null);
+    } catch (e) {
+      table.setErreur(e instanceof ApiError ? e.message : "Confirmation impossible.");
     } finally {
       setAction(null);
     }
@@ -144,6 +168,30 @@ function Contenu() {
       ),
     },
     {
+      cle: "email_verifie",
+      entete: "Email",
+      masquer: "md",
+      rendu: (u) =>
+        u.email_verifie ? (
+          <span className="inline-flex items-center gap-1 rounded-full bg-[var(--sane-green-light)] px-2.5 py-1 text-[11px] font-semibold text-[var(--sane-green)]">
+            <MailCheck size={12} /> Confirmé
+          </span>
+        ) : (
+          // Cliquable là où le badge « Confirmé » ne l'est pas : on confirme
+          // une adresse à la main, on ne la « dé-confirme » jamais — annuler
+          // une confirmation mettrait quelqu'un dehors sans recours.
+          <button
+            type="button"
+            onClick={() => confirmerEmail(u)}
+            disabled={action === u.id}
+            title="Confirmer cette adresse à la main"
+            className="inline-flex items-center gap-1 rounded-full bg-[#fff7ed] px-2.5 py-1 text-[11px] font-semibold text-[#c2410c] transition-colors hover:bg-[#ffedd5] disabled:opacity-60"
+          >
+            <MailWarning size={12} /> En attente
+          </button>
+        ),
+    },
+    {
       cle: "connexion",
       entete: "Dernière connexion",
       masquer: "lg",
@@ -188,7 +236,24 @@ function Contenu() {
         sousTitre={ouvert?.role_label}
         onFermer={() => setOuvert(null)}
         actions={
-          <button
+          <div className="flex flex-col gap-2">
+            {/*
+              Le bouton n'apparait que sur un compte en attente : une
+              confirmation ne s'annule pas, elle mettrait quelqu'un dehors
+              sans recours.
+            */}
+            {ouvert && !ouvert.email_verifie && (
+              <button
+                type="button"
+                onClick={() => void confirmerEmail(ouvert)}
+                disabled={action === ouvert.id}
+                className="w-full rounded-lg bg-[var(--sane-green)] px-4 py-2.5 text-[13px] font-bold text-white disabled:opacity-60"
+              >
+                Confirmer son adresse email
+              </button>
+            )}
+
+            <button
             type="button"
             onClick={() => {
               const u = ouvert!;
@@ -200,7 +265,8 @@ function Contenu() {
             }`}
           >
             {ouvert?.statut === "actif" ? "Suspendre ce compte" : "Réactiver ce compte"}
-          </button>
+            </button>
+          </div>
         }
       >
         <Fait
@@ -211,6 +277,14 @@ function Contenu() {
                 {ouvert.email}
               </a>
             ) : null
+          }
+        />
+        <Fait
+          label="Adresse email"
+          valeur={
+            ouvert?.email_verifie
+              ? "Confirmée — ce compte peut se connecter"
+              : "En attente de confirmation — connexion impossible"
           }
         />
         <Fait label="Téléphone" valeur={ouvert?.telephone} />

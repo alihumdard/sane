@@ -98,6 +98,27 @@ export interface InscriptionResponse {
   data: ApiInscription;
 }
 
+/**
+ * Ce que répond le dépôt d'une inscription au salon : plus de récapitulatif,
+ * une adresse à confirmer. Les places de formation ne sont décomptées qu'au
+ * clic du lien, pour qu'une adresse inventée n'en retire aucune.
+ */
+export interface InscriptionEnAttente {
+  message: string;
+  verification_requise: true;
+  reference: string;
+  email: string;
+}
+
+/** Ce que renvoie la confirmation elle-même. */
+export interface InscriptionConfirmee {
+  message: string;
+  deja_confirme: boolean;
+  /** Les formations qui s'étaient remplies entre l'envoi et le clic. */
+  formations_completes?: string[];
+  data: ApiInscription;
+}
+
 /* ─── Pièces justificatives ─── */
 
 export type TypeDocument = "piece_identite" | "cv" | "lettre_motivation" | "photo";

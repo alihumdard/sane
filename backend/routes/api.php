@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\OffreController;
 use App\Http\Controllers\Api\ProfilController;
 use App\Http\Controllers\Api\ReferentielController;
+use App\Http\Controllers\Api\VerificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,8 +51,17 @@ Route::get('/formations', [FormationController::class, 'index']);
 Route::get('/formations/{formation}', [FormationController::class, 'show']);
 
 Route::post('/inscriptions', [InscriptionController::class, 'store'])
-    ->middleware('throttle:10,1');
+    ->middleware(['throttle:inscription-salon', 'piege']);
 Route::get('/inscriptions/{reference}', [InscriptionController::class, 'show']);
+
+// La confirmation d'une inscription au salon. Son jeton est tiré au hasard et
+// stocké haché, là où les comptes utilisent une URL signée : il n'y a pas de
+// modèle MustVerifyEmail derrière une inscription, et un jeton en base se
+// révoque sans dépendre d'APP_KEY.
+Route::post('/inscriptions/verifier/{jeton}', [InscriptionController::class, 'verifier'])
+    ->middleware('throttle:6,1');
+Route::post('/inscriptions/renvoyer-verification', [InscriptionController::class, 'renvoyerVerification'])
+    ->middleware('throttle:renvoi-email');
 
 // Pièces justificatives : la référence seule est devinable, donc l'email
 // d'inscription est exigé en plus comme preuve d'identité.
@@ -82,14 +92,36 @@ Route::get('/presse', [ContenuPublicController::class, 'presse']);
 // The event's schedule, grouped by day — the shape the programme page shows.
 Route::get('/programme', [ContenuPublicController::class, 'programme']);
 
+// Les limiteurs nommés comptent par IP *et* par adresse visée ; voir
+// AppServiceProvider::limiterLesTentatives() pour les raisons.
 Route::post('/auth/login', [AuthController::class, 'login'])
-    ->middleware('throttle:5,1');
+    ->middleware('throttle:connexion');
 Route::post('/auth/inscription', [AuthController::class, 'inscription'])
-    ->middleware('throttle:5,1');
+    ->middleware(['throttle:creation-compte', 'piege']);
 Route::post('/auth/mot-de-passe/oublie', [AuthController::class, 'motDePasseOublie'])
-    ->middleware('throttle:5,1');
+    ->middleware('throttle:renvoi-email');
 Route::post('/auth/mot-de-passe/reinitialiser', [AuthController::class, 'motDePasseReinitialiser'])
     ->middleware('throttle:5,1');
+
+/*
+ * La confirmation d'adresse.
+ *
+ * `signed` rejette une URL dont un caractère a bougé ou dont la validité est
+ * passée, avant même d'entrer dans le contrôleur. Le throttle couvre ce que la
+ * signature ne couvre pas : l'essai en masse.
+ */
+Route::get('/auth/verifier-email/{id}/{hash}', [VerificationController::class, 'verifier'])
+    ->name('verification.verify')
+    ->middleware(['signed', 'throttle:6,1']);
+
+Route::post('/auth/renvoyer-verification', [VerificationController::class, 'renvoyer'])
+    ->middleware('throttle:renvoi-email');
+
+// Le jeton d'horodatage que les formulaires publics renvoient avec leur
+// soumission : il atteste du temps passé à les remplir. Chiffré côté serveur,
+// donc ni lisible ni fabricable depuis le navigateur.
+Route::get('/formulaire/jeton', [VerificationController::class, 'jetonFormulaire'])
+    ->middleware('throttle:30,1');
 
 // Portail emploi — consultable sans compte. `auth.facultatif` n'exige pas de
 // jeton, mais le lit s'il est présent : l'offre peut alors indiquer au
@@ -270,6 +302,10 @@ Route::middleware(['auth:sanctum', 'role:administrateur,organisateur'])
         Route::get('/utilisateurs/{utilisateur}', [UtilisateurAdminController::class, 'show']);
         Route::put('/utilisateurs/{utilisateur}', [UtilisateurAdminController::class, 'update']);
         Route::delete('/utilisateurs/{utilisateur}', [UtilisateurAdminController::class, 'destroy']);
+
+        // La clé de secours du verrou : confirmer une adresse à la main quand
+        // l'email n'arrive pas chez son destinataire.
+        Route::put('/utilisateurs/{utilisateur}/verifier-email', [UtilisateurAdminController::class, 'verifierEmail']);
 
         Route::get('/emploi/offres', [EmploiAdminController::class, 'offres']);
         Route::put('/emploi/offres/{offre}/statut', [EmploiAdminController::class, 'changerStatutOffre']);

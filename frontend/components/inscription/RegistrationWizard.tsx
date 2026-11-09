@@ -3,14 +3,15 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { AlertCircle, ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { AlertCircle, ArrowLeft, ArrowRight, Loader2, MailCheck } from "lucide-react";
+import { RenvoiVerification } from "@/components/auth/RenvoiVerification";
 import { primaryBtn, secondaryBtn } from "@/components/ui/styles";
 import { api, ApiError } from "@/lib/api";
-import type { ApiInscription, InscriptionPayload, InscriptionResponse, TypeParticipation } from "@/lib/types";
+import { usePiege } from "@/lib/piege";
+import type { InscriptionEnAttente, InscriptionPayload, TypeParticipation } from "@/lib/types";
 import { StepProgress } from "./StepProgress";
 import { ParticipationStep } from "./ParticipationStep";
 import { FormationsStep } from "./FormationsStep";
-import { DocumentsUpload } from "./DocumentsUpload";
 import { ConfirmStep, InterestsStep, PersonalStep, ProfileStep } from "./steps";
 import { useReferentiels } from "./useReferentiels";
 import { inscriptionDeDepart, steps, STEP_FORMATIONS } from "./data";
@@ -30,7 +31,20 @@ export function RegistrationWizard() {
   const [consent, setConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [inscription, setInscription] = useState<ApiInscription | null>(null);
+  const { champs, ChampPiege } = usePiege();
+
+  /*
+   * L'inscription attend sa confirmation ; il n'y a donc plus de récapitulatif
+   * complet à montrer ici, seulement de quoi dire à qui le lien a été envoyé.
+   *
+   * Le dépôt des pièces justificatives a disparu de cet écran pour la même
+   * raison : il demande la référence *et* l'adresse comme preuve d'identité,
+   * et l'adresse n'a encore rien prouvé. Il revient sur la page de
+   * confirmation, une fois le lien ouvert.
+   */
+  const [aConfirmer, setAConfirmer] = useState<
+    { email: string; reference: string; prenom: string } | null
+  >(null);
 
   const choisitFormations = data.type_participation === "participant_formation";
 
@@ -101,8 +115,12 @@ export function RegistrationWizard() {
     };
 
     try {
-      const res = await api.post<InscriptionResponse>("/inscriptions", payload);
-      setInscription(res.data);
+      const res = await api.post<InscriptionEnAttente>("/inscriptions", {
+        ...payload,
+        ...champs(),
+      });
+
+      setAConfirmer({ email: res.email, reference: res.reference, prenom: data.nom.split(" ")[0] });
       scrollToForm();
     } catch (e) {
       setError(
@@ -125,27 +143,47 @@ export function RegistrationWizard() {
     setInterests([]);
     setNewsletter(true);
     setConsent(false);
-    setInscription(null);
+    setAConfirmer(null);
     setError(null);
     setStep(1);
   }
 
   return (
     <div className="flex min-w-0 flex-col">
-      <StepProgress step={step} done={inscription !== null} parcours={parcours} />
+      <StepProgress step={step} done={aConfirmer !== null} parcours={parcours} />
 
       <div className="flex flex-1 flex-col rounded-2xl bg-white p-6 shadow-md sm:p-8">
-        {inscription ? (
+        {aConfirmer ? (
           <div role="status" className="flex flex-1 flex-col items-center justify-center py-6 text-center">
-            <CheckCircle2 size={44} className="mx-auto mb-3 text-[var(--sane-green)]" />
-            <h3 className="sane-h3 mb-1">Inscription enregistrée</h3>
-            <p className="sane-body mx-auto mb-2 max-w-[420px]">
-              Merci {inscription.nom.split(" ")[0]} ! Un email de confirmation avec votre badge vous sera envoyé après validation.
-            </p>
-            <p className="sane-small mb-6">
-              Votre référence : <strong className="text-[var(--sane-green)]">{inscription.reference}</strong>
+            <MailCheck size={44} className="mx-auto mb-3 text-[var(--sane-green)]" />
+            <h3 className="sane-h3 mb-1">Vérifiez votre boîte mail</h3>
+
+            <p className="sane-body mx-auto mb-3 max-w-[440px]">
+              Merci {aConfirmer.prenom} ! Nous venons d&apos;envoyer un lien de confirmation à{" "}
+              <strong className="text-[var(--sane-text)]">{aConfirmer.email}</strong>. Votre
+              inscription sera définitive dès que vous l&apos;aurez ouvert.
             </p>
 
+            {/*
+              Les places de formation ne sont décomptées qu'à la confirmation —
+              c'est ce qui empêche une adresse inventée de retirer sa place à
+              quelqu'un de réel. La personne doit le savoir avant de refermer
+              sa boîte mail en se croyant inscrite.
+            */}
+            <p
+              className={`sane-small mx-auto mb-4 max-w-[440px] rounded-xl border border-[var(--sane-border)] bg-[var(--sane-background)] p-3 ${
+                formations.length > 0 ? "block" : "hidden"
+              }`}
+            >
+              Vos places de formation seront réservées à ce moment-là. Le lien est valable
+              48&nbsp;heures.
+            </p>
+
+            <p className="sane-small mb-6">
+              Votre référence : <strong className="text-[var(--sane-green)]">{aConfirmer.reference}</strong>
+            </p>
+
+            <RenvoiVerification email={aConfirmer.email} cible="salon" className="mb-6" />
 
             <div className="flex flex-wrap justify-center gap-3">
               <Link href="/programme" className={primaryBtn}>
@@ -155,8 +193,6 @@ export function RegistrationWizard() {
                 Nouvelle inscription
               </button>
             </div>
-
-            <DocumentsUpload reference={inscription.reference} email={inscription.email} />
           </div>
         ) : (
           <>
@@ -173,7 +209,8 @@ export function RegistrationWizard() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="flex flex-1 flex-col gap-5">
+            <form onSubmit={handleSubmit} className="relative flex flex-1 flex-col gap-5">
+              <ChampPiege />
               {step === 1 && <ParticipationStep value={data.type_participation} onChange={choisirType} />}
               {step === 2 && <PersonalStep data={data} set={set} listes={listes} />}
               {step === 3 && <ProfileStep data={data} set={set} listes={listes} />}

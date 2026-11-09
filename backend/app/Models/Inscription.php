@@ -42,6 +42,18 @@ class Inscription extends Model
         'note_admin',
         'places_liberees',
         'places_liberees_le',
+        'email_verifie_le',
+        'jeton_verification',
+        'jeton_expire_le',
+        'formations_demandees',
+        'ip_creation',
+        'envois_verification',
+    ];
+
+    protected $hidden = [
+        // Même haché, le jeton n'a rien à faire dans une réponse d'API : il ne
+        // sert qu'au lien du courrier.
+        'jeton_verification',
     ];
 
     protected function casts(): array
@@ -49,14 +61,32 @@ class Inscription extends Model
         return [
             'naissance' => 'date',
             'interets' => 'array',
+            'formations_demandees' => 'array',
             'newsletter' => 'boolean',
             'consentement' => 'boolean',
             'places_liberees' => 'boolean',
             'confirmee_le' => 'datetime',
             'places_liberees_le' => 'datetime',
+            'email_verifie_le' => 'datetime',
+            'jeton_expire_le' => 'datetime',
             'type_participation' => TypeParticipation::class,
             'statut' => StatutInscription::class,
         ];
+    }
+
+    public function estVerifiee(): bool
+    {
+        return $this->email_verifie_le !== null;
+    }
+
+    /**
+     * Les inscriptions qui attendent encore leur confirmation — ce que le
+     * back-office montre dans son encart anti-abus, et ce que la purge
+     * quotidienne balaye au-delà du délai.
+     */
+    public function scopeNonVerifiees(Builder $query): Builder
+    {
+        return $query->whereNull('email_verifie_le');
     }
 
     public function edition(): BelongsTo
