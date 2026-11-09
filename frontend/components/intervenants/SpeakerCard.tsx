@@ -49,7 +49,12 @@ export function SpeakerCard({ speaker, view }: { speaker: Speaker; view: "grid" 
 
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--sane-border)] bg-white transition-shadow hover:shadow-lg">
-      <div className="relative h-[200px] overflow-hidden bg-[var(--sane-background)]">
+      {/*
+        260 et non 200 : un portrait d'intervenant arrive en 0,66 à 0,76 de
+        rapport, et dans 200 pixels il n'en restait que la moitié. Quarante
+        pixels de plus laissent la tête et les épaules entières.
+      */}
+      <div className="relative h-[260px] overflow-hidden bg-[var(--sane-background)]">
         <Image
           src={speaker.img}
           alt={speaker.name}
@@ -62,7 +67,7 @@ export function SpeakerCard({ speaker, view }: { speaker: Speaker; view: "grid" 
             ce qu'il y a au-dessus du visage — ici une bannière de hashtags,
             le visage coupé en dessous.
           */
-          className="object-cover object-[center_28%] transition-transform duration-300 group-hover:scale-105"
+          className="object-cover object-[center_18%] transition-transform duration-300 group-hover:scale-105"
         />
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
