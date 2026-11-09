@@ -86,8 +86,16 @@ class VerifierEmail extends Mailable
         $chemin = (string) parse_url($signee, PHP_URL_PATH);
         $requete = (string) parse_url($signee, PHP_URL_QUERY);
 
-        // Le client du site préfixe lui-même « /api » : on lui passe donc le
-        // chemin sans ce préfixe, signature comprise.
+        /*
+         * Le client du site préfixe lui-même « /api » : on lui passe le chemin
+         * sans ce préfixe, chaîne de requête comprise.
+         *
+         * Str::after et non str_replace : la signature couvre l'URL entière,
+         * et toucher à autre chose que le premier segment l'invaliderait. Ceci
+         * suppose qu'APP_URL ne se termine pas elle-même par « /api » — elle
+         * le faisait en production, le chemin sortait en « /api/api/auth/… »,
+         * et le lien menait à une page introuvable.
+         */
         $relatif = Str::after($chemin, '/api').'?'.$requete;
 
         return $site.'/verifier-email?cible='.urlencode($relatif);

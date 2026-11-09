@@ -12,6 +12,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Exceptions\InvalidSignatureException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
@@ -73,6 +74,21 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json(['message' => 'Ressource introuvable.'], 404);
+            }
+        });
+
+        /*
+         * Un lien signé périmé ou trafiqué. Laravel répond « Invalid
+         * signature. » en anglais, ce que lit la personne qui ouvre un lien
+         * de confirmation vieux de trois jours — alors que la page attend un
+         * message à lui montrer, en français, et qu'il n'y a rien d'anormal à
+         * ce que ce lien ait expiré.
+         */
+        $exceptions->render(function (InvalidSignatureException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Ce lien n\'est plus valable. Il a peut-être expiré : demandez-en un nouveau.',
+                ], 403);
             }
         });
 
