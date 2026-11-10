@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from "next";
 import { Caveat, Montserrat } from "next/font/google";
 import "./globals.css";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import TranslateGuard from "@/components/dashboard/TranslateGuard";
 import { AuthProvider } from "@/lib/auth";
 
@@ -51,6 +52,7 @@ export default function RootLayout({
       <body className={`${montserrat.variable} ${caveat.variable}`} suppressHydrationWarning>
         <AuthProvider>{children}</AuthProvider>
         <TranslateGuard />
+        <GoogleAnalytics />
       </body>
     </html>
   );
