@@ -24,7 +24,7 @@ export function VenueSection({ dates, lieu }: { dates?: string; lieu?: string | 
           {/* Image — fills container, building centred */}
           <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl shadow-md ring-1 ring-[var(--sane-border)]">
             <Image
-              src="/programme-bd.webp"
+              src="/lieu-academie-arts-martiaux.webp"
               alt="L'académie des Arts Martiaux de Niamey"
               fill
               className="object-cover object-[center_40%]"

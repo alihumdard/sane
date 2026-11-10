@@ -20,7 +20,7 @@ export function LocationSection() {
 
         <div className="grid gap-6 md:grid-cols-2 md:items-center md:gap-8 lg:gap-10">
           <div className="relative h-[200px] overflow-hidden rounded-2xl sm:h-[240px] lg:h-[280px]">
-            <Image src="/contact-bulding.webp" alt="L'académie des Arts Martiaux de Niamey" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover object-[center_40%]" />
+            <Image src="/lieu-academie-arts-martiaux.webp" alt="L'académie des Arts Martiaux de Niamey" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover object-[center_40%]" />
           </div>
 
           <div>
