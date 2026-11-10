@@ -101,7 +101,11 @@ function Contenu() {
       setAConfirmer(res.email ?? form.email);
     } catch (err) {
       if (err instanceof ApiError) {
-        setErreur(err.message);
+        // Laravel résume les erreurs de champ en « … (et 1 erreur en plus) » :
+        // chacune est déjà affichée sous son champ, l'encart n'a qu'à y renvoyer.
+        setErreur(
+          Object.keys(err.errors).length > 0 ? "Corrigez les champs signalés ci-dessous." : err.message
+        );
         setChampsEnErreur(
           Object.fromEntries(Object.entries(err.errors).map(([k, v]) => [k, v[0]]))
         );
