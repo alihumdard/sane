@@ -7,7 +7,7 @@ Rappel de votre entretien prévu avec **{{ $candidat->name }}** pour le poste de
 **{{ $offre->titre }}**.
 
 @component('mail::panel')
-**{{ $creneau->debut->translatedFormat('l j F Y') }} à {{ $creneau->debut->format('H\hi') }}**
+**{{ $creneau->debut->tz(config('app.fuseau_affichage'))->translatedFormat('l j F Y') }} à {{ $creneau->debut->tz(config('app.fuseau_affichage'))->format('H\hi') }}**
 
 {{ $creneau->mode->label() }}@if ($creneau->lieu) — {{ $creneau->lieu }}@endif
 @endcomponent

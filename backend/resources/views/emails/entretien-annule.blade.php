@@ -8,7 +8,7 @@ L'entretien prévu avec **{{ $entreprise->nom }}** pour le poste de
 
 @component('mail::panel')
 Créneau initialement prévu :
-**{{ $creneau->debut->translatedFormat('l j F Y') }} à {{ $creneau->debut->format('H\hi') }}**
+**{{ $creneau->debut->tz(config('app.fuseau_affichage'))->translatedFormat('l j F Y') }} à {{ $creneau->debut->tz(config('app.fuseau_affichage'))->format('H\hi') }}**
 @endcomponent
 
 @if ($entretien->motif_annulation)

@@ -74,6 +74,17 @@ return [
     'timezone' => 'UTC',
 
     /*
+     * L'heure que lisent les gens, distincte de celle que stocke le serveur.
+     *
+     * Tout est enregistré et comparé en UTC ; mais un email qui annonce un
+     * entretien « à 12h08 » à quelqu'un de Niamey, où il est 13h08, l'envoie
+     * au rendez-vous avec une heure de retard. Les dates écrites pour un
+     * humain passent donc par ce fuseau — celui du salon, pas celui du
+     * serveur ni celui du lecteur.
+     */
+    'fuseau_affichage' => env('APP_FUSEAU_AFFICHAGE', 'Africa/Niamey'),
+
+    /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------

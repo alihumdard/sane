@@ -6,7 +6,7 @@ Bonjour {{ $candidat->name }},
 Votre présence à l'entretien avec **{{ $entreprise->nom }}** est bien enregistrée.
 
 @component('mail::panel')
-**{{ $creneau->debut->translatedFormat('l j F Y') }} à {{ $creneau->debut->format('H\hi') }}**
+**{{ $creneau->debut->tz(config('app.fuseau_affichage'))->translatedFormat('l j F Y') }} à {{ $creneau->debut->tz(config('app.fuseau_affichage'))->format('H\hi') }}**
 
 {{ $creneau->mode->label() }}@if ($creneau->lieu) — {{ $creneau->lieu }}@endif
 @endcomponent

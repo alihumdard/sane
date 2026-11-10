@@ -199,7 +199,7 @@ class RapportAdminController extends Controller
                 'type_participation' => $i->type_participation->label(),
                 'statut' => $i->statut->label(),
                 'formations' => $i->formations->pluck('titre')->all(),
-                'created_at' => $i->created_at->format('d/m/Y H:i'),
+                'created_at' => $i->created_at->tz(config('app.fuseau_affichage'))->format('d/m/Y H:i'),
             ],
         );
     }
@@ -228,7 +228,7 @@ class RapportAdminController extends Controller
                 'candidat' => $c->profil?->user?->name,
                 'email' => $c->profil?->user?->email,
                 'statut' => $c->statut->label(),
-                'created_at' => $c->created_at->format('d/m/Y H:i'),
+                'created_at' => $c->created_at->tz(config('app.fuseau_affichage'))->format('d/m/Y H:i'),
             ],
         );
     }
