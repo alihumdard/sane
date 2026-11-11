@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/formations', [FormationController::class, 'index']);
-Route::get('/formations/{formation}', [FormationController::class, 'show']);
+Route::get('/formations/{formation}', [FormationController::class, 'show'])->whereNumber('formation');
 
 Route::post('/inscriptions', [InscriptionController::class, 'store'])
     ->middleware(['throttle:inscription-salon', 'piege']);

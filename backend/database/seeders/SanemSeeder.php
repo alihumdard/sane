@@ -31,6 +31,7 @@ class SanemSeeder extends Seeder
             'Management', 'Digital', 'Entrepreneuriat',
             'Communication', 'Technologie', 'Finance',
             'Informatique', 'Développement personnel',
+            'Agriculture', 'Santé',
         ])->mapWithKeys(function (string $nom, int $i) {
             $categorie = CategorieFormation::updateOrCreate(
                 ['slug' => Str::slug($nom)],
