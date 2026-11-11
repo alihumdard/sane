@@ -100,38 +100,44 @@ export function DocumentsUpload({ reference, email }: Props) {
     }
   }
 
-  if (chargement) {
-    return (
-      <div className="flex items-center justify-center gap-2 py-8">
+  /*
+   * Rien n'est monté ni démonté ici, tout est basculé par `hidden` : sous
+   * Google Translate, React qui retire un nœud traduit plante sur
+   * removeChild, et global-error recharge la page — à chaque envoi de
+   * document. Même règle que Spinner et Select.
+   */
+  return (
+    <>
+      <div className={`items-center justify-center gap-2 py-8 ${chargement ? "flex" : "hidden"}`}>
         <Loader2 size={16} className="animate-spin text-[var(--sane-green)]" />
         <p className="sane-small">Chargement…</p>
       </div>
-    );
-  }
 
-  if (attendus.length === 0) return null;
+      <div
+        className={`mt-8 w-full border-t border-[var(--sane-border)] pt-6 text-left ${
+          !chargement && attendus.length > 0 ? "block" : "hidden"
+        }`}
+      >
+        <h4 className="sane-h3 mb-1 text-[15px]">Vos documents</h4>
+        <p className="sane-small mb-5">
+          Vous pouvez les envoyer maintenant ou plus tard, en gardant votre référence.
+        </p>
 
-  return (
-    <div className="mt-8 w-full border-t border-[var(--sane-border)] pt-6 text-left">
-      <h4 className="sane-h3 mb-1 text-[15px]">Vos documents</h4>
-      <p className="sane-small mb-5">
-        Vous pouvez les envoyer maintenant ou plus tard, en gardant votre référence.
-      </p>
-
-      <div className="flex flex-col gap-2.5">
-        {attendus.map((attendu) => (
-          <Emplacement
-            key={attendu.type}
-            attendu={attendu}
-            document={fournis.find((d) => d.type === attendu.type)}
-            occupe={enCours === attendu.type}
-            erreur={erreurs[attendu.type]}
-            onTeleverser={(f) => televerser(attendu.type, f)}
-            onSupprimer={supprimer}
-          />
-        ))}
+        <div className="flex flex-col gap-2.5">
+          {attendus.map((attendu) => (
+            <Emplacement
+              key={attendu.type}
+              attendu={attendu}
+              document={fournis.find((d) => d.type === attendu.type)}
+              occupe={enCours === attendu.type}
+              erreur={erreurs[attendu.type]}
+              onTeleverser={(f) => televerser(attendu.type, f)}
+              onSupprimer={supprimer}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -164,26 +170,32 @@ function Emplacement({
             document ? "bg-[var(--sane-green)] text-white" : "bg-[var(--sane-background)] text-[var(--sane-text-light)]"
           }`}
         >
-          <SpinnerOu actif={occupe} size={16}>{document ? <Check size={16} /> : <FileText size={16} />}</SpinnerOu>
+          <SpinnerOu actif={occupe} size={16}>
+            <Check size={16} className={document ? "block" : "hidden"} />
+            <FileText size={16} className={document ? "hidden" : "block"} />
+          </SpinnerOu>
         </span>
 
         <div className="min-w-0 flex-1">
           <p className="text-[length:var(--fs-small)] font-bold text-[var(--sane-text)]">
             {attendu.label}
-            {!attendu.obligatoire && (
-              <span className="ml-1.5 font-normal text-[var(--sane-text-light)]">(optionnelle)</span>
-            )}
+            <span className={`ml-1.5 font-normal text-[var(--sane-text-light)] ${attendu.obligatoire ? "hidden" : "inline"}`}>
+              (optionnelle)
+            </span>
           </p>
 
-          {document ? (
-            <p className="sane-small mt-0.5 truncate text-[11px]" title={document.nom_original}>
-              {document.nom_original}
-            </p>
-          ) : (
-            <p className="sane-small mt-0.5 text-[11px]">
-              {attendu.formats} · max {attendu.taille_max_mo} Mo
-            </p>
-          )}
+          {/* Le nom du fichier a son propre <span> : un nœud texte nu que
+              Translate aurait remplacé ne se mettrait plus à jour. */}
+          <p
+            className={`sane-small mt-0.5 truncate text-[11px] ${document ? "block" : "hidden"}`}
+            title={document?.nom_original}
+            translate="no"
+          >
+            <span>{document?.nom_original ?? ""}</span>
+          </p>
+          <p className={`sane-small mt-0.5 text-[11px] ${document ? "hidden" : "block"}`}>
+            {attendu.formats} · max {attendu.taille_max_mo} Mo
+          </p>
 
           <p className={`mt-1.5 items-start gap-1 text-[11px] text-[var(--sane-red-dark)] ${erreur ? "flex" : "hidden"}`}>
             <AlertCircle size={12} className="mt-0.5 shrink-0" />
@@ -207,27 +219,24 @@ function Emplacement({
           }}
         />
 
-        {document ? (
-          <button
+        <button
             type="button"
             disabled={occupe}
-            onClick={() => onSupprimer(document)}
+            onClick={() => document && onSupprimer(document)}
             title="Supprimer"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[var(--sane-red-dark)] transition-colors hover:bg-white disabled:opacity-50"
+            className={`${document ? "flex" : "hidden"} h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[var(--sane-red-dark)] transition-colors hover:bg-white disabled:opacity-50`}
           >
             <Trash2 size={15} />
           </button>
-        ) : (
           <button
             type="button"
             disabled={occupe}
             onClick={() => input.current?.click()}
-            className="flex shrink-0 items-center gap-1.5 rounded-lg border border-[var(--sane-green)] px-3 py-1.5 text-[11px] font-bold text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green-light)] disabled:opacity-50"
+            className={`${document ? "hidden" : "flex"} shrink-0 items-center gap-1.5 rounded-lg border border-[var(--sane-green)] px-3 py-1.5 text-[11px] font-bold text-[var(--sane-green)] transition-colors hover:bg-[var(--sane-green-light)] disabled:opacity-50`}
           >
             <Upload size={12} />
             Choisir
           </button>
-        )}
       </div>
     </div>
   );
