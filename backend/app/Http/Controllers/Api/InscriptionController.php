@@ -137,10 +137,15 @@ class InscriptionController extends Controller
         $complets = [];
 
         DB::transaction(function () use ($inscription, &$complets) {
+            /*
+             * Le jeton est gardé : rouvrir le lien — double clic, page
+             * rechargée, courrier relu — doit retomber sur la branche
+             * « déjà confirmée » ci-dessus, avec le dépôt des documents, et
+             * non sur « lien inutilisable ». Le rejouer ne reprend aucune
+             * place ni ne renvoie d'email : cette branche s'arrête avant.
+             */
             $inscription->update([
                 'email_verifie_le' => now(),
-                // Le jeton a servi : le garder permettrait de rejouer le lien.
-                'jeton_verification' => null,
                 'jeton_expire_le' => null,
             ]);
 

@@ -92,7 +92,7 @@ class InscriptionApiTest extends TestCase
         $this->assertNotNull(Inscription::sole()->email_verifie_le);
     }
 
-    public function test_un_lien_de_confirmation_ne_sert_quune_fois(): void
+    public function test_rouvrir_le_lien_ne_prend_pas_une_seconde_place(): void
     {
         $edition = Edition::factory()->active()->create();
         $formation = Formation::factory()->for($edition)->avecPlaces(50)->create();
@@ -105,8 +105,11 @@ class InscriptionApiTest extends TestCase
 
         $this->postJson('/api/inscriptions/verifier/'.$jeton)->assertOk();
 
-        // Rejouer le lien ne doit pas prendre une seconde place.
-        $this->postJson('/api/inscriptions/verifier/'.$jeton)->assertNotFound();
+        // Rejouer le lien répond « déjà confirmée », sans prendre une
+        // seconde place.
+        $this->postJson('/api/inscriptions/verifier/'.$jeton)
+            ->assertOk()
+            ->assertJsonPath('deja_confirme', true);
 
         $this->assertSame(1, $formation->fresh()->inscriptions_count);
     }
