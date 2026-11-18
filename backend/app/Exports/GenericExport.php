@@ -5,14 +5,19 @@ namespace App\Exports;
 use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use PhpOffice\PhpSpreadsheet\Cell\StringValueBinder;
 
 /**
  * One Excel export shape, driven entirely by data: a column-label map plus
  * an optional row transformer. Every report in the admin back-office reuses
  * this instead of a dedicated Export class per report.
+ *
+ * Every cell is written as text. Left to guess, Excel read a phone number
+ * like +22791434126 as a figure and showed it as 2.28E+10.
  */
-class GenericExport implements FromQuery, WithHeadings, WithMapping
+class GenericExport extends StringValueBinder implements FromQuery, WithCustomValueBinder, WithHeadings, WithMapping
 {
     /** @var (callable(object): array<string, mixed>)|null */
     private readonly mixed $transformer;

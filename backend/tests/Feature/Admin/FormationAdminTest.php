@@ -264,7 +264,10 @@ class FormationAdminTest extends TestCase
         $autre = Formation::factory()->for($this->edition)->avecPlaces(50)->create();
         $places = app(GestionPlaces::class);
 
-        $places->reserver(Inscription::factory()->for($this->edition)->create(['nom' => 'Aminata Souley']), [$formation->id]);
+        $places->reserver(Inscription::factory()->for($this->edition)->create([
+            'nom' => 'Aminata Souley',
+            'telephone' => '+22791434126',
+        ]), [$formation->id]);
         $places->reserver(Inscription::factory()->for($this->edition)->create(['nom' => 'Hors formation']), [$autre->id]);
 
         $reponse = $this->actingAs($this->admin())
@@ -278,6 +281,10 @@ class FormationAdminTest extends TestCase
 
         $this->assertContains('Aminata Souley', $noms);
         $this->assertNotContains('Hors formation', $noms);
+
+        // Le téléphone reste du texte : lu comme un nombre, Excel l'affichait 2.28E+10.
+        $this->assertSame('+22791434126', $feuille->getCell('D2')->getValue());
+        $this->assertSame(\PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING, $feuille->getCell('D2')->getDataType());
     }
 
     public function test_lexport_par_formation_est_reserve_au_back_office(): void
