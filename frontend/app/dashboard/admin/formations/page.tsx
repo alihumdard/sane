@@ -76,7 +76,12 @@ export default function FormationsAdminPage() {
       entete: "Formation",
       rendu: (f) => (
         <div className="min-w-0">
-          <p className="font-semibold">{f.titre}</p>
+          <Link
+            href={BASE + "/" + f.id + "#inscrits"}
+            className="font-semibold hover:text-[var(--sane-green)] hover:underline"
+          >
+            {f.titre}
+          </Link>
           <p className="text-[12px] text-[var(--sane-text-light)]">
             {f.categorie?.nom ?? "Sans catégorie"} · {f.lieu}
           </p>
@@ -107,8 +112,12 @@ export default function FormationsAdminPage() {
       entete: "Inscriptions",
       masquer: "sm",
       rendu: (f) => (
-        <div className="min-w-[90px]">
-          <p className="whitespace-nowrap font-semibold">
+        <Link
+          href={BASE + "/" + f.id + "#inscrits"}
+          title="Voir les inscrits"
+          className="block min-w-[90px] hover:text-[var(--sane-green)]"
+        >
+          <p className="whitespace-nowrap font-semibold underline-offset-2 hover:underline">
             {f.inscriptions_count} / {f.max_inscriptions}
           </p>
           <span
@@ -123,7 +132,7 @@ export default function FormationsAdminPage() {
               style={{ width: Math.min(100, f.taux_remplissage) + "%" }}
             />
           </span>
-        </div>
+        </Link>
       ),
     },
     {
@@ -146,6 +155,14 @@ export default function FormationsAdminPage() {
       fin: true,
       rendu: (f) => (
         <div className="flex items-center justify-end gap-1">
+          <Link
+            href={BASE + "/" + f.id + "#inscrits"}
+            title="Voir les inscrits"
+            aria-label={"Voir les inscrits : " + f.titre}
+            className="rounded-lg p-2 text-[var(--sane-text-light)] transition-colors hover:bg-[var(--sane-green-light)] hover:text-[var(--sane-green)]"
+          >
+            <Users size={15} />
+          </Link>
           <Link
             href={BASE + "/" + f.id}
             title="Modifier"

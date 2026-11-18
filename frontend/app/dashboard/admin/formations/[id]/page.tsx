@@ -12,6 +12,7 @@ import { Alerte } from "@/components/ui/Alerte";
 import { api, ApiError } from "@/lib/api";
 import type { AdminFormationsResponse, ApiFormation, FormationPayload } from "@/lib/types";
 import { FORMATS, NIVEAUX } from "../listes";
+import { InscritsFormation } from "../InscritsFormation";
 
 const BASE = "/dashboard/admin/formations";
 
@@ -110,6 +111,7 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
   const [erreur, setErreur] = useState<string | null>(null);
   const [erreurs, setErreurs] = useState<Record<string, string>>({});
   const [imageEnAttente, setImageEnAttente] = useState<File | null>(null);
+  const [slug, setSlug] = useState<string | undefined>(undefined);
 
   const charger = useCallback(async () => {
     try {
@@ -131,6 +133,7 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
 
       if (enregistrement) {
         const f = enregistrement.data;
+        setSlug(f.slug);
 
         setForm({
           titre: f.titre,
@@ -244,6 +247,8 @@ export default function FormationFormPage({ params }: { params: Promise<{ id: st
       }
       retour={{ href: BASE, label: "Retour au catalogue" }}
     >
+      {numero !== null && <InscritsFormation formationId={numero} slug={slug} />}
+
       <form onSubmit={enregistrer}>
         <Alerte texte={erreur} className="mb-4" />
 

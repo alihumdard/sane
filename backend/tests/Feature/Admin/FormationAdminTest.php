@@ -258,6 +258,37 @@ class FormationAdminTest extends TestCase
             ->assertJsonPath('data.0.nom', 'Aminata Souley');
     }
 
+    public function test_ladmin_peut_exporter_les_inscrits_dune_formation(): void
+    {
+        $formation = Formation::factory()->for($this->edition)->avecPlaces(50)->create();
+        $autre = Formation::factory()->for($this->edition)->avecPlaces(50)->create();
+        $places = app(GestionPlaces::class);
+
+        $places->reserver(Inscription::factory()->for($this->edition)->create(['nom' => 'Aminata Souley']), [$formation->id]);
+        $places->reserver(Inscription::factory()->for($this->edition)->create(['nom' => 'Hors formation']), [$autre->id]);
+
+        $reponse = $this->actingAs($this->admin())
+            ->get("/api/admin/exports/formations/{$formation->id}/inscrits")
+            ->assertOk()
+            ->assertDownload("inscrits-{$formation->slug}.xlsx");
+
+        // Le classeur ne contient que les inscrits de cette formation.
+        $feuille = \PhpOffice\PhpSpreadsheet\IOFactory::load($reponse->getFile()->getPathname())->getActiveSheet();
+        $noms = array_column($feuille->toArray(), 1);
+
+        $this->assertContains('Aminata Souley', $noms);
+        $this->assertNotContains('Hors formation', $noms);
+    }
+
+    public function test_lexport_par_formation_est_reserve_au_back_office(): void
+    {
+        $formation = Formation::factory()->for($this->edition)->create();
+
+        $this->actingAs(User::factory()->create())
+            ->getJson("/api/admin/exports/formations/{$formation->id}/inscrits")
+            ->assertForbidden();
+    }
+
     // --- Listing -----------------------------------------------------------
 
     public function test_la_liste_admin_inclut_les_formations_non_publiees(): void

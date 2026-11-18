@@ -266,7 +266,11 @@ class RapportAdminController extends Controller
     /** Attendee list for one course — what an organiser prints on the day. */
     public function exporterInscritsFormation(Formation $formation): BinaryFileResponse
     {
-        $query = $formation->inscriptions()->orderBy('nom');
+        // Une requête sur Inscription, et non la relation elle-même : l'export
+        // attend un Builder, et un BelongsToMany le faisait tomber en erreur 500.
+        $query = Inscription::query()
+            ->whereHas('formations', fn ($q) => $q->whereKey($formation->id))
+            ->orderBy('nom');
 
         return $this->export->telecharger(
             $query,
