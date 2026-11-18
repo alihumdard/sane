@@ -196,6 +196,14 @@ class AuthController extends Controller
             function (User $user, string $password) {
                 $user->forceFill(['password' => Hash::make($password)])->save();
 
+                // Le lien de réinitialisation n'arrive que dans cette boîte
+                // mail : l'avoir suivi prouve que l'adresse est la sienne. Lui
+                // redemander une confirmation juste après bloquait la connexion
+                // avec le mot de passe qu'il venait de choisir.
+                if (! $user->hasVerifiedEmail()) {
+                    $user->markEmailAsVerified();
+                }
+
                 event(new PasswordReset($user));
             }
         );

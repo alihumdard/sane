@@ -97,6 +97,30 @@ class VerificationEmailTest extends TestCase
         ])->assertOk()->assertJsonPath('user.email_verifie', true);
     }
 
+    public function test_reinitialiser_le_mot_de_passe_confirme_ladresse(): void
+    {
+        $this->postJson('/api/auth/inscription', $this->compte())->assertCreated();
+        $this->assertNull(User::sole()->email_verified_at);
+
+        // Le lien n'arrive que dans la boîte de la personne : le suivre vaut
+        // confirmation, sans second email à attendre avant de se connecter.
+        $jeton = \Illuminate\Support\Facades\Password::broker()->createToken(User::sole());
+
+        $this->postJson('/api/auth/mot-de-passe/reinitialiser', [
+            'token' => $jeton,
+            'email' => 'aminata@example.com',
+            'password' => 'nouveau123',
+            'password_confirmation' => 'nouveau123',
+        ])->assertOk();
+
+        $this->assertNotNull(User::sole()->email_verified_at);
+
+        $this->postJson('/api/auth/login', [
+            'email' => 'aminata@example.com',
+            'password' => 'nouveau123',
+        ])->assertOk();
+    }
+
     public function test_le_meme_lien_clique_deux_fois_ne_fache_personne(): void
     {
         $this->postJson('/api/auth/inscription', $this->compte())->assertCreated();
